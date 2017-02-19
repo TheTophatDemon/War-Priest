@@ -21,6 +21,7 @@
 #include <Urho3D\Physics\PhysicsUtils.h>
 #include <Urho3D\Resource\ResourceCache.h>
 #include <Urho3D/UI/UI.h>
+#include <Urho3D/Graphics/Texture2D.h>
 #include <Urho3D/Graphics/Renderer.h>
 #include <Urho3D/Graphics/RenderPath.h>
 #include "Player.h"
@@ -45,6 +46,8 @@ void Gameplay::Start()
 	scene_ = SharedPtr<Scene>(GetScene());
 	renderer = WeakPtr<Renderer>(GetSubsystem<Renderer>());
 
+	input->SetMouseGrabbed(true);
+
 	GetSettings();
 	SetupGame();
 
@@ -57,13 +60,7 @@ void Gameplay::Start()
 	debugHud->SetMode(DEBUGHUD_SHOW_PROFILER);
 #endif
 
-	text = new Text(context_);
-	text->SetText("GUN PRIEST ALPHA : WWW.BITENDOSOFTWARE.COM");
-	text->SetFont("Fonts/Anonymous Pro.ttf", 12);
-	text->SetHorizontalAlignment(HA_CENTER);
-	text->SetVerticalAlignment(VA_TOP);
-	GetSubsystem<UI>()->GetRoot()->AddChild(text);
-	input->SetMouseGrabbed(true);
+	MakeHUD();
 }
 
 void Gameplay::SetupGame()
@@ -93,4 +90,26 @@ void Gameplay::GetSettings()
 	scene_->SetVar("RIGHT KEY", KEY_D);
 	scene_->SetVar("LEFT KEY", KEY_A);
 	scene_->SetVar("JUMP KEY", KEY_SPACE);
+}
+
+void Gameplay::MakeHUD()
+{
+	UI* ui = GetSubsystem<UI>();
+
+	text = new Text(context_);
+	text->SetText("GUN PRIEST ALPHA : WWW.BITENDOSOFTWARE.COM");
+	text->SetFont("Fonts/Anonymous Pro.ttf", 12);
+	text->SetHorizontalAlignment(HA_CENTER);
+	text->SetVerticalAlignment(VA_TOP);
+	ui->GetRoot()->AddChild(text);
+	
+	crosshair = new Sprite(context_);
+	crosshair->SetTexture(cache->GetResource<Texture2D>("Textures/crosshair.png"));
+	crosshair->SetFullImageRect();
+	crosshair->SetSize(16, 16);
+	crosshair->SetHotSpot(16, 16);
+	crosshair->SetBlendMode(BLEND_ADDALPHA);
+	crosshair->SetHorizontalAlignment(HA_CENTER);
+	crosshair->SetVerticalAlignment(VA_CENTER);
+	ui->GetRoot()->AddChild(crosshair);
 }

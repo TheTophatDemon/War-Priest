@@ -11,6 +11,7 @@
 #include <Urho3D/Graphics/Viewport.h>
 #include <Urho3D\Graphics/DebugRenderer.h>
 #include <Urho3D/Engine/DebugHud.h>
+#include <Urho3D/UI/Sprite.h>
 
 
 using namespace Urho3D;
@@ -31,6 +32,8 @@ public:
 	WeakPtr<Renderer> renderer;
 	WeakPtr<DebugHud> debugHud;
 
+	WeakPtr<Sprite> crosshair;
+
 	SharedPtr<Node> playerNode;
 	WeakPtr<Player> player;
 
@@ -40,6 +43,7 @@ public:
 	virtual void FixedUpdate(float timeStep);
 	void SetupGame();
 	void GetSettings();
+	void MakeHUD();
 	~Gameplay();
 };
 
