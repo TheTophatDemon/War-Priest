@@ -24,7 +24,10 @@
 #include <Urho3D/Graphics/Texture2D.h>
 #include <Urho3D/Graphics/Renderer.h>
 #include <Urho3D/Graphics/RenderPath.h>
+#include <Urho3D/Graphics/StaticModelGroup.h>
+#include <Urho3D/Scene/ValueAnimation.h>
 #include "Player.h"
+#include "Cross.h"
 
 using namespace Urho3D;
 
@@ -59,7 +62,7 @@ void Gameplay::Start()
 	debugHud->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
 	debugHud->SetMode(DEBUGHUD_SHOW_PROFILER);
 #endif
-
+	
 	MakeHUD();
 }
 
@@ -69,8 +72,23 @@ void Gameplay::SetupGame()
 	player = playerNode->CreateComponent<Player>();
 	cameraNode = playerNode->GetChild("camera");
 	camera = cameraNode->GetComponent<Camera>();
-	
 	player->input = input;
+
+	//Setup Crosses
+	Node* crosses = scene_->GetChild("crosses");
+	StaticModelGroup* crossGroup = crosses->GetComponent<StaticModelGroup>();
+	for (unsigned int i = 0; i < crosses->GetNumChildren(); ++i)
+	{
+		Node* child = crosses->GetChild(i);
+		child->RemoveAllComponents(); //They all have static models just to see them in the editor. We need to add them to the staticmodelgroup.
+		child->CreateComponent<Cross>();
+		crossGroup->AddInstanceNode(child);
+	}
+	SharedPtr<ValueAnimation> colorAnimation(new ValueAnimation(context_));
+	colorAnimation->SetKeyFrame(0.0f, Color::BLACK);
+	colorAnimation->SetKeyFrame(1.0f, Color::WHITE);
+	colorAnimation->SetKeyFrame(2.0f, Color::BLACK);
+	crossGroup->GetMaterial(0U)->SetShaderParameterAnimation("MatEmissiveColor", colorAnimation, WM_LOOP, 1.0f);
 }
 
 void Gameplay::FixedUpdate(float timeStep)

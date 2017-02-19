@@ -30,6 +30,7 @@
 
 #include "Gameplay.h"
 #include "Player.h"
+#include "Cross.h"
 
 using namespace Urho3D;
 
@@ -44,6 +45,7 @@ public:
 	{
 		Gameplay::RegisterObject(context);
 		Player::RegisterObject(context);
+		Cross::RegisterObject(context);
 	}
 	virtual void Setup()
 	{

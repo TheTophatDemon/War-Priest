@@ -51,6 +51,8 @@ void Player::RegisterObject(Context* context)
 
 void Player::Start()
 {
+	node_->SetVar("Cross Count", 0);
+
 	game = GetScene()->GetComponent<Gameplay>();
 	body = node_->GetComponent<RigidBody>();
 	scene = GetScene();
