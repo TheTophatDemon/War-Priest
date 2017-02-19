@@ -15,12 +15,14 @@
 #include <Urho3D/Scene/SceneEvents.h>
 #include <Urho3D/Graphics/StaticModel.h>
 #include <Urho3D/Graphics/AnimatedModel.h>
+#include <Urho3D/Graphics/DrawableEvents.h>
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/Input/Controls.h>
 #include <Urho3D\Physics\PhysicsUtils.h>
 #include <Urho3D/Math/Matrix3x4.h>
 #include <Urho3D/Math/MathDefs.h>
 #include <Urho3D\Resource\ResourceCache.h>
+
 #include <iostream>
 
 #include "Gameplay.h"
@@ -59,14 +61,20 @@ void Player::Start()
 	{
 		AnimationController* controller = arms->GetComponent<AnimationController>();
 		controller->PlayExclusive("Models/Arms Rig.ani", 255, true, 0.0f);
+		leftMuzzleFlash = arms->GetChild("gun.l", true)->GetChild(0U)->GetComponent<ParticleEmitter>();
+		leftMuzzleFlash->SetEmitting(false);
+		rightMuzzleFlash = arms->GetChild("gun.r", true)->GetChild(0U)->GetComponent<ParticleEmitter>();
+		rightMuzzleFlash->SetEmitting(false);
 	}
+	physworld = scene->GetComponent<PhysicsWorld>();
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
+	SubscribeToEvent(arms, E_ANIMATIONTRIGGER, URHO3D_HANDLER(Player, OnAnimTrigger));
 }
 
 void Player::FixedUpdate(float timeStep)
 {
-	physworld = scene->GetComponent<PhysicsWorld>();
+	
 	DoMovement(timeStep);
 
 	float sensitivity = scene->GetVar("MOUSE SENSITIVITY").GetFloat();
@@ -175,6 +183,26 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 				}
 			}
 		}
+	}
+}
+
+void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)
+{
+	int command = eventData["Data"].GetInt();
+	switch (command)
+	{
+	case 0:
+		leftMuzzleFlash->SetEmitting(true);
+		break;
+	case 1:
+		leftMuzzleFlash->SetEmitting(false);
+		break;
+	case 2:
+		rightMuzzleFlash->SetEmitting(true);
+		break;
+	case 3:
+		rightMuzzleFlash->SetEmitting(false);
+		break;
 	}
 }
 

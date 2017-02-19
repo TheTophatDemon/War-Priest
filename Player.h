@@ -7,6 +7,7 @@
 #include <Urho3D/Input/Input.h>
 #include <Urho3D/Physics/RigidBody.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
+#include <Urho3D/Graphics/ParticleEmitter.h>
 
 using namespace Urho3D;
 
@@ -26,10 +27,13 @@ protected:
 	void DoMovement(float timeStep);
 	void GetSlope();
 	void OnCollision(StringHash eventType, VariantMap& eventData);
+	void OnAnimTrigger(StringHash eventType, VariantMap& eventData);
 
 	SharedPtr<Node> arms;
 	SharedPtr<Node> cameraNode;
 	SharedPtr<Scene> scene;
+	SharedPtr<ParticleEmitter> leftMuzzleFlash;
+	SharedPtr<ParticleEmitter> rightMuzzleFlash;
 	WeakPtr<Gameplay> game;
 	WeakPtr<RigidBody> body;
 	WeakPtr<PhysicsWorld> physworld;
