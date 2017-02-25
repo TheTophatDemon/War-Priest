@@ -147,7 +147,7 @@ void Player::DoMovement(float timeStep)
 	Vector3 movement = (node_->GetRotation() * Vector3(strafe, fall, forward) * timeStep * 50.0f);
 	body->SetLinearVelocity(movement);
 	onGround = false;
-	slopeSteepness = 0.0f;
+	slopeSteepness = 0.75f;
 	GetSlope();
 }
 
@@ -168,7 +168,7 @@ void Player::StairCheck()
 	//Raycast forward from feet. If something's there, do a second raycast from above that something.
 	PhysicsRaycastResult result;
 	Vector3 dir = node_->GetRotation() * Vector3::FORWARD;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition(), dir), 1.0f, 2);
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + (Vector3::UP * 0.05f), dir), 1.0f, 2);
 	if (result.body_ && result.normal_.y_ == 0.0f)
 	{
 		//It's not getting here
@@ -187,13 +187,14 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 	if (otherBody->GetCollisionLayer() & 2)
 	{
 		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
+		//std::cout << contacts.GetSize()/32 << " CONTACTS MADE" << std::endl;
 		while (!contacts.IsEof())
 		{
 			Vector3 position = contacts.ReadVector3();
 			Vector3 normal = contacts.ReadVector3();
 			float distance = contacts.ReadFloat();
 			float impulse = contacts.ReadFloat();
-			if (fabs(normal.y_) > 0.1f)
+			if (fabs(normal.y_) != 0.0f && distance <= 0.0f && impulse != 0.0f)
 			{
 				if (position.y_ <= node_->GetPosition().y_ + 0.5f) 
 				{

@@ -33,8 +33,8 @@
 #include "Cross.h"
 
 //TODO:
-//Stairs glitch
-//Specular 
+//Wall jumping glitch
+//Specular, Increase resolution
 //Cross HUD
 
 using namespace Urho3D;
