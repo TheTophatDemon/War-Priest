@@ -32,6 +32,10 @@
 #include "Player.h"
 #include "Cross.h"
 
+//TODO:
+//Stairs
+//Cross HUD
+
 using namespace Urho3D;
 
 class GunPriest : public Application

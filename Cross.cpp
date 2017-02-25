@@ -33,8 +33,9 @@ void Cross::FixedUpdate(float timeStep)
 	bob += timeStep;
 	node_->Rotate(Quaternion(timeStep * 75.0f, Vector3::UP));
 	node_->SetPosition(Vector3(node_->GetPosition().x_, origin + (sinf(bob * 5.0f)) * 0.25f, node_->GetPosition().z_));
-	if ((playerNode->GetWorldPosition() - node_->GetWorldPosition()).Length() < 1.0f)
+	if ((playerNode->GetWorldPosition() - node_->GetWorldPosition()).Length() < 1.5f)
 	{
+		node_->GetScene()->GetComponent<Gameplay>()->FlashScreen(Color(0.7f, 0.7f, 0.8f, 0.85f), 0.025f);
 		playerNode->SetVar("Cross Count", playerNode->GetVar("Cross Count").GetInt() + 1);
 		node_->Remove();
 	}

@@ -12,6 +12,7 @@
 #include <Urho3D\Graphics/DebugRenderer.h>
 #include <Urho3D/Engine/DebugHud.h>
 #include <Urho3D/UI/Sprite.h>
+#include <Urho3D/Scene/ValueAnimation.h>
 
 
 using namespace Urho3D;
@@ -44,6 +45,11 @@ public:
 	void SetupGame();
 	void GetSettings();
 	void MakeHUD();
+	void FlashScreen(Color c, float spd);
 	~Gameplay();
+protected:
+	SharedPtr<Node> skybox;
+	Color flashColor;
+	float flashSpeed;
 };
 

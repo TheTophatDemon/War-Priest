@@ -25,7 +25,7 @@
 #include <Urho3D/Graphics/Renderer.h>
 #include <Urho3D/Graphics/RenderPath.h>
 #include <Urho3D/Graphics/StaticModelGroup.h>
-#include <Urho3D/Scene/ValueAnimation.h>
+
 #include "Player.h"
 #include "Cross.h"
 
@@ -34,6 +34,8 @@ using namespace Urho3D;
 Gameplay::Gameplay(Context* context) : LogicComponent(context)
 {
 	SetUpdateEventMask(USE_FIXEDUPDATE);
+	flashSpeed = 0.0f;
+	flashColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 void Gameplay::RegisterObject(Context* context)
@@ -56,6 +58,8 @@ void Gameplay::Start()
 
 	viewport = SharedPtr<Viewport>(new Viewport(context_, scene_, cameraNode->GetComponent<Camera>()));
 	renderer->SetViewport(0, viewport);
+	renderer->GetDefaultRenderPath()->Append(cache->GetResource<XMLFile>("PostProcess/screenflash.xml"));
+	renderer->GetDefaultRenderPath()->SetShaderParameter("FlashColor", Color(0.0f, 0.0f, 0.0f, 0.0f));
 
 	debugHud = engine_->CreateDebugHud();
 #if _DEBUG
@@ -74,6 +78,8 @@ void Gameplay::SetupGame()
 	camera = cameraNode->GetComponent<Camera>();
 	player->input = input;
 
+	skybox = scene_->GetChild("skybox");
+
 	//Setup Crosses
 	Node* crosses = scene_->GetChild("crosses");
 	StaticModelGroup* crossGroup = crosses->GetComponent<StaticModelGroup>();
@@ -84,7 +90,7 @@ void Gameplay::SetupGame()
 		child->CreateComponent<Cross>();
 		crossGroup->AddInstanceNode(child);
 	}
-	SharedPtr<ValueAnimation> colorAnimation(new ValueAnimation(context_));
+	SharedPtr<ValueAnimation> colorAnimation(new ValueAnimation(context_)); //Make them glowy and crap
 	colorAnimation->SetKeyFrame(0.0f, Color::BLACK);
 	colorAnimation->SetKeyFrame(1.0f, Color::WHITE);
 	colorAnimation->SetKeyFrame(2.0f, Color::BLACK);
@@ -93,7 +99,16 @@ void Gameplay::SetupGame()
 
 void Gameplay::FixedUpdate(float timeStep)
 {
-	
+	if (skybox)
+	{
+		skybox->Rotate(Quaternion(timeStep * 5.0f, Vector3::UP));
+	}
+	if (flashColor.a_ > 0.0f)
+	{
+		flashColor.a_ -= flashSpeed * timeStep * 100.0f;
+		if (flashColor.a_ < 0.0f) flashColor.a_ = 0.0f;
+	}
+	renderer->GetDefaultRenderPath()->SetShaderParameter("FlashColor", flashColor);
 }
 
 Gameplay::~Gameplay()
@@ -130,4 +145,11 @@ void Gameplay::MakeHUD()
 	crosshair->SetHorizontalAlignment(HA_CENTER);
 	crosshair->SetVerticalAlignment(VA_CENTER);
 	ui->GetRoot()->AddChild(crosshair);
+}
+
+void Gameplay::FlashScreen(Color c, float spd)
+{
+	flashColor = c;
+	flashSpeed = spd;
+	renderer->GetDefaultRenderPath()->SetShaderParameter("FlashColor", c);
 }
