@@ -125,7 +125,7 @@ void Player::DoMovement(float timeStep)
 	if (fall < -MAXFALL) fall = -MAXFALL;
 	if (onGround)
 	{
-		if (slopeSteepness != 0.0f)
+		if (slopeSteepness != 0.75f)
 		{
 			fall = ((-1 / slopeSteepness) + 1) * MAXSPEED;
 		}
@@ -142,8 +142,10 @@ void Player::DoMovement(float timeStep)
 	{
 		fall -= 0.5f;
 	}
+	if (forward > 0.0f) StairCheck();
 
-	body->SetLinearVelocity((node_->GetRotation() * Vector3(strafe, fall, forward) * timeStep * 50.0f));
+	Vector3 movement = (node_->GetRotation() * Vector3(strafe, fall, forward) * timeStep * 50.0f);
+	body->SetLinearVelocity(movement);
 	onGround = false;
 	slopeSteepness = 0.0f;
 	GetSlope();
@@ -157,6 +159,24 @@ void Player::GetSlope()
 	if (result.body_)
 	{
 		slopeSteepness = result.normal_.y_ * 0.75f;
+		//std::cout << slopeSteepness << std::endl;
+	}
+}
+
+void Player::StairCheck()
+{
+	//Raycast forward from feet. If something's there, do a second raycast from above that something.
+	PhysicsRaycastResult result;
+	Vector3 dir = node_->GetRotation() * Vector3::FORWARD;
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition(), dir), 1.0f, 2);
+	if (result.body_ && result.normal_.y_ == 0.0f)
+	{
+		//It's not getting here
+ 		physworld->RaycastSingle(result, Ray(result.position_ + dir, Vector3::UP), 10.0f, 2);
+		if (result.body_ && result.distance_ < 1.0f)
+		{
+			fall = 8.0f;
+		}
 	}
 }
 

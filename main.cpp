@@ -33,7 +33,8 @@
 #include "Cross.h"
 
 //TODO:
-//Stairs
+//Stairs glitch
+//Specular 
 //Cross HUD
 
 using namespace Urho3D;

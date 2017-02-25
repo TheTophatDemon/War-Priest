@@ -26,6 +26,7 @@ public:
 protected:
 	void DoMovement(float timeStep);
 	void GetSlope();
+	void StairCheck();
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnAnimTrigger(StringHash eventType, VariantMap& eventData);
 
