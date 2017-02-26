@@ -1,0 +1,3 @@
+<technique vs="MuzzleFlashUnlit" ps="MuzzleFlashUnlit" psdefines="DIFFMAP">
+    <pass name="muzzleflash" depthwrite="false" depthtest="true" blend="addalpha" />
+</technique>

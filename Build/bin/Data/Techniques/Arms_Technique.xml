@@ -1,0 +1,3 @@
+<technique vs="Arms" ps="Arms" psdefines="DIFFMAP">
+    <pass name="base"/>
+</technique>
