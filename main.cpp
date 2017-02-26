@@ -33,7 +33,6 @@
 #include "Cross.h"
 
 //TODO:
-//Cross spawners
 //Minimap
 
 using namespace Urho3D;

@@ -84,18 +84,59 @@ void Gameplay::SetupGame()
 
 	skybox = scene_->GetChild("skybox");
 
-	//Setup Crosses
+	//Spawn Crosses
 	Node* crosses = scene_->GetChild("crosses");
+	PODVector<Node*> spawners;
+	scene_->GetChildrenWithTag(spawners, "spawner", true);
+	for (PODVector<Node*>::Iterator i = spawners.Begin(); i != spawners.End(); ++i)
+	{
+		Node* child = (Node*)*i;
+		String type = child->GetVar("spawnertype").GetString();
+		//Spawn crosses in the described formation, raycasting downwards to ensure that they're all on the ground.
+		if (type == "ring")
+		{
+			float distance = child->GetVar("spawnerdistance").GetFloat();
+			if (distance == 0.0f) distance = 3.0f;
+			for (int j = 0; j < 5; ++j)
+			{
+				Node* cross = crosses->CreateChild();
+				cross->SetName("cross");
+				cross->AddTag("cross");
+				Vector3 position = child->GetWorldPosition() + (Quaternion(72.0f * j, Vector3::UP) * Vector3::FORWARD * distance);
+
+				PhysicsRaycastResult result;
+				scene_->GetComponent<PhysicsWorld>()->RaycastSingle(result, Ray(position, Vector3::DOWN), 500.0f, 2);
+
+				if (result.body_) 
+				{
+					cross->SetWorldPosition(result.position_);
+				}
+				else
+				{
+					//cross->SetWorldPosition(position);
+				}
+			}
+		}
+		child->Remove();
+	}
+
+	//Setup Crosses
 	StaticModelGroup* crossGroup = crosses->GetComponent<StaticModelGroup>();
 	crossCount = crosses->GetNumChildren();
 	for (unsigned int i = 0; i < crosses->GetNumChildren(); ++i)
 	{
 		Node* child = crosses->GetChild(i);
 		child->RemoveAllComponents(); //They all have static models just to see them in the editor. We need to add them to the staticmodelgroup.
-		child->CreateComponent<Cross>();
-		crossGroup->AddInstanceNode(child);
+		String name = child->GetName();
+		if (name == "cross") 
+		{
+			child->CreateComponent<Cross>();
+			crossGroup->AddInstanceNode(child);
+		}
 	}
-	SharedPtr<ValueAnimation> colorAnimation(new ValueAnimation(context_)); //Make them glowy and crap
+
+	//Make the crosses glowy
+	SharedPtr<ValueAnimation> colorAnimation(new ValueAnimation(context_));
 	colorAnimation->SetKeyFrame(0.0f, Color::BLACK);
 	colorAnimation->SetKeyFrame(1.0f, Color::WHITE);
 	colorAnimation->SetKeyFrame(2.0f, Color::BLACK);
