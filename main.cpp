@@ -33,8 +33,11 @@
 #include "Cross.h"
 
 //TODO:
-//Wall jumping glitch
 //Specular, Increase resolution
+//Put muzzle flash in front of gun
+//Cross spawners
+//Minimap
+//Normalmap for arms
 //Cross HUD
 
 using namespace Urho3D;

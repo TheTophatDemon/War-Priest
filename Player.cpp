@@ -165,17 +165,18 @@ void Player::GetSlope()
 
 void Player::StairCheck()
 {
-	//Raycast forward from feet. If something's there, do a second raycast from above that something.
+	//Raycast forward from feet. If something's there, do a second raycast from below to judge the height of the step.
 	PhysicsRaycastResult result;
 	Vector3 dir = node_->GetRotation() * Vector3::FORWARD;
 	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + (Vector3::UP * 0.05f), dir), 1.0f, 2);
 	if (result.body_ && result.normal_.y_ == 0.0f)
 	{
 		//It's not getting here
- 		physworld->RaycastSingle(result, Ray(result.position_ + dir, Vector3::UP), 10.0f, 2);
+ 		physworld->RaycastSingle(result, Ray(result.position_ + (dir * 0.1f), Vector3::UP), 10.0f, 2);
 		if (result.body_ && result.distance_ < 1.0f)
 		{
 			fall = 8.0f;
+			//std::cout << "STEP" << std::endl;
 		}
 	}
 }
