@@ -92,29 +92,40 @@ void Gameplay::SetupGame()
 	{
 		Node* child = (Node*)*i;
 		String type = child->GetVar("spawnertype").GetString();
+		float distance = child->GetVar("spawnerdistance").GetFloat();
+		if (distance == 0.0f) distance = 3.0f;
 		//Spawn crosses in the described formation, raycasting downwards to ensure that they're all on the ground.
 		if (type == "ring")
 		{
-			float distance = child->GetVar("spawnerdistance").GetFloat();
-			if (distance == 0.0f) distance = 3.0f;
 			for (int j = 0; j < 5; ++j)
 			{
 				Node* cross = crosses->CreateChild();
 				cross->SetName("cross");
 				cross->AddTag("cross");
 				Vector3 position = child->GetWorldPosition() + (Quaternion(72.0f * j, Vector3::UP) * Vector3::FORWARD * distance);
-
-				PhysicsRaycastResult result;
-				scene_->GetComponent<PhysicsWorld>()->RaycastSingle(result, Ray(position, Vector3::DOWN), 500.0f, 2);
-
-				if (result.body_) 
-				{
-					cross->SetWorldPosition(result.position_);
-				}
-				else
-				{
-					//cross->SetWorldPosition(position);
-				}
+				SetOnFloor(cross, position);
+			}
+		}
+		else if (type == "xline")
+		{
+			for (int j = 0; j < 5; ++j)
+			{
+				Node* cross = crosses->CreateChild();
+				cross->SetName("cross");
+				cross->AddTag("cross");
+				Vector3 position = child->GetWorldPosition() + Vector3((-distance * 2.5f) + (j * distance), 0.0f, 0.0f);
+				SetOnFloor(cross, position);
+			}
+		}
+		else if (type == "zline")
+		{
+			for (int j = 0; j < 5; ++j)
+			{
+				Node* cross = crosses->CreateChild();
+				cross->SetName("cross");
+				cross->AddTag("cross");
+				Vector3 position = child->GetWorldPosition() + Vector3(0.0f, 0.0f, (-distance * 2.0f) + (j * distance));
+				SetOnFloor(cross, position);
 			}
 		}
 		child->Remove();
@@ -264,4 +275,20 @@ void Gameplay::GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cell
 	}
 
 	spr->SetImageRect(rect);
+}
+
+void Gameplay::SetOnFloor(Node* n, Vector3 pos)
+{
+	PhysicsRaycastResult result;
+	scene_->GetComponent<PhysicsWorld>()->RaycastSingle(result, Ray(pos, Vector3::DOWN), 500.0f, 2);
+
+	if (result.body_)
+	{
+		n->SetWorldPosition(result.position_);
+	}
+	else
+	{
+		std::cout << "A CROSS IS OUT OF BOUNDS" << std::endl;
+		n->SetWorldPosition(pos);
+	}
 }

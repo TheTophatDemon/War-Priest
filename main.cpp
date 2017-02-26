@@ -33,7 +33,9 @@
 #include "Cross.h"
 
 //TODO:
-//Minimap
+//Compass
+//NPC
+//Line spawner
 
 using namespace Urho3D;
 

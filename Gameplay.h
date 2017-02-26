@@ -49,6 +49,7 @@ public:
 	~Gameplay();
 protected:
 	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);
+	void SetOnFloor(Node* n, Vector3 pos);
 	void UpdateHUD(float timeStep);
 	SharedPtr<Node> skybox;
 	Color flashColor;
