@@ -1,3 +1,8 @@
 <technique vs="Arms" ps="Arms" psdefines="DIFFMAP">
-    <pass name="base"/>
+    <pass name="base" />
+    <pass name="litbase" vsdefines="NORMALMAP" psdefines="AMBIENT NORMALMAP SPECMAP" />
+    <pass name="light" vsdefines="NORMALMAP" psdefines="NORMALMAP SPECMAP" depthtest="equal" depthwrite="false" blend="add" />
+    <pass name="prepass" vsdefines="NORMALMAP" psdefines="PREPASS NORMALMAP SPECMAP" />
+    <pass name="material" psdefines="MATERIAL SPECMAP" depthtest="equal" depthwrite="false" />
+    <pass name="deferred" vsdefines="NORMALMAP" psdefines="DEFERRED NORMALMAP SPECMAP" />
 </technique>
