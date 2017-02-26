@@ -44,12 +44,18 @@ public:
 	virtual void FixedUpdate(float timeStep);
 	void SetupGame();
 	void GetSettings();
-	void MakeHUD();
+	void MakeHUD(int width, int height);
 	void FlashScreen(Color c, float spd);
 	~Gameplay();
 protected:
+	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);
+	void UpdateHUD(float timeStep);
 	SharedPtr<Node> skybox;
 	Color flashColor;
 	float flashSpeed;
+	int crossCount;
+
+	SharedPtr<Sprite> crossIcon;
+	SharedPtr<Text> crossCounter;
 };
 

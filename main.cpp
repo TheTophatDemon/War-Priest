@@ -33,12 +33,8 @@
 #include "Cross.h"
 
 //TODO:
-//Specular, Increase resolution
-//Put muzzle flash in front of gun
 //Cross spawners
 //Minimap
-//Normalmap for arms
-//Cross HUD
 
 using namespace Urho3D;
 
@@ -75,6 +71,9 @@ public:
 
 		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/testmap.xml");
 		scene_->LoadXML(mapFile->GetRoot());
+
+		scene_->SetVar("Screen Width", engineParameters_["WindowWidth"]);
+		scene_->SetVar("Screen Height", engineParameters_["WindowHeight"]);
 		scene_->CreateComponent<Gameplay>();
 
 		SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GunPriest, Update));

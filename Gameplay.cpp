@@ -23,8 +23,11 @@
 #include <Urho3D/UI/UI.h>
 #include <Urho3D/Graphics/Texture2D.h>
 #include <Urho3D/Graphics/Renderer.h>
+#include <Urho3D/Graphics/View.h>
 #include <Urho3D/Graphics/RenderPath.h>
 #include <Urho3D/Graphics/StaticModelGroup.h>
+
+#include <iostream>
 
 #include "Player.h"
 #include "Cross.h"
@@ -36,6 +39,7 @@ Gameplay::Gameplay(Context* context) : LogicComponent(context)
 	SetUpdateEventMask(USE_FIXEDUPDATE);
 	flashSpeed = 0.0f;
 	flashColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
+	crossCount = 0;
 }
 
 void Gameplay::RegisterObject(Context* context)
@@ -67,7 +71,7 @@ void Gameplay::Start()
 	debugHud->SetMode(DEBUGHUD_SHOW_PROFILER);
 #endif
 	
-	MakeHUD();
+	MakeHUD(scene_->GetVar("Screen Width").GetInt(), scene_->GetVar("Screen Height").GetInt());
 }
 
 void Gameplay::SetupGame()
@@ -83,6 +87,7 @@ void Gameplay::SetupGame()
 	//Setup Crosses
 	Node* crosses = scene_->GetChild("crosses");
 	StaticModelGroup* crossGroup = crosses->GetComponent<StaticModelGroup>();
+	crossCount = crosses->GetNumChildren();
 	for (unsigned int i = 0; i < crosses->GetNumChildren(); ++i)
 	{
 		Node* child = crosses->GetChild(i);
@@ -99,6 +104,7 @@ void Gameplay::SetupGame()
 
 void Gameplay::FixedUpdate(float timeStep)
 {
+	UpdateHUD(timeStep);
 	if (skybox)
 	{
 		skybox->Rotate(Quaternion(timeStep * 5.0f, Vector3::UP));
@@ -109,6 +115,16 @@ void Gameplay::FixedUpdate(float timeStep)
 		if (flashColor.a_ < 0.0f) flashColor.a_ = 0.0f;
 	}
 	renderer->GetDefaultRenderPath()->SetShaderParameter("FlashColor", flashColor);
+}
+
+void Gameplay::UpdateHUD(float timeStep)
+{
+	GetNextFrame(crossIcon, 128, 128, 60);
+	String s = "";
+	s += playerNode->GetVar("Cross Count").GetInt();
+	s += "/";
+	s += crossCount;
+	crossCounter->SetText(s);
 }
 
 Gameplay::~Gameplay()
@@ -125,9 +141,11 @@ void Gameplay::GetSettings()
 	scene_->SetVar("JUMP KEY", KEY_SPACE);
 }
 
-void Gameplay::MakeHUD()
+void Gameplay::MakeHUD(int width, int height)
 {
 	UI* ui = GetSubsystem<UI>();
+
+	ui->LoadLayout(cache->GetResource<XMLFile>("UI/HUDLayout.xml"));
 
 	text = new Text(context_);
 	text->SetText("GUN PRIEST ALPHA : WWW.BITENDOSOFTWARE.COM");
@@ -135,7 +153,7 @@ void Gameplay::MakeHUD()
 	text->SetHorizontalAlignment(HA_CENTER);
 	text->SetVerticalAlignment(VA_TOP);
 	ui->GetRoot()->AddChild(text);
-	
+
 	crosshair = new Sprite(context_);
 	crosshair->SetTexture(cache->GetResource<Texture2D>("Textures/crosshair.png"));
 	crosshair->SetFullImageRect();
@@ -145,6 +163,25 @@ void Gameplay::MakeHUD()
 	crosshair->SetHorizontalAlignment(HA_CENTER);
 	crosshair->SetVerticalAlignment(VA_CENTER);
 	ui->GetRoot()->AddChild(crosshair);
+
+	crossIcon = new Sprite(context_);
+	crossIcon->SetTexture(cache->GetResource<Texture2D>("Textures/cross_ui.png"));
+	crossIcon->SetImageRect(IntRect(0, 0, 128, 128));
+	crossIcon->SetSize(128, 128);
+	crossIcon->SetHotSpot(128, 128);
+	crossIcon->SetBlendMode(BLEND_ALPHA);
+	crossIcon->SetHorizontalAlignment(HA_LEFT);
+	crossIcon->SetVerticalAlignment(VA_TOP);
+	ui->GetRoot()->AddChild(crossIcon);
+	crossIcon->SetPosition(width * 0.9f, height * 0.9f);
+
+	crossCounter = new Text(context_);
+	crossCounter->SetText("x0");
+	crossCounter->SetFont("Fonts/Anonymous Pro.ttf", 24);
+	crossCounter->SetVerticalAlignment(VA_CENTER);
+	crossCounter->SetHorizontalAlignment(HA_LEFT);
+	crossIcon->AddChild(crossCounter);
+	crossCounter->SetPosition(128.0f, 0.0f);
 }
 
 void Gameplay::FlashScreen(Color c, float spd)
@@ -152,4 +189,38 @@ void Gameplay::FlashScreen(Color c, float spd)
 	flashColor = c;
 	flashSpeed = spd;
 	renderer->GetDefaultRenderPath()->SetShaderParameter("FlashColor", c);
+}
+
+void Gameplay::GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount)
+{
+	IntRect rect = spr->GetImageRect();
+	Texture* tex = spr->GetTexture();
+
+	rect.bottom_ += cellHeight;
+	rect.top_ += cellHeight;
+	if (rect.bottom_ > tex->GetHeight())
+	{
+		rect.top_ = 0.0f;
+		rect.bottom_ = cellHeight;
+
+		rect.left_ += cellWidth;
+		rect.right_ += cellHeight;
+		if (rect.right_ > tex->GetWidth())
+		{
+			rect.left_ = 0.0f;
+			rect.right_ = cellWidth;
+		}
+	}
+	int columnCount = tex->GetWidth() / cellWidth;
+	int rowCount = tex->GetHeight() / cellHeight;
+	int cellIndex = (rowCount * (rect.left_ / cellWidth)) + (rect.top_ / cellHeight);
+	if (cellIndex >= cellCount)
+	{
+		rect.top_ = 0.0f;
+		rect.bottom_ = cellHeight;
+		rect.left_ = 0.0f;
+		rect.right_ = cellWidth;
+	}
+
+	spr->SetImageRect(rect);
 }
