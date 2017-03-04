@@ -28,14 +28,17 @@
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/AngelScript/Script.h>
 
+#include <time.h>
+
 #include "Gameplay.h"
 #include "Player.h"
 #include "Cross.h"
+#include "NPC.h"
+#include "Actor.h"
 
 //TODO:
 //Compass
 //NPC
-//Line spawner
 
 using namespace Urho3D;
 
@@ -49,8 +52,10 @@ public:
 	GunPriest(Context* context) : Application(context)
 	{
 		Gameplay::RegisterObject(context);
+		Actor::RegisterObject(context);
 		Player::RegisterObject(context);
 		Cross::RegisterObject(context);
+		NPC::RegisterObject(context);
 	}
 	virtual void Setup()
 	{
@@ -63,6 +68,7 @@ public:
 	}
 	virtual void Start()
 	{
+		SetRandomSeed(clock());
 		input = WeakPtr<Input>(engine_->GetSubsystem<Input>());
 		engine_->SetMaxFps(60);
 		ResourceCache* cache = GetSubsystem<ResourceCache>();

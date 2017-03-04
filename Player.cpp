@@ -76,7 +76,6 @@ void Player::Start()
 
 void Player::FixedUpdate(float timeStep)
 {
-	
 	DoMovement(timeStep);
 
 	float sensitivity = scene->GetVar("MOUSE SENSITIVITY").GetFloat();

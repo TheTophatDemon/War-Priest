@@ -31,6 +31,7 @@
 
 #include "Player.h"
 #include "Cross.h"
+#include "NPC.h"
 
 using namespace Urho3D;
 
@@ -84,6 +85,29 @@ void Gameplay::SetupGame()
 
 	skybox = scene_->GetChild("skybox");
 
+	SetupCrosses();
+
+	//Spawn NPCs
+	PODVector<Node*> npcs;
+	scene_->GetChildrenWithTag(npcs, "npc", true);
+	for (PODVector<Node*>::Iterator i = npcs.Begin(); i != npcs.End(); ++i)
+	{
+		Node* npc = (Node*)*i;
+		npc->CreateComponent<NPC>();
+		int model = 0;
+		int skin = floor(Random() * 3);
+		String path = "Npcs/model";
+		path += model;
+		path += "/skin";
+		path += skin;
+		path += ".xml";
+		Material* mat = cache->GetResource<Material>(path);
+		npc->GetComponent<AnimatedModel>()->SetMaterial(mat);
+	}
+}
+
+void Gameplay::SetupCrosses()
+{
 	//Spawn Crosses
 	Node* crosses = scene_->GetChild("crosses");
 	PODVector<Node*> spawners;
@@ -139,7 +163,7 @@ void Gameplay::SetupGame()
 		Node* child = crosses->GetChild(i);
 		child->RemoveAllComponents(); //They all have static models just to see them in the editor. We need to add them to the staticmodelgroup.
 		String name = child->GetName();
-		if (name == "cross") 
+		if (name == "cross")
 		{
 			child->CreateComponent<Cross>();
 			crossGroup->AddInstanceNode(child);
