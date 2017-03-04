@@ -90,9 +90,14 @@ void Gameplay::SetupGame()
 	//Spawn NPCs
 	PODVector<Node*> npcs;
 	scene_->GetChildrenWithTag(npcs, "npc", true);
+	XMLFile* npcObject = cache->GetResource<XMLFile>("Objects/npc.xml");
 	for (PODVector<Node*>::Iterator i = npcs.Begin(); i != npcs.End(); ++i)
 	{
 		Node* npc = (Node*)*i;
+		Matrix3x4 transform = npc->GetWorldTransform();
+		npc->LoadXML(npcObject->GetRoot());
+		npc->SetWorldTransform(transform.Translation(), transform.Rotation(), Vector3::ONE);
+
 		int model = 0;
 		int skin = floor(Random() * 3);
 		String path = "Npcs/model";

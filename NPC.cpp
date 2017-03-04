@@ -12,6 +12,7 @@
 #include <Urho3D/Physics/PhysicsEvents.h>
 #include <Urho3D/Physics/RigidBody.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
+#include <iostream>
 
 #include "Actor.h"
 
@@ -30,6 +31,11 @@ void NPC::RegisterObject(Context* context)
 void NPC::Start()
 {
 	modelNode = node_->GetChild("model");
+	if (modelNode->GetPosition() != Vector3::ZERO)
+	{
+		std::cout << "NPC" << node_->GetID() << "'S MODEL GOT SCREWED UP SOMEWHERE." << std::endl;
+		modelNode->SetPosition(Vector3::ZERO);
+	}
 
 	if (!node_->HasComponent<Actor>())
 		actor = node_->CreateComponent<Actor>();

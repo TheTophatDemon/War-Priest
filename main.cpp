@@ -39,6 +39,8 @@
 //TODO:
 //Compass
 //NPC
+	//AI
+	//Optimize skin selection
 
 using namespace Urho3D;
 
