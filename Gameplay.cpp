@@ -93,7 +93,6 @@ void Gameplay::SetupGame()
 	for (PODVector<Node*>::Iterator i = npcs.Begin(); i != npcs.End(); ++i)
 	{
 		Node* npc = (Node*)*i;
-		npc->CreateComponent<NPC>();
 		int model = 0;
 		int skin = floor(Random() * 3);
 		String path = "Npcs/model";
@@ -102,7 +101,10 @@ void Gameplay::SetupGame()
 		path += skin;
 		path += ".xml";
 		Material* mat = cache->GetResource<Material>(path);
-		npc->GetComponent<AnimatedModel>()->SetMaterial(mat);
+		npc->GetChild("model")->GetComponent<AnimatedModel>()->SetMaterial(mat);
+		npc->SetVar("MODEL", model);
+
+		npc->CreateComponent<NPC>();
 	}
 }
 
