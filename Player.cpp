@@ -26,22 +26,15 @@
 #include <iostream>
 
 #include "Gameplay.h"
+#include "Actor.h"
 
 using namespace Urho3D;
 
 #define PITCH_LIMIT 45
-#define ACCELERATION 1.0f
-#define MAXSPEED 10.0f
-#define FRICTION 0.85f
-#define FALLSPEED 0.4f
-#define MAXFALL 120.0f
-#define JUMP 12.0f
 
 Player::Player(Context* context) : LogicComponent(context)
 {
 	cameraPitch = 0.0f;
-	onGround = false;
-	slopeSteepness = 0.0f;
 }
 
 void Player::RegisterObject(Context* context)
@@ -58,6 +51,15 @@ void Player::Start()
 	scene = GetScene();
 	cameraNode = node_->GetChild("camera");
 	arms = cameraNode->GetChild("arms");
+
+	if (!node_->HasComponent<Actor>())
+	{
+		actor = node_->CreateComponent<Actor>();
+	}
+	else
+	{
+		actor = node_->GetComponent<Actor>();
+	}
 	
 	if (arms) 
 	{
@@ -76,7 +78,12 @@ void Player::Start()
 
 void Player::FixedUpdate(float timeStep)
 {
-	DoMovement(timeStep);
+	bool forwardKey = input->GetKeyDown(scene->GetVar("FORWARD KEY").GetInt());
+	bool backwardKey = input->GetKeyDown(scene->GetVar("BACKWARD KEY").GetInt());
+	bool rightKey = input->GetKeyDown(scene->GetVar("RIGHT KEY").GetInt());
+	bool leftKey = input->GetKeyDown(scene->GetVar("LEFT KEY").GetInt());
+	bool jumpKey = input->GetKeyDown(scene->GetVar("JUMP KEY").GetInt());
+	actor->Move(forwardKey, backwardKey, rightKey, leftKey, jumpKey, timeStep);
 
 	float sensitivity = scene->GetVar("MOUSE SENSITIVITY").GetFloat();
 	cameraPitch += input->GetMouseMoveY() * sensitivity;
@@ -86,127 +93,9 @@ void Player::FixedUpdate(float timeStep)
 	cameraNode->SetRotation(Quaternion(cameraPitch, Vector3::RIGHT));
 }
 
-void Player::DoMovement(float timeStep)
-{
-	if (input->GetKeyDown(scene->GetVar("FORWARD KEY").GetInt()))
-	{
-		forward += ACCELERATION;
-		if (forward > MAXSPEED) forward = MAXSPEED;
-	}
-	else if (input->GetKeyDown(scene->GetVar("BACKWARD KEY").GetInt()))
-	{
-		forward -= ACCELERATION;
-		if (forward < -MAXSPEED) forward = -MAXSPEED;
-	}
-	else
-	{
-		forward *= FRICTION;
-		if (fabs(forward) < 0.1f) forward = 0.0f;
-	}
-
-	if (input->GetKeyDown(scene->GetVar("RIGHT KEY").GetInt()))
-	{
-		strafe += ACCELERATION;
-		if (strafe > MAXSPEED) strafe = MAXSPEED;
-	}
-	else if (input->GetKeyDown(scene->GetVar("LEFT KEY").GetInt()))
-	{
-		strafe -= ACCELERATION;
-		if (strafe < -MAXSPEED) strafe = -MAXSPEED;
-	}
-	else
-	{
-		strafe *= FRICTION;
-		if (fabs(strafe) < 0.1f) strafe = 0.0f;
-	}
-
-	fall -= FALLSPEED;
-	if (fall < -MAXFALL) fall = -MAXFALL;
-	if (onGround)
-	{
-		if (slopeSteepness != 0.75f)
-		{
-			fall = ((-1 / slopeSteepness) + 1) * MAXSPEED;
-		}
-		else
-		{
-			fall = 0.0f;
-		}	
-	}
-	if (input->GetKeyDown(scene->GetVar("JUMP KEY").GetInt()) && onGround)
-	{
-		fall = JUMP;
-	}
-	else if (!input->GetKeyDown(scene->GetVar("JUMP KEY").GetInt()) && fall > 0.0f)
-	{
-		fall -= 0.5f;
-	}
-	if (forward > 0.0f) StairCheck();
-
-	Vector3 movement = (node_->GetRotation() * Vector3(strafe, fall, forward) * timeStep * 50.0f);
-	body->SetLinearVelocity(movement);
-	onGround = false;
-	slopeSteepness = 0.75f;
-	GetSlope();
-}
-
-void Player::GetSlope()
-{
-	//Raycast downward to get slope normal
-	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 500.0f, 2);
-	if (result.body_)
-	{
-		slopeSteepness = result.normal_.y_ * 0.75f;
-		//std::cout << slopeSteepness << std::endl;
-	}
-}
-
-void Player::StairCheck()
-{
-	//Raycast forward from feet. If something's there, do a second raycast from below to judge the height of the step.
-	PhysicsRaycastResult result;
-	Vector3 dir = node_->GetRotation() * Vector3::FORWARD;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + (Vector3::UP * 0.05f), dir), 1.0f, 2);
-	if (result.body_ && result.normal_.y_ == 0.0f)
-	{
-		//It's not getting here
- 		physworld->RaycastSingle(result, Ray(result.position_ + (dir * 0.1f), Vector3::UP), 10.0f, 2);
-		if (result.body_ && result.distance_ < 1.0f)
-		{
-			fall = 8.0f;
-			//std::cout << "STEP" << std::endl;
-		}
-	}
-}
-
 void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
-	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (otherBody->GetCollisionLayer() & 2)
-	{
-		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
-		//std::cout << contacts.GetSize()/32 << " CONTACTS MADE" << std::endl;
-		while (!contacts.IsEof())
-		{
-			Vector3 position = contacts.ReadVector3();
-			Vector3 normal = contacts.ReadVector3();
-			float distance = contacts.ReadFloat();
-			float impulse = contacts.ReadFloat();
-			if (fabs(normal.y_) != 0.0f && distance <= 0.0f && impulse != 0.0f)
-			{
-				if (position.y_ <= node_->GetPosition().y_ + 0.5f) 
-				{
-					onGround = true;
-				}
-				if (position.y_ >= node_->GetPosition().y_ + 2.5f && fall > 0.0f && distance < 0.005f)
-				{
-					fall = 0.0f;
-				}
-			}
-		}
-	}
 }
 
 void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)

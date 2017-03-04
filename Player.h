@@ -12,6 +12,7 @@
 using namespace Urho3D;
 
 class Gameplay;
+class Actor;
 class Player : public LogicComponent
 {
 	URHO3D_OBJECT(Player, LogicComponent);
@@ -24,9 +25,6 @@ public:
 	virtual void FixedUpdate(float timeStep);
 	~Player();
 protected:
-	void DoMovement(float timeStep);
-	void GetSlope();
-	void StairCheck();
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnAnimTrigger(StringHash eventType, VariantMap& eventData);
 
@@ -35,15 +33,11 @@ protected:
 	SharedPtr<Scene> scene;
 	SharedPtr<ParticleEmitter> leftMuzzleFlash;
 	SharedPtr<ParticleEmitter> rightMuzzleFlash;
+	SharedPtr<Actor> actor;
 	WeakPtr<Gameplay> game;
 	WeakPtr<RigidBody> body;
 	WeakPtr<PhysicsWorld> physworld;
 
 	float cameraPitch = 0.0f;
-	float forward = 0.0f;
-	float strafe = 0.0f;
-	float fall = 0.0f;
-	bool onGround = false;
-	float slopeSteepness;
 };
 
