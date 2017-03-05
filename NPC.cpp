@@ -10,7 +10,8 @@
 #include <Urho3D/Graphics/StaticModel.h>
 #include <Urho3D/Graphics/AnimatedModel.h>
 #include <Urho3D/Physics/PhysicsEvents.h>
-#include <Urho3D/Physics/RigidBody.h>
+#include <Urho3D/Physics/CollisionShape.h>
+#include <Urho3D/Physics/Constraint.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
 #include <Urho3D/Graphics/AnimationState.h>
 #include <Urho3D/Graphics/Animation.h>
@@ -23,6 +24,7 @@ using namespace Urho3D;
 
 #define STATE_IDLE 0
 #define STATE_WALK 1
+#define STATE_DEAD 2
 
 #define TURNAMOUNT 5.0f
 
@@ -42,6 +44,7 @@ void NPC::RegisterObject(Context* context)
 void NPC::Start()
 {
 	modelNode = node_->GetChild("model");
+	
 	if (modelNode->GetPosition() != Vector3::ZERO)
 	{
 		std::cout << "NPC" << node_->GetID() << "'S MODEL GOT SCREWED UP SOMEWHERE." << std::endl;
@@ -65,6 +68,7 @@ void NPC::Start()
 	animController->Play(resourcePath + "/npc_stand.ani", 0, true, 0.5f);
 
 	game = GetScene()->GetComponent<Gameplay>();
+	body = node_->GetComponent<RigidBody>();
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(NPC, OnCollision));
 }
@@ -81,6 +85,12 @@ void NPC::FixedUpdate(float timeStep)
 			actor->Move(true, false, false, false, false, timeStep);
 			if (stateTimer < 0)
 				ChangeState(STATE_IDLE, Random(50, 200));
+			break;
+		case STATE_DEAD:
+			if (stateTimer < 0)
+			{
+				node_->Remove();
+			}
 			break;
 		default:
 			actor->Move(false, false, false, false, false, timeStep);
@@ -123,16 +133,25 @@ void NPC::FixedUpdate(float timeStep)
 
 void NPC::ChangeState(int newState, int timer)
 {
-	state = newState;
-	stateTimer = timer;
-	switch (newState)
+	if (state != newState) 
 	{
-	case STATE_WALK:
-		animController->PlayExclusive(resourcePath + "/npc_walk.ani", 0, true, 0.5f);
-		break;
-	default:
-		animController->PlayExclusive(resourcePath + "/npc_stand.ani", 0, true, 0.5f);
-		break;
+		state = newState;
+		stateTimer = timer;
+		switch (newState)
+		{
+		case STATE_WALK:
+			animController->PlayExclusive(resourcePath + "/npc_walk.ani", 0, true, 0.5f);
+			break;
+		case STATE_DEAD:
+			animController->Remove();
+			body->SetAngularFactor(Vector3::ONE);
+			body->SetUseGravity(true);
+			body->SetFriction(0.5f);
+			break;
+		default:
+			animController->PlayExclusive(resourcePath + "/npc_stand.ani", 0, true, 0.5f);
+			break;
+		}
 	}
 }
 
@@ -152,6 +171,42 @@ void NPC::OnCollision(StringHash eventType, VariantMap& eventData)
 			if (fabs(normal.x_) > 0.01f || fabs(normal.z_) > 0.01f)
 			{
 				turn = 90.0f;
+			}
+		}
+	}
+}
+
+void NPC::MakeRagdoll()
+{
+	animController->Remove();
+	node_->RemoveComponent<RigidBody>();
+	node_->RemoveComponents<CollisionShape>();
+	Node* rootBone = node_->GetChild("root", true);
+	if (rootBone)
+	{
+		PODVector<Node*> children;
+		rootBone->GetChildren(children, true);
+		for (PODVector<Node*>::Iterator i = children.Begin(); i != children.End(); ++i)
+		{
+			Node* child = (Node*)*i;
+			Bone* bone = animatedModel->GetSkeleton().GetBone(child->GetName());
+			bone->animated_ = false;
+			child->CreateComponent<CollisionShape>()->SetBox(bone->boundingBox_.Size(), Vector3::ZERO, Quaternion::IDENTITY);
+			RigidBody* body = child->CreateComponent<RigidBody>();
+			body->SetMass(1.0f);
+			body->SetLinearRestThreshold(1.5f);
+			body->SetAngularRestThreshold(2.5f);
+			if (child->GetName() != "torso") 
+			{
+				Constraint* constraint = child->CreateComponent<Constraint>();
+				constraint->SetConstraintType(ConstraintType::CONSTRAINT_HINGE);
+				constraint->SetDisableCollision(true);
+				constraint->SetOtherBody(child->GetParent()->GetComponent<RigidBody>());
+				constraint->SetWorldPosition(child->GetWorldPosition());
+				constraint->SetAxis(Vector3::DOWN);
+				constraint->SetOtherAxis(Vector3::DOWN);
+				constraint->SetHighLimit(Vector2(45.0f, 0));
+				constraint->SetLowLimit(Vector2(-45.0f, 0));
 			}
 		}
 	}

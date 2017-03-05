@@ -39,7 +39,7 @@
 //TODO:
 //Compass
 //NPC
-	//AI
+	//BLOOD!
 	//Sound bytes
 	//Optimize skin selection
 //Door

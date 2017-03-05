@@ -72,8 +72,11 @@ void Gameplay::Start()
 	debugHud->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
 	debugHud->SetMode(DEBUGHUD_SHOW_PROFILER);
 #endif
+	debugRenderer = scene_->GetComponent<DebugRenderer>();
 	
 	MakeHUD(scene_->GetVar("Screen Width").GetInt(), scene_->GetVar("Screen Height").GetInt());
+
+	SubscribeToEvent(E_POSTRENDERUPDATE, URHO3D_HANDLER(Gameplay, AfterRenderUpdate));
 }
 
 void Gameplay::SetupGame()
@@ -187,6 +190,7 @@ void Gameplay::SetupCrosses()
 
 void Gameplay::FixedUpdate(float timeStep)
 {
+
 	UpdateHUD(timeStep);
 	if (skybox)
 	{
@@ -322,4 +326,9 @@ void Gameplay::SetOnFloor(Node* n, Vector3 pos)
 		std::cout << "A CROSS IS OUT OF BOUNDS" << std::endl;
 		n->SetWorldPosition(pos);
 	}
+}
+
+void Gameplay::AfterRenderUpdate(StringHash eventType, VariantMap& eventData)
+{
+	//scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
 }

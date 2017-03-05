@@ -48,6 +48,7 @@ public:
 	void FlashScreen(Color c, float spd);
 	~Gameplay();
 protected:
+	void AfterRenderUpdate(StringHash eventType, VariantMap& eventData);
 	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);
 	void SetOnFloor(Node* n, Vector3 pos);
 	void UpdateHUD(float timeStep);
@@ -59,5 +60,6 @@ protected:
 
 	SharedPtr<Sprite> crossIcon;
 	SharedPtr<Text> crossCounter;
+	SharedPtr<DebugRenderer> debugRenderer;
 };
 

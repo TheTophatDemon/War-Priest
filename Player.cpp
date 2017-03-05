@@ -27,6 +27,7 @@
 
 #include "Gameplay.h"
 #include "Actor.h"
+#include "NPC.h"
 
 using namespace Urho3D;
 
@@ -50,6 +51,7 @@ void Player::Start()
 	body = node_->GetComponent<RigidBody>();
 	scene = GetScene();
 	cameraNode = node_->GetChild("camera");
+	camera = cameraNode->GetComponent<Camera>();
 	arms = cameraNode->GetChild("arms");
 
 	if (!node_->HasComponent<Actor>())
@@ -93,6 +95,27 @@ void Player::FixedUpdate(float timeStep)
 	cameraNode->SetRotation(Quaternion(cameraPitch, Vector3::RIGHT));
 }
 
+void Player::FireWeapon()
+{
+	PhysicsRaycastResult result;
+	physworld->RaycastSingle(result, camera->GetScreenRay(0.5f, 0.5f), 650.0f, 4U);
+	if (result.body_)
+	{
+		Node* node = result.body_->GetNode();
+		if (node)
+		{
+			if (node->HasComponent<NPC>())
+			{
+				NPC* npc = node->GetComponent<NPC>();
+				result.body_->ApplyImpulse((Vector3::UP * 500.0f) + (-result.normal_ * 250.0f));
+				result.body_->SetAngularVelocity(Vector3::ONE * 2.5f);
+				npc->ChangeState(2, 1000);
+				game->FlashScreen(Color(1.0f, 0.0f, 0.0f, 0.7f), 0.03f);
+			}
+		}
+	}
+}
+
 void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
@@ -105,12 +128,14 @@ void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)
 	{
 	case 0:
 		leftMuzzleFlash->SetEmitting(true);
+		FireWeapon();
 		break;
 	case 1:
 		leftMuzzleFlash->SetEmitting(false);
 		break;
 	case 2:
 		rightMuzzleFlash->SetEmitting(true);
+		FireWeapon();
 		break;
 	case 3:
 		rightMuzzleFlash->SetEmitting(false);

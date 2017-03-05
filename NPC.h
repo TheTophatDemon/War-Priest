@@ -5,6 +5,7 @@
 #include <Urho3D/Scene/Node.h>
 #include <Urho3D/Graphics/AnimatedModel.h>
 #include <Urho3D/Graphics/AnimationController.h>
+#include <Urho3D/Physics/RigidBody.h>
 
 using namespace Urho3D;
 
@@ -19,12 +20,14 @@ public:
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
+	void ChangeState(int newState, int timer);
 	~NPC();
 protected:
-	void ChangeState(int newState, int timer);
+	void MakeRagdoll();
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	SharedPtr<Node> modelNode;
 	SharedPtr<Actor> actor;
+	SharedPtr<RigidBody> body;
 	SharedPtr<AnimatedModel> animatedModel;
 	SharedPtr<AnimationController> animController;
 	WeakPtr<Gameplay> game;

@@ -27,9 +27,11 @@ public:
 protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnAnimTrigger(StringHash eventType, VariantMap& eventData);
+	void FireWeapon();
 
 	SharedPtr<Node> arms;
 	SharedPtr<Node> cameraNode;
+	SharedPtr<Camera> camera;
 	SharedPtr<Scene> scene;
 	SharedPtr<ParticleEmitter> leftMuzzleFlash;
 	SharedPtr<ParticleEmitter> rightMuzzleFlash;
