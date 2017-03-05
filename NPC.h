@@ -24,13 +24,18 @@ public:
 	~NPC();
 protected:
 	void MakeRagdoll();
+	void HandleTurn();
+	void Die();
 	void OnCollision(StringHash eventType, VariantMap& eventData);
+
 	SharedPtr<Node> modelNode;
 	SharedPtr<Actor> actor;
 	SharedPtr<RigidBody> body;
 	SharedPtr<AnimatedModel> animatedModel;
 	SharedPtr<AnimationController> animController;
 	WeakPtr<Gameplay> game;
+	WeakPtr<ResourceCache> cache;
+
 	String resourcePath;
 	float turn = 0.0f;
 	int turnTimer = 0;

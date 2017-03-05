@@ -39,7 +39,6 @@
 //TODO:
 //Compass
 //NPC
-	//BLOOD!
 	//Sound bytes
 	//Optimize skin selection
 //Door

@@ -66,11 +66,13 @@ void Gameplay::Start()
 	renderer->SetViewport(0, viewport);
 	renderer->GetDefaultRenderPath()->Append(cache->GetResource<XMLFile>("PostProcess/screenflash.xml"));
 	renderer->GetDefaultRenderPath()->SetShaderParameter("FlashColor", Color(0.0f, 0.0f, 0.0f, 0.0f));
+	renderer->SetDrawShadows(false);
+	renderer->SetTextureAnisotropy(0);
 
 	debugHud = engine_->CreateDebugHud();
 #if _DEBUG
 	debugHud->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
-	debugHud->SetMode(DEBUGHUD_SHOW_PROFILER);
+	debugHud->SetMode(DEBUGHUD_SHOW_ALL);
 #endif
 	debugRenderer = scene_->GetComponent<DebugRenderer>();
 	

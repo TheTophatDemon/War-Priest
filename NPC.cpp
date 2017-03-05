@@ -15,6 +15,9 @@
 #include <Urho3D/Physics/PhysicsWorld.h>
 #include <Urho3D/Graphics/AnimationState.h>
 #include <Urho3D/Graphics/Animation.h>
+#include <Urho3D/Graphics/ParticleEffect.h>
+#include <Urho3D/Graphics/ParticleEmitter.h>
+#include <Urho3D/Resource/ResourceCache.h>
 #include <iostream>
 
 #include "Actor.h"
@@ -69,6 +72,7 @@ void NPC::Start()
 
 	game = GetScene()->GetComponent<Gameplay>();
 	body = node_->GetComponent<RigidBody>();
+	cache = GetSubsystem<ResourceCache>();
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(NPC, OnCollision));
 }
@@ -94,39 +98,13 @@ void NPC::FixedUpdate(float timeStep)
 			break;
 		default:
 			actor->Move(false, false, false, false, false, timeStep);
-			//animController->Play(resourcePath + "/npc_stand.ani", 0, true, 0.5f);
 			if (stateTimer < 0)
 				ChangeState(STATE_WALK, Random(50, 200));
 			break;
 		}
-
 		if (state == STATE_WALK || state == STATE_IDLE)
 		{
-			if (turn != 0.0f)
-			{
-				node_->Rotate(Quaternion(Sign(turn) * TURNAMOUNT, Vector3::UP));
-				if (turn > 0.0f)
-				{
-					turn -= TURNAMOUNT;
-				}
-				else
-				{
-					turn += TURNAMOUNT;
-				}
-				if (fabs(turn) <= TURNAMOUNT)
-				{
-					turn = 0.0f;
-				}
-			}
-			else
-			{
-				turnTimer -= 1;
-				if (turnTimer < 0)
-				{
-					turnTimer = Random(5, 250);
-					turn = Random(-135.0f, 135.0f);
-				}
-			}
+			HandleTurn();
 		}
 	}
 }
@@ -143,16 +121,35 @@ void NPC::ChangeState(int newState, int timer)
 			animController->PlayExclusive(resourcePath + "/npc_walk.ani", 0, true, 0.5f);
 			break;
 		case STATE_DEAD:
-			animController->Remove();
-			body->SetAngularFactor(Vector3::ONE);
-			body->SetUseGravity(true);
-			body->SetFriction(0.5f);
+			Die();
 			break;
 		default:
 			animController->PlayExclusive(resourcePath + "/npc_stand.ani", 0, true, 0.5f);
 			break;
 		}
 	}
+}
+
+void NPC::Die()
+{
+	int chance = floor(Random(0, 500));
+	animController->Remove();
+	//Make limp
+	if (chance != 1)
+	{
+		body->SetAngularFactor(Vector3::ONE);
+		body->SetUseGravity(true);
+		body->SetFriction(0.5f);
+	}
+	else
+	{
+		MakeRagdoll();
+	}
+	//Make blood
+	Node* em = node_->CreateChild();
+	em->SetPosition(Vector3(0.0f, 1.5f, 0.0f));
+	ParticleEmitter* p = em->CreateComponent<ParticleEmitter>();
+	p->SetEffect(cache->GetResource<ParticleEffect>("Particles/blood.xml"));
 }
 
 void NPC::OnCollision(StringHash eventType, VariantMap& eventData)
@@ -172,6 +169,35 @@ void NPC::OnCollision(StringHash eventType, VariantMap& eventData)
 			{
 				turn = 90.0f;
 			}
+		}
+	}
+}
+
+void NPC::HandleTurn()
+{
+	if (turn != 0.0f)
+	{
+		node_->Rotate(Quaternion(Sign(turn) * TURNAMOUNT, Vector3::UP));
+		if (turn > 0.0f)
+		{
+			turn -= TURNAMOUNT;
+		}
+		else
+		{
+			turn += TURNAMOUNT;
+		}
+		if (fabs(turn) <= TURNAMOUNT)
+		{
+			turn = 0.0f;
+		}
+	}
+	else
+	{
+		turnTimer -= 1;
+		if (turnTimer < 0)
+		{
+			turnTimer = Random(5, 250);
+			turn = Random(-135.0f, 135.0f);
 		}
 	}
 }
@@ -196,18 +222,6 @@ void NPC::MakeRagdoll()
 			body->SetMass(1.0f);
 			body->SetLinearRestThreshold(1.5f);
 			body->SetAngularRestThreshold(2.5f);
-			if (child->GetName() != "torso") 
-			{
-				Constraint* constraint = child->CreateComponent<Constraint>();
-				constraint->SetConstraintType(ConstraintType::CONSTRAINT_HINGE);
-				constraint->SetDisableCollision(true);
-				constraint->SetOtherBody(child->GetParent()->GetComponent<RigidBody>());
-				constraint->SetWorldPosition(child->GetWorldPosition());
-				constraint->SetAxis(Vector3::DOWN);
-				constraint->SetOtherAxis(Vector3::DOWN);
-				constraint->SetHighLimit(Vector2(45.0f, 0));
-				constraint->SetLowLimit(Vector2(-45.0f, 0));
-			}
 		}
 	}
 }

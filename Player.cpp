@@ -102,16 +102,13 @@ void Player::FireWeapon()
 	if (result.body_)
 	{
 		Node* node = result.body_->GetNode();
-		if (node)
+		if (node->HasComponent<NPC>())
 		{
-			if (node->HasComponent<NPC>())
-			{
-				NPC* npc = node->GetComponent<NPC>();
-				result.body_->ApplyImpulse((Vector3::UP * 500.0f) + (-result.normal_ * 250.0f));
-				result.body_->SetAngularVelocity(Vector3::ONE * 2.5f);
-				npc->ChangeState(2, 1000);
-				game->FlashScreen(Color(1.0f, 0.0f, 0.0f, 0.7f), 0.03f);
-			}
+			NPC* npc = node->GetComponent<NPC>();
+			npc->ChangeState(2, 1000);
+			result.body_->ApplyImpulse((Vector3::UP * 500.0f) + (-result.normal_ * 950.0f));
+			result.body_->SetAngularVelocity(Vector3::ONE * 2.5f);
+			game->FlashScreen(Color(1.0f, 0.0f, 0.0f, 0.7f), 0.02f);
 		}
 	}
 }
