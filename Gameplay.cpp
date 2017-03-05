@@ -26,6 +26,7 @@
 #include <Urho3D/Graphics/View.h>
 #include <Urho3D/Graphics/RenderPath.h>
 #include <Urho3D/Graphics/StaticModelGroup.h>
+#include <Urho3D/IO/FileSystem.h>
 
 #include <iostream>
 
@@ -176,7 +177,6 @@ void Gameplay::SetupCrosses()
 			crossGroup->AddInstanceNode(child);
 		}
 	}
-
 	//Make the crosses glowy
 	SharedPtr<ValueAnimation> colorAnimation(new ValueAnimation(context_));
 	colorAnimation->SetKeyFrame(0.0f, Color::BLACK);

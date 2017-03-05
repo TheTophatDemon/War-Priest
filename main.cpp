@@ -40,7 +40,9 @@
 //Compass
 //NPC
 	//AI
+	//Sound bytes
 	//Optimize skin selection
+//Door
 
 using namespace Urho3D;
 

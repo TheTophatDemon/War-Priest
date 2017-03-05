@@ -9,6 +9,7 @@
 using namespace Urho3D;
 
 class Actor;
+class Gameplay;
 class NPC : public LogicComponent
 {
 public:
@@ -20,12 +21,18 @@ public:
 	virtual void FixedUpdate(float timeStep);
 	~NPC();
 protected:
+	void ChangeState(int newState, int timer);
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	SharedPtr<Node> modelNode;
 	SharedPtr<Actor> actor;
 	SharedPtr<AnimatedModel> animatedModel;
 	SharedPtr<AnimationController> animController;
+	WeakPtr<Gameplay> game;
 	String resourcePath;
-	int modelIndex;
+	float turn = 0.0f;
+	int turnTimer = 0;
+	int modelIndex = 0;
+	int state = 0;
+	int stateTimer = 0;
 };
 
