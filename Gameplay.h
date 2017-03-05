@@ -53,6 +53,7 @@ protected:
 	void SetOnFloor(Node* n, Vector3 pos);
 	void UpdateHUD(float timeStep);
 	void SetupCrosses();
+	int* GetSkinInfo();
 	SharedPtr<Node> skybox;
 	Color flashColor;
 	float flashSpeed;

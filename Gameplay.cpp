@@ -93,6 +93,8 @@ void Gameplay::SetupGame()
 
 	SetupCrosses();
 
+	int* skinInfo = GetSkinInfo();
+
 	//Spawn NPCs
 	PODVector<Node*> npcs;
 	scene_->GetChildrenWithTag(npcs, "npc", true);
@@ -105,7 +107,7 @@ void Gameplay::SetupGame()
 		npc->SetWorldTransform(transform.Translation(), transform.Rotation(), Vector3::ONE);
 
 		int model = 0;
-		int skin = floor(Random() * 3);
+		int skin = floor(Random() * skinInfo[model]);
 		String path = "Npcs/model";
 		path += model;
 		path += "/skin";
@@ -117,6 +119,36 @@ void Gameplay::SetupGame()
 
 		npc->CreateComponent<NPC>();
 	}
+
+	delete[] skinInfo;
+}
+
+int* Gameplay::GetSkinInfo()
+{
+	//Get NPC skin information
+	FileSystem* fs = GetSubsystem<FileSystem>();
+
+	//Get number of models
+	StringVector modelDir;
+	fs->ScanDir(modelDir, fs->GetProgramDir() + "Data/Npcs/", "", SCAN_DIRS, false);
+	int numModels = 0;
+	for (StringVector::Iterator i = modelDir.Begin(); i != modelDir.End(); ++i)
+	{
+		String dir = (String)*i;
+		if (dir.Contains('.', false))
+			continue;
+		if (dir.Contains("model", false))
+			numModels += 1;
+	}
+	int* data = new int[numModels];
+	for (int i = 0; i < numModels; ++i)
+	{
+		StringVector skinDir;
+		fs->ScanDir(skinDir, fs->GetProgramDir() + "Data/Npcs/model" + String(i), ".png", SCAN_FILES, false);
+		data[i] = skinDir.Size();
+	}
+
+	return data;
 }
 
 void Gameplay::SetupCrosses()

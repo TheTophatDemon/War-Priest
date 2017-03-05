@@ -66,6 +66,7 @@ void NPC::Start()
 
 	modelIndex = node_->GetVar("MODEL").GetInt();
 	resourcePath = "Npcs/model"; resourcePath += modelIndex;
+
 	actor->maxspeed = 5.0f;
 	animatedModel = modelNode->GetComponent<AnimatedModel>();
 	animController->Play(resourcePath + "/npc_stand.ani", 0, true, 0.5f);
@@ -80,7 +81,7 @@ void NPC::Start()
 void NPC::FixedUpdate(float timeStep)
 {
 	float dist = (node_->GetWorldPosition() - game->playerNode->GetWorldPosition()).Length();
-	if (dist < 250.0f) 
+	if (dist < 100.0f) 
 	{
 		stateTimer -= 1;
 		switch (state)
@@ -106,6 +107,10 @@ void NPC::FixedUpdate(float timeStep)
 		{
 			HandleTurn();
 		}
+	}
+	else
+	{
+		body->SetLinearVelocity(Vector3::ZERO);
 	}
 }
 

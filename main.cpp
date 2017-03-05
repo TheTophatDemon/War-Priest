@@ -40,8 +40,8 @@
 //Compass
 //NPC
 	//Sound bytes
-	//Optimize skin selection
 //Door
+//The raycast is off
 
 using namespace Urho3D;
 
