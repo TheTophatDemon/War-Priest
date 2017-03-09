@@ -26,7 +26,11 @@
 #include <Urho3D/Graphics/View.h>
 #include <Urho3D/Graphics/RenderPath.h>
 #include <Urho3D/Graphics/StaticModelGroup.h>
+#include <Urho3D/Audio/SoundSource3D.h>
+#include <Urho3D/Audio/SoundListener.h>
+#include <Urho3D/Audio/Sound.h>
 #include <Urho3D/IO/FileSystem.h>
+
 
 #include <iostream>
 
@@ -56,6 +60,7 @@ void Gameplay::Start()
 	input = engine_->GetSubsystem<Input>();
 	scene_ = SharedPtr<Scene>(GetScene());
 	renderer = WeakPtr<Renderer>(GetSubsystem<Renderer>());
+	audio = GetSubsystem<Audio>();
 
 	input->SetMouseGrabbed(true);
 
@@ -85,6 +90,7 @@ void Gameplay::SetupGame()
 {
 	playerNode = scene_->GetChild("player");
 	player = playerNode->CreateComponent<Player>();
+	audio->SetListener(player->GetComponent<SoundListener>());
 	cameraNode = playerNode->GetChild("camera");
 	camera = cameraNode->GetComponent<Camera>();
 	player->input = input;
@@ -93,38 +99,6 @@ void Gameplay::SetupGame()
 
 	SetupCrosses();
 
-	int* skinInfo = GetSkinInfo();
-
-	//Spawn NPCs
-	PODVector<Node*> npcs;
-	scene_->GetChildrenWithTag(npcs, "npc", true);
-	XMLFile* npcObject = cache->GetResource<XMLFile>("Objects/npc.xml");
-	for (PODVector<Node*>::Iterator i = npcs.Begin(); i != npcs.End(); ++i)
-	{
-		Node* npc = (Node*)*i;
-		Matrix3x4 transform = npc->GetWorldTransform();
-		npc->LoadXML(npcObject->GetRoot());
-		npc->SetWorldTransform(transform.Translation(), transform.Rotation(), Vector3::ONE);
-
-		int model = 0;
-		int skin = floor(Random() * skinInfo[model]);
-		String path = "Npcs/model";
-		path += model;
-		path += "/skin";
-		path += skin;
-		path += ".xml";
-		Material* mat = cache->GetResource<Material>(path);
-		npc->GetChild("model")->GetComponent<AnimatedModel>()->SetMaterial(mat);
-		npc->SetVar("MODEL", model);
-
-		npc->CreateComponent<NPC>();
-	}
-
-	delete[] skinInfo;
-}
-
-int* Gameplay::GetSkinInfo()
-{
 	//Get NPC skin information
 	FileSystem* fs = GetSubsystem<FileSystem>();
 
@@ -140,15 +114,52 @@ int* Gameplay::GetSkinInfo()
 		if (dir.Contains("model", false))
 			numModels += 1;
 	}
-	int* data = new int[numModels];
+	//Get number of skins
+	int modelInfo[16][2];
 	for (int i = 0; i < numModels; ++i)
 	{
 		StringVector skinDir;
-		fs->ScanDir(skinDir, fs->GetProgramDir() + "Data/Npcs/model" + String(i), ".png", SCAN_FILES, false);
-		data[i] = skinDir.Size();
+		fs->ScanDir(skinDir, fs->GetProgramDir() + "Data/Npcs/model" + String(i), "", SCAN_FILES, false);
+		int numSkins = 0; int numVoices = 0;
+		for (StringVector::Iterator j = skinDir.Begin(); j != skinDir.End(); ++j)
+		{
+			String f = String(*j);
+			if (f.Contains(".png"))
+				numSkins += 1;
+			if (f.Contains(".wav")) 
+			{
+				numVoices += 1;
+			}
+		}
+		modelInfo[i][0] = numSkins;
+		modelInfo[i][1] = numVoices;
 	}
 
-	return data;
+	//Spawn NPCs
+	PODVector<Node*> npcs;
+	scene_->GetChildrenWithTag(npcs, "npc", true);
+	XMLFile* npcObject = cache->GetResource<XMLFile>("Objects/npc.xml");
+	for (PODVector<Node*>::Iterator i = npcs.Begin(); i != npcs.End(); ++i)
+	{
+		Node* npc = (Node*)*i;
+		Matrix3x4 transform = npc->GetWorldTransform();
+		npc->LoadXML(npcObject->GetRoot());
+		npc->SetWorldTransform(transform.Translation(), transform.Rotation(), Vector3::ONE);
+
+		int model = 0;
+		int skin = floor(Random() * modelInfo[model][0]);
+		int voice = floor(Random() * modelInfo[model][1]);
+
+		String path = "Npcs/model"; path += model; path += "/skin"; path += skin; path += ".xml";
+		Material* mat = cache->GetResource<Material>(path);
+		npc->GetChild("model")->GetComponent<AnimatedModel>()->SetMaterial(mat);
+
+		npc->SetVar("MODEL", model);
+		npc->SetVar("VOICE", voice);
+		npc->SetVar("SKIN", skin);
+
+		npc->CreateComponent<NPC>();
+	}
 }
 
 void Gameplay::SetupCrosses()
@@ -224,7 +235,7 @@ void Gameplay::SetupCrosses()
 
 void Gameplay::FixedUpdate(float timeStep)
 {
-
+	audio->SetMasterGain("VOICE", scene_->GetVar("VOICE VOLUME").GetFloat());
 	UpdateHUD(timeStep);
 	if (skybox)
 	{
@@ -260,6 +271,7 @@ void Gameplay::GetSettings()
 	scene_->SetVar("RIGHT KEY", KEY_D);
 	scene_->SetVar("LEFT KEY", KEY_A);
 	scene_->SetVar("JUMP KEY", KEY_SPACE);
+	scene_->SetVar("VOICE VOLUME", 0.5f);
 }
 
 void Gameplay::MakeHUD(int width, int height)

@@ -18,6 +18,8 @@
 #include <Urho3D/Graphics/ParticleEffect.h>
 #include <Urho3D/Graphics/ParticleEmitter.h>
 #include <Urho3D/Resource/ResourceCache.h>
+#include <Urho3D/Audio/SoundListener.h>
+#include <Urho3D/Audio/SoundSource.h>
 #include <iostream>
 
 #include "Actor.h"
@@ -67,6 +69,15 @@ void NPC::Start()
 	modelIndex = node_->GetVar("MODEL").GetInt();
 	resourcePath = "Npcs/model"; resourcePath += modelIndex;
 
+	if (!node_->HasComponent<SoundSource3D>())
+		node_->CreateComponent<SoundSource3D>();
+	else
+		soundSource = node_->GetComponent<SoundSource3D>();
+
+	soundSource->SetFarDistance(25.0f);
+	soundSource->SetNearDistance(1.0f);
+	soundSource->SetSoundType("VOICE");
+
 	actor->maxspeed = 5.0f;
 	animatedModel = modelNode->GetComponent<AnimatedModel>();
 	animController->Play(resourcePath + "/npc_stand.ani", 0, true, 0.5f);
@@ -74,6 +85,10 @@ void NPC::Start()
 	game = GetScene()->GetComponent<Gameplay>();
 	body = node_->GetComponent<RigidBody>();
 	cache = GetSubsystem<ResourceCache>();
+
+	int voiceIndex = node_->GetVar("VOICE").GetInt();
+	String path = resourcePath + "/voice" + String(voiceIndex) + ".wav";
+	voice = cache->GetResource<Sound>(path);
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(NPC, OnCollision));
 }
@@ -83,6 +98,8 @@ void NPC::FixedUpdate(float timeStep)
 	float dist = (node_->GetWorldPosition() - game->playerNode->GetWorldPosition()).Length();
 	if (dist < 100.0f) 
 	{
+		if (!body->IsEnabled())
+			body->SetEnabled(true);
 		stateTimer -= 1;
 		switch (state)
 		{
@@ -107,10 +124,14 @@ void NPC::FixedUpdate(float timeStep)
 		{
 			HandleTurn();
 		}
+
+		if (floor(Random()*60.0f) == 1)
+			soundSource->Play(voice);
 	}
 	else
 	{
-		body->SetLinearVelocity(Vector3::ZERO);
+		body->SetEnabled(false);
+		//body->SetLinearVelocity(Vector3::ZERO);
 	}
 }
 

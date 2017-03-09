@@ -38,10 +38,11 @@
 
 //TODO:
 //Compass
-//NPC
-	//Sound bytes
 //Door
-//The raycast is off
+//Optimizations
+	//Less physics
+	//Lower physicsworld fps if possible
+	//Disable UI subsystem?
 
 using namespace Urho3D;
 

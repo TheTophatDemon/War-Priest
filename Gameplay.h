@@ -13,6 +13,7 @@
 #include <Urho3D/Engine/DebugHud.h>
 #include <Urho3D/UI/Sprite.h>
 #include <Urho3D/Scene/ValueAnimation.h>
+#include <Urho3D/Audio/Audio.h>
 
 
 using namespace Urho3D;
@@ -32,6 +33,7 @@ public:
 	SharedPtr<Viewport> viewport;
 	WeakPtr<Renderer> renderer;
 	WeakPtr<DebugHud> debugHud;
+	WeakPtr<Audio> audio;
 
 	WeakPtr<Sprite> crosshair;
 
@@ -53,7 +55,6 @@ protected:
 	void SetOnFloor(Node* n, Vector3 pos);
 	void UpdateHUD(float timeStep);
 	void SetupCrosses();
-	int* GetSkinInfo();
 	SharedPtr<Node> skybox;
 	Color flashColor;
 	float flashSpeed;

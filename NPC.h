@@ -6,6 +6,8 @@
 #include <Urho3D/Graphics/AnimatedModel.h>
 #include <Urho3D/Graphics/AnimationController.h>
 #include <Urho3D/Physics/RigidBody.h>
+#include <Urho3D/Audio/Sound.h>
+#include <Urho3D/Audio/SoundSource3D.h>
 
 using namespace Urho3D;
 
@@ -29,6 +31,8 @@ protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 
 	SharedPtr<Node> modelNode;
+	WeakPtr<Sound> voice;
+	SharedPtr<SoundSource3D> soundSource;
 	SharedPtr<Actor> actor;
 	SharedPtr<RigidBody> body;
 	SharedPtr<AnimatedModel> animatedModel;
