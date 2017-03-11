@@ -39,6 +39,11 @@
 //TODO:
 //Compass
 //Door
+//Boulder Model: Beveled and textured. Make it slightly translucent as well.
+//Summon boulder back to current position
+//NPCs run away if too close
+
+
 //Optimizations
 	//Less physics
 	//Lower physicsworld fps if possible

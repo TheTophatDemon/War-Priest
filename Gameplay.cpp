@@ -95,6 +95,8 @@ void Gameplay::SetupGame()
 	camera = cameraNode->GetComponent<Camera>();
 	player->input = input;
 
+	boulderNode = scene_->GetChild("boulder");
+
 	skybox = scene_->GetChild("skybox");
 
 	SetupCrosses();

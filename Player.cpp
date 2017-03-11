@@ -106,9 +106,12 @@ void Player::FireWeapon()
 		{
 			NPC* npc = node->GetComponent<NPC>();
 			npc->ChangeState(2, 1000);
+			game->FlashScreen(Color(1.0f, 0.0f, 0.0f, 0.7f), 0.02f);
+		}
+		if (node->HasTag("shootable"))
+		{
 			result.body_->ApplyImpulse((Vector3::UP * 500.0f) + (-result.normal_ * 950.0f));
 			result.body_->SetAngularVelocity(Vector3::ONE * 2.5f);
-			game->FlashScreen(Color(1.0f, 0.0f, 0.0f, 0.7f), 0.02f);
 		}
 	}
 }

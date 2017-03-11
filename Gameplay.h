@@ -39,6 +39,7 @@ public:
 
 	SharedPtr<Node> playerNode;
 	WeakPtr<Player> player;
+	SharedPtr<Node> boulderNode;
 
 	Gameplay(Context* context);
 	static void RegisterObject(Context* context);

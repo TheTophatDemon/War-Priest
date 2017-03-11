@@ -25,19 +25,30 @@ void Cross::RegisterObject(Context* context)
 void Cross::Start()
 {
 	origin = node_->GetPosition().y_;
-	playerNode = node_->GetScene()->GetChild("player");
+	boulderNode = GetScene()->GetComponent<Gameplay>()->boulderNode;
+	playerNode = GetScene()->GetComponent<Gameplay>()->playerNode;
 }
 
 void Cross::FixedUpdate(float timeStep)
 {
 	bob += timeStep;
-	node_->Rotate(Quaternion(timeStep * 75.0f, Vector3::UP));
-	node_->SetPosition(Vector3(node_->GetPosition().x_, origin + (sinf(bob * 5.0f)) * 0.25f, node_->GetPosition().z_));
-	if ((playerNode->GetWorldPosition() - node_->GetWorldPosition()).Length() < 1.5f)
+	
+	Vector3 difference = (boulderNode->GetWorldPosition() - node_->GetWorldPosition());
+	float distanceFromBoulder = difference.Length();
+	if (distanceFromBoulder < 3.0f)
 	{
 		node_->GetScene()->GetComponent<Gameplay>()->FlashScreen(Color(0.7f, 0.7f, 0.8f, 0.85f), 0.025f);
 		playerNode->SetVar("Cross Count", playerNode->GetVar("Cross Count").GetInt() + 1);
 		node_->Remove();
+	}
+	else if (distanceFromBoulder < 6.0f)
+	{
+		node_->Translate(difference.Normalized() * 0.5f, TS_WORLD);
+	}
+	else
+	{
+		node_->Rotate(Quaternion(timeStep * 75.0f, Vector3::UP));
+		node_->SetPosition(Vector3(node_->GetPosition().x_, origin + (sinf(bob * 5.0f)) * 0.25f, node_->GetPosition().z_));
 	}
 }
 

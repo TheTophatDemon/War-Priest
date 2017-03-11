@@ -31,7 +31,7 @@ protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 
 	SharedPtr<Node> modelNode;
-	WeakPtr<Sound> voice;
+	SharedPtr<Sound> voice;
 	SharedPtr<SoundSource3D> soundSource;
 	SharedPtr<Actor> actor;
 	SharedPtr<RigidBody> body;

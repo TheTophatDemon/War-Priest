@@ -16,8 +16,8 @@ using namespace Urho3D;
 
 Actor::Actor(Context* context) : LogicComponent(context)
 {
-	acceleration = 1.0f;
-	maxspeed = 10.0f;
+	acceleration = 2.0f;
+	maxspeed = 15.0f;
 	friction = 0.85f;
 	fallspeed = 0.4f;
 	maxfall = 120.0f;

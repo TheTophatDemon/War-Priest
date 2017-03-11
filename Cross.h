@@ -17,6 +17,7 @@ public:
 	virtual void FixedUpdate(float timeStep);
 	~Cross();
 protected:
+	SharedPtr<Node> boulderNode;
 	SharedPtr<Node> playerNode;
 	float bob;
 	float origin;
