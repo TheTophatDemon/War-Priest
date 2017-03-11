@@ -35,12 +35,13 @@
 #include "Cross.h"
 #include "NPC.h"
 #include "Actor.h"
+#include "TempEffect.h"
 
 //TODO:
 //Compass
 //Door
-//Boulder Model: Beveled and textured. Make it slightly translucent as well.
-//Summon boulder back to current position
+//Boulder Model: Textured. Make it slightly translucent as well.
+//Make boulder flash on cross collect
 //NPCs run away if too close
 
 
@@ -65,6 +66,7 @@ public:
 		Player::RegisterObject(context);
 		Cross::RegisterObject(context);
 		NPC::RegisterObject(context);
+		TempEffect::RegisterObject(context);
 	}
 	virtual void Setup()
 	{
@@ -106,6 +108,4 @@ public:
 	{
 		
 	}
-};
-
-URHO3D_DEFINE_APPLICATION_MAIN(GunPriest);
+};URHO3D_DEFINE_APPLICATION_MAIN(GunPriest);

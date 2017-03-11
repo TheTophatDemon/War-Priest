@@ -28,6 +28,7 @@ protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnAnimTrigger(StringHash eventType, VariantMap& eventData);
 	void FireWeapon();
+	void SummonBoulder();
 
 	SharedPtr<Node> arms;
 	SharedPtr<Node> cameraNode;

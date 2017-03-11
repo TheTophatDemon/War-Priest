@@ -87,8 +87,7 @@ void NPC::Start()
 	cache = GetSubsystem<ResourceCache>();
 
 	int voiceIndex = node_->GetVar("VOICE").GetInt();
-	String path = resourcePath + "/voice" + String(voiceIndex) + ".wav";
-	voice = cache->GetResource<Sound>(path);
+	voice = resourcePath + "/voice" + String(voiceIndex) + ".wav";
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(NPC, OnCollision));
 }
@@ -126,7 +125,7 @@ void NPC::FixedUpdate(float timeStep)
 		}
 
 		if (floor(Random()*60.0f) == 1)
-			soundSource->Play(voice);
+			soundSource->Play(cache->GetResource<Sound>(voice));
 	}
 	else
 	{

@@ -28,6 +28,7 @@
 #include "Gameplay.h"
 #include "Actor.h"
 #include "NPC.h"
+#include "TempEffect.h"
 
 using namespace Urho3D;
 
@@ -87,6 +88,11 @@ void Player::FixedUpdate(float timeStep)
 	bool jumpKey = input->GetKeyDown(scene->GetVar("JUMP KEY").GetInt());
 	actor->Move(forwardKey, backwardKey, rightKey, leftKey, jumpKey, timeStep);
 
+	if (input->GetMouseButtonDown(MOUSEB_RIGHT) || game->boulderNode->GetWorldPosition().y_ < -100.0f)
+	{
+		SummonBoulder();
+	}
+
 	float sensitivity = scene->GetVar("MOUSE SENSITIVITY").GetFloat();
 	cameraPitch += input->GetMouseMoveY() * sensitivity;
 	if (cameraPitch > PITCH_LIMIT) cameraPitch = PITCH_LIMIT;
@@ -141,6 +147,17 @@ void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)
 		rightMuzzleFlash->SetEmitting(false);
 		break;
 	}
+}
+
+void Player::SummonBoulder()
+{
+	game->boulderNode->SetPosition(node_->GetWorldPosition() + (node_->GetRotation() * Vector3(0.0f, 2.0f, 2.0f)));
+	game->boulderNode->GetComponent<RigidBody>()->SetLinearVelocity(Vector3::ZERO);
+	Node* node = scene->CreateChild();
+	node->SetPosition(game->boulderNode->GetWorldPosition());
+	node->SetVar("EFFECT NAME", "Particles/smoke.xml");
+	node->SetVar("TIME", 0.5f);
+	node->CreateComponent<TempEffect>();
 }
 
 Player::~Player()
