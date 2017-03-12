@@ -21,7 +21,7 @@
 #include <Urho3D\Physics\PhysicsUtils.h>
 #include <Urho3D/Math/Matrix3x4.h>
 #include <Urho3D/Math/MathDefs.h>
-#include <Urho3D\Resource\ResourceCache.h>
+#include <Urho3D/Graphics/ParticleEffect.h>
 
 #include <iostream>
 
@@ -55,6 +55,7 @@ void Player::Start()
 	cameraNode = node_->GetChild("camera");
 	camera = cameraNode->GetComponent<Camera>();
 	arms = cameraNode->GetChild("arms");
+	cache = GetSubsystem<ResourceCache>();
 
 	if (!node_->HasComponent<Actor>())
 	{
@@ -64,7 +65,12 @@ void Player::Start()
 	{
 		actor = node_->GetComponent<Actor>();
 	}
-	
+
+	shrapnel = scene->CreateChild();
+	shrapnelEmitter = shrapnel->CreateComponent<ParticleEmitter>();
+	shrapnelEmitter->SetEffect(cache->GetResource<ParticleEffect>("Particles/shrapnel.xml"));
+	shrapnelEmitter->SetEmitting(false);
+
 	if (arms) 
 	{
 		AnimationController* controller = arms->GetComponent<AnimationController>();
@@ -121,6 +127,12 @@ void Player::FireWeapon()
 		{
 			result.body_->ApplyImpulse((Vector3::UP * 200.0f) + (-result.normal_ * 600.0f));
 		}
+		//Make shrapnel
+		shrapnel->SetWorldPosition(result.position_);
+		Quaternion quaternion = Quaternion();
+		quaternion.FromLookRotation(-result.normal_, Vector3::UP);
+		shrapnel->SetRotation(quaternion);
+		shrapnelEmitter->SetEmitting(true);
 	}
 }
 
@@ -140,6 +152,7 @@ void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)
 		break;
 	case 1:
 		leftMuzzleFlash->SetEmitting(false);
+		shrapnelEmitter->SetEmitting(false);
 		break;
 	case 2:
 		rightMuzzleFlash->SetEmitting(true);
@@ -147,6 +160,7 @@ void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)
 		break;
 	case 3:
 		rightMuzzleFlash->SetEmitting(false);
+		shrapnelEmitter->SetEmitting(false);
 		break;
 	}
 }

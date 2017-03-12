@@ -41,6 +41,9 @@
 //TODO:
 //Compass
 //Door
+//Lose condition
+//Winning
+//Death (possibly by lava)
 
 //Optimizations
 	//Less physics

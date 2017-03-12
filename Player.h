@@ -7,6 +7,7 @@
 #include <Urho3D/Input/Input.h>
 #include <Urho3D/Physics/RigidBody.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
+#include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Graphics/ParticleEmitter.h>
 
 using namespace Urho3D;
@@ -34,12 +35,16 @@ protected:
 	SharedPtr<Node> cameraNode;
 	SharedPtr<Camera> camera;
 	SharedPtr<Scene> scene;
+	SharedPtr<ResourceCache> cache;
 	SharedPtr<ParticleEmitter> leftMuzzleFlash;
 	SharedPtr<ParticleEmitter> rightMuzzleFlash;
 	SharedPtr<Actor> actor;
 	WeakPtr<Gameplay> game;
 	WeakPtr<RigidBody> body;
 	WeakPtr<PhysicsWorld> physworld;
+
+	SharedPtr<Node> shrapnel;
+	SharedPtr<ParticleEmitter> shrapnelEmitter;
 
 	float cameraPitch = 0.0f;
 };
