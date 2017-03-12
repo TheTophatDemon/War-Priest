@@ -15,7 +15,6 @@ class Actor;
 class Gameplay;
 class NPC : public LogicComponent
 {
-public:
 	URHO3D_OBJECT(NPC, LogicComponent);
 public:
 	NPC(Context* context);

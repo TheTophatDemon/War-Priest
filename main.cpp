@@ -36,15 +36,13 @@
 #include "NPC.h"
 #include "Actor.h"
 #include "TempEffect.h"
+#include "Boulder.h"
 
 //TODO:
 //Compass
 //Door
-//Boulder Model: Textured. Make it slightly translucent as well.
-//Make boulder flash on cross collect
 //NPCs run away if too close
 //NPCs don't fall off cliffs!
-
 
 //Optimizations
 	//Less physics
@@ -68,6 +66,7 @@ public:
 		Cross::RegisterObject(context);
 		NPC::RegisterObject(context);
 		TempEffect::RegisterObject(context);
+		Boulder::RegisterObject(context);
 	}
 	virtual void Setup()
 	{

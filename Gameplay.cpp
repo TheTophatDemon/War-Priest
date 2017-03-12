@@ -37,6 +37,7 @@
 #include "Player.h"
 #include "Cross.h"
 #include "NPC.h"
+#include "Boulder.h"
 
 using namespace Urho3D;
 
@@ -99,6 +100,7 @@ void Gameplay::SetupGame()
 	boulderNode = scene_->GetChild("boulder");
 	Vector3 position = boulderNode->GetWorldPosition();
 	boulderNode->LoadXML(cache->GetResource<XMLFile>("Objects/boulder.xml")->GetRoot());
+	boulderNode->CreateComponent<Boulder>();
 	boulderNode->SetWorldPosition(position);
 
 	skybox = scene_->GetChild("skybox");

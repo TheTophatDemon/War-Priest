@@ -9,6 +9,7 @@
 #include <Urho3D/Scene/Scene.h>
 #include <Urho3D/Scene/SceneEvents.h>
 #include <Urho3D/Graphics/StaticModel.h>
+#include "Boulder.h"
 
 using namespace Urho3D;
 
@@ -24,20 +25,21 @@ void Cross::RegisterObject(Context* context)
 
 void Cross::Start()
 {
+	game = GetScene()->GetComponent<Gameplay>();
 	origin = node_->GetPosition().y_;
-	boulderNode = GetScene()->GetComponent<Gameplay>()->boulderNode;
-	playerNode = GetScene()->GetComponent<Gameplay>()->playerNode;
+	boulderNode = game->boulderNode;
+	playerNode = game->playerNode;
 }
 
 void Cross::FixedUpdate(float timeStep)
 {
 	bob += timeStep;
 	
-	Vector3 difference = (boulderNode->GetWorldPosition() - node_->GetWorldPosition());
+	Vector3 difference = (boulderNode->GetWorldPosition() - (node_->GetWorldPosition() + Vector3::UP));
 	float distanceFromBoulder = difference.Length();
-	if (distanceFromBoulder < 3.0f)
+	if (distanceFromBoulder < 0.5f)
 	{
-		node_->GetScene()->GetComponent<Gameplay>()->FlashScreen(Color(0.7f, 0.7f, 0.8f, 0.85f), 0.025f);
+		boulderNode->GetComponent<Boulder>()->Flash();
 		playerNode->SetVar("Cross Count", playerNode->GetVar("Cross Count").GetInt() + 1);
 		node_->Remove();
 	}

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<particleeffect>
+	<material name="Materials/muzzleflash.xml" />
+	<numparticles value="100" />
+	<updateinvisible enable="false" />
+	<relative enable="true" />
+	<scaled enable="true" />
+	<sorted enable="false" />
+	<fixedscreensize enable="false" />
+	<animlodbias value="0" />
+	<emittertype value="Sphere" />
+	<emittersize value="0.1 0.1 0.1" />
+	<direction min="-4 12 -4" max="4 20 4" />
+	<constantforce value="0 0 0" />
+	<dampingforce value="0" />
+	<activetime value="0" />
+	<inactivetime value="0" />
+	<emissionrate min="100" max="100" />
+	<particlesize min="1 1" max="1 1" />
+	<timetolive min="0.5" max="0.5" />
+	<velocity min="4.97" max="0" />
+	<rotation min="77.88" max="0" />
+	<rotationspeed min="56.27" max="17.89" />
+	<sizedelta add="-1.62" mul="0" />
+	<faceCameraMode value="Rotate XYZ" />
+	<colorfade color="1 0 0 0" time="0" />
+	<colorfade color="1 1 1 0" time="1" />
+</particleeffect>

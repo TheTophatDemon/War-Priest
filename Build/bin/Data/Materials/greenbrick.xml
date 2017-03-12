@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <material>
-	<technique name="Techniques/DiffVCol.xml" quality="0" loddistance="0" />
-	<texture unit="diffuse" name="Textures/roblox_brick.png" />
-	<texture unit="normal" name="Textures/roblox_brick_nm.png" />
-	<texture unit="specular" name="Textures/roblox_brick.png" />
+	<technique name="Techniques/Diff.xml" quality="0" loddistance="1" />
+	<technique name="Techniques/DiffNormal.xml" quality="0" loddistance="0" />
+	<texture unit="diffuse" name="Textures/greenbrick.png" />
+	<texture unit="normal" name="Textures/greenbrick_nm.png" />
 	<parameter name="UOffset" value="1 0 0 0" />
 	<parameter name="VOffset" value="0 1 0 0" />
-	<parameter name="MatDiffColor" value="1 1 1 1" />
+	<parameter name="MatDiffColor" value="0.8 0.8 0.8 1" />
 	<parameter name="MatEmissiveColor" value="0 0 0" />
 	<parameter name="MatEnvMapColor" value="1 1 1" />
-	<parameter name="MatSpecColor" value="0.25 0.25 0.25 50" />
+	<parameter name="MatSpecColor" value="0.5 0.5 0.5 100" />
 	<parameter name="Roughness" value="0.5" />
 	<parameter name="Metallic" value="0" />
 	<cull value="ccw" />
