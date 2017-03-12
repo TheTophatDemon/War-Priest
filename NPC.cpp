@@ -12,7 +12,7 @@
 #include <Urho3D/Physics/PhysicsEvents.h>
 #include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Physics/Constraint.h>
-#include <Urho3D/Physics/PhysicsWorld.h>
+
 #include <Urho3D/Graphics/AnimationState.h>
 #include <Urho3D/Graphics/Animation.h>
 #include <Urho3D/Graphics/ParticleEffect.h>
@@ -85,6 +85,7 @@ void NPC::Start()
 	game = GetScene()->GetComponent<Gameplay>();
 	body = node_->GetComponent<RigidBody>();
 	cache = GetSubsystem<ResourceCache>();
+	physworld = GetScene()->GetComponent<PhysicsWorld>();
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(NPC, OnCollision));
 }
@@ -101,6 +102,7 @@ void NPC::FixedUpdate(float timeStep)
 		{
 		case STATE_WALK:
 			actor->Move(true, false, false, false, false, timeStep);
+			CheckCliff();
 			if (stateTimer < 0)
 				ChangeState(STATE_IDLE, Random(50, 200));
 			break;
@@ -148,6 +150,17 @@ void NPC::ChangeState(int newState, int timer)
 			animController->PlayExclusive(resourcePath + "/npc_stand.ani", 0, true, 0.5f);
 			break;
 		}
+	}
+}
+
+void NPC::CheckCliff()
+{
+	PhysicsRaycastResult result;
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + (node_->GetRotation() * Vector3::FORWARD), Vector3::DOWN), 4, 2);
+	if (!result.body_)
+	{
+		turn = 180;
+		ChangeState(STATE_IDLE, 100);
 	}
 }
 

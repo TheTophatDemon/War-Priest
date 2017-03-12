@@ -41,8 +41,6 @@
 //TODO:
 //Compass
 //Door
-//NPCs run away if too close
-//NPCs don't fall off cliffs!
 
 //Optimizations
 	//Less physics

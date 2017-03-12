@@ -8,6 +8,7 @@
 #include <Urho3D/Physics/RigidBody.h>
 #include <Urho3D/Audio/Sound.h>
 #include <Urho3D/Audio/SoundSource3D.h>
+#include <Urho3D/Physics/PhysicsWorld.h>
 
 using namespace Urho3D;
 
@@ -28,6 +29,7 @@ protected:
 	void HandleTurn();
 	void Die();
 	void OnCollision(StringHash eventType, VariantMap& eventData);
+	void CheckCliff();
 
 	SharedPtr<Node> modelNode;
 	String voice;
@@ -36,8 +38,9 @@ protected:
 	SharedPtr<RigidBody> body;
 	SharedPtr<AnimatedModel> animatedModel;
 	SharedPtr<AnimationController> animController;
-	WeakPtr<Gameplay> game;
-	WeakPtr<ResourceCache> cache;
+	SharedPtr<Gameplay> game;
+	SharedPtr<ResourceCache> cache;
+	SharedPtr<PhysicsWorld> physworld;
 
 	String resourcePath;
 	float turn = 0.0f;

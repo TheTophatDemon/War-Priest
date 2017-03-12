@@ -117,7 +117,6 @@ void Actor::GetSlope()
 	if (result.body_)
 	{
 		slopeSteepness = result.normal_.y_ * 0.75f;
-		//std::cout << slopeSteepness << std::endl;
 	}
 }
 
@@ -129,12 +128,10 @@ void Actor::StairCheck()
 	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + (Vector3::UP * 0.05f), dir), 1.0f, LEVELMASK);
 	if (result.body_ && result.normal_.y_ == 0.0f)
 	{
-		//It's not getting here
 		physworld->RaycastSingle(result, Ray(result.position_ + (dir * 0.1f), Vector3::UP), 10.0f, LEVELMASK);
 		if (result.body_ && result.distance_ < 1.0f)
 		{
 			fall = 8.0f;
-			//std::cout << "STEP" << std::endl;
 		}
 	}
 }
@@ -146,7 +143,6 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 	if (otherBody->GetCollisionLayer() & LEVELMASK)
 	{
 		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
-		//std::cout << contacts.GetSize()/32 << " CONTACTS MADE" << std::endl;
 		while (!contacts.IsEof())
 		{
 			Vector3 position = contacts.ReadVector3();
