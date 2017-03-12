@@ -95,7 +95,11 @@ void Gameplay::SetupGame()
 	camera = cameraNode->GetComponent<Camera>();
 	player->input = input;
 
+	//Setup boulder
 	boulderNode = scene_->GetChild("boulder");
+	Vector3 position = boulderNode->GetWorldPosition();
+	boulderNode->LoadXML(cache->GetResource<XMLFile>("Objects/boulder.xml")->GetRoot());
+	boulderNode->SetWorldPosition(position);
 
 	skybox = scene_->GetChild("skybox");
 

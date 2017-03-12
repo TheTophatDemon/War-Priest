@@ -43,6 +43,7 @@
 //Boulder Model: Textured. Make it slightly translucent as well.
 //Make boulder flash on cross collect
 //NPCs run away if too close
+//NPCs don't fall off cliffs!
 
 
 //Optimizations
@@ -87,7 +88,7 @@ public:
 		scene_ = new Scene(context_);
 		renderer = GetSubsystem<Renderer>();
 
-		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/testmap.xml");
+		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/map02.xml");
 		scene_->LoadXML(mapFile->GetRoot());
 
 		scene_->SetVar("Screen Width", engineParameters_["WindowWidth"]);
