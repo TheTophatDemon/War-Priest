@@ -7,6 +7,7 @@
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/Scene/ValueAnimation.h>
 #include <Urho3D/Graphics/StaticModel.h>
+#include <Urho3D/Physics/RigidBody.h>
 
 using namespace Urho3D;
 
@@ -20,9 +21,11 @@ public:
 	virtual void Start();
 	void Flash();
 	virtual void FixedUpdate(float timeStep);
+	void OnCollision(StringHash eventType, VariantMap& eventData);
 	~Boulder();
 protected:
 	SharedPtr<ValueAnimation> flashAnim;
 	SharedPtr<StaticModel> model;
+	SharedPtr<RigidBody> body;
 };
 

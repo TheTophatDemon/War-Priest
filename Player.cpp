@@ -29,6 +29,7 @@
 #include "Actor.h"
 #include "NPC.h"
 #include "TempEffect.h"
+#include "Boulder.h"
 
 using namespace Urho3D;
 
@@ -104,7 +105,7 @@ void Player::FixedUpdate(float timeStep)
 void Player::FireWeapon()
 {
 	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, camera->GetScreenRay(0.495f, 0.5f), 50.0f, 6U);
+	physworld->RaycastSingle(result, camera->GetScreenRay(0.495f, 0.5f), 35.0f, 6U);
 	if (result.body_)
 	{
 		Node* node = result.body_->GetNode();
@@ -112,12 +113,13 @@ void Player::FireWeapon()
 		{
 			NPC* npc = node->GetComponent<NPC>();
 			npc->ChangeState(2, 1000);
-			game->FlashScreen(Color(1.0f, 0.0f, 0.0f, 0.7f), 0.02f);
-		}
-		if (node->HasTag("shootable"))
-		{
 			result.body_->ApplyImpulse((Vector3::UP * 500.0f) + (-result.normal_ * 950.0f));
 			result.body_->SetAngularVelocity(Vector3::ONE * 2.5f);
+			game->FlashScreen(Color(1.0f, 0.0f, 0.0f, 0.7f), 0.02f);
+		}
+		else if (node->HasComponent<Boulder>())
+		{
+			result.body_->ApplyImpulse((Vector3::UP * 200.0f) + (-result.normal_ * 600.0f));
 		}
 	}
 }

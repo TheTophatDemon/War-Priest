@@ -19,8 +19,8 @@
 	</component>
 	<component type="RigidBody" id="16777230">
 		<attribute name="Physics Position" value="0 -2.69427 7.88854" />
-		<attribute name="Mass" value="400" />
-		<attribute name="Friction" value="0.8" />
+		<attribute name="Mass" value="200" />
+		<attribute name="Friction" value="0.95" />
 		<attribute name="Angular Factor" value="0 0 0" />
 		<attribute name="Angular Damping" value="1" />
 		<attribute name="Collision Layer" value="5" />

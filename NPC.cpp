@@ -85,9 +85,6 @@ void NPC::Start()
 	game = GetScene()->GetComponent<Gameplay>();
 	body = node_->GetComponent<RigidBody>();
 	cache = GetSubsystem<ResourceCache>();
-
-	int voiceIndex = node_->GetVar("VOICE").GetInt();
-	voice = resourcePath + "/voice" + String(voiceIndex) + ".wav";
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(NPC, OnCollision));
 }
@@ -125,12 +122,11 @@ void NPC::FixedUpdate(float timeStep)
 		}
 
 		if (floor(Random()*60.0f) == 1)
-			soundSource->Play(cache->GetResource<Sound>(voice));
+			soundSource->Play(cache->GetResource<Sound>(resourcePath + "/voice" + String(node_->GetVar("VOICE").GetInt()) + ".wav"));
 	}
 	else
 	{
 		body->SetEnabled(false);
-		//body->SetLinearVelocity(Vector3::ZERO);
 	}
 }
 
@@ -190,7 +186,7 @@ void NPC::OnCollision(StringHash eventType, VariantMap& eventData)
 			Vector3 normal = contacts.ReadVector3();
 			float distance = contacts.ReadFloat();
 			float impulse = contacts.ReadFloat();
-			if (fabs(normal.x_) > 0.01f || fabs(normal.z_) > 0.01f)
+			if (fabs(normal.y_) < 0.1f)
 			{
 				turn = 90.0f;
 			}
