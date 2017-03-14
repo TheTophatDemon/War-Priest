@@ -163,15 +163,11 @@ void Gameplay::SetupGame()
 		int skin = floor(Random() * modelInfo[model][0]);
 		int voice = floor(Random() * modelInfo[model][1]);
 
-		String path = "Npcs/model"; path += model; path += "/skin"; path += skin; path += ".xml";
-		Material* mat = cache->GetResource<Material>(path);
-		npc->GetChild("model")->GetComponent<AnimatedModel>()->SetMaterial(mat);
-
-		npc->SetVar("MODEL", model);
-		npc->SetVar("VOICE", voice);
-		npc->SetVar("SKIN", skin);
-
-		npc->CreateComponent<NPC>();
+		NPC* cNPC = new NPC(context_);
+		cNPC->modelIndex = model;
+		cNPC->voiceIndex = voice;
+		cNPC->skinIndex = skin;
+		npc->AddComponent(cNPC, 10, LOCAL);
 	}
 }
 

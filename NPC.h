@@ -24,6 +24,9 @@ public:
 	virtual void FixedUpdate(float timeStep);
 	void ChangeState(int newState, int timer);
 	~NPC();
+	int voiceIndex = 0;
+	int modelIndex = 0;
+	int skinIndex = 0;
 protected:
 	void MakeRagdoll();
 	void HandleTurn();
@@ -32,7 +35,6 @@ protected:
 	void CheckCliff();
 
 	SharedPtr<Node> modelNode;
-	String voice;
 	SharedPtr<SoundSource3D> soundSource;
 	SharedPtr<Actor> actor;
 	SharedPtr<RigidBody> body;
@@ -41,11 +43,12 @@ protected:
 	SharedPtr<Gameplay> game;
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<PhysicsWorld> physworld;
+	SharedPtr<Sound> voice;
 
 	String resourcePath;
 	float turn = 0.0f;
 	int turnTimer = 0;
-	int modelIndex = 0;
+	
 	int state = 0;
 	int stateTimer = 0;
 };

@@ -48,17 +48,20 @@ void NPC::RegisterObject(Context* context)
 
 void NPC::Start()
 {
-	modelNode = node_->GetChild("model");
 	game = GetScene()->GetComponent<Gameplay>();
 	body = node_->GetComponent<RigidBody>();
 	cache = GetSubsystem<ResourceCache>();
 	physworld = GetScene()->GetComponent<PhysicsWorld>();
+
+	modelNode = node_->GetChild("model");
 	actor = node_->CreateComponent<Actor>();
 	animController = modelNode->CreateComponent<AnimationController>();
 	animatedModel = modelNode->GetComponent<AnimatedModel>();
 
-	modelIndex = node_->GetVar("MODEL").GetInt();
 	resourcePath = "Npcs/model"; resourcePath += modelIndex;
+
+	animatedModel->SetMaterial(cache->GetResource<Material>(resourcePath + "/skin" + String(skinIndex) + ".xml"));
+	voice = cache->GetResource<Sound>(resourcePath + "/voice" + String(voiceIndex) + ".wav");
 
 	soundSource = node_->GetComponent<SoundSource3D>();
 	soundSource->SetFarDistance(25.0f);
@@ -112,7 +115,7 @@ void NPC::FixedUpdate(float timeStep)
 		}
 
 		if (floor(Random()*60.0f) == 1)
-			soundSource->Play(cache->GetResource<Sound>(resourcePath + "/voice" + String(node_->GetVar("VOICE").GetInt()) + ".wav"));
+			soundSource->Play(voice);
 	}
 	else
 	{
