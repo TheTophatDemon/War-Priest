@@ -261,7 +261,7 @@ void Gameplay::FixedUpdate(float timeStep)
 			flashColor.a_ -= flashSpeed * timeStep * 100.0f;
 			if (flashColor.a_ < 0.0f) flashColor.a_ = 0.0f;
 		}
-		renderer->GetDefaultRenderPath()->SetShaderParameter("FlashColor", flashColor);
+		renderer->GetViewport(0)->GetRenderPath()->SetShaderParameter("FlashColor", flashColor);
 	}
 }
 
@@ -340,7 +340,7 @@ void Gameplay::FlashScreen(Color c, float spd)
 {
 	flashColor = c;
 	flashSpeed = spd;
-	renderer->GetDefaultRenderPath()->SetShaderParameter("FlashColor", c);
+	renderer->GetViewport(0)->GetRenderPath()->SetShaderParameter("FlashColor", c);
 }
 
 void Gameplay::GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount)

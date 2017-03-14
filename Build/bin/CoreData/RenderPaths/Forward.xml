@@ -3,8 +3,9 @@
     <command type="scenepass" pass="base" vertexlights="true" metadata="base" />
     <command type="forwardlights" pass="light" />
     <command type="scenepass" pass="postopaque" />
-    <command type="scenepass" pass="refract">
-        <texture unit="environment" name="viewport" />
+	<command type="quad" tag="Screenflash" vs="screenflash" ps="screenflash" output="viewport">
+        <parameter name="FlashColor" value="0.0 0.0 0.0 0.0"/>
+		<texture unit="diffuse" name="viewport" />
     </command>
     <command type="scenepass" pass="alpha" vertexlights="true" sort="backtofront" metadata="alpha" />
 	<command type="scenepass" pass="muzzleflash" vertexlights="true" metadata="alpha"/>

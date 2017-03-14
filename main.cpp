@@ -48,7 +48,6 @@
 	//Winning
 	//Death (possibly by lava)
 	//Level select screen
-	//Fix screen flash
 	//Bug: Npc's getvar voice not returning
 
 //Potential Optimizations:
@@ -99,8 +98,6 @@ public:
 	}
 	void SetupRenderer()
 	{
-		renderer->GetDefaultRenderPath()->Append(cache->GetResource<XMLFile>("PostProcess/screenflash.xml"));
-		renderer->GetDefaultRenderPath()->SetShaderParameter("FlashColor", Color(0.0f, 0.0f, 0.0f, 0.0f));
 		renderer->SetDrawShadows(false);
 		renderer->SetTextureAnisotropy(0);
 	}
@@ -126,7 +123,6 @@ public:
 		engine_->SetGlobalVar("SCREEN WIDTH", engineParameters_["WindowWidth"]);
 		engine_->SetGlobalVar("SCREEN HEIGHT", engineParameters_["WindowHeight"]);
 		SetupRenderer();
-
 		
 		debugHud = engine_->CreateDebugHud();
 #if _DEBUG
