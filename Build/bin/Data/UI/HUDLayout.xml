@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<element>
+	<attribute name="Name" value="hud"/>
+	<attribute name="Size" value="1280 720"/>
+</element>

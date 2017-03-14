@@ -13,6 +13,7 @@
 #include <Urho3D/Engine/DebugHud.h>
 #include <Urho3D/UI/Sprite.h>
 #include <Urho3D/Scene/ValueAnimation.h>
+#include <Urho3D/UI/UIElement.h>
 #include <Urho3D/Audio/Audio.h>
 
 
@@ -23,7 +24,7 @@ class Gameplay : public LogicComponent
 {
 	URHO3D_OBJECT(Gameplay, LogicComponent);
 public:
-	ResourceCache* cache;
+	SharedPtr<ResourceCache> cache;
 	Engine* engine_;
 	SharedPtr<Scene> scene_;
 	WeakPtr<Node> cameraNode;
@@ -31,9 +32,8 @@ public:
 	Input* input;
 	SharedPtr<Text> text;
 	SharedPtr<Viewport> viewport;
-	WeakPtr<Renderer> renderer;
-	WeakPtr<DebugHud> debugHud;
-	WeakPtr<Audio> audio;
+	SharedPtr<Renderer> renderer;
+	SharedPtr<Audio> audio;
 
 	WeakPtr<Sprite> crosshair;
 
@@ -45,6 +45,7 @@ public:
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
+	virtual void OnSetEnabled();
 	void SetupGame();
 	void GetSettings();
 	void MakeHUD(int width, int height);
@@ -61,8 +62,8 @@ protected:
 	float flashSpeed;
 	int crossCount;
 
+	SharedPtr<UIElement> ourUI;
 	SharedPtr<Sprite> crossIcon;
 	SharedPtr<Text> crossCounter;
-	SharedPtr<DebugRenderer> debugRenderer;
 };
 

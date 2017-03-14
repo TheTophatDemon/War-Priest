@@ -49,43 +49,30 @@ void NPC::RegisterObject(Context* context)
 void NPC::Start()
 {
 	modelNode = node_->GetChild("model");
-	
-	if (modelNode->GetPosition() != Vector3::ZERO)
-	{
-		std::cout << "NPC" << node_->GetID() << "'S MODEL GOT SCREWED UP SOMEWHERE." << std::endl;
-		modelNode->SetPosition(Vector3::ZERO);
-	}
-
-	if (!node_->HasComponent<Actor>())
-		actor = node_->CreateComponent<Actor>();
-	else
-		actor = node_->GetComponent<Actor>();
-
-	if (!modelNode->HasComponent<AnimationController>())
-		animController = modelNode->CreateComponent<AnimationController>();
-	else
-		animController = modelNode->GetComponent<AnimationController>();
+	game = GetScene()->GetComponent<Gameplay>();
+	body = node_->GetComponent<RigidBody>();
+	cache = GetSubsystem<ResourceCache>();
+	physworld = GetScene()->GetComponent<PhysicsWorld>();
+	actor = node_->CreateComponent<Actor>();
+	animController = modelNode->CreateComponent<AnimationController>();
+	animatedModel = modelNode->GetComponent<AnimatedModel>();
 
 	modelIndex = node_->GetVar("MODEL").GetInt();
 	resourcePath = "Npcs/model"; resourcePath += modelIndex;
 
-	if (!node_->HasComponent<SoundSource3D>())
-		node_->CreateComponent<SoundSource3D>();
-	else
-		soundSource = node_->GetComponent<SoundSource3D>();
-
+	soundSource = node_->GetComponent<SoundSource3D>();
 	soundSource->SetFarDistance(25.0f);
 	soundSource->SetNearDistance(1.0f);
 	soundSource->SetSoundType("VOICE");
 
 	actor->maxspeed = 5.0f;
-	animatedModel = modelNode->GetComponent<AnimatedModel>();
 	animController->Play(resourcePath + "/npc_stand.ani", 0, true, 0.5f);
 
-	game = GetScene()->GetComponent<Gameplay>();
-	body = node_->GetComponent<RigidBody>();
-	cache = GetSubsystem<ResourceCache>();
-	physworld = GetScene()->GetComponent<PhysicsWorld>();
+	if (modelNode->GetPosition() != Vector3::ZERO)
+	{
+		std::cout << "NPC" << node_->GetID() << "'S MODEL GOT SCREWED UP SOMEWHERE." << std::endl;
+		modelNode->SetPosition(Vector3::ZERO);
+	}
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(NPC, OnCollision));
 }
@@ -97,6 +84,7 @@ void NPC::FixedUpdate(float timeStep)
 	{
 		if (!body->IsEnabled())
 			body->SetEnabled(true);
+
 		stateTimer -= 1;
 		switch (state)
 		{
@@ -156,7 +144,7 @@ void NPC::ChangeState(int newState, int timer)
 void NPC::CheckCliff()
 {
 	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + (node_->GetRotation() * Vector3::FORWARD), Vector3::DOWN), 4, 2);
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + (node_->GetRotation() * (Vector3::FORWARD * 2.0f)), Vector3::DOWN), 4, 2);
 	if (!result.body_)
 	{
 		turn = 180;
@@ -168,7 +156,6 @@ void NPC::Die()
 {
 	int chance = floor(Random(0, 500));
 	animController->Remove();
-	//Make limp
 	if (chance != 1)
 	{
 		body->SetAngularFactor(Vector3::ONE);

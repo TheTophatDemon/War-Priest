@@ -19,8 +19,10 @@
 #include <Urho3D/Graphics/Graphics.h>
 #include <Urho3D/Graphics/Camera.h>
 #include <Urho3D/Graphics/Geometry.h>
+#include <Urho3D/UI/Sprite.h>
 #include <Urho3D/Graphics/Renderer.h>
 #include <Urho3D/Graphics/DebugRenderer.h>
+#include <Urho3D/Graphics/RenderPath.h>
 #include <Urho3D/Graphics/Octree.h>
 #include <Urho3D/Graphics/Light.h>
 #include <Urho3D/Graphics/Model.h>
@@ -37,18 +39,22 @@
 #include "Actor.h"
 #include "TempEffect.h"
 #include "Boulder.h"
+#include "TitleScreen.h"
 
 //TODO:
-//Compass
-//Door
-//Lose condition
-//Winning
-//Death (possibly by lava)
+	//Compass
+	//Door
+	//Lose condition
+	//Winning
+	//Death (possibly by lava)
+	//Loading screen
+	//Level select screen
 
-//Optimizations
+//Potential Optimizations:
 	//Less physics
 	//Lower physicsworld fps if possible
 	//Disable UI subsystem?
+	//Update event masks
 
 using namespace Urho3D;
 
@@ -56,8 +62,15 @@ class GunPriest : public Application
 {
 public:
 	SharedPtr<Scene> scene_;
-	Renderer* renderer;
-	WeakPtr<Input> input;
+	SharedPtr<Renderer> renderer;
+	SharedPtr<Input> input;
+	SharedPtr<ResourceCache> cache;
+
+	SharedPtr<Gameplay> game;
+	SharedPtr<TitleScreen> titleScreen;
+
+	SharedPtr<DebugHud> debugHud;
+	SharedPtr<DebugRenderer> debugRenderer;
 	
 	GunPriest(Context* context) : Application(context)
 	{
@@ -68,6 +81,14 @@ public:
 		NPC::RegisterObject(context);
 		TempEffect::RegisterObject(context);
 		Boulder::RegisterObject(context);
+		TitleScreen::RegisterObject(context);
+	}
+	void SetupRenderer()
+	{
+		renderer->GetDefaultRenderPath()->Append(cache->GetResource<XMLFile>("PostProcess/screenflash.xml"));
+		renderer->GetDefaultRenderPath()->SetShaderParameter("FlashColor", Color(0.0f, 0.0f, 0.0f, 0.0f));
+		renderer->SetDrawShadows(false);
+		renderer->SetTextureAnisotropy(0);
 	}
 	virtual void Setup()
 	{
@@ -81,25 +102,51 @@ public:
 	virtual void Start()
 	{
 		SetRandomSeed(clock());
-		input = WeakPtr<Input>(engine_->GetSubsystem<Input>());
+		input = SharedPtr<Input>(engine_->GetSubsystem<Input>());
 		engine_->SetMaxFps(60);
-		ResourceCache* cache = GetSubsystem<ResourceCache>();
-		GetSubsystem<UI>()->GetRoot()->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
-		scene_ = new Scene(context_);
+		cache = GetSubsystem<ResourceCache>();
+		UI* ui = GetSubsystem<UI>();
+		ui->GetRoot()->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
 		renderer = GetSubsystem<Renderer>();
 
+		engine_->SetGlobalVar("SCREEN WIDTH", engineParameters_["WindowWidth"]);
+		engine_->SetGlobalVar("SCREEN HEIGHT", engineParameters_["WindowHeight"]);
+		SetupRenderer();
+
+		
+		debugHud = engine_->CreateDebugHud();
+#if _DEBUG
+		debugHud->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
+		debugHud->SetMode(DEBUGHUD_SHOW_ALL);
+#endif
+
+		scene_ = new Scene(context_);
 		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/map02.xml");
 		scene_->LoadXML(mapFile->GetRoot());
+		game = scene_->CreateComponent<Gameplay>();
+		game->SetupGame();
+		game->SetEnabled(false);
+		
+		titleScreen = scene_->CreateComponent<TitleScreen>();
 
-		scene_->SetVar("Screen Width", engineParameters_["WindowWidth"]);
-		scene_->SetVar("Screen Height", engineParameters_["WindowHeight"]);
-		scene_->CreateComponent<Gameplay>();
-
+		debugRenderer = scene_->GetComponent<DebugRenderer>();
 		SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GunPriest, Update));
 	}
 	void Update(StringHash eventType, VariantMap& eventData)
 	{
-		if (input->GetKeyDown(KEY_ESCAPE))
+		if (input->GetKeyPress(KEY_RETURN) && !game->IsEnabled())
+		{
+			scene_->SetUpdateEnabled(true);
+			game->SetEnabled(true);
+			titleScreen->SetEnabled(false);
+		}
+		else if (input->GetKeyPress(KEY_ESCAPE) && game->IsEnabled())
+		{
+			scene_->SetUpdateEnabled(false);
+			game->SetEnabled(false);
+			titleScreen->SetEnabled(true);
+		}
+		else if (input->GetKeyPress(KEY_ESCAPE) && titleScreen->IsEnabled())
 		{
 			engine_->Exit();
 			return;

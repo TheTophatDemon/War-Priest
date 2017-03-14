@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<element>
+	<attribute name="Name" value="titlescreen" />
+	<attribute name="Size" value="1280 720" />
+	<element type="Sprite" style="Sprite">
+		<attribute name="Name" value="title" />
+		<attribute name="Position" value="0 196" />
+		<attribute name="Size" value="960 240" />
+		<attribute name="Hotspot" value="480 120" />
+		<attribute name="Texture" value="Texture2D;UI/title.png" />
+		<attribute name="Image Rect" value="0 0 960 240" />
+		<attribute name="Blend Mode" value="alpha" />
+		<attribute name="Horiz Alignment" value="Center" />
+	</element>
+</element>

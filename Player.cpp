@@ -88,11 +88,11 @@ void Player::Start()
 
 void Player::FixedUpdate(float timeStep)
 {
-	bool forwardKey = input->GetKeyDown(scene->GetVar("FORWARD KEY").GetInt());
-	bool backwardKey = input->GetKeyDown(scene->GetVar("BACKWARD KEY").GetInt());
-	bool rightKey = input->GetKeyDown(scene->GetVar("RIGHT KEY").GetInt());
-	bool leftKey = input->GetKeyDown(scene->GetVar("LEFT KEY").GetInt());
-	bool jumpKey = input->GetKeyDown(scene->GetVar("JUMP KEY").GetInt());
+	bool forwardKey = input->GetKeyDown(scene->GetGlobalVar("FORWARD KEY").GetInt());
+	bool backwardKey = input->GetKeyDown(scene->GetGlobalVar("BACKWARD KEY").GetInt());
+	bool rightKey = input->GetKeyDown(scene->GetGlobalVar("RIGHT KEY").GetInt());
+	bool leftKey = input->GetKeyDown(scene->GetGlobalVar("LEFT KEY").GetInt());
+	bool jumpKey = input->GetKeyDown(scene->GetGlobalVar("JUMP KEY").GetInt());
 	actor->Move(forwardKey, backwardKey, rightKey, leftKey, jumpKey, timeStep);
 
 	if (input->GetMouseButtonDown(MOUSEB_RIGHT) || game->boulderNode->GetWorldPosition().y_ < -100.0f)
@@ -100,7 +100,7 @@ void Player::FixedUpdate(float timeStep)
 		SummonBoulder();
 	}
 
-	float sensitivity = scene->GetVar("MOUSE SENSITIVITY").GetFloat();
+	float sensitivity = scene->GetGlobalVar("MOUSE SENSITIVITY").GetFloat();
 	cameraPitch += input->GetMouseMoveY() * sensitivity;
 	if (cameraPitch > PITCH_LIMIT) cameraPitch = PITCH_LIMIT;
 	if (cameraPitch < -PITCH_LIMIT) cameraPitch = -PITCH_LIMIT;

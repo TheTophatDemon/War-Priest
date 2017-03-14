@@ -54,47 +54,52 @@ void Gameplay::RegisterObject(Context* context)
 	context->RegisterFactory<Gameplay>();
 }
 
+void Gameplay::OnSetEnabled()
+{
+	if (IsEnabled()) 
+	{
+		GetSettings();
+		input->SetMouseGrabbed(true);
+		renderer->SetViewport(0, viewport);
+		ourUI->SetEnabledRecursive(true);
+		ourUI->SetVisible(true);
+		renderer->GetViewport(0)->SetRenderPath(cache->GetResource<XMLFile>("RenderPaths/Forward.xml"));
+		input->SetMouseVisible(false);
+	}
+	else
+	{
+		ourUI->SetVisible(false);
+		ourUI->SetEnabledRecursive(false);
+	}
+}
+
 void Gameplay::Start()
 {
 	cache = GetSubsystem<ResourceCache>();
 	engine_ = GetSubsystem<Engine>();
 	input = engine_->GetSubsystem<Input>();
 	scene_ = SharedPtr<Scene>(GetScene());
-	renderer = WeakPtr<Renderer>(GetSubsystem<Renderer>());
+	renderer = GetSubsystem<Renderer>();
 	audio = GetSubsystem<Audio>();
 
-	input->SetMouseGrabbed(true);
-
-	GetSettings();
-	SetupGame();
-
-	viewport = SharedPtr<Viewport>(new Viewport(context_, scene_, cameraNode->GetComponent<Camera>()));
-	renderer->SetViewport(0, viewport);
-	renderer->GetDefaultRenderPath()->Append(cache->GetResource<XMLFile>("PostProcess/screenflash.xml"));
-	renderer->GetDefaultRenderPath()->SetShaderParameter("FlashColor", Color(0.0f, 0.0f, 0.0f, 0.0f));
-	renderer->SetDrawShadows(false);
-	renderer->SetTextureAnisotropy(0);
-
-	debugHud = engine_->CreateDebugHud();
-#if _DEBUG
-	debugHud->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
-	debugHud->SetMode(DEBUGHUD_SHOW_ALL);
-#endif
-	debugRenderer = scene_->GetComponent<DebugRenderer>();
+	viewport = SharedPtr<Viewport>(new Viewport(context_));
+	MakeHUD(scene_->GetGlobalVar("SCREEN WIDTH").GetInt(), scene_->GetGlobalVar("SCREEN HEIGHT").GetInt());
 	
-	MakeHUD(scene_->GetVar("Screen Width").GetInt(), scene_->GetVar("Screen Height").GetInt());
-
 	SubscribeToEvent(E_POSTRENDERUPDATE, URHO3D_HANDLER(Gameplay, AfterRenderUpdate));
 }
 
 void Gameplay::SetupGame()
 {
+	cache->ReleaseAllResources(false);
 	playerNode = scene_->GetChild("player");
 	player = playerNode->CreateComponent<Player>();
 	audio->SetListener(player->GetComponent<SoundListener>());
 	cameraNode = playerNode->GetChild("camera");
 	camera = cameraNode->GetComponent<Camera>();
 	player->input = input;
+
+	viewport->SetScene(scene_);
+	viewport->SetCamera(camera);
 
 	//Setup boulder
 	boulderNode = scene_->GetChild("boulder");
@@ -243,18 +248,21 @@ void Gameplay::SetupCrosses()
 
 void Gameplay::FixedUpdate(float timeStep)
 {
-	audio->SetMasterGain("VOICE", scene_->GetVar("VOICE VOLUME").GetFloat());
-	UpdateHUD(timeStep);
-	if (skybox)
+	if (IsEnabled()) 
 	{
-		skybox->Rotate(Quaternion(timeStep * 5.0f, Vector3::UP));
+		audio->SetMasterGain("VOICE", scene_->GetGlobalVar("VOICE VOLUME").GetFloat());
+		UpdateHUD(timeStep);
+		if (skybox)
+		{
+			skybox->Rotate(Quaternion(timeStep * 5.0f, Vector3::UP));
+		}
+		if (flashColor.a_ > 0.0f)
+		{
+			flashColor.a_ -= flashSpeed * timeStep * 100.0f;
+			if (flashColor.a_ < 0.0f) flashColor.a_ = 0.0f;
+		}
+		renderer->GetDefaultRenderPath()->SetShaderParameter("FlashColor", flashColor);
 	}
-	if (flashColor.a_ > 0.0f)
-	{
-		flashColor.a_ -= flashSpeed * timeStep * 100.0f;
-		if (flashColor.a_ < 0.0f) flashColor.a_ = 0.0f;
-	}
-	renderer->GetDefaultRenderPath()->SetShaderParameter("FlashColor", flashColor);
 }
 
 void Gameplay::UpdateHUD(float timeStep)
@@ -273,27 +281,27 @@ Gameplay::~Gameplay()
 
 void Gameplay::GetSettings()
 {
-	scene_->SetVar("MOUSE SENSITIVITY", 0.25f);
-	scene_->SetVar("FORWARD KEY", KEY_W);
-	scene_->SetVar("BACKWARD KEY", KEY_S);
-	scene_->SetVar("RIGHT KEY", KEY_D);
-	scene_->SetVar("LEFT KEY", KEY_A);
-	scene_->SetVar("JUMP KEY", KEY_SPACE);
-	scene_->SetVar("VOICE VOLUME", 0.5f);
+	scene_->SetGlobalVar("MOUSE SENSITIVITY", 0.25f);
+	scene_->SetGlobalVar("FORWARD KEY", KEY_W);
+	scene_->SetGlobalVar("BACKWARD KEY", KEY_S);
+	scene_->SetGlobalVar("RIGHT KEY", KEY_D);
+	scene_->SetGlobalVar("LEFT KEY", KEY_A);
+	scene_->SetGlobalVar("JUMP KEY", KEY_SPACE);
+	scene_->SetGlobalVar("VOICE VOLUME", 0.5f);
 }
 
 void Gameplay::MakeHUD(int width, int height)
 {
 	UI* ui = GetSubsystem<UI>();
-
-	ui->LoadLayout(cache->GetResource<XMLFile>("UI/HUDLayout.xml"));
+	ui->GetRoot()->LoadChildXML(cache->GetResource<XMLFile>("UI/HUDLayout.xml")->GetRoot());
+	ourUI = ui->GetRoot()->GetChild("hud", true);
 
 	text = new Text(context_);
 	text->SetText("GUN PRIEST ALPHA : WWW.BITENDOSOFTWARE.COM");
 	text->SetFont("Fonts/Anonymous Pro.ttf", 12);
 	text->SetHorizontalAlignment(HA_CENTER);
 	text->SetVerticalAlignment(VA_TOP);
-	ui->GetRoot()->AddChild(text);
+	ourUI->AddChild(text);
 
 	crosshair = new Sprite(context_);
 	crosshair->SetTexture(cache->GetResource<Texture2D>("Textures/crosshair.png"));
@@ -303,7 +311,7 @@ void Gameplay::MakeHUD(int width, int height)
 	crosshair->SetBlendMode(BLEND_ADDALPHA);
 	crosshair->SetHorizontalAlignment(HA_CENTER);
 	crosshair->SetVerticalAlignment(VA_CENTER);
-	ui->GetRoot()->AddChild(crosshair);
+	ourUI->AddChild(crosshair);
 
 	crossIcon = new Sprite(context_);
 	crossIcon->SetTexture(cache->GetResource<Texture2D>("Textures/cross_ui.png"));
@@ -313,7 +321,7 @@ void Gameplay::MakeHUD(int width, int height)
 	crossIcon->SetBlendMode(BLEND_ALPHA);
 	crossIcon->SetHorizontalAlignment(HA_LEFT);
 	crossIcon->SetVerticalAlignment(VA_TOP);
-	ui->GetRoot()->AddChild(crossIcon);
+	ourUI->AddChild(crossIcon);
 	crossIcon->SetPosition(width * 0.9f, height * 0.9f);
 
 	crossCounter = new Text(context_);
@@ -323,6 +331,9 @@ void Gameplay::MakeHUD(int width, int height)
 	crossCounter->SetHorizontalAlignment(HA_LEFT);
 	crossIcon->AddChild(crossCounter);
 	crossCounter->SetPosition(128.0f, 0.0f);
+
+	ourUI->SetEnabledRecursive(false);
+	ourUI->SetVisible(false);
 }
 
 void Gameplay::FlashScreen(Color c, float spd)
