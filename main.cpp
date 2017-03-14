@@ -48,7 +48,6 @@
 	//Winning
 	//Death (possibly by lava)
 	//Level select screen
-	//Bug: Npc's getvar voice not returning
 
 //Potential Optimizations:
 	//Less physics

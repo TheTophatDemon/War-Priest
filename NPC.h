@@ -33,6 +33,7 @@ protected:
 	void Die();
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void CheckCliff();
+	void Talk();
 
 	SharedPtr<Node> modelNode;
 	SharedPtr<SoundSource3D> soundSource;
@@ -51,5 +52,6 @@ protected:
 	
 	int state = 0;
 	int stateTimer = 0;
+	int talkTimer = 0;
 };
 

@@ -114,8 +114,7 @@ void NPC::FixedUpdate(float timeStep)
 			HandleTurn();
 		}
 
-		if (floor(Random()*60.0f) == 1)
-			soundSource->Play(voice);
+		Talk();
 	}
 	else
 	{
@@ -247,6 +246,26 @@ void NPC::MakeRagdoll()
 			body->SetLinearRestThreshold(1.5f);
 			body->SetAngularRestThreshold(2.5f);
 		}
+	}
+}
+
+void NPC::Talk()
+{
+	if (talkTimer > 0)
+	{
+		talkTimer -= 1;
+		if (talkTimer <= 0)
+		{
+			soundSource->Play(voice);
+			if (floor(Random() * 2.0f) == 1)
+			{
+				talkTimer = 5;
+			}
+		}
+	}
+	else if (floor(Random()*100.0f) == 1)
+	{
+		talkTimer = 5;
 	}
 }
 
