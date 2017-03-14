@@ -47,8 +47,9 @@
 	//Lose condition
 	//Winning
 	//Death (possibly by lava)
-	//Loading screen
 	//Level select screen
+	//Fix screen flash
+	//Bug: Npc's getvar voice not returning
 
 //Potential Optimizations:
 	//Less physics
@@ -71,6 +72,8 @@ public:
 
 	SharedPtr<DebugHud> debugHud;
 	SharedPtr<DebugRenderer> debugRenderer;
+	SharedPtr<Text> loadingText;
+
 	
 	GunPriest(Context* context) : Application(context)
 	{
@@ -82,6 +85,17 @@ public:
 		TempEffect::RegisterObject(context);
 		Boulder::RegisterObject(context);
 		TitleScreen::RegisterObject(context);
+	}
+	void StartGame()
+	{
+		loadingText->SetVisible(true);
+		engine_->RunFrame();
+		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/map02.xml");
+		scene_->LoadXML(mapFile->GetRoot());
+		game = scene_->CreateComponent<Gameplay>();
+		game->SetupGame();
+		game->SetEnabled(false);
+		loadingText->SetVisible(false);
 	}
 	void SetupRenderer()
 	{
@@ -119,13 +133,16 @@ public:
 		debugHud->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
 		debugHud->SetMode(DEBUGHUD_SHOW_ALL);
 #endif
+		loadingText = new Text(context_);
+		loadingText->SetText("LOADING...");
+		loadingText->SetFont("Fonts/Anonymous Pro.ttf", 48);
+		loadingText->SetHorizontalAlignment(HA_CENTER);
+		loadingText->SetVerticalAlignment(VA_CENTER);
+		loadingText->SetPosition(0,-24);
+		ui->GetRoot()->AddChild(loadingText);
 
 		scene_ = new Scene(context_);
-		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/map02.xml");
-		scene_->LoadXML(mapFile->GetRoot());
-		game = scene_->CreateComponent<Gameplay>();
-		game->SetupGame();
-		game->SetEnabled(false);
+		StartGame();
 		
 		titleScreen = scene_->CreateComponent<TitleScreen>();
 
