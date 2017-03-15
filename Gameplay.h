@@ -45,12 +45,15 @@ public:
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
-	virtual void OnSetEnabled();
 	void SetupGame();
 	void GetSettings();
-	void MakeHUD(int width, int height);
+	void MakeHUD();
 	void FlashScreen(Color c, float spd);
+	void Lose();
 	~Gameplay();
+	int loseTimer = 0;
+	bool initialized = false;
+	SharedPtr<UIElement> ourUI;
 protected:
 	void AfterRenderUpdate(StringHash eventType, VariantMap& eventData);
 	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);
@@ -62,8 +65,9 @@ protected:
 	float flashSpeed;
 	int crossCount;
 
-	SharedPtr<UIElement> ourUI;
+	
 	SharedPtr<Sprite> crossIcon;
 	SharedPtr<Text> crossCounter;
+	SharedPtr<Text> loseText;
 };
 

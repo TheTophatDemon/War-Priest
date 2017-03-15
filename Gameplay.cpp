@@ -47,6 +47,17 @@ Gameplay::Gameplay(Context* context) : LogicComponent(context)
 	flashSpeed = 0.0f;
 	flashColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
 	crossCount = 0;
+	initialized = false;
+
+	cache = GetSubsystem<ResourceCache>();
+	engine_ = GetSubsystem<Engine>();
+	input = engine_->GetSubsystem<Input>();
+	renderer = GetSubsystem<Renderer>();
+	audio = GetSubsystem<Audio>();
+
+	MakeHUD();
+
+	SubscribeToEvent(E_POSTRENDERUPDATE, URHO3D_HANDLER(Gameplay, AfterRenderUpdate));
 }
 
 void Gameplay::RegisterObject(Context* context)
@@ -54,38 +65,19 @@ void Gameplay::RegisterObject(Context* context)
 	context->RegisterFactory<Gameplay>();
 }
 
-void Gameplay::OnSetEnabled()
-{
-	if (IsEnabled()) 
-	{
-		GetSettings();
-		input->SetMouseGrabbed(true);
-		renderer->SetViewport(0, viewport);
-		ourUI->SetEnabledRecursive(true);
-		ourUI->SetVisible(true);
-		renderer->GetViewport(0)->SetRenderPath(cache->GetResource<XMLFile>("RenderPaths/Forward.xml"));
-		input->SetMouseVisible(false);
-	}
-	else
-	{
-		ourUI->SetVisible(false);
-		ourUI->SetEnabledRecursive(false);
-	}
-}
-
 void Gameplay::Start()
 {
-	cache = GetSubsystem<ResourceCache>();
-	engine_ = GetSubsystem<Engine>();
-	input = engine_->GetSubsystem<Input>();
+	viewport = renderer->GetViewport(0);
 	scene_ = SharedPtr<Scene>(GetScene());
-	renderer = GetSubsystem<Renderer>();
-	audio = GetSubsystem<Audio>();
 
-	viewport = SharedPtr<Viewport>(new Viewport(context_));
-	MakeHUD(scene_->GetGlobalVar("SCREEN WIDTH").GetInt(), scene_->GetGlobalVar("SCREEN HEIGHT").GetInt());
-	
-	SubscribeToEvent(E_POSTRENDERUPDATE, URHO3D_HANDLER(Gameplay, AfterRenderUpdate));
+	GetSettings();
+	input->SetMouseGrabbed(true);
+	ourUI->SetEnabledRecursive(true);
+	ourUI->SetVisible(true);
+	viewport->SetRenderPath(cache->GetResource<XMLFile>("RenderPaths/Forward.xml"));
+	viewport->GetRenderPath()->SetShaderParameter("State", 0);
+	input->SetMouseVisible(false);
+	scene_->SetUpdateEnabled(true);
 }
 
 void Gameplay::SetupGame()
@@ -169,6 +161,11 @@ void Gameplay::SetupGame()
 		cNPC->skinIndex = skin;
 		npc->AddComponent(cNPC, 10, LOCAL);
 	}
+
+	loseText->SetVisible(false);
+	crosshair->SetVisible(true);
+	viewport->GetRenderPath()->SetShaderParameter("State", 0.0f);
+	initialized = true;
 }
 
 void Gameplay::SetupCrosses()
@@ -257,7 +254,12 @@ void Gameplay::FixedUpdate(float timeStep)
 			flashColor.a_ -= flashSpeed * timeStep * 100.0f;
 			if (flashColor.a_ < 0.0f) flashColor.a_ = 0.0f;
 		}
-		renderer->GetViewport(0)->GetRenderPath()->SetShaderParameter("FlashColor", flashColor);
+		viewport->GetRenderPath()->SetShaderParameter("FlashColor", flashColor);
+		if (loseTimer > 0)
+		{
+			viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
+			loseTimer -= 1;
+		}
 	}
 }
 
@@ -286,11 +288,13 @@ void Gameplay::GetSettings()
 	scene_->SetGlobalVar("VOICE VOLUME", 0.5f);
 }
 
-void Gameplay::MakeHUD(int width, int height)
+void Gameplay::MakeHUD()
 {
 	UI* ui = GetSubsystem<UI>();
 	ui->GetRoot()->LoadChildXML(cache->GetResource<XMLFile>("UI/HUDLayout.xml")->GetRoot());
 	ourUI = ui->GetRoot()->GetChild("hud", true);
+	int width = ourUI->GetWidth();
+	int height = ourUI->GetHeight();
 
 	text = new Text(context_);
 	text->SetText("GUN PRIEST ALPHA : WWW.BITENDOSOFTWARE.COM");
@@ -298,6 +302,14 @@ void Gameplay::MakeHUD(int width, int height)
 	text->SetHorizontalAlignment(HA_CENTER);
 	text->SetVerticalAlignment(VA_TOP);
 	ourUI->AddChild(text);
+
+	loseText = new Text(context_);
+	loseText->SetText("YOU HAVE FAILED. THE LORD FROWNS UPON YOU.");
+	loseText->SetFont("Fonts/Anonymous Pro.ttf", 24);
+	loseText->SetHorizontalAlignment(HA_CENTER);
+	loseText->SetVerticalAlignment(VA_CENTER);
+	ourUI->AddChild(loseText);
+	loseText->SetVisible(false);
 
 	crosshair = new Sprite(context_);
 	crosshair->SetTexture(cache->GetResource<Texture2D>("Textures/crosshair.png"));
@@ -336,7 +348,7 @@ void Gameplay::FlashScreen(Color c, float spd)
 {
 	flashColor = c;
 	flashSpeed = spd;
-	renderer->GetViewport(0)->GetRenderPath()->SetShaderParameter("FlashColor", c);
+	viewport->GetRenderPath()->SetShaderParameter("FlashColor", c);
 }
 
 void Gameplay::GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount)
@@ -386,6 +398,17 @@ void Gameplay::SetOnFloor(Node* n, Vector3 pos)
 	{
 		std::cout << "A CROSS IS OUT OF BOUNDS" << std::endl;
 		n->SetWorldPosition(pos);
+	}
+}
+
+void Gameplay::Lose()
+{
+	if (loseTimer == 0) 
+	{
+		loseText->SetVisible(true);
+		crosshair->SetVisible(false);
+		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
+		loseTimer = 250;
 	}
 }
 

@@ -23,8 +23,8 @@ public:
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
-	void OnSetEnabled();
 	~TitleScreen();
+	SharedPtr<UIElement> ourUI;
 protected:
 
 	Engine* engine_;
@@ -33,6 +33,5 @@ protected:
 	SharedPtr<Input> input;
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<Audio> audio;
-	SharedPtr<UIElement> ourUI;
 };
 

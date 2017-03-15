@@ -9,38 +9,6 @@
 
 TitleScreen::TitleScreen(Context* context) : LogicComponent(context)
 {
-}
-
-void TitleScreen::RegisterObject(Context* context)
-{
-	context->RegisterFactory<TitleScreen>();
-}
-
-void TitleScreen::OnSetEnabled()
-{
-	if (IsEnabled()) 
-	{
-		input->SetMouseGrabbed(false);
-		if (ourUI)
-		{
-			ourUI->SetEnabledRecursive(true);
-			ourUI->SetVisible(true);
-		}
-		renderer->GetViewport(0)->SetRenderPath(cache->GetResource<XMLFile>("RenderPaths/Forward_Blur.xml"));
-		input->SetMouseVisible(true);
-	}
-	else
-	{
-		if (ourUI) 
-		{
-			ourUI->SetVisible(false);
-			ourUI->SetEnabledRecursive(false); 
-		}
-	}
-}
-
-void TitleScreen::Start()
-{
 	cache = GetSubsystem<ResourceCache>();
 	engine_ = GetSubsystem<Engine>();
 	input = engine_->GetSubsystem<Input>();
@@ -49,6 +17,23 @@ void TitleScreen::Start()
 	audio = GetSubsystem<Audio>();
 	ui->GetRoot()->LoadChildXML(cache->GetResource<XMLFile>("UI/titleLayout.xml")->GetRoot());
 	ourUI = ui->GetRoot()->GetChild("titlescreen", true);
+	input->SetMouseVisible(true);
+}
+
+void TitleScreen::RegisterObject(Context* context)
+{
+	context->RegisterFactory<TitleScreen>();
+}
+
+void TitleScreen::Start()
+{
+	input->SetMouseGrabbed(false);
+	if (ourUI)
+	{
+		ourUI->SetEnabledRecursive(true);
+		ourUI->SetVisible(true);
+	}
+	renderer->GetViewport(0)->SetRenderPath(cache->GetResource<XMLFile>("RenderPaths/Forward_Blur.xml"));
 	input->SetMouseVisible(true);
 }
 

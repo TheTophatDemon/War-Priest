@@ -13,6 +13,7 @@
 #include <Urho3D/UI/Text.h>
 #include <Urho3D/UI/Font.h>
 #include <Urho3D/UI/Button.h>
+#include <Urho3D/UI/UIElement.h>
 #include <Urho3D/UI/UIEvents.h>
 #include <Urho3D/Scene/Scene.h>
 #include <Urho3D/Scene/SceneEvents.h>
@@ -44,9 +45,7 @@
 //TODO:
 	//Compass
 	//Door
-	//Lose condition
 	//Winning
-	//Death (possibly by lava)
 	//Level select screen
 
 //Potential Optimizations:
@@ -57,6 +56,9 @@
 
 using namespace Urho3D;
 
+#define STATE_GAME 0
+#define STATE_TITLE 1
+
 class GunPriest : public Application
 {
 public:
@@ -64,15 +66,17 @@ public:
 	SharedPtr<Renderer> renderer;
 	SharedPtr<Input> input;
 	SharedPtr<ResourceCache> cache;
+	SharedPtr<UI> ui;
 
 	SharedPtr<Gameplay> game;
 	SharedPtr<TitleScreen> titleScreen;
 
+	SharedPtr<Viewport> viewport;
 	SharedPtr<DebugHud> debugHud;
 	SharedPtr<DebugRenderer> debugRenderer;
 	SharedPtr<Text> loadingText;
 
-	
+	int state = STATE_TITLE;
 	GunPriest(Context* context) : Application(context)
 	{
 		Gameplay::RegisterObject(context);
@@ -86,14 +90,19 @@ public:
 	}
 	void StartGame()
 	{
+		game->ourUI->SetVisible(false);
 		loadingText->SetVisible(true);
+
 		engine_->RunFrame();
 		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/map02.xml");
 		scene_->LoadXML(mapFile->GetRoot());
-		game = scene_->CreateComponent<Gameplay>();
+		scene_->AddComponent(game, 666, LOCAL);
 		game->SetupGame();
-		game->SetEnabled(false);
+
 		loadingText->SetVisible(false);
+		game->ourUI->SetVisible(true);
+
+		debugRenderer = scene_->GetComponent<DebugRenderer>();
 	}
 	void SetupRenderer()
 	{
@@ -115,7 +124,7 @@ public:
 		input = SharedPtr<Input>(engine_->GetSubsystem<Input>());
 		engine_->SetMaxFps(60);
 		cache = GetSubsystem<ResourceCache>();
-		UI* ui = GetSubsystem<UI>();
+		ui = GetSubsystem<UI>();
 		ui->GetRoot()->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
 		renderer = GetSubsystem<Renderer>();
 
@@ -135,33 +144,67 @@ public:
 		loadingText->SetVerticalAlignment(VA_CENTER);
 		loadingText->SetPosition(0,-24);
 		ui->GetRoot()->AddChild(loadingText);
+		loadingText->SetVisible(false);
+
+		viewport = new Viewport(context_);
+		renderer->SetViewport(0, viewport);
 
 		scene_ = new Scene(context_);
-		StartGame();
-		
-		titleScreen = scene_->CreateComponent<TitleScreen>();
+		game = new Gameplay(context_);
+		titleScreen = new TitleScreen(context_);
 
-		debugRenderer = scene_->GetComponent<DebugRenderer>();
+		scene_->AddComponent(titleScreen, 777, LOCAL);
 		SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GunPriest, Update));
+	}
+	void ChangeState(int newState) //Handles transitions between states
+	{
+		if (newState == STATE_GAME && state == STATE_TITLE)
+		{
+			scene_->SetUpdateEnabled(true);
+			titleScreen->ourUI->SetVisible(false);
+			titleScreen->ourUI->SetEnabledRecursive(false);
+			scene_->RemoveComponent(titleScreen);
+			scene_->AddComponent(game, 666, LOCAL);
+		}
+		else if (newState == STATE_TITLE && state == STATE_GAME)
+		{
+			scene_->SetUpdateEnabled(false);
+			game->ourUI->SetVisible(false);
+			game->ourUI->SetEnabledRecursive(false);
+			scene_->RemoveComponent(game);
+			scene_->AddComponent(titleScreen, 777, LOCAL);
+		}
+		state = newState;
 	}
 	void Update(StringHash eventType, VariantMap& eventData)
 	{
-		if (input->GetKeyPress(KEY_RETURN) && !game->IsEnabled())
+		if (state == STATE_GAME)
 		{
-			scene_->SetUpdateEnabled(true);
-			game->SetEnabled(true);
-			titleScreen->SetEnabled(false);
+			if (game->loseTimer == 1)
+			{
+				game->loseTimer = 0;
+				StartGame();
+			}
+			if (input->GetKeyPress(KEY_ESCAPE))
+			{
+				ChangeState(STATE_TITLE);
+			}
 		}
-		else if (input->GetKeyPress(KEY_ESCAPE) && game->IsEnabled())
+		else if (state == STATE_TITLE) 
 		{
-			scene_->SetUpdateEnabled(false);
-			game->SetEnabled(false);
-			titleScreen->SetEnabled(true);
-		}
-		else if (input->GetKeyPress(KEY_ESCAPE) && titleScreen->IsEnabled())
-		{
-			engine_->Exit();
-			return;
+			if (input->GetKeyPress(KEY_RETURN))
+			{
+				ChangeState(STATE_GAME);
+				if (!game->initialized)
+				{
+					StartGame();
+				}
+			}
+			if (input->GetKeyPress(KEY_ESCAPE) && titleScreen->IsEnabled())
+			{
+				engine_->Exit();
+				return;
+			}
 		}
 	}
 	virtual void Stop()
