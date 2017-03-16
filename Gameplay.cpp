@@ -82,10 +82,14 @@ void Gameplay::Start()
 
 void Gameplay::SetupGame()
 {
-	cache->ReleaseAllResources(false);
+	//Setup Player
 	playerNode = scene_->GetChild("player");
+	Matrix3x4 trans = playerNode->GetWorldTransform();
+	playerNode->LoadXML(cache->GetResource<XMLFile>("Objects/player.xml")->GetRoot());
+	playerNode->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
 	player = playerNode->CreateComponent<Player>();
 	audio->SetListener(player->GetComponent<SoundListener>());
+	//Setup Camera
 	cameraNode = playerNode->GetChild("camera");
 	camera = cameraNode->GetComponent<Camera>();
 	player->input = input;

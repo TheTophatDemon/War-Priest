@@ -111,7 +111,7 @@ void Player::FixedUpdate(float timeStep)
 void Player::FireWeapon()
 {
 	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, camera->GetScreenRay(0.495f, 0.5f), 35.0f, 6U);
+	physworld->RaycastSingle(result, camera->GetScreenRay(0.495f, 0.5f), 35.0f, 127); //Raycast for everything except for the player
 	if (result.body_)
 	{
 		Node* node = result.body_->GetNode();

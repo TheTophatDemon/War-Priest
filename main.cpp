@@ -44,15 +44,22 @@
 
 //TODO:
 	//Compass
-	//Door
 	//Winning
 	//Level select screen
-
+	//Ball Launcher?
 //Potential Optimizations:
 	//Less physics
 	//Lower physicsworld fps if possible
 	//Disable UI subsystem?
 	//Update event masks
+	//Disable scripts on objects that are far away
+
+//COLLISION MASK
+	//1 = ANYTHING THAT'S NOT THE MAP OR THE PLAYER
+	//2 = CAN BE JUMPED ON/SLOPED
+	//4 = NPC
+	//8 = BOULDER
+	//128 = PLAYER
 
 using namespace Urho3D;
 
@@ -92,9 +99,10 @@ public:
 	{
 		game->ourUI->SetVisible(false);
 		loadingText->SetVisible(true);
+		cache->ReleaseAllResources(false);
 
 		engine_->RunFrame();
-		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/map02.xml");
+		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/testmap.xml");
 		scene_->LoadXML(mapFile->GetRoot());
 		scene_->AddComponent(game, 666, LOCAL);
 		game->SetupGame();

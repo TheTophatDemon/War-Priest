@@ -23,7 +23,7 @@
 		<attribute name="Friction" value="0.95" />
 		<attribute name="Angular Factor" value="0 0 0" />
 		<attribute name="Angular Damping" value="1" />
-		<attribute name="Collision Layer" value="5" />
+		<attribute name="Collision Layer" value="9" />
 	</component>
 	<component type="Light" id="16777231">
 		<attribute name="Color" value="0.65 0.65 1 1" />
