@@ -87,12 +87,18 @@ void Gameplay::SetupGame()
 	Matrix3x4 trans = playerNode->GetWorldTransform();
 	playerNode->LoadXML(cache->GetResource<XMLFile>("Objects/player.xml")->GetRoot());
 	playerNode->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
-	player = playerNode->CreateComponent<Player>();
+	player = new Player(context_);
 	audio->SetListener(player->GetComponent<SoundListener>());
 	//Setup Camera
-	cameraNode = playerNode->GetChild("camera");
-	camera = cameraNode->GetComponent<Camera>();
+	cameraNode = scene_->CreateChild();
+	cameraNode->SetPosition(Vector3(0.0f, 9.0f, -6.0f));
+	camera = cameraNode->CreateComponent<Camera>();
+	camera->SetFov(scene_->GetGlobalVar("CAMERA FOV").GetFloat());
+	Node* pivot = scene_->CreateChild();
+	cameraNode->SetParent(pivot);
+	player->pivot = pivot;
 	player->input = input;
+	playerNode->AddComponent(player, 666, LOCAL);
 
 	viewport->SetScene(scene_);
 	viewport->SetCamera(camera);
@@ -290,6 +296,7 @@ void Gameplay::GetSettings()
 	scene_->SetGlobalVar("LEFT KEY", KEY_A);
 	scene_->SetGlobalVar("JUMP KEY", KEY_SPACE);
 	scene_->SetGlobalVar("VOICE VOLUME", 0.5f);
+	scene_->SetGlobalVar("CAMERA FOV", 90.0f);
 }
 
 void Gameplay::MakeHUD()

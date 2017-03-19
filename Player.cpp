@@ -33,11 +33,12 @@
 
 using namespace Urho3D;
 
-#define PITCH_LIMIT 45
+#define PITCH_LIMIT_HIGHER 65
+#define PITCH_LIMIT_LOWER 15
 
 Player::Player(Context* context) : LogicComponent(context)
 {
-	cameraPitch = 0.0f;
+	cameraPitch = 60.0f;
 }
 
 void Player::RegisterObject(Context* context)
@@ -52,9 +53,8 @@ void Player::Start()
 	game = GetScene()->GetComponent<Gameplay>();
 	body = node_->GetComponent<RigidBody>();
 	scene = GetScene();
-	cameraNode = node_->GetChild("camera");
-	camera = cameraNode->GetComponent<Camera>();
-	arms = cameraNode->GetChild("arms");
+	cameraNode = game->cameraNode;
+	camera = game->camera;
 	cache = GetSubsystem<ResourceCache>();
 
 	if (!node_->HasComponent<Actor>())
@@ -66,24 +66,21 @@ void Player::Start()
 		actor = node_->GetComponent<Actor>();
 	}
 
+	modelNode = node_->GetChild("model");
+	if (!modelNode)
+		std::cout << "PLAYER HAS NO MODEL!" << std::endl;
+	newRotation = modelNode->GetRotation();
+	node_->RemoveChild(modelNode);
+	scene->AddChild(modelNode);
+
 	shrapnel = scene->CreateChild();
 	shrapnelEmitter = shrapnel->CreateComponent<ParticleEmitter>();
 	shrapnelEmitter->SetEffect(cache->GetResource<ParticleEffect>("Particles/shrapnel.xml"));
 	shrapnelEmitter->SetEmitting(false);
 
-	if (arms) 
-	{
-		AnimationController* controller = arms->GetComponent<AnimationController>();
-		controller->PlayExclusive("Models/Arms Rig.ani", 255, true, 0.0f);
-		leftMuzzleFlash = arms->GetChild("gun.l", true)->GetChild(0U)->GetComponent<ParticleEmitter>();
-		leftMuzzleFlash->SetEmitting(false);
-		rightMuzzleFlash = arms->GetChild("gun.r", true)->GetChild(0U)->GetComponent<ParticleEmitter>();
-		rightMuzzleFlash->SetEmitting(false);
-	}
 	physworld = scene->GetComponent<PhysicsWorld>();
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
-	SubscribeToEvent(arms, E_ANIMATIONTRIGGER, URHO3D_HANDLER(Player, OnAnimTrigger));
 }
 
 void Player::FixedUpdate(float timeStep)
@@ -95,16 +92,46 @@ void Player::FixedUpdate(float timeStep)
 	bool jumpKey = input->GetKeyDown(scene->GetGlobalVar("JUMP KEY").GetInt());
 	actor->Move(forwardKey, backwardKey, rightKey, leftKey, jumpKey, timeStep);
 
-	if (input->GetMouseButtonDown(MOUSEB_RIGHT) || game->boulderNode->GetWorldPosition().y_ < -100.0f)
+	//Decide what angle the model will be facing
+	float newAngle = 0.0f;
+	if (rightKey || leftKey || forwardKey || backwardKey) 
 	{
-		SummonBoulder();
+		if (forwardKey)
+		{
+			if (rightKey)
+				newAngle = 45.0f;
+			if (leftKey)
+				newAngle = -45.0f;
+		}
+		else if (backwardKey)
+		{
+			newAngle = 180.0f;
+			if (rightKey)
+				newAngle -= 45.0f;
+			if (leftKey)
+				newAngle += 45.0f;
+		}
+		else if (rightKey)
+		{
+			newAngle = 90.0f;
+		}
+		else if (leftKey)
+		{
+			newAngle = 270.0f;
+		}
+		newRotation = Quaternion(90.0f, node_->GetRotation().EulerAngles().y_ + newAngle, 0.0f);
+		node_->SetRotation(pivot->GetRotation());
 	}
+	modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
+	modelNode->SetPosition(node_->GetWorldPosition());
 
+	//Turn camera, update camera pivot
 	float sensitivity = scene->GetGlobalVar("MOUSE SENSITIVITY").GetFloat();
 	cameraPitch += input->GetMouseMoveY() * sensitivity;
-	if (cameraPitch > PITCH_LIMIT) cameraPitch = PITCH_LIMIT;
-	if (cameraPitch < -PITCH_LIMIT) cameraPitch = -PITCH_LIMIT;
-	node_->Rotate(Quaternion(input->GetMouseMoveX() * sensitivity, Vector3::UP));
+	if (cameraPitch > PITCH_LIMIT_HIGHER) cameraPitch = PITCH_LIMIT_HIGHER;
+	if (cameraPitch < PITCH_LIMIT_LOWER) cameraPitch = PITCH_LIMIT_LOWER;
+	pivot->Rotate(Quaternion(input->GetMouseMoveX() * sensitivity, Vector3::UP));
+	pivot->SetWorldPosition(node_->GetWorldPosition());
 	cameraNode->SetRotation(Quaternion(cameraPitch, Vector3::RIGHT));
 }
 
@@ -146,26 +173,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 
 void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)
 {
-	int command = eventData["Data"].GetInt();
-	switch (command)
-	{
-	case 0:
-		leftMuzzleFlash->SetEmitting(true);
-		FireWeapon();
-		break;
-	case 1:
-		leftMuzzleFlash->SetEmitting(false);
-		shrapnelEmitter->SetEmitting(false);
-		break;
-	case 2:
-		rightMuzzleFlash->SetEmitting(true);
-		FireWeapon();
-		break;
-	case 3:
-		rightMuzzleFlash->SetEmitting(false);
-		shrapnelEmitter->SetEmitting(false);
-		break;
-	}
+	
 }
 
 void Player::SummonBoulder()

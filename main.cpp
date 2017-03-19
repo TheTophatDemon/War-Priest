@@ -43,10 +43,12 @@
 #include "TitleScreen.h"
 
 //TODO:
-	//Compass
 	//Winning
 	//Level select screen
-	//Ball Launcher?
+	//Enemies
+	//Shooting to revive
+	//Camera zooming
+	//Character animation
 //Potential Optimizations:
 	//Less physics
 	//Lower physicsworld fps if possible
@@ -102,7 +104,7 @@ public:
 		cache->ReleaseAllResources(false);
 
 		engine_->RunFrame();
-		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/palisadepantheon.xml");
+		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/testmap.xml");
 		scene_->LoadXML(mapFile->GetRoot());
 		scene_->AddComponent(game, 666, LOCAL);
 		game->SetupGame();

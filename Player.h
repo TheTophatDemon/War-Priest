@@ -19,6 +19,7 @@ class Player : public LogicComponent
 	URHO3D_OBJECT(Player, LogicComponent);
 public:
 	SharedPtr<Input> input;
+	SharedPtr<Node> pivot;
 
 	Player(Context* context);
 	static void RegisterObject(Context* context);
@@ -31,21 +32,20 @@ protected:
 	void FireWeapon();
 	void SummonBoulder();
 
-	SharedPtr<Node> arms;
-	SharedPtr<Node> cameraNode;
-	SharedPtr<Camera> camera;
 	SharedPtr<Scene> scene;
 	SharedPtr<ResourceCache> cache;
-	SharedPtr<ParticleEmitter> leftMuzzleFlash;
-	SharedPtr<ParticleEmitter> rightMuzzleFlash;
-	SharedPtr<Actor> actor;
 	WeakPtr<Gameplay> game;
-	WeakPtr<RigidBody> body;
 	WeakPtr<PhysicsWorld> physworld;
+	SharedPtr<Node> cameraNode;
+	SharedPtr<Camera> camera;
+	SharedPtr<Actor> actor;
+	SharedPtr<RigidBody> body;
+	SharedPtr<Node> modelNode;
 
 	SharedPtr<Node> shrapnel;
 	SharedPtr<ParticleEmitter> shrapnelEmitter;
 
-	float cameraPitch = 0.0f;
+	Quaternion newRotation;
+	float cameraPitch;
 };
 

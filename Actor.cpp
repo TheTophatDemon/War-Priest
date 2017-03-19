@@ -21,10 +21,12 @@ Actor::Actor(Context* context) : LogicComponent(context)
 	friction = 0.85f;
 	fallspeed = 0.4f;
 	maxfall = 120.0f;
-	jumpStrength = 12.0f;
+	jumpStrength = 15.0f;
 
 	onGround = false;
 	slopeSteepness = 0.0f;
+
+	movement = Vector3::ZERO;
 }
 
 void Actor::RegisterObject(Context* context)
@@ -97,7 +99,7 @@ void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep)
 	}
 	if (forward > 0.0f) StairCheck();
 
-	Vector3 movement = (node_->GetRotation() * Vector3(strafe, fall, forward) * timeStep * 50.0f);
+	movement = (node_->GetRotation() * Vector3(strafe, fall, forward) * timeStep * 50.0f);
 	body->SetLinearVelocity(movement);
 	onGround = false;
 	slopeSteepness = 0.75f;

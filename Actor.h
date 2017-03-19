@@ -18,6 +18,7 @@ public:
 	void Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep);
 	~Actor();
 
+	Vector3 movement;
 	float acceleration = 0.0f;
 	float maxspeed = 0.0f;
 	float friction = 0.0f;
