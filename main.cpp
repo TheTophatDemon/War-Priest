@@ -102,7 +102,7 @@ public:
 		cache->ReleaseAllResources(false);
 
 		engine_->RunFrame();
-		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/testmap.xml");
+		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/palisadepantheon.xml");
 		scene_->LoadXML(mapFile->GetRoot());
 		scene_->AddComponent(game, 666, LOCAL);
 		game->SetupGame();

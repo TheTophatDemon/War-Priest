@@ -127,7 +127,8 @@ void Player::FireWeapon()
 		}
 		else if (node->HasComponent<Boulder>())
 		{
-			result.body_->ApplyImpulse((Vector3::UP * 200.0f) + (-result.normal_ * 600.0f));
+			Vector3 imp = (Vector3::UP * 200.0f) + (-result.normal_ * 600.0f);
+			result.body_->ApplyImpulse(imp);
 		}
 		//Make shrapnel
 		shrapnel->SetWorldPosition(result.position_);
