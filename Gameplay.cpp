@@ -9,6 +9,8 @@
 #include <Urho3D/Engine/Engine.h>
 #include <Urho3D/Physics/PhysicsEvents.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
+#include <Urho3D/Physics/RigidBody.h>
+#include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Math/Ray.h>
 #include <Urho3D/Input/Input.h>
 #include <Urho3D/Physics/RigidBody.h>
@@ -96,6 +98,7 @@ void Gameplay::SetupGame()
 	camera->SetFov(scene_->GetGlobalVar("CAMERA FOV").GetFloat());
 	Node* pivot = scene_->CreateChild();
 	cameraNode->SetParent(pivot);
+
 	player->pivot = pivot;
 	player->input = input;
 	playerNode->AddComponent(player, 666, LOCAL);

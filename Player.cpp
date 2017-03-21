@@ -125,14 +125,7 @@ void Player::FixedUpdate(float timeStep)
 	modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
 	modelNode->SetPosition(node_->GetWorldPosition());
 
-	//Turn camera, update camera pivot
-	float sensitivity = scene->GetGlobalVar("MOUSE SENSITIVITY").GetFloat();
-	cameraPitch += input->GetMouseMoveY() * sensitivity;
-	if (cameraPitch > PITCH_LIMIT_HIGHER) cameraPitch = PITCH_LIMIT_HIGHER;
-	if (cameraPitch < PITCH_LIMIT_LOWER) cameraPitch = PITCH_LIMIT_LOWER;
-	pivot->Rotate(Quaternion(input->GetMouseMoveX() * sensitivity, Vector3::UP));
-	pivot->SetWorldPosition(node_->GetWorldPosition());
-	cameraNode->SetRotation(Quaternion(cameraPitch, Vector3::RIGHT));
+	HandleCamera();
 }
 
 void Player::FireWeapon()
@@ -176,15 +169,40 @@ void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)
 	
 }
 
-void Player::SummonBoulder()
+void Player::HandleCamera()
 {
-	game->boulderNode->SetPosition(node_->GetWorldPosition() + (node_->GetRotation() * Vector3(0.0f, 2.0f, 2.0f)));
-	game->boulderNode->GetComponent<RigidBody>()->SetLinearVelocity(Vector3::ZERO);
-	Node* node = scene->CreateChild();
-	node->SetPosition(game->boulderNode->GetWorldPosition());
-	node->SetVar("EFFECT NAME", "Particles/smoke.xml");
-	node->SetVar("TIME", 0.5f);
-	node->CreateComponent<TempEffect>();
+	float sensitivity = scene->GetGlobalVar("MOUSE SENSITIVITY").GetFloat();
+	cameraPitch += input->GetMouseMoveY() * sensitivity;
+	if (cameraPitch > PITCH_LIMIT_HIGHER) cameraPitch = PITCH_LIMIT_HIGHER;
+	if (cameraPitch < PITCH_LIMIT_LOWER) cameraPitch = PITCH_LIMIT_LOWER;
+
+	pivot->Rotate(Quaternion(input->GetMouseMoveX() * sensitivity, Vector3::UP));
+	pivot->SetWorldPosition(node_->GetWorldPosition());
+	cameraNode->SetRotation(Quaternion(cameraPitch, Vector3::RIGHT));
+
+	Matrix3x4 helper = Matrix3x4(Vector3(0.0f, 9.0f, -6.0f), Quaternion::IDENTITY, 1.0f);
+	helper = pivot->GetWorldTransform() * helper;
+	Vector3 diff = (node_->GetWorldPosition() - helper.Translation());
+	//Keep it from clipping outside of walls
+	PhysicsRaycastResult result;
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() - diff.Normalized(), -diff.Normalized()), 100.0f, 2);
+	float distFromPly = diff.Length();
+	if (result.body_ && result.distance_ < distFromPly)
+	{
+		newCameraPosition = result.position_ + result.normal_;
+	}
+	else
+	{
+		newCameraPosition = helper.Translation();
+	}
+	if ((cameraNode->GetWorldPosition() - newCameraPosition).Normalized().LengthSquared() < 16.0f)
+	{
+		cameraNode->SetWorldPosition(newCameraPosition.Lerp(cameraNode->GetWorldPosition(), 0.7f));
+	}
+	else
+	{
+		cameraNode->SetWorldPosition(newCameraPosition);
+	}
 }
 
 Player::~Player()

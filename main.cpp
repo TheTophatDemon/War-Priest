@@ -47,7 +47,6 @@
 	//Level select screen
 	//Enemies
 	//Shooting to revive
-	//Camera zooming
 	//Character animation
 //Potential Optimizations:
 	//Less physics

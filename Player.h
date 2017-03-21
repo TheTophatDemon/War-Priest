@@ -30,7 +30,7 @@ protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnAnimTrigger(StringHash eventType, VariantMap& eventData);
 	void FireWeapon();
-	void SummonBoulder();
+	void HandleCamera();
 
 	SharedPtr<Scene> scene;
 	SharedPtr<ResourceCache> cache;
@@ -46,6 +46,7 @@ protected:
 	SharedPtr<ParticleEmitter> shrapnelEmitter;
 
 	Quaternion newRotation;
+	Vector3 newCameraPosition;
 	float cameraPitch;
 };
 
