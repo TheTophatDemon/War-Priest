@@ -19,12 +19,13 @@ Actor::Actor(Context* context) : LogicComponent(context)
 	acceleration = 2.0f;
 	maxspeed = 15.0f;
 	friction = 0.85f;
-	fallspeed = 0.4f;
-	maxfall = 120.0f;
+	fallspeed = 0.5f;
+	maxfall = 150.0f;
 	jumpStrength = 15.0f;
 
 	onGround = false;
 	slopeSteepness = 0.0f;
+	aiState = 0;
 
 	movement = Vector3::ZERO;
 }
@@ -80,7 +81,7 @@ void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep)
 	if (fall < -maxfall) fall = -maxfall;
 	if (onGround)
 	{
-		if (slopeSteepness != 0.75f)
+		if (slopeSteepness != 0.9f)
 		{
 			fall = ((-1 / slopeSteepness) + 1) * maxspeed;
 		}
@@ -93,11 +94,11 @@ void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep)
 	{
 		fall = jumpStrength;
 	}
-	else if (!jmp && fall > 0.0f)
+	/*else if (!jmp && fall > 0.0f)
 	{
 		fall -= 0.5f;
-	}
-	if (forward > 0.0f) StairCheck();
+	}*/
+	//if (forward != 0.0f) StairCheck();
 
 	movement = (node_->GetRotation() * Vector3(strafe, fall, forward) * timeStep * 50.0f);
 	body->SetLinearVelocity(movement);
@@ -118,23 +119,7 @@ void Actor::GetSlope()
 	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 500.0f, LEVELMASK);
 	if (result.body_)
 	{
-		slopeSteepness = result.normal_.y_ * 0.75f;
-	}
-}
-
-void Actor::StairCheck()
-{
-	//Raycast forward from feet. If something's there, do a second raycast from below to judge the height of the step.
-	PhysicsRaycastResult result;
-	Vector3 dir = node_->GetRotation() * Vector3::FORWARD;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + (Vector3::UP * 0.05f), dir), 1.0f, LEVELMASK);
-	if (result.body_ && result.normal_.y_ == 0.0f)
-	{
-		physworld->RaycastSingle(result, Ray(result.position_ + (dir * 0.1f), Vector3::UP), 10.0f, LEVELMASK);
-		if (result.body_ && result.distance_ < 1.0f)
-		{
-			fall = 8.0f;
-		}
+		slopeSteepness = result.normal_.y_ * 0.9f;
 	}
 }
 
@@ -162,6 +147,27 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 					fall = 0.0f;
 				}
 			}
+		}
+	}
+}
+
+void Actor::ChangeState(int newState)
+{
+	aiState = newState;
+}
+
+void Actor::StairCheck()
+{
+	//Raycast forward from feet. If something's there, do a second raycast from below to judge the height of the step.
+	PhysicsRaycastResult result;
+	Vector3 dir = node_->GetRotation() * Vector3::FORWARD;
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + (Vector3::UP * 0.05f), dir), 1.0f, LEVELMASK);
+	if (result.body_ && result.normal_.y_ == 0.0f)
+	{
+		physworld->RaycastSingle(result, Ray(result.position_ + (dir * 0.1f), Vector3::UP), 10.0f, LEVELMASK);
+		if (result.body_ && result.distance_ < 1.0f)
+		{
+			fall = 8.0f;
 		}
 	}
 }

@@ -35,8 +35,10 @@ protected:
 	void GetSlope();
 	void StairCheck();
 	void OnCollision(StringHash eventType, VariantMap& eventData);
+	virtual void ChangeState(int newState);
 	SharedPtr<PhysicsWorld> physworld;
 	SharedPtr<Scene> scene;
 	WeakPtr<RigidBody> body;
+	int aiState;
 };
 

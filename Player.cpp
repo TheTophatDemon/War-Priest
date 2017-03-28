@@ -38,7 +38,6 @@ using namespace Urho3D;
 
 Player::Player(Context* context) : LogicComponent(context)
 {
-	cameraPitch = 60.0f;
 }
 
 void Player::RegisterObject(Context* context)
@@ -52,10 +51,13 @@ void Player::Start()
 
 	game = GetScene()->GetComponent<Gameplay>();
 	body = node_->GetComponent<RigidBody>();
+	cache = GetSubsystem<ResourceCache>(); 
 	scene = GetScene();
+	physworld = scene->GetComponent<PhysicsWorld>();
 	cameraNode = game->cameraNode;
 	camera = game->camera;
-	cache = GetSubsystem<ResourceCache>();
+	
+	cameraNode->SetRotation(Quaternion(55.0f, Vector3::RIGHT));
 
 	if (!node_->HasComponent<Actor>())
 	{
@@ -72,13 +74,6 @@ void Player::Start()
 	newRotation = modelNode->GetRotation();
 	node_->RemoveChild(modelNode);
 	scene->AddChild(modelNode);
-
-	shrapnel = scene->CreateChild();
-	shrapnelEmitter = shrapnel->CreateComponent<ParticleEmitter>();
-	shrapnelEmitter->SetEffect(cache->GetResource<ParticleEffect>("Particles/shrapnel.xml"));
-	shrapnelEmitter->SetEmitting(false);
-
-	physworld = scene->GetComponent<PhysicsWorld>();
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
 }
@@ -128,37 +123,6 @@ void Player::FixedUpdate(float timeStep)
 	HandleCamera();
 }
 
-void Player::FireWeapon()
-{
-	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, camera->GetScreenRay(0.495f, 0.5f), 35.0f, 127); //Raycast for everything except for the player
-	if (result.body_)
-	{
-		Node* node = result.body_->GetNode();
-		if (node->HasComponent<NPC>())
-		{
-			NPC* npc = node->GetComponent<NPC>();
-			npc->ChangeState(2, 1000);
-			result.body_->ApplyImpulse((Vector3::UP * 500.0f) + (-result.normal_ * 950.0f));
-			result.body_->SetAngularVelocity(Vector3::ONE * 2.5f);
-			game->FlashScreen(Color(1.0f, 0.0f, 0.0f, 0.7f), 0.02f);
-			node_->SetVar("CROSS COUNT", 666);
-			game->Lose();
-		}
-		else if (node->HasComponent<Boulder>())
-		{
-			Vector3 imp = (Vector3::UP * 200.0f) + (-result.normal_ * 600.0f);
-			result.body_->ApplyImpulse(imp);
-		}
-		//Make shrapnel
-		shrapnel->SetWorldPosition(result.position_);
-		Quaternion quaternion = Quaternion();
-		quaternion.FromLookRotation(-result.normal_, Vector3::UP);
-		shrapnel->SetRotation(quaternion);
-		shrapnelEmitter->SetEmitting(true);
-	}
-}
-
 void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
@@ -172,37 +136,11 @@ void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)
 void Player::HandleCamera()
 {
 	float sensitivity = scene->GetGlobalVar("MOUSE SENSITIVITY").GetFloat();
-	cameraPitch += input->GetMouseMoveY() * sensitivity;
-	if (cameraPitch > PITCH_LIMIT_HIGHER) cameraPitch = PITCH_LIMIT_HIGHER;
-	if (cameraPitch < PITCH_LIMIT_LOWER) cameraPitch = PITCH_LIMIT_LOWER;
-
 	pivot->Rotate(Quaternion(input->GetMouseMoveX() * sensitivity, Vector3::UP));
-	pivot->SetWorldPosition(node_->GetWorldPosition());
-	cameraNode->SetRotation(Quaternion(cameraPitch, Vector3::RIGHT));
-
-	Matrix3x4 helper = Matrix3x4(Vector3(0.0f, 9.0f, -6.0f), Quaternion::IDENTITY, 1.0f);
-	helper = pivot->GetWorldTransform() * helper;
-	Vector3 diff = (node_->GetWorldPosition() - helper.Translation());
-	//Keep it from clipping outside of walls
-	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() - diff.Normalized(), -diff.Normalized()), 100.0f, 2);
-	float distFromPly = diff.Length();
-	if (result.body_ && result.distance_ < distFromPly)
-	{
-		newCameraPosition = result.position_ + result.normal_;
-	}
-	else
-	{
-		newCameraPosition = helper.Translation();
-	}
-	if ((cameraNode->GetWorldPosition() - newCameraPosition).Normalized().LengthSquared() < 16.0f)
-	{
-		cameraNode->SetWorldPosition(newCameraPosition.Lerp(cameraNode->GetWorldPosition(), 0.7f));
-	}
-	else
-	{
-		cameraNode->SetWorldPosition(newCameraPosition);
-	}
+	Quaternion newAngle = Quaternion();
+	newAngle.FromLookRotation((node_->GetWorldPosition() - cameraNode->GetWorldPosition()).Normalized());
+	cameraNode->SetRotation(Quaternion(newAngle.EulerAngles().x_, Vector3::RIGHT));
+	pivot->SetWorldPosition(Vector3(node_->GetWorldPosition().x_, 0.0f, node_->GetWorldPosition().z_));
 }
 
 Player::~Player()

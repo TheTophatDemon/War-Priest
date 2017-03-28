@@ -29,7 +29,6 @@ public:
 protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnAnimTrigger(StringHash eventType, VariantMap& eventData);
-	void FireWeapon();
 	void HandleCamera();
 
 	SharedPtr<Scene> scene;
@@ -42,11 +41,7 @@ protected:
 	SharedPtr<RigidBody> body;
 	SharedPtr<Node> modelNode;
 
-	SharedPtr<Node> shrapnel;
-	SharedPtr<ParticleEmitter> shrapnelEmitter;
-
 	Quaternion newRotation;
 	Vector3 newCameraPosition;
-	float cameraPitch;
 };
 

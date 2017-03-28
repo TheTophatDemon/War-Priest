@@ -37,7 +37,6 @@
 #include <iostream>
 
 #include "Player.h"
-#include "Cross.h"
 #include "NPC.h"
 #include "Boulder.h"
 
@@ -48,7 +47,6 @@ Gameplay::Gameplay(Context* context) : LogicComponent(context)
 	SetUpdateEventMask(USE_FIXEDUPDATE);
 	flashSpeed = 0.0f;
 	flashColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
-	crossCount = 0;
 	initialized = false;
 
 	cache = GetSubsystem<ResourceCache>();
@@ -90,10 +88,10 @@ void Gameplay::SetupGame()
 	playerNode->LoadXML(cache->GetResource<XMLFile>("Objects/player.xml")->GetRoot());
 	playerNode->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
 	player = new Player(context_);
-	audio->SetListener(player->GetComponent<SoundListener>());
+	audio->SetListener(playerNode->GetComponent<SoundListener>());
 	//Setup Camera
 	cameraNode = scene_->CreateChild();
-	cameraNode->SetPosition(Vector3(0.0f, 9.0f, -6.0f));
+	cameraNode->SetPosition(Vector3(0.0f, 12.0f, -12.0f));
 	camera = cameraNode->CreateComponent<Camera>();
 	camera->SetFov(scene_->GetGlobalVar("CAMERA FOV").GetFloat());
 	Node* pivot = scene_->CreateChild();
@@ -106,16 +104,7 @@ void Gameplay::SetupGame()
 	viewport->SetScene(scene_);
 	viewport->SetCamera(camera);
 
-	//Setup boulder
-	boulderNode = scene_->GetChild("boulder");
-	Vector3 position = boulderNode->GetWorldPosition();
-	boulderNode->LoadXML(cache->GetResource<XMLFile>("Objects/boulder.xml")->GetRoot());
-	boulderNode->CreateComponent<Boulder>();
-	boulderNode->SetWorldPosition(position);
-
 	skybox = scene_->GetChild("skybox");
-
-	SetupCrosses();
 
 	//Get NPC skin information
 	FileSystem* fs = GetSubsystem<FileSystem>();
@@ -176,80 +165,8 @@ void Gameplay::SetupGame()
 	}
 
 	loseText->SetVisible(false);
-	crosshair->SetVisible(true);
 	viewport->GetRenderPath()->SetShaderParameter("State", 0.0f);
 	initialized = true;
-}
-
-void Gameplay::SetupCrosses()
-{
-	//Spawn Crosses
-	Node* crosses = scene_->GetChild("crosses");
-	PODVector<Node*> spawners;
-	scene_->GetChildrenWithTag(spawners, "spawner", true);
-	for (PODVector<Node*>::Iterator i = spawners.Begin(); i != spawners.End(); ++i)
-	{
-		Node* child = (Node*)*i;
-		String type = child->GetVar("spawnertype").GetString();
-		float distance = child->GetVar("spawnerdistance").GetFloat();
-		if (distance == 0.0f) distance = 3.0f;
-		//Spawn crosses in the described formation, raycasting downwards to ensure that they're all on the ground.
-		if (type == "ring")
-		{
-			for (int j = 0; j < 5; ++j)
-			{
-				Node* cross = crosses->CreateChild();
-				cross->SetName("cross");
-				cross->AddTag("cross");
-				Vector3 position = child->GetWorldPosition() + (Quaternion(72.0f * j, Vector3::UP) * Vector3::FORWARD * distance);
-				SetOnFloor(cross, position);
-			}
-		}
-		else if (type == "xline")
-		{
-			for (int j = 0; j < 5; ++j)
-			{
-				Node* cross = crosses->CreateChild();
-				cross->SetName("cross");
-				cross->AddTag("cross");
-				Vector3 position = child->GetWorldPosition() + Vector3((-distance * 2.5f) + (j * distance), 0.0f, 0.0f);
-				SetOnFloor(cross, position);
-			}
-		}
-		else if (type == "zline")
-		{
-			for (int j = 0; j < 5; ++j)
-			{
-				Node* cross = crosses->CreateChild();
-				cross->SetName("cross");
-				cross->AddTag("cross");
-				Vector3 position = child->GetWorldPosition() + Vector3(0.0f, 0.0f, (-distance * 2.0f) + (j * distance));
-				SetOnFloor(cross, position);
-			}
-		}
-		child->Remove();
-	}
-
-	//Setup Crosses
-	StaticModelGroup* crossGroup = crosses->GetComponent<StaticModelGroup>();
-	crossCount = crosses->GetNumChildren();
-	for (unsigned int i = 0; i < crosses->GetNumChildren(); ++i)
-	{
-		Node* child = crosses->GetChild(i);
-		child->RemoveAllComponents(); //They all have static models just to see them in the editor. We need to add them to the staticmodelgroup.
-		String name = child->GetName();
-		if (name == "cross")
-		{
-			child->CreateComponent<Cross>();
-			crossGroup->AddInstanceNode(child);
-		}
-	}
-	//Make the crosses glowy
-	SharedPtr<ValueAnimation> colorAnimation(new ValueAnimation(context_));
-	colorAnimation->SetKeyFrame(0.0f, Color::BLACK);
-	colorAnimation->SetKeyFrame(1.0f, Color::WHITE);
-	colorAnimation->SetKeyFrame(2.0f, Color::BLACK);
-	crossGroup->GetMaterial(0U)->SetShaderParameterAnimation("MatEmissiveColor", colorAnimation, WM_LOOP, 1.0f);
 }
 
 void Gameplay::FixedUpdate(float timeStep)
@@ -278,12 +195,7 @@ void Gameplay::FixedUpdate(float timeStep)
 
 void Gameplay::UpdateHUD(float timeStep)
 {
-	GetNextFrame(crossIcon, 128, 128, 60);
-	String s = "";
-	s += playerNode->GetVar("Cross Count").GetInt();
-	s += "/";
-	s += crossCount;
-	crossCounter->SetText(s);
+	
 }
 
 Gameplay::~Gameplay()
@@ -299,7 +211,7 @@ void Gameplay::GetSettings()
 	scene_->SetGlobalVar("LEFT KEY", KEY_A);
 	scene_->SetGlobalVar("JUMP KEY", KEY_SPACE);
 	scene_->SetGlobalVar("VOICE VOLUME", 0.5f);
-	scene_->SetGlobalVar("CAMERA FOV", 90.0f);
+	scene_->SetGlobalVar("CAMERA FOV", 70.0f);
 }
 
 void Gameplay::MakeHUD()
@@ -324,35 +236,6 @@ void Gameplay::MakeHUD()
 	loseText->SetVerticalAlignment(VA_CENTER);
 	ourUI->AddChild(loseText);
 	loseText->SetVisible(false);
-
-	crosshair = new Sprite(context_);
-	crosshair->SetTexture(cache->GetResource<Texture2D>("Textures/crosshair.png"));
-	crosshair->SetFullImageRect();
-	crosshair->SetSize(16, 16);
-	crosshair->SetHotSpot(16, 16);
-	crosshair->SetBlendMode(BLEND_ADDALPHA);
-	crosshair->SetHorizontalAlignment(HA_CENTER);
-	crosshair->SetVerticalAlignment(VA_CENTER);
-	ourUI->AddChild(crosshair);
-
-	crossIcon = new Sprite(context_);
-	crossIcon->SetTexture(cache->GetResource<Texture2D>("Textures/cross_ui.png"));
-	crossIcon->SetImageRect(IntRect(0, 0, 128, 128));
-	crossIcon->SetSize(128, 128);
-	crossIcon->SetHotSpot(128, 128);
-	crossIcon->SetBlendMode(BLEND_ALPHA);
-	crossIcon->SetHorizontalAlignment(HA_LEFT);
-	crossIcon->SetVerticalAlignment(VA_TOP);
-	ourUI->AddChild(crossIcon);
-	crossIcon->SetPosition(width * 0.9f, height * 0.9f);
-
-	crossCounter = new Text(context_);
-	crossCounter->SetText("x0");
-	crossCounter->SetFont("Fonts/Anonymous Pro.ttf", 24);
-	crossCounter->SetVerticalAlignment(VA_CENTER);
-	crossCounter->SetHorizontalAlignment(HA_LEFT);
-	crossIcon->AddChild(crossCounter);
-	crossCounter->SetPosition(128.0f, 0.0f);
 
 	ourUI->SetEnabledRecursive(false);
 	ourUI->SetVisible(false);
@@ -410,7 +293,6 @@ void Gameplay::SetOnFloor(Node* n, Vector3 pos)
 	}
 	else
 	{
-		std::cout << "A CROSS IS OUT OF BOUNDS" << std::endl;
 		n->SetWorldPosition(pos);
 	}
 }
@@ -420,7 +302,6 @@ void Gameplay::Lose()
 	if (loseTimer == 0) 
 	{
 		loseText->SetVisible(true);
-		crosshair->SetVisible(false);
 		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
 		loseTimer = 250;
 	}

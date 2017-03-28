@@ -35,7 +35,6 @@
 
 #include "Gameplay.h"
 #include "Player.h"
-#include "Cross.h"
 #include "NPC.h"
 #include "Actor.h"
 #include "TempEffect.h"
@@ -43,11 +42,11 @@
 #include "TitleScreen.h"
 
 //TODO:
-	//Winning
-	//Level select screen
-	//Enemies
-	//Shooting to revive
+	//Enemy
 	//Character animation
+	//UI restart
+	//Drop shadow
+	
 //Potential Optimizations:
 	//Less physics
 	//Lower physicsworld fps if possible
@@ -90,7 +89,6 @@ public:
 		Gameplay::RegisterObject(context);
 		Actor::RegisterObject(context);
 		Player::RegisterObject(context);
-		Cross::RegisterObject(context);
 		NPC::RegisterObject(context);
 		TempEffect::RegisterObject(context);
 		Boulder::RegisterObject(context);
@@ -103,7 +101,7 @@ public:
 		cache->ReleaseAllResources(false);
 
 		engine_->RunFrame();
-		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/testmap.xml");
+		XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/palisadepantheon.xml");
 		scene_->LoadXML(mapFile->GetRoot());
 		scene_->AddComponent(game, 666, LOCAL);
 		game->SetupGame();

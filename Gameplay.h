@@ -35,11 +35,8 @@ public:
 	SharedPtr<Renderer> renderer;
 	SharedPtr<Audio> audio;
 
-	WeakPtr<Sprite> crosshair;
-
 	SharedPtr<Node> playerNode;
 	WeakPtr<Player> player;
-	SharedPtr<Node> boulderNode;
 
 	Gameplay(Context* context);
 	static void RegisterObject(Context* context);
@@ -59,15 +56,10 @@ protected:
 	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);
 	void SetOnFloor(Node* n, Vector3 pos);
 	void UpdateHUD(float timeStep);
-	void SetupCrosses();
 	SharedPtr<Node> skybox;
 	Color flashColor;
 	float flashSpeed;
-	int crossCount;
-
 	
-	SharedPtr<Sprite> crossIcon;
-	SharedPtr<Text> crossCounter;
 	SharedPtr<Text> loseText;
 };
 
