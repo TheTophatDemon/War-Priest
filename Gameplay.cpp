@@ -223,7 +223,7 @@ void Gameplay::MakeHUD()
 	int height = ourUI->GetHeight();
 
 	text = new Text(context_);
-	text->SetText("GUN PRIEST ALPHA : WWW.BITENDOSOFTWARE.COM");
+	text->SetText("WAR PRIEST ALPHA : WWW.BITENDOSOFTWARE.COM");
 	text->SetFont("Fonts/Anonymous Pro.ttf", 12);
 	text->SetHorizontalAlignment(HA_CENTER);
 	text->SetVerticalAlignment(VA_TOP);
@@ -237,7 +237,7 @@ void Gameplay::MakeHUD()
 	ourUI->AddChild(loseText);
 	loseText->SetVisible(false);
 
-	ourUI->SetEnabledRecursive(false);
+	ourUI->SetEnabled(false);
 	ourUI->SetVisible(false);
 }
 

@@ -25,8 +25,10 @@ public:
 	virtual void FixedUpdate(float timeStep);
 	~TitleScreen();
 	SharedPtr<UIElement> ourUI;
+	SharedPtr<Gameplay> game;
+	bool gotoGame;
 protected:
-
+	void OnClick(StringHash eventType, VariantMap& eventData);
 	Engine* engine_;
 	SharedPtr<Renderer> renderer;
 	SharedPtr<UI> ui;

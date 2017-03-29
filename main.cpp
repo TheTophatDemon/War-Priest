@@ -44,8 +44,8 @@
 //TODO:
 	//Enemy
 	//Character animation
-	//UI restart
 	//Drop shadow
+	//Shader glitch
 	
 //Potential Optimizations:
 	//Less physics
@@ -60,6 +60,8 @@
 	//4 = NPC
 	//8 = BOULDER
 	//128 = PLAYER
+
+//psychoruins
 
 using namespace Urho3D;
 
@@ -159,6 +161,7 @@ public:
 		scene_ = new Scene(context_);
 		game = new Gameplay(context_);
 		titleScreen = new TitleScreen(context_);
+		titleScreen->game = game;
 
 		scene_->AddComponent(titleScreen, 777, LOCAL);
 		SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GunPriest, Update));
@@ -169,7 +172,7 @@ public:
 		{
 			scene_->SetUpdateEnabled(true);
 			titleScreen->ourUI->SetVisible(false);
-			titleScreen->ourUI->SetEnabledRecursive(false);
+			titleScreen->ourUI->SetEnabled(false);
 			scene_->RemoveComponent(titleScreen);
 			scene_->AddComponent(game, 666, LOCAL);
 		}
@@ -177,7 +180,7 @@ public:
 		{
 			scene_->SetUpdateEnabled(false);
 			game->ourUI->SetVisible(false);
-			game->ourUI->SetEnabledRecursive(false);
+			game->ourUI->SetEnabled(false);
 			scene_->RemoveComponent(game);
 			scene_->AddComponent(titleScreen, 777, LOCAL);
 		}
@@ -199,7 +202,7 @@ public:
 		}
 		else if (state == STATE_TITLE) 
 		{
-			if (input->GetKeyPress(KEY_RETURN))
+			if (input->GetKeyPress(KEY_RETURN) || titleScreen->gotoGame)
 			{
 				ChangeState(STATE_GAME);
 				if (!game->initialized)
