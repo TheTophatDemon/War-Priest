@@ -44,8 +44,8 @@
 //TODO:
 	//Enemy
 	//Character animation
+	//Sliding
 	//Drop shadow
-	//Shader glitch
 	
 //Potential Optimizations:
 	//Less physics

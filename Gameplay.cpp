@@ -75,7 +75,7 @@ void Gameplay::Start()
 	ourUI->SetEnabledRecursive(true);
 	ourUI->SetVisible(true);
 	viewport->SetRenderPath(cache->GetResource<XMLFile>("RenderPaths/Forward.xml"));
-	viewport->GetRenderPath()->SetShaderParameter("State", 0);
+	viewport->GetRenderPath()->SetShaderParameter("State", 0.0f); //Always use decimal
 	input->SetMouseVisible(false);
 	scene_->SetUpdateEnabled(true);
 }
