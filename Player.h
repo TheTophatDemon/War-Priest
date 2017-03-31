@@ -40,6 +40,7 @@ protected:
 	SharedPtr<Actor> actor;
 	SharedPtr<RigidBody> body;
 	SharedPtr<Node> modelNode;
+	SharedPtr<Node> dropShadow;
 
 	Quaternion newRotation;
 	Vector3 newCameraPosition;

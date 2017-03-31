@@ -30,20 +30,6 @@
 		<attribute name="Offset Rotation" value="-4.37114e-08 1 -0 -0" />
 	</component>
 	<component type="SoundListener" id="16777248" />
-	<node id="16777222">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="camera" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="0 9 -6" />
-		<attribute name="Rotation" value="0.906308 0.422618 0 0" />
-		<attribute name="Scale" value="1 1 1" />
-		<attribute name="Variables" />
-		<component type="Camera" id="16777249">
-			<attribute name="Far Clip" value="600" />
-			<attribute name="FOV" value="90" />
-			<attribute name="Aspect Ratio" value="1.77778" />
-		</component>
-	</node>
 	<node id="16777304">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="model" />

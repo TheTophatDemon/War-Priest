@@ -68,12 +68,19 @@ void Player::Start()
 		actor = node_->GetComponent<Actor>();
 	}
 
+	//Get Model
 	modelNode = node_->GetChild("model");
 	if (!modelNode)
 		std::cout << "PLAYER HAS NO MODEL!" << std::endl;
 	newRotation = modelNode->GetRotation();
 	node_->RemoveChild(modelNode);
 	scene->AddChild(modelNode);
+
+	//Drop Shadow
+	dropShadow = scene->CreateChild();
+	StaticModel* shadModel = dropShadow->CreateComponent<StaticModel>();
+	shadModel->SetModel(cache->GetResource<Model>("Models/shadow.mdl"));
+	shadModel->SetMaterial(cache->GetResource<Material>("Materials/shadow.xml"));
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
 }
@@ -119,6 +126,25 @@ void Player::FixedUpdate(float timeStep)
 	}
 	modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
 	modelNode->SetPosition(node_->GetWorldPosition());
+
+	//Shadow
+	PhysicsRaycastResult result;
+	Vector3 doot = Vector3(0.0f, 0.1f, 0.0f);
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
+	if (result.body_)
+	{
+		dropShadow->SetEnabled(true);
+		dropShadow->SetWorldPosition(result.position_ + doot);
+		Quaternion q = Quaternion();
+		q.FromLookRotation(result.normal_);
+		Vector3 eul = q.EulerAngles();
+		q.FromEulerAngles(eul.x_ + 90.0f, eul.y_, eul.z_);
+		dropShadow->SetRotation(q);
+	}
+	else
+	{
+		dropShadow->SetEnabled(false);
+	}
 
 	HandleCamera();
 }

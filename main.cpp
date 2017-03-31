@@ -45,7 +45,7 @@
 	//Enemy
 	//Character animation
 	//Sliding
-	//Drop shadow
+	//Actually look up what Quaternions are
 	
 //Potential Optimizations:
 	//Less physics
