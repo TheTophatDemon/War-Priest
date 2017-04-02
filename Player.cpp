@@ -38,6 +38,7 @@ using namespace Urho3D;
 
 Player::Player(Context* context) : LogicComponent(context)
 {
+	hailTimer = 0;
 }
 
 void Player::RegisterObject(Context* context)
@@ -158,10 +159,23 @@ void Player::FixedUpdate(float timeStep)
 		if (forwardKey || backwardKey || leftKey || rightKey)
 		{
 			animController->PlayExclusive("Models/grungle_walk.ani", 0, true, 0.2f);
+			hailTimer = 0;
 		}
 		else
 		{
-			animController->PlayExclusive("Models/grungle_idle.ani", 0, true, 0.2f);
+			hailTimer += 1;
+			if (hailTimer == 500)
+			{
+				animController->PlayExclusive("Models/grungle_hailmary.ani", 0, false, 0.2f);
+			}
+			else if (hailTimer < 500)
+			{
+				animController->PlayExclusive("Models/grungle_idle.ani", 0, true, 0.2f);
+			}
+			else if (animController->IsAtEnd("Models/grungle_hailmary.ani"))
+			{
+				hailTimer = 0;
+			}
 		}
 	}
 

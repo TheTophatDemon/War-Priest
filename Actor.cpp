@@ -19,9 +19,9 @@ Actor::Actor(Context* context) : LogicComponent(context)
 	acceleration = 2.0f;
 	maxspeed = 15.0f;
 	friction = 0.85f;
-	fallspeed = 0.5f;
+	fallspeed = 0.7f;
 	maxfall = 150.0f;
-	jumpStrength = 15.0f;
+	jumpStrength = 18.0f;
 
 	onGround = false;
 	slopeSteepness = 0.0f;

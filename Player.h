@@ -46,5 +46,7 @@ protected:
 
 	Quaternion newRotation;
 	Vector3 newCameraPosition;
+
+	int hailTimer;
 };
 
