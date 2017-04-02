@@ -9,6 +9,7 @@
 #include <Urho3D/Physics/PhysicsWorld.h>
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Graphics/ParticleEmitter.h>
+#include <Urho3D/Graphics/AnimationController.h>
 
 using namespace Urho3D;
 
@@ -40,6 +41,7 @@ protected:
 	SharedPtr<Actor> actor;
 	SharedPtr<RigidBody> body;
 	SharedPtr<Node> modelNode;
+	SharedPtr<AnimationController> animController;
 	SharedPtr<Node> dropShadow;
 
 	Quaternion newRotation;

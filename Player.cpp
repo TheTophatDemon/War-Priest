@@ -75,6 +75,8 @@ void Player::Start()
 	newRotation = modelNode->GetRotation();
 	node_->RemoveChild(modelNode);
 	scene->AddChild(modelNode);
+	animController = modelNode->CreateComponent<AnimationController>();
+	animController->PlayExclusive("Models/grungle_idle.ani", 0, true, 0.0f);
 
 	//Drop Shadow
 	dropShadow = scene->CreateChild();
@@ -121,7 +123,7 @@ void Player::FixedUpdate(float timeStep)
 		{
 			newAngle = 270.0f;
 		}
-		newRotation = Quaternion(90.0f, node_->GetRotation().EulerAngles().y_ + newAngle, 0.0f);
+		newRotation = Quaternion(0.0f, node_->GetRotation().EulerAngles().y_ + newAngle - 90.0f, 0.0f);
 		node_->SetRotation(pivot->GetRotation());
 	}
 	modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
@@ -144,6 +146,23 @@ void Player::FixedUpdate(float timeStep)
 	else
 	{
 		dropShadow->SetEnabled(false);
+	}
+
+	//Select Animation
+	if (result.distance_ > 0.5f || !result.body_)
+	{
+		animController->PlayExclusive("Models/grungle_jump.ani", 0, false, 0.2f);
+	}
+	else
+	{
+		if (forwardKey || backwardKey || leftKey || rightKey)
+		{
+			animController->PlayExclusive("Models/grungle_walk.ani", 0, true, 0.2f);
+		}
+		else
+		{
+			animController->PlayExclusive("Models/grungle_idle.ani", 0, true, 0.2f);
+		}
 	}
 
 	HandleCamera();
