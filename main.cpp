@@ -39,12 +39,15 @@
 #include "Actor.h"
 #include "TempEffect.h"
 #include "Boulder.h"
+#include "Enemy.h"
 #include "TitleScreen.h"
 
 //TODO:
 	//Enemy
-	//Hail Mary
+		//Base component
+		//Pyro Pastor component
 	//Sliding
+	//Fix deltatime?
 	//Actually look up what Quaternions are
 	
 //Potential Optimizations:
@@ -55,10 +58,11 @@
 	//Disable scripts on objects that are far away
 
 //COLLISION MASK
-	//1 = ANYTHING THAT'S NOT THE MAP OR THE PLAYER
+	//1 = ANYTHING THAT'S NOT THE MAP
 	//2 = CAN BE JUMPED ON/SLOPED
 	//4 = NPC
 	//8 = BOULDER
+	//64 = ENEMY
 	//128 = PLAYER
 
 //psychoruins
@@ -95,6 +99,7 @@ public:
 		TempEffect::RegisterObject(context);
 		Boulder::RegisterObject(context);
 		TitleScreen::RegisterObject(context);
+		Enemy::RegisterObject(context);
 	}
 	void StartGame()
 	{

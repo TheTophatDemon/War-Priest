@@ -39,6 +39,7 @@
 #include "Player.h"
 #include "NPC.h"
 #include "Boulder.h"
+#include "Enemy.h"
 
 using namespace Urho3D;
 
@@ -89,6 +90,7 @@ void Gameplay::SetupGame()
 	playerNode->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
 	player = new Player(context_);
 	audio->SetListener(playerNode->GetComponent<SoundListener>());
+
 	//Setup Camera
 	cameraNode = scene_->CreateChild();
 	cameraNode->SetPosition(Vector3(0.0f, 12.0f, -12.0f));
@@ -106,64 +108,8 @@ void Gameplay::SetupGame()
 
 	skybox = scene_->GetChild("skybox");
 
-	//Get NPC skin information
-	FileSystem* fs = GetSubsystem<FileSystem>();
-
-	//Get number of models
-	StringVector modelDir;
-	fs->ScanDir(modelDir, fs->GetProgramDir() + "Data/Npcs/", "", SCAN_DIRS, false);
-	int numModels = 0;
-	for (StringVector::Iterator i = modelDir.Begin(); i != modelDir.End(); ++i)
-	{
-		String dir = (String)*i;
-		if (dir.Contains('.', false))
-			continue;
-		if (dir.Contains("model", false))
-			numModels += 1;
-	}
-	//Get number of skins
-	int modelInfo[16][2];
-	for (int i = 0; i < numModels; ++i)
-	{
-		StringVector skinDir;
-		fs->ScanDir(skinDir, fs->GetProgramDir() + "Data/Npcs/model" + String(i), "", SCAN_FILES, false);
-		int numSkins = 0; int numVoices = 0;
-		for (StringVector::Iterator j = skinDir.Begin(); j != skinDir.End(); ++j)
-		{
-			String f = String(*j);
-			if (f.Contains(".png"))
-				numSkins += 1;
-			if (f.Contains(".wav")) 
-			{
-				numVoices += 1;
-			}
-		}
-		modelInfo[i][0] = numSkins;
-		modelInfo[i][1] = numVoices;
-	}
-
-	//Spawn NPCs
-	PODVector<Node*> npcs;
-	scene_->GetChildrenWithTag(npcs, "npc", true);
-	XMLFile* npcObject = cache->GetResource<XMLFile>("Objects/npc.xml");
-	for (PODVector<Node*>::Iterator i = npcs.Begin(); i != npcs.End(); ++i)
-	{
-		Node* npc = (Node*)*i;
-		Matrix3x4 transform = npc->GetWorldTransform();
-		npc->LoadXML(npcObject->GetRoot());
-		npc->SetWorldTransform(transform.Translation(), transform.Rotation(), Vector3::ONE);
-
-		int model = 0;
-		int skin = floor(Random() * modelInfo[model][0]);
-		int voice = floor(Random() * modelInfo[model][1]);
-
-		NPC* cNPC = new NPC(context_);
-		cNPC->modelIndex = model;
-		cNPC->voiceIndex = voice;
-		cNPC->skinIndex = skin;
-		npc->AddComponent(cNPC, 10, LOCAL);
-	}
-
+	//SetupNPC();
+	SetupEnemy();
 	loseText->SetVisible(false);
 	viewport->GetRenderPath()->SetShaderParameter("State", 0.0f);
 	initialized = true;
@@ -304,6 +250,86 @@ void Gameplay::Lose()
 		loseText->SetVisible(true);
 		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
 		loseTimer = 250;
+	}
+}
+
+void Gameplay::SetupEnemy()
+{
+	PODVector<Node*> enemies;
+	scene_->GetChildrenWithTag(enemies, "enemy", true);
+	for (PODVector<Node*>::Iterator i = enemies.Begin(); i != enemies.End(); ++i)
+	{
+		Node* n = (Node*)*i;
+		if (n)
+		{
+			Matrix3x4 t = n->GetWorldTransform();
+			n->LoadXML(cache->GetResource<XMLFile>("Objects/pyropastor.xml")->GetRoot());
+			n->SetWorldTransform(t.Translation(), t.Rotation(), t.Scale());
+			SetOnFloor(n, n->GetWorldPosition());
+			Enemy* e = new Enemy(context_);
+			n->AddComponent(e, 413, LOCAL);
+		}
+	}
+}
+
+void Gameplay::SetupNPC()
+{
+	//Get NPC skin information
+	FileSystem* fs = GetSubsystem<FileSystem>();
+
+	//Get number of models
+	StringVector modelDir;
+	fs->ScanDir(modelDir, fs->GetProgramDir() + "Data/Npcs/", "", SCAN_DIRS, false);
+	int numModels = 0;
+	for (StringVector::Iterator i = modelDir.Begin(); i != modelDir.End(); ++i)
+	{
+		String dir = (String)*i;
+		if (dir.Contains('.', false))
+			continue;
+		if (dir.Contains("model", false))
+			numModels += 1;
+	}
+	//Get number of skins
+	int modelInfo[16][2];
+	for (int i = 0; i < numModels; ++i)
+	{
+		StringVector skinDir;
+		fs->ScanDir(skinDir, fs->GetProgramDir() + "Data/Npcs/model" + String(i), "", SCAN_FILES, false);
+		int numSkins = 0; int numVoices = 0;
+		for (StringVector::Iterator j = skinDir.Begin(); j != skinDir.End(); ++j)
+		{
+			String f = String(*j);
+			if (f.Contains(".png"))
+				numSkins += 1;
+			if (f.Contains(".wav"))
+			{
+				numVoices += 1;
+			}
+		}
+		modelInfo[i][0] = numSkins;
+		modelInfo[i][1] = numVoices;
+	}
+
+	//Spawn NPCs
+	PODVector<Node*> npcs;
+	scene_->GetChildrenWithTag(npcs, "npc", true);
+	XMLFile* npcObject = cache->GetResource<XMLFile>("Objects/npc.xml");
+	for (PODVector<Node*>::Iterator i = npcs.Begin(); i != npcs.End(); ++i)
+	{
+		Node* npc = (Node*)*i;
+		Matrix3x4 transform = npc->GetWorldTransform();
+		npc->LoadXML(npcObject->GetRoot());
+		npc->SetWorldTransform(transform.Translation(), transform.Rotation(), Vector3::ONE);
+
+		int model = 0;
+		int skin = floor(Random() * modelInfo[model][0]);
+		int voice = floor(Random() * modelInfo[model][1]);
+
+		NPC* cNPC = new NPC(context_);
+		cNPC->modelIndex = model;
+		cNPC->voiceIndex = voice;
+		cNPC->skinIndex = skin;
+		npc->AddComponent(cNPC, 10, LOCAL);
 	}
 }
 

@@ -56,6 +56,9 @@ protected:
 	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);
 	void SetOnFloor(Node* n, Vector3 pos);
 	void UpdateHUD(float timeStep);
+	
+	void SetupNPC();
+	void SetupEnemy();
 	SharedPtr<Node> skybox;
 	Color flashColor;
 	float flashSpeed;
