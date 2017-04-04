@@ -46,7 +46,6 @@
 //TODO:
 	//Enemy
 		//Pyro Pastor component
-	//Revive animation
 	//Sliding
 	//Fix deltatime?
 	//Remove resume button from title screen

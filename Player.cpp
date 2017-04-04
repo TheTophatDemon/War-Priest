@@ -85,7 +85,7 @@ void Player::Start()
 	node_->RemoveChild(modelNode);
 	scene->AddChild(modelNode);
 	animController = modelNode->CreateComponent<AnimationController>();
-	animController->PlayExclusive("Models/grungle_idle.ani", 0, true, 0.0f);
+	animController->PlayExclusive("Models/grungle_default.ani", 0, true, 0.0f);
 
 	//Drop Shadow
 	dropShadow = scene->CreateChild();
@@ -182,36 +182,40 @@ void Player::FixedUpdate(float timeStep)
 		}
 		break;
 	case STATE_REVIVE: ////////////////////////////////////////////////////////////////////////////////////
+		animController->PlayExclusive("Models/grungle_revive.ani", 0, true, 0.2f);
 		stateTimer += 1;
 		actor->Move(false, false, false, false, false, timeStep);
-		if (stateTimer > 25)
+		if (animController->GetTime("Models/grungle_revive.ani") >= animController->GetLength("Models/grungle_revive.ani") * 0.9f)
 		{
 			ChangeState(STATE_DEFAULT);
 		}
-		PODVector<Node*> enemies;
-		scene->GetChildrenWithTag(enemies, "enemy", true);
-		float smallestDistance = 10000.0f;
-		Node* nearestEnemy = nullptr;
-		for (PODVector<Node*>::Iterator i = enemies.Begin(); i != enemies.End(); ++i)
+		if (stateTimer == 20) 
 		{
-			Node* enemy = (Node*)*i;
-			if (enemy)
+			PODVector<Node*> enemies;
+			scene->GetChildrenWithTag(enemies, "enemy", true);
+			float smallestDistance = 10000.0f;
+			Node* nearestEnemy = nullptr;
+			for (PODVector<Node*>::Iterator i = enemies.Begin(); i != enemies.End(); ++i)
 			{
-				float dist = (enemy->GetWorldPosition() - node_->GetWorldPosition()).Length();
-				if (dist < 5.0f)
+				Node* enemy = (Node*)*i;
+				if (enemy)
 				{
-					if (dist < smallestDistance)
+					float dist = (enemy->GetWorldPosition() - node_->GetWorldPosition()).Length();
+					if (dist < 5.0f)
 					{
-						smallestDistance = dist;
-						nearestEnemy = enemy;
+						if (dist < smallestDistance)
+						{
+							smallestDistance = dist;
+							nearestEnemy = enemy;
+						}
 					}
 				}
 			}
-		}
-		if (nearestEnemy)
-		{
-			Enemy* e = nearestEnemy->GetDerivedComponent<Enemy>();
-			e->Revive();
+			if (nearestEnemy)
+			{
+				Enemy* e = nearestEnemy->GetDerivedComponent<Enemy>();
+				e->Revive();
+			}
 		}
 		break;
 	}
