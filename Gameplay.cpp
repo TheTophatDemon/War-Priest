@@ -40,6 +40,7 @@
 #include "NPC.h"
 #include "Boulder.h"
 #include "Enemy.h"
+#include "PyroPastor.h"
 
 using namespace Urho3D;
 
@@ -228,14 +229,14 @@ void Gameplay::GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cell
 	spr->SetImageRect(rect);
 }
 
-void Gameplay::SetOnFloor(Node* n, Vector3 pos)
+void Gameplay::SetOnFloor(Node* n, Vector3 pos, float offset)
 {
 	PhysicsRaycastResult result;
 	scene_->GetComponent<PhysicsWorld>()->RaycastSingle(result, Ray(pos, Vector3::DOWN), 500.0f, 2);
 
 	if (result.body_)
 	{
-		n->SetWorldPosition(result.position_);
+		n->SetWorldPosition(result.position_ + Vector3(0.0f, offset, 0.0f));
 	}
 	else
 	{
@@ -265,9 +266,10 @@ void Gameplay::SetupEnemy()
 			Matrix3x4 t = n->GetWorldTransform();
 			n->LoadXML(cache->GetResource<XMLFile>("Objects/pyropastor.xml")->GetRoot());
 			n->SetWorldTransform(t.Translation(), t.Rotation(), t.Scale());
-			SetOnFloor(n, n->GetWorldPosition());
-			Enemy* e = new Enemy(context_);
-			n->AddComponent(e, 413, LOCAL);
+			SetOnFloor(n, n->GetWorldPosition(), 0.1f);
+			n->CreateComponent<PyroPastor>();
+			//Enemy* e = new Enemy(context_);
+			//n->AddComponent(e, 413, LOCAL);
 		}
 	}
 }

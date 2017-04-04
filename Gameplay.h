@@ -54,7 +54,7 @@ public:
 protected:
 	void AfterRenderUpdate(StringHash eventType, VariantMap& eventData);
 	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);
-	void SetOnFloor(Node* n, Vector3 pos);
+	void SetOnFloor(Node* n, Vector3 pos, float offset = 0.0f);
 	void UpdateHUD(float timeStep);
 	
 	void SetupNPC();

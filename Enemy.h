@@ -23,6 +23,7 @@ public:
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
+	virtual void Revive();
 	~Enemy();
 protected:
 	SharedPtr<Gameplay> game;
@@ -31,11 +32,13 @@ protected:
 	SharedPtr<Node> modelNode;
 	SharedPtr<Actor> actor;
 	SharedPtr<RigidBody> body;
+	Quaternion newRotation;
 	int state;
 
-	virtual void Wander();
-	virtual void Dead();
-	void ChangeState(int newState);
+	virtual void Execute();
+	void Wander();
+	void Dead();
+	virtual void ChangeState(int newState);
 
 	float deltaTime;
 };

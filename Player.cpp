@@ -30,15 +30,23 @@
 #include "NPC.h"
 #include "TempEffect.h"
 #include "Boulder.h"
+#include "Enemy.h"
 
 using namespace Urho3D;
 
 #define PITCH_LIMIT_HIGHER 65
 #define PITCH_LIMIT_LOWER 15
 
+#define STATE_DEFAULT 0
+#define STATE_REVIVE 1
+#define STATE_SLIDE 2
+#define STATE_DEAD 3
+
 Player::Player(Context* context) : LogicComponent(context)
 {
 	hailTimer = 0;
+	stateTimer = 0;
+	state = STATE_DEFAULT;
 }
 
 void Player::RegisterObject(Context* context)
@@ -90,94 +98,125 @@ void Player::Start()
 
 void Player::FixedUpdate(float timeStep)
 {
+	//Shadow
+	PhysicsRaycastResult result;
+	Vector3 doot = Vector3(0.0f, 0.1f, 0.0f);
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
+	HandleShadow(result);
+
 	bool forwardKey = input->GetKeyDown(scene->GetGlobalVar("FORWARD KEY").GetInt());
 	bool backwardKey = input->GetKeyDown(scene->GetGlobalVar("BACKWARD KEY").GetInt());
 	bool rightKey = input->GetKeyDown(scene->GetGlobalVar("RIGHT KEY").GetInt());
 	bool leftKey = input->GetKeyDown(scene->GetGlobalVar("LEFT KEY").GetInt());
 	bool jumpKey = input->GetKeyDown(scene->GetGlobalVar("JUMP KEY").GetInt());
-	actor->Move(forwardKey, backwardKey, rightKey, leftKey, jumpKey, timeStep);
-
-	//Decide what angle the model will be facing
 	float newAngle = 0.0f;
-	if (rightKey || leftKey || forwardKey || backwardKey) 
-	{
-		if (forwardKey)
-		{
-			if (rightKey)
-				newAngle = 45.0f;
-			if (leftKey)
-				newAngle = -45.0f;
-		}
-		else if (backwardKey)
-		{
-			newAngle = 180.0f;
-			if (rightKey)
-				newAngle -= 45.0f;
-			if (leftKey)
-				newAngle += 45.0f;
-		}
-		else if (rightKey)
-		{
-			newAngle = 90.0f;
-		}
-		else if (leftKey)
-		{
-			newAngle = 270.0f;
-		}
-		newRotation = Quaternion(0.0f, node_->GetRotation().EulerAngles().y_ + newAngle - 90.0f, 0.0f);
-		node_->SetRotation(pivot->GetRotation());
-	}
-	modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
-	modelNode->SetPosition(node_->GetWorldPosition());
 
-	//Shadow
-	PhysicsRaycastResult result;
-	Vector3 doot = Vector3(0.0f, 0.1f, 0.0f);
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
-	if (result.body_)
+	switch (state) 
 	{
-		dropShadow->SetEnabled(true);
-		dropShadow->SetWorldPosition(result.position_ + doot);
-		Quaternion q = Quaternion();
-		q.FromLookRotation(result.normal_);
-		Vector3 eul = q.EulerAngles();
-		q.FromEulerAngles(eul.x_ + 90.0f, eul.y_, eul.z_);
-		dropShadow->SetRotation(q);
-	}
-	else
-	{
-		dropShadow->SetEnabled(false);
-	}
+	case STATE_DEFAULT: ///////////////////////////////////////////////////////////////////////////////////////////
+		actor->Move(forwardKey, backwardKey, rightKey, leftKey, jumpKey, timeStep);
 
-	//Select Animation
-	if (result.distance_ > 0.5f || !result.body_)
-	{
-		animController->PlayExclusive("Models/grungle_jump.ani", 0, false, 0.2f);
-	}
-	else
-	{
-		if (forwardKey || backwardKey || leftKey || rightKey)
+		if (input->GetMouseButtonDown(MOUSEB_LEFT))
 		{
-			animController->PlayExclusive("Models/grungle_walk.ani", 0, true, 0.2f);
-			hailTimer = 0;
+			ChangeState(STATE_REVIVE);
+		}
+
+		//Decide what angle the model will be facing
+		if (rightKey || leftKey || forwardKey || backwardKey)
+		{
+			if (forwardKey)
+			{
+				if (rightKey)
+					newAngle = 45.0f;
+				if (leftKey)
+					newAngle = -45.0f;
+			}
+			else if (backwardKey)
+			{
+				newAngle = 180.0f;
+				if (rightKey)
+					newAngle -= 45.0f;
+				if (leftKey)
+					newAngle += 45.0f;
+			}
+			else if (rightKey)
+			{
+				newAngle = 90.0f;
+			}
+			else if (leftKey)
+			{
+				newAngle = 270.0f;
+			}
+			newRotation = Quaternion(0.0f, node_->GetRotation().EulerAngles().y_ + newAngle - 90.0f, 0.0f);
+			node_->SetRotation(pivot->GetRotation());
+		}
+
+		//Select Animation
+		if (result.distance_ > 0.5f || !result.body_)
+		{
+			animController->PlayExclusive("Models/grungle_jump.ani", 0, false, 0.2f);
 		}
 		else
 		{
-			hailTimer += 1;
-			if (hailTimer == 500)
+			if (forwardKey || backwardKey || leftKey || rightKey)
 			{
-				animController->PlayExclusive("Models/grungle_hailmary.ani", 0, false, 0.2f);
-			}
-			else if (hailTimer < 500)
-			{
-				animController->PlayExclusive("Models/grungle_idle.ani", 0, true, 0.2f);
-			}
-			else if (animController->IsAtEnd("Models/grungle_hailmary.ani"))
-			{
+				animController->PlayExclusive("Models/grungle_walk.ani", 0, true, 0.2f);
 				hailTimer = 0;
 			}
+			else
+			{
+				hailTimer += 1;
+				if (hailTimer == 500)
+				{
+					animController->PlayExclusive("Models/grungle_hailmary.ani", 0, false, 0.2f);
+				}
+				else if (hailTimer < 500)
+				{
+					animController->PlayExclusive("Models/grungle_idle.ani", 0, true, 0.2f);
+				}
+				else if (animController->IsAtEnd("Models/grungle_hailmary.ani"))
+				{
+					hailTimer = 0;
+				}
+			}
 		}
+		break;
+	case STATE_REVIVE: ////////////////////////////////////////////////////////////////////////////////////
+		stateTimer += 1;
+		actor->Move(false, false, false, false, false, timeStep);
+		if (stateTimer > 25)
+		{
+			ChangeState(STATE_DEFAULT);
+		}
+		PODVector<Node*> enemies;
+		scene->GetChildrenWithTag(enemies, "enemy", true);
+		float smallestDistance = 10000.0f;
+		Node* nearestEnemy = nullptr;
+		for (PODVector<Node*>::Iterator i = enemies.Begin(); i != enemies.End(); ++i)
+		{
+			Node* enemy = (Node*)*i;
+			if (enemy)
+			{
+				float dist = (enemy->GetWorldPosition() - node_->GetWorldPosition()).Length();
+				if (dist < 5.0f)
+				{
+					if (dist < smallestDistance)
+					{
+						smallestDistance = dist;
+						nearestEnemy = enemy;
+					}
+				}
+			}
+		}
+		if (nearestEnemy)
+		{
+			Enemy* e = nearestEnemy->GetDerivedComponent<Enemy>();
+			e->Revive();
+		}
+		break;
 	}
+	modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
+	modelNode->SetPosition(node_->GetWorldPosition());
 
 	HandleCamera();
 }
@@ -200,6 +239,30 @@ void Player::HandleCamera()
 	newAngle.FromLookRotation((node_->GetWorldPosition() - cameraNode->GetWorldPosition()).Normalized());
 	cameraNode->SetRotation(Quaternion(newAngle.EulerAngles().x_, Vector3::RIGHT));
 	pivot->SetWorldPosition(Vector3(node_->GetWorldPosition().x_, 0.0f, node_->GetWorldPosition().z_));
+}
+
+void Player::HandleShadow(PhysicsRaycastResult result)
+{
+	if (result.body_)
+	{
+		dropShadow->SetEnabled(true);
+		dropShadow->SetWorldPosition(result.position_ + Vector3(0.0f, 0.1f, 0.0f));
+		Quaternion q = Quaternion();
+		q.FromLookRotation(result.normal_);
+		Vector3 eul = q.EulerAngles();
+		q.FromEulerAngles(eul.x_ + 90.0f, eul.y_, eul.z_);
+		dropShadow->SetRotation(q);
+	}
+	else
+	{
+		dropShadow->SetEnabled(false);
+	}
+}
+
+void Player::ChangeState(int newState)
+{
+	stateTimer = 0;
+	state = newState;
 }
 
 Player::~Player()

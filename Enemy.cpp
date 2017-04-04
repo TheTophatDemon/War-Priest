@@ -28,8 +28,13 @@ void Enemy::Start()
 		actor = node_->CreateComponent<Actor>();
 	else
 		actor = node_->GetComponent<Actor>();
+	actor->SetEnabled(false);
 
 	state = STATE_DEAD;
+}
+
+void Enemy::Execute()
+{
 }
 
 void Enemy::FixedUpdate(float timeStep)
@@ -39,16 +44,7 @@ void Enemy::FixedUpdate(float timeStep)
 	if (dist < 50.0f)
 	{
 		body->SetEnabled(true);
-		switch (state)
-		{
-		case STATE_DEAD:
-			actor->SetEnabled(false);
-			Dead();
-			break;
-		case STATE_WANDER:
-			Wander();
-			break;
-		}
+		Execute();
 	}
 	else
 	{
@@ -61,10 +57,17 @@ void Enemy::Wander()
 	actor->Move(true, false, false, false, false, deltaTime);
 }
 
-void Enemy::Dead()
+void Enemy::Dead() //This function defines the defualt behavior for being dead
 {
+	actor->SetEnabled(false);
 	body->SetLinearVelocity(Vector3::ZERO);
 	body->SetAngularVelocity(Vector3::ZERO);
+	modelNode->SetRotation(Quaternion(90.0f, Vector3::RIGHT));
+}
+
+void Enemy::Revive()
+{
+	ChangeState(STATE_WANDER);
 }
 
 void Enemy::ChangeState(int newState)
@@ -73,6 +76,7 @@ void Enemy::ChangeState(int newState)
 	if (newState != STATE_DEAD && state == STATE_DEAD)
 	{
 		actor->SetEnabled(true);
+		modelNode->SetRotation(Quaternion::IDENTITY);
 	}
 	state = newState;
 }

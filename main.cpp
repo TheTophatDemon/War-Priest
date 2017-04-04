@@ -41,13 +41,16 @@
 #include "Boulder.h"
 #include "Enemy.h"
 #include "TitleScreen.h"
+#include "PyroPastor.h"
 
 //TODO:
 	//Enemy
-		//Base component
 		//Pyro Pastor component
+	//Revive animation
 	//Sliding
 	//Fix deltatime?
+	//Remove resume button from title screen
+
 	//Actually look up what Quaternions are
 	
 //Potential Optimizations:
@@ -100,6 +103,7 @@ public:
 		Boulder::RegisterObject(context);
 		TitleScreen::RegisterObject(context);
 		Enemy::RegisterObject(context);
+		PyroPastor::RegisterObject(context);
 	}
 	void StartGame()
 	{

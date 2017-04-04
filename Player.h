@@ -7,6 +7,7 @@
 #include <Urho3D/Input/Input.h>
 #include <Urho3D/Physics/RigidBody.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
+#include <Urho3D/Physics/PhysicsUtils.h>
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Graphics/ParticleEmitter.h>
 #include <Urho3D/Graphics/AnimationController.h>
@@ -31,6 +32,8 @@ protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnAnimTrigger(StringHash eventType, VariantMap& eventData);
 	void HandleCamera();
+	void HandleShadow(PhysicsRaycastResult result);
+	void ChangeState(int newState);
 
 	SharedPtr<Scene> scene;
 	SharedPtr<ResourceCache> cache;
@@ -47,6 +50,8 @@ protected:
 	Quaternion newRotation;
 	Vector3 newCameraPosition;
 
+	int state;
 	int hailTimer;
+	int stateTimer;
 };
 
