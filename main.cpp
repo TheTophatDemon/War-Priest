@@ -46,7 +46,7 @@
 //TODO:
 	//Enemy
 		//Pyro Pastor component
-			//Turn at walls!
+			//Stuck on walls?
 			//Fireballs
 	//Sliding
 	//Fix deltatime?

@@ -25,6 +25,7 @@ void PyroPastor::RegisterObject(Context* context)
 
 void PyroPastor::Execute()
 {
+	float turnAmount = 0.0f;
 	switch (state)
 	{
 	case STATE_DEAD:
@@ -35,7 +36,7 @@ void PyroPastor::Execute()
 		if (turnTimer > 50)
 		{
 			turnTimer = 0;
-			newRotation = Quaternion(node_->GetRotation().y_ + Random(0, 360), Vector3::UP);
+			turnAmount = Random(0, 360);
 			walking = false;
 			if (Random(0, 2) == 1) walking = true;
 		}
@@ -43,16 +44,23 @@ void PyroPastor::Execute()
 		{
 			if (CheckCliff())
 			{
-				newRotation = Quaternion(node_->GetRotation().y_ + Random(90, 180), Vector3::UP);
+				turnAmount = Random(90, 180);
 				turnTimer = 0;
 				walking = false;
 			}
+			else
+			{
+				PhysicsRaycastResult result;
+				physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 1.5f, 0.0f), node_->GetWorldRotation() * Vector3::FORWARD), 4.0f, 2U);
+				if (result.body_)
+				{
+					turnAmount = Random(90, 180);
+				}
+			}
 		}
+		if (turnAmount != 0.0f)
+			newRotation = Quaternion(node_->GetRotation().y_ + turnAmount, Vector3::UP);
 		stateTimer += 1;
-		/*if (stateTimer > 500)
-		{
-			ChangeState(STATE_ATTACK);
-		}*/
 		actor->Move(walking, false, false, false, false, deltaTime);
 		break;
 	case STATE_ATTACK:

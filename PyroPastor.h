@@ -27,6 +27,7 @@ protected:
 	virtual void Execute();
 	virtual void Dead();
 	virtual void ChangeState(int newState);
+	float turnAmount = 0.0f;
 	int turnTimer = 0;
 	bool walking = false;
 };
