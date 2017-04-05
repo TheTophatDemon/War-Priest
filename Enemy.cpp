@@ -9,6 +9,7 @@
 
 Enemy::Enemy(Context* context) : LogicComponent(context)
 {
+	turnAmount = 0.0f;
 }
 
 void Enemy::RegisterObject(Context* context)
@@ -45,6 +46,7 @@ void Enemy::FixedUpdate(float timeStep)
 	{
 		body->SetEnabled(true);
 		Execute();
+		node_->SetRotation(node_->GetRotation().Slerp(newRotation, 0.25f));
 	}
 	else
 	{
@@ -62,7 +64,6 @@ void Enemy::Dead() //This function defines the defualt behavior for being dead
 	actor->SetEnabled(false);
 	body->SetLinearVelocity(Vector3::ZERO);
 	body->SetAngularVelocity(Vector3::ZERO);
-	modelNode->SetRotation(Quaternion(90.0f, Vector3::RIGHT));
 }
 
 void Enemy::Revive()
@@ -73,12 +74,27 @@ void Enemy::Revive()
 void Enemy::ChangeState(int newState)
 {
 	//For handling transitions
+
 	if (newState != STATE_DEAD && state == STATE_DEAD)
 	{
 		actor->SetEnabled(true);
-		modelNode->SetRotation(Quaternion::IDENTITY);
 	}
 	state = newState;
+	stateTimer = 0;
+}
+
+bool Enemy::CheckCliff()
+{
+	PhysicsRaycastResult result;
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + (node_->GetRotation() * (Vector3::FORWARD * 2.0f)), Vector3::DOWN), 4, 2);
+	if (!result.body_)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 Enemy::~Enemy()

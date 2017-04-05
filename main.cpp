@@ -46,6 +46,8 @@
 //TODO:
 	//Enemy
 		//Pyro Pastor component
+			//Turn at walls!
+			//Fireballs
 	//Sliding
 	//Fix deltatime?
 	//Remove resume button from title screen

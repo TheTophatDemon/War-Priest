@@ -33,11 +33,14 @@ protected:
 	SharedPtr<Actor> actor;
 	SharedPtr<RigidBody> body;
 	Quaternion newRotation;
+	float turnAmount;
 	int state;
+	int stateTimer;
 
 	virtual void Execute();
 	void Wander();
 	void Dead();
+	bool CheckCliff();
 	virtual void ChangeState(int newState);
 
 	float deltaTime;

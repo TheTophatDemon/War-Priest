@@ -25,6 +25,9 @@ public:
 	~PyroPastor();
 protected:
 	virtual void Execute();
+	virtual void Dead();
 	virtual void ChangeState(int newState);
+	int turnTimer = 0;
+	bool walking = false;
 };
 
