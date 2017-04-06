@@ -194,27 +194,30 @@ void Player::FixedUpdate(float timeStep)
 			PODVector<Node*> enemies;
 			scene->GetChildrenWithTag(enemies, "enemy", true);
 			float smallestDistance = 10000.0f;
-			Node* nearestEnemy = nullptr;
+			Enemy* nearestEnemy = nullptr;
 			for (PODVector<Node*>::Iterator i = enemies.Begin(); i != enemies.End(); ++i)
 			{
 				Node* enemy = (Node*)*i;
 				if (enemy)
 				{
-					float dist = (enemy->GetWorldPosition() - node_->GetWorldPosition()).Length();
-					if (dist < 5.0f)
+					Enemy* e = enemy->GetDerivedComponent<Enemy>();
+					if (e->state == 0) 
 					{
-						if (dist < smallestDistance)
+						float dist = (enemy->GetWorldPosition() - node_->GetWorldPosition()).Length();
+						if (dist < 5.0f)
 						{
-							smallestDistance = dist;
-							nearestEnemy = enemy;
+							if (dist < smallestDistance)
+							{
+								smallestDistance = dist;
+								nearestEnemy = e;
+							}
 						}
 					}
 				}
 			}
 			if (nearestEnemy)
 			{
-				Enemy* e = nearestEnemy->GetDerivedComponent<Enemy>();
-				e->Revive();
+				nearestEnemy->Revive();
 			}
 		}
 		break;

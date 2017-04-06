@@ -25,6 +25,7 @@ public:
 	virtual void FixedUpdate(float timeStep);
 	virtual void Revive();
 	~Enemy();
+	int state;
 protected:
 	SharedPtr<Gameplay> game;
 	SharedPtr<ResourceCache> cache;
@@ -34,7 +35,7 @@ protected:
 	SharedPtr<RigidBody> body;
 	Quaternion newRotation;
 	float turnAmount;
-	int state;
+	
 	int stateTimer;
 
 	virtual void Execute();

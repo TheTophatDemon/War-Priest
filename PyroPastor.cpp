@@ -3,6 +3,7 @@
 
 #include "Gameplay.h"
 #include "Actor.h"
+#include <iostream>
 
 #define STATE_DEAD 0
 #define STATE_WANDER 1
@@ -37,24 +38,21 @@ void PyroPastor::Execute()
 		{
 			turnTimer = 0;
 			turnAmount = Random(0, 360);
-			walking = false;
-			if (Random(0, 2) == 1) walking = true;
+			walking = true;
 		}
 		if (walking)
 		{
 			if (CheckCliff())
 			{
-				turnAmount = Random(90, 180);
-				turnTimer = 0;
 				walking = false;
 			}
-			else
+			else 
 			{
 				PhysicsRaycastResult result;
-				physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 1.5f, 0.0f), node_->GetWorldRotation() * Vector3::FORWARD), 4.0f, 2U);
+				physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.05f, 0.0f), node_->GetRotation() * (Vector3::FORWARD * 2.0f)), 4.0f, 2U);
 				if (result.body_)
 				{
-					turnAmount = Random(90, 180);
+					walking = false;
 				}
 			}
 		}
