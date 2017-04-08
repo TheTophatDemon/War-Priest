@@ -20,15 +20,16 @@ class Player : public LogicComponent
 {
 	URHO3D_OBJECT(Player, LogicComponent);
 public:
-	SharedPtr<Input> input;
-	SharedPtr<Node> pivot;
-
 	Player(Context* context);
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
 	void OnHurt(Node* source, int damage);
 	~Player();
+
+	SharedPtr<Input> input;
+	SharedPtr<Node> pivot;
+	int health;
 protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnAnimTrigger(StringHash eventType, VariantMap& eventData);

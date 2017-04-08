@@ -50,6 +50,7 @@ Gameplay::Gameplay(Context* context) : LogicComponent(context)
 	SetUpdateEventMask(USE_FIXEDUPDATE);
 	flashSpeed = 0.0f;
 	flashColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
+	oldHealth = 100.0f;
 	initialized = false;
 
 	cache = GetSubsystem<ResourceCache>();
@@ -143,7 +144,16 @@ void Gameplay::FixedUpdate(float timeStep)
 
 void Gameplay::UpdateHUD(float timeStep)
 {
-	
+	if (player) 
+	{
+		if (oldHealth != player->health)
+		{
+			float diff = (oldHealth - player->health);
+			oldHealth -= diff * 0.25f;
+			if (fabs(diff) < 0.1f) oldHealth = player->health;
+		}
+		healthMeter->SetSize(floor((oldHealth / 100.0f) * 628.0f), 52);
+	}
 }
 
 Gameplay::~Gameplay()
@@ -184,6 +194,8 @@ void Gameplay::MakeHUD()
 	loseText->SetVerticalAlignment(VA_CENTER);
 	ourUI->AddChild(loseText);
 	loseText->SetVisible(false);
+
+	healthMeter = (Sprite*)ourUI->GetChild("healthbar", true)->GetChild(0);
 
 	ourUI->SetEnabled(false);
 	ourUI->SetVisible(false);

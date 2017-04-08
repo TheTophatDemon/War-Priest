@@ -31,6 +31,7 @@ public:
 	WeakPtr<Camera> camera;
 	Input* input;
 	SharedPtr<Text> text;
+	SharedPtr<Sprite> healthMeter;
 	SharedPtr<Viewport> viewport;
 	SharedPtr<Renderer> renderer;
 	SharedPtr<Audio> audio;
@@ -65,6 +66,7 @@ protected:
 	SharedPtr<Node> skybox;
 	Color flashColor;
 	float flashSpeed;
+	float oldHealth;
 	
 	SharedPtr<Text> loseText;
 };

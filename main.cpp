@@ -49,7 +49,8 @@
 		//Pyro Pastor component
 			//Animation
 	//Sliding
-	//Player health
+	//Player hurt effects
+	//Player revive effects
 
 	//Actually look up what Quaternions are
 	

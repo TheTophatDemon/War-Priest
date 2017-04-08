@@ -47,6 +47,7 @@ Player::Player(Context* context) : LogicComponent(context)
 	hailTimer = 0;
 	stateTimer = 0;
 	state = STATE_DEFAULT;
+	health = 100;
 }
 
 void Player::RegisterObject(Context* context)
@@ -240,7 +241,7 @@ void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)
 
 void Player::OnHurt(Node* source, int amount)
 {
-	
+	health -= amount;
 }
 
 void Player::HandleCamera()
