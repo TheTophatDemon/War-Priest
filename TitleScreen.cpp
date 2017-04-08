@@ -21,6 +21,7 @@ TitleScreen::TitleScreen(Context* context) : LogicComponent(context)
 	audio = GetSubsystem<Audio>();
 	ui->GetRoot()->LoadChildXML(cache->GetResource<XMLFile>("UI/titleLayout.xml")->GetRoot());
 	ourUI = ui->GetRoot()->GetChild("titlescreen", true);
+	resumeButton = (Button*)ourUI->GetChild("resumeGame", true);
 	
 	//Disable all text so they don't interfere with button input
 	PODVector<UIElement*> children;
@@ -52,6 +53,7 @@ void TitleScreen::Start()
 		ourUI->SetEnabled(true);
 		ourUI->SetVisible(true);
 	}
+	resumeButton->SetVisible(game->initialized);
 	renderer->GetViewport(0)->SetRenderPath(cache->GetResource<XMLFile>("RenderPaths/Forward_Blur.xml"));
 	input->SetMouseVisible(true);
 	

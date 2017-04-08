@@ -41,6 +41,7 @@
 #include "Boulder.h"
 #include "Enemy.h"
 #include "PyroPastor.h"
+#include "Projectile.h"
 
 using namespace Urho3D;
 
@@ -272,6 +273,22 @@ void Gameplay::SetupEnemy()
 			//n->AddComponent(e, 413, LOCAL);
 		}
 	}
+}
+
+Node* Gameplay::MakeProjectile(String name, Vector3 position, Quaternion rotation, Node* owner)
+{
+	Node* n = scene_->CreateChild();
+	n->LoadXML(cache->GetResource<XMLFile>("Objects/projectile_" + name + ".xml")->GetRoot());
+	n->SetPosition(position);
+	n->SetRotation(rotation);
+	Projectile* p = new Projectile(context_);
+	p->owner = owner;
+	if (name == "fireball")
+	{
+		p->projectileType = 0;
+	}
+	n->AddComponent(p, 333, LOCAL);
+	return n;
 }
 
 void Gameplay::SetupNPC()

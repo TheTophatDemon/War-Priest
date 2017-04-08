@@ -11,6 +11,7 @@
 #include <Urho3D/Audio/Audio.h>
 #include <Urho3D/UI/UI.h>
 #include <Urho3D/UI/UIElement.h>
+#include <Urho3D/UI/Button.h>
 
 using namespace Urho3D;
 
@@ -35,5 +36,6 @@ protected:
 	SharedPtr<Input> input;
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<Audio> audio;
+	SharedPtr<Button> resumeButton;
 };
 

@@ -13,39 +13,28 @@
 
 using namespace Urho3D;
 
-class Actor;
 class Gameplay;
-class Projectile;
-class Enemy : public LogicComponent
+class Projectile : public LogicComponent
 {
-	URHO3D_OBJECT(Enemy, LogicComponent);
+	URHO3D_OBJECT(Projectile, LogicComponent);
 public:
-	Enemy(Context* context);
+	Projectile(Context* context);
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
-	virtual void Revive();
-	virtual void OnHurt(Node* source, int amount);
-	~Enemy();
-	int state;
+	void Destroy();
+	~Projectile();
+	Node* owner = nullptr;
+	float radius;
+	float speed;
+	int damage;
+	int projectileType;
 protected:
 	SharedPtr<Gameplay> game;
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<PhysicsWorld> physworld;
-	SharedPtr<Node> modelNode;
-	SharedPtr<Actor> actor;
-	SharedPtr<RigidBody> body;
-	Quaternion newRotation;
-	float turnAmount;
-	
-	int stateTimer;
-
-	virtual void Execute();
-	void Wander();
-	void Dead();
-	bool CheckCliff();
-	virtual void ChangeState(int newState);
-
-	float deltaTime;
+	SharedPtr<Scene> scene;
+	Vector3 movement;
+	bool hit;
 };
 

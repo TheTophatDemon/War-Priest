@@ -11,12 +11,13 @@
 
 PyroPastor::PyroPastor(Context* context) : Enemy(context)
 {
-
+	
 }
 
 void PyroPastor::DelayedStart()
 {
 	modelNode->SetRotation(Quaternion(-90.0f, Vector3::UP));
+	actor->maxspeed = 10.0f;
 }
 
 void PyroPastor::RegisterObject(Context* context)
@@ -59,10 +60,23 @@ void PyroPastor::Execute()
 		if (turnAmount != 0.0f)
 			newRotation = Quaternion(node_->GetRotation().y_ + turnAmount, Vector3::UP);
 		stateTimer += 1;
+		if (stateTimer > 100)
+		{
+			ChangeState(STATE_ATTACK);
+		}
 		actor->Move(walking, false, false, false, false, deltaTime);
 		break;
 	case STATE_ATTACK:
-
+		actor->Move(false, false, false, false, false, deltaTime);
+		stateTimer += 1;
+		if (stateTimer == 10)
+		{
+			game->MakeProjectile("fireball", node_->GetWorldPosition() + Vector3(0.0f, 1.5f, 0.0f), node_->GetWorldRotation(), node_);
+		}
+		if (stateTimer > 50)
+		{
+			ChangeState(STATE_WANDER);
+		}
 		break;
 	}
 }

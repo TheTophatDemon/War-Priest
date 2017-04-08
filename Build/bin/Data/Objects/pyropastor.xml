@@ -5,10 +5,11 @@
 	<attribute name="Tags">
 		<string value="enemy" />
 		<string value="pyropastor" />
+		<string value="shootable" />
 	</attribute>
 	<attribute name="Position" value="29.1718 -2.97757 29.3928" />
 	<attribute name="Rotation" value="1 0 0 0" />
-	<attribute name="Scale" value="1 1 1" />
+	<attribute name="Scale" value="0.8 0.8 0.8" />
 	<attribute name="Variables" />
 	<component type="CollisionShape" id="16777474">
 		<attribute name="Shape Type" value="Capsule" />

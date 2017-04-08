@@ -42,14 +42,14 @@
 #include "Enemy.h"
 #include "TitleScreen.h"
 #include "PyroPastor.h"
+#include "Projectile.h"
 
 //TODO:
 	//Enemy
 		//Pyro Pastor component
 			//Fireballs
+			//Firebreath
 	//Sliding
-	//Fix deltatime?
-	//Remove resume button from title screen
 
 	//Actually look up what Quaternions are
 	
@@ -104,6 +104,7 @@ public:
 		TitleScreen::RegisterObject(context);
 		Enemy::RegisterObject(context);
 		PyroPastor::RegisterObject(context);
+		Projectile::RegisterObject(context);
 	}
 	void StartGame()
 	{

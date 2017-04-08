@@ -2,7 +2,9 @@
 <node id="16777309">
 	<attribute name="Is Enabled" value="true" />
 	<attribute name="Name" value="player" />
-	<attribute name="Tags" />
+	<attribute name="Tags">
+		<string value="shootable" />
+	</attribute>
 	<attribute name="Position" value="33.5145 -3.14403 25.2801" />
 	<attribute name="Rotation" value="1 0 0 0" />
 	<attribute name="Scale" value="1 1 1" />

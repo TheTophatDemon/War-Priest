@@ -16,10 +16,10 @@ using namespace Urho3D;
 
 Actor::Actor(Context* context) : LogicComponent(context)
 {
-	acceleration = 2.0f;
+	acceleration = 150.0f;
 	maxspeed = 15.0f;
 	friction = 0.85f;
-	fallspeed = 0.7f;
+	fallspeed = 50.0f;
 	maxfall = 150.0f;
 	jumpStrength = 18.0f;
 
@@ -47,12 +47,12 @@ void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep)
 {
 	if (fw)
 	{
-		forward += acceleration;
+		forward += acceleration * timeStep;
 		if (forward > maxspeed) forward = maxspeed;
 	}
 	else if (bk)
 	{
-		forward -= acceleration;
+		forward -= acceleration * timeStep;
 		if (forward < -maxspeed) forward = -maxspeed;
 	}
 	else
@@ -63,12 +63,12 @@ void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep)
 
 	if (rg)
 	{
-		strafe += acceleration;
+		strafe += acceleration * timeStep;
 		if (strafe > maxspeed) strafe = maxspeed;
 	}
 	else if (lf)
 	{
-		strafe -= acceleration;
+		strafe -= acceleration * timeStep;
 		if (strafe < -maxspeed) strafe = -maxspeed;
 	}
 	else
@@ -77,7 +77,7 @@ void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep)
 		if (fabs(strafe) < 0.1f) strafe = 0.0f;
 	}
 
-	fall -= fallspeed;
+	fall -= fallspeed * timeStep;
 	if (fall < -maxfall) fall = -maxfall;
 	if (onGround)
 	{

@@ -47,6 +47,9 @@ public:
 	void MakeHUD();
 	void FlashScreen(Color c, float spd);
 	void Lose();
+
+	Node* MakeProjectile(String name, Vector3 position, Quaternion rotation, Node* owner = nullptr);
+
 	~Gameplay();
 	int loseTimer = 0;
 	bool initialized = false;

@@ -1,8 +1,10 @@
 #include "Enemy.h"
 #include "Urho3D/Core/Context.h"
+#include <iostream>
 
 #include "Gameplay.h"
 #include "Actor.h"
+#include "Projectile.h"
 
 #define STATE_DEAD 0
 #define STATE_WANDER 1
@@ -95,6 +97,11 @@ bool Enemy::CheckCliff()
 	{
 		return false;
 	}
+}
+
+void Enemy::OnHurt(Node* source, int amount)
+{
+	std::cout << "WAH! FORGET THIS PLACE!" << std::endl;
 }
 
 Enemy::~Enemy()

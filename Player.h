@@ -27,6 +27,7 @@ public:
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
+	void OnHurt(Node* source, int damage);
 	~Player();
 protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);

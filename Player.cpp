@@ -238,6 +238,11 @@ void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)
 	
 }
 
+void Player::OnHurt(Node* source, int amount)
+{
+	
+}
+
 void Player::HandleCamera()
 {
 	float sensitivity = scene->GetGlobalVar("MOUSE SENSITIVITY").GetFloat();
