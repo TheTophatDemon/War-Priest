@@ -10,6 +10,8 @@
 #include <Urho3D/Audio/SoundSource3D.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
 #include <Urho3D/Resource/ResourceCache.h>
+#include <Urho3D/Graphics/ParticleEffect.h>
+#include <Urho3D/Graphics/ParticleEmitter.h>
 
 using namespace Urho3D;
 
@@ -34,7 +36,9 @@ protected:
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<PhysicsWorld> physworld;
 	SharedPtr<Scene> scene;
+	SharedPtr<ParticleEmitter> emitter;
 	Vector3 movement;
+	int timer;
 	bool hit;
 };
 

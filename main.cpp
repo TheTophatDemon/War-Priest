@@ -47,7 +47,7 @@
 //TODO:
 	//Enemy
 		//Pyro Pastor component
-			//Fireballs
+			//Fireballs go straight through 'im! Try messing with the distance formula
 			//Firebreath
 	//Sliding
 

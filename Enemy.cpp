@@ -11,7 +11,7 @@
 
 Enemy::Enemy(Context* context) : LogicComponent(context)
 {
-	turnAmount = 0.0f;
+	turnAmount = 0.0f; distanceFromPlayer = 0.0f;
 }
 
 void Enemy::RegisterObject(Context* context)
@@ -43,8 +43,8 @@ void Enemy::Execute()
 void Enemy::FixedUpdate(float timeStep)
 {
 	deltaTime = timeStep;
-	float dist = (node_->GetWorldPosition() - game->playerNode->GetWorldPosition()).Length();
-	if (dist < 50.0f)
+	distanceFromPlayer = (node_->GetWorldPosition() - game->playerNode->GetWorldPosition()).Length();
+	if (distanceFromPlayer < 50.0f)
 	{
 		body->SetEnabled(true);
 		Execute();

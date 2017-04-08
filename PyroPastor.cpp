@@ -68,10 +68,19 @@ void PyroPastor::Execute()
 		break;
 	case STATE_ATTACK:
 		actor->Move(false, false, false, false, false, deltaTime);
+
+		Quaternion face = Quaternion();
+		Vector3 diff = (game->playerNode->GetWorldPosition() - node_->GetWorldPosition()).Normalized();
+		diff.y_ = 0.0f;
+		face.FromLookRotation(diff, Vector3::UP);
+		newRotation = face;
+
 		stateTimer += 1;
-		if (stateTimer == 10)
+		if (stateTimer == 10 && distanceFromPlayer < 40.0f)
 		{
-			game->MakeProjectile("fireball", node_->GetWorldPosition() + Vector3(0.0f, 1.5f, 0.0f), node_->GetWorldRotation(), node_);
+			Quaternion aim = Quaternion();
+			aim.FromLookRotation((game->playerNode->GetWorldPosition() - node_->GetWorldPosition()).Normalized(), Vector3::UP);
+			game->MakeProjectile("fireball", node_->GetWorldPosition() + Vector3(0.0f, 1.5f, 0.0f), aim, node_);
 		}
 		if (stateTimer > 50)
 		{

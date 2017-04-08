@@ -37,6 +37,7 @@ protected:
 	SharedPtr<RigidBody> body;
 	Quaternion newRotation;
 	float turnAmount;
+	float distanceFromPlayer;
 	
 	int stateTimer;
 
