@@ -47,9 +47,9 @@
 //TODO:
 	//Enemy
 		//Pyro Pastor component
-			//Fireballs go straight through 'im! Try messing with the distance formula
-			//Firebreath
+			//Animation
 	//Sliding
+	//Player health
 
 	//Actually look up what Quaternions are
 	

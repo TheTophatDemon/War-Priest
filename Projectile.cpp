@@ -75,15 +75,30 @@ void Projectile::FixedUpdate(float timeStep)
 			Node* otherNode = (Node*)*i;
 			if (otherNode && otherNode != owner)
 			{
-				float distance = (otherNode->GetWorldPosition() - node_->GetWorldPosition()).Length();
-				if (distance < radius)
+				CollisionShape* shape = otherNode->GetComponent<CollisionShape>();
+				if (shape) 
 				{
-					if (otherNode->HasComponent<Enemy>())
-						otherNode->GetComponent<Enemy>()->OnHurt(node_, damage);
-					else if (otherNode == game->playerNode)
-						game->player->OnHurt(node_, damage);
-					Destroy();
-					break;
+					Vector3 nodePos = node_->GetWorldPosition(); nodePos.y_ = 0.0f; //Get the 2d distance first.
+					Vector3 otherPos = otherNode->GetWorldPosition(); otherPos.y_ = 0.0f;
+					float distance = (otherPos - nodePos).Length();
+					if (distance < radius + shape->GetSize().x_)
+					{
+						if (node_->GetWorldPosition().y_ + radius > otherNode->GetWorldPosition().y_ && node_->GetWorldPosition().y_ - radius <= otherNode->GetWorldPosition().y_ + shape->GetSize().y_ * 2.0f)
+						{
+							Enemy* enm = otherNode->GetDerivedComponent<Enemy>();
+							if (enm)
+							{
+								if (enm->state == 0) break;
+								enm->OnHurt(node_, damage);
+							}
+							else if (otherNode == game->playerNode)
+							{
+								game->player->OnHurt(node_, damage);
+							}
+							Destroy();
+						}
+						break;
+					}
 				}
 			}
 		}

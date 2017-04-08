@@ -204,7 +204,7 @@ void Player::FixedUpdate(float timeStep)
 					if (e->state == 0) 
 					{
 						float dist = (enemy->GetWorldPosition() - node_->GetWorldPosition()).Length();
-						if (dist < 5.0f)
+						if (dist < 8.0f)
 						{
 							if (dist < smallestDistance)
 							{

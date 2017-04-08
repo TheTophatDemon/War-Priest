@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "Urho3D/Physics/CollisionShape.h"
 #include "Urho3D/Core/Context.h"
 #include <iostream>
 
@@ -43,7 +44,9 @@ void Enemy::Execute()
 void Enemy::FixedUpdate(float timeStep)
 {
 	deltaTime = timeStep;
-	distanceFromPlayer = (node_->GetWorldPosition() - game->playerNode->GetWorldPosition()).Length();
+	Vector3 plyPos = game->playerNode->GetWorldPosition(); plyPos.y_ = 0.0f;
+	Vector3 ourPos = node_->GetWorldPosition(); ourPos.y_ = 0.0f;
+	distanceFromPlayer = (ourPos - plyPos).Length();
 	if (distanceFromPlayer < 50.0f)
 	{
 		body->SetEnabled(true);
@@ -101,7 +104,7 @@ bool Enemy::CheckCliff()
 
 void Enemy::OnHurt(Node* source, int amount)
 {
-	std::cout << "WAH! FORGET THIS PLACE!" << std::endl;
+	//std::cout << "WAH! FORGET THIS PLACE!" << std::endl;
 }
 
 Enemy::~Enemy()

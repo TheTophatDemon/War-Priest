@@ -8,6 +8,7 @@
 #include <Urho3D/Physics/RigidBody.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
 #include <Urho3D/Resource/ResourceCache.h>
+#include <Urho3D\Graphics/ParticleEmitter.h>
 
 #include "Enemy.h"
 
@@ -27,6 +28,9 @@ protected:
 	virtual void Execute();
 	virtual void Dead();
 	virtual void ChangeState(int newState);
+	void FaceTarget();
+
+	WeakPtr<Node> target;
 	float turnAmount = 0.0f;
 	int turnTimer = 0;
 	bool walking = false;
