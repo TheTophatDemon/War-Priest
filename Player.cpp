@@ -42,6 +42,9 @@ using namespace Urho3D;
 #define STATE_SLIDE 2
 #define STATE_DEAD 3
 
+#define WALKSPEED 15.0f
+#define SLIDESPEED 20.0f
+
 Player::Player(Context* context) : LogicComponent(context)
 {
 	hailTimer = 0;
@@ -78,6 +81,7 @@ void Player::Start()
 	{
 		actor = node_->GetComponent<Actor>();
 	}
+	actor->maxspeed = WALKSPEED;
 
 	//Get Model
 	modelNode = node_->GetChild("model");
@@ -120,12 +124,7 @@ void Player::FixedUpdate(float timeStep)
 	{
 	case STATE_DEFAULT: ///////////////////////////////////////////////////////////////////////////////////////////
 		actor->Move(forwardKey, backwardKey, rightKey, leftKey, jumpKey, timeStep);
-
-		if (input->GetMouseButtonDown(MOUSEB_LEFT))
-		{
-			ChangeState(STATE_REVIVE);
-		}
-
+		stateTimer += timeStep;
 		//Decide what angle the model will be facing
 		if (rightKey || leftKey || forwardKey || backwardKey)
 		{
@@ -154,6 +153,15 @@ void Player::FixedUpdate(float timeStep)
 			}
 			newRotation = Quaternion(0.0f, node_->GetRotation().EulerAngles().y_ + newAngle - 90.0f, 0.0f);
 			node_->SetRotation(pivot->GetRotation());
+		}
+
+		if (input->GetMouseButtonDown(MOUSEB_LEFT))
+		{
+			ChangeState(STATE_REVIVE);
+		}
+		if (input->GetMouseButtonDown(MOUSEB_RIGHT) && actor->onGround && stateTimer > 0.5f)
+		{
+			ChangeState(STATE_SLIDE);
 		}
 
 		//Select Animation
@@ -226,6 +234,16 @@ void Player::FixedUpdate(float timeStep)
 			}
 		}
 		break;
+	case STATE_SLIDE: /////////////////////////////////////////////////////////////////////////////////
+		animController->PlayExclusive("Models/grungle_slide.ani", 0, false, 0.2f);
+		actor->Move(true, false, false, false, false, timeStep);
+		stateTimer += timeStep;
+		if (stateTimer > 0.5f)
+		{
+			stateTimer = 0;
+			ChangeState(STATE_DEFAULT);
+		}
+		break;
 	}
 	modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
 	modelNode->SetPosition(node_->GetWorldPosition());
@@ -293,6 +311,16 @@ void Player::HandleShadow(PhysicsRaycastResult result)
 
 void Player::ChangeState(int newState)
 {
+	if (newState == STATE_SLIDE && state != STATE_SLIDE)
+	{
+		actor->maxspeed = SLIDESPEED;
+		node_->SetRotation(pivot->GetRotation());
+		newRotation = Quaternion(0.0f, node_->GetRotation().EulerAngles().y_ - 90.0f, 0.0f);
+	}
+	else if (newState != STATE_SLIDE && state == STATE_SLIDE)
+	{
+		actor->maxspeed = WALKSPEED;
+	}
 	stateTimer = 0;
 	state = newState;
 }

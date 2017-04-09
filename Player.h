@@ -55,7 +55,7 @@ protected:
 
 	int state;
 	int hailTimer;
-	int stateTimer;
+	float stateTimer;
 	int hurtTimer;
 };
 

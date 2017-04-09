@@ -39,7 +39,7 @@ protected:
 	float turnAmount;
 	float distanceFromPlayer;
 	
-	int stateTimer;
+	float stateTimer;
 
 	virtual void Execute();
 	void Wander();

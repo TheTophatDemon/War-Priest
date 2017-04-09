@@ -31,6 +31,7 @@ public:
 	float strafe = 0.0f;
 	float fall = 0.0f;
 	bool onGround = false;
+	bool ogrnd = false;
 	float slopeSteepness;
 protected:
 	void GetSlope();

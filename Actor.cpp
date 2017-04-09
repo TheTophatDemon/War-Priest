@@ -46,6 +46,7 @@ void Actor::Start()
 
 void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep) 
 {
+	onGround = ogrnd;
 	if (fw)
 	{
 		forward += acceleration * timeStep;
@@ -112,7 +113,8 @@ void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep)
 
 	movement = (((node_->GetRotation() * Vector3(strafe, fall, forward)) + (knockBackDirection * Vector3::FORWARD * knockBack)) * timeStep * 50.0f);
 	body->SetLinearVelocity(movement);
-	onGround = false;
+	
+	ogrnd = false;
 	slopeSteepness = 0.75f;
 	GetSlope();
 }
@@ -156,7 +158,7 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 			{
 				if (position.y_ <= node_->GetPosition().y_ + 0.5f)
 				{
-					onGround = true;
+					ogrnd = true;
 				}
 				if (position.y_ >= node_->GetPosition().y_ + 2.5f && fall > 0.0f && distance < 0.005f)
 				{

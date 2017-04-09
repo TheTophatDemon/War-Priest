@@ -34,5 +34,6 @@ protected:
 	float turnAmount = 0.0f;
 	int turnTimer = 0;
 	bool walking = false;
+	bool shot = false;
 };
 

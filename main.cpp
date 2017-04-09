@@ -50,6 +50,7 @@
 			//Animation
 	//Sliding
 	//Player revive effects
+	//Revived enemy falls through floor still
 	//Falling off cliffs bug
 	//Camera jitter bug
 
