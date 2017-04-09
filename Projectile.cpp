@@ -23,6 +23,7 @@ Projectile::Projectile(Context* context) : LogicComponent(context)
 	hit = false;
 	movement = Vector3::ZERO;
 	timer = 0;
+	lifeTimer = 0;
 
 	emitter = nullptr;
 }
@@ -34,6 +35,7 @@ void Projectile::RegisterObject(Context* context)
 
 void Projectile::Start()
 {
+	SetGlobalVar("PROJECTILE COUNT", GetGlobalVar("PROJECTILE COUNT").GetInt() + 1);
 	game = GetScene()->GetComponent<Gameplay>();
 	cache = GetSubsystem<ResourceCache>();
 	scene = GetScene();
@@ -44,12 +46,15 @@ void Projectile::Start()
 
 void Projectile::FixedUpdate(float timeStep)
 {
+	lifeTimer += 1;
+	if (lifeTimer > 500) hit = true;
 	if (hit)
 	{
+		timer += 1;
 		switch (projectileType)
 		{
 		case TYPE_FIREBALL:
-			if (emitter->GetNumParticles() <= 1)
+			if (emitter->GetNumParticles() <= 1 || timer > 100)
 			{
 				node_->Remove();
 			}
@@ -119,8 +124,10 @@ void Projectile::Destroy()
 	{
 		emitter->SetEmitting(false);
 	}
+	timer = 0;
 }
 
 Projectile::~Projectile()
 {
+	SetGlobalVar("PROJECTILE COUNT", GetGlobalVar("PROJECTILE COUNT").GetInt() - 1);
 }

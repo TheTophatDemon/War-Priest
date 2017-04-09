@@ -28,6 +28,8 @@ void Enemy::Start()
 	body = node_->GetComponent<RigidBody>();
 	modelNode = node_->GetChild("model");
 
+	SetGlobalVar("ENEMY COUNT", GetGlobalVar("ENEMY COUNT").GetInt() + 1);
+
 	if (!node_->HasComponent<Actor>())
 		actor = node_->CreateComponent<Actor>();
 	else
@@ -47,7 +49,7 @@ void Enemy::FixedUpdate(float timeStep)
 	Vector3 plyPos = game->playerNode->GetWorldPosition(); plyPos.y_ = 0.0f;
 	Vector3 ourPos = node_->GetWorldPosition(); ourPos.y_ = 0.0f;
 	distanceFromPlayer = (ourPos - plyPos).Length();
-	if (distanceFromPlayer < 50.0f)
+	if (distanceFromPlayer < 40.0f)
 	{
 		body->SetEnabled(true);
 		Execute();
@@ -56,6 +58,10 @@ void Enemy::FixedUpdate(float timeStep)
 	else
 	{
 		body->SetEnabled(false);
+	}
+	if (node_->GetWorldPosition().y_ < -100.0f)
+	{
+		node_->Remove();
 	}
 }
 
@@ -73,6 +79,7 @@ void Enemy::Dead() //This function defines the defualt behavior for being dead
 
 void Enemy::Revive()
 {
+	node_->Translate(Vector3(0.0f, 0.1f, 0.0f), TS_LOCAL);
 	ChangeState(STATE_WANDER);
 }
 
@@ -85,7 +92,7 @@ void Enemy::ChangeState(int newState)
 		actor->SetEnabled(true);
 	}
 	state = newState;
-	stateTimer = 0;
+	stateTimer = 0.0f;
 }
 
 bool Enemy::CheckCliff()
@@ -109,4 +116,5 @@ void Enemy::OnHurt(Node* source, int amount)
 
 Enemy::~Enemy()
 {
+	SetGlobalVar("ENEMY COUNT", GetGlobalVar("ENEMY COUNT").GetInt() - 1);
 }

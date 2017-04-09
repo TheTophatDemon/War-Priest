@@ -55,6 +55,8 @@ public:
 	int loseTimer = 0;
 	bool initialized = false;
 	SharedPtr<UIElement> ourUI;
+
+	int projectileCount = 0;
 protected:
 	void AfterRenderUpdate(StringHash eventType, VariantMap& eventData);
 	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);
@@ -69,5 +71,6 @@ protected:
 	float oldHealth;
 	
 	SharedPtr<Text> loseText;
+	SharedPtr<Text> projectileCounter;
 };
 

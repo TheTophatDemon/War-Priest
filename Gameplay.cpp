@@ -71,6 +71,7 @@ void Gameplay::RegisterObject(Context* context)
 
 void Gameplay::Start()
 {
+	SetGlobalVar("PROJECTILE COUNT", 0);
 	viewport = renderer->GetViewport(0);
 	scene_ = SharedPtr<Scene>(GetScene());
 
@@ -153,6 +154,7 @@ void Gameplay::UpdateHUD(float timeStep)
 			if (fabs(diff) < 0.1f) oldHealth = player->health;
 		}
 		healthMeter->SetSize(floor((oldHealth / 100.0f) * 628.0f), 52);
+		projectileCounter->SetText("PROJECTILE: " + String(GetGlobalVar("PROJECTILE COUNT").GetInt()));
 	}
 }
 
@@ -194,6 +196,13 @@ void Gameplay::MakeHUD()
 	loseText->SetVerticalAlignment(VA_CENTER);
 	ourUI->AddChild(loseText);
 	loseText->SetVisible(false);
+
+	projectileCounter = new Text(context_);
+	projectileCounter->SetText("PROJECTILE: " + String(GetGlobalVar("PROJECTILE COUNT").GetInt()));
+	projectileCounter->SetFont("Fonts/Anonymous Pro.ttf", 12);
+	projectileCounter->SetHorizontalAlignment(HA_LEFT);
+	projectileCounter->SetVerticalAlignment(VA_CENTER);
+	ourUI->AddChild(projectileCounter);
 
 	healthMeter = (Sprite*)ourUI->GetChild("healthbar", true)->GetChild(0);
 
