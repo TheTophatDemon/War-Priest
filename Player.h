@@ -48,6 +48,7 @@ protected:
 	SharedPtr<Node> modelNode;
 	SharedPtr<AnimationController> animController;
 	SharedPtr<Node> dropShadow;
+	SharedPtr<ParticleEmitter> bloodEmitter;
 
 	Quaternion newRotation;
 	Vector3 newCameraPosition;
@@ -55,5 +56,6 @@ protected:
 	int state;
 	int hailTimer;
 	int stateTimer;
+	int hurtTimer;
 };
 

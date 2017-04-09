@@ -46,6 +46,7 @@ Player::Player(Context* context) : LogicComponent(context)
 {
 	hailTimer = 0;
 	stateTimer = 0;
+	hurtTimer = 0;
 	state = STATE_DEFAULT;
 	health = 100;
 }
@@ -93,6 +94,9 @@ void Player::Start()
 	StaticModel* shadModel = dropShadow->CreateComponent<StaticModel>();
 	shadModel->SetModel(cache->GetResource<Model>("Models/shadow.mdl"));
 	shadModel->SetMaterial(cache->GetResource<Material>("Materials/shadow.xml"));
+
+	bloodEmitter = node_->GetChild("blood")->GetComponent<ParticleEmitter>();
+	bloodEmitter->SetEmitting(false);
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
 }
@@ -226,6 +230,15 @@ void Player::FixedUpdate(float timeStep)
 	modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
 	modelNode->SetPosition(node_->GetWorldPosition());
 
+	if (hurtTimer > 0)
+	{
+		hurtTimer -= 1;
+		if (hurtTimer <= 0)
+		{
+			bloodEmitter->SetEmitting(false);
+		}
+	}
+
 	HandleCamera();
 }
 
@@ -242,6 +255,12 @@ void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)
 void Player::OnHurt(Node* source, int amount)
 {
 	health -= amount;
+	bloodEmitter->SetEmitting(true);
+	hurtTimer = 20;
+	if (source) 
+	{
+		actor->KnockBack(30.0f, source->GetWorldRotation());
+	}
 }
 
 void Player::HandleCamera()

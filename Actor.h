@@ -16,6 +16,7 @@ public:
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
 	void Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep);
+	void KnockBack(float amount, Quaternion direction);
 	~Actor();
 
 	Vector3 movement;
@@ -39,6 +40,8 @@ protected:
 	SharedPtr<PhysicsWorld> physworld;
 	SharedPtr<Scene> scene;
 	WeakPtr<RigidBody> body;
+	Quaternion knockBackDirection;
+	float knockBack;
 	int aiState;
 };
 

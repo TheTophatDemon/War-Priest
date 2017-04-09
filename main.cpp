@@ -49,8 +49,9 @@
 		//Pyro Pastor component
 			//Animation
 	//Sliding
-	//Player hurt effects
 	//Player revive effects
+	//Falling off cliffs bug
+	//Camera jitter bug
 
 	//Actually look up what Quaternions are
 	

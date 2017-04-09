@@ -26,6 +26,7 @@ Actor::Actor(Context* context) : LogicComponent(context)
 	onGround = false;
 	slopeSteepness = 0.0f;
 	aiState = 0;
+	knockBack = 0.0f;
 
 	movement = Vector3::ZERO;
 }
@@ -100,11 +101,26 @@ void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep)
 	}*/
 	//if (forward != 0.0f) StairCheck();
 
-	movement = (node_->GetRotation() * Vector3(strafe, fall, forward) * timeStep * 50.0f);
+	if (knockBack > 0.1f)
+	{
+		knockBack *= 0.9f;
+	}
+	else
+	{
+		knockBack = 0.0f;
+	}
+
+	movement = (((node_->GetRotation() * Vector3(strafe, fall, forward)) + (knockBackDirection * Vector3::FORWARD * knockBack)) * timeStep * 50.0f);
 	body->SetLinearVelocity(movement);
 	onGround = false;
 	slopeSteepness = 0.75f;
 	GetSlope();
+}
+
+void Actor::KnockBack(float amount, Quaternion direction)
+{
+	knockBack = amount;
+	knockBackDirection = direction;
 }
 
 void Actor::FixedUpdate(float timeStep)

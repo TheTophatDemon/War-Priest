@@ -62,7 +62,7 @@ void PyroPastor::Execute()
 		if (turnAmount != 0.0f)
 			newRotation = Quaternion(node_->GetRotation().y_ + turnAmount, Vector3::UP);
 		stateTimer += 1;
-		if (stateTimer > 100)
+		if (stateTimer > 50)
 		{
 			ChangeState(STATE_ATTACK);
 		}
@@ -80,7 +80,7 @@ void PyroPastor::Execute()
 			aim.FromLookRotation((target->GetWorldPosition() - node_->GetWorldPosition()).Normalized(), Vector3::UP);
 			game->MakeProjectile("fireball", node_->GetWorldPosition() + Vector3(0.0f, 1.5f, 0.0f), aim, node_);
 		}
-		if (stateTimer > 50)
+		if (stateTimer > 40)
 		{
 			ChangeState(STATE_WANDER);
 		}
