@@ -49,7 +49,7 @@ void Enemy::FixedUpdate(float timeStep)
 	Vector3 plyPos = game->playerNode->GetWorldPosition(); plyPos.y_ = 0.0f;
 	Vector3 ourPos = node_->GetWorldPosition(); ourPos.y_ = 0.0f;
 	distanceFromPlayer = (ourPos - plyPos).Length();
-	if (distanceFromPlayer < 40.0f)
+	if (distanceFromPlayer < 60.0f)
 	{
 		body->SetEnabled(true);
 		Execute();
@@ -98,7 +98,7 @@ void Enemy::ChangeState(int newState)
 bool Enemy::CheckCliff()
 {
 	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + (node_->GetRotation() * (Vector3::FORWARD * 2.0f)), Vector3::DOWN), 4, 2);
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.2f, 0.0f) + (newRotation * (Vector3::FORWARD * 2.0f)), Vector3::DOWN), 1.0f, 2);
 	if (!result.body_)
 	{
 		return true;

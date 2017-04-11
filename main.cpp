@@ -45,15 +45,15 @@
 #include "Projectile.h"
 
 //TODO:
-	//Enemy
-		//Pyro Pastor component
-			//Animation
+	//Pyro Pastor model + animation
+	//Pillars
+		//System where all pillars are collected and assigned to a single rigidbody with a whole bunch of collision shapes.
 	//Sliding
+		//Jump + Slide
 	//Player revive effects
-	//Falling off cliffs bug
+	//Consider using a different method for enemy disabling?
+	
 	//Camera jitter bug
-
-	//Projectiles mem leak
 
 	//Actually look up what Quaternions are
 	

@@ -87,6 +87,8 @@ void Gameplay::Start()
 
 void Gameplay::SetupGame()
 {
+	mapNode = scene_->GetChild("map");
+
 	//Setup Player
 	playerNode = scene_->GetChild("player");
 	Matrix3x4 trans = playerNode->GetWorldTransform();
@@ -114,6 +116,7 @@ void Gameplay::SetupGame()
 
 	//SetupNPC();
 	SetupEnemy();
+	SetupProps();
 	loseText->SetVisible(false);
 	viewport->GetRenderPath()->SetShaderParameter("State", 0.0f);
 	initialized = true;
@@ -296,6 +299,31 @@ void Gameplay::SetupEnemy()
 	}
 }
 
+void Gameplay::SetupProps()
+{
+	RigidBody* mapBody = mapNode->GetComponent<RigidBody>();
+	mapBody->DisableMassUpdate();
+
+	PODVector<Node*> props;
+	scene_->GetChildrenWithTag(props, "prop", true);
+	for (PODVector<Node*>::Iterator i = props.Begin(); i != props.End(); ++i)
+	{
+		Node* n = (Node*)*i;
+		if (n)
+		{
+			StaticModel* m = n->GetComponent<StaticModel>();
+			if (m)
+			{
+				CollisionShape* newShape = new CollisionShape(context_);
+				newShape->SetBox(m->GetBoundingBox().Size(), n->GetWorldPosition() - mapNode->GetWorldPosition(), n->GetWorldRotation());
+				mapNode->AddComponent(newShape, 1200, LOCAL);
+			}
+		}
+	}
+
+	mapBody->EnableMassUpdate();
+}
+
 Node* Gameplay::MakeProjectile(String name, Vector3 position, Quaternion rotation, Node* owner)
 {
 	Node* n = scene_->CreateChild();
@@ -375,5 +403,5 @@ void Gameplay::SetupNPC()
 
 void Gameplay::AfterRenderUpdate(StringHash eventType, VariantMap& eventData)
 {
-	//scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
+	//scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(GetSubsystem<DebugRenderer>(), true);
 }

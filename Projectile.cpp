@@ -46,8 +46,8 @@ void Projectile::Start()
 
 void Projectile::FixedUpdate(float timeStep)
 {
-	lifeTimer += 1;
-	if (lifeTimer > 500) hit = true;
+	lifeTimer += timeStep;
+	if (lifeTimer > 2.0f && !hit) Destroy();
 	if (hit)
 	{
 		timer += 1;

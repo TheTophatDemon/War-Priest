@@ -37,7 +37,8 @@ public:
 	SharedPtr<Audio> audio;
 
 	SharedPtr<Node> playerNode;
-	WeakPtr<Player> player;
+	SharedPtr<Player> player;
+	SharedPtr<Node> mapNode;
 
 	Gameplay(Context* context);
 	static void RegisterObject(Context* context);
@@ -65,6 +66,7 @@ protected:
 	
 	void SetupNPC();
 	void SetupEnemy();
+	void SetupProps();
 	SharedPtr<Node> skybox;
 	Color flashColor;
 	float flashSpeed;

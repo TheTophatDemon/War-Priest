@@ -39,7 +39,7 @@ protected:
 	SharedPtr<ParticleEmitter> emitter;
 	Vector3 movement;
 	int timer;
-	int lifeTimer;
+	float lifeTimer;
 	bool hit;
 };
 

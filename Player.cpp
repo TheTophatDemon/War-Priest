@@ -277,7 +277,7 @@ void Player::OnHurt(Node* source, int amount)
 	hurtTimer = 20;
 	if (source) 
 	{
-		actor->KnockBack(30.0f, source->GetWorldRotation());
+		actor->KnockBack(15.0f, source->GetWorldRotation());
 	}
 }
 

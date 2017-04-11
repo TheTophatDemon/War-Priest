@@ -104,7 +104,7 @@ void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep)
 
 	if (knockBack > 0.1f)
 	{
-		knockBack *= 0.9f;
+		knockBack *= 0.95f;
 	}
 	else
 	{
