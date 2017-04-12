@@ -302,10 +302,11 @@ void Gameplay::SetupEnemy()
 void Gameplay::SetupProps()
 {
 	RigidBody* mapBody = mapNode->GetComponent<RigidBody>();
+	float mapScale = mapNode->GetScale().x_;
 	mapBody->DisableMassUpdate();
 
 	PODVector<Node*> props;
-	scene_->GetChildrenWithTag(props, "prop", true);
+	mapNode->GetChildrenWithTag(props, "prop", true);
 	for (PODVector<Node*>::Iterator i = props.Begin(); i != props.End(); ++i)
 	{
 		Node* n = (Node*)*i;
@@ -315,7 +316,7 @@ void Gameplay::SetupProps()
 			if (m)
 			{
 				CollisionShape* newShape = new CollisionShape(context_);
-				newShape->SetBox(m->GetBoundingBox().Size(), n->GetWorldPosition() - mapNode->GetWorldPosition(), n->GetWorldRotation());
+				newShape->SetBox(m->GetBoundingBox().HalfSize(), n->GetPosition(), n->GetRotation());
 				mapNode->AddComponent(newShape, 1200, LOCAL);
 			}
 		}
@@ -403,5 +404,6 @@ void Gameplay::SetupNPC()
 
 void Gameplay::AfterRenderUpdate(StringHash eventType, VariantMap& eventData)
 {
+	
 	//scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(GetSubsystem<DebugRenderer>(), true);
 }

@@ -30,6 +30,7 @@
 #include <Urho3D/Graphics/StaticModel.h>
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/AngelScript/Script.h>
+#include <Urho3D/Physics/PhysicsWorld.h>
 
 #include <time.h>
 
@@ -46,12 +47,14 @@
 
 //TODO:
 	//Pyro Pastor model + animation
-	//Pillars
-		//System where all pillars are collected and assigned to a single rigidbody with a whole bunch of collision shapes.
 	//Sliding
 		//Jump + Slide
 	//Player revive effects
 	//Consider using a different method for enemy disabling?
+	//Player model lags behind
+	//Actor slope limit
+
+	//Normal maps for pillar textures
 	
 	//Camera jitter bug
 
@@ -179,6 +182,7 @@ public:
 
 		scene_->AddComponent(titleScreen, 777, LOCAL);
 		SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GunPriest, Update));
+		SubscribeToEvent(E_POSTRENDERUPDATE, URHO3D_HANDLER(GunPriest, AfterRenderUpdate));
 	}
 	void ChangeState(int newState) //Handles transitions between states
 	{
@@ -229,6 +233,14 @@ public:
 				engine_->Exit();
 				return;
 			}
+		}
+	}
+	void AfterRenderUpdate(StringHash eventType, VariantMap& eventData)
+	{
+		if (state == STATE_GAME && game->initialized)
+		{
+			
+			scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
 		}
 	}
 	virtual void Stop()
