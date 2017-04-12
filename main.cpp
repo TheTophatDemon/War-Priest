@@ -52,7 +52,8 @@
 	//Player revive effects
 	//Consider using a different method for enemy disabling?
 	//Player model lags behind
-	//Actor slope limit
+	//Prop instancing
+	//Redo slope handling completely?
 
 	//Normal maps for pillar textures
 	

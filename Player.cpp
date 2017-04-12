@@ -108,10 +108,10 @@ void Player::Start()
 void Player::FixedUpdate(float timeStep)
 {
 	//Shadow
-	PhysicsRaycastResult result;
+	PhysicsRaycastResult shadowRaycast;
 	Vector3 doot = Vector3(0.0f, 0.1f, 0.0f);
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
-	HandleShadow(result);
+	physworld->RaycastSingle(shadowRaycast, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
+	HandleShadow(shadowRaycast);
 
 	bool forwardKey = input->GetKeyDown(scene->GetGlobalVar("FORWARD KEY").GetInt());
 	bool backwardKey = input->GetKeyDown(scene->GetGlobalVar("BACKWARD KEY").GetInt());
@@ -165,7 +165,7 @@ void Player::FixedUpdate(float timeStep)
 		}
 
 		//Select Animation
-		if (result.distance_ > 0.5f || !result.body_)
+		if (shadowRaycast.distance_ > 0.15f + (1.0f / actor->slopeSteepness) || !shadowRaycast.body_)
 		{
 			animController->PlayExclusive("Models/grungle_jump.ani", 0, false, 0.2f);
 		}

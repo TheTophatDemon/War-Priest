@@ -316,7 +316,14 @@ void Gameplay::SetupProps()
 			if (m)
 			{
 				CollisionShape* newShape = new CollisionShape(context_);
-				newShape->SetBox(m->GetBoundingBox().HalfSize(), n->GetPosition(), n->GetRotation());
+				if (n->GetRotation() == Quaternion::IDENTITY) 
+				{
+					newShape->SetBox(m->GetBoundingBox().HalfSize(), n->GetPosition(), n->GetRotation());
+				}
+				else //If it's rotated, use a trianglemesh collider. Otherwise, use a bounding box for SPEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEED
+				{
+					newShape->SetTriangleMesh(m->GetModel(), 0, n->GetScale(), n->GetPosition(), n->GetRotation());
+				}
 				mapNode->AddComponent(newShape, 1200, LOCAL);
 			}
 		}

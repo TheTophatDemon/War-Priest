@@ -9,6 +9,7 @@
 #include <Urho3D/Physics/PhysicsEvents.h>
 #include <Urho3D/Physics/PhysicsUtils.h>
 #include <Urho3D/Math/Ray.h>
+#include <iostream>
 
 using namespace Urho3D;
 
@@ -83,9 +84,9 @@ void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep)
 	if (fall < -maxfall) fall = -maxfall;
 	if (onGround)
 	{
-		if (slopeSteepness != 0.9f)
+		if (slopeSteepness != 1.0f)
 		{
-			fall = ((-1 / slopeSteepness) + 1) * maxspeed;
+			fall = (-1 / (slopeSteepness * 0.9f) + 1) * maxspeed;
 		}
 		else
 		{
@@ -96,11 +97,6 @@ void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep)
 	{
 		fall = jumpStrength;
 	}
-	/*else if (!jmp && fall > 0.0f)
-	{
-		fall -= 0.5f;
-	}*/
-	//if (forward != 0.0f) StairCheck();
 
 	if (knockBack > 0.1f)
 	{
@@ -113,7 +109,7 @@ void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep)
 
 	movement = (((node_->GetRotation() * Vector3(strafe, fall, forward)) + (knockBackDirection * Vector3::FORWARD * knockBack)) * timeStep * 50.0f);
 	body->SetLinearVelocity(movement);
-	
+
 	ogrnd = false;
 	slopeSteepness = 0.75f;
 	GetSlope();
@@ -137,7 +133,7 @@ void Actor::GetSlope()
 	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 500.0f, LEVELMASK);
 	if (result.body_)
 	{
-		slopeSteepness = result.normal_.y_ * 0.9f;
+		slopeSteepness = result.normal_.y_;
 	}
 }
 
