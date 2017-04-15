@@ -103,6 +103,7 @@ void Player::Start()
 	bloodEmitter->SetEmitting(false);
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
+	SubscribeToEvent(E_POSTUPDATE, URHO3D_HANDLER(Player, PostUpdate));
 }
 
 void Player::FixedUpdate(float timeStep)
@@ -245,8 +246,6 @@ void Player::FixedUpdate(float timeStep)
 		}
 		break;
 	}
-	modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
-	modelNode->SetPosition(node_->GetWorldPosition());
 
 	if (hurtTimer > 0)
 	{
@@ -256,13 +255,18 @@ void Player::FixedUpdate(float timeStep)
 			bloodEmitter->SetEmitting(false);
 		}
 	}
-
-	HandleCamera();
 }
 
 void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
+}
+
+void Player::PostUpdate(StringHash eventType, VariantMap& eventData)
+{
+	modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
+	modelNode->SetPosition(body->GetPosition());
+	HandleCamera();
 }
 
 void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)

@@ -33,6 +33,7 @@ public:
 protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnAnimTrigger(StringHash eventType, VariantMap& eventData);
+	void PostUpdate(StringHash eventType, VariantMap& eventData);
 	void HandleCamera();
 	void HandleShadow(PhysicsRaycastResult result);
 	void ChangeState(int newState);

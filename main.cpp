@@ -48,16 +48,15 @@
 //TODO:
 	//Pyro Pastor model + animation
 	//Sliding
+		//Add limitations
 		//Jump + Slide
 	//Player revive effects
 	//Consider using a different method for enemy disabling?
-	//Player model lags behind
 	//Prop instancing
 	//Redo slope handling completely?
-
-	//Normal maps for pillar textures
+		//Four raycasts, one in front, one in back, etc, etc.
 	
-	//Camera jitter bug
+	//Player jitter bug
 
 	//Actually look up what Quaternions are
 	
