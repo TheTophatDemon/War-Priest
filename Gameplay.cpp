@@ -305,9 +305,25 @@ void Gameplay::SetupProps()
 	float mapScale = mapNode->GetScale().x_;
 	mapBody->DisableMassUpdate();
 
-	PODVector<Node*> props;
+	PODVector<Node*> props; //Get the existing props
 	mapNode->GetChildrenWithTag(props, "prop", true);
-	for (PODVector<Node*>::Iterator i = props.Begin(); i != props.End(); ++i)
+
+	PODVector<Node*> instancers;
+	mapNode->GetChildrenWithTag(instancers, "propInstancer", false);
+	for (PODVector<Node*>::Iterator i = instancers.Begin(); i != instancers.End(); ++i) //Make sure all the instancing groups are at zero position
+	{
+		Node* n = (Node*)*i;
+		if (n)
+		{
+			if (n->GetPosition() != Vector3::ZERO) 
+			{
+				std::cout << "HEY! One of the instancing groups are mispositioned! " << n->GetName().CString() << std::endl;
+			}
+		}
+	}
+
+	//Go through each prop and add a new collision shape to the map for them
+	for (PODVector<Node*>::Iterator i = props.Begin(); i != props.End(); ++i) 
 	{
 		Node* n = (Node*)*i;
 		if (n)
@@ -316,15 +332,34 @@ void Gameplay::SetupProps()
 			if (m)
 			{
 				CollisionShape* newShape = new CollisionShape(context_);
-				if (n->GetRotation() == Quaternion::IDENTITY) 
+				if (n->GetVar("simpleHitbox").GetBool()) 
 				{
 					newShape->SetBox(m->GetBoundingBox().HalfSize(), n->GetPosition(), n->GetRotation());
 				}
-				else //If it's rotated, use a trianglemesh collider. Otherwise, use a bounding box for SPEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEED
+				else
 				{
 					newShape->SetTriangleMesh(m->GetModel(), 0, n->GetScale(), n->GetPosition(), n->GetRotation());
 				}
 				mapNode->AddComponent(newShape, 1200, LOCAL);
+			}
+		}
+	}
+
+	//Find the instancing groups and remove the children's StaticMesh components and add them to the instancing groups
+	for (PODVector<Node*>::Iterator i = instancers.Begin(); i != instancers.End(); ++i)
+	{
+		Node* n = (Node*)*i;
+		if (n)
+		{
+			StaticModelGroup* modelGroup = n->GetComponent<StaticModelGroup>();
+
+			PODVector<Node*> children;
+			n->GetChildren(children);
+			for (PODVector<Node*>::Iterator c = children.Begin(); c != children.End(); c++)
+			{
+				Node* child = (Node*)*c;
+				child->RemoveComponent<StaticModel>();
+				modelGroup->AddInstanceNode(child);
 			}
 		}
 	}

@@ -51,11 +51,11 @@
 		//Add limitations
 		//Jump + Slide
 	//Player revive effects
-	//Consider using a different method for enemy disabling?
-	//Prop instancing
 	//Redo slope handling completely?
 		//Four raycasts, one in front, one in back, etc, etc.
-	
+	//Have camera rotate when paused
+	//Remove prop shapes from map?	
+
 	//Player jitter bug
 
 	//Actually look up what Quaternions are
