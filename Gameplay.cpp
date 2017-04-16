@@ -322,7 +322,7 @@ void Gameplay::SetupProps()
 		}
 	}
 
-	//Go through each prop and add a new collision shape to the map for them
+	//Go through each prop and add rigid bodies
 	for (PODVector<Node*>::Iterator i = props.Begin(); i != props.End(); ++i) 
 	{
 		Node* n = (Node*)*i;
@@ -334,13 +334,16 @@ void Gameplay::SetupProps()
 				CollisionShape* newShape = new CollisionShape(context_);
 				if (n->GetVar("simpleHitbox").GetBool()) 
 				{
-					newShape->SetBox(m->GetBoundingBox().HalfSize(), n->GetPosition(), n->GetRotation());
+					newShape->SetBox(m->GetBoundingBox().Size());
 				}
 				else
 				{
-					newShape->SetTriangleMesh(m->GetModel(), 0, n->GetScale(), n->GetPosition(), n->GetRotation());
+					newShape->SetTriangleMesh(m->GetModel(), 0, n->GetScale() * 2.0f);
 				}
-				mapNode->AddComponent(newShape, 1200, LOCAL);
+				n->AddComponent(newShape, 1200, LOCAL);
+				RigidBody* body = n->CreateComponent<RigidBody>();
+				body->SetCollisionLayer(2);
+				body->SetCollisionEventMode(CollisionEventMode::COLLISION_ACTIVE);
 			}
 		}
 	}
