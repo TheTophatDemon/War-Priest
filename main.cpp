@@ -49,13 +49,11 @@
 	//Pyro Pastor model + animation
 	//Sliding
 		//Add limitations
-		//Jump + Slide
+		//Invincibility
+		//Weird jitter thing
 	//Player revive effects
-	//Redo slope handling completely?
-		//Four raycasts, one in front, one in back, etc, etc.
-	//Have camera rotate when paused
-
-	//Player jitter bug
+	
+	//camera jitter bug / onground stuff
 
 	//Actually look up what Quaternions are
 	
@@ -238,8 +236,7 @@ public:
 	{
 		if (state == STATE_GAME && game->initialized)
 		{
-			
-			scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
+			//scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
 		}
 	}
 	virtual void Stop()

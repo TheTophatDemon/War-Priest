@@ -4,6 +4,7 @@
 #include <Urho3D\Scene\Scene.h>
 #include <Urho3D/Scene/Node.h>
 #include <Urho3D/Physics/RigidBody.h>
+#include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
 
 using namespace Urho3D;
@@ -41,6 +42,8 @@ protected:
 	SharedPtr<PhysicsWorld> physworld;
 	SharedPtr<Scene> scene;
 	WeakPtr<RigidBody> body;
+	SharedPtr<CollisionShape> shape;
+
 	Quaternion knockBackDirection;
 	float knockBack;
 	int aiState;

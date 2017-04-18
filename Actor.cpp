@@ -14,6 +14,7 @@
 using namespace Urho3D;
 
 #define LEVELMASK 2
+#define GROUND_MARGIN 0.6f
 
 Actor::Actor(Context* context) : LogicComponent(context)
 {
@@ -42,12 +43,14 @@ void Actor::Start()
 	body = node_->GetComponent<RigidBody>();
 	scene = node_->GetScene();
 	physworld = scene->GetComponent<PhysicsWorld>();
+	shape = node_->GetComponent<CollisionShape>();
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Actor, OnCollision));
 }
 
-void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep) 
+void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep)
 {
 	onGround = ogrnd;
+
 	if (fw)
 	{
 		forward += acceleration * timeStep;
@@ -84,7 +87,12 @@ void Actor::Move(bool fw, bool bk, bool rg, bool lf, bool jmp, float timeStep)
 	if (fall < -maxfall) fall = -maxfall;
 	if (onGround)
 	{
-		if (slopeSteepness != 1.0f)
+		Vector3 offset = Vector3(0.0f, 0.5f, 0.0f);
+		Vector3 forwardOffset = (node_->GetRotation() * movement.Normalized() * shape->GetSize().x_);
+		PhysicsRaycastResult frontCast, backCast;
+		physworld->RaycastSingle(frontCast, Ray(node_->GetWorldPosition() + offset + forwardOffset, Vector3::DOWN), 500.0f, 2);
+		physworld->RaycastSingle(backCast, Ray(node_->GetWorldPosition() + offset - forwardOffset, Vector3::DOWN), 500.0f, 2);
+		if (slopeSteepness != 1.0f && frontCast.distance_ > backCast.distance_)
 		{
 			fall = (-1 / (slopeSteepness * 0.9f) + 1) * maxspeed;
 		}

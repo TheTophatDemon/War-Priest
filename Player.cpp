@@ -129,30 +129,8 @@ void Player::FixedUpdate(float timeStep)
 		//Decide what angle the model will be facing
 		if (rightKey || leftKey || forwardKey || backwardKey)
 		{
-			if (forwardKey)
-			{
-				if (rightKey)
-					newAngle = 45.0f;
-				if (leftKey)
-					newAngle = -45.0f;
-			}
-			else if (backwardKey)
-			{
-				newAngle = 180.0f;
-				if (rightKey)
-					newAngle -= 45.0f;
-				if (leftKey)
-					newAngle += 45.0f;
-			}
-			else if (rightKey)
-			{
-				newAngle = 90.0f;
-			}
-			else if (leftKey)
-			{
-				newAngle = 270.0f;
-			}
-			newRotation = Quaternion(0.0f, node_->GetRotation().EulerAngles().y_ + newAngle - 90.0f, 0.0f);
+			Quaternion mov = Quaternion(); mov.FromLookRotation(actor->movement.Normalized());
+			newRotation = Quaternion(0.0f, mov.EulerAngles().y_ - 90.0f, 0.0f);
 			node_->SetRotation(pivot->GetRotation());
 		}
 
@@ -160,7 +138,7 @@ void Player::FixedUpdate(float timeStep)
 		{
 			ChangeState(STATE_REVIVE);
 		}
-		if (input->GetMouseButtonDown(MOUSEB_RIGHT) && actor->onGround && stateTimer > 0.5f)
+		else if (input->GetMouseButtonDown(MOUSEB_RIGHT) && actor->onGround && stateTimer > 0.5f)
 		{
 			ChangeState(STATE_SLIDE);
 		}
@@ -287,8 +265,15 @@ void Player::OnHurt(Node* source, int amount)
 
 void Player::HandleCamera()
 {
-	float sensitivity = scene->GetGlobalVar("MOUSE SENSITIVITY").GetFloat();
-	pivot->Rotate(Quaternion(input->GetMouseMoveX() * sensitivity, Vector3::UP));
+	if (scene->HasComponent<Gameplay>()) 
+	{
+		float sensitivity = scene->GetGlobalVar("MOUSE SENSITIVITY").GetFloat();
+		pivot->Rotate(Quaternion(input->GetMouseMoveX() * sensitivity, Vector3::UP));
+	}
+	else
+	{
+		pivot->Rotate(Quaternion(0.1f, Vector3::UP));
+	}
 	Quaternion newAngle = Quaternion();
 	newAngle.FromLookRotation((node_->GetWorldPosition() - cameraNode->GetWorldPosition()).Normalized());
 	cameraNode->SetRotation(Quaternion(newAngle.EulerAngles().x_, Vector3::RIGHT));
@@ -318,8 +303,7 @@ void Player::ChangeState(int newState)
 	if (newState == STATE_SLIDE && state != STATE_SLIDE)
 	{
 		actor->maxspeed = SLIDESPEED;
-		node_->SetRotation(pivot->GetRotation());
-		newRotation = Quaternion(0.0f, node_->GetRotation().EulerAngles().y_ - 90.0f, 0.0f);
+		node_->SetRotation(Quaternion(0.0f, newRotation.EulerAngles().y_ + 90.0f, 0.0f));
 	}
 	else if (newState != STATE_SLIDE && state == STATE_SLIDE)
 	{
