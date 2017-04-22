@@ -50,7 +50,6 @@ void Actor::Start()
 	physworld = scene->GetComponent<PhysicsWorld>();
 	shape = node_->GetComponent<CollisionShape>();
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Actor, OnCollision));
-	//SubscribeToEvent(E_PHYSICSPRESTEP, URHO3D_HANDLER(Actor, PreStep));
 }
 
 void Actor::SetMovement(bool fw, bool bk, bool lf, bool rg)
@@ -91,10 +90,12 @@ void Actor::SetMovement(bool fw, bool bk, bool lf, bool rg)
 
 void Actor::SetMovement(float xm, float zm)
 {
+	strafe = 0.0f; forward = 0.0f;
 	rawMovement = Vector3(xm, 0.0f, zm);
 }
 void Actor::SetMovement(Vector3 mv)
 {
+	strafe = 0.0f; forward = 0.0f;
 	rawMovement = mv;
 }
 
@@ -119,7 +120,7 @@ void Actor::Move(float timeStep)
 			fall = -0.1f;
 			if (slopeSteepness != 1.0f && slopeSteepness >= 0.42f)
 			{
-				slopeFall = (-1 / (slopeSteepness * 0.9f) + 1) * maxspeed;
+				slopeFall = (-1 / (slopeSteepness * 0.85f) + 1) * maxspeed;
 				sloping = true;
 			}
 		}
@@ -144,7 +145,7 @@ void Actor::Move(float timeStep)
 	body->SetLinearVelocity(finalMovement);
 	rawMovement = Vector3::ZERO;
 	
-	slopeSteepness = 0.75f;
+	slopeSteepness = 1.0f;
 	GetSlope();
 
 	onGround = false;
@@ -191,7 +192,7 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 				{
 					onGround = true;
 				}
-				if (position.y_ >= node_->GetPosition().y_ + 2.5f && fall > 0.0f && distance < 0.005f)
+				else if (position.y_ >= node_->GetPosition().y_ + 2.5f && fall > 0.0f)
 				{
 					fall = 0.0f;
 				}
@@ -200,49 +201,11 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 	}
 }
 
-void Actor::PreStep(StringHash eventType, VariantMap& eventData)
-{
-	onGround = false;
-}
-
 void Actor::ChangeState(int newState)
 {
 	aiState = newState;
 }
 
-void Actor::StairCheck()
-{
-	//Raycast forward from feet. If something's there, do a second raycast from below to judge the height of the step.
-	PhysicsRaycastResult result;
-	Vector3 dir = node_->GetRotation() * Vector3::FORWARD;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + (Vector3::UP * 0.05f), dir), 1.0f, LEVELMASK);
-	if (result.body_ && result.normal_.y_ == 0.0f)
-	{
-		physworld->RaycastSingle(result, Ray(result.position_ + (dir * 0.1f), Vector3::UP), 10.0f, LEVELMASK);
-		if (result.body_ && result.distance_ < 1.0f)
-		{
-			fall = 8.0f;
-		}
-	}
-}
-
 Actor::~Actor()
 {
 }
-
-
-/*physworld->RaycastSingle(groundCasts[2], Ray(node_->GetWorldPosition() + offset + sideOffset, Vector3::DOWN), 500.0f, 2);
-physworld->RaycastSingle(groundCasts[3], Ray(node_->GetWorldPosition() + offset - sideOffset, Vector3::DOWN), 500.0f, 2);
-float maxY = -10000.0f;
-for (int i = 0; i < 4; ++i)
-{
-if (groundCasts[i].body_)
-{
-if (groundCasts[i].position_.y_ > maxY)
-maxY = groundCasts[i].position_.y_;
-if (groundCasts[i].distance_ < GROUNDMARGIN)
-{
-onGround = true;
-}
-}
-}*/

@@ -24,8 +24,8 @@ public:
 	void KnockBack(float amount, Quaternion direction);
 	~Actor();
 
-	Vector3 rawMovement;
-	Vector3 finalMovement;
+	Vector3 rawMovement = Vector3::ZERO;
+	Vector3 finalMovement = Vector3::ZERO;
 	float acceleration = 0.0f;
 	float maxspeed = 0.0f;
 	float friction = 0.0f;
@@ -38,13 +38,11 @@ public:
 	float fall = 0.0f;
 	bool onGround = false;
 	bool sloping = false;
-	float slopeSteepness;
+	float slopeSteepness = 0.0f;
 protected:
-	float deltaTime;
+	float deltaTime = 0.0f;
 	void GetSlope();
-	void StairCheck();
 	void OnCollision(StringHash eventType, VariantMap& eventData);
-	void PreStep(StringHash eventType, VariantMap& eventData);
 	virtual void ChangeState(int newState);
 	SharedPtr<PhysicsWorld> physworld;
 	SharedPtr<Scene> scene;
@@ -52,8 +50,8 @@ protected:
 	SharedPtr<CollisionShape> shape;
 
 	Quaternion knockBackDirection;
-	float knockBack;
-	int aiState;
+	float knockBack = 0.0f;
+	int aiState = 0;
 	
 };
 
