@@ -52,7 +52,6 @@
 	//Player revive effects
 	
 	//Pillar LODS
-	//Better skybox :\
 
 	//Enemies overflowing AABB?
 		//Usually happens when they spawn inside the map

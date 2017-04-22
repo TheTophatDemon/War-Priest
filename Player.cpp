@@ -344,6 +344,23 @@ void Player::FixedUpdate(float timeStep)
 void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
+	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
+	if (otherBody->GetCollisionLayer() & 2)
+	{
+		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
+		while (!contacts.IsEof())
+		{
+			Vector3 position = contacts.ReadVector3();
+			Vector3 normal = contacts.ReadVector3();
+			float distance = contacts.ReadFloat();
+			float impulse = contacts.ReadFloat();
+			if (position.y_ > node_->GetWorldPosition().y_ + 0.5f && state == STATE_SLIDE)
+			{
+				actor->KnockBack(25.0f, Quaternion(node_->GetWorldRotation().YawAngle() + 180.0f, Vector3::UP));
+				ChangeState(STATE_DEFAULT);
+			}
+		}
+	}
 }
 
 void Player::PostUpdate(StringHash eventType, VariantMap& eventData)
@@ -363,7 +380,7 @@ void Player::OnHurt(Node* source, int amount)
 	hurtTimer = 20;
 	if (source) 
 	{
-		actor->KnockBack(15.0f, source->GetWorldRotation());
+		actor->KnockBack(20.0f, source->GetWorldRotation());
 	}
 }
 

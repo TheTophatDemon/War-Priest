@@ -117,7 +117,7 @@ void Actor::Move(float timeStep)
 		if (fall <= 0.0f) 
 		{
 			fall = -0.1f;
-			if (slopeSteepness != 1.0f)
+			if (slopeSteepness != 1.0f && slopeSteepness >= 0.42f)
 			{
 				slopeFall = (-1 / (slopeSteepness * 0.9f) + 1) * maxspeed;
 				sloping = true;
@@ -133,7 +133,7 @@ void Actor::Move(float timeStep)
 	//Apply movements
 	if (knockBack > 0.1f)
 	{
-		knockBack *= 0.95f;
+		knockBack *= 0.9f;
 	}
 	else
 	{
