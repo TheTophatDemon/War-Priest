@@ -64,7 +64,6 @@ protected:
 	void SetOnFloor(Node* n, Vector3 pos, float offset = 0.0f);
 	void UpdateHUD(float timeStep);
 	
-	void SetupNPC();
 	void SetupEnemy();
 	void SetupProps();
 	SharedPtr<Node> skybox;

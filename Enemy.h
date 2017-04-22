@@ -13,8 +13,8 @@
 
 using namespace Urho3D;
 
-class Actor;
 class Gameplay;
+class Actor;
 class Projectile;
 class Enemy : public LogicComponent
 {
@@ -38,6 +38,8 @@ protected:
 	Quaternion newRotation;
 	float turnAmount;
 	float distanceFromPlayer;
+
+	void EndFrameCheck(StringHash eventType, VariantMap& eventData);
 	
 	float stateTimer;
 

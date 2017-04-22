@@ -37,7 +37,6 @@
 #include <iostream>
 
 #include "Player.h"
-#include "NPC.h"
 #include "Boulder.h"
 #include "Enemy.h"
 #include "PyroPastor.h"
@@ -386,69 +385,7 @@ Node* Gameplay::MakeProjectile(String name, Vector3 position, Quaternion rotatio
 	return n;
 }
 
-void Gameplay::SetupNPC()
-{
-	//Get NPC skin information
-	FileSystem* fs = GetSubsystem<FileSystem>();
-
-	//Get number of models
-	StringVector modelDir;
-	fs->ScanDir(modelDir, fs->GetProgramDir() + "Data/Npcs/", "", SCAN_DIRS, false);
-	int numModels = 0;
-	for (StringVector::Iterator i = modelDir.Begin(); i != modelDir.End(); ++i)
-	{
-		String dir = (String)*i;
-		if (dir.Contains('.', false))
-			continue;
-		if (dir.Contains("model", false))
-			numModels += 1;
-	}
-	//Get number of skins
-	int modelInfo[16][2];
-	for (int i = 0; i < numModels; ++i)
-	{
-		StringVector skinDir;
-		fs->ScanDir(skinDir, fs->GetProgramDir() + "Data/Npcs/model" + String(i), "", SCAN_FILES, false);
-		int numSkins = 0; int numVoices = 0;
-		for (StringVector::Iterator j = skinDir.Begin(); j != skinDir.End(); ++j)
-		{
-			String f = String(*j);
-			if (f.Contains(".png"))
-				numSkins += 1;
-			if (f.Contains(".wav"))
-			{
-				numVoices += 1;
-			}
-		}
-		modelInfo[i][0] = numSkins;
-		modelInfo[i][1] = numVoices;
-	}
-
-	//Spawn NPCs
-	PODVector<Node*> npcs;
-	scene_->GetChildrenWithTag(npcs, "npc", true);
-	XMLFile* npcObject = cache->GetResource<XMLFile>("Objects/npc.xml");
-	for (PODVector<Node*>::Iterator i = npcs.Begin(); i != npcs.End(); ++i)
-	{
-		Node* npc = (Node*)*i;
-		Matrix3x4 transform = npc->GetWorldTransform();
-		npc->LoadXML(npcObject->GetRoot());
-		npc->SetWorldTransform(transform.Translation(), transform.Rotation(), Vector3::ONE);
-
-		int model = 0;
-		int skin = floor(Random() * modelInfo[model][0]);
-		int voice = floor(Random() * modelInfo[model][1]);
-
-		NPC* cNPC = new NPC(context_);
-		cNPC->modelIndex = model;
-		cNPC->voiceIndex = voice;
-		cNPC->skinIndex = skin;
-		npc->AddComponent(cNPC, 10, LOCAL);
-	}
-}
-
 void Gameplay::AfterRenderUpdate(StringHash eventType, VariantMap& eventData)
 {
-	
 	//scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(GetSubsystem<DebugRenderer>(), true);
 }

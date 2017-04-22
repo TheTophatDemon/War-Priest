@@ -12,7 +12,7 @@
 
 Enemy::Enemy(Context* context) : LogicComponent(context)
 {
-	turnAmount = 0.0f; distanceFromPlayer = 0.0f;
+	turnAmount = 0.0f; distanceFromPlayer = 0.0f; deltaTime = 0.0f;
 }
 
 void Enemy::RegisterObject(Context* context)
@@ -51,13 +51,13 @@ void Enemy::FixedUpdate(float timeStep)
 	distanceFromPlayer = (ourPos - plyPos).Length();
 	if (distanceFromPlayer < 60.0f)
 	{
-		body->SetEnabled(true);
+		//body->SetEnabled(true);
 		Execute();
 		node_->SetRotation(node_->GetRotation().Slerp(newRotation, 0.25f));
 	}
 	else
 	{
-		body->SetEnabled(false);
+		//body->SetEnabled(false);
 	}
 	if (node_->GetWorldPosition().y_ < -100.0f)
 	{
@@ -65,9 +65,21 @@ void Enemy::FixedUpdate(float timeStep)
 	}
 }
 
+void Enemy::EndFrameCheck(StringHash eventType, VariantMap& eventData)
+{
+	if (distanceFromPlayer < 60.0f)
+	{
+		body->SetEnabled(true);
+	}
+	else
+	{
+		body->SetEnabled(false);
+	}
+}
+
 void Enemy::Wander()
 {
-	actor->Move(true, false, false, false, false, deltaTime);
+	
 }
 
 void Enemy::Dead() //This function defines the defualt behavior for being dead

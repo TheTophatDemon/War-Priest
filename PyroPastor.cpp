@@ -11,7 +11,7 @@
 
 PyroPastor::PyroPastor(Context* context) : Enemy(context)
 {
-	
+	deltaTime = 0.0f;
 }
 
 void PyroPastor::DelayedStart()
@@ -39,7 +39,7 @@ void PyroPastor::Execute()
 		if (turnTimer > 50)
 		{
 			turnTimer = 0;
-			turnAmount = Random(0, 360);
+			turnAmount = (float)Random(0, 360);
 			walking = true;
 		}
 		if (walking)
@@ -66,10 +66,10 @@ void PyroPastor::Execute()
 		{
 			ChangeState(STATE_ATTACK);
 		}
-		actor->Move(walking, false, false, false, false, deltaTime);
+		actor->SetMovement(walking, false, false, false);
+		actor->Move(deltaTime);
 		break;
 	case STATE_ATTACK:
-		actor->Move(false, false, false, false, false, deltaTime);
 
 		FaceTarget();
 
@@ -85,6 +85,9 @@ void PyroPastor::Execute()
 		{
 			ChangeState(STATE_WANDER);
 		}
+
+		actor->SetMovement(false, false, false, false);
+		actor->Move(deltaTime);
 		break;
 	}
 }

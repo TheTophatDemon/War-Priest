@@ -16,6 +16,7 @@
 
 Projectile::Projectile(Context* context) : LogicComponent(context)
 {
+	SetGlobalVar("PROJECTILE COUNT", GetGlobalVar("PROJECTILE COUNT").GetInt() + 1);
 	projectileType = TYPE_FIREBALL;
 	radius = 0.5f;
 	damage = 10;
@@ -35,7 +36,6 @@ void Projectile::RegisterObject(Context* context)
 
 void Projectile::Start()
 {
-	SetGlobalVar("PROJECTILE COUNT", GetGlobalVar("PROJECTILE COUNT").GetInt() + 1);
 	game = GetScene()->GetComponent<Gameplay>();
 	cache = GetSubsystem<ResourceCache>();
 	scene = GetScene();

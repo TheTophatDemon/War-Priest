@@ -36,7 +36,6 @@
 
 #include "Gameplay.h"
 #include "Player.h"
-#include "NPC.h"
 #include "Actor.h"
 #include "TempEffect.h"
 #include "Boulder.h"
@@ -50,10 +49,11 @@
 	//Sliding
 		//Add limitations
 		//Invincibility
-		//Weird jitter thing
 	//Player revive effects
 	
-	//camera jitter bug / onground stuff
+	//Enemies overflowing AABB?
+		//Usually happens when they spawn inside the map
+	//Negative projectile count
 
 	//Actually look up what Quaternions are
 	
@@ -68,7 +68,7 @@
 	//1 = ANYTHING THAT'S NOT THE MAP
 	//2 = CAN BE JUMPED ON/SLOPED
 	//4 = NPC
-	//8 = BOULDER
+	//8 = GROUND DETECTOR
 	//64 = ENEMY
 	//128 = PLAYER
 
@@ -102,7 +102,6 @@ public:
 		Gameplay::RegisterObject(context);
 		Actor::RegisterObject(context);
 		Player::RegisterObject(context);
-		NPC::RegisterObject(context);
 		TempEffect::RegisterObject(context);
 		Boulder::RegisterObject(context);
 		TitleScreen::RegisterObject(context);
@@ -236,7 +235,7 @@ public:
 	{
 		if (state == STATE_GAME && game->initialized)
 		{
-			//scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
+			scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
 		}
 	}
 	virtual void Stop()

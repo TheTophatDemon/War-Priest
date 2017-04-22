@@ -42,6 +42,11 @@ using namespace Urho3D;
 #define STATE_SLIDE 2
 #define STATE_DEAD 3
 
+#define ACCELERATION 150.0f
+#define FRICTION 0.85f
+#define FALLSPEED 50.0f
+#define MAXFALL 150.0f
+#define JUMPSTRENGTH 18.0f
 #define WALKSPEED 15.0f
 #define SLIDESPEED 20.0f
 
@@ -81,7 +86,16 @@ void Player::Start()
 	{
 		actor = node_->GetComponent<Actor>();
 	}
+	actor->acceleration = ACCELERATION;
+	actor->friction = FRICTION;
+	actor->fallspeed = FALLSPEED;
+	actor->maxfall = MAXFALL;
+	actor->jumpStrength = JUMPSTRENGTH;
 	actor->maxspeed = WALKSPEED;
+
+	groundDetector = node_->GetChild("groundDetector")->GetComponent<RigidBody>();
+	if (!groundDetector)
+		std::cout << "GROUND DETECTOR MISSING" << std::endl;
 
 	//Get Model
 	modelNode = node_->GetChild("model");
@@ -120,18 +134,74 @@ void Player::FixedUpdate(float timeStep)
 	bool leftKey = input->GetKeyDown(scene->GetGlobalVar("LEFT KEY").GetInt());
 	bool jumpKey = input->GetKeyDown(scene->GetGlobalVar("JUMP KEY").GetInt());
 	float newAngle = 0.0f;
+	bool diddly = false;
+
+	PODVector<RigidBody*> grounds;
 
 	switch (state) 
 	{
 	case STATE_DEFAULT: ///////////////////////////////////////////////////////////////////////////////////////////
-		actor->Move(forwardKey, backwardKey, rightKey, leftKey, jumpKey, timeStep);
 		stateTimer += timeStep;
+
+		if (!actor->onGround && shadowRaycast.body_)
+		{
+			dropShadow->SetEnabled(true);
+		}
+		else
+		{
+			dropShadow->SetEnabled(false);
+		}
+
+		if (rightKey)
+		{
+			moveX += ACCELERATION * timeStep;
+			if (moveX > WALKSPEED)
+				moveX = WALKSPEED;
+		}
+		else if (leftKey)
+		{
+			moveX -= ACCELERATION * timeStep;
+			if (moveX < -WALKSPEED)
+				moveX = -WALKSPEED;
+		}
+		else
+		{
+			moveX *= FRICTION;
+			if (fabs(moveX) < 0.1f) moveX = 0.0f;
+		}
+
+		if (forwardKey)
+		{
+			moveZ += ACCELERATION * timeStep;
+			if (moveZ > WALKSPEED)
+				moveZ = WALKSPEED;
+		}
+		else if (backwardKey)
+		{
+			moveZ -= ACCELERATION * timeStep;
+			if (moveZ < -WALKSPEED)
+				moveZ = -WALKSPEED;
+		}
+		else
+		{
+			moveZ *= FRICTION;
+			if (fabs(moveZ) < 0.1f) moveZ = 0.0f;
+		}
+
+		if (jumpKey)
+		{
+			actor->Jump();
+		}
+
+		actor->SetMovement(pivot->GetWorldRotation() * Vector3(moveX, 0.0f, moveZ));
+
 		//Decide what angle the model will be facing
 		if (rightKey || leftKey || forwardKey || backwardKey)
 		{
-			Quaternion mov = Quaternion(); mov.FromLookRotation(actor->movement.Normalized());
-			newRotation = Quaternion(0.0f, mov.EulerAngles().y_ - 90.0f, 0.0f);
-			node_->SetRotation(pivot->GetRotation());
+			Quaternion dir = Quaternion();
+			dir.FromLookRotation(actor->rawMovement.Normalized().CrossProduct(Vector3::UP));
+			node_->SetRotation(dir);
+			newRotation = dir;
 		}
 
 		if (input->GetMouseButtonDown(MOUSEB_LEFT))
@@ -143,8 +213,27 @@ void Player::FixedUpdate(float timeStep)
 			ChangeState(STATE_SLIDE);
 		}
 
+		if (!groundDetector->IsActive())
+			groundDetector->Activate();
+		groundDetector->SetPosition(body->GetPosition());
+		physworld->GetRigidBodies(grounds, groundDetector);
+		
+		for (PODVector<RigidBody*>::Iterator i = grounds.Begin(); i != grounds.End(); ++i)
+		{
+			RigidBody* b = (RigidBody*)*i;
+			if (b)
+			{
+				if (b->GetCollisionLayer() & 2)
+				{
+					diddly = true;
+					break;
+				}
+			}
+		}
+
 		//Select Animation
-		if (shadowRaycast.distance_ > 0.15f + (1.0f / actor->slopeSteepness) || !shadowRaycast.body_)
+		//shadowRaycast.distance_ > 0.15f + (1.0f / actor->slopeSteepness) || !shadowRaycast.body_
+		if (!diddly)
 		{
 			animController->PlayExclusive("Models/grungle_jump.ani", 0, false, 0.2f);
 		}
@@ -172,11 +261,21 @@ void Player::FixedUpdate(float timeStep)
 				}
 			}
 		}
+
+		actor->Move(timeStep);
 		break;
 	case STATE_REVIVE: ////////////////////////////////////////////////////////////////////////////////////
 		animController->PlayExclusive("Models/grungle_revive.ani", 0, true, 0.2f);
 		stateTimer += 1;
-		actor->Move(false, false, false, false, false, timeStep);
+		
+		moveX *= FRICTION;
+		if (fabs(moveX) < 0.1f) moveX = 0.0f;
+		moveZ *= FRICTION;
+		if (fabs(moveZ) < 0.1f) moveZ = 0.0f;
+
+		actor->SetMovement(pivot->GetWorldRotation() * Vector3(moveX, 0.0f, moveZ));
+		actor->Move(timeStep);
+
 		if (animController->GetTime("Models/grungle_revive.ani") >= animController->GetLength("Models/grungle_revive.ani") * 0.9f)
 		{
 			ChangeState(STATE_DEFAULT);
@@ -215,7 +314,10 @@ void Player::FixedUpdate(float timeStep)
 		break;
 	case STATE_SLIDE: /////////////////////////////////////////////////////////////////////////////////
 		animController->PlayExclusive("Models/grungle_slide.ani", 0, false, 0.2f);
-		actor->Move(true, false, false, false, false, timeStep);
+
+		actor->SetMovement(node_->GetWorldRotation() * Vector3::FORWARD * SLIDESPEED);
+		actor->Move(timeStep);
+
 		stateTimer += timeStep;
 		if (stateTimer > 0.5f)
 		{
@@ -233,6 +335,10 @@ void Player::FixedUpdate(float timeStep)
 			bloodEmitter->SetEmitting(false);
 		}
 	}
+	pivot->SetWorldPosition(Vector3(node_->GetWorldPosition().x_, 0.0f, node_->GetWorldPosition().z_));
+	modelNode->SetPosition(node_->GetWorldPosition());
+	modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
+	HandleCamera();
 }
 
 void Player::OnCollision(StringHash eventType, VariantMap& eventData)
@@ -242,9 +348,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 
 void Player::PostUpdate(StringHash eventType, VariantMap& eventData)
 {
-	modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
-	modelNode->SetPosition(body->GetPosition());
-	HandleCamera();
+	
 }
 
 void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)
@@ -274,10 +378,12 @@ void Player::HandleCamera()
 	{
 		pivot->Rotate(Quaternion(0.1f, Vector3::UP));
 	}
+	Vector3 worldPos = body->GetPosition();
+	//worldPos.y_ = floorf(worldPos.y_);
 	Quaternion newAngle = Quaternion();
-	newAngle.FromLookRotation((node_->GetWorldPosition() - cameraNode->GetWorldPosition()).Normalized());
-	cameraNode->SetRotation(Quaternion(newAngle.EulerAngles().x_, Vector3::RIGHT));
-	pivot->SetWorldPosition(Vector3(node_->GetWorldPosition().x_, 0.0f, node_->GetWorldPosition().z_));
+	newAngle.FromLookRotation((worldPos - cameraNode->GetWorldPosition()).Normalized());
+	cameraNode->SetWorldRotation(newAngle);
+	
 }
 
 void Player::HandleShadow(PhysicsRaycastResult result)

@@ -40,6 +40,7 @@ protected:
 	Vector3 movement;
 	int timer;
 	float lifeTimer;
+	
 	bool hit;
 };
 

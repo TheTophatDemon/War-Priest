@@ -49,6 +49,7 @@ protected:
 	SharedPtr<Node> modelNode;
 	SharedPtr<AnimationController> animController;
 	SharedPtr<Node> dropShadow;
+	SharedPtr<RigidBody> groundDetector;
 	SharedPtr<ParticleEmitter> bloodEmitter;
 
 	Quaternion newRotation;
@@ -58,5 +59,8 @@ protected:
 	int hailTimer;
 	float stateTimer;
 	int hurtTimer;
+
+	float moveX = 0.0f;
+	float moveZ = 0.0f;
 };
 
