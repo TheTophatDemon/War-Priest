@@ -51,9 +51,13 @@
 		//Invincibility
 	//Player revive effects
 	
+	//Pillar LODS
+	//Better skybox :\
+
 	//Enemies overflowing AABB?
 		//Usually happens when they spawn inside the map
-	//Negative projectile count
+
+	//Clean up actor code
 
 	//Actually look up what Quaternions are
 	
@@ -235,7 +239,7 @@ public:
 	{
 		if (state == STATE_GAME && game->initialized)
 		{
-			scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
+			//scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
 		}
 	}
 	virtual void Stop()

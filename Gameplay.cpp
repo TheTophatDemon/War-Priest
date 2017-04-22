@@ -147,6 +147,11 @@ void Gameplay::FixedUpdate(float timeStep)
 
 void Gameplay::UpdateHUD(float timeStep)
 {
+	//Count things
+	PODVector<Node*> projs;
+	scene_->GetChildrenWithTag(projs, "projectile", true);
+	SetGlobalVar("PROJECTILE COUNT", projs.Size());
+
 	if (player) 
 	{
 		if (oldHealth != player->health)
