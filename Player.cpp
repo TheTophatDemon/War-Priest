@@ -50,6 +50,9 @@ using namespace Urho3D;
 #define WALKSPEED 15.0f
 #define SLIDESPEED 20.0f
 
+Vector3 Player::orgShapeSize = Vector3::ONE;
+Vector3 Player::orgShapePos = Vector3(0.0f, 1.5f, 0.0f);
+
 Player::Player(Context* context) : LogicComponent(context)
 {
 	hailTimer = 0;
@@ -70,6 +73,7 @@ void Player::Start()
 
 	game = GetScene()->GetComponent<Gameplay>();
 	body = node_->GetComponent<RigidBody>();
+	shape = node_->GetComponent<CollisionShape>(); //The main shape is always first
 	cache = GetSubsystem<ResourceCache>(); 
 	scene = GetScene();
 	physworld = scene->GetComponent<PhysicsWorld>();
@@ -77,6 +81,8 @@ void Player::Start()
 	camera = game->camera;
 	
 	cameraNode->SetRotation(Quaternion(55.0f, Vector3::RIGHT));
+	orgShapeSize = shape->GetSize();
+	orgShapePos = shape->GetPosition();
 
 	if (!node_->HasComponent<Actor>())
 	{
@@ -232,7 +238,6 @@ void Player::FixedUpdate(float timeStep)
 		}
 
 		//Select Animation
-		//shadowRaycast.distance_ > 0.15f + (1.0f / actor->slopeSteepness) || !shadowRaycast.body_
 		if (!diddly)
 		{
 			animController->PlayExclusive("Models/grungle_jump.ani", 0, false, 0.2f);
@@ -396,7 +401,6 @@ void Player::HandleCamera()
 		pivot->Rotate(Quaternion(0.1f, Vector3::UP));
 	}
 	Vector3 worldPos = body->GetPosition();
-	//worldPos.y_ = floorf(worldPos.y_);
 	Quaternion newAngle = Quaternion();
 	newAngle.FromLookRotation((worldPos - cameraNode->GetWorldPosition()).Normalized());
 	cameraNode->SetWorldRotation(newAngle);
@@ -427,10 +431,14 @@ void Player::ChangeState(int newState)
 	{
 		actor->maxspeed = SLIDESPEED;
 		node_->SetRotation(Quaternion(0.0f, newRotation.EulerAngles().y_ + 90.0f, 0.0f));
+		shape->SetSize(Vector3(1.0f, 0.33f, 1.0f));
+		shape->SetPosition(Vector3(0.0f, 0.5f, 0.0f));
 	}
 	else if (newState != STATE_SLIDE && state == STATE_SLIDE)
 	{
 		actor->maxspeed = WALKSPEED;
+		shape->SetSize(orgShapeSize);
+		shape->SetPosition(orgShapePos);
 	}
 	stateTimer = 0;
 	state = newState;

@@ -46,9 +46,6 @@
 
 //TODO:
 	//Pyro Pastor model + animation
-	//Sliding
-		//Add limitations
-		//Invincibility
 	//Player revive effects
 	
 	//Pillar LODS

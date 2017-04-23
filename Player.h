@@ -11,6 +11,7 @@
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Graphics/ParticleEmitter.h>
 #include <Urho3D/Graphics/AnimationController.h>
+#include <Urho3D/Physics/CollisionShape.h>
 
 using namespace Urho3D;
 
@@ -26,7 +27,8 @@ public:
 	virtual void FixedUpdate(float timeStep);
 	void OnHurt(Node* source, int damage);
 	~Player();
-
+	static Vector3 orgShapeSize;
+	static Vector3 orgShapePos;
 	SharedPtr<Input> input;
 	SharedPtr<Node> pivot;
 	int health;
@@ -51,9 +53,12 @@ protected:
 	SharedPtr<Node> dropShadow;
 	SharedPtr<RigidBody> groundDetector;
 	SharedPtr<ParticleEmitter> bloodEmitter;
+	SharedPtr<CollisionShape> shape;
 
 	Quaternion newRotation;
 	Vector3 newCameraPosition;
+
+	
 
 	int state;
 	int hailTimer;
