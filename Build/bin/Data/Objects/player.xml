@@ -10,9 +10,9 @@
 	<attribute name="Scale" value="1 1 1" />
 	<attribute name="Variables" />
 	<component type="CollisionShape" id="16777228">
-		<attribute name="Shape Type" value="Capsule" />
-		<attribute name="Size" value="1 3 1" />
+		<attribute name="Shape Type" value="ConvexHull" />
 		<attribute name="Offset Position" value="0 1.5 0" />
+		<attribute name="Model" value="Model;Models/playerCollider.mdl" />
 	</component>
 	<component type="RigidBody" id="16777229">
 		<attribute name="Physics Position" value="0.0401981 -3.94757 7.88854" />
@@ -26,12 +26,12 @@
 		<attribute name="Collision Event Mode" value="Always" />
 		<attribute name="Use Gravity" value="false" />
 	</component>
-	<component type="CollisionShape" id="16777230">
+	<component type="SoundListener" id="16777230" />
+	<component type="CollisionShape" id="16777231">
 		<attribute name="Shape Type" value="Sphere" />
 		<attribute name="Size" value="0.5 1 1" />
-		<attribute name="Offset Position" value="0 1 0" />
+		<attribute name="Offset Position" value="0 1.5 0" />
 	</component>
-	<component type="SoundListener" id="16777231" />
 	<node id="16777218">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="model" />
@@ -280,15 +280,13 @@
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
 		<component type="RigidBody" id="16777234">
-			<attribute name="Physics Position" value="0.0401981 -4.25 7.88854" />
+			<attribute name="Physics Position" value="0.0401981 -3.94757 7.88854" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Linear Factor" value="0 0 0" />
 			<attribute name="Angular Factor" value="0 0 0" />
-			<attribute name="Collision Mask" value="2"/>
-			<attribute name="Collision Layer" value="1"/>
+			<attribute name="Collision Mask" value="2" />
 			<attribute name="Collision Event Mode" value="Always" />
 			<attribute name="Use Gravity" value="false" />
-			<attribute name="Is Trigger" value = "false"/>
 		</component>
 		<component type="CollisionShape" id="16777235">
 			<attribute name="Shape Type" value="Cylinder" />

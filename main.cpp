@@ -52,7 +52,6 @@
 	//Player revive effects
 	
 	//Pillar LODS
-	//Broken ceiling collisions
 
 	//Enemies overflowing AABB?
 		//Usually happens when they spawn inside the map
@@ -237,7 +236,7 @@ public:
 	{
 		if (state == STATE_GAME && game->initialized)
 		{
-			scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
+			//scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
 		}
 	}
 	virtual void Stop()

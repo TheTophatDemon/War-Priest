@@ -120,7 +120,7 @@ void Actor::Move(float timeStep)
 			fall = -0.1f;
 			if (slopeSteepness != 1.0f && slopeSteepness >= 0.42f)
 			{
-				slopeFall = (-1 / (slopeSteepness * 0.85f) + 1) * maxspeed;
+				slopeFall = (-1 / (slopeSteepness * 0.75f) + 1) * maxspeed;
 				sloping = true;
 			}
 		}
@@ -188,11 +188,15 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 			float impulse = contacts.ReadFloat();
 			if (fabs(normal.y_) != 0.0f)
 			{
-				if (position.y_ <= node_->GetPosition().y_ + 0.5f)
+				Vector2 a = Vector2(position.x_, position.z_);
+				Vector2 b = Vector2(node_->GetWorldPosition().x_, node_->GetWorldPosition().z_);
+				float d = (a - b).Length();
+
+				if (position.y_ <= node_->GetPosition().y_ + 0.5f && d < 0.9f)
 				{
 					onGround = true;
 				}
-				else if (position.y_ >= node_->GetPosition().y_ + 2.5f && fall > 0.0f)
+				else if (position.y_ >= node_->GetPosition().y_ + 2.5f && fall > 0.0f && d < 0.5f)
 				{
 					fall = 0.0f;
 				}
