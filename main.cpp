@@ -52,11 +52,10 @@
 	//Player revive effects
 	
 	//Pillar LODS
+	//Broken ceiling collisions
 
 	//Enemies overflowing AABB?
 		//Usually happens when they spawn inside the map
-
-	//Clean up actor code
 
 	//Actually look up what Quaternions are
 	
@@ -238,7 +237,7 @@ public:
 	{
 		if (state == STATE_GAME && game->initialized)
 		{
-			//scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
+			scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
 		}
 	}
 	virtual void Stop()

@@ -59,8 +59,6 @@ Gameplay::Gameplay(Context* context) : LogicComponent(context)
 	audio = GetSubsystem<Audio>();
 
 	MakeHUD();
-
-	SubscribeToEvent(E_POSTRENDERUPDATE, URHO3D_HANDLER(Gameplay, AfterRenderUpdate));
 }
 
 void Gameplay::RegisterObject(Context* context)
@@ -297,8 +295,6 @@ void Gameplay::SetupEnemy()
 			n->SetWorldTransform(t.Translation(), t.Rotation(), t.Scale());
 			SetOnFloor(n, n->GetWorldPosition(), 0.1f);
 			n->CreateComponent<PyroPastor>();
-			//Enemy* e = new Enemy(context_);
-			//n->AddComponent(e, 413, LOCAL);
 		}
 	}
 }
@@ -314,17 +310,6 @@ void Gameplay::SetupProps()
 
 	PODVector<Node*> instancers;
 	mapNode->GetChildrenWithTag(instancers, "propInstancer", false);
-	for (PODVector<Node*>::Iterator i = instancers.Begin(); i != instancers.End(); ++i) //Make sure all the instancing groups are at zero position
-	{
-		Node* n = (Node*)*i;
-		if (n)
-		{
-			if (n->GetPosition() != Vector3::ZERO) 
-			{
-				std::cout << "HEY! One of the instancing groups are mispositioned! " << n->GetName().CString() << std::endl;
-			}
-		}
-	}
 
 	//Go through each prop and add rigid bodies
 	for (PODVector<Node*>::Iterator i = props.Begin(); i != props.End(); ++i) 
@@ -335,19 +320,18 @@ void Gameplay::SetupProps()
 			StaticModel* m = n->GetComponent<StaticModel>();
 			if (m)
 			{
-				CollisionShape* newShape = new CollisionShape(context_);
-				if (n->GetVar("simpleHitbox").GetBool()) 
+				if (!n->HasComponent<CollisionShape>()) //Generate collision shapes for those props unassigned
 				{
+					CollisionShape* newShape = new CollisionShape(context_);
 					newShape->SetBox(m->GetBoundingBox().Size());
+					n->AddComponent(newShape, 1200, LOCAL);
 				}
-				else
+				if (!n->GetParent()->HasTag("propInstancer")) //Add rigidbodies to uninstanced props
 				{
-					newShape->SetTriangleMesh(m->GetModel(), 0, n->GetScale() * 2.0f);
+					RigidBody* body = n->CreateComponent<RigidBody>();
+					body->SetCollisionLayer(2);
+					body->SetCollisionEventMode(CollisionEventMode::COLLISION_ACTIVE);
 				}
-				n->AddComponent(newShape, 1200, LOCAL);
-				RigidBody* body = n->CreateComponent<RigidBody>();
-				body->SetCollisionLayer(2);
-				body->SetCollisionEventMode(CollisionEventMode::COLLISION_ACTIVE);
 			}
 		}
 	}
@@ -358,7 +342,15 @@ void Gameplay::SetupProps()
 		Node* n = (Node*)*i;
 		if (n)
 		{
+			if (n->GetPosition() != Vector3::ZERO)
+			{
+				std::cout << "HEY! One of the instancing groups are mispositioned! " << n->GetName().CString() << std::endl;
+			}
 			StaticModelGroup* modelGroup = n->GetComponent<StaticModelGroup>();
+			RigidBody* body = n->CreateComponent<RigidBody>();
+			body->SetCollisionLayer(2);
+			body->SetCollisionEventMode(CollisionEventMode::COLLISION_ACTIVE);
+			body->DisableMassUpdate();
 
 			PODVector<Node*> children;
 			n->GetChildren(children);
@@ -366,8 +358,18 @@ void Gameplay::SetupProps()
 			{
 				Node* child = (Node*)*c;
 				child->RemoveComponent<StaticModel>();
+				if (child->HasComponent<CollisionShape>()) //Also add children's collision shapes to parent's rigid body
+				{
+					SharedPtr<CollisionShape> shape = SharedPtr<CollisionShape>(child->GetComponent<CollisionShape>());
+					shape->SetPosition((shape->GetPosition() * child->GetScale()) + child->GetPosition());
+					shape->SetSize(shape->GetSize() * child->GetScale());
+					child->RemoveComponent<CollisionShape>();
+					n->AddComponent(shape, 1200, LOCAL);
+				}
 				modelGroup->AddInstanceNode(child);
 			}
+
+			body->EnableMassUpdate();
 		}
 	}
 
@@ -388,9 +390,4 @@ Node* Gameplay::MakeProjectile(String name, Vector3 position, Quaternion rotatio
 	}
 	n->AddComponent(p, 333, LOCAL);
 	return n;
-}
-
-void Gameplay::AfterRenderUpdate(StringHash eventType, VariantMap& eventData)
-{
-	//scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(GetSubsystem<DebugRenderer>(), true);
 }
