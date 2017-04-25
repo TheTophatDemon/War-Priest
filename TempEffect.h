@@ -17,8 +17,8 @@ public:
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
 	~TempEffect();
+	float life = 0.0f;
 protected:
-	SharedPtr<ParticleEmitter> emitter;
 	float timer = 0.0f;
 };
 

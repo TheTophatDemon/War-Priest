@@ -71,47 +71,28 @@ void Projectile::FixedUpdate(float timeStep)
 			movement = node_->GetWorldRotation() * (Vector3::FORWARD * speed * timeStep);
 			break;
 		}
-		/////////////////////////////////////////////////////////////////////////////////////////
-		PODVector<Node*> nodes;
-		scene->GetChildrenWithTag(nodes, "shootable", true);
-		for (PODVector<Node*>::Iterator i = nodes.Begin(); i != nodes.End(); ++i)
-		{
-			Node* otherNode = (Node*)*i;
-			if (otherNode && otherNode != owner)
-			{
-				CollisionShape* shape = otherNode->GetComponent<CollisionShape>();
-				if (shape) 
-				{
-					Vector3 nodePos = node_->GetWorldPosition(); nodePos.y_ = 0.0f; //Get the 2d distance first.
-					Vector3 otherPos = otherNode->GetWorldPosition(); otherPos.y_ = 0.0f;
-					float distance = (otherPos - nodePos).Length();
-					if (distance < radius + shape->GetSize().x_)
-					{
-						if (node_->GetWorldPosition().y_ + radius > otherNode->GetWorldPosition().y_ && node_->GetWorldPosition().y_ - radius <= otherNode->GetWorldPosition().y_ + shape->GetSize().y_ * 2.0f)
-						{
-							Enemy* enm = otherNode->GetDerivedComponent<Enemy>();
-							if (enm)
-							{
-								if (enm->state == 0) break;
-								enm->OnHurt(node_, damage);
-							}
-							else if (otherNode == game->playerNode)
-							{
-								game->player->OnHurt(node_, damage);
-							}
-							Destroy();
-						}
-						break;
-					}
-				}
-			}
-		}
+
 		PhysicsRaycastResult result;
-		physworld->RaycastSingle(result, Ray(node_->GetWorldPosition(), movement.Normalized()), radius, 2);
+		physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement.Normalized()), radius, radius, 194);
 		if (result.body_)
 		{
+			int colLayer = result.body_->GetCollisionLayer();
+			if (colLayer & 128)
+			{
+				game->player->OnHurt(node_, damage);
+			}
+			else if (colLayer & 64)
+			{
+				Enemy* enm = result.body_->GetNode()->GetDerivedComponent<Enemy>();
+				if (enm)
+				{
+					if (enm->state != 0)
+						enm->OnHurt(node_, damage);
+				}
+			}
 			Destroy();
 		}
+		
 		node_->Translate(movement, TS_WORLD);
 	}
 }

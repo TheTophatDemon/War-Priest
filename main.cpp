@@ -47,6 +47,12 @@
 //TODO:
 	//Pyro Pastor model + animation
 	//Player revive effects
+		//Smoke n' crap
+
+	//120 raycasts when standing still!?
+	//Enemies flying into space when inactive?
+
+	//Dedicated list of enemies?
 	
 	//Pillar LODS
 

@@ -79,7 +79,7 @@ void PyroPastor::Execute()
 			shot = true;
 			Quaternion aim = Quaternion();
 			aim.FromLookRotation((target->GetWorldPosition() - node_->GetWorldPosition()).Normalized(), Vector3::UP);
-			game->MakeProjectile("fireball", node_->GetWorldPosition() + Vector3(0.0f, 1.5f, 0.0f), aim, node_);
+			game->MakeProjectile("fireball", node_->GetWorldPosition() + Vector3(0.0f, 2.5f, 0.0f), aim, node_); //Aim for the head or sliding is useless
 		}
 		if (stateTimer > 0.66f)
 		{

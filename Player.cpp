@@ -23,6 +23,7 @@
 #include <Urho3D/Math/MathDefs.h>
 #include <Urho3D/Graphics/ParticleEffect.h>
 
+
 #include <iostream>
 
 #include "Gameplay.h"
@@ -313,6 +314,7 @@ void Player::FixedUpdate(float timeStep)
 			}
 			if (nearestEnemy)
 			{
+				game->MakeLightBeam(nearestEnemy->GetNode()->GetWorldPosition());
 				nearestEnemy->Revive();
 			}
 		}

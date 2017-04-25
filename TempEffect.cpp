@@ -22,23 +22,15 @@ void TempEffect::RegisterObject(Context* context)
 
 void TempEffect::Start()
 {
-	emitter = node_->CreateComponent<ParticleEmitter>();
-	emitter->SetEffect(GetSubsystem<ResourceCache>()->GetResource<ParticleEffect>(node_->GetVar("EFFECT NAME").GetString()));
-	emitter->ResetEmissionTimer();
-	emitter->SetEmitting(true);
+	
 }
 
 void TempEffect::FixedUpdate(float timeStep)
 {
 	timer += timeStep;
-	float life = node_->GetVar("TIME").GetFloat();
 	if (timer > life)
 	{
-		emitter->SetEmitting(false);
-		if (timer > life + 4.0f)
-		{
-			node_->Remove();
-		}
+		node_->Remove();
 	}
 }
 

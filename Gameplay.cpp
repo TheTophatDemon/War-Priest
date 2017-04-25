@@ -27,11 +27,14 @@
 #include <Urho3D/Graphics/Renderer.h>
 #include <Urho3D/Graphics/View.h>
 #include <Urho3D/Graphics/RenderPath.h>
+#include <Urho3D/Graphics/ParticleEmitter.h>
+#include <Urho3D/Graphics/ParticleEffect.h>
 #include <Urho3D/Graphics/StaticModelGroup.h>
 #include <Urho3D/Audio/SoundSource3D.h>
 #include <Urho3D/Audio/SoundListener.h>
 #include <Urho3D/Audio/Sound.h>
 #include <Urho3D/IO/FileSystem.h>
+#include <Urho3D/Scene/ObjectAnimation.h>
 
 
 #include <iostream>
@@ -41,6 +44,7 @@
 #include "Enemy.h"
 #include "PyroPastor.h"
 #include "Projectile.h"
+#include "TempEffect.h"
 
 using namespace Urho3D;
 
@@ -390,4 +394,51 @@ Node* Gameplay::MakeProjectile(String name, Vector3 position, Quaternion rotatio
 	}
 	n->AddComponent(p, 333, LOCAL);
 	return n;
+}
+
+Node* Gameplay::MakeLightBeam(Vector3 position)
+{
+	Vector3 beamSize = Vector3(3.5f, 64.0f, 3.5f);
+	Vector3 closed = Vector3(0.0f, beamSize.y_, 0.0f);
+
+	Node* lightColumn = scene_->CreateChild();
+	lightColumn->SetPosition(position);
+
+	TempEffect* t = lightColumn->CreateComponent<TempEffect>();
+	t->life = 0.75f;
+
+	Node* smoker = scene_->CreateChild();
+	smoker->SetPosition(position);
+	TempEffect* t2 = smoker->CreateComponent<TempEffect>();
+	t2->life = 1.5f;
+
+	ParticleEmitter* emitter = smoker->CreateComponent<ParticleEmitter>();
+	emitter->SetEffect(cache->GetResource<ParticleEffect>("Particles/smoke.xml"));
+	emitter->SetScaled(false);
+
+	SharedPtr<ValueAnimation> emitAnim(new ValueAnimation(context_));
+	emitAnim->SetKeyFrame(0.0f, true);
+	emitAnim->SetKeyFrame(0.1f, false);
+	emitter->SetAttributeAnimation("Is Emitting", emitAnim, WM_CLAMP, 1.0f);
+
+	StaticModel* model = lightColumn->CreateComponent<StaticModel>();
+	model->SetModel(cache->GetResource<Model>("Models/Cylinder.mdl"));
+	model->SetMaterial(cache->GetResource<Material>("Materials/lightbeam.xml"));
+	
+	SharedPtr<ObjectAnimation> columnAnimation(new ObjectAnimation(context_));
+
+	SharedPtr<ValueAnimation> diffAnim(new ValueAnimation(context_));
+	diffAnim->SetKeyFrame(0.0f, Color::WHITE);
+	diffAnim->SetKeyFrame(0.25f, Color::WHITE);
+	diffAnim->SetKeyFrame(0.75f, Color(0.0f, 0.0f, 0.0f, 0.0f));
+	model->GetMaterial()->SetShaderParameterAnimation("MatDiffColor", diffAnim, WM_CLAMP, 1.0f);
+
+	SharedPtr<ValueAnimation> scaleAnim(new ValueAnimation(context_));
+	scaleAnim->SetKeyFrame(0.0f, closed);
+	scaleAnim->SetKeyFrame(0.25f, beamSize);
+	scaleAnim->SetKeyFrame(0.75f, closed);
+	columnAnimation->AddAttributeAnimation("Scale", scaleAnim, WM_CLAMP, 1.0f);
+
+	lightColumn->SetObjectAnimation(columnAnimation);
+	return lightColumn;
 }
