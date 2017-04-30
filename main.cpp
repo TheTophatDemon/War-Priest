@@ -45,16 +45,8 @@
 #include "Projectile.h"
 
 //TODO:
-	//Pyro Pastor model + animation
-	//Player revive effects
-		//Smoke n' crap
-
-	//120 raycasts when standing still!?
-	//Enemies flying into space when inactive?
-
-	//Dedicated list of enemies?
-	
-	//Pillar LODS
+	//LODs
+	//Material quality setup
 
 	//Enemies overflowing AABB?
 		//Usually happens when they spawn inside the map
@@ -67,6 +59,7 @@
 	//Disable UI subsystem?
 	//Update event masks
 	//Disable scripts on objects that are far away
+	//Enemies far away = disable animation
 
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP

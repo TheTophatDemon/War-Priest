@@ -22,6 +22,7 @@ class PyroPastor : Enemy
 public:
 	PyroPastor(Context* context);
 	static void RegisterObject(Context* context);
+	virtual void Revive();
 	virtual void DelayedStart();
 	~PyroPastor();
 protected:
@@ -30,6 +31,7 @@ protected:
 	virtual void ChangeState(int newState);
 	void FaceTarget();
 
+	SharedPtr<AnimationController> animController;
 	WeakPtr<Node> target;
 	float turnAmount = 0.0f;
 	int turnTimer = 0;
