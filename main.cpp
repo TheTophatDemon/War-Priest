@@ -145,6 +145,7 @@ public:
 	virtual void Start()
 	{
 		SetRandomSeed(clock());
+
 		input = SharedPtr<Input>(engine_->GetSubsystem<Input>());
 		engine_->SetMaxFps(60);
 		cache = GetSubsystem<ResourceCache>();
@@ -178,8 +179,8 @@ public:
 		titleScreen = new TitleScreen(context_);
 		titleScreen->game = game;
 		titleScreen->MakeMenus();
-
 		scene_->AddComponent(titleScreen, 777, LOCAL);
+
 		SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GunPriest, Update));
 		SubscribeToEvent(E_POSTRENDERUPDATE, URHO3D_HANDLER(GunPriest, AfterRenderUpdate));
 	}

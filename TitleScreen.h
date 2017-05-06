@@ -25,6 +25,7 @@ public:
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	~TitleScreen();
+
 	SharedPtr<UIElement> ourUI;
 	SharedPtr<Gameplay> game;
 	bool gotoGame;
@@ -33,9 +34,11 @@ public:
 	void SetMenu(Menu* newMenu);
 
 	SharedPtr<Menu> titleMenu;
+	SharedPtr<Menu> levelSelectMenu;
 protected:
 	void OnClick(StringHash eventType, VariantMap& eventData);
 	void OnUpdate(StringHash eventType, VariantMap& eventData);
+
 	Engine* engine_;
 	SharedPtr<Renderer> renderer;
 	SharedPtr<UI> ui;
@@ -44,6 +47,5 @@ protected:
 	SharedPtr<Audio> audio;
 
 	SharedPtr<Menu> currentMenu;
-	
 };
 

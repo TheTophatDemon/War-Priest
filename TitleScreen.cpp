@@ -14,6 +14,7 @@
 
 #include "Gameplay.h"
 #include "TitleMenu.h"
+#include "LevelSelectMenu.h"
 
 using namespace std;
 
@@ -35,6 +36,7 @@ TitleScreen::TitleScreen(Context* context) : LogicComponent(context)
 void TitleScreen::MakeMenus()
 {
 	titleMenu = new TitleMenu(this, game);
+	levelSelectMenu = new LevelSelectMenu(this, game);
 	SetMenu(titleMenu);
 }
 
@@ -46,7 +48,7 @@ void TitleScreen::RegisterObject(Context* context)
 void TitleScreen::Start()
 {
 	gotoGame = false;
-	input->SetMouseGrabbed(false);
+	
 	if (ourUI)
 	{
 		ourUI->SetEnabled(true);
@@ -55,6 +57,7 @@ void TitleScreen::Start()
 	
 	renderer->GetViewport(0)->SetRenderPath(cache->GetResource<XMLFile>("RenderPaths/Forward_Blur.xml"));
 	input->SetMouseVisible(true);
+	input->SetMouseGrabbed(false);
 	
 	SubscribeToEvent(E_UIMOUSECLICKEND, URHO3D_HANDLER(TitleScreen, OnClick));
 	SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(TitleScreen, OnUpdate));

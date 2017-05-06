@@ -4,16 +4,14 @@
 
 TitleMenu::TitleMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(ts, gm)
 {
-	
+	layoutPath = "UI/titlemenus/titlescreen.xml";
 }
 
 void TitleMenu::OnEnter()
 {
-	titleScreen->ourUI->LoadXML(cache->GetResource<XMLFile>("UI/titlemenus/titlescreen.xml")->GetRoot()); //'Twas null!
-	titleScreen->ourUI->GetName();
+	Menu::OnEnter();
 	resumeButton = (Button*)titleScreen->ourUI->GetChild("resumeGame", true);
 	resumeButton->SetVisible(gameplay->initialized);
-	DisableTexts();
 }
 
 void TitleMenu::Update(float timeStep)
@@ -35,8 +33,7 @@ void TitleMenu::OnClick(StringHash eventType, VariantMap& eventData)
 		}
 		else if (source->GetName() == "startGame")
 		{
-			gameplay->initialized = false;
-			titleScreen->gotoGame = true;
+			titleScreen->SetMenu(titleScreen->levelSelectMenu);
 		}
 	}
 }

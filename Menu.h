@@ -17,14 +17,16 @@ class Menu : public RefCounted
 {
 public:
 	Menu(TitleScreen* ts, SharedPtr<Gameplay> gm);
-	virtual void OnEnter() = 0;
+	virtual void OnEnter();
 	virtual void Update(float timeStep) = 0;
 	virtual void OnClick(StringHash eventType, VariantMap& eventData) = 0;
 	~Menu();
+	String layoutPath;
 protected:
 	SharedPtr<TitleScreen> titleScreen;
 	SharedPtr<Gameplay> gameplay;
 	SharedPtr<ResourceCache> cache;
+	SharedPtr<UI> ui;
 	void DisableTexts();
 };
 

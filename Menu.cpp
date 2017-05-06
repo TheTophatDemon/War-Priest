@@ -7,6 +7,14 @@ Menu::Menu(TitleScreen* ts, SharedPtr<Gameplay> gm)
 	titleScreen = SharedPtr<TitleScreen>(ts);
 	gameplay = gm;
 	cache = titleScreen->GetSubsystem<ResourceCache>();
+	ui = titleScreen->GetSubsystem<UI>();
+}
+
+void Menu::OnEnter()
+{
+	titleScreen->ourUI->RemoveAllChildren();
+	titleScreen->ourUI->LoadXML(cache->GetResource<XMLFile>(layoutPath)->GetRoot());
+	DisableTexts();
 }
 
 void Menu::DisableTexts()
@@ -17,11 +25,7 @@ void Menu::DisableTexts()
 	for (PODVector<UIElement*>::Iterator i = children.Begin(); i != children.End(); ++i)
 	{
 		UIElement* element = (UIElement*)*i;
-		//
-		//
-		//Replace with type check later
-		//
-		if (element->GetName().Empty())
+		if (element->GetTypeName() == "Text")
 		{
 			element->SetEnabled(false);
 		}
