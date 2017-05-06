@@ -35,6 +35,7 @@ protected:
 	SharedPtr<Node> modelNode;
 	SharedPtr<Actor> actor;
 	SharedPtr<RigidBody> body;
+	SharedPtr<Scene> scene;
 	Quaternion newRotation;
 	float turnAmount;
 	float distanceFromPlayer;

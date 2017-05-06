@@ -53,7 +53,6 @@ public:
 	void FlashScreen(Color c, float spd);
 	void Lose();
 
-	Node* MakeProjectile(String name, Vector3 position, Quaternion rotation, Node* owner = nullptr);
 	Node* MakeLightBeam(Vector3 position);
 
 	~Gameplay();

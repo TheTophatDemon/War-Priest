@@ -24,7 +24,8 @@ void Enemy::Start()
 {
 	game = GetScene()->GetComponent<Gameplay>();
 	cache = GetSubsystem<ResourceCache>();
-	physworld = GetScene()->GetComponent<PhysicsWorld>();
+	scene = GetScene();
+	physworld = scene->GetComponent<PhysicsWorld>();
 	body = node_->GetComponent<RigidBody>();
 	modelNode = node_->GetChild("model");
 

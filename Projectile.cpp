@@ -113,3 +113,20 @@ Projectile::~Projectile()
 {
 	
 }
+
+Node* Projectile::MakeProjectile(Scene* sc, String name, Vector3 position, Quaternion rotation, Node* owner) //Since components can't have constructor parameters...
+{
+	Projectile* p = new Projectile(sc->GetContext());
+	p->owner = owner;
+	Node* n = sc->CreateChild();
+	n->LoadXML(p->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/projectile_" + name + ".xml")->GetRoot());
+	n->SetPosition(position);
+	n->SetRotation(rotation);
+	
+	if (name == "fireball")
+	{
+		p->projectileType = 0;
+	}
+	n->AddComponent(p, 333, LOCAL);
+	return n;
+}

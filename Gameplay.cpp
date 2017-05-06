@@ -385,21 +385,7 @@ void Gameplay::SetupProps()
 	mapBody->EnableMassUpdate();
 }
 
-Node* Gameplay::MakeProjectile(String name, Vector3 position, Quaternion rotation, Node* owner)
-{
-	Node* n = scene_->CreateChild();
-	n->LoadXML(cache->GetResource<XMLFile>("Objects/projectile_" + name + ".xml")->GetRoot());
-	n->SetPosition(position);
-	n->SetRotation(rotation);
-	Projectile* p = new Projectile(context_);
-	p->owner = owner;
-	if (name == "fireball")
-	{
-		p->projectileType = 0;
-	}
-	n->AddComponent(p, 333, LOCAL);
-	return n;
-}
+
 
 Node* Gameplay::MakeLightBeam(Vector3 position)
 {

@@ -3,6 +3,7 @@
 
 #include "Gameplay.h"
 #include "Actor.h"
+#include "Projectile.h"
 #include <iostream>
 
 #define STATE_DEAD 0
@@ -103,7 +104,7 @@ void PyroPastor::Execute()
 			shot = true;
 			Quaternion aim = Quaternion();
 			aim.FromLookRotation((target->GetWorldPosition() + Vector3(0.0f, 1.0f, 0.0f) - node_->GetWorldPosition()).Normalized(), Vector3::UP);
-			game->MakeProjectile("fireball", node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aim, node_); //Aim for the head or sliding is useless
+			Projectile::MakeProjectile(scene, "fireball", node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aim, node_); //Aim for the head or sliding is useless
 		}
 		if (stateTimer > 0.66f)
 		{

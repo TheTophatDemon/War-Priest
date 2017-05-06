@@ -31,6 +31,8 @@ public:
 	float speed;
 	int damage;
 	int projectileType;
+
+	static Node* MakeProjectile(Scene* sc, String name, Vector3 position, Quaternion rotation, Node* owner);
 protected:
 	SharedPtr<Gameplay> game;
 	SharedPtr<ResourceCache> cache;
