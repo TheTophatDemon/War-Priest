@@ -1,6 +1,7 @@
 #include "TitleMenu.h"
 
 #include "TitleScreen.h"
+#include "GunPriest.h"
 
 TitleMenu::TitleMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(ts, gm)
 {
@@ -29,7 +30,7 @@ void TitleMenu::OnClick(StringHash eventType, VariantMap& eventData)
 	{
 		if (source->GetName() == "resumeGame")
 		{
-			titleScreen->gotoGame = true;
+			titleScreen->gunPriest->ChangeState(GunPriest::STATE_GAME);
 		}
 		else if (source->GetName() == "startGame")
 		{

@@ -45,6 +45,7 @@
 #include "PyroPastor.h"
 #include "Projectile.h"
 #include "TempEffect.h"
+#include "GunPriest.h"
 
 using namespace Urho3D;
 
@@ -143,6 +144,10 @@ void Gameplay::FixedUpdate(float timeStep)
 		{
 			viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
 			loseTimer -= 1;
+			if (loseTimer <= 0)
+			{
+				gunPriest->StartGame();
+			}
 		}
 	}
 }

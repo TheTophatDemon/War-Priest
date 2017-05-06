@@ -16,6 +16,7 @@
 
 using namespace Urho3D;
 
+class GunPriest;
 class Gameplay;
 class TitleScreen : public LogicComponent
 {
@@ -28,7 +29,7 @@ public:
 
 	SharedPtr<UIElement> ourUI;
 	SharedPtr<Gameplay> game;
-	bool gotoGame;
+	GunPriest* gunPriest;
 
 	void MakeMenus();
 	void SetMenu(Menu* newMenu);

@@ -19,11 +19,14 @@
 
 using namespace Urho3D;
 
+class GunPriest;
 class Player;
 class Gameplay : public LogicComponent
 {
 	URHO3D_OBJECT(Gameplay, LogicComponent);
 public:
+	GunPriest* gunPriest;
+
 	SharedPtr<ResourceCache> cache;
 	Engine* engine_;
 	SharedPtr<Scene> scene_;

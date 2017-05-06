@@ -15,6 +15,7 @@
 #include "Gameplay.h"
 #include "TitleMenu.h"
 #include "LevelSelectMenu.h"
+#include "GunPriest.h"
 
 using namespace std;
 
@@ -30,7 +31,6 @@ TitleScreen::TitleScreen(Context* context) : LogicComponent(context)
 	ourUI = ui->GetRoot()->CreateChild<UIElement>("titleUIParent");
 
 	input->SetMouseVisible(true);
-	gotoGame = false;
 }
 
 void TitleScreen::MakeMenus()
@@ -47,8 +47,6 @@ void TitleScreen::RegisterObject(Context* context)
 
 void TitleScreen::Start()
 {
-	gotoGame = false;
-	
 	if (ourUI)
 	{
 		ourUI->SetEnabled(true);
