@@ -19,12 +19,11 @@
 
 using namespace Urho3D;
 
-class Zeus //Zeus is a dummy class that handles the creation of things such as explosions or projectiles.
-		   //This serves mainly to provide global guidelines for creating effects that can be reused.
-		   //Since the components may not have parameters in their constructors, this is neccesary.
+class Zeus //He does all the special effects
 {
 public:
 	Zeus();
+	static Node* MakeLightBeam(Scene* scene, Vector3 position);
 	~Zeus();
 };
 

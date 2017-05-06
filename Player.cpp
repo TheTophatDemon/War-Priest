@@ -32,6 +32,7 @@
 #include "TempEffect.h"
 #include "Boulder.h"
 #include "Enemy.h"
+#include "Zeus.h"
 
 using namespace Urho3D;
 
@@ -314,7 +315,7 @@ void Player::FixedUpdate(float timeStep)
 			}
 			if (nearestEnemy)
 			{
-				game->MakeLightBeam(nearestEnemy->GetNode()->GetWorldPosition());
+				Zeus::MakeLightBeam(scene, nearestEnemy->GetNode()->GetWorldPosition());
 				nearestEnemy->Revive();
 			}
 		}

@@ -53,8 +53,6 @@ public:
 	void FlashScreen(Color c, float spd);
 	void Lose();
 
-	Node* MakeLightBeam(Vector3 position);
-
 	~Gameplay();
 	int loseTimer = 0;
 	bool initialized = false;
