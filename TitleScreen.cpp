@@ -7,9 +7,15 @@
 #include <Urho3D/Graphics/RenderPath.h>
 #include <Urho3D/UI/UIEvents.h>
 #include <Urho3D/UI/Button.h>
+#include <Urho3D/IO/FileSystem.h>
+#include <Urho3D/Physics/PhysicsEvents.h>
+#include <Urho3D/Core/CoreEvents.h>
 #include <iostream>
 
 #include "Gameplay.h"
+#include "TitleMenu.h"
+
+using namespace std;
 
 TitleScreen::TitleScreen(Context* context) : LogicComponent(context)
 {
@@ -19,24 +25,17 @@ TitleScreen::TitleScreen(Context* context) : LogicComponent(context)
 	renderer = GetSubsystem<Renderer>();
 	ui = GetSubsystem<UI>();
 	audio = GetSubsystem<Audio>();
-	ui->GetRoot()->LoadChildXML(cache->GetResource<XMLFile>("UI/titleLayout.xml")->GetRoot());
-	ourUI = ui->GetRoot()->GetChild("titlescreen", true);
-	resumeButton = (Button*)ourUI->GetChild("resumeGame", true);
-	
-	//Disable all text so they don't interfere with button input
-	PODVector<UIElement*> children;
-	ourUI->GetChildren(children, true);
-	for (PODVector<UIElement*>::Iterator i = children.Begin(); i != children.End(); ++i)
-	{
-		UIElement* element = (UIElement*)*i;
-		if (element->GetName().Empty())
-		{
-			element->SetEnabled(false);
-		}
-	}
+
+	ourUI = ui->GetRoot()->CreateChild<UIElement>("titleUIParent");
 
 	input->SetMouseVisible(true);
 	gotoGame = false;
+}
+
+void TitleScreen::MakeMenus()
+{
+	titleMenu = new TitleMenu(this, game);
+	SetMenu(titleMenu);
 }
 
 void TitleScreen::RegisterObject(Context* context)
@@ -53,36 +52,32 @@ void TitleScreen::Start()
 		ourUI->SetEnabled(true);
 		ourUI->SetVisible(true);
 	}
-	resumeButton->SetVisible(game->initialized);
+	
 	renderer->GetViewport(0)->SetRenderPath(cache->GetResource<XMLFile>("RenderPaths/Forward_Blur.xml"));
 	input->SetMouseVisible(true);
 	
 	SubscribeToEvent(E_UIMOUSECLICKEND, URHO3D_HANDLER(TitleScreen, OnClick));
+	SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(TitleScreen, OnUpdate));
 }
 
-void TitleScreen::FixedUpdate(float timeStep)
+void TitleScreen::OnUpdate(StringHash eventType, VariantMap& eventData)
 {
+	float timeStep = eventData["TimeStep"].GetFloat();
 	if (IsEnabled())
 	{
-
+		currentMenu->Update(timeStep);
 	}
 }
 
 void TitleScreen::OnClick(StringHash eventType, VariantMap& eventData)
 {
-	UIElement* source = (UIElement*)eventData["Element"].GetPtr();
-	if (source)
-	{
-		if (source->GetName() == "resumeGame")
-		{
-			gotoGame = true;
-		}
-		else if (source->GetName() == "startGame")
-		{
-			game->initialized = false;
-			gotoGame = true;
-		}
-	}
+	currentMenu->OnClick(eventType, eventData);
+}
+
+void TitleScreen::SetMenu(Menu* newMenu)
+{
+	currentMenu = newMenu;
+	currentMenu->OnEnter();
 }
 
 TitleScreen::~TitleScreen()

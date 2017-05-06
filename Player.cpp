@@ -406,6 +406,7 @@ void Player::HandleCamera()
 	Quaternion newAngle = Quaternion();
 	newAngle.FromLookRotation((worldPos - cameraNode->GetWorldPosition()).Normalized());
 	cameraNode->SetWorldRotation(newAngle);
+	//cameraNode->Rotate(Quaternion(input->GetMouseMoveY() * 0.25f, Vector3::RIGHT), TS_LOCAL);
 	
 }
 

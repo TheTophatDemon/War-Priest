@@ -104,6 +104,8 @@ void Projectile::Destroy()
 	{
 		emitter->SetEmitting(false);
 	}
+	if (node_->HasComponent<StaticModel>())
+		node_->RemoveComponent<StaticModel>();
 	timer = 0;
 }
 

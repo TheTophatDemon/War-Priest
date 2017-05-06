@@ -45,7 +45,12 @@
 #include "Projectile.h"
 
 //TODO:
-	//LODs
+	//Corpse finder
+	//Winning
+	//Level Select
+
+	//Make enemies bigger
+	
 	//Material quality setup
 
 	//Enemies overflowing AABB?
@@ -172,6 +177,7 @@ public:
 		game = new Gameplay(context_);
 		titleScreen = new TitleScreen(context_);
 		titleScreen->game = game;
+		titleScreen->MakeMenus();
 
 		scene_->AddComponent(titleScreen, 777, LOCAL);
 		SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GunPriest, Update));
