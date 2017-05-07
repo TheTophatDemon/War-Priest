@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<element type="Button">
+	<attribute name="Name" value="levelButton" />
+	<attribute name="Position" value="0 190" />
+	<attribute name="Size" value="320 32" />
+	<attribute name="Horiz Alignment" value="Center" />
+	<attribute name="Color" value="0.5 0.5 0.5 1" />
+	<attribute name="Top Left Color" value="0.5 0.5 0.5 1" />
+	<attribute name="Top Right Color" value="0.5 0.5 0.5 1" />
+	<attribute name="Bottom Left Color" value="0.5 0.5 0.5 1" />
+	<attribute name="Bottom Right Color" value="0.5 0.5 0.5 1" />
+	<attribute name="Texture" value="Textures/UI.png"/>
+	<attribute name="Image Rect" value="16 0 32 16"/>
+	<attribute name="Border" value="4 4 4 4"/>
+	<attribute name="Hover Image Offset" value = "0 16"/>
+</element>

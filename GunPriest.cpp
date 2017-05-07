@@ -17,17 +17,20 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	state = STATE_TITLE;
 }
 
-void GunPriest::StartGame()
+void GunPriest::StartGame(String path)
 {
 	game->ourUI->SetVisible(false);
 	loadingText->SetVisible(true);
 	cache->ReleaseAllResources(false);
 
 	engine_->RunFrame();
-	XMLFile* mapFile = cache->GetResource<XMLFile>("Scenes/palisadepantheon.xml");
+	std::cout << "RAN FRAME" << std::endl;
+	XMLFile* mapFile = cache->GetResource<XMLFile>(path);
 	scene_->LoadXML(mapFile->GetRoot());
 	scene_->AddComponent(game, 666, LOCAL);
+	std::cout << "GAME ADDED" << std::endl;
 	game->SetupGame();
+	std::cout << "GAME SETUP" << std::endl;
 
 	loadingText->SetVisible(false);
 	game->ourUI->SetVisible(true);
@@ -110,6 +113,7 @@ void GunPriest::ChangeState(int newState)
 	}
 	else if (newState == STATE_TITLE && state == STATE_GAME)
 	{
+		titleScreen->SetMenu(titleScreen->titleMenu);
 		scene_->SetUpdateEnabled(false);
 		game->ourUI->SetVisible(false);
 		game->ourUI->SetEnabled(false);

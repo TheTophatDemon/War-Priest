@@ -67,7 +67,7 @@ public:
 	static int STATE_GAME;
 	static int STATE_TITLE;
 	GunPriest(Context* context);
-	void StartGame();
+	void StartGame(String path = "Scenes/palisadepantheon.xml");
 	void SetupRenderer();
 	virtual void Setup();
 	virtual void Start();

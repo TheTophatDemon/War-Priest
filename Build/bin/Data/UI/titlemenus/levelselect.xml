@@ -17,37 +17,49 @@
 		<attribute name="Round Stroke" value="true" />
 		<attribute name="Effect Color" value="0.5 0.5 0.5 1" />
 	</element>
-	<element type="ListView">
-		<attribute name="Name" value="levels" />
-		<attribute name="Size" value="769 512" />
-		<attribute name="Min Size" value="768 512" />
+	<element type="Button">
+		<attribute name="Name" value="backButton" />
+		<attribute name="Position" value="0 -32" />
+		<attribute name="Size" value="256 48" />
+		<attribute name="Horiz Alignment" value="Center" />
+		<attribute name="Vert Alignment" value="Bottom" />
+		<attribute name="Color" value="0.5 0.5 0.5 1" />
+		<attribute name="Top Left Color" value="0.5 0.5 0.5 1" />
+		<attribute name="Top Right Color" value="0.5 0.5 0.5 1" />
+		<attribute name="Bottom Left Color" value="0.2 0.2 0.2 1" />
+		<attribute name="Bottom Right Color" value="0.2 0.2 0.2 1" />
+		<element type="Text">
+			<attribute name="Horiz Alignment" value="Center" />
+			<attribute name="Vert Alignment" value="Center" />
+			<attribute name="Color" value="1 1 1 1" />
+			<attribute name="Is Editable" value="false" />
+			<attribute name="Font Size" value="24" />
+			<attribute name="Text" value="BACK" />
+			<attribute name="Text Alignment" value="Center" />
+			<attribute name="Text Effect" value="Stroke" />
+		</element>
+	</element>
+	<element type="BorderImage">
+		<attribute name="Name" value="levelList" />
+		<attribute name="Size" value="768 512" />
 		<attribute name="Horiz Alignment" value="Center" />
 		<attribute name="Vert Alignment" value="Center" />
-		<attribute name="Layout Border" value="4 16 4 16" />
-		<element type="ScrollBar" internal="true" style="none">
-			<attribute name="Size" value="769 16" />
-			<attribute name="Color" value="0 0 0 0" />
-			<attribute name="Top Left Color" value="0 0 0 0" />
-			<attribute name="Top Right Color" value="0 0 0 0" />
-			<attribute name="Bottom Left Color" value="0 0 0 0" />
-			<attribute name="Bottom Right Color" value="0 0 0 0" />
-			<element type="Button" internal="true" style="none" />
-			<element type="Slider" internal="true" style="none">
-				<attribute name="Position" value="16 0" />
-				<attribute name="Size" value="737 16" />
-				<element type="BorderImage" internal="true" style="none" />
-			</element>
-			<element type="Button" internal="true" style="none">
-				<attribute name="Position" value="753 0" />
-			</element>
-		</element>
-		<element type="ScrollBar" internal="true" style="none">
+		<attribute name="Clip Border" value="4 4 4 4" />
+		<attribute name="Clip Children" value="true" />
+		<attribute name="Layout Border" value="4 4 4 4" />
+		<attribute name="Image Rect" value="16 0 32 16" />
+		<attribute name="Border" value="4 4 4 4" />
+		<attribute name="Blend Mode" value="replace" />
+		<element type="ScrollBar">
+			<attribute name="Name" value="levelScroll" />
+			<attribute name="Position" value="4 4"/>
 			<attribute name="Size" value="16 512" />
 			<attribute name="Color" value="0 0 0 0" />
 			<attribute name="Top Left Color" value="0 0 0 0" />
 			<attribute name="Top Right Color" value="0 0 0 0" />
 			<attribute name="Bottom Left Color" value="0 0 0 0" />
 			<attribute name="Bottom Right Color" value="0 0 0 0" />
+			<attribute name="Orientation" value="Vertical" />
 			<element type="Button" internal="true" style="none" />
 			<element type="Slider" internal="true" style="none">
 				<attribute name="Position" value="0 16" />
@@ -58,28 +70,9 @@
 				<attribute name="Position" value="0 496" />
 			</element>
 		</element>
-		<element type="BorderImage" internal="true" style="none">
-			<element internal="true" style="none" />
-		</element>
-	</element>
-	<element type="Button">
-		<attribute name="Name" value="backButton" />
-		<attribute name="Position" value="0 -32" />
-		<attribute name="Size" value="256 48" />
-		<attribute name="Horiz Alignment" value="Center" />
-		<attribute name="Vert Alignment" value="Bottom" />
-		<attribute name="Color" value="0.2 0.2 0.2 1" />
-		<attribute name="Top Left Color" value="0.2 0.2 0.2 1" />
-		<attribute name="Top Right Color" value="0.2 0.2 0.2 1" />
-		<element type="Text">
+		<element>
+			<attribute name="Name" value="levelButtonParent" />
 			<attribute name="Horiz Alignment" value="Center" />
-			<attribute name="Vert Alignment" value="Center" />
-			<attribute name="Color" value="1 1 1 1" />
-			<attribute name="Is Editable" value="false" />
-			<attribute name="Font Size" value="24" />
-			<attribute name="Text" value="BACK" />
-			<attribute name="Text Alignment" value="Center" />
-			<attribute name="Text Effect" value="Stroke" />
 		</element>
 	</element>
 </element>
