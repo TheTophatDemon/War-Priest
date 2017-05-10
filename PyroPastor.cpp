@@ -46,6 +46,10 @@ void PyroPastor::RegisterObject(Context* context)
 void PyroPastor::Execute()
 {
 	float turnAmount = 0.0f;
+	Vector3 aimVec = (target->GetWorldPosition() + Vector3(0.0f, 1.0f, 0.0f) - node_->GetWorldPosition()).Normalized();
+	Quaternion aim = Quaternion();
+	aim.FromLookRotation(aimVec, Vector3::UP);
+	
 	switch (state)
 	{
 	case STATE_DEAD:
@@ -81,7 +85,20 @@ void PyroPastor::Execute()
 		stateTimer += deltaTime;
 		if (stateTimer > 1.0f)
 		{
-			ChangeState(STATE_ATTACK);
+			//Check if player is in range
+			PhysicsRaycastResult result;
+			physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 1.0f, 0.0f), aimVec), 400.0f, 130);
+			if (result.body_)
+			{
+				if (result.body_->GetCollisionLayer() & 128)
+				{
+					ChangeState(STATE_ATTACK);
+				}
+				else
+				{
+					stateTimer = 0.0f;
+				}
+			}
 		}
 		actor->SetMovement(walking, false, false, false);
 		actor->Move(deltaTime);
@@ -102,8 +119,6 @@ void PyroPastor::Execute()
 		if (stateTimer > 0.16f && distanceFromPlayer < 40.0f && !shot)
 		{
 			shot = true;
-			Quaternion aim = Quaternion();
-			aim.FromLookRotation((target->GetWorldPosition() + Vector3(0.0f, 1.0f, 0.0f) - node_->GetWorldPosition()).Normalized(), Vector3::UP);
 			Projectile::MakeProjectile(scene, "fireball", node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aim, node_); //Aim for the head or sliding is useless
 		}
 		if (stateTimer > 0.66f)

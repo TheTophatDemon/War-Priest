@@ -1,24 +1,18 @@
 //TODO:
-	//Corpse finder
 	//Winning
-	//Level Select
+	//Dying
+	//Insta-Shield
 
-	//Make enemies bigger
+	//Enemies can't shoot at long range / Fireballs disappearing
+	//Corpse collisions
 	
 	//Material quality setup
-
-	//Enemies overflowing AABB?
-		//Usually happens when they spawn inside the map
-
-	//Actually look up what Quaternions are
 	
 //Potential Optimizations:
+	//Change raycast length
 	//Less physics
-	//Lower physicsworld fps if possible
-	//Disable UI subsystem?
 	//Update event masks
 	//Disable scripts on objects that are far away
-	//Enemies far away = disable animation
 
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP
