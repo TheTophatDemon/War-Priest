@@ -10,6 +10,7 @@
 #include <Urho3D/Audio/SoundSource3D.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
 #include <Urho3D/Resource/ResourceCache.h>
+#include <Urho3D/Physics/CollisionShape.h>
 
 using namespace Urho3D;
 
@@ -36,7 +37,10 @@ protected:
 	SharedPtr<Actor> actor;
 	SharedPtr<RigidBody> body;
 	SharedPtr<Scene> scene;
+	SharedPtr<CollisionShape> shape;
 	Quaternion newRotation;
+	Vector3 shapeSize;
+
 	float turnAmount;
 	float distanceFromPlayer;
 

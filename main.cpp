@@ -3,8 +3,6 @@
 	//Dying
 	//Insta-Shield
 	
-	//Corpse collisions
-	
 	//Material quality setup
 	
 //Potential Optimizations:

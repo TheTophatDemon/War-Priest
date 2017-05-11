@@ -28,6 +28,10 @@ void Enemy::Start()
 	physworld = scene->GetComponent<PhysicsWorld>();
 	body = node_->GetComponent<RigidBody>();
 	modelNode = node_->GetChild("model");
+	shape = node_->GetComponent<CollisionShape>();
+	shapeSize = shape->GetSize();
+
+	shape->SetSize(Vector3(shapeSize.y_, shapeSize.x_, shapeSize.y_));
 
 	SetGlobalVar("ENEMY COUNT", GetGlobalVar("ENEMY COUNT").GetInt() + 1);
 
@@ -102,6 +106,11 @@ void Enemy::ChangeState(int newState)
 	if (newState != STATE_DEAD && state == STATE_DEAD)
 	{
 		actor->SetEnabled(true);
+		shape->SetSize(shapeSize);
+	}
+	else if (newState == STATE_DEAD && state != STATE_DEAD)
+	{
+		shape->SetSize(Vector3(shapeSize.y_, shapeSize.x_, shapeSize.y_));
 	}
 	state = newState;
 	stateTimer = 0.0f;
