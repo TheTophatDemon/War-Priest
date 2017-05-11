@@ -85,6 +85,36 @@ Node* Zeus::MakeLightBeam(Scene* scene, Vector3 position)
 	return lightColumn;
 }
 
+Node* Zeus::MakeShield(Scene* scene, Vector3 position, float radius)
+{
+	ResourceCache* cache = scene->GetSubsystem<ResourceCache>();
+
+	Node* shield = scene->CreateChild();
+	shield->SetWorldPosition(position);
+
+	CollisionShape* cs = shield->CreateComponent<CollisionShape>();
+	cs->SetSphere(1.0f, Vector3::ZERO, Quaternion::IDENTITY);
+
+	RigidBody* rb = shield->CreateComponent<RigidBody>();
+	rb->SetMass(0.0f);
+	rb->SetCollisionLayer(16);
+	rb->SetUseGravity(false);
+
+	StaticModel* sm = shield->CreateComponent<StaticModel>();
+	sm->SetModel(cache->GetResource<Model>("Models/Sphere.mdl"));
+	sm->SetMaterial(cache->GetResource<Material>("Materials/shield.xml"));
+
+	SharedPtr<ValueAnimation> sizeAnim(new ValueAnimation(scene->GetContext()));
+	sizeAnim->SetKeyFrame(0.0f, Vector3(radius, radius, radius));
+	sizeAnim->SetKeyFrame(0.2f, Vector3::ZERO);
+	shield->SetAttributeAnimation("Scale", sizeAnim, WM_CLAMP, 1.0f);
+
+	TempEffect* te = shield->CreateComponent<TempEffect>();
+	te->life = 0.2f;
+
+	return shield;
+}
+
 Zeus::~Zeus()
 {
 }

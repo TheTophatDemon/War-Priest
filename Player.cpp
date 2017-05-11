@@ -220,6 +220,11 @@ void Player::FixedUpdate(float timeStep)
 		{
 			ChangeState(STATE_SLIDE);
 		}
+		else if (input->GetMouseButtonDown(MOUSEB_RIGHT) && !actor->onGround && stateTimer - lastShield > 0.5f)
+		{
+			lastShield = stateTimer;
+			Zeus::MakeShield(scene, node_->GetWorldPosition() + Vector3::UP*1.5f, 5.0f);
+		}
 
 		if (!groundDetector->IsActive())
 			groundDetector->Activate();
@@ -431,6 +436,10 @@ void Player::HandleShadow(PhysicsRaycastResult result)
 
 void Player::ChangeState(int newState)
 {
+	if (newState == STATE_DEFAULT && state != STATE_DEFAULT)
+	{
+		lastShield = -1000.0f;
+	}
 	if (newState == STATE_SLIDE && state != STATE_SLIDE)
 	{
 		actor->maxspeed = SLIDESPEED;

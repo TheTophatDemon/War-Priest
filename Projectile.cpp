@@ -73,7 +73,7 @@ void Projectile::FixedUpdate(float timeStep)
 		}
 
 		PhysicsRaycastResult result;
-		physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement.Normalized()), radius, radius, 194);//128+64+2
+		physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement.Normalized()), radius, radius, 210);//128+64+2+16
 		if (result.body_ && result.body_->GetNode() != owner)
 		{
 			int colLayer = result.body_->GetCollisionLayer();

@@ -1,7 +1,11 @@
 //TODO:
 	//Winning
 	//Dying
+		//Dying animation
+	//Sounds, maybe?
 	//Insta-Shield
+
+	//Make corpses unpushable
 	
 	//Material quality setup
 	
@@ -16,6 +20,7 @@
 	//2 = CAN BE JUMPED ON/SLOPED
 	//4 = NPC
 	//8 = GROUND DETECTOR
+	//16 = SHIELD
 	//64 = ENEMY
 	//128 = PLAYER
 

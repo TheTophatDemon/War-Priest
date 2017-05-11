@@ -67,5 +67,6 @@ protected:
 
 	float moveX = 0.0f;
 	float moveZ = 0.0f;
+	float lastShield = 0.0f;
 };
 
