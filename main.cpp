@@ -2,8 +2,7 @@
 	//Winning
 	//Dying
 	//Insta-Shield
-
-	//Enemies can't shoot at long range / Fireballs disappearing
+	
 	//Corpse collisions
 	
 	//Material quality setup

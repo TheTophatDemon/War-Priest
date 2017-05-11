@@ -73,8 +73,8 @@ void Projectile::FixedUpdate(float timeStep)
 		}
 
 		PhysicsRaycastResult result;
-		physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement.Normalized()), radius, radius, 194);
-		if (result.body_ && result.body_ != owner->GetComponent<RigidBody>())
+		physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement.Normalized()), radius, radius, 194);//128+64+2
+		if (result.body_ && result.body_->GetNode() != owner)
 		{
 			int colLayer = result.body_->GetCollisionLayer();
 			if (colLayer & 128)

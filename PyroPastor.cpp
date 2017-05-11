@@ -46,7 +46,7 @@ void PyroPastor::RegisterObject(Context* context)
 void PyroPastor::Execute()
 {
 	float turnAmount = 0.0f;
-	Vector3 aimVec = (target->GetWorldPosition() + Vector3(0.0f, 1.0f, 0.0f) - node_->GetWorldPosition()).Normalized();
+	Vector3 aimVec = (target->GetWorldPosition() - node_->GetWorldPosition()).Normalized();
 	Quaternion aim = Quaternion();
 	aim.FromLookRotation(aimVec, Vector3::UP);
 	
@@ -87,18 +87,15 @@ void PyroPastor::Execute()
 		{
 			//Check if player is in range
 			PhysicsRaycastResult result;
-			physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 1.0f, 0.0f), aimVec), 400.0f, 130);
+			physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aimVec), 400.0f, 130);//128+2
 			if (result.body_)
 			{
 				if (result.body_->GetCollisionLayer() & 128)
 				{
 					ChangeState(STATE_ATTACK);
 				}
-				else
-				{
-					stateTimer = 0.0f;
-				}
 			}
+			stateTimer = 0.0f;
 		}
 		actor->SetMovement(walking, false, false, false);
 		actor->Move(deltaTime);
