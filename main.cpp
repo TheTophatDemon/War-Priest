@@ -2,7 +2,6 @@
 	//Winning
 	//Sounds, maybe?
 	
-	//Make corpses unpushable
 	//Rafactor player class
 
 	//Loading glitch

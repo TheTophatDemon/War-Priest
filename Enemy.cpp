@@ -32,6 +32,7 @@ void Enemy::Start()
 	shapeSize = shape->GetSize();
 
 	shape->SetSize(Vector3(shapeSize.y_, shapeSize.x_, shapeSize.y_));
+	body->SetMass(0.0f);
 
 	SetGlobalVar("ENEMY COUNT", GetGlobalVar("ENEMY COUNT").GetInt() + 1);
 
@@ -107,10 +108,12 @@ void Enemy::ChangeState(int newState)
 	{
 		actor->SetEnabled(true);
 		shape->SetSize(shapeSize);
+		body->SetMass(120.0f);
 	}
 	else if (newState == STATE_DEAD && state != STATE_DEAD)
 	{
 		shape->SetSize(Vector3(shapeSize.y_, shapeSize.x_, shapeSize.y_));
+		body->SetMass(0.0f);
 	}
 	state = newState;
 	stateTimer = 0.0f;
