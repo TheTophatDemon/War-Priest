@@ -136,6 +136,10 @@ void Player::FixedUpdate(float timeStep)
 	physworld->RaycastSingle(shadowRaycast, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
 	HandleShadow(shadowRaycast);
 
+	if (input->GetKeyDown(KEY_K) || node_->GetWorldPosition().y_ < -40.0f)
+	{
+		health = 0.0f;
+	}
 	bool forwardKey = input->GetKeyDown(scene->GetGlobalVar("FORWARD KEY").GetInt());
 	bool backwardKey = input->GetKeyDown(scene->GetGlobalVar("BACKWARD KEY").GetInt());
 	bool rightKey = input->GetKeyDown(scene->GetGlobalVar("RIGHT KEY").GetInt());
@@ -338,6 +342,9 @@ void Player::FixedUpdate(float timeStep)
 			ChangeState(STATE_DEFAULT);
 		}
 		break;
+	case STATE_DEAD:
+		
+		break;
 	}
 
 	if (hurtTimer > 0)
@@ -348,10 +355,16 @@ void Player::FixedUpdate(float timeStep)
 			bloodEmitter->SetEmitting(false);
 		}
 	}
+
 	pivot->SetWorldPosition(Vector3(node_->GetWorldPosition().x_, 0.0f, node_->GetWorldPosition().z_));
 	modelNode->SetPosition(node_->GetWorldPosition());
 	modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
 	HandleCamera();
+
+	if (health <= 0.0f)
+	{
+		ChangeState(STATE_DEAD);
+	}
 }
 
 void Player::OnCollision(StringHash eventType, VariantMap& eventData)
@@ -412,8 +425,6 @@ void Player::HandleCamera()
 	Quaternion newAngle = Quaternion();
 	newAngle.FromLookRotation((worldPos - cameraNode->GetWorldPosition()).Normalized());
 	cameraNode->SetWorldRotation(newAngle);
-	//cameraNode->Rotate(Quaternion(input->GetMouseMoveY() * 0.25f, Vector3::RIGHT), TS_LOCAL);
-	
 }
 
 void Player::HandleShadow(PhysicsRaycastResult result)
@@ -452,6 +463,35 @@ void Player::ChangeState(int newState)
 		actor->maxspeed = WALKSPEED;
 		shape->SetSize(orgShapeSize);
 		shape->SetPosition(orgShapePos);
+	}
+	else if (newState == STATE_DEAD && state != STATE_DEAD)
+	{
+		bloodEmitter->SetEmitting(true);
+		//Make gibs
+		Node* gibs = scene->CreateChild();
+		gibs->LoadXML(cache->GetResource<XMLFile>("Objects/playergibs.xml")->GetRoot());
+		gibs->SetWorldPosition(node_->GetWorldPosition());
+		gibs->SetWorldRotation(node_->GetWorldRotation());
+		gibs->SetScale(modelNode->GetScale());
+		PODVector<Node*> children;
+		gibs->GetChildren(children, true);
+		for (PODVector<Node*>::Iterator i = children.Begin(); i != children.End(); ++i)
+		{
+			Node* n = (Node*)*i;
+			if (n)
+			{
+				n->GetComponent<RigidBody>()->ApplyImpulse(Vector3(Random(-250.0f, 250.0f), Random(-10.0f, 500.0f), Random(-250.0f, 250.0f)));
+				n->CloneComponent(bloodEmitter, 0U);
+			}
+		}
+		//Remove everything
+		node_->Remove();
+		modelNode->Remove();
+		dropShadow->Remove();
+		groundDetector->Remove();
+
+		game->FlashScreen(Color::RED, 0.02f);
+		game->Lose();
 	}
 	stateTimer = 0;
 	state = newState;

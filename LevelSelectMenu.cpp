@@ -31,7 +31,14 @@ void LevelSelectMenu::OnEnter()
 	levelList = titleScreen->ourUI->GetChild("levelList", true);
 	buttParent = levelList->GetChild("levelButtonParent", true);
 	scrollBar = (ScrollBar*)levelList->GetChild("levelScroll", true);
-	scrollBar->SetRange((levelEntries.Size() - 10) / 20.0f);
+	if (levelEntries.Size() > 10) 
+	{
+		scrollBar->SetRange((levelEntries.Size() - 10) / 20.0f);
+	}
+	else
+	{
+		scrollBar->SetRange(0.0f);
+	}
 	int counter = 0;
 	for (Vector<LevelEntry>::Iterator i = levelEntries.Begin(); i != levelEntries.End(); ++i)
 	{

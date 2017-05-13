@@ -1,11 +1,11 @@
 //TODO:
 	//Winning
-	//Dying
-		//Dying animation
 	//Sounds, maybe?
-	//Insta-Shield
-
+	
 	//Make corpses unpushable
+	//Rafactor player class
+
+	//Loading glitch
 	
 	//Material quality setup
 	

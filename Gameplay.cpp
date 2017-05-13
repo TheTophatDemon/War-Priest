@@ -146,7 +146,8 @@ void Gameplay::FixedUpdate(float timeStep)
 			loseTimer -= 1;
 			if (loseTimer <= 0)
 			{
-				gunPriest->StartGame();
+				initialized = false;
+				gunPriest->ChangeState(GunPriest::STATE_TITLE);
 			}
 		}
 	}
