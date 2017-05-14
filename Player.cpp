@@ -474,7 +474,7 @@ void Player::ChangeState(int newState)
 	{
 		actor->maxspeed = SLIDESPEED;
 		node_->SetRotation(Quaternion(0.0f, newRotation.EulerAngles().y_ + 90.0f, 0.0f));
-		shape->SetSize(Vector3(1.0f, 0.33f, 1.0f));
+		shape->SetSize(Vector3(1.0f, 0.2f, 1.0f));
 		shape->SetPosition(Vector3(0.0f, 0.5f, 0.0f));
 	}
 	else if (newState != STATE_SLIDE && state == STATE_SLIDE)

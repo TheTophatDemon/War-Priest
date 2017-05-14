@@ -1,14 +1,11 @@
 //TODO:
-	//Sounds, maybe?
+	//Sounds
 
 	//Rafactor player class
-		//Revert the ground detector thing
-	//Improve enemy cliffing
 	//Insta shield tweaking
-	//Slide don't work no more
+	//Improve enemy cliffing
 
 	//Loading glitch
-	
 	//Material quality setup
 	
 //Potential Optimizations:

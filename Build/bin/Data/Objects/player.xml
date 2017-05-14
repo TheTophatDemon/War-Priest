@@ -22,7 +22,7 @@
 		<attribute name="Restitution" value="0.1" />
 		<attribute name="Angular Factor" value="0 0 0" />
 		<attribute name="Collision Layer" value="129" />
-		<attribute name="Collision Mask" value="247" />
+		<attribute name="Collision Mask" value="231" />
 		<attribute name="Collision Event Mode" value="Always" />
 		<attribute name="Use Gravity" value="false" />
 	</component>
@@ -30,7 +30,7 @@
 	<component type="CollisionShape" id="16777231">
 		<attribute name="Shape Type" value="Sphere" />
 		<attribute name="Size" value="0.5 1 1" />
-		<attribute name="Offset Position" value="0 1.5 0" />
+		<attribute name="Offset Position" value="0 0.5 0" />
 	</component>
 	<node id="16777218">
 		<attribute name="Is Enabled" value="true" />
@@ -290,8 +290,8 @@
 		</component>
 		<component type="CollisionShape" id="16777235">
 			<attribute name="Shape Type" value="Cylinder" />
-			<attribute name="Size" value="1 0.75 1" />
-			<attribute name="Offset Position" value="0 0.15 0" />
+			<attribute name="Size" value="1 0.5 1" />
+			<attrigute name="Position" value="0 0.25 1" />
 		</component>
 	</node>
 </node>
