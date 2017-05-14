@@ -1,5 +1,7 @@
 #include "GunPriest.h"
 
+
+
 int GunPriest::STATE_GAME = 0;
 int GunPriest::STATE_TITLE = 1;
 
@@ -14,6 +16,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	Enemy::RegisterObject(context);
 	PyroPastor::RegisterObject(context);
 	Projectile::RegisterObject(context);
+	God::RegisterObject(context);
 	state = STATE_TITLE;
 }
 

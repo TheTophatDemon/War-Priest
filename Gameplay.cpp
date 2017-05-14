@@ -46,6 +46,7 @@
 #include "Projectile.h"
 #include "TempEffect.h"
 #include "GunPriest.h"
+#include "God.h"
 
 using namespace Urho3D;
 
@@ -57,6 +58,7 @@ Gameplay::Gameplay(Context* context) : LogicComponent(context)
 	oldHealth = 100.0f;
 	initialized = false;
 	restartTimer = 0;
+	
 
 	cache = GetSubsystem<ResourceCache>();
 	engine_ = GetSubsystem<Engine>();
@@ -74,6 +76,7 @@ void Gameplay::RegisterObject(Context* context)
 
 void Gameplay::Start()
 {
+	winState = 0;
 	SetGlobalVar("PROJECTILE COUNT", 0);
 	viewport = renderer->GetViewport(0);
 	scene_ = SharedPtr<Scene>(GetScene());
@@ -297,6 +300,7 @@ void Gameplay::SetOnFloor(Node* n, Vector3 pos, float offset)
 
 void Gameplay::Lose()
 {
+	winState = -1;
 	if (restartTimer == 0)
 	{
 		loseText->SetVisible(true);
@@ -307,11 +311,16 @@ void Gameplay::Lose()
 
 void Gameplay::Win()
 {
+	winState = 1;
 	if (restartTimer == 0)
 	{
 		winText->SetVisible(true);
 		viewport->GetRenderPath()->SetShaderParameter("State", 0.0f);
 		restartTimer = 250;
+
+		Node* god = scene_->CreateChild();
+		god->LoadXML(cache->GetResource<XMLFile>("Objects/god.xml")->GetRoot(), false);
+		god->CreateComponent<God>();
 	}
 }
 

@@ -1,8 +1,12 @@
 //TODO:
-	//Winning
 	//Sounds, maybe?
 
 	//Rafactor player class
+		//Revert the ground detector thing
+	//Improve enemy cliffing
+	//Insta shield tweaking
+	//Slide don't work no more
+	//Fireballs hit corpses
 
 	//Loading glitch
 	

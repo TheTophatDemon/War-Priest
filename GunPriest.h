@@ -45,6 +45,7 @@
 #include "TitleScreen.h"
 #include "PyroPastor.h"
 #include "Projectile.h"
+#include "God.h"
 
 class GunPriest : public Application
 {

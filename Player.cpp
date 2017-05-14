@@ -43,6 +43,7 @@ using namespace Urho3D;
 #define STATE_REVIVE 1
 #define STATE_SLIDE 2
 #define STATE_DEAD 3
+#define STATE_WIN 4
 
 #define ACCELERATION 150.0f
 #define FRICTION 0.85f
@@ -148,6 +149,11 @@ void Player::FixedUpdate(float timeStep)
 	bool jumpKey = input->GetKeyDown(scene->GetGlobalVar("JUMP KEY").GetInt());
 	float newAngle = 0.0f;
 	bool diddly = false;
+
+	if (game->winState == 1)
+	{
+		ChangeState(STATE_WIN);
+	}
 
 	PODVector<RigidBody*> grounds;
 
@@ -347,6 +353,11 @@ void Player::FixedUpdate(float timeStep)
 	case STATE_DEAD:
 		
 		break;
+	case STATE_WIN:
+		actor->SetMovement(0.0f, 0.0f);
+		actor->Move(timeStep);
+		animController->PlayExclusive("Models/grungle_idle.ani", 0, true, 0.2f);
+		break;
 	}
 
 	if (hurtTimer > 0)
@@ -358,10 +369,13 @@ void Player::FixedUpdate(float timeStep)
 		}
 	}
 
-	pivot->SetWorldPosition(Vector3(node_->GetWorldPosition().x_, 0.0f, node_->GetWorldPosition().z_));
-	modelNode->SetPosition(node_->GetWorldPosition());
-	modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
-	HandleCamera();
+	if (state != STATE_WIN) 
+	{
+		pivot->SetWorldPosition(Vector3(node_->GetWorldPosition().x_, 0.0f, node_->GetWorldPosition().z_));
+		modelNode->SetPosition(node_->GetWorldPosition());
+		modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
+		HandleCamera();
+	}
 
 	if (health <= 0.0f)
 	{
@@ -403,12 +417,15 @@ void Player::OnAnimTrigger(StringHash eventType, VariantMap& eventData)
 
 void Player::OnHurt(Node* source, int amount)
 {
-	health -= amount;
-	bloodEmitter->SetEmitting(true);
-	hurtTimer = 20;
-	if (source) 
+	if (state != STATE_WIN) 
 	{
-		actor->KnockBack(20.0f, source->GetWorldRotation());
+		health -= amount;
+		bloodEmitter->SetEmitting(true);
+		hurtTimer = 20;
+		if (source)
+		{
+			actor->KnockBack(20.0f, source->GetWorldRotation());
+		}
 	}
 }
 
@@ -494,6 +511,13 @@ void Player::ChangeState(int newState)
 
 		game->FlashScreen(Color::RED, 0.02f);
 		game->Lose();
+	}
+	else if (newState == STATE_WIN && state != STATE_WIN)
+	{
+		//modelNode->SetWorldPosition(Vector3::ZERO);
+		modelNode->SetParent(node_);
+		dropShadow->Remove();
+		groundDetector->Remove();
 	}
 	stateTimer = 0;
 	state = newState;
