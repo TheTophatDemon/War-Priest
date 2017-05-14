@@ -39,7 +39,7 @@ protected:
 	SharedPtr<Scene> scene;
 	SharedPtr<CollisionShape> shape;
 	Quaternion newRotation;
-	Vector3 shapeSize;
+	SharedPtr<CollisionShape> oldShape;
 
 	float turnAmount;
 	float distanceFromPlayer;

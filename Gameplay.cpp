@@ -77,6 +77,7 @@ void Gameplay::RegisterObject(Context* context)
 void Gameplay::Start()
 {
 	winState = 0;
+	restartTimer = 0;
 	SetGlobalVar("PROJECTILE COUNT", 0);
 	viewport = renderer->GetViewport(0);
 	scene_ = SharedPtr<Scene>(GetScene());

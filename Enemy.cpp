@@ -29,10 +29,9 @@ void Enemy::Start()
 	body = node_->GetComponent<RigidBody>();
 	modelNode = node_->GetChild("model");
 	shape = node_->GetComponent<CollisionShape>();
-	shapeSize = shape->GetSize();
-
-	shape->SetSize(Vector3(shapeSize.y_, shapeSize.x_, shapeSize.y_));
-	body->SetMass(0.0f);
+	oldShape = new CollisionShape(context_);
+	oldShape->SetSize(shape->GetSize());
+	oldShape->SetPosition(shape->GetPosition());
 
 	SetGlobalVar("ENEMY COUNT", GetGlobalVar("ENEMY COUNT").GetInt() + 1);
 
@@ -42,7 +41,8 @@ void Enemy::Start()
 		actor = node_->GetComponent<Actor>();
 	actor->SetEnabled(false);
 
-	state = STATE_DEAD;
+	state = -1;
+	ChangeState(STATE_DEAD);
 }
 
 void Enemy::Execute()
@@ -107,12 +107,14 @@ void Enemy::ChangeState(int newState)
 	if (newState != STATE_DEAD && state == STATE_DEAD)
 	{
 		actor->SetEnabled(true);
-		shape->SetSize(shapeSize);
+		shape->SetSize(oldShape->GetSize());
+		shape->SetPosition(oldShape->GetPosition());
 		body->SetMass(120.0f);
 	}
 	else if (newState == STATE_DEAD && state != STATE_DEAD)
 	{
-		shape->SetSize(Vector3(shapeSize.y_, shapeSize.x_, shapeSize.y_));
+		shape->SetSize(Vector3(oldShape->GetSize().y_, oldShape->GetSize().x_ * 0.5f, oldShape->GetSize().y_));
+		shape->SetPosition(Vector3(0.0f, -oldShape->GetSize().x_ * 0.5f, 0.0f));
 		body->SetMass(0.0f);
 	}
 	state = newState;

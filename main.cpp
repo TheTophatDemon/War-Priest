@@ -6,7 +6,6 @@
 	//Improve enemy cliffing
 	//Insta shield tweaking
 	//Slide don't work no more
-	//Fireballs hit corpses
 
 	//Loading glitch
 	
