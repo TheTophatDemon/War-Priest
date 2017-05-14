@@ -56,6 +56,7 @@ Gameplay::Gameplay(Context* context) : LogicComponent(context)
 	flashColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
 	oldHealth = 100.0f;
 	initialized = false;
+	restartTimer = 0;
 
 	cache = GetSubsystem<ResourceCache>();
 	engine_ = GetSubsystem<Engine>();
@@ -115,11 +116,11 @@ void Gameplay::SetupGame()
 	viewport->SetCamera(camera);
 
 	skybox = scene_->GetChild("skybox");
-
-	//SetupNPC();
+	
 	SetupEnemy();
 	SetupProps();
 	loseText->SetVisible(false);
+	winText->SetVisible(false);
 	viewport->GetRenderPath()->SetShaderParameter("State", 0.0f);
 	initialized = true;
 }
@@ -140,11 +141,16 @@ void Gameplay::FixedUpdate(float timeStep)
 			if (flashColor.a_ < 0.0f) flashColor.a_ = 0.0f;
 		}
 		viewport->GetRenderPath()->SetShaderParameter("FlashColor", flashColor);
-		if (loseTimer > 0)
+
+		if ((player->reviveCount >= enemyCount && enemyCount > 0) || input->GetKeyDown(KEY_L))
 		{
-			viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
-			loseTimer -= 1;
-			if (loseTimer <= 0)
+			Win();
+		}
+
+		if (restartTimer > 0)
+		{
+			restartTimer -= 1;
+			if (restartTimer <= 0)
 			{
 				initialized = false;
 				gunPriest->ChangeState(GunPriest::STATE_TITLE);
@@ -211,6 +217,14 @@ void Gameplay::MakeHUD()
 	loseText->SetVerticalAlignment(VA_CENTER);
 	ourUI->AddChild(loseText);
 	loseText->SetVisible(false);
+
+	winText = new Text(context_);
+	winText->SetText("MISSION COMPLETE");
+	winText->SetFont("Fonts/Anonymous Pro.ttf", 24);
+	winText->SetHorizontalAlignment(HA_CENTER);
+	winText->SetVerticalAlignment(VA_CENTER);
+	ourUI->AddChild(winText);
+	winText->SetVisible(false);
 
 	projectileCounter = new Text(context_);
 	projectileCounter->SetText("PROJECTILE: " + String(GetGlobalVar("PROJECTILE COUNT").GetInt()));
@@ -283,16 +297,27 @@ void Gameplay::SetOnFloor(Node* n, Vector3 pos, float offset)
 
 void Gameplay::Lose()
 {
-	if (loseTimer == 0) 
+	if (restartTimer == 0)
 	{
 		loseText->SetVisible(true);
 		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
-		loseTimer = 250;
+		restartTimer = 250;
+	}
+}
+
+void Gameplay::Win()
+{
+	if (restartTimer == 0)
+	{
+		winText->SetVisible(true);
+		viewport->GetRenderPath()->SetShaderParameter("State", 0.0f);
+		restartTimer = 250;
 	}
 }
 
 void Gameplay::SetupEnemy()
 {
+	enemyCount = 0;
 	PODVector<Node*> enemies;
 	scene_->GetChildrenWithTag(enemies, "enemy", true);
 	for (PODVector<Node*>::Iterator i = enemies.Begin(); i != enemies.End(); ++i)
@@ -305,6 +330,8 @@ void Gameplay::SetupEnemy()
 			n->SetWorldTransform(t.Translation(), t.Rotation(), t.Scale());
 			SetOnFloor(n, n->GetWorldPosition(), 0.1f);
 			n->CreateComponent<PyroPastor>();
+
+			enemyCount += 1;
 		}
 	}
 }

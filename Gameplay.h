@@ -52,13 +52,15 @@ public:
 	void MakeHUD();
 	void FlashScreen(Color c, float spd);
 	void Lose();
+	void Win();
 
 	~Gameplay();
-	int loseTimer = 0;
+	int restartTimer = 0;
 	bool initialized = false;
 	SharedPtr<UIElement> ourUI;
 
 	int projectileCount = 0;
+	int enemyCount = 0;
 protected:
 	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);
 	void SetOnFloor(Node* n, Vector3 pos, float offset = 0.0f);
@@ -72,6 +74,7 @@ protected:
 	float oldHealth;
 	
 	SharedPtr<Text> loseText;
+	SharedPtr<Text> winText;
 	SharedPtr<Text> projectileCounter;
 };
 

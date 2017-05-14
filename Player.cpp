@@ -57,6 +57,7 @@ Vector3 Player::orgShapePos = Vector3(0.0f, 1.5f, 0.0f);
 
 Player::Player(Context* context) : LogicComponent(context)
 {
+	reviveCount = 0;
 	hailTimer = 0;
 	stateTimer = 0;
 	hurtTimer = 0;
@@ -326,6 +327,7 @@ void Player::FixedUpdate(float timeStep)
 			{
 				Zeus::MakeLightBeam(scene, nearestEnemy->GetNode()->GetWorldPosition());
 				nearestEnemy->Revive();
+				reviveCount += 1;
 			}
 		}
 		break;

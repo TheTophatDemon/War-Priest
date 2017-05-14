@@ -177,6 +177,7 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
+
 	if (otherBody->GetCollisionLayer() & LEVELMASK)
 	{
 		VectorBuffer contacts = eventData["Contacts"].GetBuffer();

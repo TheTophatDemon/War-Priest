@@ -32,6 +32,7 @@ public:
 	SharedPtr<Input> input;
 	SharedPtr<Node> pivot;
 	int health;
+	int reviveCount = 0;
 protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnAnimTrigger(StringHash eventType, VariantMap& eventData);
@@ -57,9 +58,7 @@ protected:
 
 	Quaternion newRotation;
 	Vector3 newCameraPosition;
-
 	
-
 	int state;
 	int hailTimer;
 	float stateTimer;

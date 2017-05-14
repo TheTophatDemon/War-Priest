@@ -1,7 +1,7 @@
 //TODO:
 	//Winning
 	//Sounds, maybe?
-	
+
 	//Rafactor player class
 
 	//Loading glitch
