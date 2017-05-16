@@ -27,19 +27,20 @@ public:
 	virtual void FixedUpdate(float timeStep);
 	void OnHurt(Node* source, int damage);
 	~Player();
-	static Vector3 orgShapeSize;
-	static Vector3 orgShapePos;
-	SharedPtr<Input> input;
-	SharedPtr<Node> pivot;
+	
 	int health;
 	int reviveCount = 0;
 protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
-	void OnAnimTrigger(StringHash eventType, VariantMap& eventData);
-	void PostUpdate(StringHash eventType, VariantMap& eventData);
 	void HandleCamera();
-	void HandleShadow(PhysicsRaycastResult result);
+	void HandleShadow();
 	void ChangeState(int newState);
+	void EnterState(int newState);
+	void LeaveState(int oldState);
+	void ST_Default(float timeStep);
+	void ST_Revive(float timeStep);
+	void ST_Slide(float timeStep);
+	void ST_Win(float timeStep);
 
 	SharedPtr<Scene> scene;
 	SharedPtr<ResourceCache> cache;
@@ -55,9 +56,13 @@ protected:
 	SharedPtr<RigidBody> groundDetector;
 	SharedPtr<ParticleEmitter> bloodEmitter;
 	SharedPtr<CollisionShape> shape;
+	SharedPtr<Input> input;
+	SharedPtr<Node> pivot;
 
 	Quaternion newRotation;
 	Vector3 newCameraPosition;
+	static Vector3 orgShapeSize;
+	static Vector3 orgShapePos;
 	
 	int state;
 	int hailTimer;
@@ -67,5 +72,11 @@ protected:
 	float moveX = 0.0f;
 	float moveZ = 0.0f;
 	float lastShield = 0.0f;
+
+	bool forwardKey = false;
+	bool backwardKey = false;
+	bool rightKey = false;
+	bool leftKey = false;
+	bool jumpKey = false;
 };
 

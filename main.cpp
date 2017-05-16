@@ -1,11 +1,11 @@
 //TODO:
 	//Sounds
 
-	//Rafactor player class
-	//Insta shield tweaking
-	//Improve enemy cliffing
+	//Refactor enemy class(es)
+	//Going to title resets timer
+	//Tweak insta shield
 
-	//Loading glitch
+	//Loading glitch?
 	//Material quality setup
 	
 //Potential Optimizations:

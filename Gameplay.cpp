@@ -109,11 +109,7 @@ void Gameplay::SetupGame()
 	cameraNode->SetPosition(Vector3(0.0f, 12.0f, -12.0f));
 	camera = cameraNode->CreateComponent<Camera>();
 	camera->SetFov(scene_->GetGlobalVar("CAMERA FOV").GetFloat());
-	Node* pivot = scene_->CreateChild();
-	cameraNode->SetParent(pivot);
 
-	player->pivot = pivot;
-	player->input = input;
 	playerNode->AddComponent(player, 666, LOCAL);
 
 	viewport->SetScene(scene_);
