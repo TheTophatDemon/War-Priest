@@ -1,8 +1,9 @@
 //TODO:
 	//Sounds
-
+	//Lifts
+	//Lightmapping?
+	
 	//Refactor enemy class(es)
-	//Going to title resets timer
 	//Tweak insta shield
 
 	//Loading glitch?

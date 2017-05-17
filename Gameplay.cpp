@@ -76,9 +76,6 @@ void Gameplay::RegisterObject(Context* context)
 
 void Gameplay::Start()
 {
-	winState = 0;
-	restartTimer = 0;
-	SetGlobalVar("PROJECTILE COUNT", 0);
 	viewport = renderer->GetViewport(0);
 	scene_ = SharedPtr<Scene>(GetScene());
 
@@ -94,6 +91,9 @@ void Gameplay::Start()
 
 void Gameplay::SetupGame()
 {
+	SetGlobalVar("PROJECTILE COUNT", 0);
+	winState = 0;
+	restartTimer = 0;
 	mapNode = scene_->GetChild("map");
 
 	//Setup Player
@@ -156,6 +156,8 @@ void Gameplay::FixedUpdate(float timeStep)
 				gunPriest->ChangeState(GunPriest::STATE_TITLE);
 			}
 		}
+		if (winState == -1)
+			viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
 	}
 }
 
