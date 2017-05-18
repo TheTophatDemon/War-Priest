@@ -27,7 +27,6 @@ Actor::Actor(Context* context) : LogicComponent(context)
 
 	onGround = false;
 	slopeSteepness = 0.0f;
-	aiState = 0;
 	knockBack = 0.0f;
 	deltaTime = 0.0f;
 
@@ -36,6 +35,7 @@ Actor::Actor(Context* context) : LogicComponent(context)
 
 	rawMovement = Vector3::ZERO;
 	finalMovement = Vector3::ZERO;
+	liftOn = nullptr;
 }
 
 void Actor::RegisterObject(Context* context)
@@ -49,7 +49,9 @@ void Actor::Start()
 	scene = node_->GetScene();
 	physworld = scene->GetComponent<PhysicsWorld>();
 	shape = node_->GetComponent<CollisionShape>();
+	SubscribeToEvent(GetNode(), E_NODECOLLISIONSTART, URHO3D_HANDLER(Actor, OnCollisionStart));
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Actor, OnCollision));
+	SubscribeToEvent(GetNode(), E_NODECOLLISIONEND, URHO3D_HANDLER(Actor, OnCollisionEnd));
 }
 
 void Actor::SetMovement(bool fw, bool bk, bool lf, bool rg)
@@ -109,6 +111,8 @@ void Actor::Move(float timeStep)
 {
 	deltaTime = timeStep;
 	if (fabs(deltaTime) > 10.0f) deltaTime = 0.0f;
+
+	if (liftOn) onGround = true;
 
 	//Falling logic
 	sloping = false;
@@ -173,6 +177,30 @@ void Actor::GetSlope()
 	}
 }
 
+void Actor::OnCollisionStart(StringHash eventType, VariantMap& eventData)
+{
+	Node* other = (Node*)eventData["OtherNode"].GetPtr();
+	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
+	if (other->HasTag("lift"))
+	{
+		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
+		while (!contacts.IsEof())
+		{
+			Vector3 position = contacts.ReadVector3();
+			Vector3 normal = contacts.ReadVector3();
+			float distance = contacts.ReadFloat();
+			float impulse = contacts.ReadFloat();
+			if (position.y_ <= node_->GetWorldPosition().y_ + 0.5f && fabs(normal.y_) >= 0.42f)
+			{
+				liftOn = other;
+				node_->SetParent(other);
+				break;
+			}
+		}
+		
+	}
+}
+
 void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
@@ -187,33 +215,27 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 			Vector3 normal = contacts.ReadVector3();
 			float distance = contacts.ReadFloat();
 			float impulse = contacts.ReadFloat();
-			if (fabs(normal.y_) != 0.0f)
+			if (position.y_ <= node_->GetWorldPosition().y_ + 0.5f && fabs(normal.y_) >= 0.42f)
 			{
-				Vector2 a = Vector2(position.x_, position.z_);
-				Vector2 b = Vector2(node_->GetWorldPosition().x_, node_->GetWorldPosition().z_);
-				float d = (a - b).Length();
-				
-				if (position.y_ <= node_->GetWorldPosition().y_ + 0.5f && fabs(normal.y_) >= 0.42f)
+				onGround = true;
+				if (other->HasTag("lift"))
 				{
-					onGround = true;
+					liftOn = other;
 				}
-
-				/*if (position.y_ <= node_->GetWorldPosition().y_ + 0.5f && d < 0.9f)
-				{
-					onGround = true;
-				}*/
-				/*else if (position.y_ >= node_->GetWorldPosition().y_ + 2.5f && fall > 0.0f && d < 0.5f)
-				{
-					fall = 0.0f;
-				}*/
 			}
 		}
 	}
 }
 
-void Actor::ChangeState(int newState)
+void Actor::OnCollisionEnd(StringHash eventType, VariantMap& eventData)
 {
-	aiState = newState;
+	Node* other = (Node*)eventData["OtherNode"].GetPtr();
+	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
+	if (other == liftOn)
+	{
+		liftOn = nullptr;
+		node_->SetParent(scene);
+	}
 }
 
 Actor::~Actor()

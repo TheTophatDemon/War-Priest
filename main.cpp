@@ -1,8 +1,13 @@
 //TODO:
 	//Sounds
 	//Lifts
+		//Make them not crush the player
+		//Ceiling collisions
+		//Onground flickering
+		//Sliding broken
 	//Lightmapping?
 	
+	//Shadow not right on deep slopes
 	//Refactor enemy class(es)
 	//Tweak insta shield
 

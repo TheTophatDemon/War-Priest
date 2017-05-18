@@ -135,7 +135,7 @@ void Player::Start()
 void Player::FixedUpdate(float timeStep)
 {	
 	float newAngle = 0.0f;
-
+	
 	forwardKey = input->GetKeyDown(scene->GetGlobalVar("FORWARD KEY").GetInt());
 	backwardKey = input->GetKeyDown(scene->GetGlobalVar("BACKWARD KEY").GetInt());
 	rightKey = input->GetKeyDown(scene->GetGlobalVar("RIGHT KEY").GetInt());
@@ -445,7 +445,7 @@ void Player::ST_Default(float timeStep)
 	else if (input->GetMouseButtonDown(MOUSEB_RIGHT) && !actor->onGround && stateTimer - lastShield > 0.5f)
 	{
 		lastShield = stateTimer;
-		Zeus::MakeShield(scene, node_->GetWorldPosition() + Vector3::UP*1.5f, 5.0f);
+		//Zeus::MakeShield(scene, node_->GetWorldPosition() + Vector3::UP*1.5f, 5.0f);
 	}
 
 	actor->Move(timeStep);
@@ -508,7 +508,7 @@ void Player::ST_Slide(float timeStep)
 	stateTimer += timeStep;
 	animController->PlayExclusive("Models/grungle_slide.ani", 0, false, 0.2f);
 
-	actor->SetMovement(node_->GetWorldRotation() * Vector3::FORWARD * SLIDESPEED);
+	actor->SetMovement(node_->GetDirection() * SLIDESPEED);
 	actor->Move(timeStep);
 
 	if (stateTimer > 0.5f)

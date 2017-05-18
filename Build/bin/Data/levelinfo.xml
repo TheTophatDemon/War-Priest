@@ -1,18 +1,8 @@
 <?xml version="1.0"?>
 <levelinfo>
-	<level name="Palisade Pantheon" path="Scenes/palisadepantheon.xml"/>
+	<level name="Beta Map 01" path="Scenes/palisadepantheon.xml"/>
 	<level name="Alpha Map 02" path="Scenes/map02.xml"/>
 	<level name="Alpha Map 01" path="Scenes/testmap.xml"/>
 	<level name="Crossroads" path="Scenes/crossroads.xml"/>
-	<level name="Genocide City Act 1" path="Scenes/crossroads.xml"/>
-	<level name="Genocide City Act 2" path="Scenes/crossroads.xml"/>
-	<level name="Genocide City Act 3" path="Scenes/crossroads.xml"/>
-	<level name="Genocide City Act 4" path="Scenes/crossroads.xml"/>
-	<level name="Genocide City Act 5" path="Scenes/crossroads.xml"/>
-	<level name="Genocide City Act 6" path="Scenes/crossroads.xml"/>
-	<level name="Genocide City Act 7" path="Scenes/crossroads.xml"/>
-	<level name="Genocide City Act 8" path="Scenes/crossroads.xml"/>
-	<level name="Genocide City Act 9" path="Scenes/crossroads.xml"/>
-	<level name="Genocide City Act 10" path="Scenes/crossroads.xml"/>
-	<level name="Genocide City Act 11" path="Scenes/crossroads.xml"/>
+	<level name="Lifts Test" path="Scenes/liftstest.xml"/>
 </levelinfo>

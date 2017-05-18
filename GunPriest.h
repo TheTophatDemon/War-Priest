@@ -46,6 +46,7 @@
 #include "PyroPastor.h"
 #include "Projectile.h"
 #include "God.h"
+#include "Lift.h"
 
 class GunPriest : public Application
 {

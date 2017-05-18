@@ -17,6 +17,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	PyroPastor::RegisterObject(context);
 	Projectile::RegisterObject(context);
 	God::RegisterObject(context);
+	Lift::RegisterObject(context);
 	state = STATE_TITLE;
 }
 
@@ -54,7 +55,7 @@ void GunPriest::Setup()
 	engineParameters_["WindowHeight"] = 720;
 	engineParameters_["WindowResizable"] = false;
 	engineParameters_["Multisample"] = 0;
-	context_->RegisterSubsystem(new Script(context_));
+	//context_->RegisterSubsystem(new Script(context_));
 }
 
 void GunPriest::Start()
@@ -157,7 +158,7 @@ void GunPriest::AfterRenderUpdate(StringHash eventType, VariantMap& eventData)
 {
 	if (state == STATE_GAME && game->initialized)
 	{
-		//scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
+		scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
 	}
 }
 

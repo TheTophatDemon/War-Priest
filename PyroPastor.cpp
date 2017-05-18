@@ -72,7 +72,7 @@ void PyroPastor::Execute()
 			else 
 			{
 				PhysicsRaycastResult result;
-				physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.05f, 0.0f), node_->GetRotation() * (Vector3::FORWARD * 2.0f)), 4.0f, 2U);
+				physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.05f, 0.0f), node_->GetWorldRotation() * (Vector3::FORWARD * 2.0f)), 4.0f, 2U);
 				if (result.body_)
 				{
 					walking = false;
@@ -81,7 +81,7 @@ void PyroPastor::Execute()
 		}
 
 		if (turnAmount != 0.0f)
-			newRotation = Quaternion(node_->GetRotation().y_ + turnAmount, Vector3::UP);
+			newRotation = Quaternion(node_->GetWorldRotation().y_ + turnAmount, Vector3::UP);
 		stateTimer += deltaTime;
 		if (stateTimer > 1.0f)
 		{

@@ -119,6 +119,22 @@ void Gameplay::SetupGame()
 	
 	SetupEnemy();
 	SetupProps();
+	//Setup Lifts
+	PODVector<Node*> lifts;
+	scene_->GetChildrenWithTag(lifts, "lift", true);
+	for (PODVector<Node*>::Iterator i = lifts.Begin(); i != lifts.End(); ++i)
+	{
+		Node* n = (Node*)*i;
+		if (n)
+		{
+			Vector3 movement = n->GetVar("movement").GetVector3();
+			float restSpeed = n->GetVar("restSpeed").GetFloat(); if (restSpeed == 0.0f) restSpeed = 1.0f;
+			float speed = n->GetVar("speed").GetFloat(); if (speed == 0.0f) speed = 2.0f;
+			float rotSpeed = n->GetVar("rotateSpeed").GetFloat();
+			n->AddComponent(Lift::MakeLiftComponent(context_, movement, restSpeed, speed, rotSpeed), 1200, LOCAL);
+		}
+	}
+
 	loseText->SetVisible(false);
 	winText->SetVisible(false);
 	viewport->GetRenderPath()->SetShaderParameter("State", 0.0f);

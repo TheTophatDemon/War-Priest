@@ -6,6 +6,7 @@
 #include <Urho3D/Physics/RigidBody.h>
 #include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
+#include "Lift.h"
 
 using namespace Urho3D;
 
@@ -36,14 +37,17 @@ public:
 	float forward = 0.0f;
 	float strafe = 0.0f;
 	float fall = 0.0f;
+	float slopeSteepness = 0.0f;
+	Node* liftOn;
 	bool onGround = false;
 	bool sloping = false;
-	float slopeSteepness = 0.0f;
+	
 protected:
 	float deltaTime = 0.0f;
 	void GetSlope();
+	void OnCollisionStart(StringHash eventType, VariantMap& eventData);
 	void OnCollision(StringHash eventType, VariantMap& eventData);
-	virtual void ChangeState(int newState);
+	void OnCollisionEnd(StringHash eventType, VariantMap& eventData);
 	SharedPtr<PhysicsWorld> physworld;
 	SharedPtr<Scene> scene;
 	WeakPtr<RigidBody> body;
@@ -51,7 +55,5 @@ protected:
 
 	Quaternion knockBackDirection;
 	float knockBack = 0.0f;
-	int aiState = 0;
-	
 };
 

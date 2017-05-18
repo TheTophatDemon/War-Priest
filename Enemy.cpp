@@ -58,7 +58,7 @@ void Enemy::FixedUpdate(float timeStep)
 	if (distanceFromPlayer < 60.0f)
 	{
 		Execute();
-		node_->SetRotation(node_->GetRotation().Slerp(newRotation, 0.25f));
+		node_->SetRotation(node_->GetWorldRotation().Slerp(newRotation, 0.25f));
 	}
 	else
 	{
