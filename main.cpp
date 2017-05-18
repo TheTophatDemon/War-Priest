@@ -4,8 +4,9 @@
 		//Make them not crush the player
 		//Ceiling collisions
 		//Onground flickering
-		//Sliding broken
 	//Lightmapping?
+	//Water
+	//Slide bumping bug
 	
 	//Shadow not right on deep slopes
 	//Refactor enemy class(es)

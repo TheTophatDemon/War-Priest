@@ -61,6 +61,8 @@ protected:
 
 	Quaternion newRotation;
 	Vector3 newCameraPosition;
+	Vector3 slideDirection;
+	Vector3 bodyPrevPosition;
 	static Vector3 orgShapeSize;
 	static Vector3 orgShapePos;
 	

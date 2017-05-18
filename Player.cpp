@@ -189,6 +189,7 @@ void Player::FixedUpdate(float timeStep)
 		modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
 		HandleCamera();
 	}
+	bodyPrevPosition = body->GetPosition();
 }
 
 void Player::OnCollision(StringHash eventType, VariantMap& eventData)
@@ -204,11 +205,6 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 			Vector3 normal = contacts.ReadVector3();
 			float distance = contacts.ReadFloat();
 			float impulse = contacts.ReadFloat();
-			if (position.y_ > node_->GetWorldPosition().y_ + 0.5f && state == STATE_SLIDE)
-			{
-				actor->KnockBack(25.0f, Quaternion(node_->GetWorldRotation().YawAngle() + 180.0f, Vector3::UP));
-				ChangeState(STATE_DEFAULT);
-			}
 		}
 	}
 }
@@ -285,6 +281,7 @@ void Player::EnterState(int newState)
 			node_->SetRotation(Quaternion(0.0f, newRotation.EulerAngles().y_ + 90.0f, 0.0f));
 			shape->SetSize(Vector3(1.0f, 0.2f, 1.0f));
 			shape->SetPosition(Vector3(0.0f, 0.5f, 0.0f));
+			slideDirection = node_->GetDirection() * SLIDESPEED;
 			break;
 		case STATE_DEAD:
 			bloodEmitter->SetEmitting(true);
@@ -325,7 +322,7 @@ void Player::EnterState(int newState)
 
 void Player::LeaveState(int oldState)
 {
-	if (oldState != STATE_SLIDE)
+	if (oldState == STATE_SLIDE)
 	{
 		actor->maxspeed = WALKSPEED;
 		shape->SetSize(orgShapeSize);
@@ -508,10 +505,21 @@ void Player::ST_Slide(float timeStep)
 	stateTimer += timeStep;
 	animController->PlayExclusive("Models/grungle_slide.ani", 0, false, 0.2f);
 
-	actor->SetMovement(node_->GetDirection() * SLIDESPEED);
+	actor->SetMovement(slideDirection);
 	actor->Move(timeStep);
 
-	if (stateTimer > 0.5f)
+	PhysicsRaycastResult ceilingCast;
+	float rad = shape->GetSize().x_ * 0.4f;
+	physworld->SphereCast(ceilingCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, rad + 0.1f, 0.0f), Vector3::UP), rad, 3.0f, 2);
+	if (stateTimer > 0.5f && !ceilingCast.body_)
+	{
+		stateTimer = 0;
+		ChangeState(STATE_DEFAULT);
+	}
+
+	Vector3 diff = bodyPrevPosition - body->GetPosition(); //Stop when bumping into walls
+	if ((fabs(diff.x_) < 0.1f || fabs(diff.z_) < 0.1f)
+		&& stateTimer > 0.1f && !ceilingCast.body_)
 	{
 		stateTimer = 0;
 		ChangeState(STATE_DEFAULT);

@@ -112,7 +112,10 @@ void Actor::Move(float timeStep)
 	deltaTime = timeStep;
 	if (fabs(deltaTime) > 10.0f) deltaTime = 0.0f;
 
-	if (liftOn) onGround = true;
+	if (liftOn) 
+	{
+		onGround = true;
+	}
 
 	//Falling logic
 	sloping = false;
@@ -233,8 +236,8 @@ void Actor::OnCollisionEnd(StringHash eventType, VariantMap& eventData)
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
 	if (other == liftOn)
 	{
-		liftOn = nullptr;
 		node_->SetParent(scene);
+		liftOn = nullptr;
 	}
 }
 
