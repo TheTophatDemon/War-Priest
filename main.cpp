@@ -1,8 +1,6 @@
 //TODO:
 	//Sounds
 	//Lifts
-		//Make them not crush the player
-		//Ceiling collisions
 		//Onground flickering
 	//Lightmapping?
 	//Water

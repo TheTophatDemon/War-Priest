@@ -460,7 +460,7 @@ void Player::ST_Revive(float timeStep)
 	actor->SetMovement(pivot->GetWorldRotation() * Vector3(moveX, 0.0f, moveZ));
 
 	animController->PlayExclusive("Models/grungle_revive.ani", 0, true, 0.2f);
-	if (animController->GetTime("Models/grungle_revive.ani") >= animController->GetLength("Models/grungle_revive.ani") * 0.9f)
+	if (animController->GetTime("Models/grungle_revive.ani") >= animController->GetLength("Models/grungle_revive.ani") * 0.9f || stateTimer > 150)
 	{
 		ChangeState(STATE_DEFAULT);
 	}

@@ -218,12 +218,19 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 			Vector3 normal = contacts.ReadVector3();
 			float distance = contacts.ReadFloat();
 			float impulse = contacts.ReadFloat();
-			if (position.y_ <= node_->GetWorldPosition().y_ + 0.5f && fabs(normal.y_) >= 0.42f)
+			if (fabs(normal.y_) >= 0.42f)
 			{
-				onGround = true;
-				if (other->HasTag("lift"))
+				if (position.y_ <= node_->GetWorldPosition().y_ + 0.5f) 
 				{
-					liftOn = other;
+					onGround = true;
+					if (other->HasTag("lift"))
+					{
+						liftOn = other;
+					}
+				}
+				else if (position.y_ >= node_->GetWorldPosition().y_ + 3.0f)
+				{
+					if (fall > 0.0f) fall = 0.0f;
 				}
 			}
 		}

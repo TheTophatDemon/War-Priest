@@ -5,6 +5,7 @@
 #include <Urho3D/Scene/Node.h>
 #include <Urho3D/Audio/Sound.h>
 #include <Urho3D/Audio/SoundSource3D.h>
+#include <Urho3D/Scene/ValueAnimation.h>
 #include <Urho3D/Resource/ResourceCache.h>
 
 using namespace Urho3D;
@@ -23,5 +24,9 @@ public:
 	float restTime = 0.0f;
 	float speed = 1.0f;
 	float rotateSpeed = 0.0f;
+protected:
+	SharedPtr<ValueAnimation> valAnim;
+	void OnCollision(StringHash eventType, VariantMap& eventData);
+	float timer = 0.0f;
 };
 
