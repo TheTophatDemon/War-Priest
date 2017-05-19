@@ -4,9 +4,7 @@
 		//Onground flickering
 	//Lightmapping?
 	//Water
-	//Slide bumping bug
-	
-	//Shadow not right on deep slopes
+
 	//Refactor enemy class(es)
 	//Tweak insta shield
 

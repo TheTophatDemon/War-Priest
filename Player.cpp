@@ -243,7 +243,7 @@ void Player::HandleShadow()
 		dropShadow->SetEnabled(true);
 		dropShadow->SetWorldPosition(shadowRaycast.position_ + Vector3(0.0f, 0.1f, 0.0f));
 		Quaternion q = Quaternion();
-		q.FromLookRotation(shadowRaycast.normal_.CrossProduct(Vector3::FORWARD));
+		q.FromLookRotation(shadowRaycast.normal_);
 		dropShadow->SetRotation(q);
 	}
 	else
@@ -517,9 +517,9 @@ void Player::ST_Slide(float timeStep)
 		ChangeState(STATE_DEFAULT);
 	}
 
-	Vector3 diff = bodyPrevPosition - body->GetPosition(); //Stop when bumping into walls
-	if ((fabs(diff.x_) < 0.1f || fabs(diff.z_) < 0.1f)
-		&& stateTimer > 0.1f && !ceilingCast.body_)
+	PhysicsRaycastResult forwardCast;
+	physworld->RaycastSingle(forwardCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.25f, 0.0f), slideDirection), shape->GetSize().x_, 2);
+	if (forwardCast.body_ && fabs(forwardCast.normal_.y_) <= 0.42f)
 	{
 		stateTimer = 0;
 		ChangeState(STATE_DEFAULT);
