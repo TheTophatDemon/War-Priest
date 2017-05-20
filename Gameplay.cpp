@@ -117,8 +117,6 @@ void Gameplay::SetupGame()
 
 	skybox = scene_->GetChild("skybox");
 	
-	SetupEnemy();
-	SetupProps();
 	//Setup Lifts
 	PODVector<Node*> lifts;
 	scene_->GetChildrenWithTag(lifts, "lift", true);
@@ -134,6 +132,9 @@ void Gameplay::SetupGame()
 			n->AddComponent(Lift::MakeLiftComponent(context_, movement, restSpeed, speed, rotSpeed), 1200, LOCAL);
 		}
 	}
+
+	SetupEnemy();
+	SetupProps();
 
 	loseText->SetVisible(false);
 	winText->SetVisible(false);
