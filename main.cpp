@@ -4,6 +4,7 @@
 		//Onground flickering
 	//Lightmapping?
 	//Water
+	//Enemy putonfloor not working
 
 	//Refactor enemy class(es)
 	//Tweak insta shield

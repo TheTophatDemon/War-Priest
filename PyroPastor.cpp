@@ -30,7 +30,7 @@ void PyroPastor::DelayedStart()
 	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
 	animController->SetSpeed(REVIVE_ANIM, 0.0f);
 
-	modelNode->SetWorldRotation(Quaternion(-90.0f, Vector3::UP));
+	modelNode->SetRotation(Quaternion(-90.0f, Vector3::UP));
 	actor->maxspeed = 10.0f;
 	target = game->playerNode;
 

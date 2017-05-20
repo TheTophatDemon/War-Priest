@@ -279,8 +279,8 @@ void Player::EnterState(int newState)
 		case STATE_SLIDE:
 			actor->maxspeed = SLIDESPEED;
 			node_->SetRotation(Quaternion(0.0f, newRotation.EulerAngles().y_ + 90.0f, 0.0f));
-			shape->SetSize(Vector3(1.0f, 0.2f, 1.0f));
-			shape->SetPosition(Vector3(0.0f, 0.5f, 0.0f));
+			shape->SetSize(Vector3(1.0f, 0.3f, 1.0f));
+			shape->SetPosition(Vector3(0.0f, 0.3f, 0.0f));
 			slideDirection = node_->GetDirection() * SLIDESPEED;
 			break;
 		case STATE_DEAD:
@@ -510,7 +510,7 @@ void Player::ST_Slide(float timeStep)
 
 	PhysicsRaycastResult ceilingCast;
 	float rad = shape->GetSize().x_ * 0.4f;
-	physworld->SphereCast(ceilingCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, rad + 0.1f, 0.0f), Vector3::UP), rad, 3.0f, 2);
+	physworld->SphereCast(ceilingCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, rad + 0.5f, 0.0f), Vector3::UP), rad, 2.5f, 2);
 	if (stateTimer > 0.5f && !ceilingCast.body_)
 	{
 		stateTimer = 0;
@@ -518,8 +518,8 @@ void Player::ST_Slide(float timeStep)
 	}
 
 	PhysicsRaycastResult forwardCast;
-	physworld->RaycastSingle(forwardCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.25f, 0.0f), slideDirection), shape->GetSize().x_, 2);
-	if (forwardCast.body_ && fabs(forwardCast.normal_.y_) <= 0.42f)
+	physworld->RaycastSingle(forwardCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), slideDirection), shape->GetSize().x_, 2);
+	if (forwardCast.body_ && fabs(forwardCast.normal_.y_) <= 0.42f && !ceilingCast.body_)
 	{
 		stateTimer = 0;
 		ChangeState(STATE_DEFAULT);

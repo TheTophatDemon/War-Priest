@@ -126,7 +126,7 @@ void Gameplay::SetupGame()
 		if (n)
 		{
 			Vector3 movement = n->GetVar("movement").GetVector3();
-			float restSpeed = n->GetVar("restSpeed").GetFloat(); if (restSpeed == 0.0f) restSpeed = 1.0f;
+			float restSpeed = n->GetVar("restTime").GetFloat(); if (restSpeed == 0.0f) restSpeed = 1.0f;
 			float speed = n->GetVar("speed").GetFloat(); if (speed == 0.0f) speed = 2.0f;
 			float rotSpeed = n->GetVar("rotateSpeed").GetFloat();
 			n->AddComponent(Lift::MakeLiftComponent(context_, movement, restSpeed, speed, rotSpeed), 1200, LOCAL);
