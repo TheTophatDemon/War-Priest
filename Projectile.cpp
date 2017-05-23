@@ -79,7 +79,11 @@ void Projectile::FixedUpdate(float timeStep)
 			int colLayer = result.body_->GetCollisionLayer();
 			if (colLayer & 128)
 			{
-				game->player->OnHurt(node_, damage);
+				if (game->player->state != 2) 
+				{
+					game->player->OnHurt(node_, damage);
+					Destroy();
+				}
 			}
 			else if (colLayer & 64)
 			{
@@ -89,8 +93,8 @@ void Projectile::FixedUpdate(float timeStep)
 					if (enm->state != 0)
 						enm->OnHurt(node_, damage);
 				}
+				Destroy();
 			}
-			Destroy();
 		}
 		
 		node_->Translate(movement, TS_WORLD);

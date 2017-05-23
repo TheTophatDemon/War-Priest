@@ -28,6 +28,7 @@ public:
 	void OnHurt(Node* source, int damage);
 	~Player();
 	
+	int state;
 	int health;
 	int reviveCount = 0;
 protected:
@@ -60,20 +61,14 @@ protected:
 	SharedPtr<Node> pivot;
 
 	Quaternion newRotation;
-	Vector3 newCameraPosition;
 	Vector3 slideDirection;
-	Vector3 bodyPrevPosition;
-	static Vector3 orgShapeSize;
-	static Vector3 orgShapePos;
 	
-	int state;
 	int hailTimer;
 	float stateTimer;
 	int hurtTimer;
 
 	float moveX = 0.0f;
 	float moveZ = 0.0f;
-	float lastShield = 0.0f;
 
 	bool forwardKey = false;
 	bool backwardKey = false;

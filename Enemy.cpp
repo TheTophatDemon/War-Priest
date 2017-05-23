@@ -113,8 +113,8 @@ void Enemy::ChangeState(int newState)
 {
 	if (newState != state)
 	{
-		LeaveState(state);
 		EnterState(newState);
+		LeaveState(state);
 		stateTimer = 0.0f;
 	}
 	state = newState;

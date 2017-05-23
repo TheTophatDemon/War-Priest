@@ -148,6 +148,7 @@ void PyroPastor::Dead()
 
 void PyroPastor::EnterState(int newState)
 {
+	Enemy::EnterState(newState);
 	if (newState == STATE_ATTACK)
 	{
 		shot = false;
@@ -156,6 +157,7 @@ void PyroPastor::EnterState(int newState)
 
 void PyroPastor::LeaveState(int oldState)
 {
+	Enemy::LeaveState(oldState);
 	if (oldState == STATE_DEAD)
 	{
 		animController->SetSpeed(REVIVE_ANIM, 0.0f);

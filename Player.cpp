@@ -53,9 +53,6 @@ using namespace Urho3D;
 #define WALKSPEED 15.0f
 #define SLIDESPEED 20.0f
 
-Vector3 Player::orgShapeSize = Vector3::ONE;
-Vector3 Player::orgShapePos = Vector3(0.0f, 1.5f, 0.0f);
-
 Player::Player(Context* context) : LogicComponent(context)
 {
 	reviveCount = 0;
@@ -84,9 +81,6 @@ void Player::Start()
 	camera = game->camera;
 	pivot = scene->CreateChild();
 	cameraNode->SetParent(pivot);
-	
-	orgShapeSize = shape->GetSize();
-	orgShapePos = shape->GetPosition();
 
 	if (!node_->HasComponent<Actor>())
 	{
@@ -189,7 +183,6 @@ void Player::FixedUpdate(float timeStep)
 		modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
 		HandleCamera();
 	}
-	bodyPrevPosition = body->GetPosition();
 }
 
 void Player::OnCollision(StringHash eventType, VariantMap& eventData)
@@ -276,14 +269,9 @@ void Player::EnterState(int newState)
 	Node* gibs;
 	switch (newState) 
 	{
-		case STATE_DEFAULT:
-			lastShield = -1000.0f;
-			break;
 		case STATE_SLIDE:
 			actor->maxspeed = SLIDESPEED;
 			node_->SetRotation(Quaternion(0.0f, newRotation.EulerAngles().y_ + 90.0f, 0.0f));
-			shape->SetSize(Vector3(1.0f, 0.3f, 1.0f));
-			shape->SetPosition(Vector3(0.0f, 0.3f, 0.0f));
 			slideDirection = node_->GetDirection() * SLIDESPEED;
 			break;
 		case STATE_DEAD:
@@ -328,8 +316,6 @@ void Player::LeaveState(int oldState)
 	if (oldState == STATE_SLIDE)
 	{
 		actor->maxspeed = WALKSPEED;
-		shape->SetSize(orgShapeSize);
-		shape->SetPosition(orgShapePos);
 	}
 }
 
@@ -441,11 +427,6 @@ void Player::ST_Default(float timeStep)
 	else if (input->GetMouseButtonDown(MOUSEB_RIGHT) && actor->onGround && stateTimer > 0.5f)
 	{
 		ChangeState(STATE_SLIDE);
-	}
-	else if (input->GetMouseButtonDown(MOUSEB_RIGHT) && !actor->onGround && stateTimer - lastShield > 0.5f)
-	{
-		lastShield = stateTimer;
-		//Zeus::MakeShield(scene, node_->GetWorldPosition() + Vector3::UP*1.5f, 5.0f);
 	}
 
 	actor->Move(timeStep);
