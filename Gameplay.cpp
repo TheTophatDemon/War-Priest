@@ -108,7 +108,7 @@ void Gameplay::SetupGame()
 	cameraNode = scene_->CreateChild();
 	cameraNode->SetPosition(Vector3(0.0f, 12.0f, -12.0f));
 	camera = cameraNode->CreateComponent<Camera>();
-	camera->SetFov(scene_->GetGlobalVar("CAMERA FOV").GetFloat());
+	camera->SetFov(sCameraFov);
 
 	playerNode->AddComponent(player, 666, LOCAL);
 
@@ -146,7 +146,7 @@ void Gameplay::FixedUpdate(float timeStep)
 {
 	if (IsEnabled()) 
 	{
-		audio->SetMasterGain("VOICE", scene_->GetGlobalVar("VOICE VOLUME").GetFloat());
+		audio->SetMasterGain("VOICE", sVoiceVolume);
 		UpdateHUD(timeStep);
 		if (skybox)
 		{
@@ -204,14 +204,14 @@ Gameplay::~Gameplay()
 
 void Gameplay::GetSettings()
 {
-	scene_->SetGlobalVar("MOUSE SENSITIVITY", 0.25f);
-	scene_->SetGlobalVar("FORWARD KEY", KEY_W);
-	scene_->SetGlobalVar("BACKWARD KEY", KEY_S);
-	scene_->SetGlobalVar("RIGHT KEY", KEY_D);
-	scene_->SetGlobalVar("LEFT KEY", KEY_A);
-	scene_->SetGlobalVar("JUMP KEY", KEY_SPACE);
-	scene_->SetGlobalVar("VOICE VOLUME", 0.5f);
-	scene_->SetGlobalVar("CAMERA FOV", 70.0f);
+	sMouseSensitivity = 0.25f;
+	sVoiceVolume = 0.5f;
+	sCameraFov = 70.0f;
+	sKeyForward = KEY_W;
+	sKeyBackward = KEY_S;
+	sKeyRight = KEY_D;
+	sKeyLeft = KEY_A;
+	sKeyJump = KEY_SPACE;
 }
 
 void Gameplay::MakeHUD()
@@ -299,21 +299,6 @@ void Gameplay::GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cell
 	spr->SetImageRect(rect);
 }
 
-void Gameplay::SetOnFloor(Node* n, Vector3 pos, float offset)
-{
-	PhysicsRaycastResult result;
-	scene_->GetComponent<PhysicsWorld>()->RaycastSingle(result, Ray(pos, Vector3::DOWN), 500.0f, 2);
-
-	if (result.body_)
-	{
-		n->SetWorldPosition(result.position_ + Vector3(0.0f, offset, 0.0f));
-	}
-	else
-	{
-		n->SetWorldPosition(pos);
-	}
-}
-
 void Gameplay::Lose()
 {
 	winState = -1;
@@ -353,7 +338,6 @@ void Gameplay::SetupEnemy()
 			Matrix3x4 t = n->GetWorldTransform();
 			n->LoadXML(cache->GetResource<XMLFile>("Objects/pyropastor.xml")->GetRoot());
 			n->SetWorldTransform(t.Translation(), t.Rotation(), t.Scale());
-			SetOnFloor(n, n->GetWorldPosition(), 0.1f);
 			n->CreateComponent<PyroPastor>();
 
 			enemyCount += 1;
@@ -363,9 +347,7 @@ void Gameplay::SetupEnemy()
 
 void Gameplay::SetupProps()
 {
-	RigidBody* mapBody = mapNode->GetComponent<RigidBody>();
 	float mapScale = mapNode->GetScale().x_;
-	mapBody->DisableMassUpdate();
 
 	PODVector<Node*> props; //Get the existing props
 	mapNode->GetChildrenWithTag(props, "prop", true);
@@ -434,6 +416,4 @@ void Gameplay::SetupProps()
 			body->EnableMassUpdate();
 		}
 	}
-
-	mapBody->EnableMassUpdate();
 }

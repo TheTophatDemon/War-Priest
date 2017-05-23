@@ -45,6 +45,11 @@ void Enemy::Start()
 	ChangeState(STATE_DEAD);
 }
 
+void Enemy::DelayedStart()
+{
+	
+}
+
 void Enemy::Execute()
 {
 }
@@ -89,6 +94,12 @@ void Enemy::Wander()
 
 void Enemy::Dead() //This function defines the defualt behavior for being dead
 {
+	PhysicsRaycastResult result;
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.1f, 0.0f), Vector3::DOWN), 500.0f, 2);
+	if (result.body_)
+	{
+		node_->SetWorldPosition(result.position_);
+	}
 	actor->SetEnabled(false);
 	body->SetLinearVelocity(Vector3::ZERO);
 	body->SetAngularVelocity(Vector3::ZERO);

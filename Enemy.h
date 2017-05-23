@@ -24,6 +24,7 @@ public:
 	Enemy(Context* context);
 	static void RegisterObject(Context* context);
 	virtual void Start();
+	virtual void DelayedStart();
 	virtual void FixedUpdate(float timeStep);
 	virtual void Revive();
 	virtual void OnHurt(Node* source, int amount);

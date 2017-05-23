@@ -62,9 +62,17 @@ public:
 	int projectileCount = 0;
 	int enemyCount = 0;
 	int winState = 0;
+
+	float sMouseSensitivity = 0.25f;
+	float sVoiceVolume = 0.5f;
+	float sCameraFov = 70.0f;
+	int sKeyForward = KEY_W;
+	int sKeyBackward = KEY_S;
+	int sKeyRight = KEY_D;
+	int sKeyLeft = KEY_A;
+	int sKeyJump = KEY_SPACE;
 protected:
 	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);
-	void SetOnFloor(Node* n, Vector3 pos, float offset = 0.0f);
 	void UpdateHUD(float timeStep);
 	
 	void SetupEnemy();

@@ -136,11 +136,11 @@ void Player::FixedUpdate(float timeStep)
 {	
 	float newAngle = 0.0f;
 	
-	forwardKey = input->GetKeyDown(scene->GetGlobalVar("FORWARD KEY").GetInt());
-	backwardKey = input->GetKeyDown(scene->GetGlobalVar("BACKWARD KEY").GetInt());
-	rightKey = input->GetKeyDown(scene->GetGlobalVar("RIGHT KEY").GetInt());
-	leftKey = input->GetKeyDown(scene->GetGlobalVar("LEFT KEY").GetInt());
-	jumpKey = input->GetKeyDown(scene->GetGlobalVar("JUMP KEY").GetInt());
+	forwardKey = input->GetKeyDown(game->sKeyForward);
+	backwardKey = input->GetKeyDown(game->sKeyBackward);
+	rightKey = input->GetKeyDown(game->sKeyRight);
+	leftKey = input->GetKeyDown(game->sKeyLeft);
+	jumpKey = input->GetKeyDown(game->sKeyJump);
 
 	if (game->winState == 1)
 	{
@@ -226,7 +226,7 @@ void Player::OnHurt(Node* source, int amount)
 void Player::HandleCamera()
 {
 	pivot->SetWorldPosition(Vector3(node_->GetWorldPosition().x_, 0.0f, node_->GetWorldPosition().z_));
-	pivot->Rotate(Quaternion(input->GetMouseMoveX() * scene->GetGlobalVar("MOUSE SENSITIVITY").GetFloat(), Vector3::UP));
+	pivot->Rotate(Quaternion(input->GetMouseMoveX() * game->sMouseSensitivity, Vector3::UP));
 	Vector3 worldPos = body->GetPosition();
 	Quaternion newAngle = Quaternion();
 	newAngle.FromLookRotation((worldPos - cameraNode->GetWorldPosition()).Normalized());
@@ -240,20 +240,23 @@ void Player::HandleShadow()
 	physworld->RaycastSingle(shadowRaycast, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
 	if (shadowRaycast.body_)
 	{
-		dropShadow->SetEnabled(true);
-		dropShadow->SetWorldPosition(shadowRaycast.position_ + Vector3(0.0f, 0.1f, 0.0f));
-		Quaternion q = Quaternion();
-		q.FromLookRotation(shadowRaycast.normal_);
-		dropShadow->SetRotation(q);
+		if (!actor->onGround && !shadowRaycast.body_->GetNode()->HasTag("lift"))
+		{
+			dropShadow->SetEnabled(true);
+			dropShadow->SetWorldPosition(shadowRaycast.position_ + Vector3(0.0f, 0.1f, 0.0f));
+			Quaternion q = Quaternion();
+			q.FromLookRotation(shadowRaycast.normal_);
+			dropShadow->SetRotation(q);
+		}
+		else
+		{
+			dropShadow->SetEnabled(false);
+		}
 	}
 	else
 	{
 		dropShadow->SetEnabled(false);
 	}
-	if (!actor->onGround && shadowRaycast.body_)
-		dropShadow->SetEnabled(true);
-	else
-		dropShadow->SetEnabled(false);
 }
 
 void Player::ChangeState(int newState)

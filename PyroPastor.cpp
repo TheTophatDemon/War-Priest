@@ -22,6 +22,8 @@ PyroPastor::PyroPastor(Context* context) : Enemy(context)
 
 void PyroPastor::DelayedStart()
 {
+	Enemy::DelayedStart();
+
 	if (modelNode->HasComponent<AnimationController>())
 		animController = modelNode->GetComponent<AnimationController>();
 	else
