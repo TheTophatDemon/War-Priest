@@ -48,9 +48,13 @@ void PyroPastor::RegisterObject(Context* context)
 void PyroPastor::Execute()
 {
 	float turnAmount = 0.0f;
-	Vector3 aimVec = (target->GetWorldPosition() - node_->GetWorldPosition()).Normalized();
+	Vector3 aimVec = Vector3::ZERO;
 	Quaternion aim = Quaternion();
-	aim.FromLookRotation(aimVec, Vector3::UP);
+	if (target)
+	{
+		aimVec = (target->GetWorldPosition() - node_->GetWorldPosition()).Normalized();
+		aim.FromLookRotation(aimVec, Vector3::UP);
+	}
 	
 	switch (state)
 	{
@@ -58,11 +62,13 @@ void PyroPastor::Execute()
 		Dead();
 		break;
 	case STATE_WANDER:
-		turnTimer += 1;
-		if (turnTimer > 50)
+		turnTimer += deltaTime;
+		if (turnTimer > 0.6f)
 		{
-			turnTimer = 0;
-			turnAmount = (float)Random(0, 360);
+			turnTimer = 0.0f;
+			turnAmount = (float)Random(-180, 180);
+			if (turnAmount != 0.0f)
+				newRotation = Quaternion(node_->GetWorldRotation().y_ + turnAmount, Vector3::UP);
 			walking = true;
 		}
 		if (walking)
@@ -70,20 +76,19 @@ void PyroPastor::Execute()
 			if (CheckCliff())
 			{
 				walking = false;
+				turnTimer = 0.0f;
 			}
 			else 
 			{
 				PhysicsRaycastResult result;
-				physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.05f, 0.0f), node_->GetWorldRotation() * (Vector3::FORWARD * 2.0f)), 4.0f, 2U);
+				physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.1f, 0.0f), node_->GetDirection()), 2.0f, 2U);
 				if (result.body_)
 				{
-					walking = false;
+					if (result.normal_.y_ == 0.0f) walking = false;
 				}
 			}
 		}
 
-		if (turnAmount != 0.0f)
-			newRotation = Quaternion(node_->GetWorldRotation().y_ + turnAmount, Vector3::UP);
 		stateTimer += deltaTime;
 		if (stateTimer > 1.0f)
 		{
@@ -115,7 +120,7 @@ void PyroPastor::Execute()
 		FaceTarget();
 
 		stateTimer += deltaTime;
-		if (stateTimer > 0.16f && distanceFromPlayer < 40.0f && !shot)
+		if (stateTimer > 0.26f && distanceFromPlayer < 40.0f && !shot)
 		{
 			shot = true;
 			Projectile::MakeProjectile(scene, "fireball", node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aim, node_); //Aim for the head or sliding is useless
@@ -141,17 +146,20 @@ void PyroPastor::Dead()
 	}
 }
 
-void PyroPastor::ChangeState(int newState)
+void PyroPastor::EnterState(int newState)
 {
-	if (newState != STATE_DEAD && state == STATE_DEAD)
-	{
-		animController->SetSpeed(REVIVE_ANIM, 0.0f);
-	}
-	if (newState == STATE_ATTACK && state != STATE_ATTACK)
+	if (newState == STATE_ATTACK)
 	{
 		shot = false;
 	}
-	Enemy::ChangeState(newState);
+}
+
+void PyroPastor::LeaveState(int oldState)
+{
+	if (oldState == STATE_DEAD)
+	{
+		animController->SetSpeed(REVIVE_ANIM, 0.0f);
+	}
 }
 
 void PyroPastor::FaceTarget()

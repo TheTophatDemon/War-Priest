@@ -62,6 +62,7 @@ public:
 	int projectileCount = 0;
 	int enemyCount = 0;
 	int winState = 0;
+	float waterHeight = -20.0f;
 
 	float sMouseSensitivity = 0.25f;
 	float sVoiceVolume = 0.5f;
@@ -78,6 +79,7 @@ protected:
 	void SetupEnemy();
 	void SetupProps();
 	SharedPtr<Node> skybox;
+	SharedPtr<Node> water;
 	Color flashColor;
 	float flashSpeed;
 	float oldHealth;

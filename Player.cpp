@@ -154,7 +154,7 @@ void Player::FixedUpdate(float timeStep)
 			bloodEmitter->SetEmitting(false);
 		}
 	}
-	if (input->GetKeyDown(KEY_K) || node_->GetWorldPosition().y_ < -40.0f)
+	if (input->GetKeyDown(KEY_K) || node_->GetWorldPosition().y_ < game->waterHeight)
 	{
 		health = 0.0f;
 	}

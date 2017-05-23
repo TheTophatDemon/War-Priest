@@ -1,6 +1,8 @@
 //TODO:
 	//Sounds
 
+	//Make slide absolutely invincible
+
 	//Refactor enemy class(es)
 	
 	//Loading glitch?

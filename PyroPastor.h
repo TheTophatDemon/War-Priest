@@ -28,13 +28,14 @@ public:
 protected:
 	virtual void Execute();
 	virtual void Dead();
-	virtual void ChangeState(int newState);
+	virtual void EnterState(int newState);
+	virtual void LeaveState(int oldState);
 	void FaceTarget();
 
 	SharedPtr<AnimationController> animController;
 	WeakPtr<Node> target;
 	float turnAmount = 0.0f;
-	int turnTimer = 0;
+	float turnTimer = 0.0f;
 	bool walking = false;
 	bool shot = false;
 };

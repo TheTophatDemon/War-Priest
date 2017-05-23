@@ -53,7 +53,9 @@ protected:
 	void Wander();
 	void Dead();
 	bool CheckCliff();
-	virtual void ChangeState(int newState);
+	void ChangeState(int newState);
+	virtual void EnterState(int newState);
+	virtual void LeaveState(int oldState);
 
 	float deltaTime;
 };

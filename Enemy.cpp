@@ -33,8 +33,6 @@ void Enemy::Start()
 	oldShape->SetSize(shape->GetSize());
 	oldShape->SetPosition(shape->GetPosition());
 
-	SetGlobalVar("ENEMY COUNT", GetGlobalVar("ENEMY COUNT").GetInt() + 1);
-
 	if (!node_->HasComponent<Actor>())
 		actor = node_->CreateComponent<Actor>();
 	else
@@ -69,7 +67,7 @@ void Enemy::FixedUpdate(float timeStep)
 	{
 		body->SetLinearVelocity(Vector3::ZERO);
 	}
-	if (node_->GetWorldPosition().y_ < -100.0f)
+	if (node_->GetWorldPosition().y_ < game->waterHeight)
 	{
 		node_->Remove();
 	}
@@ -113,31 +111,43 @@ void Enemy::Revive()
 
 void Enemy::ChangeState(int newState)
 {
-	//For handling transitions
+	if (newState != state)
+	{
+		LeaveState(state);
+		EnterState(newState);
+		stateTimer = 0.0f;
+	}
+	state = newState;
+}
 
-	if (newState != STATE_DEAD && state == STATE_DEAD)
+void Enemy::EnterState(int newState)
+{
+	if (newState == STATE_DEAD)
+	{
+		shape->SetSize(Vector3(oldShape->GetSize().y_, oldShape->GetSize().x_ * 0.5f, oldShape->GetSize().y_));
+		shape->SetPosition(Vector3(0.0f, -oldShape->GetSize().x_ * 0.5f, 0.0f));
+		body->SetMass(0.0f);
+	}
+}
+
+void Enemy::LeaveState(int oldState)
+{
+	if (oldState == STATE_DEAD)
 	{
 		actor->SetEnabled(true);
 		shape->SetSize(oldShape->GetSize());
 		shape->SetPosition(oldShape->GetPosition());
 		body->SetMass(120.0f);
 	}
-	else if (newState == STATE_DEAD && state != STATE_DEAD)
-	{
-		shape->SetSize(Vector3(oldShape->GetSize().y_, oldShape->GetSize().x_ * 0.5f, oldShape->GetSize().y_));
-		shape->SetPosition(Vector3(0.0f, -oldShape->GetSize().x_ * 0.5f, 0.0f));
-		body->SetMass(0.0f);
-	}
-	state = newState;
-	stateTimer = 0.0f;
 }
 
 bool Enemy::CheckCliff()
 {
 	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.2f, 0.0f) + (newRotation * (Vector3::FORWARD * 2.0f)), Vector3::DOWN), 1.0f, 2);
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.2f, 0.0f) + node_->GetWorldDirection() * shape->GetSize().x_ * 1.2f, Vector3::DOWN), 2.0f, 2);
 	if (!result.body_)
 	{
+		newRotation = Quaternion(node_->GetWorldRotation().EulerAngles().y_ + 180.0f, Vector3::UP);
 		return true;
 	}
 	else
@@ -153,5 +163,5 @@ void Enemy::OnHurt(Node* source, int amount)
 
 Enemy::~Enemy()
 {
-	SetGlobalVar("ENEMY COUNT", GetGlobalVar("ENEMY COUNT").GetInt() - 1);
+	
 }

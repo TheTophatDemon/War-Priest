@@ -58,7 +58,6 @@ Gameplay::Gameplay(Context* context) : LogicComponent(context)
 	oldHealth = 100.0f;
 	initialized = false;
 	restartTimer = 0;
-	
 
 	cache = GetSubsystem<ResourceCache>();
 	engine_ = GetSubsystem<Engine>();
@@ -94,6 +93,7 @@ void Gameplay::SetupGame()
 	SetGlobalVar("PROJECTILE COUNT", 0);
 	winState = 0;
 	restartTimer = 0;
+	waterHeight = -40.0f;
 	mapNode = scene_->GetChild("map");
 
 	//Setup Player
@@ -116,6 +116,11 @@ void Gameplay::SetupGame()
 	viewport->SetCamera(camera);
 
 	skybox = scene_->GetChild("skybox");
+	water = scene_->GetChild("water");
+	if (water)
+	{
+		waterHeight = water->GetWorldPosition().y_ - 1.0f;
+	}
 	
 	//Setup Lifts
 	PODVector<Node*> lifts;
@@ -148,9 +153,15 @@ void Gameplay::FixedUpdate(float timeStep)
 	{
 		audio->SetMasterGain("VOICE", sVoiceVolume);
 		UpdateHUD(timeStep);
+
+
 		if (skybox)
 		{
 			skybox->Rotate(Quaternion(timeStep * 5.0f, Vector3::UP));
+		}
+		if (water)
+		{
+			waterHeight = water->GetWorldPosition().y_ - 1.0f;
 		}
 		if (flashColor.a_ > 0.0f)
 		{
@@ -159,11 +170,11 @@ void Gameplay::FixedUpdate(float timeStep)
 		}
 		viewport->GetRenderPath()->SetShaderParameter("FlashColor", flashColor);
 
+
 		if ((player->reviveCount >= enemyCount && enemyCount > 0) || input->GetKeyDown(KEY_L))
 		{
 			Win();
 		}
-
 		if (restartTimer > 0)
 		{
 			restartTimer -= 1;
