@@ -1,10 +1,12 @@
 //TODO:
 	//Sounds
 	//Postal Popes
+			//Glowy crap
+			//They should just summon boulders themselves
+	//Decouple projectiles using events
 	
 	//Autoload. Please.
 	//Water splashing
-	//Fix normalmap weirdness.
 	//Loading glitch?
 	//Material quality setup
 	

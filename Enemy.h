@@ -27,7 +27,6 @@ public:
 	virtual void DelayedStart();
 	virtual void FixedUpdate(float timeStep);
 	virtual void Revive();
-	virtual void OnHurt(Node* source, int amount);
 	~Enemy();
 	int state;
 protected:

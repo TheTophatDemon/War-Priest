@@ -196,11 +196,6 @@ bool Enemy::CheckCliff()
 	}
 }
 
-void Enemy::OnHurt(Node* source, int amount)
-{
-	//std::cout << "WAH! FORGET THIS PLACE!" << std::endl;
-}
-
 Enemy::~Enemy()
 {
 	

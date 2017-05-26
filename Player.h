@@ -25,7 +25,6 @@ public:
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
-	void OnHurt(Node* source, int damage);
 	~Player();
 	
 	int state;
@@ -33,6 +32,8 @@ public:
 	int reviveCount = 0;
 protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
+	void OnProjectileHit(StringHash eventType, VariantMap& eventData);
+	void Hurt(Node* source, int damage);
 	void HandleCamera();
 	void HandleShadow();
 	void ChangeState(int newState);

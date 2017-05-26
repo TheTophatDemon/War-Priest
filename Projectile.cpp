@@ -75,29 +75,18 @@ void Projectile::FixedUpdate(float timeStep)
 
 		PhysicsRaycastResult result;
 		physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement.Normalized()), radius, radius, 210);//128+64+2+16
-		if (result.body_ && result.body_->GetNode() != owner)
+		if (result.body_)
 		{
-			int colLayer = result.body_->GetCollisionLayer();
-			if (colLayer & 128)
+			if (result.body_->GetNode() != owner) 
 			{
-				if (game->player->state != 2) 
+				int colLayer = result.body_->GetCollisionLayer();
+				if (colLayer & 128 || colLayer & 64)
 				{
-					game->player->OnHurt(node_, damage);
-					Destroy();
+					VariantMap map = VariantMap();
+					map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), this));
+					map.Insert(Pair<StringHash, Variant>(StringHash("victim"), result.body_->GetNode()));
+					SendEvent(StringHash("ProjectileHit"), map);
 				}
-			}
-			else if (colLayer & 64)
-			{
-				Enemy* enm = result.body_->GetNode()->GetDerivedComponent<Enemy>();
-				if (enm)
-				{
-					if (enm->state != 0)
-						enm->OnHurt(node_, damage);
-				}
-				Destroy();
-			}
-			else
-			{
 				Destroy();
 			}
 		}

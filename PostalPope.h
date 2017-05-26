@@ -9,6 +9,7 @@
 #include <Urho3D/Physics/PhysicsWorld.h>
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D\Graphics/ParticleEmitter.h>
+#include <Urho3D/Container/Vector.h>
 
 #include "Enemy.h"
 
@@ -30,6 +31,7 @@ protected:
 	virtual void Dead();
 	virtual void EnterState(int newState);
 	virtual void LeaveState(int oldState);
-	
+	PODVector<RigidBody*> debris;
+	SharedPtr<Node> spinner;
 };
 

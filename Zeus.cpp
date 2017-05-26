@@ -91,6 +91,7 @@ Node* Zeus::MakeShield(Scene* scene, Vector3 position, float radius)
 
 	Node* shield = scene->CreateChild();
 	shield->SetWorldPosition(position);
+	shield->AddTag("shield");
 
 	CollisionShape* cs = shield->CreateComponent<CollisionShape>();
 	cs->SetSphere(1.0f, Vector3::ZERO, Quaternion::IDENTITY);

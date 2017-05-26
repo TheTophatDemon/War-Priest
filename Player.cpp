@@ -33,6 +33,7 @@
 #include "Boulder.h"
 #include "Enemy.h"
 #include "Zeus.h"
+#include "Projectile.h"
 
 using namespace Urho3D;
 
@@ -124,6 +125,7 @@ void Player::Start()
 	bloodEmitter->SetEmitting(false);
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
+	SubscribeToEvent(StringHash("ProjectileHit"), URHO3D_HANDLER(Player, OnProjectileHit));
 }
 
 void Player::FixedUpdate(float timeStep)
@@ -200,11 +202,15 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 			float impulse = contacts.ReadFloat();
 		}
 	}
+	else if (other->HasTag("hazard"))
+	{
+		Hurt(other, other->GetVar("HAZARD DAMAGE").GetInt());
+	}
 }
 
-void Player::OnHurt(Node* source, int amount)
+void Player::Hurt(Node* source, int amount)
 {
-	if (state != STATE_WIN) 
+	if (state != STATE_WIN && hurtTimer <= 0) 
 	{
 		health -= amount;
 		bloodEmitter->SetEmitting(true);
@@ -213,6 +219,16 @@ void Player::OnHurt(Node* source, int amount)
 		{
 			actor->KnockBack(20.0f, source->GetWorldRotation());
 		}
+	}
+}
+
+void Player::OnProjectileHit(StringHash eventType, VariantMap& eventData)
+{
+	Projectile* proj = (Projectile*)eventData["perpetrator"].GetPtr();
+	Node* victim = (Node*)eventData["victim"].GetPtr();
+	if (proj && victim == node_)
+	{
+		Hurt(proj->GetNode(), proj->damage);
 	}
 }
 
@@ -273,6 +289,10 @@ void Player::EnterState(int newState)
 			actor->maxspeed = SLIDESPEED;
 			node_->SetRotation(Quaternion(0.0f, newRotation.EulerAngles().y_ + 90.0f, 0.0f));
 			slideDirection = node_->GetDirection() * SLIDESPEED;
+			if (body->GetCollisionLayer() & 128)
+			{
+				body->SetCollisionLayer(body->GetCollisionLayer() - 128);
+			}
 			break;
 		case STATE_DEAD:
 			bloodEmitter->SetEmitting(true);
@@ -316,6 +336,10 @@ void Player::LeaveState(int oldState)
 	if (oldState == STATE_SLIDE)
 	{
 		actor->maxspeed = WALKSPEED;
+		if (!(body->GetCollisionLayer() & 128))
+		{
+			body->SetCollisionLayer(body->GetCollisionLayer() + 128);
+		}
 	}
 }
 
