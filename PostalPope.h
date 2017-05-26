@@ -16,22 +16,20 @@ using namespace Urho3D;
 
 class Actor;
 class Gameplay;
-class PyroPastor : Enemy
+class PostalPope : Enemy
 {
-	URHO3D_OBJECT(PyroPastor, LogicComponent);
+	URHO3D_OBJECT(PostalPope, LogicComponent);
 public:
-	PyroPastor(Context* context);
+	PostalPope(Context* context);
 	static void RegisterObject(Context* context);
 	virtual void Revive();
 	virtual void DelayedStart();
-	~PyroPastor();
+	~PostalPope();
 protected:
 	virtual void Execute();
 	virtual void Dead();
 	virtual void EnterState(int newState);
 	virtual void LeaveState(int oldState);
-
-	SharedPtr<AnimationController> animController;
-	bool shot = false;
+	
 };
 

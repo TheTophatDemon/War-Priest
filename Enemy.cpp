@@ -45,7 +45,11 @@ void Enemy::Start()
 
 void Enemy::DelayedStart()
 {
-	
+	modelNode->SetRotation(Quaternion(-90.0f, Vector3::UP));
+	target = game->playerNode;
+
+	node_->Rotate(Quaternion(Random(0.0f, 360.0f), Vector3::UP), TS_LOCAL);
+	newRotation = node_->GetWorldRotation();
 }
 
 void Enemy::Execute()
@@ -106,7 +110,6 @@ void Enemy::Dead() //This function defines the defualt behavior for being dead
 void Enemy::Revive()
 {
 	node_->Translate(Vector3(0.0f, 0.1f, 0.0f), TS_LOCAL);
-	ChangeState(STATE_WANDER);
 }
 
 void Enemy::ChangeState(int newState)
@@ -141,10 +144,19 @@ void Enemy::LeaveState(int oldState)
 	}
 }
 
+void Enemy::FaceTarget()
+{
+	Quaternion face = Quaternion();
+	Vector3 diff = (target->GetWorldPosition() - node_->GetWorldPosition()).Normalized();
+	diff.y_ = 0.0f;
+	face.FromLookRotation(diff, Vector3::UP);
+	newRotation = face;
+}
+
 bool Enemy::CheckCliff()
 {
 	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.2f, 0.0f) + node_->GetWorldDirection() * shape->GetSize().x_ * 1.2f, Vector3::DOWN), 2.0f, 2);
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.2f, 0.0f) + node_->GetWorldDirection() * shape->GetSize().x_ * 2.5f, Vector3::DOWN), 2.0f, 2);
 	if (!result.body_)
 	{
 		newRotation = Quaternion(node_->GetWorldRotation().EulerAngles().y_ + 180.0f, Vector3::UP);

@@ -48,7 +48,7 @@ using namespace Urho3D;
 #define ACCELERATION 150.0f
 #define FRICTION 0.85f
 #define FALLSPEED 50.0f
-#define MAXFALL 150.0f
+#define MAXFALL 30.0f
 #define JUMPSTRENGTH 18.0f
 #define WALKSPEED 15.0f
 #define SLIDESPEED 20.0f

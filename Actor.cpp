@@ -22,7 +22,7 @@ Actor::Actor(Context* context) : LogicComponent(context)
 	maxspeed = 15.0f;
 	friction = 0.85f;
 	fallspeed = 50.0f;
-	maxfall = 150.0f;
+	maxfall = 30.0f;
 	jumpStrength = 18.0f;
 
 	onGround = false;

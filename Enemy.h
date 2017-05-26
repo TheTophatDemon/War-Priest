@@ -41,8 +41,8 @@ protected:
 	SharedPtr<CollisionShape> shape;
 	Quaternion newRotation;
 	SharedPtr<CollisionShape> oldShape;
+	WeakPtr<Node> target;
 
-	float turnAmount;
 	float distanceFromPlayer;
 
 	void EndFrameCheck(StringHash eventType, VariantMap& eventData);
@@ -56,7 +56,11 @@ protected:
 	void ChangeState(int newState);
 	virtual void EnterState(int newState);
 	virtual void LeaveState(int oldState);
+	void FaceTarget();
 
 	float deltaTime;
+	float turnAmount = 0.0f;
+	float turnTimer = 0.0f;
+	bool walking = false;
 };
 

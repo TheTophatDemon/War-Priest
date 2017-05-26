@@ -32,12 +32,7 @@ void PyroPastor::DelayedStart()
 	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
 	animController->SetSpeed(REVIVE_ANIM, 0.0f);
 
-	modelNode->SetRotation(Quaternion(-90.0f, Vector3::UP));
 	actor->maxspeed = 10.0f;
-	target = game->playerNode;
-
-	node_->Rotate(Quaternion(Random(0.0f, 360.0f), Vector3::UP), TS_LOCAL);
-	newRotation = node_->GetWorldRotation();
 }
 
 void PyroPastor::RegisterObject(Context* context)
@@ -89,6 +84,9 @@ void PyroPastor::Execute()
 			}
 		}
 
+		actor->SetMovement(walking, false, false, false);
+		actor->Move(deltaTime);
+
 		stateTimer += deltaTime;
 		if (stateTimer > 1.0f)
 		{
@@ -104,8 +102,7 @@ void PyroPastor::Execute()
 			}
 			stateTimer = 0.0f;
 		}
-		actor->SetMovement(walking, false, false, false);
-		actor->Move(deltaTime);
+		
 
 		//Select animation
 		if (walking)
@@ -120,7 +117,7 @@ void PyroPastor::Execute()
 		FaceTarget();
 
 		stateTimer += deltaTime;
-		if (stateTimer > 0.26f && distanceFromPlayer < 40.0f && !shot)
+		if (stateTimer > 0.26f && !shot)
 		{
 			shot = true;
 			Projectile::MakeProjectile(scene, "fireball", node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aim, node_); //Aim for the head or sliding is useless
@@ -164,18 +161,9 @@ void PyroPastor::LeaveState(int oldState)
 	}
 }
 
-void PyroPastor::FaceTarget()
-{
-	Quaternion face = Quaternion();
-	Vector3 diff = (target->GetWorldPosition() - node_->GetWorldPosition()).Normalized();
-	diff.y_ = 0.0f;
-	face.FromLookRotation(diff, Vector3::UP);
-	newRotation = face;
-}
-
 void PyroPastor::Revive()
 {
-	node_->Translate(Vector3(0.0f, 0.1f, 0.0f), TS_LOCAL);
+	Enemy::Revive();
 	animController->PlayExclusive(REVIVE_ANIM, 0, false, 0.2f);
 	animController->SetSpeed(REVIVE_ANIM, 1.4f);
 }

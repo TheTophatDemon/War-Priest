@@ -7,6 +7,7 @@
 #include <Urho3D/Scene/Scene.h>
 #include <Urho3D/Scene/SceneEvents.h>
 #include <Urho3D/Physics/CollisionShape.h>
+#include <iostream>
 
 #include "Enemy.h"
 #include "Gameplay.h"

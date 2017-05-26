@@ -1,6 +1,10 @@
 //TODO:
 	//Sounds
+	//Postal Popes
 	
+	//Autoload. Please.
+	//Water splashing
+	//Fix normalmap weirdness.
 	//Loading glitch?
 	//Material quality setup
 	
