@@ -24,7 +24,7 @@
 		<attribute name="Restitution" value="0.1" />
 		<attribute name="Angular Factor" value="0 0 0" />
 		<attribute name="Collision Layer" value="65" />
-		<attribute name="Collision Mask" value="247" />
+		<attribute name="Collision Mask" value="231" />
 		<attribute name="Collision Event Mode" value="Always" />
 		<attribute name="Use Gravity" value="false" />
 	</component>
@@ -34,7 +34,7 @@
 		<attribute name="Tags" />
 		<attribute name="Position" value="0 0 0" />
 		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Scale" value="0.8 0.8 0.8" />
 		<attribute name="Variables" />
 		<component type="AnimatedModel" id="16777230">
 			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />

@@ -96,6 +96,10 @@ void Projectile::FixedUpdate(float timeStep)
 				}
 				Destroy();
 			}
+			else
+			{
+				Destroy();
+			}
 		}
 		
 		node_->Translate(movement, TS_WORLD);

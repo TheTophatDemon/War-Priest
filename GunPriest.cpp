@@ -18,6 +18,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	Projectile::RegisterObject(context);
 	God::RegisterObject(context);
 	Lift::RegisterObject(context);
+	PostalPope::RegisterObject(context);
 	state = STATE_TITLE;
 }
 

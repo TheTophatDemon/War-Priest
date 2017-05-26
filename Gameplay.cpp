@@ -47,6 +47,7 @@
 #include "TempEffect.h"
 #include "GunPriest.h"
 #include "God.h"
+#include "PostalPope.h"
 
 using namespace Urho3D;
 
@@ -346,10 +347,18 @@ void Gameplay::SetupEnemy()
 		Node* n = (Node*)*i;
 		if (n)
 		{
+			String enemyType = n->GetName();
 			Matrix3x4 t = n->GetWorldTransform();
-			n->LoadXML(cache->GetResource<XMLFile>("Objects/pyropastor.xml")->GetRoot());
+			n->LoadXML(cache->GetResource<XMLFile>("Objects/" + enemyType + ".xml")->GetRoot());
 			n->SetWorldTransform(t.Translation(), t.Rotation(), t.Scale());
-			n->CreateComponent<PyroPastor>();
+			if (enemyType == "pyropastor")
+			{
+				n->CreateComponent<PyroPastor>();
+			}
+			else if (enemyType == "postalpope")
+			{
+				n->CreateComponent<PostalPope>();
+			}
 
 			enemyCount += 1;
 		}

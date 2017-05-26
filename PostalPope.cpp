@@ -35,6 +35,7 @@ void PostalPope::Execute()
 		Dead();
 		break;
 	case STATE_WANDER:
+		Wander();
 		break;
 
 	}

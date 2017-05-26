@@ -91,7 +91,35 @@ void Enemy::EndFrameCheck(StringHash eventType, VariantMap& eventData)
 
 void Enemy::Wander()
 {
-	
+	turnTimer += deltaTime;
+	if (turnTimer > 0.6f)
+	{
+		turnTimer = 0.0f;
+		turnAmount = (float)Random(-180, 180);
+		if (turnAmount != 0.0f)
+			newRotation = Quaternion(node_->GetWorldRotation().y_ + turnAmount, Vector3::UP);
+		walking = true;
+	}
+	if (walking)
+	{
+		if (CheckCliff())
+		{
+			walking = false;
+			turnTimer = 0.0f;
+		}
+		else
+		{
+			PhysicsRaycastResult result;
+			physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.1f, 0.0f), node_->GetDirection()), 2.0f, 2U);
+			if (result.body_)
+			{
+				if (result.normal_.y_ == 0.0f) walking = false;
+			}
+		}
+	}
+
+	actor->SetMovement(walking, false, false, false);
+	actor->Move(deltaTime);
 }
 
 void Enemy::Dead() //This function defines the defualt behavior for being dead
