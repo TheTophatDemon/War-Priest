@@ -6,6 +6,7 @@
 #include "Gameplay.h"
 #include "Actor.h"
 #include "Projectile.h"
+#include "Debris.h"
 #include <iostream>
 
 #define STATE_DEAD 0
@@ -104,8 +105,9 @@ void PostalPope::Execute()
 						rb->SetRestitution(1.0f);
 						rb->SetLinearFactor(Vector3::ONE);
 						rb->ApplyImpulse(tDiff * rb->GetMass() * 50.0f);
-						n->AddTag("hazard");
-						n->SetVar("HAZARD DAMAGE", 20);
+						Debris* debs = new Debris(context_);
+						debs->damage = 15;
+						n->AddComponent(debs, 666, LOCAL);
 						debris.Remove(rb);
 						break;
 					}

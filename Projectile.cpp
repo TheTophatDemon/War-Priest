@@ -83,8 +83,9 @@ void Projectile::FixedUpdate(float timeStep)
 				if (colLayer & 128 || colLayer & 64)
 				{
 					VariantMap map = VariantMap();
-					map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), this));
+					map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
 					map.Insert(Pair<StringHash, Variant>(StringHash("victim"), result.body_->GetNode()));
+					map.Insert(Pair<StringHash, Variant>(StringHash("damage"), damage));
 					SendEvent(StringHash("ProjectileHit"), map);
 				}
 				Destroy();

@@ -2,7 +2,6 @@
 	//Sounds
 	//Postal Popes
 			//Glowy crap
-			//Debris component that sends projectile events and destroys itself when rested.
 	//Make the water eat things
 	//There should be, like, totally a car prop or something.
 	

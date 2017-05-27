@@ -48,6 +48,7 @@
 #include "God.h"
 #include "Lift.h"
 #include "PostalPope.h"
+#include "Debris.h"
 
 class GunPriest : public Application
 {

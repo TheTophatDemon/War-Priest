@@ -202,10 +202,6 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 			float impulse = contacts.ReadFloat();
 		}
 	}
-	else if (other->HasTag("hazard"))
-	{
-		Hurt(other, other->GetVar("HAZARD DAMAGE").GetInt());
-	}
 }
 
 void Player::Hurt(Node* source, int amount)
@@ -224,11 +220,12 @@ void Player::Hurt(Node* source, int amount)
 
 void Player::OnProjectileHit(StringHash eventType, VariantMap& eventData)
 {
-	Projectile* proj = (Projectile*)eventData["perpetrator"].GetPtr();
+	Node* proj = (Node*)eventData["perpetrator"].GetPtr();
 	Node* victim = (Node*)eventData["victim"].GetPtr();
+	int damage = eventData["damage"].GetInt();
 	if (proj && victim == node_)
 	{
-		Hurt(proj->GetNode(), proj->damage);
+		Hurt(proj, damage);
 	}
 }
 
