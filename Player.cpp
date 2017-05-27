@@ -214,7 +214,7 @@ void Player::Hurt(Node* source, int amount)
 	{
 		health -= amount;
 		bloodEmitter->SetEmitting(true);
-		hurtTimer = 20;
+		hurtTimer = 25;
 		if (source)
 		{
 			actor->KnockBack(20.0f, source->GetWorldRotation());

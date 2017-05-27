@@ -2,9 +2,11 @@
 	//Sounds
 	//Postal Popes
 			//Glowy crap
-			//They should just summon boulders themselves
-	//Decouple projectiles using events
+			//Debris component that sends projectile events and destroys itself when rested.
+	//Make the water eat things
+	//There should be, like, totally a car prop or something.
 	
+	//God damn motherfucking drop shadow
 	//Autoload. Please.
 	//Water splashing
 	//Loading glitch?

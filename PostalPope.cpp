@@ -61,17 +61,16 @@ void PostalPope::Execute()
 			RigidBody* rb = (RigidBody*)*i;
 			if (rb)
 			{
-				Vector3 dir = upperBody - rb->GetNode()->GetWorldPosition();
-				if (dir.Length() > 4.0f) 
+				Vector3 diff = (upperBody - rb->GetNode()->GetWorldPosition());
+				if (diff.LengthSquared() > 16.0f)
 				{
-					dir.Normalize();
-					rb->ApplyForce(dir * deltaTime * 100.0f * 10000.0f);
+					rb->ApplyImpulse(diff.Normalized() * rb->GetMass() * deltaTime * 50.0f);
 				}
 				else
 				{
 					rb->SetLinearVelocity(Vector3::ZERO);
+					rb->SetLinearFactor(Vector3(1.0f, 0.1f, 1.0f));
 				}
-				rb->ApplyForce(Vector3(0.0f, deltaTime * 10000.0f, 0.0f));
 			}
 		}
 		actor->SetMovement(Vector3::ZERO);
@@ -97,20 +96,18 @@ void PostalPope::Execute()
 				{
 					Node* n = rb->GetNode();
 					Vector3 wp = n->GetWorldPosition();
-					PhysicsRaycastResult result;
-					Vector3 dir = (target->GetWorldPosition() - wp).Normalized();
-					physworld->RaycastSingle(result, Ray(wp, dir), 100.0f, 210); //128+2+64
-					if (result.body_)
+					Vector3 tDiff = (target->GetWorldPosition() - wp).Normalized();
+					Vector3 pDiff = (node_->GetWorldPosition() - wp).Normalized();
+					if (pDiff.DotProduct(node_->GetWorldDirection()) >= 0.0f)
 					{
-						if (result.body_->GetCollisionLayer() & 128) //It's the player! Git goin'!
-						{
-							rb->GetNode()->SetParent(scene);
-							rb->ApplyImpulse(dir * 10000.0f);
-							n->AddTag("hazard");
-							n->SetVar("HAZARD DAMAGE", 20);
-							debris.Remove(rb);
-							break;
-						}
+						n->SetParent(scene);
+						rb->SetRestitution(1.0f);
+						rb->SetLinearFactor(Vector3::ONE);
+						rb->ApplyImpulse(tDiff * rb->GetMass() * 50.0f);
+						n->AddTag("hazard");
+						n->SetVar("HAZARD DAMAGE", 20);
+						debris.Remove(rb);
+						break;
 					}
 				}
 			}
