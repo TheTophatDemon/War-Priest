@@ -23,8 +23,11 @@ public:
 	~Debris();
 protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
+	void Die();
 	SharedPtr<Scene> scene;
 	SharedPtr<RigidBody> body;
 	SharedPtr<PhysicsWorld> physworld;
+	SharedPtr<ResourceCache> cache;
+	SharedPtr<Node> glowNode;
 };
 

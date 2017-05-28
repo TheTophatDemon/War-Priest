@@ -1,9 +1,7 @@
 //TODO:
 	//Sounds
-	//Postal Popes
-			//Glowy crap
 	//Make the water eat things
-	//There should be, like, totally a car prop or something.
+	//Give Postal Popes a second attack?
 	
 	//God damn motherfucking drop shadow
 	//Autoload. Please.

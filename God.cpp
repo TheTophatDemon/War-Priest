@@ -58,6 +58,7 @@ void God::FixedUpdate(float timeStep)
 		{
 			Zeus::MakeLightBeam(scene, Vector3(plyPos.x_, 0.0f, plyPos.z_));
 			beamed = true;
+			game->playerNode->SetParent(scene);
 			game->playerNode->RemoveAllChildren();
 			game->playerNode->Remove();
 		}

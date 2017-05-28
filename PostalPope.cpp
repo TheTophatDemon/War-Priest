@@ -69,7 +69,7 @@ void PostalPope::Execute()
 				}
 				else
 				{
-					rb->SetLinearVelocity(Vector3::ZERO);
+					rb->ApplyImpulse(-diff.Normalized() * rb->GetMass() * deltaTime * 20.0f);
 					rb->SetLinearFactor(Vector3(1.0f, 0.1f, 1.0f));
 				}
 			}
@@ -105,9 +105,6 @@ void PostalPope::Execute()
 						rb->SetRestitution(1.0f);
 						rb->SetLinearFactor(Vector3::ONE);
 						rb->ApplyImpulse(tDiff * rb->GetMass() * 50.0f);
-						Debris* debs = new Debris(context_);
-						debs->damage = 15;
-						n->AddComponent(debs, 666, LOCAL);
 						debris.Remove(rb);
 						break;
 					}
@@ -143,8 +140,11 @@ void PostalPope::EnterState(int newState)
 			if (rb)
 			{
 				Node* n = rb->GetNode();
-				if (n->HasTag("debris"))
+				if (n->HasTag("debris") && !n->HasComponent<Debris>())
 				{
+					Debris* debs = new Debris(context_);
+					debs->damage = 15;
+					n->AddComponent(debs, 666, LOCAL);
 					debris.Push(rb);
 					n->SetParent(spinner);
 				}
