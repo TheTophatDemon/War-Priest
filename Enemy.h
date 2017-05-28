@@ -40,7 +40,7 @@ protected:
 	SharedPtr<CollisionShape> shape;
 	Quaternion newRotation;
 	SharedPtr<CollisionShape> oldShape;
-	WeakPtr<Node> target;
+	SharedPtr<Node> target;
 
 	float distanceFromPlayer;
 

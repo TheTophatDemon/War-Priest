@@ -71,10 +71,6 @@ void Enemy::FixedUpdate(float timeStep)
 	{
 		body->SetLinearVelocity(Vector3::ZERO);
 	}
-	if (node_->GetWorldPosition().y_ < game->waterHeight)
-	{
-		node_->Remove();
-	}
 }
 
 void Enemy::EndFrameCheck(StringHash eventType, VariantMap& eventData)

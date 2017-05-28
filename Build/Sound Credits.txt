@@ -1,0 +1,6 @@
+splash.wav = "Splash, Jumping, D.wav" by InspectorJ of Freesound.org under CC-BY-3.0
+
+Some sounds were modified.
+
+CC-BY-3.0:
+http://creativecommons.org/licenses/by/3.0/

@@ -48,6 +48,7 @@
 #include "GunPriest.h"
 #include "God.h"
 #include "PostalPope.h"
+#include "Water.h"
 
 using namespace Urho3D;
 
@@ -94,7 +95,6 @@ void Gameplay::SetupGame()
 	SetGlobalVar("PROJECTILE COUNT", 0);
 	winState = 0;
 	restartTimer = 0;
-	waterHeight = -40.0f;
 	mapNode = scene_->GetChild("map");
 
 	//Setup Player
@@ -118,10 +118,7 @@ void Gameplay::SetupGame()
 
 	skybox = scene_->GetChild("skybox");
 	water = scene_->GetChild("water");
-	if (water)
-	{
-		waterHeight = water->GetWorldPosition().y_ - 1.0f;
-	}
+	water->CreateComponent<Water>();
 	
 	//Setup Lifts
 	PODVector<Node*> lifts;
@@ -153,16 +150,13 @@ void Gameplay::FixedUpdate(float timeStep)
 	if (IsEnabled()) 
 	{
 		audio->SetMasterGain("VOICE", sVoiceVolume);
+		audio->SetMasterGain("ENVIRONMENT", sEnvVolume);
 		UpdateHUD(timeStep);
 
 
 		if (skybox)
 		{
 			skybox->Rotate(Quaternion(timeStep * 5.0f, Vector3::UP));
-		}
-		if (water)
-		{
-			waterHeight = water->GetWorldPosition().y_ - 1.0f;
 		}
 		if (flashColor.a_ > 0.0f)
 		{

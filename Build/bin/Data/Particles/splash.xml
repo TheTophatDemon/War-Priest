@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<particleeffect>
+	<material name="Materials/particle_splash.xml" />
+	<numparticles value="100" />
+	<updateinvisible enable="false" />
+	<relative enable="false" />
+	<scaled enable="true" />
+	<sorted enable="false" />
+	<fixedscreensize enable="false" />
+	<animlodbias value="0" />
+	<emittertype value="Sphere" />
+	<emittersize value="1 1 1" />
+	<direction min="-1 1 -1" max="1 1 1" />
+	<constantforce value="0 -7.89 0" />
+	<dampingforce value="0" />
+	<activetime value="0.0" />
+	<inactivetime value="0.0" />
+	<emissionrate min="50" max="100" />
+	<particlesize min="0.2 0.2" max="0.4 0.4" />
+	<timetolive min="0.5" max="1" />
+	<velocity min="5" max="6" />
+	<rotation min="0" max="0" />
+	<rotationspeed min="8" max="90" />
+	<sizedelta add="0.07" mul="0.22" />
+	<faceCameraMode value="Rotate XYZ" />
+</particleeffect>

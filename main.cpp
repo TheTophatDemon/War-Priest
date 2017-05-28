@@ -1,10 +1,9 @@
 //TODO:
 	//Sounds
-	//Make the water eat things
 	//Give Postal Popes a second attack?
 	
 	//Autoload. Please.
-	//Water splashing
+	
 	//Loading glitch?
 	//Material quality setup
 	
@@ -22,6 +21,10 @@
 	//16 = SHIELDS AND OTHER PROJECTILE BLOCKERS
 	//64 = ENEMY
 	//128 = PLAYER
+
+//SOUND TYPES
+	//ENVIRONMENT
+	//VOICE
 
 //psychoruins
 

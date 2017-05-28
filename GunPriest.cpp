@@ -20,6 +20,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	Lift::RegisterObject(context);
 	PostalPope::RegisterObject(context);
 	Debris::RegisterObject(context);
+	Water::RegisterObject(context);
 	state = STATE_TITLE;
 }
 

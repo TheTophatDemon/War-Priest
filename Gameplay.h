@@ -62,10 +62,10 @@ public:
 	int projectileCount = 0;
 	int enemyCount = 0;
 	int winState = 0;
-	float waterHeight = -20.0f;
 
 	float sMouseSensitivity = 0.25f;
 	float sVoiceVolume = 0.5f;
+	float sEnvVolume = 0.5f;
 	float sCameraFov = 70.0f;
 	int sKeyForward = KEY_W;
 	int sKeyBackward = KEY_S;

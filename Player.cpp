@@ -150,7 +150,7 @@ void Player::FixedUpdate(float timeStep)
 			bloodEmitter->SetEmitting(false);
 		}
 	}
-	if (input->GetKeyDown(KEY_K) || node_->GetWorldPosition().y_ < game->waterHeight)
+	if (input->GetKeyDown(KEY_K))
 	{
 		health = 0.0f;
 	}
@@ -201,6 +201,10 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 			float distance = contacts.ReadFloat();
 			float impulse = contacts.ReadFloat();
 		}
+	}
+	else if (other->GetName() == "water")
+	{
+		health = 0;
 	}
 }
 
