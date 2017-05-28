@@ -246,7 +246,7 @@ void Player::HandleShadow()
 	physworld->RaycastSingle(shadowRaycast, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
 	if (shadowRaycast.body_)
 	{
-		if (!actor->onGround && !shadowRaycast.body_->GetNode()->HasTag("lift"))
+		if (!actor->onGround)
 		{
 			dropShadow->SetEnabled(true);
 			dropShadow->SetWorldPosition(shadowRaycast.position_ + Vector3(0.0f, 0.1f, 0.0f));
@@ -418,6 +418,7 @@ void Player::ST_Default(float timeStep)
 	}
 	else
 	{
+		dropShadow->SetEnabled(false);
 		if (forwardKey || backwardKey || leftKey || rightKey)
 		{
 			animController->PlayExclusive("Models/grungle_walk.ani", 0, true, 0.2f);

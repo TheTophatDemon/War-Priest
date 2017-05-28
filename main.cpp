@@ -3,7 +3,6 @@
 	//Make the water eat things
 	//Give Postal Popes a second attack?
 	
-	//God damn motherfucking drop shadow
 	//Autoload. Please.
 	//Water splashing
 	//Loading glitch?
