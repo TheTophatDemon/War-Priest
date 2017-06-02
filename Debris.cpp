@@ -6,10 +6,12 @@
 #include <Urho3D/Graphics/StaticModel.h>
 #include <Urho3D/Graphics/Material.h>
 #include <iostream>
+#include "Zeus.h"
 
 Debris::Debris(Context* context) : LogicComponent(context)
 {
 	damage = 15;
+	dieTimer = 0.0f;
 }
 
 void Debris::RegisterObject(Context* context)
@@ -38,9 +40,19 @@ void Debris::Start()
 
 void Debris::FixedUpdate(float timeStep)
 {
-	if (body->GetLinearVelocity().Length() < 2.0f && node_->GetParent() == scene) //If it isn't parented to the scene, it must be being held by a PostalPope
+	if (body->GetLinearVelocity().Length() < 4.0f && node_->GetParent() == scene) //If it isn't parented to the scene, it must be being held by a PostalPope
 	{
 		Die();
+	}
+	if (dieTimer > 0.0f) 
+	{
+		if (smokeNode) { smokeNode->SetWorldPosition(node_->GetWorldPosition() ); }
+		dieTimer -= timeStep;
+		if (dieTimer <= 0.0f)
+		{
+			glowNode->Remove();
+			node_->Remove();
+		}
 	}
 }
 
@@ -61,8 +73,11 @@ void Debris::OnCollision(StringHash eventType, VariantMap& eventData)
 
 void Debris::Die()
 {
-	glowNode->Remove();
-	node_->RemoveComponent<Debris>();
+	if (dieTimer == 0.0f) 
+	{
+		smokeNode = Zeus::PuffOfSmoke(GetScene(), node_->GetWorldPosition(), 2.0f);
+		dieTimer = 1.0f;
+	}
 }
 
 Debris::~Debris()

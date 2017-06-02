@@ -29,5 +29,7 @@ protected:
 	SharedPtr<PhysicsWorld> physworld;
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<Node> glowNode;
+	WeakPtr<Node> smokeNode;
+	float dieTimer = 0.0f;
 };
 

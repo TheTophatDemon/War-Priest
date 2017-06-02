@@ -1,10 +1,10 @@
 //TODO:
 	//Sounds
-	//Give Postal Popes a second attack?
-	
+
+	//Make it so that unparented member nodes are still deleted	
 	//Autoload. Please.
 	
-	//Loading glitch?
+	//Loading glitch/Alt-tab
 	//Material quality setup
 	
 //Potential Optimizations:

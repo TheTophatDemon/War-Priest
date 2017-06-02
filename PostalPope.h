@@ -31,7 +31,8 @@ protected:
 	virtual void Dead();
 	virtual void EnterState(int newState);
 	virtual void LeaveState(int oldState);
-	PODVector<RigidBody*> debris;
+	Vector<Node*> debris;
 	SharedPtr<Node> spinner;
+	SharedPtr<AnimationController> animController;
 };
 

@@ -25,6 +25,7 @@ public:
 	Zeus();
 	static Node* MakeLightBeam(Scene* scene, Vector3 position);
 	static Node* MakeShield(Scene* scene, Vector3 position, float radius);
+	static Node* PuffOfSmoke(Scene* scene, Vector3 position, float length);
 	~Zeus();
 };
 

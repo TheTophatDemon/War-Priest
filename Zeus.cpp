@@ -85,6 +85,20 @@ Node* Zeus::MakeLightBeam(Scene* scene, Vector3 position)
 	return lightColumn;
 }
 
+Node* Zeus::PuffOfSmoke(Scene* scene, Vector3 position, float length)
+{
+	ResourceCache* cache = scene->GetSubsystem<ResourceCache>();
+	Node* p = scene->CreateChild();
+	p->SetWorldPosition(position);
+	ParticleEmitter* em = p->CreateComponent<ParticleEmitter>();
+	em->SetEffect(cache->GetResource<ParticleEffect>("Particles/smoke.xml"));
+	em->SetEmitting(true);
+	TempEffect* te = new TempEffect(scene->GetContext());
+	te->life = length;
+	p->AddComponent(te, 666, LOCAL);
+	return p;
+}
+
 Node* Zeus::MakeShield(Scene* scene, Vector3 position, float radius)
 {
 	ResourceCache* cache = scene->GetSubsystem<ResourceCache>();
