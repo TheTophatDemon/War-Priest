@@ -23,6 +23,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	Water::RegisterObject(context);
 	WeakChild::RegisterObject(context);
 	state = STATE_TITLE;
+	sSoundVolume = 0.5f;
 }
 
 void GunPriest::StartGame(String path)
@@ -72,6 +73,7 @@ void GunPriest::Start()
 	ui = GetSubsystem<UI>();
 	ui->GetRoot()->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
 	renderer = GetSubsystem<Renderer>();
+	audio = GetSubsystem<Audio>();
 
 	engine_->SetGlobalVar("SCREEN WIDTH", engineParameters_["WindowWidth"]);
 	engine_->SetGlobalVar("SCREEN HEIGHT", engineParameters_["WindowHeight"]);
@@ -90,6 +92,9 @@ void GunPriest::Start()
 	loadingText->SetPosition(0, -24);
 	ui->GetRoot()->AddChild(loadingText);
 	loadingText->SetVisible(false);
+
+	globalSoundNode = new Node(context_);
+	globalSound = globalSoundNode->CreateComponent<SoundSource>();
 
 	viewport = new Viewport(context_);
 	renderer->SetViewport(0, viewport);
@@ -111,6 +116,7 @@ void GunPriest::Start()
 
 void GunPriest::ChangeState(int newState)
 {
+	audio->SetMasterGain("ALL", sSoundVolume);
 	if (newState == STATE_GAME && state == STATE_TITLE)
 	{
 		scene_->SetUpdateEnabled(true);

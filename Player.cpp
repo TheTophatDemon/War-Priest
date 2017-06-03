@@ -22,7 +22,7 @@
 #include <Urho3D/Math/Matrix3x4.h>
 #include <Urho3D/Math/MathDefs.h>
 #include <Urho3D/Graphics/ParticleEffect.h>
-
+#include <Urho3D/Audio/Sound.h>
 
 #include <iostream>
 
@@ -34,6 +34,7 @@
 #include "Enemy.h"
 #include "Zeus.h"
 #include "Projectile.h"
+#include "GunPriest.h"
 
 using namespace Urho3D;
 
@@ -54,6 +55,8 @@ using namespace Urho3D;
 #define WALKSPEED 15.0f
 #define SLIDESPEED 20.0f
 
+#define MAXHEALTH 100
+
 Player::Player(Context* context) : LogicComponent(context)
 {
 	reviveCount = 0;
@@ -61,7 +64,7 @@ Player::Player(Context* context) : LogicComponent(context)
 	stateTimer = 0;
 	hurtTimer = 0;
 	state = STATE_DEFAULT;
-	health = 100;
+	health = MAXHEALTH;
 }
 
 void Player::RegisterObject(Context* context)
@@ -123,6 +126,8 @@ void Player::Start()
 
 	bloodEmitter = node_->GetChild("blood")->GetComponent<ParticleEmitter>();
 	bloodEmitter->SetEmitting(false);
+
+	soundSource = node_->CreateComponent<SoundSource>();
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
 	SubscribeToEvent(StringHash("ProjectileHit"), URHO3D_HANDLER(Player, OnProjectileHit));
@@ -130,6 +135,7 @@ void Player::Start()
 
 void Player::FixedUpdate(float timeStep)
 {	
+	soundSource->SetGain(game->gunPriest->sSoundVolume);
 	float newAngle = 0.0f;
 	
 	forwardKey = input->GetKeyDown(game->sKeyForward);
@@ -205,6 +211,18 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 	else if (other->GetName() == "water")
 	{
 		health = 0;
+	}
+	else if (otherBody->GetCollisionLayer() & 32)
+	{
+		if (other->HasTag("medkit") && health != MAXHEALTH)
+		{
+			game->FlashScreen(Color(1.0f, 1.0f, 1.0f, 0.5f), 0.01f);
+			health += 10;
+			if (health > MAXHEALTH) health = MAXHEALTH;
+			other->Remove();
+			soundSource->SetSoundType("ALL");
+			soundSource->Play(cache->GetResource<Sound>("Sounds/itm_medkit.wav"));
+		}
 	}
 }
 

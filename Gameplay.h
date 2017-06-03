@@ -64,8 +64,6 @@ public:
 	int winState = 0;
 
 	float sMouseSensitivity = 0.25f;
-	float sVoiceVolume = 0.5f;
-	float sEnvVolume = 0.5f;
 	float sCameraFov = 70.0f;
 	int sKeyForward = KEY_W;
 	int sKeyBackward = KEY_S;

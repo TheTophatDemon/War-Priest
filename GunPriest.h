@@ -33,6 +33,9 @@
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/AngelScript/Script.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
+#include <Urho3D/Audio/Audio.h>
+#include <Urho3D/Audio/SoundSource.h>
+#include <Urho3D/Audio/Sound.h>
 
 #include <time.h>
 
@@ -60,6 +63,7 @@ public:
 	SharedPtr<Input> input;
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<UI> ui;
+	SharedPtr<Audio> audio;
 
 	SharedPtr<Gameplay> game;
 	SharedPtr<TitleScreen> titleScreen;
@@ -68,7 +72,9 @@ public:
 	SharedPtr<DebugHud> debugHud;
 	SharedPtr<DebugRenderer> debugRenderer;
 	SharedPtr<Text> loadingText;
+	SharedPtr<SoundSource> globalSound;
 
+	float sSoundVolume = 0.5f;
 	int state = 1;
 	static int STATE_GAME;
 	static int STATE_TITLE;
@@ -81,5 +87,7 @@ public:
 	void Update(StringHash eventType, VariantMap& eventData);
 	void AfterRenderUpdate(StringHash eventType, VariantMap& eventData);
 	virtual void Stop();
+protected:
+	SharedPtr<Node> globalSoundNode;
 };
 

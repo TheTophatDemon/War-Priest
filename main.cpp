@@ -1,7 +1,7 @@
 //TODO:
 	//Sounds
-	
-	//Autoload. Please.
+	//Healthpacks
+	//Make player return to start
 	
 	//Loading glitch/Alt-tab
 	//Material quality setup
@@ -18,6 +18,7 @@
 	//4 = NPC
 	//8 = GROUND DETECTOR
 	//16 = SHIELDS AND OTHER PROJECTILE BLOCKERS
+	//32 = ITEM
 	//64 = ENEMY
 	//128 = PLAYER
 

@@ -30,7 +30,7 @@ void WeakChild::OnParentRemoved(StringHash eventName, VariantMap& eventData)
 	Node* node = dynamic_cast<Node*>(eventData["Node"].GetPtr());
 	if (node == parent.Get())
 	{
-		std::cout << "OH MY!" << std::endl;
+		//std::cout << "OH MY!" << std::endl;
 		node_->Remove();
 	}
 }

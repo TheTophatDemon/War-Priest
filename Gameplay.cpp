@@ -125,7 +125,7 @@ void Gameplay::SetupGame()
 	scene_->GetChildrenWithTag(lifts, "lift", true);
 	for (PODVector<Node*>::Iterator i = lifts.Begin(); i != lifts.End(); ++i)
 	{
-		Node* n = (Node*)*i;
+		Node* n = dynamic_cast<Node*>(*i);
 		if (n)
 		{
 			Vector3 movement = n->GetVar("movement").GetVector3();
@@ -133,6 +133,29 @@ void Gameplay::SetupGame()
 			float speed = n->GetVar("speed").GetFloat(); if (speed == 0.0f) speed = 2.0f;
 			float rotSpeed = n->GetVar("rotateSpeed").GetFloat();
 			n->AddComponent(Lift::MakeLiftComponent(context_, movement, restSpeed, speed, rotSpeed), 1200, LOCAL);
+		}
+	}
+	//Setup Medkits
+	SharedPtr<ValueAnimation> va(new ValueAnimation(context_));
+	va->SetKeyFrame(0.0f, Color::BLACK);
+	va->SetKeyFrame(1.0f, Color::GRAY);
+	va->SetKeyFrame(2.0f, Color::BLACK);
+	cache->GetResource<Material>("Materials/skins/medkit_skin.xml")->SetShaderParameterAnimation("MatEmissiveColor", va, WM_LOOP, 1.0f);
+
+	PODVector<Node*> medkits;
+	scene_->GetChildrenWithTag(medkits, "medkit", true);
+	for (PODVector<Node*>::Iterator i = medkits.Begin(); i != medkits.End(); ++i)
+	{
+		Node* n = dynamic_cast<Node*>(*i);
+		if (n)
+		{
+			RigidBody* rb = n->CreateComponent<RigidBody>();
+			rb->SetCollisionLayer(32);
+			rb->SetCollisionMask(128);
+			rb->SetTrigger(true);
+			StaticModel* sm = n->GetComponent<StaticModel>();
+			CollisionShape* cs = n->CreateComponent<CollisionShape>();
+			cs->SetBox(sm->GetBoundingBox().Size(),sm->GetBoundingBox().Center(), Quaternion::IDENTITY);
 		}
 	}
 
@@ -149,8 +172,6 @@ void Gameplay::FixedUpdate(float timeStep)
 {
 	if (IsEnabled()) 
 	{
-		audio->SetMasterGain("VOICE", sVoiceVolume);
-		audio->SetMasterGain("ENVIRONMENT", sEnvVolume);
 		UpdateHUD(timeStep);
 
 
@@ -211,7 +232,6 @@ Gameplay::~Gameplay()
 void Gameplay::GetSettings()
 {
 	sMouseSensitivity = 0.25f;
-	sVoiceVolume = 0.5f;
 	sCameraFov = 70.0f;
 	sKeyForward = KEY_W;
 	sKeyBackward = KEY_S;
