@@ -50,6 +50,7 @@
 #include "PostalPope.h"
 #include "Debris.h"
 #include "Water.h"
+#include "WeakChild.h"
 
 class GunPriest : public Application
 {

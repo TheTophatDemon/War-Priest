@@ -21,6 +21,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	PostalPope::RegisterObject(context);
 	Debris::RegisterObject(context);
 	Water::RegisterObject(context);
+	WeakChild::RegisterObject(context);
 	state = STATE_TITLE;
 }
 

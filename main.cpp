@@ -1,7 +1,6 @@
 //TODO:
 	//Sounds
-
-	//Make it so that unparented member nodes are still deleted	
+	
 	//Autoload. Please.
 	
 	//Loading glitch/Alt-tab

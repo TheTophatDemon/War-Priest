@@ -8,6 +8,7 @@
 #include "Projectile.h"
 #include "Debris.h"
 #include "Zeus.h"
+#include "WeakChild.h"
 #include <iostream>
 
 #define STATE_DEAD 0
@@ -41,6 +42,8 @@ void PostalPope::DelayedStart()
 
 	actor->maxspeed = 6.0f;
 	spinner = scene->CreateChild();
+	WeakChild::MakeWeakChild(spinner, node_);
+	
 	SharedPtr<ValueAnimation> spinAnim(new ValueAnimation(context_));
 	spinAnim->SetKeyFrame(0.0f, Quaternion::IDENTITY);
 	spinAnim->SetKeyFrame(0.5f, Quaternion(90.0f, Vector3::UP));

@@ -6,6 +6,7 @@
 #include "Gameplay.h"
 #include "Actor.h"
 #include "Projectile.h"
+#include "WeakChild.h"
 
 #define STATE_DEAD 0
 #define STATE_WANDER 1
@@ -28,6 +29,7 @@ void Enemy::Start()
 	physworld = scene->GetComponent<PhysicsWorld>();
 	body = node_->GetComponent<RigidBody>();
 	modelNode = node_->GetChild("model");
+	WeakChild::MakeWeakChild(modelNode, node_);
 	shape = node_->GetComponent<CollisionShape>();
 	oldShape = new CollisionShape(context_);
 	oldShape->SetSize(shape->GetSize());
