@@ -9,6 +9,8 @@
 #include <Urho3D/Physics/PhysicsWorld.h>
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D\Graphics/ParticleEmitter.h>
+#include <Urho3D/Audio/SoundSource3D.h>
+#include <Urho3D/Audio/Sound.h>
 
 #include "Enemy.h"
 
@@ -30,8 +32,7 @@ protected:
 	virtual void Dead();
 	virtual void EnterState(int newState);
 	virtual void LeaveState(int oldState);
-
-	SharedPtr<AnimationController> animController;
+	
 	bool shot = false;
 };
 

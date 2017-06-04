@@ -7,6 +7,7 @@
 #include "Actor.h"
 #include "Projectile.h"
 #include "WeakChild.h"
+#include "GunPriest.h"
 
 #define STATE_DEAD 0
 #define STATE_WANDER 1
@@ -29,7 +30,6 @@ void Enemy::Start()
 	physworld = scene->GetComponent<PhysicsWorld>();
 	body = node_->GetComponent<RigidBody>();
 	modelNode = node_->GetChild("model");
-	WeakChild::MakeWeakChild(modelNode, node_);
 	shape = node_->GetComponent<CollisionShape>();
 	oldShape = new CollisionShape(context_);
 	oldShape->SetSize(shape->GetSize());
@@ -40,6 +40,16 @@ void Enemy::Start()
 	else
 		actor = node_->GetComponent<Actor>();
 	actor->SetEnabled(false);
+
+	if (modelNode->HasComponent<AnimationController>())
+		animController = modelNode->GetComponent<AnimationController>();
+	else
+		animController = modelNode->CreateComponent<AnimationController>();
+	if (node_->HasComponent<SoundSource3D>())
+		soundSource = node_->GetComponent<SoundSource3D>();
+	else
+		soundSource = node_->CreateComponent<SoundSource3D>();
+	soundSource->SetSoundType("ALL");
 
 	state = -1;
 	ChangeState(STATE_DEAD);
@@ -60,6 +70,7 @@ void Enemy::Execute()
 
 void Enemy::FixedUpdate(float timeStep)
 {
+	soundSource->SetGain(game->gunPriest->sSoundVolume);
 	deltaTime = timeStep;
 	Vector3 plyPos = game->playerNode->GetWorldPosition(); plyPos.y_ = 0.0f;
 	Vector3 ourPos = node_->GetWorldPosition(); ourPos.y_ = 0.0f;

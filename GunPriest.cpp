@@ -168,7 +168,7 @@ void GunPriest::AfterRenderUpdate(StringHash eventType, VariantMap& eventData)
 {
 	if (state == STATE_GAME && game->initialized)
 	{
-		//scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
+		scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
 	}
 }
 

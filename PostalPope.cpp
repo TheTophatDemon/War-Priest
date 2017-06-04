@@ -2,6 +2,7 @@
 #include "Urho3D/Core/Context.h"
 #include <Urho3D\Graphics/StaticModel.h>
 #include <Urho3D/Scene/ValueAnimation.h>
+#include <Urho3D/Audio/Sound.h>
 
 #include "Gameplay.h"
 #include "Actor.h"
@@ -9,6 +10,7 @@
 #include "Debris.h"
 #include "Zeus.h"
 #include "WeakChild.h"
+#include "GunPriest.h"
 #include <iostream>
 
 #define STATE_DEAD 0
@@ -32,10 +34,8 @@ void PostalPope::DelayedStart()
 {
 	Enemy::DelayedStart();
 
-	if (modelNode->HasComponent<AnimationController>())
-		animController = modelNode->GetComponent<AnimationController>();
-	else
-		animController = modelNode->CreateComponent<AnimationController>();
+	weeoo = node_->CreateComponent<SoundSource3D>();
+	weeoo->SetSoundType("ALL");
 
 	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
 	animController->SetSpeed(REVIVE_ANIM, 0.0f);
@@ -60,6 +60,7 @@ void PostalPope::RegisterObject(Context* context)
 
 void PostalPope::Execute()
 {
+	weeoo->SetGain(game->gunPriest->sSoundVolume);
 	Vector3 upperBody = node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f);
 	spinner->SetWorldPosition(upperBody);
 	switch (state)
@@ -122,6 +123,7 @@ void PostalPope::Execute()
 						rb->SetUseGravity(true);
 						
 						debris.Remove(n);
+						soundSource->Play(cache->GetResource<Sound>("Sounds/enm_telethrow.wav"));
 						break;
 					}
 				}
@@ -152,6 +154,8 @@ void PostalPope::EnterState(int newState)
 	Enemy::EnterState(newState);
 	if (newState == STATE_SUMMON)
 	{
+		soundSource->Play(cache->GetResource<Sound>("Sounds/enm_summon.wav"));
+		weeoo->Play(cache->GetResource<Sound>("Sounds/enm_telekinesis.wav"));
 		if (debris.Size() > 0)
 		{
 			for (PODVector<Node*>::Iterator i = debris.Begin(); i != debris.End(); ++i)
@@ -192,7 +196,7 @@ void PostalPope::LeaveState(int oldState)
 	Enemy::LeaveState(oldState);
 	if (oldState == STATE_THROW)
 	{
-		
+		weeoo->Stop();
 	}
 }
 

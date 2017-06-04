@@ -33,6 +33,6 @@ protected:
 	virtual void LeaveState(int oldState);
 	Vector<Node*> debris;
 	SharedPtr<Node> spinner;
-	SharedPtr<AnimationController> animController;
+	SharedPtr<SoundSource> weeoo;
 };
 

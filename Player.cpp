@@ -259,6 +259,7 @@ void Player::HandleCamera()
 	Quaternion newAngle = Quaternion();
 	newAngle.FromLookRotation((worldPos - cameraNode->GetWorldPosition()).Normalized());
 	cameraNode->SetWorldRotation(newAngle);
+	//camera->SetZoom(2.0f);
 }
 
 void Player::HandleShadow()
@@ -523,6 +524,7 @@ void Player::ST_Revive(float timeStep)
 			Zeus::MakeLightBeam(scene, nearestEnemy->GetNode()->GetWorldPosition());
 			nearestEnemy->Revive();
 			reviveCount += 1;
+			soundSource->Play(cache->GetResource<Sound>("Sounds/ply_revive.wav"));
 		}
 	}
 	actor->Move(timeStep);

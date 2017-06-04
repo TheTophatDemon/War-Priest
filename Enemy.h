@@ -11,6 +11,8 @@
 #include <Urho3D/Physics/PhysicsWorld.h>
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Physics/CollisionShape.h>
+#include <Urho3D/Audio/SoundSource3D.h>
+#include <Urho3D/Audio/Sound.h>
 
 using namespace Urho3D;
 
@@ -41,6 +43,8 @@ protected:
 	Quaternion newRotation;
 	SharedPtr<CollisionShape> oldShape;
 	SharedPtr<Node> target;
+	SharedPtr<SoundSource3D> soundSource;
+	SharedPtr<AnimationController> animController;
 
 	float distanceFromPlayer;
 

@@ -24,11 +24,6 @@ void PyroPastor::DelayedStart()
 {
 	Enemy::DelayedStart();
 
-	if (modelNode->HasComponent<AnimationController>())
-		animController = modelNode->GetComponent<AnimationController>();
-	else
-		animController = modelNode->CreateComponent<AnimationController>();
-
 	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
 	animController->SetSpeed(REVIVE_ANIM, 0.0f);
 
@@ -42,6 +37,7 @@ void PyroPastor::RegisterObject(Context* context)
 
 void PyroPastor::Execute()
 {
+	
 	float turnAmount = 0.0f;
 	Vector3 aimVec = Vector3::ZERO;
 	Quaternion aim = Quaternion();
@@ -120,6 +116,7 @@ void PyroPastor::EnterState(int newState)
 	if (newState == STATE_ATTACK)
 	{
 		shot = false;
+		soundSource->Play(cache->GetResource<Sound>("Sounds/enm_fireball.wav"));
 	}
 }
 

@@ -1,7 +1,14 @@
 //TODO:
 	//Sounds
-	//Healthpacks
+		//Player hurt
+		//Play death
+		//Play win
+		//Slide
+		//HALLELUJAH!
+		
 	//Make player return to start
+	//Sound manager
+	//Enemy counting is off on first map
 	
 	//Loading glitch/Alt-tab
 	//Material quality setup
@@ -25,6 +32,7 @@
 //SOUND TYPES
 	//ENVIRONMENT
 	//VOICE
+	//ALL
 
 //psychoruins
 
