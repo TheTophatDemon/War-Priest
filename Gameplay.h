@@ -16,7 +16,6 @@
 #include <Urho3D/UI/UIElement.h>
 #include <Urho3D/Audio/Audio.h>
 
-
 using namespace Urho3D;
 
 class GunPriest;
@@ -51,6 +50,7 @@ public:
 	void GetSettings();
 	void MakeHUD();
 	void FlashScreen(Color c, float spd);
+	void DisplayMessage(String msg, Color col, float time);
 	void Lose();
 	void Win();
 
@@ -78,12 +78,13 @@ protected:
 	void SetupProps();
 	SharedPtr<Node> skybox;
 	SharedPtr<Node> water;
+	SharedPtr<Node> exitNode;
 	Color flashColor;
 	float flashSpeed;
 	float oldHealth;
+	float messageTimer = 0.0f;
 	
-	SharedPtr<Text> loseText;
-	SharedPtr<Text> winText;
+	SharedPtr<Text> messageText;
 	SharedPtr<Text> projectileCounter;
 };
 

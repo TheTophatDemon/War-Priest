@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <particleeffect>
-	<material name="Materials/muzzleflash.xml" />
+	<material name="Materials/particle_muzzleflash.xml" />
 	<numparticles value="100" />
 	<updateinvisible enable="false" />
 	<relative enable="true" />
@@ -9,19 +9,19 @@
 	<fixedscreensize enable="false" />
 	<animlodbias value="0" />
 	<emittertype value="Sphere" />
-	<emittersize value="0.1 0.1 0.1" />
-	<direction min="-4 12 -4" max="4 20 4" />
+	<emittersize value="2 0.1 2" />
+	<direction min="-1 1 -1" max="1 1 1" />
 	<constantforce value="0 0 0" />
 	<dampingforce value="0" />
 	<activetime value="0" />
 	<inactivetime value="0" />
 	<emissionrate min="100" max="100" />
 	<particlesize min="1 1" max="1 1" />
-	<timetolive min="0.5" max="0.5" />
-	<velocity min="4.97" max="0" />
-	<rotation min="77.88" max="0" />
-	<rotationspeed min="56.27" max="17.89" />
-	<sizedelta add="-1.62" mul="0" />
+	<timetolive min="0.5" max="1" />
+	<velocity min="5" max="7" />
+	<rotation min="12" max="77.88" />
+	<rotationspeed min="17" max="56.27" />
+	<sizedelta add="-1.09" mul="0" />
 	<faceCameraMode value="Rotate XYZ" />
 	<colorfade color="1 0 0 0" time="0" />
 	<colorfade color="1 1 1 0" time="1" />

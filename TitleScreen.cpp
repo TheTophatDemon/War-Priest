@@ -47,6 +47,9 @@ void TitleScreen::RegisterObject(Context* context)
 
 void TitleScreen::Start()
 {
+	audio->SetMasterGain("GAMEPLAY", 0.0f);
+	audio->SetMasterGain("TITLE", 1.0f);
+
 	if (ourUI)
 	{
 		ourUI->SetEnabled(true);
@@ -63,6 +66,7 @@ void TitleScreen::Start()
 
 void TitleScreen::OnUpdate(StringHash eventType, VariantMap& eventData)
 {
+	
 	float timeStep = eventData["TimeStep"].GetFloat();
 	if (IsEnabled())
 	{

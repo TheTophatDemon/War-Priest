@@ -216,7 +216,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 		if (other->HasTag("medkit") && health != MAXHEALTH)
 		{
 			game->FlashScreen(Color(1.0f, 1.0f, 1.0f, 0.5f), 0.01f);
-			health += 10;
+			health += 20;
 			if (health > MAXHEALTH) health = MAXHEALTH;
 			other->Remove();
 			soundSource->Play("Sounds/itm_medkit.wav");

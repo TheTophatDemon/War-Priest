@@ -35,7 +35,7 @@ void PostalPope::DelayedStart()
 	Enemy::DelayedStart();
 
 	weeoo = node_->CreateComponent<SoundSource3D>();
-	weeoo->SetSoundType("ALL");
+	weeoo->SetSoundType("GAMEPLAY");
 
 	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
 	animController->SetSpeed(REVIVE_ANIM, 0.0f);

@@ -68,7 +68,7 @@ void Water::OnCollisionEnter(StringHash eventType, VariantMap& eventData)
 		prt->SetEffect(cache->GetResource<ParticleEffect>("Particles/splash.xml"));
 		
 		SoundSource3D* s = other->CreateComponent<SoundSource3D>();
-		s->SetSoundType("ALL");
+		s->SetSoundType("GAMEPLAY");
 		s->Play(cache->GetResource<Sound>("Sounds/env_splash.wav"));
 	}
 }

@@ -4,8 +4,10 @@
 		//Play death
 		//Play win & God's beam
 		//HALLELUJAH!
-		
-	//Make player return to start
+		//Menu beeps and boops
+	
+	//Better camera?
+	//Drop shadow stuff
 	
 	//Loading glitch/Alt-tab
 	//Material quality setup
@@ -27,9 +29,8 @@
 	//128 = PLAYER
 
 //SOUND TYPES
-	//ENVIRONMENT
-	//VOICE
-	//ALL
+	//GAMEPLAY
+	//TITLE
 
 //psychoruins
 

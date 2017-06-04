@@ -88,6 +88,9 @@ void Gameplay::Start()
 	viewport->GetRenderPath()->SetShaderParameter("State", 0.0f); //Always use decimal
 	input->SetMouseVisible(false);
 	scene_->SetUpdateEnabled(true);
+
+	audio->SetMasterGain("GAMEPLAY", 1.0f);
+	audio->SetMasterGain("TITLE", 0.0f);
 }
 
 void Gameplay::SetupGame()
@@ -119,6 +122,7 @@ void Gameplay::SetupGame()
 	skybox = scene_->GetChild("skybox");
 	water = scene_->GetChild("water");
 	water->CreateComponent<Water>();
+	exitNode = scene_->GetChild("exit");
 	
 	//Setup Lifts
 	PODVector<Node*> lifts;
@@ -161,9 +165,8 @@ void Gameplay::SetupGame()
 
 	SetupEnemy();
 	SetupProps();
-
-	loseText->SetVisible(false);
-	winText->SetVisible(false);
+	
+	messageText->SetVisible(false);
 	viewport->GetRenderPath()->SetShaderParameter("State", 0.0f);
 	initialized = true;
 }
@@ -173,23 +176,31 @@ void Gameplay::FixedUpdate(float timeStep)
 	if (IsEnabled()) 
 	{
 		UpdateHUD(timeStep);
-
-
 		if (skybox)
 		{
 			skybox->Rotate(Quaternion(timeStep * 5.0f, Vector3::UP));
 		}
-		if (flashColor.a_ > 0.0f)
-		{
-			flashColor.a_ -= flashSpeed * timeStep * 100.0f;
-			if (flashColor.a_ < 0.0f) flashColor.a_ = 0.0f;
-		}
-		viewport->GetRenderPath()->SetShaderParameter("FlashColor", flashColor);
-
-
 		if ((player->reviveCount >= enemyCount && enemyCount > 0) || input->GetKeyDown(KEY_L))
 		{
-			Win();
+			if (exitNode) 
+			{
+				if (!exitNode->HasComponent<ParticleEmitter>())
+				{
+					DisplayMessage("Mission Complete! Return to the start of the level!", Color::WHITE, 100.0f);
+					ParticleEmitter* em = exitNode->CreateComponent<ParticleEmitter>();
+					em->SetEffect(cache->GetResource<ParticleEffect>("Particles/muzzleflash.xml"));
+					em->SetEmitting(true);
+				}
+				float dist = (playerNode->GetWorldPosition() - exitNode->GetWorldPosition()).Length();
+				if (dist < 2.0f)
+				{
+					Win();
+				}
+			}
+			else
+			{
+				Win();
+			}
 		}
 		if (restartTimer > 0)
 		{
@@ -200,8 +211,6 @@ void Gameplay::FixedUpdate(float timeStep)
 				gunPriest->ChangeState(GunPriest::STATE_TITLE);
 			}
 		}
-		if (winState == -1)
-			viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
 	}
 }
 
@@ -211,6 +220,16 @@ void Gameplay::UpdateHUD(float timeStep)
 	PODVector<Node*> projs;
 	scene_->GetChildrenWithTag(projs, "projectile", true);
 	SetGlobalVar("PROJECTILE COUNT", projs.Size());
+
+	if (messageTimer > 0.0f)
+	{
+		messageTimer -= timeStep;
+		if (messageTimer <= 0.0f)
+		{
+			messageTimer = 0.0f;
+			messageText->SetVisible(false);
+		}
+	}
 
 	if (player) 
 	{
@@ -223,6 +242,15 @@ void Gameplay::UpdateHUD(float timeStep)
 		healthMeter->SetSize(floor((oldHealth / 100.0f) * 628.0f), 52);
 		projectileCounter->SetText("PROJECTILE: " + String(GetGlobalVar("PROJECTILE COUNT").GetInt()));
 	}
+
+	if (flashColor.a_ > 0.0f)
+	{
+		flashColor.a_ -= flashSpeed * timeStep * 100.0f;
+		if (flashColor.a_ < 0.0f) flashColor.a_ = 0.0f;
+	}
+	viewport->GetRenderPath()->SetShaderParameter("FlashColor", flashColor);
+	if (winState == -1)
+		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
 }
 
 Gameplay::~Gameplay()
@@ -255,21 +283,13 @@ void Gameplay::MakeHUD()
 	text->SetVerticalAlignment(VA_TOP);
 	ourUI->AddChild(text);
 
-	loseText = new Text(context_);
-	loseText->SetText("YOU HAVE FAILED. THE LORD FROWNS UPON YOU.");
-	loseText->SetFont("Fonts/Anonymous Pro.ttf", 24);
-	loseText->SetHorizontalAlignment(HA_CENTER);
-	loseText->SetVerticalAlignment(VA_CENTER);
-	ourUI->AddChild(loseText);
-	loseText->SetVisible(false);
-
-	winText = new Text(context_);
-	winText->SetText("MISSION COMPLETE");
-	winText->SetFont("Fonts/Anonymous Pro.ttf", 24);
-	winText->SetHorizontalAlignment(HA_CENTER);
-	winText->SetVerticalAlignment(VA_CENTER);
-	ourUI->AddChild(winText);
-	winText->SetVisible(false);
+	messageText = new Text(context_);
+	messageText->SetText("");
+	messageText->SetFont("Fonts/Anonymous Pro.ttf", 24);
+	messageText->SetAlignment(HA_CENTER, VA_CENTER);
+	messageText->SetTextAlignment(HA_CENTER);
+	ourUI->AddChild(messageText);
+	messageText->SetVisible(false);
 
 	projectileCounter = new Text(context_);
 	projectileCounter->SetText("PROJECTILE: " + String(GetGlobalVar("PROJECTILE COUNT").GetInt()));
@@ -291,57 +311,33 @@ void Gameplay::FlashScreen(Color c, float spd)
 	viewport->GetRenderPath()->SetShaderParameter("FlashColor", c);
 }
 
-void Gameplay::GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount)
+void Gameplay::DisplayMessage(String msg, Color col, float time)
 {
-	IntRect rect = spr->GetImageRect();
-	Texture* tex = spr->GetTexture();
-
-	rect.bottom_ += cellHeight;
-	rect.top_ += cellHeight;
-	if (rect.bottom_ > tex->GetHeight())
+	if (winState == 0) //So nobody tries to cover up the win message
 	{
-		rect.top_ = 0.0f;
-		rect.bottom_ = cellHeight;
-
-		rect.left_ += cellWidth;
-		rect.right_ += cellHeight;
-		if (rect.right_ > tex->GetWidth())
-		{
-			rect.left_ = 0.0f;
-			rect.right_ = cellWidth;
-		}
+		messageText->SetText(msg);
+		messageText->SetColor(col);
+		messageText->SetVisible(true);
+		messageTimer = time;
 	}
-	int columnCount = tex->GetWidth() / cellWidth;
-	int rowCount = tex->GetHeight() / cellHeight;
-	int cellIndex = (rowCount * (rect.left_ / cellWidth)) + (rect.top_ / cellHeight);
-	if (cellIndex >= cellCount)
-	{
-		rect.top_ = 0.0f;
-		rect.bottom_ = cellHeight;
-		rect.left_ = 0.0f;
-		rect.right_ = cellWidth;
-	}
-
-	spr->SetImageRect(rect);
 }
 
 void Gameplay::Lose()
 {
-	winState = -1;
 	if (restartTimer == 0)
 	{
-		loseText->SetVisible(true);
+		DisplayMessage("Mission Failed.\nThe Lord frowns upon you!", Color::WHITE, 250.0f);
 		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
 		restartTimer = 250;
 	}
+	winState = -1;
 }
 
 void Gameplay::Win()
 {
-	winState = 1;
 	if (restartTimer == 0)
 	{
-		winText->SetVisible(true);
+		DisplayMessage("Mission Complete!", Color::WHITE, 250.0f);
 		viewport->GetRenderPath()->SetShaderParameter("State", 0.0f);
 		restartTimer = 250;
 
@@ -349,6 +345,7 @@ void Gameplay::Win()
 		god->LoadXML(cache->GetResource<XMLFile>("Objects/god.xml")->GetRoot(), false);
 		god->CreateComponent<God>();
 	}
+	winState = 1;
 }
 
 void Gameplay::SetupEnemy()
@@ -450,4 +447,38 @@ void Gameplay::SetupProps()
 			body->EnableMassUpdate();
 		}
 	}
+}
+
+void Gameplay::GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount)
+{
+	IntRect rect = spr->GetImageRect();
+	Texture* tex = spr->GetTexture();
+
+	rect.bottom_ += cellHeight;
+	rect.top_ += cellHeight;
+	if (rect.bottom_ > tex->GetHeight())
+	{
+		rect.top_ = 0.0f;
+		rect.bottom_ = cellHeight;
+
+		rect.left_ += cellWidth;
+		rect.right_ += cellHeight;
+		if (rect.right_ > tex->GetWidth())
+		{
+			rect.left_ = 0.0f;
+			rect.right_ = cellWidth;
+		}
+	}
+	int columnCount = tex->GetWidth() / cellWidth;
+	int rowCount = tex->GetHeight() / cellHeight;
+	int cellIndex = (rowCount * (rect.left_ / cellWidth)) + (rect.top_ / cellHeight);
+	if (cellIndex >= cellCount)
+	{
+		rect.top_ = 0.0f;
+		rect.bottom_ = cellHeight;
+		rect.left_ = 0.0f;
+		rect.right_ = cellWidth;
+	}
+
+	spr->SetImageRect(rect);
 }

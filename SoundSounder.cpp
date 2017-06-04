@@ -20,7 +20,7 @@ void SoundSounder::Start()
 	for (int i = 0; i < MAX_INSTANCE; ++i)
 	{
 		sources[i] = node_->CreateComponent<SoundSource3D>();
-		sources[i]->SetSoundType("ALL");
+		sources[i]->SetSoundType("GAMEPLAY");
 	}
 	game = GetScene()->GetComponent<Gameplay>();
 	cache = GetSubsystem<ResourceCache>();
