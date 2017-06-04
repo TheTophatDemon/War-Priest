@@ -22,6 +22,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	Debris::RegisterObject(context);
 	Water::RegisterObject(context);
 	WeakChild::RegisterObject(context);
+	SoundSounder::RegisterObject(context);
 	state = STATE_TITLE;
 	sSoundVolume = 0.5f;
 }

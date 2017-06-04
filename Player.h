@@ -13,6 +13,7 @@
 #include <Urho3D/Graphics/AnimationController.h>
 #include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Audio/SoundSource.h>
+#include "SoundSounder.h"
 
 using namespace Urho3D;
 
@@ -61,7 +62,7 @@ protected:
 	SharedPtr<CollisionShape> shape;
 	SharedPtr<Input> input;
 	SharedPtr<Node> pivot;
-	SharedPtr<SoundSource> soundSource;
+	SharedPtr<SoundSounder> soundSource;
 
 	Quaternion newRotation;
 	Vector3 slideDirection;

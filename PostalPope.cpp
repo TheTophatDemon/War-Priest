@@ -123,7 +123,7 @@ void PostalPope::Execute()
 						rb->SetUseGravity(true);
 						
 						debris.Remove(n);
-						soundSource->Play(cache->GetResource<Sound>("Sounds/enm_telethrow.wav"));
+						soundSource->Play("Sounds/enm_telethrow.wav");
 						break;
 					}
 				}
@@ -154,7 +154,7 @@ void PostalPope::EnterState(int newState)
 	Enemy::EnterState(newState);
 	if (newState == STATE_SUMMON)
 	{
-		soundSource->Play(cache->GetResource<Sound>("Sounds/enm_summon.wav"));
+		soundSource->Play("Sounds/enm_summon.wav");
 		weeoo->Play(cache->GetResource<Sound>("Sounds/enm_telekinesis.wav"));
 		if (debris.Size() > 0)
 		{

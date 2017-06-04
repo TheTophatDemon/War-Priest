@@ -127,7 +127,7 @@ void Player::Start()
 	bloodEmitter = node_->GetChild("blood")->GetComponent<ParticleEmitter>();
 	bloodEmitter->SetEmitting(false);
 
-	soundSource = node_->CreateComponent<SoundSource>();
+	soundSource = node_->CreateComponent<SoundSounder>();
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
 	SubscribeToEvent(StringHash("ProjectileHit"), URHO3D_HANDLER(Player, OnProjectileHit));
@@ -135,7 +135,6 @@ void Player::Start()
 
 void Player::FixedUpdate(float timeStep)
 {	
-	soundSource->SetGain(game->gunPriest->sSoundVolume);
 	float newAngle = 0.0f;
 	
 	forwardKey = input->GetKeyDown(game->sKeyForward);
@@ -220,8 +219,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 			health += 10;
 			if (health > MAXHEALTH) health = MAXHEALTH;
 			other->Remove();
-			soundSource->SetSoundType("ALL");
-			soundSource->Play(cache->GetResource<Sound>("Sounds/itm_medkit.wav"));
+			soundSource->Play("Sounds/itm_medkit.wav");
 		}
 	}
 }
@@ -313,6 +311,7 @@ void Player::EnterState(int newState)
 			{
 				body->SetCollisionLayer(body->GetCollisionLayer() - 128);
 			}
+			soundSource->Play("Sounds/ply_slide.wav");
 			break;
 		case STATE_DEAD:
 			bloodEmitter->SetEmitting(true);
@@ -524,7 +523,7 @@ void Player::ST_Revive(float timeStep)
 			Zeus::MakeLightBeam(scene, nearestEnemy->GetNode()->GetWorldPosition());
 			nearestEnemy->Revive();
 			reviveCount += 1;
-			soundSource->Play(cache->GetResource<Sound>("Sounds/ply_revive.wav"));
+			soundSource->Play("Sounds/ply_revive.wav");
 		}
 	}
 	actor->Move(timeStep);

@@ -45,11 +45,7 @@ void Enemy::Start()
 		animController = modelNode->GetComponent<AnimationController>();
 	else
 		animController = modelNode->CreateComponent<AnimationController>();
-	if (node_->HasComponent<SoundSource3D>())
-		soundSource = node_->GetComponent<SoundSource3D>();
-	else
-		soundSource = node_->CreateComponent<SoundSource3D>();
-	soundSource->SetSoundType("ALL");
+	soundSource = node_->CreateComponent<SoundSounder>();
 
 	state = -1;
 	ChangeState(STATE_DEAD);
@@ -70,7 +66,6 @@ void Enemy::Execute()
 
 void Enemy::FixedUpdate(float timeStep)
 {
-	soundSource->SetGain(game->gunPriest->sSoundVolume);
 	deltaTime = timeStep;
 	Vector3 plyPos = game->playerNode->GetWorldPosition(); plyPos.y_ = 0.0f;
 	Vector3 ourPos = node_->GetWorldPosition(); ourPos.y_ = 0.0f;

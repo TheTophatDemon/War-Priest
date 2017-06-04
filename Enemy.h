@@ -13,6 +13,7 @@
 #include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Audio/SoundSource3D.h>
 #include <Urho3D/Audio/Sound.h>
+#include "SoundSounder.h"
 
 using namespace Urho3D;
 
@@ -43,7 +44,7 @@ protected:
 	Quaternion newRotation;
 	SharedPtr<CollisionShape> oldShape;
 	SharedPtr<Node> target;
-	SharedPtr<SoundSource3D> soundSource;
+	SharedPtr<SoundSounder> soundSource;
 	SharedPtr<AnimationController> animController;
 
 	float distanceFromPlayer;

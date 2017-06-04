@@ -116,7 +116,7 @@ void PyroPastor::EnterState(int newState)
 	if (newState == STATE_ATTACK)
 	{
 		shot = false;
-		soundSource->Play(cache->GetResource<Sound>("Sounds/enm_fireball.wav"));
+		soundSource->Play("Sounds/enm_fireball.wav");
 	}
 }
 

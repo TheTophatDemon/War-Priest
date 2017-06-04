@@ -2,13 +2,10 @@
 	//Sounds
 		//Player hurt
 		//Play death
-		//Play win
-		//Slide
+		//Play win & God's beam
 		//HALLELUJAH!
 		
 	//Make player return to start
-	//Sound manager
-	//Enemy counting is off on first map
 	
 	//Loading glitch/Alt-tab
 	//Material quality setup

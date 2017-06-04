@@ -54,6 +54,7 @@
 #include "Debris.h"
 #include "Water.h"
 #include "WeakChild.h"
+#include "SoundSounder.h"
 
 class GunPriest : public Application
 {
