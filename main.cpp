@@ -6,9 +6,6 @@
 		//HALLELUJAH!
 		//Menu beeps and boops
 	
-	//Better camera?
-	//Drop shadow stuff
-	
 	//Loading glitch/Alt-tab
 	//Material quality setup
 	

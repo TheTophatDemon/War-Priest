@@ -68,9 +68,9 @@ protected:
 	Vector3 slideDirection;
 	
 	int hailTimer;
-	float stateTimer;
 	int hurtTimer;
-
+	float stateTimer;
+	float cameraPitch;
 	float moveX = 0.0f;
 	float moveZ = 0.0f;
 

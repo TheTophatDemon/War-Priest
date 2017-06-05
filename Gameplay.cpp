@@ -186,7 +186,7 @@ void Gameplay::FixedUpdate(float timeStep)
 			{
 				if (!exitNode->HasComponent<ParticleEmitter>())
 				{
-					DisplayMessage("Mission Complete! Return to the start of the level!", Color::WHITE, 100.0f);
+					DisplayMessage("Mission Complete! Return to the start of the level!", Color::WHITE, 10.0f);
 					ParticleEmitter* em = exitNode->CreateComponent<ParticleEmitter>();
 					em->SetEffect(cache->GetResource<ParticleEffect>("Particles/muzzleflash.xml"));
 					em->SetEmitting(true);

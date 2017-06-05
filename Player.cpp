@@ -65,6 +65,7 @@ Player::Player(Context* context) : LogicComponent(context)
 	hurtTimer = 0;
 	state = STATE_DEFAULT;
 	health = MAXHEALTH;
+	cameraPitch = 0.0f;
 }
 
 void Player::RegisterObject(Context* context)
@@ -233,7 +234,7 @@ void Player::Hurt(Node* source, int amount)
 		hurtTimer = 25;
 		if (source)
 		{
-			actor->KnockBack(20.0f, source->GetWorldRotation());
+			actor->KnockBack(12.0f, source->GetWorldRotation());
 		}
 	}
 }
@@ -251,13 +252,15 @@ void Player::OnProjectileHit(StringHash eventType, VariantMap& eventData)
 
 void Player::HandleCamera()
 {
-	pivot->SetWorldPosition(Vector3(node_->GetWorldPosition().x_, 0.0f, node_->GetWorldPosition().z_));
-	pivot->Rotate(Quaternion(input->GetMouseMoveX() * game->sMouseSensitivity, Vector3::UP));
 	Vector3 worldPos = body->GetPosition();
+	pivot->SetWorldPosition(Vector3(worldPos.x_, 0.0f, worldPos.z_));
+	pivot->Rotate(Quaternion(input->GetMouseMoveX() * game->sMouseSensitivity, Vector3::UP));
+	
 	Quaternion newAngle = Quaternion();
 	newAngle.FromLookRotation((worldPos - cameraNode->GetWorldPosition()).Normalized());
 	cameraNode->SetWorldRotation(newAngle);
-	//camera->SetZoom(2.0f);
+	cameraPitch = Clamp(cameraPitch + input->GetMouseMoveY() * game->sMouseSensitivity, -15.0f, 15.0f);
+	cameraNode->Rotate(Quaternion(cameraPitch, Vector3::RIGHT), TS_LOCAL);
 }
 
 void Player::HandleShadow()
