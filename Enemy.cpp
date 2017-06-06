@@ -144,7 +144,7 @@ void Enemy::Revive()
 	node_->Translate(Vector3(0.0f, 0.1f, 0.0f), TS_LOCAL);
 }
 
-void Enemy::ChangeState(int newState)
+void Enemy::ChangeState(const int newState)
 {
 	if (newState != state)
 	{
@@ -155,7 +155,7 @@ void Enemy::ChangeState(int newState)
 	state = newState;
 }
 
-void Enemy::EnterState(int newState)
+void Enemy::EnterState(const int newState)
 {
 	if (newState == STATE_DEAD)
 	{
@@ -165,7 +165,7 @@ void Enemy::EnterState(int newState)
 	}
 }
 
-void Enemy::LeaveState(int oldState)
+void Enemy::LeaveState(const int oldState)
 {
 	if (oldState == STATE_DEAD)
 	{

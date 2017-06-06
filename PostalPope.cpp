@@ -61,7 +61,7 @@ void PostalPope::RegisterObject(Context* context)
 void PostalPope::Execute()
 {
 	weeoo->SetGain(game->gunPriest->sSoundVolume);
-	Vector3 upperBody = node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f);
+	const Vector3 upperBody = node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f);
 	spinner->SetWorldPosition(upperBody);
 	switch (state)
 	{
@@ -149,7 +149,7 @@ void PostalPope::Dead()
 	}
 }
 
-void PostalPope::EnterState(int newState)
+void PostalPope::EnterState(const int newState)
 {
 	Enemy::EnterState(newState);
 	if (newState == STATE_SUMMON)
@@ -170,7 +170,7 @@ void PostalPope::EnterState(int newState)
 		}
 		for (int i = 0; i < 5; ++i) //Summon more debris
 		{
-			float angle = (M_PI / 2.5f) * i;
+			const float angle = (M_PI / 2.5f) * i;
 			Node* n = spinner->CreateChild();
 			n->LoadXML(cache->GetResource<XMLFile>("Objects/rock.xml")->GetRoot());
 			n->SetPosition(Vector3(cosf(angle) * 4.0f,0.0f,sinf(angle) * 4.0f));
@@ -191,7 +191,7 @@ void PostalPope::EnterState(int newState)
 	}
 }
 
-void PostalPope::LeaveState(int oldState)
+void PostalPope::LeaveState(const int oldState)
 {
 	Enemy::LeaveState(oldState);
 	if (oldState == STATE_THROW)

@@ -48,6 +48,7 @@
 #include "GunPriest.h"
 #include "God.h"
 #include "PostalPope.h"
+#include "DangerDeacon.h"
 #include "Water.h"
 
 using namespace Urho3D;
@@ -369,6 +370,10 @@ void Gameplay::SetupEnemy()
 			else if (enemyType == "postalpope")
 			{
 				n->CreateComponent<PostalPope>();
+			}
+			else if (enemyType == "dangerdeacon")
+			{
+				n->CreateComponent<DangerDeacon>();
 			}
 
 			enemyCount += 1;

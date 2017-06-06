@@ -3,12 +3,7 @@
 #include <Urho3D/Scene/LogicComponent.h>
 #include <Urho3D\Scene\Scene.h>
 #include <Urho3D/Scene/Node.h>
-#include <Urho3D/Graphics/AnimatedModel.h>
-#include <Urho3D/Graphics/AnimationController.h>
-#include <Urho3D/Physics/RigidBody.h>
-#include <Urho3D/Physics/PhysicsWorld.h>
 #include <Urho3D/Resource/ResourceCache.h>
-#include <Urho3D\Graphics/ParticleEmitter.h>
 #include <Urho3D/Audio/SoundSource3D.h>
 #include <Urho3D/Audio/Sound.h>
 
@@ -17,22 +12,20 @@
 using namespace Urho3D;
 
 class Actor;
-class Gameplay;
-class PyroPastor : Enemy
+class DangerDeacon : public Enemy //He's dangerous. He's out of control!
 {
-	URHO3D_OBJECT(PyroPastor, LogicComponent);
+	URHO3D_OBJECT(DangerDeacon, LogicComponent);
 public:
-	PyroPastor(Context* context);
+	DangerDeacon(Context* context);
 	static void RegisterObject(Context* context);
-	virtual void Revive();
 	virtual void DelayedStart();
-	~PyroPastor();
+	virtual void Revive();
+	~DangerDeacon();
 protected:
+	float strafeAmt;
 	virtual void Execute();
 	virtual void Dead();
 	virtual void EnterState(const int newState);
 	virtual void LeaveState(const int oldState);
-	
-	bool shot = false;
 };
 

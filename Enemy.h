@@ -57,9 +57,9 @@ protected:
 	void Wander();
 	void Dead();
 	bool CheckCliff();
-	void ChangeState(int newState);
-	virtual void EnterState(int newState);
-	virtual void LeaveState(int oldState);
+	void ChangeState(const int newState);
+	virtual void EnterState(const int newState);
+	virtual void LeaveState(const int oldState);
 	void FaceTarget();
 
 	float deltaTime;

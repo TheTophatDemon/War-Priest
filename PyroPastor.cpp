@@ -110,7 +110,7 @@ void PyroPastor::Dead()
 	}
 }
 
-void PyroPastor::EnterState(int newState)
+void PyroPastor::EnterState(const int newState)
 {
 	Enemy::EnterState(newState);
 	if (newState == STATE_ATTACK)
@@ -120,7 +120,7 @@ void PyroPastor::EnterState(int newState)
 	}
 }
 
-void PyroPastor::LeaveState(int oldState)
+void PyroPastor::LeaveState(const int oldState)
 {
 	Enemy::LeaveState(oldState);
 	if (oldState == STATE_DEAD)

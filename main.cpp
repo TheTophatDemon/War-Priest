@@ -6,7 +6,14 @@
 		//HALLELUJAH!
 		//Menu beeps and boops
 	
+	//Dangerous Deacon
+		//Model & Animation
+		//Sound
+		//Exploding
+		//More accurate jump logic
+
 	//Loading glitch/Alt-tab
+		//Happens on clicking level select button...Might be a problem with Basic.hlsl
 	//Material quality setup
 	
 //Potential Optimizations:

@@ -29,8 +29,8 @@ public:
 protected:
 	virtual void Execute();
 	virtual void Dead();
-	virtual void EnterState(int newState);
-	virtual void LeaveState(int oldState);
+	virtual void EnterState(const int newState);
+	virtual void LeaveState(const int oldState);
 	Vector<Node*> debris;
 	SharedPtr<Node> spinner;
 	SharedPtr<SoundSource> weeoo;

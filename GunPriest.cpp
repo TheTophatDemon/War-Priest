@@ -23,6 +23,8 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	Water::RegisterObject(context);
 	WeakChild::RegisterObject(context);
 	SoundSounder::RegisterObject(context);
+	DangerDeacon::RegisterObject(context);
+
 	state = STATE_TITLE;
 	sSoundVolume = 0.5f;
 }

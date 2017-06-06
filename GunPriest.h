@@ -55,6 +55,7 @@
 #include "Water.h"
 #include "WeakChild.h"
 #include "SoundSounder.h"
+#include "DangerDeacon.h"
 
 class GunPriest : public Application
 {
