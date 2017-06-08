@@ -119,7 +119,7 @@ void PostalPope::Execute()
 						rb->SetLinearFactor(Vector3::ONE);
 						rb->SetRestitution(1.0f);
 						rb->ApplyImpulse(tDiff * rb->GetMass() * 50.0f);
-						rb->ApplyImpulse(Vector3::UP * rb->GetMass() * 10.0f);
+						rb->ApplyImpulse(Vector3::UP * rb->GetMass() * 6.0f);
 						rb->SetUseGravity(true);
 						
 						debris.Remove(n);

@@ -3,14 +3,21 @@
 #include <Urho3D/Core/Context.h>
 #include <Urho3D/Physics/PhysicsUtils.h>
 #include <Urho3D/Math/Ray.h>
+#include <Urho3D/Graphics/Material.h>
+#include <Urho3D/Graphics/ParticleEffect.h>
+#include <Urho3D/Graphics/ParticleEmitter.h>
 #include <iostream>
 
 #include "Actor.h"
+#include "TempEffect.h"
 
 #define STATE_DEAD 0
 #define STATE_WANDER 1
 #define STATE_CHASE 32
 #define STATE_EXPLODE 33
+
+#define BLASTRANGE 20.0f
+#define STUNTIME 1.0f
 
 DangerDeacon::DangerDeacon(Context* context) : Enemy(context)
 {
@@ -20,7 +27,14 @@ DangerDeacon::DangerDeacon(Context* context) : Enemy(context)
 void DangerDeacon::DelayedStart()
 {
 	Enemy::DelayedStart();
-	actor->maxspeed = 14.0f;
+	actor->maxspeed = 15.2f;
+	orbThing = node_->CreateChild();
+	orbModel = orbThing->CreateComponent<StaticModel>();
+	orbModel->SetModel(cache->GetResource<Model>("Models/Sphere.mdl"));
+	orbModel->SetMaterial(cache->GetResource<Material>("Materials/fireglow.xml"));
+	orbModel->SetViewMask(0);
+	orbThing->SetScale(BLASTRANGE);
+	orbThing->SetPosition(Vector3(0.0f, 1.5f, 0.0f));
 }
 
 void DangerDeacon::RegisterObject(Context* context)
@@ -44,14 +58,14 @@ void DangerDeacon::Execute()
 		Wander();
 		if (target)
 		{
-			if (targetDist < 15.0f)
+			if (targetDist < 29.0f)
 			{
 				ChangeState(STATE_CHASE);
 			}
 		}
 		break;
 	case STATE_CHASE:
-		if (target && targetDist < 16.0f)
+		if (target && targetDist < 30.0f)
 		{
 			const Vector3 headHeight = Vector3(0.0f, 2.0f, 0.0f);
 			const Vector3 ourHead = node_->GetWorldPosition() + headHeight;
@@ -64,7 +78,7 @@ void DangerDeacon::Execute()
 			PhysicsRaycastResult headCast;
 			physworld->RaycastSingle(headCast, Ray(ourHead, dir), 100.0f, 210);//2+128+64+16
 			PhysicsRaycastResult footCast;
-			physworld->RaycastSingle(footCast, Ray(ourFeet, (Vector3(target->GetWorldPosition().x_, ourFeet.y_, target->GetWorldPosition().z_) - ourFeet).Normalized()), 100.0f, 210);
+			physworld->RaycastSingle(footCast, Ray(ourFeet + dir + Vector3::UP, Vector3::DOWN), 1.0f, 210);
 			
 			strafeAmt *= 0.9f;
 			if (fabs(strafeAmt) < 0.1f) 
@@ -82,7 +96,7 @@ void DangerDeacon::Execute()
 			}
 			if (canSeePlayer && footCast.body_) //If it's only at foot level, we can jump over it.
 			{
-				if (footCast.body_->GetCollisionLayer() & 2 && footCast.distance_ < 1.0f)
+				if (footCast.body_->GetCollisionLayer() & 2 && footCast.distance_ < 0.95f && footCast.normal_.y_ != 0.0f)
 				{
 					actor->Jump();
 				}
@@ -98,8 +112,43 @@ void DangerDeacon::Execute()
 
 			actor->SetMovement(true, false, strafeAmt < 0.0f, strafeAmt > 0.0f);
 			actor->Move(deltaTime);
+
+			if (targetDist < 6.0f)
+			{
+				ChangeState(STATE_EXPLODE);
+			}
 		}
 		else
+		{
+			ChangeState(STATE_WANDER);
+		}
+		break;
+	case STATE_EXPLODE:
+		stateTimer += deltaTime;
+		
+		const float shrinkAmount = deltaTime * BLASTRANGE * 4.0f;
+		orbThing->SetScale(orbThing->GetScale() - Vector3(shrinkAmount, shrinkAmount, shrinkAmount));
+		if (orbThing->GetScale().x_ <= 0.0f && orbModel->GetViewMask() != 0)
+		{
+			orbModel->SetViewMask(0);
+			for (int i = 0; i < 5; ++i)
+			{
+				Vector3 pos = node_->GetWorldPosition() + Vector3(0.0f, 1.5f, 0.0f);
+				pos.x_ += cosf(i * 1.2566f) * 2.5f;
+				pos.z_ += sinf(i * 1.2566f) * 2.5f;
+				Node* explosion = scene->CreateChild();
+				explosion->SetWorldPosition(pos);
+				ParticleEmitter* emitter = explosion->CreateComponent<ParticleEmitter>();
+				emitter->SetEffect(cache->GetResource<ParticleEffect>("Particles/explosion.xml"));
+				TempEffect* te = explosion->CreateComponent<TempEffect>();
+				te->life = 2.0f;
+			}
+		}
+
+		actor->SetMovement(false, false, false, false);
+		actor->Move(deltaTime);
+
+		if (stateTimer > STUNTIME)
 		{
 			ChangeState(STATE_WANDER);
 		}
@@ -115,11 +164,20 @@ void DangerDeacon::Dead()
 void DangerDeacon::EnterState(const int newState)
 {
 	Enemy::EnterState(newState);
+	if (newState == STATE_EXPLODE)
+	{
+		orbModel->SetViewMask(-1);
+		orbThing->SetScale(BLASTRANGE);
+	}
 }
 
 void DangerDeacon::LeaveState(const int oldState)
 {
 	Enemy::LeaveState(oldState);
+	if (oldState == STATE_EXPLODE)
+	{
+		orbModel->SetViewMask(0);
+	}
 }
 
 void DangerDeacon::Revive()

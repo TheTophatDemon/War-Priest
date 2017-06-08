@@ -6,6 +6,7 @@
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Audio/SoundSource3D.h>
 #include <Urho3D/Audio/Sound.h>
+#include <Urho3D/Graphics/StaticModel.h>
 
 #include "Enemy.h"
 
@@ -27,5 +28,7 @@ protected:
 	virtual void Dead();
 	virtual void EnterState(const int newState);
 	virtual void LeaveState(const int oldState);
+	SharedPtr<Node> orbThing;
+	SharedPtr<StaticModel> orbModel;
 };
 

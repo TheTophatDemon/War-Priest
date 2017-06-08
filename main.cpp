@@ -10,7 +10,6 @@
 		//Model & Animation
 		//Sound
 		//Exploding
-		//More accurate jump logic
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl
