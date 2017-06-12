@@ -227,7 +227,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 
 void Player::Hurt(Node* source, int amount)
 {
-	if (state != STATE_WIN && hurtTimer <= 0) 
+	if (state != STATE_WIN && hurtTimer <= 0 && state != STATE_SLIDE) 
 	{
 		health -= amount;
 		bloodEmitter->SetEmitting(true);
@@ -244,7 +244,7 @@ void Player::OnProjectileHit(StringHash eventType, VariantMap& eventData)
 	Node* proj = (Node*)eventData["perpetrator"].GetPtr();
 	Node* victim = (Node*)eventData["victim"].GetPtr();
 	int damage = eventData["damage"].GetInt();
-	if (proj && victim == node_)
+	if (victim == node_)
 	{
 		Hurt(proj, damage);
 	}
@@ -259,7 +259,7 @@ void Player::HandleCamera()
 	Quaternion newAngle = Quaternion();
 	newAngle.FromLookRotation((worldPos - cameraNode->GetWorldPosition()).Normalized());
 	cameraNode->SetWorldRotation(newAngle);
-	cameraPitch = Clamp(cameraPitch + input->GetMouseMoveY() * game->sMouseSensitivity * 0.5f, -15.0f, 15.0f);
+	cameraPitch = Clamp(cameraPitch + input->GetMouseMoveY() * game->sMouseSensitivity * 0.25f, -15.0f, 15.0f);
 	cameraNode->Rotate(Quaternion(cameraPitch, Vector3::RIGHT), TS_LOCAL);
 }
 

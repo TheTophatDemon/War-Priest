@@ -7,9 +7,9 @@
 		//Menu beeps and boops
 	
 	//Dangerous Deacon
-		//Model & Animation
 		//Sound
-		//Exploding
+
+	//Virtual destructors
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl

@@ -10,14 +10,24 @@
 
 #include "Actor.h"
 #include "TempEffect.h"
+#include "WeakChild.h"
 
 #define STATE_DEAD 0
 #define STATE_WANDER 1
 #define STATE_CHASE 32
 #define STATE_EXPLODE 33
+#define STATE_POSE 34
 
-#define BLASTRANGE 20.0f
+#define EXPLODERANGE 16.0f
+#define BLASTRANGE 5.75f
 #define STUNTIME 1.0f
+#define DAMAGE 12.0f
+
+#define IDLE_ANIM "Models/enemy/dangerdeacon_idle.ani"
+#define REVIVE_ANIM "Models/enemy/dangerdeacon_revive.ani"
+#define WALK_ANIM "Models/enemy/dangerdeacon_walk.ani"
+#define EXPLODE_ANIM "Models/enemy/dangerdeacon_explode.ani"
+#define JUMP_ANIM "Models/enemy/dangerdeacon_jump.ani"
 
 DangerDeacon::DangerDeacon(Context* context) : Enemy(context)
 {
@@ -28,13 +38,21 @@ void DangerDeacon::DelayedStart()
 {
 	Enemy::DelayedStart();
 	actor->maxspeed = 15.2f;
+
+	modelNode->SetParent(scene);
+	WeakChild::MakeWeakChild(modelNode, node_);
+
 	orbThing = node_->CreateChild();
 	orbModel = orbThing->CreateComponent<StaticModel>();
 	orbModel->SetModel(cache->GetResource<Model>("Models/Sphere.mdl"));
 	orbModel->SetMaterial(cache->GetResource<Material>("Materials/fireglow.xml"));
 	orbModel->SetViewMask(0);
-	orbThing->SetScale(BLASTRANGE);
+	orbThing->SetScale(EXPLODERANGE);
 	orbThing->SetPosition(Vector3(0.0f, 1.5f, 0.0f));
+
+	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
+	animController->SetSpeed(REVIVE_ANIM, 0.0f);
+	animController->SetSpeed(WALK_ANIM, 10.0f);
 }
 
 void DangerDeacon::RegisterObject(Context* context)
@@ -49,6 +67,16 @@ void DangerDeacon::Execute()
 	{
 		targetDist = (target->GetWorldPosition() - node_->GetWorldPosition()).Length();
 	}
+	modelNode->SetWorldPosition(node_->GetWorldPosition());
+	modelNode->SetWorldRotation(node_->GetWorldRotation());
+	modelNode->Rotate(Quaternion(-90.0f, Vector3::UP));
+	if (strafeAmt != 0.0f)
+	{
+		modelNode->Rotate(Quaternion(strafeAmt * 45.0f, Vector3::UP));
+	}
+
+	const float shrinkAmount = deltaTime * EXPLODERANGE * 4.0f;
+
 	switch (state)
 	{
 	case STATE_DEAD:
@@ -63,6 +91,10 @@ void DangerDeacon::Execute()
 				ChangeState(STATE_CHASE);
 			}
 		}
+		if (walking)
+			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
+		else
+			animController->PlayExclusive(IDLE_ANIM, 0, true, 0.2f);
 		break;
 	case STATE_CHASE:
 		if (target && targetDist < 30.0f)
@@ -99,6 +131,7 @@ void DangerDeacon::Execute()
 				if (footCast.body_->GetCollisionLayer() & 2 && footCast.distance_ < 0.95f && footCast.normal_.y_ != 0.0f)
 				{
 					actor->Jump();
+					animController->Play(JUMP_ANIM, 128, false, 0.2f);
 				}
 			}
 			
@@ -117,6 +150,10 @@ void DangerDeacon::Execute()
 			{
 				ChangeState(STATE_EXPLODE);
 			}
+
+			if (animController->GetTime(JUMP_ANIM) > animController->GetLength(JUMP_ANIM) * 0.9f)
+				animController->Stop(JUMP_ANIM, 0.2f);
+			animController->Play(WALK_ANIM, 0, true, 0.2f);
 		}
 		else
 		{
@@ -125,23 +162,35 @@ void DangerDeacon::Execute()
 		break;
 	case STATE_EXPLODE:
 		stateTimer += deltaTime;
+		animController->PlayExclusive(EXPLODE_ANIM, 0, false, 0.2f);
 		
-		const float shrinkAmount = deltaTime * BLASTRANGE * 4.0f;
 		orbThing->SetScale(orbThing->GetScale() - Vector3(shrinkAmount, shrinkAmount, shrinkAmount));
-		if (orbThing->GetScale().x_ <= 0.0f && orbModel->GetViewMask() != 0)
+		if (orbThing->GetScale().x_ <= 0.0f)
 		{
-			orbModel->SetViewMask(0);
-			for (int i = 0; i < 5; ++i)
+			if (orbModel->GetViewMask() != 0) 
 			{
-				Vector3 pos = node_->GetWorldPosition() + Vector3(0.0f, 1.5f, 0.0f);
-				pos.x_ += cosf(i * 1.2566f) * 2.5f;
-				pos.z_ += sinf(i * 1.2566f) * 2.5f;
-				Node* explosion = scene->CreateChild();
-				explosion->SetWorldPosition(pos);
-				ParticleEmitter* emitter = explosion->CreateComponent<ParticleEmitter>();
-				emitter->SetEffect(cache->GetResource<ParticleEffect>("Particles/explosion.xml"));
-				TempEffect* te = explosion->CreateComponent<TempEffect>();
-				te->life = 2.0f;
+				orbModel->SetViewMask(0);
+				//The part where he explodes
+				for (int i = 0; i < 6; ++i)
+				{
+					Vector3 pos = node_->GetWorldPosition() + Vector3(0.0f, 1.5f, 0.0f);
+					pos.x_ += cosf(i * 1.0472f) * 3.5f;
+					pos.z_ += sinf(i * 1.0472f) * 3.5f;
+					Node* explosion = scene->CreateChild();
+					explosion->SetWorldPosition(pos);
+					ParticleEmitter* emitter = explosion->CreateComponent<ParticleEmitter>();
+					emitter->SetEffect(cache->GetResource<ParticleEffect>("Particles/explosion.xml"));
+					TempEffect* te = explosion->CreateComponent<TempEffect>();
+					te->life = 2.0f;
+				}
+			}
+			if (targetDist < BLASTRANGE && stateTimer > STUNTIME - 1.0f)
+			{
+				VariantMap map = VariantMap();
+				map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
+				map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(target)));
+				map.Insert(Pair<StringHash, Variant>(StringHash("damage"), DAMAGE));
+				SendEvent(StringHash("ProjectileHit"), map);
 			}
 		}
 
@@ -159,6 +208,11 @@ void DangerDeacon::Execute()
 void DangerDeacon::Dead()
 {
 	Enemy::Dead();
+	animController->PlayExclusive(REVIVE_ANIM, 0, false, 0.0f);
+	if (animController->GetTime(REVIVE_ANIM) >= animController->GetLength(REVIVE_ANIM) * 0.9f)
+	{
+		ChangeState(STATE_WANDER);
+	}
 }
 
 void DangerDeacon::EnterState(const int newState)
@@ -167,7 +221,8 @@ void DangerDeacon::EnterState(const int newState)
 	if (newState == STATE_EXPLODE)
 	{
 		orbModel->SetViewMask(-1);
-		orbThing->SetScale(BLASTRANGE);
+		orbThing->SetScale(EXPLODERANGE);
+		animController->StopAll();
 	}
 }
 
@@ -183,7 +238,9 @@ void DangerDeacon::LeaveState(const int oldState)
 void DangerDeacon::Revive()
 {
 	Enemy::Revive();
-	ChangeState(STATE_WANDER);
+	animController->PlayExclusive(REVIVE_ANIM, 0, false, 0.2f);
+	animController->SetSpeed(REVIVE_ANIM, 1.0f);
+	FaceTarget();
 }
 
 DangerDeacon::~DangerDeacon()
