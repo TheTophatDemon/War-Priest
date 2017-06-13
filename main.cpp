@@ -5,11 +5,8 @@
 		//Play win & God's beam
 		//HALLELUJAH!
 		//Menu beeps and boops
-	
-	//Dangerous Deacon
-		//Sound
 
-	//Virtual destructors
+	//DD disappears on moving platform?
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl

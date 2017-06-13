@@ -68,18 +68,29 @@ void PostalPope::Execute()
 	case STATE_DEAD:
 		Dead();
 		break;
+
+
 	case STATE_WANDER:
 		Wander();
 		stateTimer += deltaTime;
 		if (stateTimer > 2.0f)
 		{
-			ChangeState(STATE_SUMMON);
+			if (CanSummon()) 
+			{
+				ChangeState(STATE_SUMMON);
+			}
+			else
+			{
+				stateTimer = 0.0f;
+			}
 		}
 		if (walking)
 			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
 		else
 			animController->PlayExclusive(IDLE_ANIM, 0, true, 0.2f);
 		break;
+
+
 	case STATE_SUMMON:
 		animController->PlayExclusive(SUMMON_ANIM, 0, false, 0.2f);
 		FaceTarget();
@@ -96,6 +107,8 @@ void PostalPope::Execute()
 			ChangeState(STATE_WANDER);
 		}
 		break;
+
+
 	case STATE_THROW:
 		FaceTarget();
 		stateTimer += deltaTime;
@@ -136,6 +149,8 @@ void PostalPope::Execute()
 			ChangeState(STATE_WANDER);
 		}
 		break;
+
+
 	}
 }
 
@@ -205,6 +220,19 @@ void PostalPope::Revive()
 	Enemy::Revive();
 	animController->PlayExclusive(REVIVE_ANIM, 0, false, 0.2f);
 	animController->SetSpeed(REVIVE_ANIM, 1.0f);
+}
+
+bool PostalPope::CanSummon()
+{
+	PODVector<RigidBody*> result;
+	const Vector3 sz = Vector3(5.0f, 0.1f, 5.0f);
+	const Vector3 h = Vector3(0.0f, 1.5f, 0.0f);
+	physworld->GetRigidBodies(result, BoundingBox(node_->GetWorldPosition() - sz + h, node_->GetWorldPosition() + sz + h), 2);
+	if (result.Size() > 0) 
+	{
+		return false;
+	}
+	return true;
 }
 
 PostalPope::~PostalPope()

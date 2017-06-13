@@ -18,8 +18,7 @@ public:
 	WeakChild(Context* context);
 	static void RegisterObject(Context* context);
 	static void MakeWeakChild(Node* child, Node* parent);
-	virtual void Start();
-	void OnParentRemoved(StringHash eventName, VariantMap& eventData);
+	virtual void FixedUpdate(float timeStep);
 	~WeakChild();
 	WeakPtr<Node> parent;
 };

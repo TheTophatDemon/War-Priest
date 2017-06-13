@@ -37,7 +37,7 @@ DangerDeacon::DangerDeacon(Context* context) : Enemy(context)
 void DangerDeacon::DelayedStart()
 {
 	Enemy::DelayedStart();
-	actor->maxspeed = 15.2f;
+	actor->maxspeed = 16.0f;
 
 	modelNode->SetParent(scene);
 	WeakChild::MakeWeakChild(modelNode, node_);
@@ -110,7 +110,7 @@ void DangerDeacon::Execute()
 			PhysicsRaycastResult headCast;
 			physworld->RaycastSingle(headCast, Ray(ourHead, dir), 100.0f, 210);//2+128+64+16
 			PhysicsRaycastResult footCast;
-			physworld->RaycastSingle(footCast, Ray(ourFeet + dir + Vector3::UP, Vector3::DOWN), 1.0f, 210);
+			physworld->RaycastSingle(footCast, Ray(ourFeet + dir + Vector3(0.0f, 1.5f, 0.0f), Vector3::DOWN), 1.0f, 210);
 			
 			strafeAmt *= 0.9f;
 			if (fabs(strafeAmt) < 0.1f) 
@@ -128,7 +128,7 @@ void DangerDeacon::Execute()
 			}
 			if (canSeePlayer && footCast.body_) //If it's only at foot level, we can jump over it.
 			{
-				if (footCast.body_->GetCollisionLayer() & 2 && footCast.distance_ < 0.95f && footCast.normal_.y_ != 0.0f)
+				if (footCast.body_->GetCollisionLayer() & 2 && footCast.distance_ < 1.45f && footCast.normal_.y_ != 0.0f)
 				{
 					actor->Jump();
 					animController->Play(JUMP_ANIM, 128, false, 0.2f);
@@ -146,7 +146,7 @@ void DangerDeacon::Execute()
 			actor->SetMovement(true, false, strafeAmt < 0.0f, strafeAmt > 0.0f);
 			actor->Move(deltaTime);
 
-			if (targetDist < 6.0f)
+			if (targetDist < 6.0f && canSeePlayer)
 			{
 				ChangeState(STATE_EXPLODE);
 			}
@@ -183,6 +183,7 @@ void DangerDeacon::Execute()
 					TempEffect* te = explosion->CreateComponent<TempEffect>();
 					te->life = 2.0f;
 				}
+				soundSource->Play("Sounds/env_explode.wav");
 			}
 			if (targetDist < BLASTRANGE && stateTimer > STUNTIME - 1.0f)
 			{
@@ -201,6 +202,17 @@ void DangerDeacon::Execute()
 		{
 			ChangeState(STATE_WANDER);
 		}
+		break;
+
+
+	case STATE_POSE:
+		stateTimer += deltaTime;
+		if (stateTimer > animController->GetLength(REVIVE_ANIM) * 0.9f)
+		{
+			ChangeState(STATE_WANDER);
+		}
+		actor->SetMovement(false, false, false, false);
+		actor->Move(deltaTime);
 		break;
 	}
 }
@@ -223,6 +235,7 @@ void DangerDeacon::EnterState(const int newState)
 		orbModel->SetViewMask(-1);
 		orbThing->SetScale(EXPLODERANGE);
 		animController->StopAll();
+		soundSource->Play("Sounds/enm_fuse.wav");
 	}
 }
 
@@ -241,6 +254,7 @@ void DangerDeacon::Revive()
 	animController->PlayExclusive(REVIVE_ANIM, 0, false, 0.2f);
 	animController->SetSpeed(REVIVE_ANIM, 1.0f);
 	FaceTarget();
+	ChangeState(STATE_POSE);
 }
 
 DangerDeacon::~DangerDeacon()

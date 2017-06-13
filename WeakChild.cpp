@@ -20,17 +20,18 @@ void WeakChild::MakeWeakChild(Node* child, Node* parent)
 	wk->parent = parent;
 }
 
-void WeakChild::Start()
+void WeakChild::FixedUpdate(float timeStep)
 {
-	SubscribeToEvent(E_NODEREMOVED, URHO3D_HANDLER(WeakChild, OnParentRemoved));
-}
-
-void WeakChild::OnParentRemoved(StringHash eventName, VariantMap& eventData)
-{
-	Node* node = dynamic_cast<Node*>(eventData["Node"].GetPtr());
-	if (node == parent.Get())
+	if (parent.Null() || parent.Get() == nullptr)
 	{
 		node_->Remove();
+	}
+	else
+	{
+		if (parent->GetParent() == nullptr) 
+		{
+			node_->Remove();
+		}
 	}
 }
 
