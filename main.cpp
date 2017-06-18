@@ -5,8 +5,8 @@
 		//Play win & God's beam
 		//HALLELUJAH!
 		//Menu beeps and boops
-
-	//DD disappears on moving platform?
+	//Video settings
+	//Roblox?
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl

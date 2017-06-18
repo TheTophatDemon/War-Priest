@@ -43,7 +43,14 @@ void Water::Start()
 	else
 	{
 		shape = node_->CreateComponent<CollisionShape>();
-		shape->SetBox(Vector3(4.0f, 0.001f, 4.0f), Vector3::ZERO, Quaternion::IDENTITY);
+		float size = 8.0f;
+		
+		if (node_->HasComponent<StaticModel>())
+		{
+			StaticModel* s = node_->GetComponent<StaticModel>();
+			size = s->GetBoundingBox().Size().x_;
+		}
+		shape->SetBox(Vector3(size, 0.001f, size), Vector3::ZERO, Quaternion::IDENTITY);
 	}
 
 	SubscribeToEvent(GetNode(), E_NODECOLLISIONSTART, URHO3D_HANDLER(Water, OnCollisionEnter));

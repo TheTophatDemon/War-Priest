@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <scene id="1">
-	<attribute name="Name" value="" />
+	<attribute name="Name" value="Alpha Map02" />
 	<attribute name="Time Scale" value="1" />
 	<attribute name="Smoothing Constant" value="50" />
 	<attribute name="Snap Threshold" value="5" />
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16777281" />
-	<attribute name="Next Local Component ID" value="16777386" />
+	<attribute name="Next Local Node ID" value="16777302" />
+	<attribute name="Next Local Component ID" value="16777401" />
 	<attribute name="Variables" />
 	<attribute name="Variable Names" value="spawnertype;spawnerdistance" />
 	<component type="Octree" id="1" />
@@ -93,12 +93,16 @@
 			<attribute name="Offset Rotation" value="-4.37114e-08 1 -0 -0" />
 		</component>
 		<component type="SoundListener" id="16777248" />
+		<component type="StaticModel" id="16777400">
+			<attribute name="Model" value="Model;Models/Cylinder.mdl" />
+			<attribute name="Material" value="Material;Materials/pillar_bottom.xml" />
+		</component>
 		<node id="16777222">
 			<attribute name="Is Enabled" value="true" />
 			<attribute name="Name" value="camera" />
 			<attribute name="Tags" />
-			<attribute name="Position" value="0 2.5 0" />
-			<attribute name="Rotation" value="1 0 0 0" />
+			<attribute name="Position" value="6 9.24554 -6" />
+			<attribute name="Rotation" value="0.853553 0.353553 -0.353553 0.146447" />
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
 			<component type="Camera" id="16777249">
@@ -839,6 +843,12 @@
 			<attribute name="openHeight" value="4.8" />
 			<attribute name="body" value="16777373" />
 			<attribute name="origin" value="-55.5 -3.97066 19.3935" />
+		</component>
+		<component type="RigidBody" id="16777386">
+			<attribute name="Physics Position" value="-55.5 -3.97066 19.3935" />
+			<attribute name="Friction" value="0" />
+			<attribute name="Collision Mask" value="140" />
+			<attribute name="Is Kinematic" value="true" />
 		</component>
 		<component type="RigidBody" id="16777373">
 			<attribute name="Physics Position" value="-55.5 -3.97066 19.3935" />

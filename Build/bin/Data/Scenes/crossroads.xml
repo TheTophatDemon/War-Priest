@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <scene id="1">
-	<attribute name="Name" value="" />
+	<attribute name="Name" value="Crossroads" />
 	<attribute name="Time Scale" value="1" />
 	<attribute name="Smoothing Constant" value="50" />
 	<attribute name="Snap Threshold" value="5" />

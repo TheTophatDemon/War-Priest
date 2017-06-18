@@ -208,7 +208,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 			float impulse = contacts.ReadFloat();
 		}
 	}
-	else if (other->GetName() == "water")
+	else if (other->HasTag("water"))
 	{
 		health = 0;
 	}

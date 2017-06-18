@@ -121,10 +121,20 @@ void Gameplay::SetupGame()
 	viewport->SetCamera(camera);
 
 	skybox = scene_->GetChild("skybox");
-	water = scene_->GetChild("water");
-	water->CreateComponent<Water>();
 	exitNode = scene_->GetChild("exit");
-	
+
+	//Load "liquids"
+	PODVector<Node*> waters;
+	scene_->GetChildrenWithTag(waters, "water", true);
+	for (PODVector<Node*>::Iterator i = waters.Begin(); i != waters.End(); ++i)
+	{
+		Node* n = dynamic_cast<Node*>(*i);
+		if (n)
+		{
+			n->CreateComponent<Water>();
+		}
+	}
+
 	//Setup Lifts
 	PODVector<Node*> lifts;
 	scene_->GetChildrenWithTag(lifts, "lift", true);

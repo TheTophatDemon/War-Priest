@@ -77,7 +77,6 @@ protected:
 	void SetupEnemy();
 	void SetupProps();
 	SharedPtr<Node> skybox;
-	SharedPtr<Node> water;
 	SharedPtr<Node> exitNode;
 	Color flashColor;
 	float flashSpeed;
