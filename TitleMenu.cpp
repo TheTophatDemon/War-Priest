@@ -36,6 +36,10 @@ void TitleMenu::OnClick(StringHash eventType, VariantMap& eventData)
 		{
 			titleScreen->SetMenu(titleScreen->levelSelectMenu);
 		}
+		else if (source->GetName() == "settings")
+		{
+			titleScreen->SetMenu(titleScreen->settingsMenu);
+		}
 	}
 }
 

@@ -35,6 +35,7 @@
 #include "Zeus.h"
 #include "Projectile.h"
 #include "GunPriest.h"
+#include "Settings.h"
 
 using namespace Urho3D;
 
@@ -138,11 +139,11 @@ void Player::FixedUpdate(float timeStep)
 {	
 	float newAngle = 0.0f;
 	
-	forwardKey = input->GetKeyDown(game->sKeyForward);
-	backwardKey = input->GetKeyDown(game->sKeyBackward);
-	rightKey = input->GetKeyDown(game->sKeyRight);
-	leftKey = input->GetKeyDown(game->sKeyLeft);
-	jumpKey = input->GetKeyDown(game->sKeyJump);
+	forwardKey = input->GetKeyDown(Settings::GetForwardKey());
+	backwardKey = input->GetKeyDown(Settings::GetBackwardKey());
+	rightKey = input->GetKeyDown(Settings::GetRightKey());
+	leftKey = input->GetKeyDown(Settings::GetLeftKey());
+	jumpKey = input->GetKeyDown(Settings::GetJumpKey());
 
 	if (game->winState == 1)
 	{
@@ -254,12 +255,12 @@ void Player::HandleCamera()
 {
 	Vector3 worldPos = body->GetPosition();
 	pivot->SetWorldPosition(Vector3(worldPos.x_, 0.0f, worldPos.z_));
-	pivot->Rotate(Quaternion(input->GetMouseMoveX() * game->sMouseSensitivity, Vector3::UP));
+	pivot->Rotate(Quaternion(input->GetMouseMoveX() * Settings::GetMouseSensitivity(), Vector3::UP));
 	
 	Quaternion newAngle = Quaternion();
 	newAngle.FromLookRotation((worldPos - cameraNode->GetWorldPosition()).Normalized());
 	cameraNode->SetWorldRotation(newAngle);
-	cameraPitch = Clamp(cameraPitch + input->GetMouseMoveY() * game->sMouseSensitivity * 0.25f, -15.0f, 15.0f);
+	cameraPitch = Clamp(cameraPitch + input->GetMouseMoveY() * Settings::GetMouseSensitivity() * 0.25f, -15.0f, 15.0f);
 	cameraNode->Rotate(Quaternion(cameraPitch, Vector3::RIGHT), TS_LOCAL);
 }
 
@@ -467,11 +468,14 @@ void Player::ST_Default(float timeStep)
 		}
 	}
 
-	if (input->GetMouseButtonDown(MOUSEB_LEFT))
+	if (input->GetKeyDown(Settings::GetReviveKey()) || 
+		(input->GetMouseButtonDown(MOUSEB_LEFT) && Settings::GetReviveKey() == KEY_SCROLLLOCK))
 	{
 		ChangeState(STATE_REVIVE);
 	}
-	else if (input->GetMouseButtonDown(MOUSEB_RIGHT) && actor->onGround && stateTimer > 0.5f)
+	else if ((input->GetKeyDown(Settings::GetSlideKey()) 
+		|| (input->GetMouseButtonDown(MOUSEB_RIGHT) && Settings::GetSlideKey() == KEY_RGUI))
+		&& actor->onGround && stateTimer > 0.5f)
 	{
 		ChangeState(STATE_SLIDE);
 	}

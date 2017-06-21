@@ -1,0 +1,421 @@
+<?xml version="1.0"?>
+<element>
+	<attribute name="Name" value="settingsScreen" />
+	<attribute name="Size" value="1280 720" />
+	<element type="BorderImage">
+		<attribute name="Name" value="settingsPanel" />
+		<attribute name="Size" value="960 480" />
+		<attribute name="Horiz Alignment" value="Center" />
+		<attribute name="Vert Alignment" value="Center" />
+		<attribute name="Is Editable" value="false" />
+		<attribute name="Image Rect" value="16 0 32 16" />
+		<attribute name="Border" value="4 4 4 4" />
+		<element type="Text">
+			<attribute name="Position" value="0 8" />
+			<attribute name="Horiz Alignment" value="Center" />
+			<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Font Size" value="32" />
+			<attribute name="Text" value="SETTINGS" />
+			<attribute name="Text Effect" value="Stroke" />
+			<attribute name="Stroke Thickness" value="3" />
+			<attribute name="Round Stroke" value="true" />
+			<attribute name="Effect Color" value="0.25 0.25 1 1" />
+		</element>
+		<element type="Text">
+			<attribute name="Name" value="restartText" />
+			<attribute name="Position" value="0 -80" />
+			<attribute name="Horiz Alignment" value="Center" />
+			<attribute name="Vert Alignment" value="Bottom" />
+			<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Is Editable" value="false" />
+			<attribute name="Font Size" value="18" />
+			<attribute name="Text" value="Restart thy game, and thy wishes shall be granted!" />
+			<attribute name="Text Alignment" value="Center" />
+			<attribute name="Word Wrap" value="true" />
+			<attribute name="Text Effect" value="Stroke" />
+			<attribute name="Stroke Thickness" value="3" />
+			<attribute name="Round Stroke" value="true" />
+			<attribute name="Effect Color" value="0.5 0.5 0.42 1" />
+		</element>
+		<element type="Button">
+			<attribute name="Name" value="cancelButton" />
+			<attribute name="Position" value="24 -16" />
+			<attribute name="Size" value="296 48" />
+			<attribute name="Vert Alignment" value="Bottom" />
+			<attribute name="Bottom Left Color" value="0.5 0.5 0.5 1" />
+			<attribute name="Bottom Right Color" value="0.5 0.5 0.5 1" />
+			<element type="Text">
+				<attribute name="Horiz Alignment" value="Center" />
+				<attribute name="Vert Alignment" value="Center" />
+				<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Font Size" value="24" />
+				<attribute name="Text" value="CANCEL" />
+				<attribute name="Text Effect" value="Stroke" />
+				<attribute name="Stroke Thickness" value="3" />
+				<attribute name="Round Stroke" value="true" />
+				<attribute name="Effect Color" value="0.5 0 0 1" />
+			</element>
+		</element>
+		<element type="Button">
+			<attribute name="Name" value="confirmButton" />
+			<attribute name="Position" value="0 -16" />
+			<attribute name="Size" value="296 48" />
+			<attribute name="Horiz Alignment" value="Center" />
+			<attribute name="Vert Alignment" value="Bottom" />
+			<attribute name="Bottom Left Color" value="0.5 0.5 0.5 1" />
+			<attribute name="Bottom Right Color" value="0.5 0.5 0.5 1" />
+			<element type="Text">
+				<attribute name="Horiz Alignment" value="Center" />
+				<attribute name="Vert Alignment" value="Center" />
+				<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Font Size" value="24" />
+				<attribute name="Text" value="CONFIRM" />
+				<attribute name="Text Effect" value="Stroke" />
+				<attribute name="Stroke Thickness" value="3" />
+				<attribute name="Round Stroke" value="true" />
+				<attribute name="Effect Color" value="0 0.5 0 1" />
+			</element>
+		</element>
+		<element type="Button">
+			<attribute name="Name" value="revertButton" />
+			<attribute name="Position" value="-24 -16" />
+			<attribute name="Size" value="296 48" />
+			<attribute name="Horiz Alignment" value="Right" />
+			<attribute name="Vert Alignment" value="Bottom" />
+			<attribute name="Bottom Left Color" value="0.5 0.5 0.5 1" />
+			<attribute name="Bottom Right Color" value="0.5 0.5 0.5 1" />
+			<element type="Text">
+				<attribute name="Horiz Alignment" value="Center" />
+				<attribute name="Vert Alignment" value="Center" />
+				<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Font Size" value="24" />
+				<attribute name="Text" value="REVERT" />
+				<attribute name="Text Effect" value="Stroke" />
+				<attribute name="Stroke Thickness" value="3" />
+				<attribute name="Round Stroke" value="true" />
+				<attribute name="Effect Color" value="0 0.5 0.5 1" />
+			</element>
+		</element>
+		<element type="BorderImage">
+			<attribute name="Name" value="controlsPanel" />
+			<attribute name="Position" value="-48 64" />
+			<attribute name="Size" value="320 288" />
+			<attribute name="Horiz Alignment" value="Right" />
+			<attribute name="Layout Mode" value="Vertical" />
+			<attribute name="Layout Spacing" value="16" />
+			<attribute name="Layout Border" value="16 8 16 16" />
+			<attribute name="Image Rect" value="16 0 32 16" />
+			<attribute name="Border" value="4 4 4 4" />
+			<element type="Button">
+				<attribute name="Name" value="forwardButton" />
+				<attribute name="Is Editable" value="false" />
+				<attribute name="Indent" value="8" />
+				<element type="Text">
+					<attribute name="Position" value="64 0" />
+					<attribute name="Horiz Alignment" value="Center" />
+					<attribute name="Vert Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="18" />
+					<attribute name="Text" value="W" />
+				</element>
+				<element type="Text">
+					<attribute name="Vert Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="12" />
+					<attribute name="Text" value="MOVE FORWARD" />
+					<attribute name="Text Alignment" value="Right" />
+				</element>
+			</element>
+			<element type="Button">
+				<attribute name="Name" value="backwardButton" />
+				<attribute name="Indent" value="8" />
+				<element type="Text">
+					<attribute name="Position" value="64 0" />
+					<attribute name="Horiz Alignment" value="Center" />
+					<attribute name="Vert Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="18" />
+					<attribute name="Text" value="S" />
+				</element>
+				<element type="Text">
+					<attribute name="Vert Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="12" />
+					<attribute name="Text" value="MOVE BACKWARD" />
+					<attribute name="Text Alignment" value="Right" />
+				</element>
+			</element>
+			<element type="Button">
+				<attribute name="Name" value="leftButton" />
+				<attribute name="Indent" value="8" />
+				<element type="Text">
+					<attribute name="Position" value="64 0" />
+					<attribute name="Horiz Alignment" value="Center" />
+					<attribute name="Vert Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="18" />
+					<attribute name="Text" value="A" />
+				</element>
+				<element type="Text">
+					<attribute name="Vert Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="12" />
+					<attribute name="Text" value="MOVE LEFT" />
+					<attribute name="Text Alignment" value="Right" />
+				</element>
+			</element>
+			<element type="Button">
+				<attribute name="Name" value="rightButton" />
+				<attribute name="Indent" value="8" />
+				<element type="Text">
+					<attribute name="Position" value="64 0" />
+					<attribute name="Horiz Alignment" value="Center" />
+					<attribute name="Vert Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="18" />
+					<attribute name="Text" value="D" />
+				</element>
+				<element type="Text">
+					<attribute name="Vert Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="12" />
+					<attribute name="Text" value="MOVE RIGHT" />
+					<attribute name="Text Alignment" value="Right" />
+				</element>
+			</element>
+			<element type="Button">
+				<attribute name="Name" value="jumpButton" />
+				<attribute name="Indent" value="8" />
+				<element type="Text">
+					<attribute name="Position" value="64 0" />
+					<attribute name="Horiz Alignment" value="Center" />
+					<attribute name="Vert Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="18" />
+					<attribute name="Text" value="SPACE" />
+				</element>
+				<element type="Text">
+					<attribute name="Vert Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="12" />
+					<attribute name="Text" value="JUMP" />
+					<attribute name="Text Alignment" value="Right" />
+				</element>
+			</element>
+			<element type="Button">
+				<attribute name="Name" value="reviveButton" />
+				<attribute name="Indent" value="8" />
+				<element type="Text">
+					<attribute name="Position" value="64 0" />
+					<attribute name="Horiz Alignment" value="Center" />
+					<attribute name="Vert Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="18" />
+					<attribute name="Text" value="LMB" />
+				</element>
+				<element type="Text">
+					<attribute name="Vert Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="12" />
+					<attribute name="Text" value="REVIVE" />
+					<attribute name="Text Alignment" value="Right" />
+				</element>
+			</element>
+			<element type="Button">
+				<attribute name="Name" value="slideButton" />
+				<attribute name="Indent" value="8" />
+				<element type="Text">
+					<attribute name="Position" value="64 0" />
+					<attribute name="Horiz Alignment" value="Center" />
+					<attribute name="Vert Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="18" />
+					<attribute name="Text" value="RMB" />
+				</element>
+				<element type="Text">
+					<attribute name="Vert Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="12" />
+					<attribute name="Text" value="SLIDE" />
+					<attribute name="Text Alignment" value="Right" />
+				</element>
+			</element>
+		</element>
+		<element type="BorderImage">
+			<attribute name="Name" value="extraPanel" />
+			<attribute name="Position" value="48 64" />
+			<attribute name="Size" value="480 288" />
+			<attribute name="Layout Mode" value="Vertical" />
+			<attribute name="Layout Spacing" value="16" />
+			<attribute name="Layout Border" value="16 32 16 16" />
+			<attribute name="Image Rect" value="16 0 32 16" />
+			<attribute name="Border" value="4 4 4 4" />
+			<element type="Slider">
+				<attribute name="Name" value="musicVolumeSlider" />
+				<attribute name="Range" value="10" />
+				<attribute name="Value" value="5" />
+				<element type="BorderImage" internal="true" style="none" />
+				<element type="Text">
+					<attribute name="Position" value="0 -18" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Text" value="Music Volume" />
+				</element>
+			</element>
+			<element type="Slider">
+				<attribute name="Name" value="soundVolumeSlider" />
+				<attribute name="Is Selected" value="true" />
+				<attribute name="Range" value="10" />
+				<attribute name="Value" value="5" />
+				<element type="BorderImage" internal="true" style="none" />
+				<element type="Text">
+					<attribute name="Position" value="0 -18" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Text" value="Sound Volume" />
+				</element>
+			</element>
+			<element type="Slider">
+				<attribute name="Name" value="sensitivitySlider" />
+				<attribute name="Range" value="10" />
+				<attribute name="Value" value="5" />
+				<element type="BorderImage" internal="true" style="none" />
+				<element type="Text">
+					<attribute name="Position" value="0 -18" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Text" value="Mouse Sensitivity" />
+				</element>
+			</element>
+			<element type="CheckBox">
+				<attribute name="Name" value="graphicsCheck" />
+				<attribute name="Horiz Alignment" value="Center" />
+				<element type="Text">
+					<attribute name="Position" value="-24 0" />
+					<attribute name="Horiz Alignment" value="Right" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Text" value="Faster Graphics" />
+				</element>
+			</element>
+			<element type="CheckBox">
+				<attribute name="Name" value="bloodCheck" />
+				<attribute name="Horiz Alignment" value="Center" />
+				<attribute name="Is Checked" value="true" />
+				<element type="Text">
+					<attribute name="Position" value="-24 0" />
+					<attribute name="Horiz Alignment" value="Right" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Text" value="BLOOD N' GORE!" />
+				</element>
+			</element>
+			<element type="CheckBox">
+				<attribute name="Name" value="invertMouseCheck" />
+				<attribute name="Horiz Alignment" value="Center" />
+				<element type="Text">
+					<attribute name="Position" value="-24 0" />
+					<attribute name="Horiz Alignment" value="Right" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Text" value="Invert Mouse Y" />
+				</element>
+			</element>
+			<element type="CheckBox">
+				<attribute name="Name" value="vsyncCheck" />
+				<attribute name="Horiz Alignment" value="Center" />
+				<element type="Text">
+					<attribute name="Position" value="-24 0" />
+					<attribute name="Horiz Alignment" value="Right" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Text" value="Vsync" />
+				</element>
+			</element>
+			<element type="CheckBox">
+				<attribute name="Name" value="fullScreenCheck" />
+				<attribute name="Horiz Alignment" value="Center" />
+				<element type="Text">
+					<attribute name="Position" value="-24 0" />
+					<attribute name="Horiz Alignment" value="Right" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Text" value="Fullscreen" />
+				</element>
+			</element>
+		</element>
+	</element>
+</element>

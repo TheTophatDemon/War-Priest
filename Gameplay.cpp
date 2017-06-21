@@ -61,7 +61,7 @@ Gameplay::Gameplay(Context* context) : LogicComponent(context)
 	oldHealth = 100.0f;
 	initialized = false;
 	restartTimer = 0;
-
+	
 	cache = GetSubsystem<ResourceCache>();
 	engine_ = GetSubsystem<Engine>();
 	input = engine_->GetSubsystem<Input>();
@@ -80,8 +80,7 @@ void Gameplay::Start()
 {
 	viewport = renderer->GetViewport(0);
 	scene_ = SharedPtr<Scene>(GetScene());
-
-	GetSettings();
+	
 	input->SetMouseGrabbed(true);
 	ourUI->SetEnabledRecursive(true);
 	ourUI->SetVisible(true);
@@ -113,7 +112,7 @@ void Gameplay::SetupGame()
 	cameraNode = scene_->CreateChild();
 	cameraNode->SetPosition(Vector3(0.0f, 12.0f, -12.0f));
 	camera = cameraNode->CreateComponent<Camera>();
-	camera->SetFov(sCameraFov);
+	camera->SetFov(70.0f);
 
 	playerNode->AddComponent(player, 666, LOCAL);
 
@@ -148,6 +147,12 @@ void Gameplay::SetupGame()
 			float speed = n->GetVar("speed").GetFloat(); if (speed == 0.0f) speed = 2.0f;
 			float rotSpeed = n->GetVar("rotateSpeed").GetFloat();
 			n->AddComponent(Lift::MakeLiftComponent(context_, movement, restSpeed, speed, rotSpeed), 1200, LOCAL);
+			RigidBody* r = n->GetComponent<RigidBody>();
+			assert(r);
+			r->SetLinearFactor(Vector3::ZERO);
+			r->SetAngularFactor(Vector3::ZERO);
+			r->SetCollisionEventMode(COLLISION_ALWAYS);
+			r->SetCollisionLayer(3);
 		}
 	}
 	//Setup Medkits
@@ -268,17 +273,6 @@ Gameplay::~Gameplay()
 {
 }
 
-void Gameplay::GetSettings()
-{
-	sMouseSensitivity = 0.25f;
-	sCameraFov = 70.0f;
-	sKeyForward = KEY_W;
-	sKeyBackward = KEY_S;
-	sKeyRight = KEY_D;
-	sKeyLeft = KEY_A;
-	sKeyJump = KEY_SPACE;
-}
-
 void Gameplay::MakeHUD()
 {
 	UI* ui = GetSubsystem<UI>();
@@ -357,6 +351,7 @@ void Gameplay::Win()
 		god->CreateComponent<God>();
 	}
 	winState = 1;
+	
 }
 
 void Gameplay::SetupEnemy()

@@ -10,7 +10,6 @@
 LevelSelectMenu::LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(ts, gm)
 {
 	layoutPath = "UI/titlemenus/levelselect.xml";
-	fileSystem = titleScreen->GetSubsystem<FileSystem>();
 	//Find all possible level
 	levelEntries = Vector<LevelEntry>();
 	XMLFile* levelInfo = cache->GetResource<XMLFile>("levelinfo.xml");
@@ -69,7 +68,7 @@ void LevelSelectMenu::Update(float timeStep)
 
 void LevelSelectMenu::OnClick(StringHash eventType, VariantMap& eventData)
 {
-	UIElement* source = (UIElement*)eventData["Element"].GetPtr();
+	UIElement* source = dynamic_cast<UIElement*>(eventData["Element"].GetPtr());
 	if (source)
 	{
 		if (source->GetName() == "backButton")

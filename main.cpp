@@ -5,8 +5,27 @@
 		//Play win & God's beam
 		//HALLELUJAH!
 		//Menu beeps and boops
-	//Video settings
+	//Settings
+		//Music Vol
+		//Sound Vol
+		//Low / High graphics
+			//Texture filter
+			//Material quality
+			//Lighting mode
+		//Controls configuration
+		//Back button
+		//Reset button
+		//Mouse sensitivity
+		//Cancel
+		//Restart label
+		//Blood settings (Replace with ultra gay sparkles)
+		//Make sure settings are saved before exit
+		
+		//Clean up GunPriest.cpp
+		
 	//Roblox?
+
+	//Research unions
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl

@@ -47,7 +47,6 @@ public:
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
 	void SetupGame();
-	void GetSettings();
 	void MakeHUD();
 	void FlashScreen(Color c, float spd);
 	void DisplayMessage(String msg, Color col, float time);
@@ -62,14 +61,6 @@ public:
 	int projectileCount = 0;
 	int enemyCount = 0;
 	int winState = 0;
-
-	float sMouseSensitivity = 0.25f;
-	float sCameraFov = 70.0f;
-	int sKeyForward = KEY_W;
-	int sKeyBackward = KEY_S;
-	int sKeyRight = KEY_D;
-	int sKeyLeft = KEY_A;
-	int sKeyJump = KEY_SPACE;
 protected:
 	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);
 	void UpdateHUD(float timeStep);

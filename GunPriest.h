@@ -78,11 +78,14 @@ public:
 
 	float sSoundVolume = 0.5f;
 	int state = 1;
+
 	static int STATE_GAME;
 	static int STATE_TITLE;
+
 	GunPriest(Context* context);
 	void StartGame(String path = "Scenes/palisadepantheon.xml");
-	void SetupRenderer();
+	void VideoSetup();
+
 	virtual void Setup();
 	virtual void Start();
 	void ChangeState(int newState);

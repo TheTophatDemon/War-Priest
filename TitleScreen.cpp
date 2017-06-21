@@ -15,6 +15,7 @@
 #include "Gameplay.h"
 #include "TitleMenu.h"
 #include "LevelSelectMenu.h"
+#include "SettingsMenu.h"
 #include "GunPriest.h"
 
 using namespace std;
@@ -37,6 +38,7 @@ void TitleScreen::MakeMenus()
 {
 	titleMenu = new TitleMenu(this, game);
 	levelSelectMenu = new LevelSelectMenu(this, game);
+	settingsMenu = new SettingsMenu(this, game);
 	SetMenu(titleMenu);
 }
 

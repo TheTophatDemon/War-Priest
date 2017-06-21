@@ -1,9 +1,12 @@
 #include "GunPriest.h"
-
-
+#include "Settings.h"
+#include <Urho3D/IO/File.h>
+#include <iostream>
 
 int GunPriest::STATE_GAME = 0;
 int GunPriest::STATE_TITLE = 1;
+
+using namespace std;
 
 GunPriest::GunPriest(Context* context) : Application(context)
 {
@@ -33,7 +36,7 @@ void GunPriest::StartGame(String path)
 {
 	game->ourUI->SetVisible(false);
 	loadingText->SetVisible(true);
-	cache->ReleaseAllResources(false);
+	cache->ReleaseAllResources(true);
 
 	engine_->RunFrame();
 	std::cout << "RAN FRAME" << std::endl;
@@ -50,37 +53,38 @@ void GunPriest::StartGame(String path)
 	debugRenderer = scene_->GetComponent<DebugRenderer>();
 }
 
-void GunPriest::SetupRenderer()
+void GunPriest::Setup()
+{
+	Settings::LoadSettings(context_);
+	engineParameters_["FullScreen"] = Settings::IsFullScreen();
+	engineParameters_["VSync"] = Settings::IsVsync();
+	engineParameters_["WindowWidth"] = 1280;
+	engineParameters_["WindowHeight"] = 720;
+	engineParameters_["WindowResizable"] = false;
+	engineParameters_["WindowTitle"] = "War Priest";
+	engineParameters_["Multisample"] = 0;
+	context_->RegisterSubsystem(new Script(context_));
+}
+
+void GunPriest::VideoSetup()
 {
 	renderer->SetDrawShadows(false);
 	renderer->SetTextureAnisotropy(0);
 }
 
-void GunPriest::Setup()
-{
-	engineParameters_["FullScreen"] = false;
-	engineParameters_["WindowWidth"] = 1280;
-	engineParameters_["WindowHeight"] = 720;
-	engineParameters_["WindowResizable"] = false;
-	engineParameters_["Multisample"] = 0;
-	//context_->RegisterSubsystem(new Script(context_));
-}
-
 void GunPriest::Start()
 {
 	SetRandomSeed(clock());
+	engine_->SetMaxFps(60);
 
 	input = SharedPtr<Input>(engine_->GetSubsystem<Input>());
-	engine_->SetMaxFps(60);
 	cache = GetSubsystem<ResourceCache>();
 	ui = GetSubsystem<UI>();
 	ui->GetRoot()->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
 	renderer = GetSubsystem<Renderer>();
 	audio = GetSubsystem<Audio>();
 
-	engine_->SetGlobalVar("SCREEN WIDTH", engineParameters_["WindowWidth"]);
-	engine_->SetGlobalVar("SCREEN HEIGHT", engineParameters_["WindowHeight"]);
-	SetupRenderer();
+	VideoSetup();
 
 	debugHud = engine_->CreateDebugHud();
 #if _DEBUG

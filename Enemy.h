@@ -61,6 +61,7 @@ protected:
 	virtual void EnterState(const int newState);
 	virtual void LeaveState(const int oldState);
 	void FaceTarget();
+	void KeepOnGround();
 
 	float deltaTime;
 	float turnAmount = 0.0f;

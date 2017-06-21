@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Urho3D/UI/ListView.h>
-#include <Urho3D/IO/FileSystem.h>
 #include <Urho3D/UI/Text.h>
 #include <Urho3D/UI/Button.h>
 #include <Urho3D/UI/UIElement.h>
@@ -25,7 +24,6 @@ public:
 	virtual void OnClick(StringHash eventType, VariantMap& eventData);
 	~LevelSelectMenu();
 protected:
-	SharedPtr<FileSystem> fileSystem;
 	SharedPtr<UIElement> levelList;
 	SharedPtr<ScrollBar> scrollBar;
 	SharedPtr<UIElement> buttParent;
