@@ -31,6 +31,21 @@ void SettingsMenu::OnEnter()
 	vsyncCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("vsyncCheck", true);
 	fullScreenCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("fullScreenCheck", true);
 
+	rebindButtons[0].button = controlsPanel->GetChildDynamicCast<Button>("forwardButton", false);
+		rebindButtons[0].setting = &Settings::keyForward;
+	rebindButtons[1].button = controlsPanel->GetChildDynamicCast<Button>("backwardButton", false);
+		rebindButtons[1].setting = &Settings::keyBackward;
+	rebindButtons[2].button = controlsPanel->GetChildDynamicCast<Button>("leftButton", false);
+		rebindButtons[2].setting = &Settings::keyLeft;
+	rebindButtons[3].button = controlsPanel->GetChildDynamicCast<Button>("rightButton", false);
+		rebindButtons[3].setting = &Settings::keyRight;
+	rebindButtons[4].button = controlsPanel->GetChildDynamicCast<Button>("slideButton", false);
+		rebindButtons[4].setting = &Settings::keySlide;
+	rebindButtons[5].button = controlsPanel->GetChildDynamicCast<Button>("reviveButton", false);
+		rebindButtons[5].setting = &Settings::keyRevive;
+	rebindButtons[6].button = controlsPanel->GetChildDynamicCast<Button>("jumpButton", false);
+		rebindButtons[6].setting = &Settings::keyJump;
+
 	UpdateControls();
 }
 
@@ -46,13 +61,11 @@ void SettingsMenu::UpdateControls()
 	vsyncCheck->SetChecked(Settings::IsVsync());
 	fullScreenCheck->SetChecked(Settings::IsFullScreen());
 	
-	UpdateButtonLabel(controlsPanel->GetChildDynamicCast<Button>("forwardButton", false), Settings::GetForwardKey());
-	UpdateButtonLabel(controlsPanel->GetChildDynamicCast<Button>("backwardButton", false), Settings::GetBackwardKey());
-	UpdateButtonLabel(controlsPanel->GetChildDynamicCast<Button>("leftButton", false), Settings::GetLeftKey());
-	UpdateButtonLabel(controlsPanel->GetChildDynamicCast<Button>("rightButton", false), Settings::GetRightKey());
-	UpdateButtonLabel(controlsPanel->GetChildDynamicCast<Button>("slideButton", false), Settings::GetSlideKey());
-	UpdateButtonLabel(controlsPanel->GetChildDynamicCast<Button>("reviveButton", false), Settings::GetReviveKey());
-	UpdateButtonLabel(controlsPanel->GetChildDynamicCast<Button>("jumpButton", false), Settings::GetJumpKey());
+	for (int i = 0; i < 7; ++i)
+	{
+		rebindButtons[i].value = *rebindButtons[i].setting;
+		UpdateButtonLabel(rebindButtons[i]);
+	}
 }
 
 void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
@@ -75,16 +88,17 @@ void SettingsMenu::OnMouseClick(StringHash eventType, VariantMap& eventData)
 	{
 		if (mouseButtonPressed == MOUSEB_LEFT)
 		{
-			ChangeBinding(rebindButton, KEY_SCROLLLOCK);
+			rebindButton->value = KEY_SCROLLLOCK;
 		}
 		else if (mouseButtonPressed == MOUSEB_RIGHT)
 		{
-			ChangeBinding(rebindButton, KEY_RGUI);
+			rebindButton->value = KEY_RGUI;
 		}
 		else if (mouseButtonPressed == MOUSEB_MIDDLE)
 		{
-			ChangeBinding(rebindButton, KEY_PAUSE);
+			rebindButton->value = KEY_PAUSE;
 		}
+		UpdateButtonLabel(*rebindButton);
 		rebinding = false;
 	}
 	else
@@ -95,7 +109,11 @@ void SettingsMenu::OnMouseClick(StringHash eventType, VariantMap& eventData)
 			if (source->GetParent() == controlsPanel)
 			{
 				rebinding = true;
-				rebindButton = source;
+				for (int i = 0; i < 7; ++i)
+				{
+					if (rebindButtons[i].button == source)
+						rebindButton = &rebindButtons[i];
+				}
 			}
 			else
 			{
@@ -112,7 +130,8 @@ void SettingsMenu::OnMouseClick(StringHash eventType, VariantMap& eventData)
 				else if (source->GetName() == "revertButton")
 				{
 					Settings::RevertSettings();
-					UpdateControls(); //So it'll update the sliders n' whatnot.
+					Settings::SaveSettings(titleScreen->GetContext());
+					titleScreen->SetMenu(titleScreen->titleMenu);
 				}
 			}
 		}
@@ -124,36 +143,17 @@ void SettingsMenu::OnKeyPress(StringHash eventType, VariantMap& eventData)
 	int keyPressed = eventData["Key"].GetInt();
 	if (rebinding)
 	{
-		ChangeBinding(rebindButton, keyPressed);
+		rebindButton->value = keyPressed;
+		UpdateButtonLabel(*rebindButton);
 		rebinding = false;
 	}
 }
 
-void SettingsMenu::ChangeBinding(Button* button, int newButton)
+void SettingsMenu::UpdateButtonLabel(RebindButton& butt)
 {
-	if (button->GetName() == "forwardButton")
-		Settings::keyForward = newButton;
-	else if (button->GetName() == "backwardButton")
-		Settings::keyBackward = newButton;
-	else if (button->GetName() == "rightButton")
-		Settings::keyRight = newButton;
-	else if (button->GetName() == "leftButton")
-		Settings::keyLeft = newButton;
-	else if (button->GetName() == "jumpButton")
-		Settings::keyJump = newButton;
-	else if (button->GetName() == "reviveButton")
-		Settings::keyRevive = newButton;
-	else if (button->GetName() == "slideButton")
-		Settings::keySlide = newButton;
-	UpdateButtonLabel(button, newButton);
-	rebinding = false;
-}
-
-void SettingsMenu::UpdateButtonLabel(Button* button, int butt)
-{
-	Text* label = button->GetChildDynamicCast<Text>("label", false);
+	Text* label = butt.button->GetChildDynamicCast<Text>("label", false);
 	assert(label);
-	switch (butt)
+	switch (butt.value)
 	{
 	case KEY_SCROLLLOCK:
 		label->SetText("LMB");
@@ -165,7 +165,7 @@ void SettingsMenu::UpdateButtonLabel(Button* button, int butt)
 		label->SetText("MMB");
 		break;
 	default:
-		label->SetText(input->GetKeyName(butt));
+		label->SetText(input->GetKeyName(butt.value));
 		break;
 	}
 }
@@ -181,6 +181,11 @@ void SettingsMenu::ApplySettings()
 	Settings::mouseInvert = invertMouseCheck->IsChecked();
 	Settings::vSync = vsyncCheck->IsChecked();
 	Settings::fullScreen = fullScreenCheck->IsChecked();
+
+	for (int i = 0; i < 7; ++i)
+	{
+		*rebindButtons[i].setting = rebindButtons[i].value;
+	}
 }
 
 SettingsMenu::~SettingsMenu()

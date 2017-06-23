@@ -8,6 +8,13 @@
 #include "Menu.h"
 #include "GunPriest.h"
 
+struct RebindButton
+{
+	SharedPtr<Button> button;
+	int* setting;
+	int value;
+};
+
 class SettingsMenu : public Menu
 {
 public:
@@ -20,13 +27,11 @@ protected:
 	void OnMouseClick(StringHash eventType, VariantMap& eventData);
 	void UpdateControls();
 	void ApplySettings();
-	void ChangeBinding(Button* button, int newButton);
-	void UpdateButtonLabel(Button* button, int butt);
+	void UpdateButtonLabel(RebindButton& butt);
 
 	SharedPtr<Input> input;
 	SharedPtr<Text> restartText;
 	SharedPtr<UIElement> controlsPanel;
-	SharedPtr<Button> rebindButton;
 
 	SharedPtr<Slider> musicVolumeSlider;
 	SharedPtr<Slider> soundVolumeSlider;
@@ -37,6 +42,9 @@ protected:
 	SharedPtr<CheckBox> invertMouseCheck;
 	SharedPtr<CheckBox> vsyncCheck;
 	SharedPtr<CheckBox> fullScreenCheck;
+
+	RebindButton rebindButtons[7];
+	RebindButton* rebindButton;
 
 	bool rebinding = false;
 };

@@ -19,19 +19,13 @@
 		//Cancel
 		//Restart label
 		//Blood settings (Replace with ultra gay sparkles)
-		//Make sure settings are saved before exit
-		
-	//Could be because lack of update function
-		//Fullscreen not working & Vsync
-	//Correct settings not loaded at startup
+		//Restart Warning / Fullscreen applying
 
 	//Inline settings getters?
 	//Clean up GunPriest.cpp
 	//Exit button on title screen
 		
 	//Roblox?
-
-	//Research unions
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl
