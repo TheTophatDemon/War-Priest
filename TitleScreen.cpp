@@ -62,8 +62,11 @@ void TitleScreen::Start()
 	input->SetMouseVisible(true);
 	input->SetMouseGrabbed(false);
 	
-	SubscribeToEvent(E_UIMOUSECLICKEND, URHO3D_HANDLER(TitleScreen, OnClick));
-	SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(TitleScreen, OnUpdate));
+	SubscribeToEvent(E_UIMOUSECLICKEND, URHO3D_HANDLER(TitleScreen, OnEvent));
+	SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(TitleScreen, OnEvent));
+	SubscribeToEvent(E_KEYDOWN, URHO3D_HANDLER(TitleScreen, OnEvent));
+	SubscribeToEvent(E_SLIDERCHANGED, URHO3D_HANDLER(TitleScreen, OnEvent));
+	SubscribeToEvent(E_TOGGLED, URHO3D_HANDLER(TitleScreen, OnEvent));
 }
 
 void TitleScreen::OnUpdate(StringHash eventType, VariantMap& eventData)
@@ -76,13 +79,14 @@ void TitleScreen::OnUpdate(StringHash eventType, VariantMap& eventData)
 	}
 }
 
-void TitleScreen::OnClick(StringHash eventType, VariantMap& eventData)
+void TitleScreen::OnEvent(StringHash eventType, VariantMap& eventData)
 {
-	currentMenu->OnClick(eventType, eventData);
+	currentMenu->OnEvent(eventType, eventData);
 }
 
 void TitleScreen::SetMenu(Menu* newMenu)
 {
+	if (currentMenu) currentMenu->OnLeave();
 	currentMenu = newMenu;
 	currentMenu->OnEnter();
 }

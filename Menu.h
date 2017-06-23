@@ -18,8 +18,10 @@ class Menu : public RefCounted
 public:
 	Menu(TitleScreen* ts, SharedPtr<Gameplay> gm);
 	virtual void OnEnter();
-	virtual void Update(float timeStep) = 0;
-	virtual void OnClick(StringHash eventType, VariantMap& eventData) = 0;
+	virtual void OnLeave();
+	virtual void Update(float timeStep);
+	virtual void OnEvent(StringHash eventType, VariantMap& eventData) = 0;
+	virtual 
 	~Menu();
 	String layoutPath;
 protected:

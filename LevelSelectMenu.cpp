@@ -66,20 +66,23 @@ void LevelSelectMenu::Update(float timeStep)
 	}
 }
 
-void LevelSelectMenu::OnClick(StringHash eventType, VariantMap& eventData)
+void LevelSelectMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 {
-	UIElement* source = dynamic_cast<UIElement*>(eventData["Element"].GetPtr());
-	if (source)
+	if (eventType == E_UIMOUSECLICKEND) 
 	{
-		if (source->GetName() == "backButton")
+		UIElement* source = dynamic_cast<UIElement*>(eventData["Element"].GetPtr());
+		if (source)
 		{
-			titleScreen->SetMenu(titleScreen->titleMenu);
-		}
-		else if (source->GetName() == "levelButton")
-		{
-			String path = source->GetVar("filePath").GetString();
-			titleScreen->gunPriest->ChangeState(GunPriest::STATE_GAME);
-			titleScreen->gunPriest->StartGame(path);
+			if (source->GetName() == "backButton")
+			{
+				titleScreen->SetMenu(titleScreen->titleMenu);
+			}
+			else if (source->GetName() == "levelButton")
+			{
+				String path = source->GetVar("filePath").GetString();
+				titleScreen->gunPriest->ChangeState(GunPriest::STATE_GAME);
+				titleScreen->gunPriest->StartGame(path);
+			}
 		}
 	}
 }

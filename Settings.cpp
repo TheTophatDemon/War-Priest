@@ -4,8 +4,7 @@
 #include <Urho3D/IO/FileSystem.h>
 #include <Urho3D/IO/File.h>
 
-String Settings::GAMESETTINGS_PATH = "Data/gamesettings.bin";
-String Settings::VIDEOSETTINGS_PATH = "Data/videosettings.xml";
+String Settings::GAMESETTINGS_PATH = "/Data/gamesettings.bin";
 
 #define DF_FASTGRAPHICS false
 #define DF_MOUSEINVERT false
@@ -45,7 +44,6 @@ int Settings::keySlide = DF_KSLIDE;
 
 void Settings::RevertSettings()
 {
-	fastGraphics = DF_FASTGRAPHICS;
 	mouseInvert = DF_MOUSEINVERT;
 	bloodEnabled = DF_BLOOD;
 	fullScreen = DF_FULLSCREEN;
@@ -60,26 +58,80 @@ void Settings::RevertSettings()
 	keyJump = DF_KJUMP;
 	keyRevive = DF_KREV;
 	keySlide = DF_KSLIDE;
+	fastGraphics = DF_FASTGRAPHICS;
 }
 
 void Settings::LoadSettings(Context* context)
 {
+	FileSystem* fileSystem = context->GetSubsystem<FileSystem>();
 	ResourceCache* cache = context->GetSubsystem<ResourceCache>();
 	File* file = new File(context);
-	bool succ = file->Open(GAMESETTINGS_PATH, FILE_READ);
-	if (!succ)
+	bool succ = file->Open(fileSystem->GetProgramDir() + GAMESETTINGS_PATH, FILE_READ);
+	if (succ && file->GetSize() > 1)
 	{
-		std::cout << "YEAH BOY" << std::endl;
+		fastGraphics = file->ReadBool();
+		mouseInvert = file->ReadBool();
+		bloodEnabled = file->ReadBool();
+		fullScreen = file->ReadBool();
+		vSync = file->ReadBool();
+
+		mouseSensitivity = file->ReadFloat();
+		musicVolume = file->ReadFloat();
+		soundVolume = file->ReadFloat();
+
+		keyBackward = file->ReadInt();
+		keyForward = file->ReadInt();
+		keyLeft = file->ReadInt();
+		keyRight = file->ReadInt();
+		keyJump = file->ReadInt();
+		keyRevive = file->ReadInt();
+		keySlide = file->ReadInt();
+		file->Close();
 	}
 	else
 	{
 		file->Close();
+		SaveSettings(context);
 	}
-
-	XMLFile* videoSettings = cache->GetResource<XMLFile>(VIDEOSETTINGS_PATH);
 }
 
 void Settings::SaveSettings(Context* context)
 {
-	
+	FileSystem* fileSystem = context->GetSubsystem<FileSystem>();
+	ResourceCache* cache = context->GetSubsystem<ResourceCache>();
+	File* file = new File(context);
+	bool succ = file->Open(fileSystem->GetProgramDir() + GAMESETTINGS_PATH, FILE_WRITE);
+	if (succ)
+	{
+		file->WriteBool(fastGraphics);
+		file->WriteBool(mouseInvert);
+		file->WriteBool(bloodEnabled);
+		file->WriteBool(fullScreen);
+		file->WriteBool(vSync);
+
+		file->WriteFloat(mouseSensitivity);
+		file->WriteFloat(musicVolume);
+		file->WriteFloat(soundVolume);
+
+		file->WriteInt(keyBackward);
+		file->WriteInt(keyForward);
+		file->WriteInt(keyLeft);
+		file->WriteInt(keyRight);
+		file->WriteInt(keyJump);
+		file->WriteInt(keyRevive);
+		file->WriteInt(keySlide);
+		file->Close();
+	}
+}
+
+bool Settings::IsKeyDown(Input* input, int key) //A hack that subtitutes certain unused key codes for mouse buttons for simplicity's sake.
+{
+	if (key == KEY_SCROLLLOCK && input->GetMouseButtonDown(MOUSEB_LEFT))
+		return true;
+	else if (key == KEY_RGUI && input->GetMouseButtonDown(MOUSEB_RIGHT))
+		return true;
+	else if (key == KEY_PAUSE && input->GetMouseButtonDown(MOUSEB_MIDDLE))
+		return true;
+	else
+		return input->GetKeyDown(key);
 }

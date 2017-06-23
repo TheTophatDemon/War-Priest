@@ -16,7 +16,6 @@
 
 using namespace Urho3D;
 
-struct Settings;
 class GunPriest;
 class Gameplay;
 class TitleScreen : public LogicComponent
@@ -39,7 +38,7 @@ public:
 	SharedPtr<Menu> levelSelectMenu;
 	SharedPtr<Menu> settingsMenu;
 protected:
-	void OnClick(StringHash eventType, VariantMap& eventData);
+	void OnEvent(StringHash eventType, VariantMap& eventData);
 	void OnUpdate(StringHash eventType, VariantMap& eventData);
 
 	Engine* engine_;

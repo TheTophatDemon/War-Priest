@@ -8,7 +8,7 @@ public:
 	TitleMenu(TitleScreen* ts, SharedPtr<Gameplay> gm);
 	virtual void OnEnter();
 	virtual void Update(float timeStep);
-	virtual void OnClick(StringHash eventType, VariantMap& eventData);
+	virtual void OnEvent(StringHash eventType, VariantMap& eventData);
 	~TitleMenu();
 protected:
 	SharedPtr<Button> resumeButton;

@@ -79,5 +79,7 @@ protected:
 	bool rightKey = false;
 	bool leftKey = false;
 	bool jumpKey = false;
+	bool slideKey = false;
+	bool reviveKey = false;
 };
 

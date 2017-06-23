@@ -1,6 +1,7 @@
 #include "GunPriest.h"
 #include "Settings.h"
 #include <Urho3D/IO/File.h>
+#include <Urho3D/Graphics/Graphics.h>
 #include <iostream>
 
 int GunPriest::STATE_GAME = 0;
@@ -55,9 +56,8 @@ void GunPriest::StartGame(String path)
 
 void GunPriest::Setup()
 {
-	Settings::LoadSettings(context_);
-	engineParameters_["FullScreen"] = Settings::IsFullScreen();
-	engineParameters_["VSync"] = Settings::IsVsync();
+	engineParameters_["FullScreen"] = false;
+	engineParameters_["VSync"] = false;
 	engineParameters_["WindowWidth"] = 1280;
 	engineParameters_["WindowHeight"] = 720;
 	engineParameters_["WindowResizable"] = false;
@@ -68,6 +68,8 @@ void GunPriest::Setup()
 
 void GunPriest::VideoSetup()
 {
+	Graphics* graphics = GetSubsystem<Graphics>();
+	graphics->SetMode(1280, 720, Settings::IsFullScreen(), false, false, false, Settings::IsVsync(), false, 0);
 	renderer->SetDrawShadows(false);
 	renderer->SetTextureAnisotropy(0);
 }
@@ -84,6 +86,7 @@ void GunPriest::Start()
 	renderer = GetSubsystem<Renderer>();
 	audio = GetSubsystem<Audio>();
 
+	Settings::LoadSettings(context_);
 	VideoSetup();
 
 	debugHud = engine_->CreateDebugHud();
@@ -163,11 +166,11 @@ void GunPriest::Update(StringHash eventType, VariantMap& eventData)
 				StartGame();
 			}
 		}
-		if (input->GetKeyPress(KEY_ESCAPE))
+		/*if (input->GetKeyPress(KEY_ESCAPE))
 		{
 			engine_->Exit();
 			return;
-		}
+		}*/
 	}
 }
 

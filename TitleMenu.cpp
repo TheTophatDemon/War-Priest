@@ -23,22 +23,25 @@ void TitleMenu::Update(float timeStep)
 	}
 }
 
-void TitleMenu::OnClick(StringHash eventType, VariantMap& eventData)
+void TitleMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 {
-	UIElement* source = (UIElement*)eventData["Element"].GetPtr();
-	if (source)
+	if (eventType == E_UIMOUSECLICKEND) 
 	{
-		if (source->GetName() == "resumeGame")
+		UIElement* source = (UIElement*)eventData["Element"].GetPtr();
+		if (source)
 		{
-			titleScreen->gunPriest->ChangeState(GunPriest::STATE_GAME);
-		}
-		else if (source->GetName() == "startGame")
-		{
-			titleScreen->SetMenu(titleScreen->levelSelectMenu);
-		}
-		else if (source->GetName() == "settings")
-		{
-			titleScreen->SetMenu(titleScreen->settingsMenu);
+			if (source->GetName() == "resumeGame")
+			{
+				titleScreen->gunPriest->ChangeState(GunPriest::STATE_GAME);
+			}
+			else if (source->GetName() == "startGame")
+			{
+				titleScreen->SetMenu(titleScreen->levelSelectMenu);
+			}
+			else if (source->GetName() == "settings")
+			{
+				titleScreen->SetMenu(titleScreen->settingsMenu);
+			}
 		}
 	}
 }

@@ -21,7 +21,13 @@
 		//Blood settings (Replace with ultra gay sparkles)
 		//Make sure settings are saved before exit
 		
-		//Clean up GunPriest.cpp
+	//Could be because lack of update function
+		//Fullscreen not working & Vsync
+	//Correct settings not loaded at startup
+
+	//Inline settings getters?
+	//Clean up GunPriest.cpp
+	//Exit button on title screen
 		
 	//Roblox?
 
@@ -50,6 +56,7 @@
 //SOUND TYPES
 	//GAMEPLAY
 	//TITLE
+	//MUSIC
 
 //psychoruins
 

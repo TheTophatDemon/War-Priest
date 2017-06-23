@@ -139,11 +139,14 @@ void Player::FixedUpdate(float timeStep)
 {	
 	float newAngle = 0.0f;
 	
-	forwardKey = input->GetKeyDown(Settings::GetForwardKey());
-	backwardKey = input->GetKeyDown(Settings::GetBackwardKey());
-	rightKey = input->GetKeyDown(Settings::GetRightKey());
-	leftKey = input->GetKeyDown(Settings::GetLeftKey());
-	jumpKey = input->GetKeyDown(Settings::GetJumpKey());
+	forwardKey = Settings::IsKeyDown(input, Settings::GetForwardKey());
+	backwardKey = Settings::IsKeyDown(input, Settings::GetBackwardKey());
+	rightKey = Settings::IsKeyDown(input, Settings::GetRightKey());
+	leftKey = Settings::IsKeyDown(input, Settings::GetLeftKey());
+	jumpKey = Settings::IsKeyDown(input, Settings::GetJumpKey());
+	reviveKey = Settings::IsKeyDown(input, Settings::GetReviveKey());
+	slideKey = Settings::IsKeyDown(input, Settings::GetSlideKey());
+
 
 	if (game->winState == 1)
 	{
@@ -468,14 +471,11 @@ void Player::ST_Default(float timeStep)
 		}
 	}
 
-	if (input->GetKeyDown(Settings::GetReviveKey()) || 
-		(input->GetMouseButtonDown(MOUSEB_LEFT) && Settings::GetReviveKey() == KEY_SCROLLLOCK))
+	if (reviveKey)
 	{
 		ChangeState(STATE_REVIVE);
 	}
-	else if ((input->GetKeyDown(Settings::GetSlideKey()) 
-		|| (input->GetMouseButtonDown(MOUSEB_RIGHT) && Settings::GetSlideKey() == KEY_RGUI))
-		&& actor->onGround && stateTimer > 0.5f)
+	else if (slideKey && actor->onGround && stateTimer > 0.5f)
 	{
 		ChangeState(STATE_SLIDE);
 	}

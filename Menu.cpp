@@ -17,6 +17,10 @@ void Menu::OnEnter()
 	DisableTexts();
 }
 
+void Menu::OnLeave(){}
+
+void Menu::Update(float timeStep){}
+
 void Menu::DisableTexts()
 {
 	//Disable all texts so they don't interfere with button input
