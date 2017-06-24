@@ -1,5 +1,7 @@
 #include "TitleMenu.h"
 
+#include <Urho3D/Engine/Engine.h>
+
 #include "TitleScreen.h"
 #include "GunPriest.h"
 
@@ -41,6 +43,11 @@ void TitleMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 			else if (source->GetName() == "settings")
 			{
 				titleScreen->SetMenu(titleScreen->settingsMenu);
+			}
+			else if (source->GetName() == "exitGame")
+			{
+				Engine* engine = titleScreen->GetSubsystem<Engine>();
+				engine->Exit();
 			}
 		}
 	}

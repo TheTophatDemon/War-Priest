@@ -179,8 +179,16 @@ void SettingsMenu::ApplySettings()
 	Settings::fastGraphics = graphicsCheck->IsChecked();
 	Settings::bloodEnabled = bloodCheck->IsChecked();
 	Settings::mouseInvert = invertMouseCheck->IsChecked();
-	Settings::vSync = vsyncCheck->IsChecked();
-	Settings::fullScreen = fullScreenCheck->IsChecked();
+
+	if (Settings::vSync != vsyncCheck->IsChecked() 
+		|| Settings::fullScreen != fullScreenCheck->IsChecked()) //Apply full-screen and vsync on application
+	{
+		Settings::vSync = vsyncCheck->IsChecked();
+		Settings::fullScreen = fullScreenCheck->IsChecked();
+		Graphics* gwaphics = titleScreen->GetSubsystem<Graphics>();
+		gwaphics->SetMode(gwaphics->GetWidth(), gwaphics->GetHeight(), Settings::fullScreen, false, false, false, Settings::vSync, false, 0);
+	}
+	
 
 	for (int i = 0; i < 7; ++i)
 	{

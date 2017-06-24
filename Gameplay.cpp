@@ -50,6 +50,7 @@
 #include "PostalPope.h"
 #include "DangerDeacon.h"
 #include "Water.h"
+#include "Settings.h"
 
 using namespace Urho3D;
 
@@ -89,7 +90,7 @@ void Gameplay::Start()
 	input->SetMouseVisible(false);
 	scene_->SetUpdateEnabled(true);
 
-	audio->SetMasterGain("GAMEPLAY", 1.0f);
+	audio->SetMasterGain("GAMEPLAY", Settings::GetSoundVolume());
 	audio->SetMasterGain("TITLE", 0.0f);
 }
 
@@ -191,6 +192,7 @@ void Gameplay::FixedUpdate(float timeStep)
 {
 	if (IsEnabled()) 
 	{
+		audio->SetMasterGain("GAMEPLAY", Settings::GetSoundVolume());
 		UpdateHUD(timeStep);
 		if (skybox)
 		{

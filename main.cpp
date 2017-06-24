@@ -7,23 +7,17 @@
 		//Menu beeps and boops
 	//Settings
 		//Music Vol
-		//Sound Vol
 		//Low / High graphics
 			//Texture filter
 			//Material quality
 			//Lighting mode
-		//Controls configuration
-		//Back button
-		//Reset button
-		//Mouse sensitivity
-		//Cancel
-		//Restart label
 		//Blood settings (Replace with ultra gay sparkles)
-		//Restart Warning / Fullscreen applying
-
+	
 	//Inline settings getters?
 	//Clean up GunPriest.cpp
+
 	//Exit button on title screen
+	//Enemy counter / Compass
 		
 	//Roblox?
 

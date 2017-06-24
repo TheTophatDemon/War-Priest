@@ -75,4 +75,68 @@
 			<attribute name="Effect Color" value="0 0 1 1" />
 		</element>
 	</element>
+	<element type="Button">
+		<attribute name="Name" value="settings" />
+		<attribute name="Position" value="0 128" />
+		<attribute name="Size" value="256 48" />
+		<attribute name="Horiz Alignment" value="Center" />
+		<attribute name="Vert Alignment" value="Center" />
+		<attribute name="Priority" value="10" />
+		<attribute name="Color" value="0.5 0.5 1 1" />
+		<attribute name="Top Left Color" value="0.5 0.5 1 1" />
+		<attribute name="Top Right Color" value="0.5 0.5 1 1" />
+		<attribute name="Bottom Left Color" value="0.5 0.5 1 1" />
+		<attribute name="Bottom Right Color" value="0.5 0.5 1 1" />
+		<attribute name="Is Editable" value="false" />
+		<element type="Text">
+			<attribute name="Horiz Alignment" value="Center" />
+			<attribute name="Vert Alignment" value="Center" />
+			<attribute name="Priority" value="-10" />
+			<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Is Editable" value="false" />
+			<attribute name="Font Size" value="24" />
+			<attribute name="Text" value="Settings" />
+			<attribute name="Text Alignment" value="Center" />
+			<attribute name="Row Spacing" value="0.97" />
+			<attribute name="Text Effect" value="Stroke" />
+			<attribute name="Stroke Thickness" value="3" />
+			<attribute name="Round Stroke" value="true" />
+			<attribute name="Effect Color" value="0 0 1 1" />
+		</element>
+	</element>
+	<element type="Button">
+		<attribute name="Name" value="exitGame" />
+		<attribute name="Position" value="0 192" />
+		<attribute name="Size" value="256 48" />
+		<attribute name="Horiz Alignment" value="Center" />
+		<attribute name="Vert Alignment" value="Center" />
+		<attribute name="Priority" value="10" />
+		<attribute name="Color" value="0.5 0.5 1 1" />
+		<attribute name="Top Left Color" value="0.5 0.5 1 1" />
+		<attribute name="Top Right Color" value="0.5 0.5 1 1" />
+		<attribute name="Bottom Left Color" value="0.5 0.5 1 1" />
+		<attribute name="Bottom Right Color" value="0.5 0.5 1 1" />
+		<attribute name="Is Editable" value="false" />
+		<element type="Text">
+			<attribute name="Horiz Alignment" value="Center" />
+			<attribute name="Vert Alignment" value="Center" />
+			<attribute name="Priority" value="-10" />
+			<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Is Editable" value="false" />
+			<attribute name="Font Size" value="24" />
+			<attribute name="Text" value="Exit Game" />
+			<attribute name="Text Alignment" value="Center" />
+			<attribute name="Row Spacing" value="0.97" />
+			<attribute name="Text Effect" value="Stroke" />
+			<attribute name="Stroke Thickness" value="3" />
+			<attribute name="Round Stroke" value="true" />
+			<attribute name="Effect Color" value="0 0 1 1" />
+		</element>
+	</element>
 </element>

@@ -126,6 +126,7 @@
 				<attribute name="Is Editable" value="false" />
 				<attribute name="Indent" value="8" />
 				<element type="Text">
+					<attribute name="Name" value="label"/>
 					<attribute name="Position" value="64 0" />
 					<attribute name="Horiz Alignment" value="Center" />
 					<attribute name="Vert Alignment" value="Center" />
@@ -151,6 +152,7 @@
 				<attribute name="Name" value="backwardButton" />
 				<attribute name="Indent" value="8" />
 				<element type="Text">
+					<attribute name="Name" value="label"/>
 					<attribute name="Position" value="64 0" />
 					<attribute name="Horiz Alignment" value="Center" />
 					<attribute name="Vert Alignment" value="Center" />
@@ -176,6 +178,7 @@
 				<attribute name="Name" value="leftButton" />
 				<attribute name="Indent" value="8" />
 				<element type="Text">
+					<attribute name="Name" value="label"/>
 					<attribute name="Position" value="64 0" />
 					<attribute name="Horiz Alignment" value="Center" />
 					<attribute name="Vert Alignment" value="Center" />
@@ -201,6 +204,7 @@
 				<attribute name="Name" value="rightButton" />
 				<attribute name="Indent" value="8" />
 				<element type="Text">
+					<attribute name="Name" value="label"/>
 					<attribute name="Position" value="64 0" />
 					<attribute name="Horiz Alignment" value="Center" />
 					<attribute name="Vert Alignment" value="Center" />
@@ -226,6 +230,7 @@
 				<attribute name="Name" value="jumpButton" />
 				<attribute name="Indent" value="8" />
 				<element type="Text">
+					<attribute name="Name" value="label"/>
 					<attribute name="Position" value="64 0" />
 					<attribute name="Horiz Alignment" value="Center" />
 					<attribute name="Vert Alignment" value="Center" />
@@ -251,6 +256,7 @@
 				<attribute name="Name" value="reviveButton" />
 				<attribute name="Indent" value="8" />
 				<element type="Text">
+					<attribute name="Name" value="label"/>
 					<attribute name="Position" value="64 0" />
 					<attribute name="Horiz Alignment" value="Center" />
 					<attribute name="Vert Alignment" value="Center" />
@@ -276,6 +282,7 @@
 				<attribute name="Name" value="slideButton" />
 				<attribute name="Indent" value="8" />
 				<element type="Text">
+					<attribute name="Name" value="label"/>
 					<attribute name="Position" value="64 0" />
 					<attribute name="Horiz Alignment" value="Center" />
 					<attribute name="Vert Alignment" value="Center" />
