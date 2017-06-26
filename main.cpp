@@ -7,7 +7,6 @@
 		//Menu beeps and boops
 	//Settings
 		//Music Vol & Music
-		//Blood settings (Replace with ultra gay sparkles)
 	
 	//Inline settings getters?
 	//Clean up GunPriest.cpp

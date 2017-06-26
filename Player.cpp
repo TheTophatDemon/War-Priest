@@ -137,6 +137,7 @@ void Player::Start()
 
 void Player::FixedUpdate(float timeStep)
 {	
+	bloodEmitter->ApplyEffect();
 	float newAngle = 0.0f;
 	
 	forwardKey = Settings::IsKeyDown(input, Settings::GetForwardKey());
@@ -332,6 +333,7 @@ void Player::EnterState(int newState)
 			gibs->SetWorldPosition(node_->GetWorldPosition());
 			gibs->SetWorldRotation(node_->GetWorldRotation());
 			gibs->SetScale(modelNode->GetScale());
+
 			//PODVector<Node*> children;
 			gibs->GetChildren(children, true);
 			for (PODVector<Node*>::Iterator i = children.Begin(); i != children.End(); ++i)
@@ -341,6 +343,13 @@ void Player::EnterState(int newState)
 				{
 					n->GetComponent<RigidBody>()->ApplyImpulse(Vector3(Random(-250.0f, 250.0f), Random(-10.0f, 500.0f), Random(-250.0f, 250.0f)));
 					n->CloneComponent(bloodEmitter, 0U);
+					//Replace with flowers if blood disabled
+					if (!Settings::IsBloodEnabled()) 
+					{
+						StaticModel* sm = n->GetComponent<StaticModel>();
+						sm->SetModel(cache->GetResource<Model>("Models/grungle_gibflower.mdl"));
+						sm->SetMaterial(cache->GetResource<Material>("Materials/skins/flower_skin.xml"));
+					}
 				}
 			}
 			//Remove everything

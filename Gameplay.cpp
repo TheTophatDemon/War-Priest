@@ -36,6 +36,7 @@
 #include <Urho3D/IO/FileSystem.h>
 #include <Urho3D/Scene/ObjectAnimation.h>
 #include <Urho3D/Graphics/Light.h>
+#include <Urho3D/Graphics/ParticleEffect.h>
 
 #include <iostream>
 
@@ -93,6 +94,15 @@ void Gameplay::Start()
 	audio->SetMasterGain("GAMEPLAY", Settings::GetSoundVolume());
 	audio->SetMasterGain("TITLE", 0.0f);
 
+	//Apply certain settings on resume
+	if (Settings::IsBloodEnabled())
+	{
+		cache->GetResource<ParticleEffect>("Particles/blood.xml")->SetMaterial(cache->GetResource<Material>("Materials/particle_blood.xml"));
+	}
+	else
+	{
+		cache->GetResource<ParticleEffect>("Particles/blood.xml")->SetMaterial(cache->GetResource<Material>("Materials/particle_heart.xml"));
+	}
 	SetupLighting();
 }
 
