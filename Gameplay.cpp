@@ -35,7 +35,7 @@
 #include <Urho3D/Audio/Sound.h>
 #include <Urho3D/IO/FileSystem.h>
 #include <Urho3D/Scene/ObjectAnimation.h>
-
+#include <Urho3D/Graphics/Light.h>
 
 #include <iostream>
 
@@ -81,7 +81,7 @@ void Gameplay::Start()
 {
 	viewport = renderer->GetViewport(0);
 	scene_ = SharedPtr<Scene>(GetScene());
-	
+
 	input->SetMouseGrabbed(true);
 	ourUI->SetEnabledRecursive(true);
 	ourUI->SetVisible(true);
@@ -92,6 +92,8 @@ void Gameplay::Start()
 
 	audio->SetMasterGain("GAMEPLAY", Settings::GetSoundVolume());
 	audio->SetMasterGain("TITLE", 0.0f);
+
+	SetupLighting();
 }
 
 void Gameplay::SetupGame()
@@ -457,6 +459,24 @@ void Gameplay::SetupProps()
 			}
 
 			body->EnableMassUpdate();
+		}
+	}
+}
+
+void Gameplay::SetupLighting()
+{
+	PODVector<Node*> lights;
+	scene_->GetChildrenWithComponent<Light>(lights);
+	for (PODVector<Node*>::Iterator i = lights.Begin(); i != lights.End(); ++i)
+	{
+		Node* n = dynamic_cast<Node*>(*i);
+		if (n)
+		{
+			Light* l = n->GetComponent<Light>();
+			if (Settings::AreGraphicsFast())
+				l->SetPerVertex(true);
+			else
+				l->SetPerVertex(false);
 		}
 	}
 }

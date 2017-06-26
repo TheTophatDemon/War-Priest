@@ -6,23 +6,19 @@
 		//HALLELUJAH!
 		//Menu beeps and boops
 	//Settings
-		//Music Vol
-		//Low / High graphics
-			//Texture filter
-			//Material quality
-			//Lighting mode
+		//Music Vol & Music
 		//Blood settings (Replace with ultra gay sparkles)
 	
 	//Inline settings getters?
 	//Clean up GunPriest.cpp
 
-	//Exit button on title screen
 	//Enemy counter / Compass
 		
 	//Roblox?
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl
+		//SDL_Delay bug
 	//Material quality setup
 	
 //Potential Optimizations:

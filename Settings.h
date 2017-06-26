@@ -31,6 +31,8 @@ public:
 	static bool IsVsync() { return vSync; }
 	static bool AreGraphicsFast() { return fastGraphics; }
 	static bool IsKeyDown(Input* input, int key);
+
+	static StringHash E_SETTINGSCHANGED;
 protected:
 	static int keyBackward;
 	static int keyForward;

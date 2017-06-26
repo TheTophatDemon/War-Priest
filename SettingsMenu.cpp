@@ -176,24 +176,29 @@ void SettingsMenu::ApplySettings()
 	Settings::soundVolume = soundVolumeSlider->GetValue() / soundVolumeSlider->GetRange();
 	Settings::mouseSensitivity = sensitivitySlider->GetValue() / sensitivitySlider->GetRange();
 
-	Settings::fastGraphics = graphicsCheck->IsChecked();
+	bool flag = false;
+	if (Settings::fastGraphics != graphicsCheck->IsChecked()
+		|| Settings::vSync != vsyncCheck->IsChecked()
+		|| Settings::fullScreen != fullScreenCheck->IsChecked())
+	{
+		flag = true;
+	}
+
 	Settings::bloodEnabled = bloodCheck->IsChecked();
 	Settings::mouseInvert = invertMouseCheck->IsChecked();
+	Settings::fastGraphics = graphicsCheck->IsChecked();
+	Settings::vSync = vsyncCheck->IsChecked();
+	Settings::fullScreen = fullScreenCheck->IsChecked();
 
-	if (Settings::vSync != vsyncCheck->IsChecked() 
-		|| Settings::fullScreen != fullScreenCheck->IsChecked()) //Apply full-screen and vsync on application
-	{
-		Settings::vSync = vsyncCheck->IsChecked();
-		Settings::fullScreen = fullScreenCheck->IsChecked();
-		Graphics* gwaphics = titleScreen->GetSubsystem<Graphics>();
-		gwaphics->SetMode(gwaphics->GetWidth(), gwaphics->GetHeight(), Settings::fullScreen, false, false, false, Settings::vSync, false, 0);
-	}
-	
+	if (flag) titleScreen->gunPriest->VideoSetup(); //Apply new graphics stuff
 
 	for (int i = 0; i < 7; ++i)
 	{
 		*rebindButtons[i].setting = rebindButtons[i].value;
 	}
+
+	VariantMap map = VariantMap();
+	titleScreen->SendEvent(Settings::E_SETTINGSCHANGED, map);
 }
 
 SettingsMenu::~SettingsMenu()

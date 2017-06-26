@@ -71,7 +71,20 @@ void GunPriest::VideoSetup()
 	Graphics* graphics = GetSubsystem<Graphics>();
 	graphics->SetMode(1280, 720, Settings::IsFullScreen(), false, false, false, Settings::IsVsync(), false, 0);
 	renderer->SetDrawShadows(false);
-	renderer->SetTextureAnisotropy(0);
+	if (Settings::AreGraphicsFast())
+	{
+		renderer->SetTextureAnisotropy(0);
+		renderer->SetTextureFilterMode(TextureFilterMode::FILTER_NEAREST);
+		renderer->SetMaterialQuality(0);
+		renderer->SetSpecularLighting(false);
+	}
+	else
+	{
+		renderer->SetTextureAnisotropy(1);
+		renderer->SetTextureFilterMode(TextureFilterMode::FILTER_BILINEAR);
+		renderer->SetMaterialQuality(2);
+		renderer->SetSpecularLighting(true);
+	}
 }
 
 void GunPriest::Start()

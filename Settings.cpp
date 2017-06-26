@@ -24,6 +24,8 @@ String Settings::GAMESETTINGS_PATH = "/Data/gamesettings.bin";
 #define DF_KREV 1073741895
 #define DF_KSLIDE 1073742055
 
+StringHash Settings::E_SETTINGSCHANGED = StringHash("SettingsChanged");
+
 bool Settings::fastGraphics = DF_FASTGRAPHICS;
 bool Settings::mouseInvert = DF_MOUSEINVERT;
 bool Settings::bloodEnabled = DF_BLOOD;
