@@ -60,25 +60,9 @@
 class GunPriest : public Application
 {
 public:
-	SharedPtr<Scene> scene_;
-	SharedPtr<Renderer> renderer;
-	SharedPtr<Input> input;
-	SharedPtr<ResourceCache> cache;
-	SharedPtr<UI> ui;
-	SharedPtr<Audio> audio;
-
-	SharedPtr<Gameplay> game;
-	SharedPtr<TitleScreen> titleScreen;
-
-	SharedPtr<Viewport> viewport;
 	SharedPtr<DebugHud> debugHud;
 	SharedPtr<DebugRenderer> debugRenderer;
-	SharedPtr<Text> loadingText;
-	SharedPtr<SoundSource> globalSound;
-
-	float sSoundVolume = 0.5f;
-	int state = 1;
-
+	
 	static int STATE_GAME;
 	static int STATE_TITLE;
 
@@ -90,9 +74,21 @@ public:
 	virtual void Start();
 	void ChangeState(int newState);
 	void Update(StringHash eventType, VariantMap& eventData);
-	void AfterRenderUpdate(StringHash eventType, VariantMap& eventData);
 	virtual void Stop();
 protected:
-	SharedPtr<Node> globalSoundNode;
+	void AfterRenderUpdate(StringHash eventType, VariantMap& eventData);
+
+	SharedPtr<Text> loadingText;
+	SharedPtr<Gameplay> game;
+	SharedPtr<TitleScreen> titleScreen;
+	SharedPtr<Viewport> viewport;
+	SharedPtr<Scene> scene_;
+	SharedPtr<Renderer> renderer;
+	SharedPtr<Input> input;
+	SharedPtr<ResourceCache> cache;
+	SharedPtr<UI> ui;
+	SharedPtr<Audio> audio;
+
+	int state = 1;
 };
 

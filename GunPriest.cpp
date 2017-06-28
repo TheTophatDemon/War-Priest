@@ -30,7 +30,6 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	DangerDeacon::RegisterObject(context);
 
 	state = STATE_TITLE;
-	sSoundVolume = 0.5f;
 }
 
 void GunPriest::StartGame(String path)
@@ -116,9 +115,6 @@ void GunPriest::Start()
 	ui->GetRoot()->AddChild(loadingText);
 	loadingText->SetVisible(false);
 
-	globalSoundNode = new Node(context_);
-	globalSound = globalSoundNode->CreateComponent<SoundSource>();
-
 	viewport = new Viewport(context_);
 	renderer->SetViewport(0, viewport);
 
@@ -139,7 +135,6 @@ void GunPriest::Start()
 
 void GunPriest::ChangeState(int newState)
 {
-	audio->SetMasterGain("ALL", sSoundVolume);
 	if (newState == STATE_GAME && state == STATE_TITLE)
 	{
 		scene_->SetUpdateEnabled(true);

@@ -15,21 +15,21 @@ public:
 	static void SaveSettings(Context* context);
 	static void RevertSettings();
 
-	static int GetBackwardKey() { return keyBackward; }
-	static int GetForwardKey() { return keyForward; }
-	static int GetRightKey() { return keyRight;  }
-	static int GetLeftKey() { return keyLeft; }
-	static int GetJumpKey() { return keyJump; }
-	static int GetReviveKey() { return keyRevive; }
-	static int GetSlideKey() { return keySlide; }
-	static float GetMouseSensitivity() { return mouseSensitivity; }
-	static float GetMusicVolume() { return musicVolume; }
-	static float GetSoundVolume() { return soundVolume; }
-	static bool IsMouseInverted() { return mouseInvert; }
-	static bool IsBloodEnabled() { return bloodEnabled; }
-	static bool IsFullScreen() { return fullScreen; }
-	static bool IsVsync() { return vSync; }
-	static bool AreGraphicsFast() { return fastGraphics; }
+	static inline int GetBackwardKey() { return keyBackward; }
+	static inline int GetForwardKey() { return keyForward; }
+	static inline int GetRightKey() { return keyRight;  }
+	static inline int GetLeftKey() { return keyLeft; }
+	static inline int GetJumpKey() { return keyJump; }
+	static inline int GetReviveKey() { return keyRevive; }
+	static inline int GetSlideKey() { return keySlide; }
+	static inline float GetMouseSensitivity() { return mouseSensitivity; }
+	static inline float GetMusicVolume() { return musicVolume; }
+	static inline float GetSoundVolume() { return soundVolume; }
+	static inline bool IsMouseInverted() { return mouseInvert; }
+	static inline bool IsBloodEnabled() { return bloodEnabled; }
+	static inline bool IsFullScreen() { return fullScreen; }
+	static inline bool IsVsync() { return vSync; }
+	static inline bool AreGraphicsFast() { return fastGraphics; }
 	static bool IsKeyDown(Input* input, int key);
 
 	static StringHash E_SETTINGSCHANGED;

@@ -86,10 +86,11 @@ void Gameplay::Start()
 	input->SetMouseGrabbed(true);
 	ourUI->SetEnabledRecursive(true);
 	ourUI->SetVisible(true);
-	viewport->SetRenderPath(cache->GetResource<XMLFile>("RenderPaths/Forward.xml"));
-	viewport->GetRenderPath()->SetShaderParameter("State", 0.0f); //Always use decimal
 	input->SetMouseVisible(false);
 	scene_->SetUpdateEnabled(true);
+
+	viewport->SetRenderPath(cache->GetResource<XMLFile>("RenderPaths/Forward.xml"));
+	viewport->GetRenderPath()->SetShaderParameter("State", 0.0f); //Always use decimal
 
 	audio->SetMasterGain("GAMEPLAY", Settings::GetSoundVolume());
 	audio->SetMasterGain("TITLE", 0.0f);
@@ -127,6 +128,7 @@ void Gameplay::SetupGame()
 	camera = cameraNode->CreateComponent<Camera>();
 	camera->SetFov(70.0f);
 
+	//Initialize player now that camera is ready
 	playerNode->AddComponent(player, 666, LOCAL);
 
 	viewport->SetScene(scene_);

@@ -11,6 +11,7 @@
 #include "Zeus.h"
 #include "WeakChild.h"
 #include "GunPriest.h"
+#include "Settings.h"
 #include <iostream>
 
 #define STATE_DEAD 0
@@ -60,7 +61,7 @@ void PostalPope::RegisterObject(Context* context)
 
 void PostalPope::Execute()
 {
-	weeoo->SetGain(game->gunPriest->sSoundVolume);
+	weeoo->SetGain(Settings::GetSoundVolume());
 	const Vector3 upperBody = node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f);
 	spinner->SetWorldPosition(upperBody);
 	switch (state)

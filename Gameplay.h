@@ -25,18 +25,9 @@ class Gameplay : public LogicComponent
 	URHO3D_OBJECT(Gameplay, LogicComponent);
 public:
 	GunPriest* gunPriest;
-
-	SharedPtr<ResourceCache> cache;
-	Engine* engine_;
-	SharedPtr<Scene> scene_;
+	
 	WeakPtr<Node> cameraNode;
 	WeakPtr<Camera> camera;
-	Input* input;
-	SharedPtr<Text> text;
-	SharedPtr<Sprite> healthMeter;
-	SharedPtr<Viewport> viewport;
-	SharedPtr<Renderer> renderer;
-	SharedPtr<Audio> audio;
 
 	SharedPtr<Node> playerNode;
 	SharedPtr<Player> player;
@@ -46,6 +37,7 @@ public:
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
+
 	void SetupGame();
 	void MakeHUD();
 	void FlashScreen(Color c, float spd);
@@ -68,14 +60,24 @@ protected:
 	
 	void SetupEnemy();
 	void SetupProps();
+
 	SharedPtr<Node> skybox;
 	SharedPtr<Node> exitNode;
+	SharedPtr<Text> messageText;
+	SharedPtr<Text> projectileCounter;
+	SharedPtr<ResourceCache> cache;
+	Engine* engine_;
+	SharedPtr<Scene> scene_;
+	Input* input;
+	SharedPtr<Text> text;
+	SharedPtr<Sprite> healthMeter;
+	SharedPtr<Viewport> viewport;
+	SharedPtr<Renderer> renderer;
+	SharedPtr<Audio> audio;
+
 	Color flashColor;
 	float flashSpeed;
 	float oldHealth;
 	float messageTimer = 0.0f;
-	
-	SharedPtr<Text> messageText;
-	SharedPtr<Text> projectileCounter;
 };
 

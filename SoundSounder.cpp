@@ -3,6 +3,7 @@
 #include "Urho3D/Core/Context.h"
 #include "Gameplay.h"
 #include "GunPriest.h"
+#include "Settings.h"
 #include <iostream>
 
 SoundSounder::SoundSounder(Context* context) : LogicComponent(context)
@@ -30,7 +31,7 @@ void SoundSounder::FixedUpdate(float timeStep)
 {
 	for (int i = 0; i < MAX_INSTANCE; ++i)
 	{
-		sources[i]->SetGain(game->gunPriest->sSoundVolume);
+		sources[i]->SetGain(Settings::GetSoundVolume());
 	}
 }
 

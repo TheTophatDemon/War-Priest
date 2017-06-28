@@ -134,6 +134,11 @@ void DangerDeacon::Execute()
 					animController->Play(JUMP_ANIM, 128, false, 0.2f);
 				}
 			}
+
+			if (fabs(actor->fall) > 0.5f)
+			{
+				strafeAmt = 0.0f;
+			}
 			
 			//Gotta look the right way, wanker.
 			if (canSeePlayer) 

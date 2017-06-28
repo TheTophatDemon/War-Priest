@@ -258,7 +258,8 @@ void Player::OnProjectileHit(StringHash eventType, VariantMap& eventData)
 void Player::HandleCamera()
 {
 	Vector3 worldPos = body->GetPosition();
-	pivot->SetWorldPosition(Vector3(worldPos.x_, 0.0f, worldPos.z_));
+	pivot->Translate((pivot->GetWorldPosition() - worldPos) * -0.9f, TS_WORLD);
+	pivot->SetWorldPosition(Vector3(pivot->GetWorldPosition().x_, 0.0f, pivot->GetWorldPosition().z_));
 	pivot->Rotate(Quaternion(input->GetMouseMoveX() * Settings::GetMouseSensitivity(), Vector3::UP));
 	
 	Quaternion newAngle = Quaternion();
@@ -279,7 +280,7 @@ void Player::HandleShadow()
 	physworld->RaycastSingle(shadowRaycast, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
 	if (shadowRaycast.body_)
 	{
-		if (!actor->onGround)
+		if (!actor->onGround && shadowRaycast.distance_ > 0.5f)
 		{
 			dropShadow->SetEnabled(true);
 			dropShadow->SetWorldPosition(shadowRaycast.position_ + Vector3(0.0f, 0.1f, 0.0f));

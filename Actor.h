@@ -53,6 +53,8 @@ protected:
 	WeakPtr<RigidBody> body;
 	SharedPtr<CollisionShape> shape;
 
+	PhysicsRaycastResult downCast;
+
 	Quaternion knockBackDirection;
 	float knockBack = 0.0f;
 };

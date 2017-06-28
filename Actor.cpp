@@ -103,8 +103,11 @@ void Actor::SetMovement(Vector3 mv)
 
 void Actor::Jump()
 {
-	if (onGround)
+	if (onGround) 
+	{
 		fall = jumpStrength;
+		onGround = false;
+	}
 }
 
 void Actor::Move(float timeStep)
@@ -112,7 +115,7 @@ void Actor::Move(float timeStep)
 	deltaTime = timeStep;
 	if (fabs(deltaTime) > 10.0f) deltaTime = 0.0f;
 
-	if (liftOn) 
+	if (liftOn)
 	{
 		onGround = true;
 	}
@@ -122,12 +125,18 @@ void Actor::Move(float timeStep)
 	float slopeFall = 0.0f;
 	if (onGround)
 	{
-		if (fall <= 0.0f) 
+		if (fall <= 0.0f)
 		{
 			fall = -0.1f;
 			if (slopeSteepness != 1.0f && slopeSteepness >= 0.42f)
 			{
-				slopeFall = (-1 / (slopeSteepness * 0.64f) + 1) * maxspeed;
+				slopeFall = (-1 / (slopeSteepness * 0.64f) + 1) * rawMovement.Length();
+				const Vector3 slopeNormalXZ = Vector3(downCast.normal_.x_, 0.0f, downCast.normal_.z_);
+				const float dot = slopeNormalXZ.DotProduct(rawMovement);
+				if (dot < 0.0f)
+				{
+					slopeFall = fabs(slopeFall) * 0.34f;
+				}
 				sloping = true;
 			}
 		}
@@ -147,8 +156,22 @@ void Actor::Move(float timeStep)
 	{
 		knockBack = 0.0f;
 	}
-	
-	finalMovement = ((Vector3(rawMovement.x_, fall + slopeFall, rawMovement.z_) + (knockBackDirection * Vector3::FORWARD * knockBack)) * deltaTime * 50.0f);
+
+	Vector3 transformedMovement = Vector3(rawMovement.x_, 0.0f, rawMovement.z_);
+	/*if (downCast.distance_ < shape->GetSize().y_ * 2.0f
+		&& !onGround && fall <= 0.0f) //Align movment to surface slope
+	{
+		const Vector3 cross = downCast.normal_.CrossProduct(-downCast.normal_);
+		const Vector3 fwd = cross.CrossProduct(downCast.normal_);
+		Quaternion q = Quaternion();
+		q.FromLookRotation(fwd);
+		transformedMovement = q * transformedMovement;
+		transformedMovement.y_ *= 10.5f;
+	}*/
+	transformedMovement.y_ += fall + slopeFall;
+
+		//fall + slopefall
+	finalMovement = ((transformedMovement + (knockBackDirection * Vector3::FORWARD * knockBack)) * deltaTime * 50.0f);
 	body->SetLinearVelocity(finalMovement);
 	rawMovement = Vector3::ZERO;
 	
@@ -172,11 +195,10 @@ void Actor::FixedUpdate(float timeStep)
 void Actor::GetSlope()
 {
 	//Raycast downward to get slope normal
-	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 500.0f, LEVELMASK);
-	if (result.body_)
+	physworld->RaycastSingle(downCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 500.0f, LEVELMASK);
+	if (downCast.body_)
 	{
-		slopeSteepness = result.normal_.y_;
+		slopeSteepness = downCast.normal_.y_;
 	}
 }
 

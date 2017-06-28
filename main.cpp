@@ -7,9 +7,6 @@
 		//Menu beeps and boops
 	//Settings
 		//Music Vol & Music
-	
-	//Inline settings getters?
-	//Clean up GunPriest.cpp
 
 	//Enemy counter / Compass
 		
