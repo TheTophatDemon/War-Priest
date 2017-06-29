@@ -36,6 +36,8 @@ TitleScreen::TitleScreen(Context* context) : LogicComponent(context)
 	soundSource = soundNode->CreateComponent<SoundSource>();
 	soundSource->SetSoundType("TITLE");
 
+	time = 0.0f;
+
 	input->SetMouseVisible(true);
 }
 
@@ -80,6 +82,7 @@ void TitleScreen::Start()
 void TitleScreen::OnUpdate(StringHash eventType, VariantMap& eventData)
 {
 	float timeStep = eventData["TimeStep"].GetFloat();
+	time += timeStep;
 	if (IsEnabled())
 	{
 		audio->SetMasterGain("TITLE", Settings::GetSoundVolume());
@@ -91,22 +94,34 @@ void TitleScreen::OnEvent(StringHash eventType, VariantMap& eventData)
 {
 	currentMenu->OnEvent(eventType, eventData);
 	//Play those sounds, dude.
-	Button* button = dynamic_cast<Button*>(eventData["Element"].GetPtr());
-	if (button) 
+	if (eventType == E_TOGGLED && time > 0.1f)
 	{
-		if (eventType == E_UIMOUSECLICK)
+		soundSource->Play(cache->GetResource<Sound>("Sounds/gui_check.wav"));
+	}
+	else if (eventType == E_SLIDERCHANGED && time > 0.1f)
+	{
+		soundSource->Play(cache->GetResource<Sound>("Sounds/gui_scroll.wav"));
+	}
+	else 
+	{
+		Button* button = dynamic_cast<Button*>(eventData["Element"].GetPtr());
+		if (button)
 		{
-			soundSource->Play(cache->GetResource<Sound>("Sounds/gui_select.wav"));
-		}
-		else if (eventType == E_HOVERBEGIN)
-		{
-			soundSource->Play(cache->GetResource<Sound>("Sounds/gui_hover.wav"));
+			if (eventType == E_UIMOUSECLICK)
+			{
+				soundSource->Play(cache->GetResource<Sound>("Sounds/gui_select.wav"));
+			}
+			else if (eventType == E_HOVERBEGIN)
+			{
+				soundSource->Play(cache->GetResource<Sound>("Sounds/gui_hover.wav"));
+			}
 		}
 	}
 }
 
 void TitleScreen::SetMenu(Menu* newMenu)
 {
+	time = 0.0f;
 	if (currentMenu) currentMenu->OnLeave();
 	currentMenu = newMenu;
 	currentMenu->OnEnter();

@@ -53,7 +53,8 @@ protected:
 	SharedPtr<Audio> audio;
 
 	SharedPtr<Menu> currentMenu;
-
 	SharedPtr<Node> soundNode;
+
+	float time;
 };
 
