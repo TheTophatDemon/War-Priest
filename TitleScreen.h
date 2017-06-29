@@ -9,6 +9,8 @@
 #include <Urho3D/Scene/Node.h>
 #include <Urho3D/Engine/Engine.h>
 #include <Urho3D/Audio/Audio.h>
+#include <Urho3D/Audio/SoundSource.h>
+#include <Urho3D/Audio/Sound.h>
 #include <Urho3D/UI/UI.h>
 #include <Urho3D/UI/UIElement.h>
 #include <Urho3D/UI/Button.h>
@@ -37,6 +39,8 @@ public:
 	SharedPtr<Menu> titleMenu;
 	SharedPtr<Menu> levelSelectMenu;
 	SharedPtr<Menu> settingsMenu;
+
+	SharedPtr<SoundSource> soundSource;
 protected:
 	void OnEvent(StringHash eventType, VariantMap& eventData);
 	void OnUpdate(StringHash eventType, VariantMap& eventData);
@@ -49,5 +53,7 @@ protected:
 	SharedPtr<Audio> audio;
 
 	SharedPtr<Menu> currentMenu;
+
+	SharedPtr<Node> soundNode;
 };
 

@@ -4,9 +4,7 @@
 		//Play death
 		//Play win & God's beam
 		//HALLELUJAH!
-		//Menu beeps and boops
-	//Settings
-		//Music Vol & Music
+	//Music Vol & Music
 
 	//Enemy counter / Compass
 		
