@@ -52,6 +52,7 @@
 #include "DangerDeacon.h"
 #include "Water.h"
 #include "Settings.h"
+#include "Launchpad.h"
 
 using namespace Urho3D;
 
@@ -170,6 +171,7 @@ void Gameplay::SetupGame()
 			r->SetCollisionLayer(3);
 		}
 	}
+
 	//Setup Medkits
 	SharedPtr<ValueAnimation> va(new ValueAnimation(context_));
 	va->SetKeyFrame(0.0f, Color::BLACK);
@@ -191,6 +193,24 @@ void Gameplay::SetupGame()
 			StaticModel* sm = n->GetComponent<StaticModel>();
 			CollisionShape* cs = n->CreateComponent<CollisionShape>();
 			cs->SetBox(sm->GetBoundingBox().Size(),sm->GetBoundingBox().Center(), Quaternion::IDENTITY);
+		}
+	}
+
+	//How about the launchpads, mate?
+	PODVector<Node*> launchPads;
+	scene_->GetChildrenWithTag(launchPads, "launchpad", true);
+	for (PODVector<Node*>::Iterator i = launchPads.Begin(); i != launchPads.End(); ++i)
+	{
+		Node* n = dynamic_cast<Node*>(*i);
+		if (n)
+		{
+			Launchpad* lp = n->CreateComponent<Launchpad>();
+
+			float lf = n->GetVar("launchForce").GetFloat();
+			if (lf != 0.0f)
+			{
+				lp->launchForce = lf;
+			}
 		}
 	}
 

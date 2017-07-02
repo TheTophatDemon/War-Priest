@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<node id="16777686">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="launchpad" />
+	<attribute name="Tags">
+		<string value="launchpad" />
+	</attribute>
+	<attribute name="Position" value="44.7528 -9.23505 -29.0533" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="2 2 2" />
+	<attribute name="Variables" />
+	<component type="CollisionShape" id="16779007">
+		<attribute name="Shape Type" value="Cylinder" />
+		<attribute name="Size" value="1.8 0.75 1" />
+		<attribute name="Offset Position" value="0 0.18 0" />
+	</component>
+	<component type="RigidBody" id="16779008">
+		<attribute name="Physics Position" value="44.7528 -9.23505 -29.0533" />
+		<attribute name="Use Gravity" value="false" />
+		<attribute name="Is Trigger" value="true" />
+	</component>
+	<node id="16777687">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="top" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="0 0 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779004">
+			<attribute name="Model" value="Model;Models/launchpad_top.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/launchpad_skin.xml" />
+		</component>
+	</node>
+	<node id="16777688">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="mid" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="0 0 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779005">
+			<attribute name="Model" value="Model;Models/launchpad_mid.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/launchpad_skin.xml" />
+		</component>
+	</node>
+	<node id="16777689">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="base" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="0 0 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779006">
+			<attribute name="Model" value="Model;Models/launchpad_base.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/launchpad_skin.xml" />
+		</component>
+	</node>
+</node>

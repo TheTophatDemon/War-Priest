@@ -56,6 +56,7 @@
 #include "WeakChild.h"
 #include "SoundSounder.h"
 #include "DangerDeacon.h"
+#include "Launchpad.h"
 
 class GunPriest : public Application
 {

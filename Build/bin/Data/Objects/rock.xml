@@ -11,7 +11,7 @@
 	<attribute name="Variables" />
 	<component type="StaticModel" id="16778337">
 		<attribute name="Model" value="Model;Models/props/rock.mdl" />
-		<attribute name="Material" value="Material;Materials/palpan/cliff.xml" />
+		<attribute name="Material" value="Material;Materials/palpan_cliff.xml" />
 	</component>
 	<component type="CollisionShape" id="16778338">
 		<attribute name="Shape Type" value="ConvexHull" />

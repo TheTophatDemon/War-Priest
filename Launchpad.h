@@ -4,7 +4,6 @@
 #include <Urho3D\Scene\Scene.h>
 #include <Urho3D/Scene/Node.h>
 #include <Urho3D/Physics/RigidBody.h>
-#include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Audio/Sound.h>
 #include <Urho3D/Audio/SoundSource3D.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
@@ -12,22 +11,28 @@
 
 using namespace Urho3D;
 
-class Water : public LogicComponent
+class Launchpad : public LogicComponent
 {
-	URHO3D_OBJECT(Water, LogicComponent);
+	URHO3D_OBJECT(Launchpad, LogicComponent);
 public:
-	Water(Context* context);
+	Launchpad(Context* context);
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
-	~Water();
-protected:
-	void OnCollisionEnter(StringHash eventType, VariantMap& eventData);
-	SharedPtr<Scene> scene;
+	~Launchpad();
+
+	float launchForce;
+private:
+	void OnCollision(StringHash eventType, VariantMap& eventData);
+	
 	SharedPtr<PhysicsWorld> physworld;
-	SharedPtr<ResourceCache> cache;
-	SharedPtr<RigidBody> body;
-	SharedPtr<CollisionShape> shape;
-	float elapsed;
+	SharedPtr<Scene> scene;
+
+	SharedPtr<SoundSource3D> soundSource;
+	SharedPtr<Node> topNode;
+	SharedPtr<Node> midNode;
+	SharedPtr<Node> baseNode;
+
+	float elapsedTime = 0.0f;
 };
 

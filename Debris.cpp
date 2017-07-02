@@ -5,6 +5,7 @@
 #include <Urho3D/Physics/PhysicsEvents.h>
 #include <Urho3D/Graphics/StaticModel.h>
 #include <Urho3D/Graphics/Material.h>
+#include <Urho3D/Graphics/Model.h>
 #include <iostream>
 #include "Zeus.h"
 

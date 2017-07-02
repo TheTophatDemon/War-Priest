@@ -28,6 +28,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	WeakChild::RegisterObject(context);
 	SoundSounder::RegisterObject(context);
 	DangerDeacon::RegisterObject(context);
+	Launchpad::RegisterObject(context);
 
 	state = STATE_TITLE;
 }

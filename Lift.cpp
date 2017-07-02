@@ -39,6 +39,18 @@ void Lift::Start()
 	valAnim->SetKeyFrame((restTime + speed) * 2.0f, pointA);
 	node_->SetAttributeAnimation("Position", valAnim, WM_LOOP, 1.0f);
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Lift, OnCollision));
+
+	if (!node_->HasComponent<RigidBody>())
+	{
+		RigidBody* body = node_->CreateComponent<RigidBody>();
+		body->SetMass(0);
+		body->SetUseGravity(false);
+		body->SetCollisionLayer(3);
+		body->SetCollisionEventMode(COLLISION_ALWAYS);
+		body->SetFriction(0.0f);
+		body->SetAngularFactor(Vector3::ZERO);
+		body->SetLinearFactor(Vector3::ZERO);
+	}
 }
 
 void Lift::FixedUpdate(float timeStep)

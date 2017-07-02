@@ -13,6 +13,7 @@
 
 Water::Water(Context* context) : LogicComponent(context)
 {
+	elapsed = 0.0f;
 }
 
 void Water::RegisterObject(Context* context)
@@ -58,7 +59,8 @@ void Water::Start()
 
 void Water::FixedUpdate(float timeStep)
 {
-	
+	elapsed += timeStep;
+	node_->Translate(Vector3(0.0f, sinf(elapsed) * 0.005f, 0.0f), TS_LOCAL);
 }
 
 void Water::OnCollisionEnter(StringHash eventType, VariantMap& eventData)

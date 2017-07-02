@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<node id="16777539">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="lift" />
+	<attribute name="Tags">
+		<string value="lift" />
+	</attribute>
+	<attribute name="Position" value="186.893 -1.41688 14.7106" />
+	<attribute name="Rotation" value="0.707107 0 0.707107 0" />
+	<attribute name="Scale" value="2 2 2" />
+	<attribute name="Variables">
+		<variant hash="1366131055" type="Vector3" value="0 10 0" />
+		<variant hash="588515681" type="Float" value="1" />
+		<variant hash="273365031" type="Float" value="4" />
+		<variant hash="3779712780" type="Float" value="50" />
+	</attribute>
+	<component type="StaticModel" id="16778220">
+		<attribute name="Model" value="Model;Models/lift.mdl" />
+		<attribute name="Material" value="Material;Materials/sandstone.xml" />
+	</component>
+	<component type="CollisionShape" id="16778221">
+		<attribute name="Size" value="4 0.5 2" />
+	</component>
+	<component type="RigidBody" id="16778222">
+		<attribute name="Physics Rotation" value="0.707107 0 0.707107 0" />
+		<attribute name="Physics Position" value="186.893 -1.41688 14.7106" />
+		<attribute name="Friction" value="0" />
+		<attribute name="Linear Factor" value="0 0 0" />
+		<attribute name="Angular Factor" value="0 0 0" />
+		<attribute name="Collision Layer" value="3" />
+		<attribute name="Collision Event Mode" value="Always" />
+		<attribute name="Use Gravity" value="false" />
+	</component>
+	<component type="CollisionShape" id="16778223">
+		<attribute name="Size" value="4 0.5 2" />
+	</component>
+</node>

@@ -12,7 +12,10 @@ LevelSelectMenu::LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu
 	layoutPath = "UI/titlemenus/levelselect.xml";
 	//Find all possible level
 	levelEntries = Vector<LevelEntry>();
-	XMLFile* levelInfo = cache->GetResource<XMLFile>("levelinfo.xml");
+	SharedPtr<XMLFile> levelInfo = SharedPtr<XMLFile>(cache->GetResource<XMLFile>("levelinfo.xml"));
+
+	assert(levelInfo.Get() != nullptr);
+
 	XPathQuery query("/levelinfo/level", "ResultSet");
 	XPathResultSet results = query.Evaluate(levelInfo->GetRoot().GetChild("level"));
 	for (int i = 0; i < results.Size(); i++)

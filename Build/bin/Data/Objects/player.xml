@@ -10,7 +10,7 @@
 	<attribute name="Scale" value="1 1 1" />
 	<attribute name="Variables" />
 	<component type="CollisionShape" id="16778045">
-		<attribute name="Shape Type" value="Cylinder" />
+		<attribute name="Shape Type" value="Capsule" />
 		<attribute name="Size" value="1 3 1" />
 		<attribute name="Offset Position" value="0 1.5 0" />
 		<attribute name="Model" value="Model;Models/playerCollider.mdl" />
