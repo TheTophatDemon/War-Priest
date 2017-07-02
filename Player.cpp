@@ -148,7 +148,6 @@ void Player::FixedUpdate(float timeStep)
 	reviveKey = Settings::IsKeyDown(input, Settings::GetReviveKey());
 	slideKey = Settings::IsKeyDown(input, Settings::GetSlideKey());
 
-
 	if (game->winState == 1)
 	{
 		ChangeState(STATE_WIN);
@@ -558,10 +557,7 @@ void Player::ST_Slide(float timeStep)
 	actor->SetMovement(slideDirection);
 	actor->Move(timeStep);
 
-	PhysicsRaycastResult ceilingCast;
-	float rad = shape->GetSize().x_ * 0.4f;
-	physworld->SphereCast(ceilingCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, rad + 0.5f, 0.0f), Vector3::UP), rad, 2.5f, 2);
-	if (stateTimer > 0.5f && !ceilingCast.body_)
+	if (stateTimer > 0.5f)
 	{
 		stateTimer = 0;
 		ChangeState(STATE_DEFAULT);
@@ -569,7 +565,7 @@ void Player::ST_Slide(float timeStep)
 
 	PhysicsRaycastResult forwardCast;
 	physworld->RaycastSingle(forwardCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), slideDirection), shape->GetSize().x_, 2);
-	if (forwardCast.body_ && fabs(forwardCast.normal_.y_) <= 0.42f && !ceilingCast.body_)
+	if (forwardCast.body_ && fabs(forwardCast.normal_.y_) <= 0.42f)
 	{
 		stateTimer = 0;
 		ChangeState(STATE_DEFAULT);

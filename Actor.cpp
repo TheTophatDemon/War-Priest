@@ -147,6 +147,20 @@ void Actor::Move(float timeStep)
 		if (fall < -maxfall) fall = -maxfall;
 	}
 
+	//Manual ceiling collision check: Because physics are RETARDED!
+	if (fall > 0.1f)
+	{
+		PhysicsRaycastResult upCast;
+		physworld->RaycastSingle(upCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, shape->GetSize().y_, 0.0f), Vector3::UP), 10.0f, 2);
+		if (upCast.body_)
+		{
+			if (upCast.distance_ < shape->GetSize().y_ / 2.0f)
+			{
+				fall = 0.0f;
+			}
+		}
+	}
+
 	//Apply movements
 	if (knockBack > 0.1f)
 	{
@@ -157,20 +171,8 @@ void Actor::Move(float timeStep)
 		knockBack = 0.0f;
 	}
 
-	Vector3 transformedMovement = Vector3(rawMovement.x_, 0.0f, rawMovement.z_);
-	/*if (downCast.distance_ < shape->GetSize().y_ * 2.0f
-		&& !onGround && fall <= 0.0f) //Align movment to surface slope
-	{
-		const Vector3 cross = downCast.normal_.CrossProduct(-downCast.normal_);
-		const Vector3 fwd = cross.CrossProduct(downCast.normal_);
-		Quaternion q = Quaternion();
-		q.FromLookRotation(fwd);
-		transformedMovement = q * transformedMovement;
-		transformedMovement.y_ *= 10.5f;
-	}*/
-	transformedMovement.y_ += fall + slopeFall;
+	Vector3 transformedMovement = Vector3(rawMovement.x_, fall + slopeFall, rawMovement.z_);
 
-		//fall + slopefall
 	finalMovement = ((transformedMovement + (knockBackDirection * Vector3::FORWARD * knockBack)) * deltaTime * 50.0f);
 	body->SetLinearVelocity(finalMovement);
 	rawMovement = Vector3::ZERO;

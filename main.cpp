@@ -9,11 +9,6 @@
 	//Enemy counter / Compass
 	//Roblox?
 	//Jump pad sounds
-	//Various non-enemy hazards
-	//Make bat file general purpose
-
-	//Lift easing
-	//Ceiling collisions (Use a raycast)
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl

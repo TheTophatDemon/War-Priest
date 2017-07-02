@@ -32,6 +32,8 @@ void Lift::Start()
 	Vector3 pointA = node_->GetWorldPosition();
 	Vector3 pointB = pointA + movement;
 	valAnim = new ValueAnimation(context_);
+	valAnim->SetInterpolationMethod(InterpMethod::IM_SPLINE);
+	valAnim->SetSplineTension(0.1f);
 	valAnim->SetKeyFrame(0.0f, pointA);
 	valAnim->SetKeyFrame(restTime, pointA);
 	valAnim->SetKeyFrame(restTime + speed, pointB);

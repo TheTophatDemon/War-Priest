@@ -35,12 +35,15 @@ GunPriest::GunPriest(Context* context) : Application(context)
 
 void GunPriest::StartGame(String path)
 {
+	scene_->SetUpdateEnabled(false);
 	game->ourUI->SetVisible(false);
 	loadingText->SetVisible(true);
 	cache->ReleaseAllResources(true);
 
 	engine_->RunFrame();
 	std::cout << "RAN FRAME" << std::endl;
+
+	scene_->SetUpdateEnabled(true);
 	XMLFile* mapFile = cache->GetResource<XMLFile>(path);
 	scene_->LoadXML(mapFile->GetRoot());
 	scene_->AddComponent(game, 666, LOCAL);
