@@ -53,6 +53,7 @@ protected:
 	WeakPtr<RigidBody> body;
 	SharedPtr<CollisionShape> shape;
 
+	//DelayedWorldTransform dwt;
 	PhysicsRaycastResult downCast;
 
 	Quaternion knockBackDirection;

@@ -115,6 +115,11 @@ void Gameplay::SetupGame()
 	restartTimer = 0;
 	mapNode = scene_->GetChild("map");
 
+	PhysicsWorld* physworld = scene_->GetComponent<PhysicsWorld>();
+	physworld->SetMaxSubSteps(10);
+	physworld->SetInterpolation(false);
+	physworld->SetInternalEdge(true);
+
 	//Setup Player
 	playerNode = scene_->GetChild("player");
 	Matrix3x4 trans = playerNode->GetWorldTransform();
@@ -204,6 +209,10 @@ void Gameplay::SetupGame()
 		Node* n = dynamic_cast<Node*>(*i);
 		if (n)
 		{
+			Matrix3x4 trans = n->GetWorldTransform();
+			n->LoadXML(cache->GetResource<XMLFile>("Objects/launchpad.xml")->GetRoot());
+			n->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
+
 			Launchpad* lp = n->CreateComponent<Launchpad>();
 
 			float lf = n->GetVar("launchForce").GetFloat();

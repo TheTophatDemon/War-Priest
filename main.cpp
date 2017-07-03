@@ -8,8 +8,10 @@
 
 	//Enemy counter / Compass
 	//Roblox?
-	//Jump pad sounds
 
+	//Blood decal
+
+	//DelayedWorldTransform
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl
 		//SDL_Delay bug
@@ -19,6 +21,7 @@
 	//Less physics
 	//Update event masks
 	//Disable scripts on objects that are far away
+	//Split map into multiple sections
 
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP

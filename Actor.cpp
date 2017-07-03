@@ -181,6 +181,15 @@ void Actor::Move(float timeStep)
 	GetSlope();
 
 	onGround = false;
+
+	/*if (liftOn)
+	{
+		dwt.parentRigidBody_ = liftOn->GetComponent<RigidBody>();
+		dwt.rigidBody_ = body;
+		dwt.worldPosition_ = node_->GetWorldPosition();
+		dwt.worldRotation_ = node_->GetWorldRotation();
+		physworld->AddDelayedWorldTransform(dwt);
+	}*/
 }
 
 void Actor::KnockBack(float amount, Quaternion direction)
