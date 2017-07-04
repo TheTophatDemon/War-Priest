@@ -53,6 +53,7 @@ public:
 	int projectileCount = 0;
 	int enemyCount = 0;
 	int winState = 0;
+
 protected:
 	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);
 	void UpdateHUD(float timeStep);

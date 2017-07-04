@@ -115,6 +115,7 @@ void Enemy::Wander()
 		}
 		else
 		{
+			//Wall check
 			PhysicsRaycastResult result;
 			physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.1f, 0.0f), node_->GetDirection()), 2.0f, 2U);
 			if (result.body_)
@@ -185,7 +186,7 @@ bool Enemy::CheckCliff()
 {
 	PhysicsRaycastResult result;
 	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.2f, 0.0f) + node_->GetWorldDirection() * shape->GetSize().x_ * 2.5f, Vector3::DOWN), 2.0f, 2);
-	if (!result.body_)
+	if (!result.body_ && actor->fall <= 0.0f)
 	{
 		newRotation = Quaternion(node_->GetWorldRotation().EulerAngles().y_ + 180.0f, Vector3::UP);
 		return true;

@@ -58,6 +58,8 @@ using namespace Urho3D;
 
 #define MAXHEALTH 100
 
+Vector3 Player::cameraOffset = Vector3(0.0f, 12.0f, -12.0f);
+
 Player::Player(Context* context) : LogicComponent(context)
 {
 	reviveCount = 0;
@@ -67,6 +69,7 @@ Player::Player(Context* context) : LogicComponent(context)
 	state = STATE_DEFAULT;
 	health = MAXHEALTH;
 	cameraPitch = 0.0f;
+	optimalCamPos = Vector3::ZERO;
 }
 
 void Player::RegisterObject(Context* context)
@@ -87,6 +90,7 @@ void Player::Start()
 	camera = game->camera;
 	pivot = scene->CreateChild();
 	cameraNode->SetParent(pivot);
+	cameraNode->SetPosition(cameraOffset);
 
 	if (!node_->HasComponent<Actor>())
 	{
@@ -256,11 +260,41 @@ void Player::OnProjectileHit(StringHash eventType, VariantMap& eventData)
 
 void Player::HandleCamera()
 {
-	Vector3 worldPos = body->GetPosition();
-	pivot->Translate((pivot->GetWorldPosition() - worldPos) * -0.9f, TS_WORLD);
-	pivot->SetWorldPosition(Vector3(pivot->GetWorldPosition().x_, 0.0f, pivot->GetWorldPosition().z_));
+	const Vector3 worldPos = body->GetPosition();
+	pivot->SetWorldPosition(body->GetPosition());
 	pivot->Rotate(Quaternion(input->GetMouseMoveX() * Settings::GetMouseSensitivity(), Vector3::UP));
-	
+
+
+	const Vector3 orgCamPos = cameraNode->GetWorldPosition();
+	cameraNode->SetPosition(cameraOffset); //Temporarily reset camera to simplify some calculations
+
+	const Vector3 maxCameraHeight = Vector3(cameraNode->GetWorldPosition().x_, 15.0f, cameraNode->GetWorldPosition().z_);
+	const float diff = maxCameraHeight.y_ - cameraNode->GetWorldPosition().y_;
+
+	float peekOffset = 5.0f;
+
+	optimalCamPos = cameraNode->GetWorldPosition();
+
+	PhysicsRaycastResult cameraDownCast;
+	physworld->SphereCast(cameraDownCast, Ray(maxCameraHeight, Vector3::DOWN), 0.5f, 500.0f, 2);
+	if (cameraDownCast.body_)
+	{
+		peekOffset = 5.0f + fabs(cameraDownCast.distance_ - diff) * 0.1f;
+		if (cameraDownCast.distance_ - peekOffset < diff)
+		{
+			optimalCamPos.y_ = cameraDownCast.position_.y_ + peekOffset;
+		}
+	}
+
+	cameraNode->SetWorldPosition(orgCamPos);
+	float transitionSpeed = 0.1f;
+	if (input->GetMouseMoveX() > 8)
+	{
+		transitionSpeed = Min(input->GetMouseMoveX() * 0.05f, 1.0f);
+	}
+	cameraNode->Translate((optimalCamPos - cameraNode->GetWorldPosition()) * transitionSpeed, TS_WORLD);
+
+	//Camera rotation
 	Quaternion newAngle = Quaternion();
 	newAngle.FromLookRotation((worldPos - cameraNode->GetWorldPosition()).Normalized());
 	cameraNode->SetWorldRotation(newAngle);

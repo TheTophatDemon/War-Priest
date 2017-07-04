@@ -11,6 +11,13 @@
 
 	//Blood decal
 
+	//Player clips through floor sometimes.
+		//Likely a lift scaling issue
+		//Have a pivot placeholder system
+
+	//Horns on Postal Pope's hat
+	//Postal pope revive twice
+
 	//DelayedWorldTransform
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl

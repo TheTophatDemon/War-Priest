@@ -229,7 +229,13 @@ void Actor::OnCollisionStart(StringHash eventType, VariantMap& eventData)
 			if (position.y_ <= node_->GetWorldPosition().y_ + 0.5f && fabs(normal.y_) >= 0.42f)
 			{
 				liftOn = other;
+
+				const Vector3 scale = node_->GetWorldScale();
+				const Quaternion rot = node_->GetWorldRotation();
 				node_->SetParent(other);
+				node_->SetWorldScale(scale);
+				node_->SetWorldRotation(rot);
+
 				break;
 			}
 		}

@@ -66,6 +66,8 @@ protected:
 
 	Quaternion newRotation;
 	Vector3 slideDirection;
+	Vector3 optimalCamPos;
+	static Vector3 cameraOffset;
 	
 	int hailTimer;
 	int hurtTimer;

@@ -493,6 +493,7 @@ void Gameplay::SetupProps()
 					SharedPtr<CollisionShape> shape = SharedPtr<CollisionShape>(child->GetComponent<CollisionShape>());
 					shape->SetPosition((shape->GetPosition() * child->GetScale()) + child->GetPosition());
 					shape->SetSize(shape->GetSize() * child->GetScale());
+					shape->SetRotation(shape->GetRotation() * child->GetRotation());
 					child->RemoveComponent<CollisionShape>();
 					n->AddComponent(shape, 1200, LOCAL);
 				}
