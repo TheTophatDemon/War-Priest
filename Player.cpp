@@ -558,7 +558,7 @@ void Player::ST_Revive(float timeStep)
 			if (enemy)
 			{
 				Enemy* e = enemy->GetDerivedComponent<Enemy>();
-				if (e->state == 0) //'Tis dead
+				if (!e->revived) //'Tis dead
 				{
 					float dist = (enemy->GetWorldPosition() - node_->GetWorldPosition()).Length();
 					if (dist < 8.0f)

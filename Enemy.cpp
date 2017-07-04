@@ -15,6 +15,7 @@
 Enemy::Enemy(Context* context) : LogicComponent(context)
 {
 	turnAmount = 0.0f; distanceFromPlayer = 0.0f; deltaTime = 0.0f;
+	revived = false;
 }
 
 void Enemy::RegisterObject(Context* context)
@@ -138,6 +139,7 @@ void Enemy::Dead() //This function defines the defualt behavior for being dead
 
 void Enemy::Revive()
 {
+	revived = true;
 	node_->Translate(Vector3(0.0f, 0.1f, 0.0f), TS_LOCAL);
 }
 

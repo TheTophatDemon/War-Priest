@@ -32,6 +32,7 @@ public:
 	virtual void Revive();
 	~Enemy();
 	int state;
+	bool revived = false;
 protected:
 	SharedPtr<Gameplay> game;
 	SharedPtr<ResourceCache> cache;
