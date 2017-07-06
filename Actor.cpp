@@ -10,6 +10,7 @@
 #include <Urho3D/Physics/PhysicsUtils.h>
 #include <Urho3D/Math/Ray.h>
 #include <iostream>
+#include "WeakChild.h"
 
 using namespace Urho3D;
 
@@ -35,6 +36,7 @@ Actor::Actor(Context* context) : LogicComponent(context)
 
 	rawMovement = Vector3::ZERO;
 	finalMovement = Vector3::ZERO;
+	lastPosition = Vector3::ZERO;
 	liftOn = nullptr;
 }
 
@@ -49,6 +51,10 @@ void Actor::Start()
 	scene = node_->GetScene();
 	physworld = scene->GetComponent<PhysicsWorld>();
 	shape = node_->GetComponent<CollisionShape>();
+
+	liftHelper = scene->CreateChild();
+	WeakChild::MakeWeakChild(liftHelper, node_);
+
 	SubscribeToEvent(GetNode(), E_NODECOLLISIONSTART, URHO3D_HANDLER(Actor, OnCollisionStart));
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Actor, OnCollision));
 	SubscribeToEvent(GetNode(), E_NODECOLLISIONEND, URHO3D_HANDLER(Actor, OnCollisionEnd));
@@ -115,9 +121,12 @@ void Actor::Move(float timeStep)
 	deltaTime = timeStep;
 	if (fabs(deltaTime) > 10.0f) deltaTime = 0.0f;
 
+	const Vector3 physicsMovement = node_->GetWorldPosition() - lastPosition;
+
 	if (liftOn)
 	{
 		onGround = true;
+		node_->SetWorldPosition(liftHelper->GetWorldPosition() + physicsMovement);
 	}
 
 	//Falling logic
@@ -182,14 +191,12 @@ void Actor::Move(float timeStep)
 
 	onGround = false;
 
-	/*if (liftOn)
+	if (liftOn)
 	{
-		dwt.parentRigidBody_ = liftOn->GetComponent<RigidBody>();
-		dwt.rigidBody_ = body;
-		dwt.worldPosition_ = node_->GetWorldPosition();
-		dwt.worldRotation_ = node_->GetWorldRotation();
-		physworld->AddDelayedWorldTransform(dwt);
-	}*/
+		liftHelper->SetWorldPosition(node_->GetWorldPosition());
+	}
+
+	lastPosition = node_->GetWorldPosition();
 }
 
 void Actor::KnockBack(float amount, Quaternion direction)
@@ -229,13 +236,8 @@ void Actor::OnCollisionStart(StringHash eventType, VariantMap& eventData)
 			if (position.y_ <= node_->GetWorldPosition().y_ + 0.5f && fabs(normal.y_) >= 0.42f)
 			{
 				liftOn = other;
-
-				const Vector3 scale = node_->GetWorldScale();
-				const Quaternion rot = node_->GetWorldRotation();
-				node_->SetParent(other);
-				node_->SetWorldScale(scale);
-				node_->SetWorldRotation(rot);
-
+				liftHelper->SetWorldPosition(node_->GetWorldPosition());
+				liftHelper->SetParent(other);
 				break;
 			}
 		}
@@ -282,7 +284,7 @@ void Actor::OnCollisionEnd(StringHash eventType, VariantMap& eventData)
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
 	if (other == liftOn)
 	{
-		node_->SetParent(scene);
+		liftHelper->SetParent(scene);
 		liftOn = nullptr;
 	}
 }

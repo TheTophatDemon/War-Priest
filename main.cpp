@@ -9,12 +9,6 @@
 	//Enemy counter / Compass
 	//Roblox?
 
-	//Blood decal
-
-	//Player clips through floor sometimes.
-		//Likely a lift scaling issue
-		//Have a pivot placeholder system
-
 	//DelayedWorldTransform
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl
@@ -26,6 +20,12 @@
 	//Update event masks
 	//Disable scripts on objects that are far away
 	//Split map into multiple sections
+
+//Complaints:
+	//PhysicsPostStep won't call
+	//Physics jitter due to interpolation
+	//Need a way of getting triangle info from a collision
+	//Need a way to restrict inheritance from parents (rotation, location, scale)
 
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP
