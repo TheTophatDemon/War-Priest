@@ -14,6 +14,7 @@
 #include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Audio/SoundSource.h>
 #include "SoundSounder.h"
+#include "Enemy.h"
 
 using namespace Urho3D;
 
@@ -45,6 +46,7 @@ protected:
 	void ST_Revive(float timeStep);
 	void ST_Slide(float timeStep);
 	void ST_Win(float timeStep);
+	void FindNearestCorpse();
 
 	SharedPtr<Scene> scene;
 	SharedPtr<ResourceCache> cache;
@@ -63,6 +65,7 @@ protected:
 	SharedPtr<Input> input;
 	SharedPtr<Node> pivot;
 	SharedPtr<SoundSounder> soundSource;
+	SharedPtr<Enemy> nearestCorpse;
 
 	Quaternion newRotation;
 	Vector3 slideDirection;

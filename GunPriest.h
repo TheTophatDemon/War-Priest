@@ -57,6 +57,7 @@
 #include "SoundSounder.h"
 #include "DangerDeacon.h"
 #include "Launchpad.h"
+#include "CompassScene.h"
 
 class GunPriest : public Application
 {

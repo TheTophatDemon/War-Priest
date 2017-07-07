@@ -6,8 +6,10 @@
 		//HALLELUJAH!
 	//Music Vol & Music
 
-	//Enemy counter / Compass
 	//Roblox?
+
+	//Texture error near main platform
+	//Giant spire thing not reacahable backwards
 
 	//DelayedWorldTransform
 	//Loading glitch/Alt-tab

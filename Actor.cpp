@@ -142,7 +142,7 @@ void Actor::Move(float timeStep)
 				slopeFall = (-1 / (slopeSteepness * 0.64f) + 1) * rawMovement.Length();
 				const Vector3 slopeNormalXZ = Vector3(downCast.normal_.x_, 0.0f, downCast.normal_.z_);
 				const float dot = slopeNormalXZ.DotProduct(rawMovement);
-				if (dot < 0.0f)
+				if (dot < -0.75f)
 				{
 					slopeFall = fabs(slopeFall) * 0.34f;
 				}
@@ -163,7 +163,7 @@ void Actor::Move(float timeStep)
 		physworld->RaycastSingle(upCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, shape->GetSize().y_, 0.0f), Vector3::UP), 10.0f, 2);
 		if (upCast.body_)
 		{
-			if (upCast.distance_ < shape->GetSize().y_ / 2.0f)
+			if (upCast.distance_ < shape->GetSize().y_ / 4.0f)
 			{
 				fall = 0.0f;
 			}
@@ -264,10 +264,10 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 				if (position.y_ <= node_->GetWorldPosition().y_ + 0.5f) 
 				{
 					onGround = true;
-					if (other->HasTag("lift"))
+					/*if (other->HasTag("lift"))
 					{
 						liftOn = other;
-					}
+					}*/
 				}
 				else if (position.y_ >= node_->GetWorldPosition().y_ + 3.0f)
 				{

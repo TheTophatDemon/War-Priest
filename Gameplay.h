@@ -15,6 +15,7 @@
 #include <Urho3D/Scene/ValueAnimation.h>
 #include <Urho3D/UI/UIElement.h>
 #include <Urho3D/Audio/Audio.h>
+#include "CompassScene.h"
 
 using namespace Urho3D;
 
@@ -26,6 +27,8 @@ class Gameplay : public LogicComponent
 public:
 	GunPriest* gunPriest;
 	
+	SharedPtr<CompassScene> compassScene;
+
 	WeakPtr<Node> cameraNode;
 	WeakPtr<Camera> camera;
 
@@ -64,14 +67,17 @@ protected:
 
 	SharedPtr<Node> skybox;
 	SharedPtr<Node> exitNode;
+	
+	SharedPtr<Text> text;
 	SharedPtr<Text> messageText;
 	SharedPtr<Text> projectileCounter;
+	SharedPtr<Sprite> healthMeter;
+	SharedPtr<Sprite> compass1;
+
 	SharedPtr<ResourceCache> cache;
 	Engine* engine_;
 	SharedPtr<Scene> scene_;
 	Input* input;
-	SharedPtr<Text> text;
-	SharedPtr<Sprite> healthMeter;
 	SharedPtr<Viewport> viewport;
 	SharedPtr<Renderer> renderer;
 	SharedPtr<Audio> audio;

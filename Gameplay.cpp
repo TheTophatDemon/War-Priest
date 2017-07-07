@@ -71,6 +71,8 @@ Gameplay::Gameplay(Context* context) : LogicComponent(context)
 	renderer = GetSubsystem<Renderer>();
 	audio = GetSubsystem<Audio>();
 
+	compassScene = new CompassScene(context);
+
 	MakeHUD();
 }
 
@@ -114,6 +116,8 @@ void Gameplay::SetupGame()
 	winState = 0;
 	restartTimer = 0;
 	mapNode = scene_->GetChild("map");
+
+	compassScene->Start();
 
 	PhysicsWorld* physworld = scene_->GetComponent<PhysicsWorld>();
 	physworld->SetMaxSubSteps(10);
@@ -282,6 +286,8 @@ void Gameplay::UpdateHUD(float timeStep)
 	scene_->GetChildrenWithTag(projs, "projectile", true);
 	SetGlobalVar("PROJECTILE COUNT", projs.Size());
 
+	compass1->SetTexture(compassScene->renderedTexture);
+
 	if (messageTimer > 0.0f)
 	{
 		messageTimer -= timeStep;
@@ -300,7 +306,7 @@ void Gameplay::UpdateHUD(float timeStep)
 			oldHealth -= diff * 0.25f;
 			if (fabs(diff) < 0.1f) oldHealth = player->health;
 		}
-		healthMeter->SetSize(floor((oldHealth / 100.0f) * 628.0f), 52);
+		healthMeter->SetSize(floor((oldHealth / 100.0f) * 628.0f), 22);
 		projectileCounter->SetText("PROJECTILE: " + String(GetGlobalVar("PROJECTILE COUNT").GetInt()));
 	}
 
@@ -349,6 +355,9 @@ void Gameplay::MakeHUD()
 	ourUI->AddChild(projectileCounter);
 
 	healthMeter = (Sprite*)ourUI->GetChild("healthbar", true)->GetChild(0);
+	compass1 = (Sprite*)ourUI->GetChild("compass1", true);
+	compass1->SetTexture(compassScene->renderedTexture);
+	compass1->SetFullImageRect();
 
 	ourUI->SetEnabled(false);
 	ourUI->SetVisible(false);

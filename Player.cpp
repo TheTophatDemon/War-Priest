@@ -31,7 +31,7 @@
 #include "NPC.h"
 #include "TempEffect.h"
 #include "Boulder.h"
-#include "Enemy.h"
+
 #include "Zeus.h"
 #include "Projectile.h"
 #include "GunPriest.h"
@@ -174,6 +174,8 @@ void Player::FixedUpdate(float timeStep)
 	}
 
 	HandleShadow();
+
+	FindNearestCorpse();
 
 	switch (state) 
 	{
@@ -548,36 +550,16 @@ void Player::ST_Revive(float timeStep)
 	}
 	if (stateTimer == 20)
 	{
-		PODVector<Node*> enemies;
-		scene->GetChildrenWithTag(enemies, "enemy", true);
-		float smallestDistance = 10000.0f;
-		Enemy* nearestEnemy = nullptr;
-		for (PODVector<Node*>::Iterator i = enemies.Begin(); i != enemies.End(); ++i)
+		if (nearestCorpse)
 		{
-			Node* enemy = (Node*)*i;
-			if (enemy)
+			const float distance = (nearestCorpse->GetNode()->GetWorldPosition() - node_->GetWorldPosition()).Length();
+			if (distance < 8.0f) 
 			{
-				Enemy* e = enemy->GetDerivedComponent<Enemy>();
-				if (!e->revived) //'Tis dead
-				{
-					float dist = (enemy->GetWorldPosition() - node_->GetWorldPosition()).Length();
-					if (dist < 8.0f)
-					{
-						if (dist < smallestDistance)
-						{
-							smallestDistance = dist;
-							nearestEnemy = e;
-						}
-					}
-				}
+				Zeus::MakeLightBeam(scene, nearestCorpse->GetNode()->GetWorldPosition());
+				nearestCorpse->Revive();
+				reviveCount += 1;
+				soundSource->Play("Sounds/ply_revive.wav");
 			}
-		}
-		if (nearestEnemy)
-		{
-			Zeus::MakeLightBeam(scene, nearestEnemy->GetNode()->GetWorldPosition());
-			nearestEnemy->Revive();
-			reviveCount += 1;
-			soundSource->Play("Sounds/ply_revive.wav");
 		}
 	}
 	actor->Move(timeStep);
@@ -611,6 +593,44 @@ void Player::ST_Win(float timeStep)
 	actor->SetMovement(0.0f, 0.0f);
 	actor->Move(timeStep);
 	animController->PlayExclusive("Models/grungle_idle.ani", 0, true, 0.2f);
+}
+
+void Player::FindNearestCorpse()
+{
+	PODVector<Node*> enemies;
+	scene->GetChildrenWithTag(enemies, "enemy", true);
+	float smallestDistance = FLT_MAX;
+	nearestCorpse = nullptr;
+	for (PODVector<Node*>::Iterator i = enemies.Begin(); i != enemies.End(); ++i)
+	{
+		Node* enemy = (Node*)*i;
+		if (enemy)
+		{
+			Enemy* e = enemy->GetDerivedComponent<Enemy>();
+			if (!e->revived) //'Tis dead
+			{
+				const float dist = (enemy->GetWorldPosition() - node_->GetWorldPosition()).LengthSquared();
+				if (dist < smallestDistance)
+				{
+					smallestDistance = dist;
+					nearestCorpse = e;
+				}
+			}
+		}
+	}
+	//Update the HUD compass
+	if (nearestCorpse) 
+	{
+		Quaternion q = Quaternion();
+		const Vector3 nyeh = cameraNode->GetWorldTransform().Inverse() * Vector3(nearestCorpse->GetNode()->GetWorldPosition().x_, 0.0f, nearestCorpse->GetNode()->GetWorldPosition().z_);
+		const Vector3 bleh = cameraNode->GetWorldTransform().Inverse() * Vector3(node_->GetWorldPosition().x_, 0.0f, node_->GetWorldPosition().z_);
+		q.FromLookRotation((bleh - nyeh).Normalized());
+		game->compassScene->compassRotation = q.EulerAngles().y_;
+	}
+	else
+	{
+		game->compassScene->compassRotation += 25.0f;
+	}
 }
 
 Player::~Player()
