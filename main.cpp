@@ -4,9 +4,12 @@
 		//Play death
 		//Play win & God's beam
 		//HALLELUJAH!
-	//Win music
 
 	//Roblox?
+	
+	//Need some sort of goodie besides health to put in secret areas
+	//God mode
+	//Look into that little clove in Act 2
 
 	//DelayedWorldTransform
 	//Loading glitch/Alt-tab

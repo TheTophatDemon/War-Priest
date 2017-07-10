@@ -61,6 +61,7 @@
 
 class GunPriest : public Application
 {
+	friend class Gameplay;
 public:
 	SharedPtr<DebugHud> debugHud;
 	SharedPtr<DebugRenderer> debugRenderer;

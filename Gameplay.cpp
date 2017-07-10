@@ -392,6 +392,7 @@ void Gameplay::Lose()
 		DisplayMessage("Mission Failed.\nThe Lord frowns upon you!", Color::WHITE, 250.0f);
 		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
 		restartTimer = 250;
+		gunPriest->musicSource->Stop();
 	}
 	winState = -1;
 }
@@ -407,9 +408,10 @@ void Gameplay::Win()
 		Node* god = scene_->CreateChild();
 		god->LoadXML(cache->GetResource<XMLFile>("Objects/god.xml")->GetRoot(), false);
 		god->CreateComponent<God>();
+
+		gunPriest->musicSource->Play(cache->GetResource<Sound>("Music/theyfeeltherain.ogg"));
 	}
 	winState = 1;
-	
 }
 
 void Gameplay::SetupEnemy()
