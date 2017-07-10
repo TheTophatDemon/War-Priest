@@ -22,16 +22,14 @@ class Actor;
 class Projectile;
 class Enemy : public LogicComponent
 {
-	URHO3D_OBJECT(Enemy, LogicComponent);
+	//URHO3D_OBJECT(Enemy, LogicComponent);
 public:
 	Enemy(Context* context);
-	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void DelayedStart();
 	virtual void FixedUpdate(float timeStep);
 	virtual void Revive();
-	~Enemy();
-	int state;
+	virtual ~Enemy();
 	bool revived = false;
 protected:
 	SharedPtr<Gameplay> game;
@@ -53,6 +51,7 @@ protected:
 	void EndFrameCheck(StringHash eventType, VariantMap& eventData);
 	
 	float stateTimer;
+	int state;
 
 	virtual void Execute();
 	void Wander();

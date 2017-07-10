@@ -82,7 +82,7 @@ void LevelSelectMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 			}
 			else if (source->GetName() == "levelButton")
 			{
-				String path = source->GetVar("filePath").GetString();
+				const String path = source->GetVar("filePath").GetString();
 				titleScreen->gunPriest->ChangeState(GunPriest::STATE_GAME);
 				titleScreen->gunPriest->StartGame(path);
 			}

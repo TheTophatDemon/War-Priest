@@ -65,7 +65,7 @@ protected:
 	SharedPtr<Input> input;
 	SharedPtr<Node> pivot;
 	SharedPtr<SoundSounder> soundSource;
-	SharedPtr<Enemy> nearestCorpse;
+	WeakPtr<Enemy> nearestCorpse; //Weakptr instead of Sharedptr avoids big-ass memory leak.
 
 	Quaternion newRotation;
 	Vector3 slideDirection;

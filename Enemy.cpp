@@ -18,11 +18,6 @@ Enemy::Enemy(Context* context) : LogicComponent(context)
 	revived = false;
 }
 
-void Enemy::RegisterObject(Context* context)
-{
-	context->RegisterFactory<Enemy>();
-}
-
 void Enemy::Start()
 {
 	game = GetScene()->GetComponent<Gameplay>();

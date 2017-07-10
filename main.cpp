@@ -4,12 +4,9 @@
 		//Play death
 		//Play win & God's beam
 		//HALLELUJAH!
-	//Music Vol & Music
+	//Win music
 
 	//Roblox?
-
-	//Texture error near main platform
-	//Giant spire thing not reacahable backwards
 
 	//DelayedWorldTransform
 	//Loading glitch/Alt-tab

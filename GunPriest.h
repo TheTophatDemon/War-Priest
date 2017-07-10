@@ -91,6 +91,9 @@ protected:
 	SharedPtr<UI> ui;
 	SharedPtr<Audio> audio;
 
+	SharedPtr<Node> musicPlayer;
+	SharedPtr<SoundSource> musicSource;
+
 	int state = 1;
 };
 

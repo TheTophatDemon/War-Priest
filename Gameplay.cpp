@@ -202,6 +202,10 @@ void Gameplay::SetupGame()
 			StaticModel* sm = n->GetComponent<StaticModel>();
 			CollisionShape* cs = n->CreateComponent<CollisionShape>();
 			cs->SetBox(sm->GetBoundingBox().Size(),sm->GetBoundingBox().Center(), Quaternion::IDENTITY);
+			if (n->GetVar("health").GetInt() == 0)
+			{
+				n->SetVar("health", 20);
+			}
 		}
 	}
 
