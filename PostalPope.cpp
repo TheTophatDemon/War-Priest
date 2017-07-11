@@ -72,7 +72,7 @@ void PostalPope::Execute()
 
 
 	case STATE_WANDER:
-		Wander();
+		Wander(true);
 		stateTimer += deltaTime;
 		if (stateTimer > 2.0f)
 		{

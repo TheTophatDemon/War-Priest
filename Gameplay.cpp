@@ -218,12 +218,13 @@ void Gameplay::SetupGame()
 		if (n)
 		{
 			Matrix3x4 trans = n->GetWorldTransform();
+
+			const float lf = n->GetVar("launchForce").GetFloat();
+
 			n->LoadXML(cache->GetResource<XMLFile>("Objects/launchpad.xml")->GetRoot());
 			n->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
 
 			Launchpad* lp = n->CreateComponent<Launchpad>();
-
-			float lf = n->GetVar("launchForce").GetFloat();
 			if (lf != 0.0f)
 			{
 				lp->launchForce = lf;

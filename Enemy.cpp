@@ -66,7 +66,7 @@ void Enemy::FixedUpdate(float timeStep)
 	Vector3 plyPos = game->playerNode->GetWorldPosition(); plyPos.y_ = 0.0f;
 	Vector3 ourPos = node_->GetWorldPosition(); ourPos.y_ = 0.0f;
 	distanceFromPlayer = (ourPos - plyPos).Length();
-	if (distanceFromPlayer < 60.0f)
+	if (distanceFromPlayer < 80.0f)
 	{
 		Execute();
 		node_->SetWorldRotation(node_->GetWorldRotation().Slerp(newRotation, 0.25f));
@@ -81,7 +81,7 @@ void Enemy::FixedUpdate(float timeStep)
 
 void Enemy::EndFrameCheck(StringHash eventType, VariantMap& eventData)
 {
-	if (distanceFromPlayer < 60.0f)
+	if (distanceFromPlayer < 80.0f)
 	{
 		body->SetEnabled(true);
 	}
@@ -91,7 +91,7 @@ void Enemy::EndFrameCheck(StringHash eventType, VariantMap& eventData)
 	}
 }
 
-void Enemy::Wander()
+void Enemy::Wander(const bool avoidSlopes)
 {
 	turnTimer += deltaTime;
 	if (turnTimer > 0.6f)
@@ -104,7 +104,7 @@ void Enemy::Wander()
 	}
 	if (walking)
 	{
-		if (CheckCliff())
+		if (CheckCliff(avoidSlopes))
 		{
 			walking = false;
 			turnTimer = 0.0f;
@@ -179,19 +179,19 @@ void Enemy::FaceTarget()
 	newRotation = face;
 }
 
-bool Enemy::CheckCliff()
+bool Enemy::CheckCliff(const bool avoidSlopes)
 {
 	PhysicsRaycastResult result;
 	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.2f, 0.0f) + node_->GetWorldDirection() * shape->GetSize().x_ * 2.5f, Vector3::DOWN), 2.0f, 2);
-	if (!result.body_ && actor->fall <= 0.0f)
+	if (actor->fall <= 0.0f)
 	{
-		newRotation = Quaternion(node_->GetWorldRotation().EulerAngles().y_ + 180.0f, Vector3::UP);
-		return true;
+		if (!result.body_ || (fabs(result.normal_.y_) != 1.0f && avoidSlopes))
+		{
+			newRotation = Quaternion(node_->GetWorldRotation().EulerAngles().y_ + 180.0f, Vector3::UP);
+			return true;
+		}
 	}
-	else
-	{
-		return false;
-	}
+	return false;
 }
 
 void Enemy::KeepOnGround()

@@ -212,7 +212,7 @@ void DangerDeacon::Execute()
 
 	case STATE_POSE:
 		stateTimer += deltaTime;
-		if (stateTimer > animController->GetLength(REVIVE_ANIM) * 0.9f)
+		if (stateTimer > animController->GetLength(REVIVE_ANIM) * 0.7f)
 		{
 			ChangeState(STATE_WANDER);
 		}

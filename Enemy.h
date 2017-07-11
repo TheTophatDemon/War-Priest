@@ -54,9 +54,9 @@ protected:
 	int state;
 
 	virtual void Execute();
-	void Wander();
+	void Wander(const bool avoidSlopes = false);
 	void Dead();
-	bool CheckCliff();
+	bool CheckCliff(const bool avoidSlopes = false);
 	void ChangeState(const int newState);
 	virtual void EnterState(const int newState);
 	virtual void LeaveState(const int oldState);
