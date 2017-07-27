@@ -7,6 +7,7 @@
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/Graphics/ParticleEmitter.h>
 #include <Urho3D/Graphics/ParticleEffect.h>
+#include <Urho3D/Audio/Audio.h>
 #include <iostream>
 
 #include "TempEffect.h"
@@ -26,6 +27,8 @@ void Water::Start()
 	scene = GetScene();
 	physworld = scene->GetComponent<PhysicsWorld>();
 	cache = GetSubsystem<ResourceCache>();
+	audio = GetSubsystem<Audio>();
+	splashSound = cache->GetResource<Sound>("Sounds/env_splash.wav");
 
 	if (node_->HasComponent<RigidBody>()) 
 	{
@@ -70,7 +73,7 @@ void Water::OnCollisionEnter(StringHash eventType, VariantMap& eventData)
 	if (other->GetName() != "player")
 	{
 		TempEffect* te = new TempEffect(context_);
-		te->life = 1.0f;
+		te->life = 5.0f;
 		other->AddComponent(te, 413, LOCAL);
 
 		ParticleEmitter* prt = other->CreateComponent<ParticleEmitter>();
@@ -78,7 +81,7 @@ void Water::OnCollisionEnter(StringHash eventType, VariantMap& eventData)
 		
 		SoundSource3D* s = other->CreateComponent<SoundSource3D>();
 		s->SetSoundType("GAMEPLAY");
-		s->Play(cache->GetResource<Sound>("Sounds/env_splash.wav"));
+		s->Play(splashSound);
 	}
 }
 

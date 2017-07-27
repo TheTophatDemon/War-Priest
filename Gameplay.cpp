@@ -117,6 +117,7 @@ void Gameplay::SetupGame()
 	restartTimer = 0;
 	mapNode = scene_->GetChild("map");
 
+
 	compassScene->Start();
 
 	PhysicsWorld* physworld = scene_->GetComponent<PhysicsWorld>();
@@ -171,9 +172,17 @@ void Gameplay::SetupGame()
 			float restSpeed = n->GetVar("restTime").GetFloat(); if (restSpeed == 0.0f) restSpeed = 1.0f;
 			float speed = n->GetVar("speed").GetFloat(); if (speed == 0.0f) speed = 2.0f;
 			float rotSpeed = n->GetVar("rotateSpeed").GetFloat();
+
+			Node* dest = n->GetChild("dest");
+			if (dest)
+			{
+				movement = dest->GetPosition() * dest->GetWorldScale();
+				dest->Remove();
+			}
+
 			n->AddComponent(Lift::MakeLiftComponent(context_, movement, restSpeed, speed, rotSpeed), 1200, LOCAL);
 			RigidBody* r = n->GetComponent<RigidBody>();
-			assert(r);
+			if (!r) r = n->CreateComponent<RigidBody>();
 			r->SetLinearFactor(Vector3::ZERO);
 			r->SetAngularFactor(Vector3::ZERO);
 			r->SetCollisionEventMode(COLLISION_ALWAYS);
@@ -250,7 +259,9 @@ void Gameplay::FixedUpdate(float timeStep)
 		{
 			skybox->Rotate(Quaternion(timeStep * 5.0f, Vector3::UP));
 		}
-		if ((player->reviveCount >= enemyCount && enemyCount > 0) || input->GetKeyDown(KEY_L))
+		if (input->GetKeyDown(KEY_L)) player->reviveCount = 666;
+		if (input->GetKeyDown(KEY_F1)) player->health = 100;
+		if (player->reviveCount >= enemyCount && enemyCount > 0)
 		{
 			if (exitNode) 
 			{

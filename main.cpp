@@ -8,8 +8,9 @@
 	//Roblox?
 	
 	//Need some sort of goodie besides health to put in secret areas
-	//God mode
-	//Musical transition
+	//Lighting fix
+	//"He died for us, not you!"
+	//More autoload 
 
 	//DelayedWorldTransform
 	//Loading glitch/Alt-tab

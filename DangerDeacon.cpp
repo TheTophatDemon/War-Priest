@@ -37,7 +37,7 @@ DangerDeacon::DangerDeacon(Context* context) : Enemy(context)
 void DangerDeacon::DelayedStart()
 {
 	Enemy::DelayedStart();
-	actor->maxspeed = 16.0f;
+	actor->maxspeed = 17.4f;
 
 	modelNode->SetParent(scene);
 	WeakChild::MakeWeakChild(modelNode, node_);

@@ -28,6 +28,8 @@ protected:
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<RigidBody> body;
 	SharedPtr<CollisionShape> shape;
+	SharedPtr<Audio> audio;
+	SharedPtr<Sound> splashSound;
 	float elapsed;
 };
 

@@ -78,6 +78,7 @@ protected:
 	float cameraPitch;
 	float moveX = 0.0f;
 	float moveZ = 0.0f;
+	bool drowning = false;
 
 	bool forwardKey = false;
 	bool backwardKey = false;

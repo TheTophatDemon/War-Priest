@@ -23,6 +23,7 @@
 #include <Urho3D/Math/MathDefs.h>
 #include <Urho3D/Graphics/ParticleEffect.h>
 #include <Urho3D/Audio/Sound.h>
+#include <Urho3D/Audio/SoundSource3D.h>
 
 #include <iostream>
 
@@ -70,6 +71,7 @@ Player::Player(Context* context) : LogicComponent(context)
 	health = MAXHEALTH;
 	cameraPitch = 0.0f;
 	optimalCamPos = Vector3::ZERO;
+	drowning = false;
 }
 
 void Player::RegisterObject(Context* context)
@@ -220,6 +222,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 	}
 	else if (other->HasTag("water"))
 	{
+		drowning = true;
 		health = 0;
 	}
 	else if (otherBody->GetCollisionLayer() & 32)
@@ -270,7 +273,7 @@ void Player::HandleCamera()
 	const Vector3 orgCamPos = cameraNode->GetWorldPosition();
 	cameraNode->SetPosition(cameraOffset); //Temporarily reset camera to simplify some calculations
 
-	const Vector3 maxCameraHeight = Vector3(cameraNode->GetWorldPosition().x_, 15.0f, cameraNode->GetWorldPosition().z_);
+	const Vector3 maxCameraHeight = Vector3(cameraNode->GetWorldPosition().x_, 42.0f, cameraNode->GetWorldPosition().z_);
 	const float diff = maxCameraHeight.y_ - cameraNode->GetWorldPosition().y_;
 
 	float peekOffset = 5.0f;
@@ -370,6 +373,14 @@ void Player::EnterState(int newState)
 			gibs->SetWorldRotation(node_->GetWorldRotation());
 			gibs->SetScale(modelNode->GetScale());
 
+			if (drowning)
+			{
+				SoundSource3D* ss = gibs->CreateComponent<SoundSource3D>();
+				ss->SetSoundType("GAMEPLAY");
+				ss->Play(cache->GetResource<Sound>("Sounds/env_splash.wav"));
+				ss->SetTemporary(true);
+			}
+
 			//PODVector<Node*> children;
 			gibs->GetChildren(children, true);
 			for (PODVector<Node*>::Iterator i = children.Begin(); i != children.End(); ++i)
@@ -377,7 +388,14 @@ void Player::EnterState(int newState)
 				Node* n = (Node*)*i;
 				if (n)
 				{
-					n->GetComponent<RigidBody>()->ApplyImpulse(Vector3(Random(-250.0f, 250.0f), Random(-10.0f, 500.0f), Random(-250.0f, 250.0f)));
+					if (!drowning)
+					{
+						n->GetComponent<RigidBody>()->ApplyImpulse(Vector3(Random(-250.0f, 250.0f), Random(-10.0f, 500.0f), Random(-250.0f, 250.0f)));
+					}
+					else
+					{
+						n->GetComponent<RigidBody>()->ApplyImpulse(Vector3(Random(-25.0f, 25.0f), -100.0f, Random(-25.0f, 25.0f)));
+					}
 					n->CloneComponent(bloodEmitter, 0U);
 					//Replace with flowers if blood disabled
 					if (!Settings::IsBloodEnabled()) 
@@ -530,6 +548,7 @@ void Player::ST_Default(float timeStep)
 	}
 
 	actor->Move(timeStep);
+	std::cout << actor->slopeSteepness << std::endl;
 }
 
 void Player::ST_Revive(float timeStep)
@@ -573,7 +592,7 @@ void Player::ST_Slide(float timeStep)
 	actor->SetMovement(slideDirection);
 	actor->Move(timeStep);
 
-	if (stateTimer > 0.5f)
+	if (stateTimer > 0.4f)
 	{
 		stateTimer = 0;
 		ChangeState(STATE_DEFAULT);

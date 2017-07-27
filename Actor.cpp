@@ -142,7 +142,7 @@ void Actor::Move(float timeStep)
 				slopeFall = (-1 / (slopeSteepness * 0.64f) + 1) * rawMovement.Length();
 				const Vector3 slopeNormalXZ = Vector3(downCast.normal_.x_, 0.0f, downCast.normal_.z_);
 				const float dot = slopeNormalXZ.DotProduct(rawMovement);
-				if (dot < -0.75f)
+				if (dot < -0.75f && slopeSteepness >= 0.75f)
 				{
 					slopeFall = fabs(slopeFall) * 0.34f;
 				}
@@ -259,15 +259,11 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 			Vector3 normal = contacts.ReadVector3();
 			float distance = contacts.ReadFloat();
 			float impulse = contacts.ReadFloat();
-			if (fabs(normal.y_) >= 0.42f)
+			if (fabs(normal.y_) >= 0.75f)
 			{
 				if (position.y_ <= node_->GetWorldPosition().y_ + 0.5f) 
 				{
 					onGround = true;
-					/*if (other->HasTag("lift"))
-					{
-						liftOn = other;
-					}*/
 				}
 				else if (position.y_ >= node_->GetWorldPosition().y_ + 3.0f)
 				{
