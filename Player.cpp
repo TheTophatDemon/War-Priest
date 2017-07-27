@@ -292,10 +292,10 @@ void Player::HandleCamera()
 	}
 
 	cameraNode->SetWorldPosition(orgCamPos);
-	float transitionSpeed = 0.1f;
+	float transitionSpeed = Min(0.15f + (1.0f / cameraDownCast.distance_), 1.0f);
 	if (input->GetMouseMoveX() > 8)
 	{
-		transitionSpeed = Min(input->GetMouseMoveX() * 0.05f, 1.0f);
+		transitionSpeed = 1.0f;
 	}
 	cameraNode->Translate((optimalCamPos - cameraNode->GetWorldPosition()) * transitionSpeed, TS_WORLD);
 
@@ -362,7 +362,7 @@ void Player::EnterState(int newState)
 			{
 				body->SetCollisionLayer(body->GetCollisionLayer() - 128);
 			}
-			soundSource->Play("Sounds/ply_slide.wav");
+			soundSource->Play("Sounds/ply_slide.wav", true);
 			break;
 		case STATE_DEAD:
 			bloodEmitter->SetEmitting(true);
@@ -548,7 +548,6 @@ void Player::ST_Default(float timeStep)
 	}
 
 	actor->Move(timeStep);
-	std::cout << actor->slopeSteepness << std::endl;
 }
 
 void Player::ST_Revive(float timeStep)
@@ -577,7 +576,7 @@ void Player::ST_Revive(float timeStep)
 				Zeus::MakeLightBeam(scene, nearestCorpse->GetNode()->GetWorldPosition());
 				nearestCorpse->Revive();
 				reviveCount += 1;
-				soundSource->Play("Sounds/ply_revive.wav");
+				soundSource->Play("Sounds/ply_revive.wav", true);
 			}
 		}
 	}

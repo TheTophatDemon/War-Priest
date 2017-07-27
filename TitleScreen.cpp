@@ -113,7 +113,7 @@ void TitleScreen::OnEvent(StringHash eventType, VariantMap& eventData)
 			}
 			else if (eventType == E_HOVERBEGIN)
 			{
-				soundSource->Play(cache->GetResource<Sound>("Sounds/gui_hover.wav"));
+				soundSource->Play(cache->GetResource<Sound>("Sounds/gui_hover.wav"), 44100.0f + Random(-1000.0f, 1000.0f));
 			}
 		}
 	}

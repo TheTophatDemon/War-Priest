@@ -19,7 +19,7 @@ public:
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
-	void Play(String path);
+	void Play(const String path, const bool variate = false);
 	~SoundSounder();
 protected:
 	SharedPtr<SoundSource3D> sources[MAX_INSTANCE];

@@ -6,13 +6,14 @@
 		//HALLELUJAH!
 
 	//Roblox?
+
+	//Mecha Minister:
+		//Rapid-fire machine gun of some kind
 	
 	//Need some sort of goodie besides health to put in secret areas
-	//Lighting fix
 	//"He died for us, not you!"
 	//More autoload 
-
-	//DelayedWorldTransform
+	
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl
 		//SDL_Delay bug
@@ -44,8 +45,6 @@
 	//GAMEPLAY
 	//TITLE
 	//MUSIC
-
-//psychoruins
 
 #include <Urho3D/Core/CoreEvents.h>
 #include <Urho3D/Engine/Engine.h>

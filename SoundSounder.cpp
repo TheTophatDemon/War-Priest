@@ -35,17 +35,19 @@ void SoundSounder::FixedUpdate(float timeStep)
 	}
 }
 
-void SoundSounder::Play(String path)
+void SoundSounder::Play(const String path, const bool variate)
 {
+	float freq = 44100.0f;
+	if (variate) freq += Random(-1500.0f, 1500.0f);
 	for (int i = 0; i < MAX_INSTANCE; ++i)
 	{
 		if (sources[i]->IsPlaying() == false)
 		{
-			sources[i]->Play(cache->GetResource<Sound>(path));
+			sources[i]->Play(cache->GetResource<Sound>(path), freq);
 			return;
 		}
 	}
-	sources[0]->Play(cache->GetResource<Sound>(path));
+	sources[0]->Play(cache->GetResource<Sound>(path), freq);
 }
 
 SoundSounder::~SoundSounder()
