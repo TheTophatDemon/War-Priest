@@ -9,6 +9,7 @@
 
 	//Mecha Minister:
 		//Rapid-fire machine gun of some kind
+	//Danger Deacon may need some cliff avoidance algos
 	
 	//Need some sort of goodie besides health to put in secret areas
 	//"He died for us, not you!"

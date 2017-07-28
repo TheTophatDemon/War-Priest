@@ -78,7 +78,6 @@ void Lift::OnCollision(StringHash eventType, VariantMap& eventData)
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
 	if (otherBody->GetCollisionLayer() & 128 || otherBody->GetCollisionLayer() & 64) //KNOCK KNOCK ITS ME
 	{
-		Vector3 normMovement;
 		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
 		while (!contacts.IsEof())
 		{
@@ -86,7 +85,7 @@ void Lift::OnCollision(StringHash eventType, VariantMap& eventData)
 			Vector3 normal = contacts.ReadVector3();
 			float distance = contacts.ReadFloat();
 			float impulse = contacts.ReadFloat();
-			if (fabs(normal.y_) >= 0.42f && position.y_ > node_->GetWorldPosition().y_)
+			if (fabs(normal.y_) >= 0.42f && position.y_ < other->GetWorldPosition().y_ + 0.4f)
 			{
 				return;
 			}
