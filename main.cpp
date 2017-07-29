@@ -13,7 +13,6 @@
 	
 	//Need some sort of goodie besides health to put in secret areas
 	//"He died for us, not you!"
-	//More autoload 
 	
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl

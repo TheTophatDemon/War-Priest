@@ -13,6 +13,7 @@
 #include <Urho3D/Engine/DebugHud.h>
 #include <Urho3D/UI/Sprite.h>
 #include <Urho3D/Scene/ValueAnimation.h>
+#include <Urho3D/Physics/PhysicsWorld.h>
 #include <Urho3D/UI/UIElement.h>
 #include <Urho3D/Audio/Audio.h>
 #include "CompassScene.h"
@@ -64,6 +65,7 @@ protected:
 	
 	void SetupEnemy();
 	void SetupProps();
+	void ExtractLiquidsFromMap();
 
 	SharedPtr<Node> skybox;
 	SharedPtr<Node> exitNode;
@@ -81,6 +83,7 @@ protected:
 	SharedPtr<Viewport> viewport;
 	SharedPtr<Renderer> renderer;
 	SharedPtr<Audio> audio;
+	SharedPtr<PhysicsWorld> physworld;
 
 	Color flashColor;
 	float flashSpeed;

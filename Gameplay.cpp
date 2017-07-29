@@ -8,7 +8,7 @@
 #include <Urho3D/Core/ProcessUtils.h>
 #include <Urho3D/Engine/Engine.h>
 #include <Urho3D/Physics/PhysicsEvents.h>
-#include <Urho3D/Physics/PhysicsWorld.h>
+
 #include <Urho3D/Physics/RigidBody.h>
 #include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Math/Ray.h>
@@ -17,6 +17,7 @@
 #include <Urho3D/Scene/Scene.h>
 #include <Urho3D/Scene/SceneEvents.h>
 #include <Urho3D/Graphics/StaticModel.h>
+#include <Urho3D/Graphics/Model.h>
 #include <Urho3D/Graphics/AnimatedModel.h>
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/Input/Controls.h>
@@ -37,6 +38,8 @@
 #include <Urho3D/Scene/ObjectAnimation.h>
 #include <Urho3D/Graphics/Light.h>
 #include <Urho3D/Graphics/ParticleEffect.h>
+#include <Urho3D/Graphics/Technique.h>
+#include <Urho3D/Graphics/Geometry.h>
 
 #include <iostream>
 
@@ -115,15 +118,17 @@ void Gameplay::SetupGame()
 	SetGlobalVar("PROJECTILE COUNT", 0);
 	winState = 0;
 	restartTimer = 0;
-	mapNode = scene_->GetChild("map");
 
-
-	compassScene->Start();
-
-	PhysicsWorld* physworld = scene_->GetComponent<PhysicsWorld>();
+	physworld = scene_->GetComponent<PhysicsWorld>();
 	physworld->SetMaxSubSteps(10);
 	physworld->SetInterpolation(false);
 	physworld->SetInternalEdge(true);
+
+	mapNode = scene_->GetChild("map");
+
+	ExtractLiquidsFromMap();
+	
+	compassScene->Start();
 
 	//Setup Player
 	playerNode = scene_->GetChild("player");
@@ -530,6 +535,48 @@ void Gameplay::SetupProps()
 			body->EnableMassUpdate();
 		}
 	}
+}
+
+void Gameplay::ExtractLiquidsFromMap() //For more dynamic liquid volumes
+{
+	StaticModel* mapModel = mapNode->GetComponent<StaticModel>();
+	Model* model = mapModel->GetModel();
+	physworld->RemoveCachedGeometry(model); //Important!
+
+	SharedPtr<Model> waterModel(new Model(context_)); //We plan on separating the parts of the map with "liquid" materials into their own model
+	Vector<SharedPtr<Geometry>> waterGeometries = Vector<SharedPtr<Geometry>>();
+
+	SharedPtr<Geometry> emptyGeo = SharedPtr<Geometry>(new Geometry(context_)); //Fake geometry so they don't complain at us
+	for (int i = 0; i < mapModel->GetNumGeometries(); i++)
+	{
+		if (mapModel->GetMaterial(i)->GetTechnique(0) == cache->GetResource<Technique>("Techniques/Liquid.xml"))
+		{
+			std::cout << "WATER FOUND" << std::endl;
+			waterGeometries.Push(SharedPtr<Geometry>(model->GetGeometry(i, 0)));
+			model->SetGeometry(i, 0, emptyGeo); //This only affects the collisionshape generation for some reason.
+		}
+	}
+	CollisionShape* cs = mapNode->GetComponent<CollisionShape>(); //Update the map's collision shape; should now exclude water geometry.
+	cs->SetTriangleMesh(model, 0U);
+
+	//Put extracted geometries into new model
+	waterModel->SetNumGeometries(waterGeometries.Size());
+	unsigned int i = 0;
+	for (Vector<SharedPtr<Geometry>>::Iterator g = waterGeometries.Begin(); g != waterGeometries.End(); ++g)
+	{
+		SharedPtr<Geometry> geo = (SharedPtr<Geometry>)*g;
+		if (geo)
+		{
+			waterModel->SetNumGeometryLodLevels(i, 1);
+			waterModel->SetGeometry(i, 0, geo);
+		}
+		i++;
+	}
+	//Create new water node
+	Node* waterNode = mapNode->CreateChild("water");
+	waterNode->AddTag("water");
+	CollisionShape* waterShape = waterNode->CreateComponent<CollisionShape>();
+	waterShape->SetTriangleMesh(waterModel, 0U);
 }
 
 void Gameplay::SetupLighting()
