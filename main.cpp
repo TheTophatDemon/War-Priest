@@ -7,11 +7,9 @@
 
 	//Roblox?
 
-	//Mecha Minister:
-		//Rapid-fire machine gun of some kind
-	//Danger Deacon may need some cliff avoidance algos
+	//Mecha Minister?
+	//Tempest Templar
 	
-	//Need some sort of goodie besides health to put in secret areas
 	//"He died for us, not you!"
 	
 	//Loading glitch/Alt-tab

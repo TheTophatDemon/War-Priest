@@ -73,7 +73,7 @@ void Water::OnCollisionEnter(StringHash eventType, VariantMap& eventData)
 	if (other->GetName() != "player")
 	{
 		TempEffect* te = new TempEffect(context_);
-		te->life = 5.0f;
+		te->life = 3.5f;
 		other->AddComponent(te, 413, LOCAL);
 
 		ParticleEmitter* prt = other->CreateComponent<ParticleEmitter>();

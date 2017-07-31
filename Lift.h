@@ -21,6 +21,7 @@ public:
 	virtual void Start();
 	~Lift();
 	Vector3 movement;
+	//Vector3 unitMovement;
 	float restTime = 0.0f;
 	float speed = 1.0f;
 	float rotateSpeed = 0.0f;

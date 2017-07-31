@@ -127,6 +127,26 @@ void Actor::Move(float timeStep)
 	{
 		onGround = true;
 		node_->SetWorldPosition(liftHelper->GetWorldPosition() + physicsMovement);
+		//Check manually if we're still on the moving platform because using Collision End events causes unbearable jittering
+		PhysicsRaycastResult stillOn;
+		physworld->SphereCast(stillOn, Ray(node_->GetWorldPosition() + Vector3(0.0f, shape->GetSize().x_, 0.0f), Vector3::DOWN), shape->GetSize().x_, 100, 2U);
+		bool diddly = false;
+		if (stillOn.body_)
+		{
+			if (!stillOn.body_->GetNode()->HasTag("lift") || stillOn.distance_ >= shape->GetSize().x_ + 0.1f)
+			{
+				diddly = true;
+			}
+		}
+		else
+		{
+			diddly = true;
+		}
+		if (diddly)
+		{
+			liftOn = nullptr;
+			liftHelper->SetParent(scene);
+		}
 	}
 
 	//Falling logic
@@ -194,6 +214,7 @@ void Actor::Move(float timeStep)
 	if (liftOn)
 	{
 		liftHelper->SetWorldPosition(node_->GetWorldPosition());
+		onGround = true;
 	}
 
 	lastPosition = node_->GetWorldPosition();
@@ -278,11 +299,6 @@ void Actor::OnCollisionEnd(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (other == liftOn)
-	{
-		liftHelper->SetParent(scene);
-		liftOn = nullptr;
-	}
 }
 
 Actor::~Actor()
