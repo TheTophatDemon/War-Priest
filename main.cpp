@@ -10,8 +10,9 @@
 	//Mecha Minister?
 	//Tempest Templar
 	
-	//"He died for us, not you!"
-	
+	//Investigate platforms running into walls
+	//Customize UI.png
+
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl
 		//SDL_Delay bug

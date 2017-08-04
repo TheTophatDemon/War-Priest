@@ -365,6 +365,8 @@ void Gameplay::MakeHUD()
 	messageText->SetFont("Fonts/Anonymous Pro.ttf", 24);
 	messageText->SetAlignment(HA_CENTER, VA_CENTER);
 	messageText->SetTextAlignment(HA_CENTER);
+	messageText->SetTextEffect(TextEffect::TE_STROKE);
+	messageText->SetEffectStrokeThickness(4);
 	ourUI->AddChild(messageText);
 	messageText->SetVisible(false);
 

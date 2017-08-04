@@ -77,7 +77,7 @@ void Debris::Die()
 	if (dieTimer == 0.0f) 
 	{
 		smokeNode = Zeus::PuffOfSmoke(GetScene(), node_->GetWorldPosition(), 2.0f);
-		dieTimer = 1.0f;
+		dieTimer = 0.5f;
 	}
 }
 

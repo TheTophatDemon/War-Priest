@@ -75,6 +75,7 @@ protected:
 	int hailTimer;
 	int hurtTimer;
 	float stateTimer;
+	float reviveCooldown;
 	float cameraPitch;
 	float moveX = 0.0f;
 	float moveZ = 0.0f;

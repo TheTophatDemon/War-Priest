@@ -31,6 +31,9 @@
 #include <Urho3D/IO/FileSystem.h>
 #include <Urho3D/Scene/ObjectAnimation.h>
 #include "TempEffect.h"
+#include "WeakChild.h"
+
+#include <iostream>
 
 Zeus::Zeus()
 {

@@ -67,6 +67,7 @@ Player::Player(Context* context) : LogicComponent(context)
 	hailTimer = 0;
 	stateTimer = 0;
 	hurtTimer = 0;
+	reviveCooldown = 0.0f;
 	state = STATE_DEFAULT;
 	health = MAXHEALTH;
 	cameraPitch = 0.0f;
@@ -538,13 +539,20 @@ void Player::ST_Default(float timeStep)
 		}
 	}
 
-	if (reviveKey)
+	if (reviveCooldown > 0) reviveCooldown -= timeStep;
+	if (reviveKey && reviveCooldown <= 0.0f)
 	{
 		ChangeState(STATE_REVIVE);
+		reviveCooldown = 1.0f;
 	}
 	else if (slideKey && actor->onGround && stateTimer > 0.5f)
 	{
 		ChangeState(STATE_SLIDE);
+	}
+
+	if (input->GetKeyDown(KEY_KP_0))
+	{
+		actor->onGround = true;
 	}
 
 	actor->Move(timeStep);
