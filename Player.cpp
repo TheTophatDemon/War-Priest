@@ -543,7 +543,6 @@ void Player::ST_Default(float timeStep)
 	if (reviveKey && reviveCooldown <= 0.0f)
 	{
 		ChangeState(STATE_REVIVE);
-		reviveCooldown = 1.0f;
 	}
 	else if (slideKey && actor->onGround && stateTimer > 0.5f)
 	{
@@ -585,6 +584,7 @@ void Player::ST_Revive(float timeStep)
 				nearestCorpse->Revive();
 				reviveCount += 1;
 				soundSource->Play("Sounds/ply_revive.wav", true);
+				reviveCooldown = 0.75f;
 			}
 		}
 	}

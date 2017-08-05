@@ -58,6 +58,7 @@
 #include "DangerDeacon.h"
 #include "Launchpad.h"
 #include "CompassScene.h"
+#include "TempTemplar.h"
 
 class GunPriest : public Application
 {

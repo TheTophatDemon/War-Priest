@@ -56,6 +56,7 @@
 #include "Water.h"
 #include "Settings.h"
 #include "Launchpad.h"
+#include "TempTemplar.h"
 
 using namespace Urho3D;
 
@@ -447,18 +448,11 @@ void Gameplay::SetupEnemy()
 			Matrix3x4 t = n->GetWorldTransform();
 			n->LoadXML(cache->GetResource<XMLFile>("Objects/" + enemyType + ".xml")->GetRoot());
 			n->SetWorldTransform(t.Translation(), t.Rotation(), t.Scale());
-			if (enemyType == "pyropastor")
-			{
-				n->CreateComponent<PyroPastor>();
-			}
-			else if (enemyType == "postalpope")
-			{
-				n->CreateComponent<PostalPope>();
-			}
-			else if (enemyType == "dangerdeacon")
-			{
-				n->CreateComponent<DangerDeacon>();
-			}
+
+			if (enemyType == "pyropastor"){n->CreateComponent<PyroPastor>();}
+			else if (enemyType == "postalpope"){n->CreateComponent<PostalPope>();}
+			else if (enemyType == "dangerdeacon"){n->CreateComponent<DangerDeacon>();}
+			else if (enemyType == "temptemplar"){n->CreateComponent<TempTemplar>();}
 
 			enemyCount += 1;
 		}

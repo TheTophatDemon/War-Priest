@@ -9,9 +9,12 @@
 
 	//Mecha Minister?
 	//Tempest Templar
+		//Push projectiles
+		//Hurt player on touch
 	
-	//Investigate platforms running into walls
 	//Customize UI.png
+
+	//Make enemies load their shit on creation
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl

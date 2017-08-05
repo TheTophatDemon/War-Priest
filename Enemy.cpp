@@ -91,7 +91,7 @@ void Enemy::EndFrameCheck(StringHash eventType, VariantMap& eventData)
 	}
 }
 
-void Enemy::Wander(const bool avoidSlopes)
+void Enemy::Wander(const bool avoidSlopes, const bool pause)
 {
 	turnTimer += deltaTime;
 	if (turnTimer > 0.6f)
@@ -100,7 +100,14 @@ void Enemy::Wander(const bool avoidSlopes)
 		turnAmount = (float)Random(-180, 180);
 		if (turnAmount != 0.0f)
 			newRotation = Quaternion(node_->GetWorldRotation().y_ + turnAmount, Vector3::UP);
-		walking = true;
+		if (!pause)
+		{
+			walking = true;
+		}
+		else
+		{
+			walking = Random(0.0f, 1.0f) > 0.5f ? true : false;
+		}
 	}
 	if (walking)
 	{
