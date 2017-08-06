@@ -16,7 +16,7 @@ using namespace Urho3D;
 
 class Actor;
 class Gameplay;
-class TempTemplar : Enemy 
+class TempTemplar : public Enemy 
 {
 	URHO3D_OBJECT(TempTemplar, LogicComponent);
 public:
@@ -26,6 +26,7 @@ public:
 	virtual void DelayedStart();
 	~TempTemplar();
 protected:
+	void OnShieldCollision(StringHash eventType, VariantMap& eventData);
 	virtual void Execute();
 	virtual void Dead();
 	virtual void EnterState(const int newState);

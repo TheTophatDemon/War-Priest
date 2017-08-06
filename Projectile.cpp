@@ -24,6 +24,7 @@ Projectile::Projectile(Context* context) : LogicComponent(context)
 	hit = false;
 	movement = Vector3::ZERO;
 	timer = 0;
+	orgSpeed = 0.0f;
 	lifeTimer = 0;
 
 	emitter = nullptr;
@@ -42,10 +43,12 @@ void Projectile::Start()
 	physworld = scene->GetComponent<PhysicsWorld>();
 	if (node_->HasComponent<ParticleEmitter>())
 		emitter = node_->GetComponent<ParticleEmitter>();
+	
 }
 
 void Projectile::FixedUpdate(float timeStep)
 {
+	if (orgSpeed == 0.0f) orgSpeed = speed;
 	lifeTimer += timeStep;
 	if (lifeTimer > 2.0f && !hit) Destroy();
 	if (hit)
@@ -77,7 +80,7 @@ void Projectile::FixedUpdate(float timeStep)
 		physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement.Normalized()), radius, radius, 210);//128+64+2+16
 		if (result.body_)
 		{
-			if (result.body_->GetNode() != owner) 
+			if (result.body_->GetNode() != owner)
 			{
 				int colLayer = result.body_->GetCollisionLayer();
 				if (colLayer & 128 || colLayer & 64)
@@ -87,11 +90,30 @@ void Projectile::FixedUpdate(float timeStep)
 					map.Insert(Pair<StringHash, Variant>(StringHash("victim"), result.body_->GetNode()));
 					map.Insert(Pair<StringHash, Variant>(StringHash("damage"), damage));
 					SendEvent(StringHash("ProjectileHit"), map);
+					Destroy();
 				}
-				Destroy();
+				else if (colLayer & 16)
+				{
+					if (result.body_->GetNode()->HasTag("tempshield"))
+					{
+						speed -= 2.5f;
+						if (speed == 0.0f) speed = -orgSpeed;
+					}
+				}
+				else
+				{
+					Destroy();
+				}
 			}
 		}
-		
+		else
+		{
+			if (fabs(speed) < orgSpeed) //Reset speed after going through shield
+			{
+				if (speed < 0) speed = -orgSpeed;
+				if (speed > 0) speed = orgSpeed;
+			}
+		}
 		node_->Translate(movement, TS_WORLD);
 	}
 }

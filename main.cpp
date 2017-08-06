@@ -9,12 +9,12 @@
 
 	//Mecha Minister?
 	//Tempest Templar
-		//Push projectiles
 		//Hurt player on touch
 	
 	//Customize UI.png
 
 	//Make enemies load their shit on creation
+	//PootOnFloor() is brokken
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl
@@ -38,7 +38,7 @@
 	//2 = CAN BE JUMPED ON/SLOPED
 	//4 = NPC
 	//8 = GROUND DETECTOR
-	//16 = SHIELDS AND OTHER PROJECTILE BLOCKERS
+	//16 = SHIELD/ONLY PROJECTILES CAN TOUCH
 	//32 = ITEM
 	//64 = ENEMY
 	//128 = PLAYER

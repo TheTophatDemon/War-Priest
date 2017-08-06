@@ -42,6 +42,7 @@ protected:
 	Vector3 movement;
 	int timer;
 	float lifeTimer;
+	float orgSpeed = 0.0f;
 	
 	bool hit;
 };
