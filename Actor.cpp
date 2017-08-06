@@ -55,6 +55,8 @@ void Actor::Start()
 	liftHelper = scene->CreateChild();
 	WeakChild::MakeWeakChild(liftHelper, node_);
 
+	lastPosition = node_->GetWorldPosition();
+
 	SubscribeToEvent(GetNode(), E_NODECOLLISIONSTART, URHO3D_HANDLER(Actor, OnCollisionStart));
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Actor, OnCollision));
 	SubscribeToEvent(GetNode(), E_NODECOLLISIONEND, URHO3D_HANDLER(Actor, OnCollisionEnd));

@@ -14,7 +14,6 @@
 	//Customize UI.png
 
 	//Make enemies load their shit on creation
-	//PootOnFloor() is brokken
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl
