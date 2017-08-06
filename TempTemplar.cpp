@@ -17,8 +17,11 @@
 
 #define STATE_DEAD 0
 #define STATE_WANDER 1
+#define STATE_ATTACK 32
 
 #define SHIELD_SIZE 18.0f
+#define MELEE_RANGE 3.0f
+#define MELEE_DAMAGE 10.0f
 
 TempTemplar::TempTemplar(Context* context) : Enemy(context)
 {
@@ -62,6 +65,11 @@ void TempTemplar::RegisterObject(Context* context)
 
 void TempTemplar::Execute()
 {
+	float targetDist = 10000.0f;
+	if (target)
+	{
+		targetDist = (target->GetWorldPosition() - node_->GetWorldPosition()).Length();
+	}
 	shield->SetWorldPosition(node_->GetWorldPosition());
 	shield->Rotate(Quaternion(deltaTime * 100.0f, Vector3::UP), TS_LOCAL);
 	subShield->Rotate(Quaternion(deltaTime * 50.0f, Vector3::UP), TS_LOCAL);
@@ -78,8 +86,33 @@ void TempTemplar::Execute()
 		else
 		{
 			shield->SetScale(SHIELD_SIZE);
+			if (targetDist < MELEE_RANGE)
+			{
+				ChangeState(STATE_ATTACK);
+			}
 		}
 		Wander(false, true);
+		break;
+	case STATE_ATTACK:
+		stateTimer += deltaTime;
+
+		FaceTarget();
+		if (stateTimer > 0.5f && !attacked && target && targetDist < MELEE_RANGE)
+		{
+			attacked = true;
+			VariantMap map = VariantMap();
+			map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
+			map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(target)));
+			map.Insert(Pair<StringHash, Variant>(StringHash("damage"), MELEE_DAMAGE));
+			SendEvent(StringHash("ProjectileHit"), map);
+		}
+		if (stateTimer > 1.0f)
+		{
+			ChangeState(STATE_WANDER);
+		}
+
+		actor->SetMovement(0.0f, 0.0f);
+		actor->Move(deltaTime);
 		break;
 	}
 }
@@ -96,6 +129,10 @@ void TempTemplar::EnterState(const int newState)
 	{
 		shieldModel->SetEnabled(true);
 		subShield->GetComponent<StaticModel>()->SetEnabled(true);
+	}
+	else if (newState == STATE_ATTACK)
+	{
+		attacked = false;
 	}
 }
 

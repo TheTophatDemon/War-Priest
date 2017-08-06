@@ -34,5 +34,6 @@ protected:
 	WeakPtr<Node> shield;
 	WeakPtr<StaticModel> shieldModel;
 	WeakPtr<Node> subShield;
+	bool attacked = false;
 };
 

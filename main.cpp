@@ -9,7 +9,7 @@
 
 	//Mecha Minister?
 	//Tempest Templar
-		//Hurt player on touch
+		//Model & Animation
 	
 	//Customize UI.png
 
