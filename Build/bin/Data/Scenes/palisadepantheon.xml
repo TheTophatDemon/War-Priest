@@ -26,7 +26,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16777228">
 			<attribute name="Model" value="Model;Models/maps/palisadepantheon.mdl" />
-			<attribute name="Material" value="Material;Materials/greenbrick.xml;Materials/metal.xml;Materials/lightstrip.xml;Materials/brickwall.xml;Materials/sheet_metal.xml;Materials/bluecarpet.xml;Materials/rock.xml;Materials/redbrick.xml;Materials/graycarpet.xml;Materials/sandstone.xml;Materials/grass.xml;Materials/palpan/marble.xml;Materials/palpan/marble_block.xml;Materials/cobblestone.xml;Materials/brick_window.xml;Materials/invisible.xml;Materials/pillar.xml;Materials/palpan/cliff.xml" />
+			<attribute name="Material" value="Material;Materials/greenbrick.xml;Materials/metal.xml;Materials/lightstrip.xml;Materials/brickwall.xml;Materials/sheet_metal.xml;Materials/bluecarpet.xml;Materials/rock.xml;Materials/redbrick.xml;Materials/graycarpet.xml;Materials/sandstone.xml;Materials/grass.xml;Materials/palpan_marble.xml;Materials/palpan_marble_block.xml;Materials/cobblestone.xml;Materials/brick_window.xml;Materials/invisible.xml;Materials/pillar.xml;Materials/palpan_cliff.xml" />
 		</component>
 		<component type="CollisionShape" id="16777242">
 			<attribute name="Shape Type" value="TriangleMesh" />
