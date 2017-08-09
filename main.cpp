@@ -8,12 +8,10 @@
 	//Roblox?
 
 	//Mecha Minister?
-	//Tempest Templar
-		//Model & Animation
+
+	//LODs for: TT, DD, and PostalPope
 	
 	//Customize UI.png
-
-	//Make enemies load their shit on creation
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl

@@ -1,5 +1,6 @@
 #include "PyroPastor.h"
 #include "Urho3D/Core/Context.h"
+#include <Urho3D/Graphics/Animation.h>
 
 #include "Gameplay.h"
 #include "Actor.h"
@@ -22,6 +23,11 @@ PyroPastor::PyroPastor(Context* context) : Enemy(context)
 
 void PyroPastor::DelayedStart()
 {
+	cache->GetResource<Animation>(IDLE_ANIM);
+	cache->GetResource<Animation>(REVIVE_ANIM);
+	cache->GetResource<Animation>(WALK_ANIM);
+	cache->GetResource<Animation>(ATTACK_ANIM);
+
 	Enemy::DelayedStart();
 
 	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);

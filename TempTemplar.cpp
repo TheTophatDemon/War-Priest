@@ -5,6 +5,7 @@
 #include <Urho3D/Audio/Sound.h>
 #include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Physics/PhysicsEvents.h>
+#include <Urho3D/Graphics/Animation.h>
 
 #include "Gameplay.h"
 #include "Actor.h"
@@ -23,6 +24,11 @@
 #define MELEE_RANGE 3.0f
 #define MELEE_DAMAGE 10.0f
 
+#define IDLE_ANIM "Models/enemy/temptemplar_idle.ani"
+#define REVIVE_ANIM "Models/enemy/temptemplar_revive.ani"
+#define WALK_ANIM "Models/enemy/temptemplar_walk.ani"
+#define SWING_ANIM "Models/enemy/temptemplar_swing.ani"
+
 TempTemplar::TempTemplar(Context* context) : Enemy(context)
 {
 	deltaTime = 0.0f;
@@ -30,8 +36,13 @@ TempTemplar::TempTemplar(Context* context) : Enemy(context)
 
 void TempTemplar::DelayedStart()
 {
+	cache->GetResource<Animation>(IDLE_ANIM);
+	cache->GetResource<Animation>(WALK_ANIM);
+	cache->GetResource<Animation>(REVIVE_ANIM);
+	cache->GetResource<Animation>(SWING_ANIM);
+
 	Enemy::DelayedStart();
-	actor->maxspeed = 6.0f;
+	actor->maxspeed = 5.0f;
 
 	//Make shield
 	shield = scene->CreateChild("shield");
@@ -56,6 +67,9 @@ void TempTemplar::DelayedStart()
 
 	SubscribeToEvent(shield, E_NODECOLLISION, URHO3D_HANDLER(TempTemplar, OnShieldCollision));
 
+	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
+	animController->SetSpeed(REVIVE_ANIM, 0.0f);
+	animController->SetSpeed(WALK_ANIM, 6.0f);
 }
 
 void TempTemplar::RegisterObject(Context* context)
@@ -92,8 +106,13 @@ void TempTemplar::Execute()
 			}
 		}
 		Wander(false, true);
+		if (walking)
+			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
+		else
+			animController->PlayExclusive(IDLE_ANIM, 0, true, 0.2f);
 		break;
 	case STATE_ATTACK:
+		animController->PlayExclusive(SWING_ANIM, 0, true, 0.2f);
 		stateTimer += deltaTime;
 
 		FaceTarget();
@@ -106,7 +125,7 @@ void TempTemplar::Execute()
 			map.Insert(Pair<StringHash, Variant>(StringHash("damage"), MELEE_DAMAGE));
 			SendEvent(StringHash("ProjectileHit"), map);
 		}
-		if (stateTimer > 1.0f)
+		if (stateTimer > animController->GetLength(SWING_ANIM) * 0.9f)
 		{
 			ChangeState(STATE_WANDER);
 		}
@@ -120,12 +139,22 @@ void TempTemplar::Execute()
 void TempTemplar::Dead()
 {
 	Enemy::Dead();
+	animController->PlayExclusive(REVIVE_ANIM, 0, false, 0.0f);
+	if (animController->GetTime(REVIVE_ANIM) >= animController->GetLength(REVIVE_ANIM) * 0.9f)
+	{
+		ChangeState(STATE_WANDER);
+	}
 }
 
 void TempTemplar::EnterState(const int newState)
 {
-	Enemy::EnterState(newState);
-	if (newState == STATE_WANDER)
+	if (newState == STATE_DEAD)
+	{
+		shape->SetSize(Vector3(oldShape->GetSize().y_, oldShape->GetSize().x_ * 0.1f, oldShape->GetSize().y_));
+		shape->SetPosition(Vector3(0.0f, oldShape->GetSize().x_, 0.0f));
+		body->SetMass(0.0f);
+	}
+	else if (newState == STATE_WANDER)
 	{
 		shieldModel->SetEnabled(true);
 		subShield->GetComponent<StaticModel>()->SetEnabled(true);
@@ -133,6 +162,7 @@ void TempTemplar::EnterState(const int newState)
 	else if (newState == STATE_ATTACK)
 	{
 		attacked = false;
+		animController->StopAll();
 	}
 }
 
@@ -144,7 +174,8 @@ void TempTemplar::LeaveState(const int oldState)
 void TempTemplar::Revive()
 {
 	Enemy::Revive();
-	ChangeState(STATE_WANDER);
+	animController->PlayExclusive(REVIVE_ANIM, 0, false, 0.2f);
+	animController->SetSpeed(REVIVE_ANIM, 1.0f);
 }
 
 void TempTemplar::OnShieldCollision(StringHash eventType, VariantMap& eventData)

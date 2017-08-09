@@ -106,10 +106,12 @@ void Gameplay::Start()
 	if (Settings::IsBloodEnabled())
 	{
 		cache->GetResource<ParticleEffect>("Particles/blood.xml")->SetMaterial(cache->GetResource<Material>("Materials/particle_blood.xml"));
+		cache->GetResource<Material>("Materials/skins/stake_skin.xml")->SetShaderParameter("MatDiffColor", Color::WHITE);
 	}
 	else
 	{
 		cache->GetResource<ParticleEffect>("Particles/blood.xml")->SetMaterial(cache->GetResource<Material>("Materials/particle_heart.xml"));
+		cache->GetResource<Material>("Materials/skins/stake_skin.xml")->SetShaderParameter("MatDiffColor", Color::BLUE);
 	}
 	SetupLighting();
 }

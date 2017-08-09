@@ -6,6 +6,7 @@
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/Graphics/ParticleEffect.h>
 #include <Urho3D/Graphics/ParticleEmitter.h>
+#include <Urho3D/Graphics/Animation.h>
 #include <iostream>
 
 #include "Actor.h"
@@ -36,6 +37,12 @@ DangerDeacon::DangerDeacon(Context* context) : Enemy(context)
 
 void DangerDeacon::DelayedStart()
 {
+	cache->GetResource<Animation>(IDLE_ANIM);
+	cache->GetResource<Animation>(REVIVE_ANIM);
+	cache->GetResource<Animation>(WALK_ANIM);
+	cache->GetResource<Animation>(EXPLODE_ANIM);
+	cache->GetResource<Animation>(JUMP_ANIM);
+
 	Enemy::DelayedStart();
 	actor->maxspeed = 17.4f;
 

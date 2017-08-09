@@ -3,6 +3,7 @@
 #include <Urho3D\Graphics/StaticModel.h>
 #include <Urho3D/Scene/ValueAnimation.h>
 #include <Urho3D/Audio/Sound.h>
+#include <Urho3D/Graphics/Animation.h>
 
 #include "Gameplay.h"
 #include "Actor.h"
@@ -33,6 +34,13 @@ PostalPope::PostalPope(Context* context) : Enemy(context)
 
 void PostalPope::DelayedStart()
 {
+	//Load anims in advance to prevent lag spikes
+	cache->GetResource<Animation>(IDLE_ANIM);
+	cache->GetResource<Animation>(WALK_ANIM);
+	cache->GetResource<Animation>(SUMMON_ANIM);
+	cache->GetResource<Animation>(THROW_ANIM);
+	cache->GetResource<Animation>(REVIVE_ANIM);
+
 	Enemy::DelayedStart();
 
 	weeoo = node_->CreateComponent<SoundSource3D>();
