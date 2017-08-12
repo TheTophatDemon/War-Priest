@@ -1,17 +1,19 @@
 //TODO:
+	//Check map height
+	//Change TT's idle anim
+	//Turn down TT shield push
+	//Change title graphic
+	//Make PP music louder
+	//Adjust asphalt spec
+	//Customize UI.png
 	//Sounds
 		//Player hurt
 		//Play death
 		//Play win & God's beam
 		//HALLELUJAH!
-
 	//Roblox?
-
-	//Mecha Minister?
-
 	//LODs for: TT, DD, and PostalPope
-	
-	//Customize UI.png
+	//Package assets
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl
@@ -25,10 +27,10 @@
 	//Split map into multiple sections
 
 //Complaints:
-	//PhysicsPostStep won't call
-	//Physics jitter due to interpolation
-	//Need a way of getting triangle info from a collision
-	//Need a way to restrict inheritance from parents (rotation, location, scale)
+	//It'd be nice to have an event that fires right before the physics steps
+	//Annoying physics jitter due to interpolation
+	//Need an easier way of getting triangle info from a collision for "platforming logic"
+	//Need a way to restrict transform inheritance from parents (rotation, location, scale)
 
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP

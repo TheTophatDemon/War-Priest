@@ -8,6 +8,7 @@
 #include "Projectile.h"
 #include "WeakChild.h"
 #include "GunPriest.h"
+#include "Settings.h"
 
 #define STATE_DEAD 0
 #define STATE_WANDER 1
@@ -66,7 +67,15 @@ void Enemy::FixedUpdate(float timeStep)
 	Vector3 plyPos = game->playerNode->GetWorldPosition(); plyPos.y_ = 0.0f;
 	Vector3 ourPos = node_->GetWorldPosition(); ourPos.y_ = 0.0f;
 	distanceFromPlayer = (ourPos - plyPos).Length();
-	if (distanceFromPlayer < 80.0f)
+
+	//The max distance from the player for this enemy to be updated is dependant on the graphics settings AND whether or not the camera faces them.
+	float visdist = 100.0f; 
+	const Vector3 camDiff = node_->GetWorldPosition() - game->cameraNode->GetWorldPosition();
+	const float camDot = camDiff.DotProduct(game->cameraNode->GetWorldDirection());
+	if (camDot < 0.0f) visdist *= .5f;
+	if (Settings::AreGraphicsFast()) visdist *= .8f;
+	
+	if (distanceFromPlayer < visdist)
 	{
 		Execute();
 		node_->SetWorldRotation(node_->GetWorldRotation().Slerp(newRotation, 0.25f));

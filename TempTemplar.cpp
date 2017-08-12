@@ -65,6 +65,16 @@ void TempTemplar::DelayedStart()
 	StaticModel* subModel = (StaticModel*)subShield->CloneComponent(shieldModel);
 	subShield->SetScale(0.95f);
 
+	//Spin those shields
+	SharedPtr<ValueAnimation> spinAnim(new ValueAnimation(context_));
+	spinAnim->SetKeyFrame(0.0f, Quaternion::IDENTITY);
+	spinAnim->SetKeyFrame(0.5f, Quaternion(90.0f, Vector3::UP));
+	spinAnim->SetKeyFrame(1.0f, Quaternion(180.0f, Vector3::UP));
+	spinAnim->SetKeyFrame(1.5f, Quaternion(270.0f, Vector3::UP));
+	spinAnim->SetKeyFrame(2.0f, Quaternion::IDENTITY);
+	shield->SetAttributeAnimation("Rotation", spinAnim, WM_LOOP, 1.0f);
+	subShield->SetAttributeAnimation("Rotation", spinAnim, WM_LOOP, 2.0f);
+
 	SubscribeToEvent(shield, E_NODECOLLISION, URHO3D_HANDLER(TempTemplar, OnShieldCollision));
 
 	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
@@ -85,8 +95,6 @@ void TempTemplar::Execute()
 		targetDist = (target->GetWorldPosition() - node_->GetWorldPosition()).Length();
 	}
 	shield->SetWorldPosition(node_->GetWorldPosition());
-	shield->Rotate(Quaternion(deltaTime * 100.0f, Vector3::UP), TS_LOCAL);
-	subShield->Rotate(Quaternion(deltaTime * 50.0f, Vector3::UP), TS_LOCAL);
 	switch (state)
 	{
 	case STATE_DEAD:
