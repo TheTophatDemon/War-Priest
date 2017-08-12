@@ -1,10 +1,7 @@
 //TODO:
-	//Check map height
-	//Change TT's idle anim
-	//Turn down TT shield push
-	//Change title graphic
 	//Make PP music louder
-	//Adjust asphalt spec
+	//Change TT's idle anim
+	//Change title graphic
 	//Customize UI.png
 	//Sounds
 		//Player hurt

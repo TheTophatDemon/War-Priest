@@ -203,7 +203,7 @@ bool Enemy::CheckCliff(const bool avoidSlopes)
 	{
 		if (!result.body_ || (fabs(result.normal_.y_) != 1.0f && avoidSlopes))
 		{
-			newRotation = Quaternion(node_->GetWorldRotation().EulerAngles().y_ + 180.0f, Vector3::UP);
+			//newRotation = Quaternion(node_->GetWorldRotation().EulerAngles().y_ + 180.0f, Vector3::UP);
 			return true;
 		}
 	}

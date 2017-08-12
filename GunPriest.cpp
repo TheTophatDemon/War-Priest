@@ -2,6 +2,9 @@
 #include "Settings.h"
 #include <Urho3D/IO/File.h>
 #include <Urho3D/Graphics/Graphics.h>
+#include <Urho3D/Graphics/Texture2D.h>
+#include <Urho3D/Graphics/ParticleEffect.h>
+#include <Urho3D/Resource/XMLFile.h>
 #include <iostream>
 
 int GunPriest::STATE_GAME = 0;
@@ -39,7 +42,12 @@ void GunPriest::StartGame(String path)
 	scene_->SetUpdateEnabled(false);
 	game->ourUI->SetVisible(false);
 	loadingText->SetVisible(true);
-	cache->ReleaseAllResources(true);
+	//cache->ReleaseAllResources(true);
+	cache->ReleaseResources(Model::GetTypeStatic(), true);
+	cache->ReleaseResources(Material::GetTypeStatic(), true);
+	cache->ReleaseResources(Texture2D::GetTypeStatic(), true);
+	cache->ReleaseResources(ParticleEffect::GetTypeStatic(), true);
+	cache->ReleaseResources(XMLFile::GetTypeStatic(), true);
 
 	engine_->RunFrame();
 	std::cout << "RAN FRAME" << std::endl;

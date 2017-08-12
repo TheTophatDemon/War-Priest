@@ -198,7 +198,7 @@ void TempTemplar::OnShieldCollision(StringHash eventType, VariantMap& eventData)
 			const Vector3 diff = other->GetWorldPosition() - node_->GetWorldPosition();
 			Quaternion direction = Quaternion();
 			direction.FromLookRotation(diff.Normalized(), Vector3::UP);
-			other->GetComponent<Actor>()->KnockBack(12.0f + (12.0f / diff.LengthSquared()), direction);
+			other->GetComponent<Actor>()->KnockBack(10.0f + (12.0f / diff.LengthSquared()), direction);
 		}
 		else if (otherBody->GetMass() > 0)
 		{
