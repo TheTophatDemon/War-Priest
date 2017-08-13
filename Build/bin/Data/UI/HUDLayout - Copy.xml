@@ -4,7 +4,8 @@
 	<attribute name="Size" value="1280 720" />
 	<element type="Sprite" style="Sprite">
 		<attribute name="Name" value="healthbar" />
-		<attribute name="Size" value="640 32" />
+		<attribute name="Position" value="0 -16" />
+		<attribute name="Size" value="640 64" />
 		<attribute name="Hotspot" value="320 64" />
 		<attribute name="Texture" value="Texture2D;UI/healthbar.png" />
 		<attribute name="Image Rect" value="0 0 640 64" />
@@ -12,20 +13,19 @@
 		<attribute name="Vert Alignment" value="Bottom" />
 		<element type="Sprite" style="Sprite">
 			<attribute name="Name" value="health" />
-			<attribute name="Position" value="6 5" />
-			<attribute name="Size" value="628 22" />
+			<attribute name="Position" value="6 6" />
+			<attribute name="Size" value="628 52" />
 			<attribute name="Texture" value="Texture2D;UI/health.png" />
 			<attribute name="Image Rect" value="0 0 1 64" />
 		</element>
 	</element>
 	<element type="Sprite" style="Sprite">
 		<attribute name="Name" value="compass1" />
-		<attribute name="Position" value="0 -52" />
+		<attribute name="Position" value="96 0" />
 		<attribute name="Size" value="128 128" />
-		<attribute name="Hotspot" value="64 128" />
+		<attribute name="Hotspot" value="0 128" />
 		<attribute name="Texture" value="Texture2D;Textures/chapel.png" />
 		<attribute name="Image Rect" value="0 0 128 128" />
-		<attribute name="Horiz Alignment" value="Center" />
 		<attribute name="Vert Alignment" value="Bottom" />
 	</element>
 </element>

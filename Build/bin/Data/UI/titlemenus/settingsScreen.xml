@@ -22,7 +22,7 @@
 			<attribute name="Text Effect" value="Stroke" />
 			<attribute name="Stroke Thickness" value="3" />
 			<attribute name="Round Stroke" value="true" />
-			<attribute name="Effect Color" value="0.25 0.25 1 1" />
+			<attribute name="Effect Color" value="0.25 0.25 0.25 1" />
 		</element>
 		<element type="Text">
 			<attribute name="Name" value="restartText" />
@@ -62,7 +62,7 @@
 				<attribute name="Text Effect" value="Stroke" />
 				<attribute name="Stroke Thickness" value="3" />
 				<attribute name="Round Stroke" value="true" />
-				<attribute name="Effect Color" value="0.5 0 0 1" />
+				<attribute name="Effect Color" value="0.5 0.5 0.5 1" />
 			</element>
 		</element>
 		<element type="Button">
@@ -85,7 +85,7 @@
 				<attribute name="Text Effect" value="Stroke" />
 				<attribute name="Stroke Thickness" value="3" />
 				<attribute name="Round Stroke" value="true" />
-				<attribute name="Effect Color" value="0 0.5 0 1" />
+				<attribute name="Effect Color" value="0.5 0.5 0.5 1" />
 			</element>
 		</element>
 		<element type="Button">
@@ -108,7 +108,7 @@
 				<attribute name="Text Effect" value="Stroke" />
 				<attribute name="Stroke Thickness" value="3" />
 				<attribute name="Round Stroke" value="true" />
-				<attribute name="Effect Color" value="0 0.5 0.5 1" />
+				<attribute name="Effect Color" value="0.5 0.5 0.5 1" />
 			</element>
 		</element>
 		<element type="BorderImage">

@@ -136,7 +136,7 @@ void GunPriest::Start()
 
 	debugHud = engine_->CreateDebugHud();
 #if _DEBUG
-	debugHud->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
+	debugHud->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DebugStyle.xml"));
 	debugHud->SetMode(DEBUGHUD_SHOW_ALL);
 #endif
 	loadingText = new Text(context_);

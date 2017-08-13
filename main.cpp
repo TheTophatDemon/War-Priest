@@ -1,8 +1,5 @@
 //TODO:
-	//Make PP music louder
-	//Change TT's idle anim
 	//Change title graphic
-	//Customize UI.png
 	//Sounds
 		//Player hurt
 		//Play death
