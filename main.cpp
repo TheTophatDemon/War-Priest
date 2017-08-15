@@ -1,5 +1,4 @@
 //TODO:
-	//Change title graphic
 	//Sounds
 		//Player hurt
 		//Play death

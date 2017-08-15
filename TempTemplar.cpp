@@ -103,7 +103,7 @@ void TempTemplar::Execute()
 	case STATE_WANDER:
 		if (shield->GetScale().x_ < SHIELD_SIZE)
 		{
-			shield->SetScale(shield->GetScale() + Vector3(deltaTime * 10.0f, deltaTime * 10.0f, deltaTime * 10.0f));
+			shield->SetScale(shield->GetScale() + Vector3(deltaTime * 15.0f, deltaTime * 15.0f, deltaTime * 15.0f));
 		}
 		else
 		{

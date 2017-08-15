@@ -66,6 +66,7 @@ protected:
 	float deltaTime;
 	float turnAmount = 0.0f;
 	float turnTimer = 0.0f;
+	float talkTimer = 0.0f;
 	bool walking = false;
 };
 

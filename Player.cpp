@@ -250,6 +250,7 @@ void Player::Hurt(Node* source, int amount)
 		{
 			actor->KnockBack(12.0f, source->GetWorldRotation());
 		}
+		soundSource->Play("Sounds/ply_hurt" + String(Random(0, 4)) + ".wav", true);
 	}
 }
 
