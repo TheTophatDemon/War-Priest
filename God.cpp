@@ -42,46 +42,49 @@ void God::SetTarget(Node* n)
 
 void God::FixedUpdate(float timeStep)
 {
-	Vector3 targetPos = target->GetWorldPosition();
-	node_->SetWorldPosition(Vector3(targetPos.x_, node_->GetWorldPosition().y_, targetPos.z_));
-	float diff = fabs(targetPos.y_ - node_->GetWorldPosition().y_);
-
-	node_->Rotate(Quaternion(timeStep * 200.0f, Vector3::UP), TS_LOCAL);
-
-	switch (state) 
+	if (target.Get()) 
 	{
-	case STATE_DROP:
-		stateTimer += timeStep;
-		if (diff > 10.0f)
+		Vector3 targetPos = target->GetWorldPosition();
+		node_->SetWorldPosition(Vector3(targetPos.x_, node_->GetWorldPosition().y_, targetPos.z_));
+		float diff = fabs(targetPos.y_ - node_->GetWorldPosition().y_);
+
+		node_->Rotate(Quaternion(timeStep * 200.0f, Vector3::UP), TS_LOCAL);
+
+		switch (state)
 		{
-			node_->Translate(Vector3(0.0f, -timeStep * 30.0f, 0.0f), TS_LOCAL);
+		case STATE_DROP:
+			stateTimer += timeStep;
+			if (diff > 10.0f)
+			{
+				node_->Translate(Vector3(0.0f, -timeStep * 30.0f, 0.0f), TS_LOCAL);
+			}
+			else
+			{
+				state = STATE_BEAM;
+				stateTimer = 0.0f;
+			}
+			break;
+		case STATE_BEAM:
+			stateTimer += timeStep;
+			if (!beamed && stateTimer > 0.5f)
+			{
+				Zeus::MakeLightBeam(scene, Vector3(targetPos.x_, node_->GetWorldPosition().y_ - 33.0f, targetPos.z_));
+				beamed = true;
+				VariantMap map = VariantMap();
+				map.Insert(Pair<StringHash, Variant>(StringHash("target"), target.Get()));
+				SendEvent(E_BEAMED, map);
+			}
+			if (stateTimer > 2.0f)
+			{
+				stateTimer = 0.0f;
+				state = STATE_RISE;
+			}
+			break;
+		case STATE_RISE:
+			stateTimer += timeStep;
+			node_->Translate(Vector3(0.0f, stateTimer * 2.0f, 0.0f), TS_LOCAL);
+			break;
 		}
-		else
-		{
-			state = STATE_BEAM;
-			stateTimer = 0.0f;
-		}
-		break;
-	case STATE_BEAM:
-		stateTimer += timeStep;
-		if (!beamed && stateTimer > 0.5f)
-		{
-			Zeus::MakeLightBeam(scene, Vector3(targetPos.x_, node_->GetWorldPosition().y_ - 33.0f, targetPos.z_));
-			beamed = true;
-			VariantMap map = VariantMap();
-			map.Insert(Pair<StringHash, Variant>(StringHash("target"), target.Get()));
-			SendEvent(E_BEAMED, map);
-		}
-		if (stateTimer > 2.0f)
-		{
-			stateTimer = 0.0f;
-			state = STATE_RISE;
-		}
-		break;
-	case STATE_RISE:
-		stateTimer += timeStep;
-		node_->Translate(Vector3(0.0f, stateTimer * 2.0f, 0.0f), TS_LOCAL);
-		break;
 	}
 }
 

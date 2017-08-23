@@ -39,9 +39,9 @@ Zeus::Zeus()
 {
 }
 
-Node* Zeus::MakeLightBeam(Scene* scene, Vector3 position)
+Node* Zeus::MakeLightBeam(Scene* scene, Vector3 position, const float height)
 {
-	Vector3 beamSize = Vector3(3.5f, 64.0f, 3.5f);
+	Vector3 beamSize = Vector3(3.5f, height, 3.5f);
 	Vector3 closed = Vector3(0.0f, beamSize.y_, 0.0f);
 
 	Node* lightColumn = scene->CreateChild();

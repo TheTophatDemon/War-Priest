@@ -8,9 +8,13 @@
 #include <Urho3D/Graphics/ParticleEmitter.h>
 #include <Urho3D/Graphics/ParticleEffect.h>
 #include <Urho3D/Audio/Audio.h>
+#include <Urho3D/Resource/XMLFile.h>
 #include <iostream>
 
+#include "Actor.h"
 #include "TempEffect.h"
+#include "Zeus.h"
+#include "Gameplay.h"
 
 Water::Water(Context* context) : LogicComponent(context)
 {
@@ -70,18 +74,26 @@ void Water::OnCollisionEnter(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (other->GetName() != "player")
+	if (other->GetName() != "player" )
 	{
-		TempEffect* te = new TempEffect(context_);
-		te->life = 3.5f;
-		other->AddComponent(te, 413, LOCAL);
+		if (!other->HasComponent<Actor>()) 
+		{
+			TempEffect* te = new TempEffect(context_);
+			te->life = 3.5f;
+			other->AddComponent(te, 413, LOCAL);
 
-		ParticleEmitter* prt = other->CreateComponent<ParticleEmitter>();
-		prt->SetEffect(cache->GetResource<ParticleEffect>("Particles/splash.xml"));
-		
-		SoundSource3D* s = other->CreateComponent<SoundSource3D>();
-		s->SetSoundType("GAMEPLAY");
-		s->Play(splashSound);
+			ParticleEmitter* prt = other->CreateComponent<ParticleEmitter>();
+			prt->SetEffect(cache->GetResource<ParticleEffect>("Particles/splash.xml"));
+
+			SoundSource3D* s = other->CreateComponent<SoundSource3D>();
+			s->SetSoundType("GAMEPLAY");
+			s->Play(splashSound);
+		}
+		else //God'll get the rest of em
+		{
+			Zeus::MakeLightBeam(scene, other->GetWorldPosition(), fabs(other->GetWorldPosition().y_ - scene->GetComponent<Gameplay>()->cameraNode->GetWorldPosition().y_)*2.0f + 8.0f);
+			other->Remove();
+		}
 	}
 }
 
