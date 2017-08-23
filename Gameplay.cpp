@@ -248,6 +248,23 @@ void Gameplay::SetupGame()
 			}
 		}
 	}
+	
+	//Czechpoints
+	PODVector<Node*> checkpoints;
+	scene_->GetChildrenWithTag(checkpoints, "checkpoint", true);
+	for (PODVector<Node*>::Iterator i = checkpoints.Begin(); i != checkpoints.End(); ++i)
+	{
+		Node* n = dynamic_cast<Node*>(*i);
+		if (n)
+		{
+			n->RemoveComponent<StaticModel>();
+			RigidBody* rb = nullptr;
+			if (!n->HasComponent<RigidBody>())
+				n->CreateComponent<RigidBody>();
+			rb = n->GetComponent<RigidBody>();
+			rb->SetTrigger(true);
+		}
+	}
 
 	SetupEnemy();
 	SetupProps();
@@ -427,9 +444,10 @@ void Gameplay::Win()
 		viewport->GetRenderPath()->SetShaderParameter("State", 0.0f);
 		restartTimer = 250;
 
-		Node* god = scene_->CreateChild();
-		god->LoadXML(cache->GetResource<XMLFile>("Objects/god.xml")->GetRoot(), false);
-		god->CreateComponent<God>();
+		Node* godNode = scene_->CreateChild();
+		godNode->LoadXML(cache->GetResource<XMLFile>("Objects/god.xml")->GetRoot(), false);
+		God* god = godNode->CreateComponent<God>();
+		god->SetTarget(playerNode);
 
 		gunPriest->musicSource->Play(cache->GetResource<Sound>("Music/theyfeeltherain.ogg"));
 	}

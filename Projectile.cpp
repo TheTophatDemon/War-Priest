@@ -15,6 +15,8 @@
 
 #define TYPE_FIREBALL 0
 
+StringHash Projectile::E_PROJECTILEHIT = StringHash("ProjectileHit");
+
 Projectile::Projectile(Context* context) : LogicComponent(context)
 {
 	projectileType = TYPE_FIREBALL;
@@ -89,7 +91,7 @@ void Projectile::FixedUpdate(float timeStep)
 					map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
 					map.Insert(Pair<StringHash, Variant>(StringHash("victim"), result.body_->GetNode()));
 					map.Insert(Pair<StringHash, Variant>(StringHash("damage"), damage));
-					SendEvent(StringHash("ProjectileHit"), map);
+					SendEvent(E_PROJECTILEHIT, map);
 					Destroy();
 				}
 				else if (colLayer & 16)

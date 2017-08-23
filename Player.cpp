@@ -54,7 +54,7 @@ using namespace Urho3D;
 #define FALLSPEED 50.0f
 #define MAXFALL 30.0f
 #define JUMPSTRENGTH 18.0f
-#define WALKSPEED 15.0f
+#define WALKSPEED 16.0f
 #define SLIDESPEED 20.0f
 
 #define MAXHEALTH 100
@@ -139,7 +139,8 @@ void Player::Start()
 	soundSource = node_->CreateComponent<SoundSounder>();
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
-	SubscribeToEvent(StringHash("ProjectileHit"), URHO3D_HANDLER(Player, OnProjectileHit));
+	SubscribeToEvent(Projectile::E_PROJECTILEHIT, URHO3D_HANDLER(Player, OnProjectileHit));
+	SubscribeToEvent(God::E_BEAMED, URHO3D_HANDLER(Player, OnBeamed));
 }
 
 void Player::FixedUpdate(float timeStep)
@@ -226,6 +227,11 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 		drowning = true;
 		health = 0;
 	}
+	else if (other->HasTag("checkpoint"))
+	{
+		if (currentCheckpoint != other) std::cout << "CHECKPOINT HIT" << std::endl;
+		currentCheckpoint = other;
+	}
 	else if (otherBody->GetCollisionLayer() & 32)
 	{
 		if (other->HasTag("medkit") && health != MAXHEALTH)
@@ -263,6 +269,21 @@ void Player::OnProjectileHit(StringHash eventType, VariantMap& eventData)
 	{
 		Hurt(proj, damage);
 	}
+}
+
+void Player::OnBeamed(StringHash eventType, VariantMap& eventData)
+{
+	Node* targ = (Node*)eventData["target"].GetPtr();
+	if (targ == GetNode())
+	{
+		if (state == STATE_WIN) 
+		{
+			node_->SetParent(scene);
+			node_->RemoveAllChildren();
+			node_->Remove();
+			std::cout << "THE PLAYER HAS BEEN BEAMED, BROS" << std::endl;
+		}
+ 	}
 }
 
 void Player::HandleCamera()

@@ -1,7 +1,9 @@
 //TODO:
+	//Checkpoints
+	//Higher camera
+	//MORE PRE-LOADING
 	//Sounds
-		//Player hurt
-		//Play death
+		//Player death
 		//Play win & God's beam
 		//HALLELUJAH!
 	//Roblox?

@@ -13,8 +13,11 @@ using namespace Urho3D;
 #define STATE_BEAM 1
 #define STATE_RISE 2
 
+StringHash God::E_BEAMED = StringHash("GodBeamed");
+
 God::God(Context* context) : LogicComponent(context)
 {
+	
 }
 
 void God::RegisterObject(Context* context)
@@ -27,14 +30,21 @@ void God::Start()
 	scene = GetScene();
 	cache = GetSubsystem<ResourceCache>();
 	game = scene->GetComponent<Gameplay>();
-	node_->SetWorldPosition(game->playerNode->GetWorldPosition() + Vector3(0.0f, 50.0f, 0.0f));
+}
+
+void God::SetTarget(Node* n)
+{
+	target = n;
+	node_->SetWorldPosition(target->GetWorldPosition() + Vector3(0.0f, 50.0f, 0.0f));
+	stateTimer = 0.0f;
+	state = STATE_DROP;
 }
 
 void God::FixedUpdate(float timeStep)
 {
-	Vector3 plyPos = game->playerNode->GetWorldPosition();
-	node_->SetWorldPosition(Vector3(plyPos.x_, node_->GetWorldPosition().y_, plyPos.z_));
-	float diff = fabs(plyPos.y_ - node_->GetWorldPosition().y_);
+	Vector3 targetPos = target->GetWorldPosition();
+	node_->SetWorldPosition(Vector3(targetPos.x_, node_->GetWorldPosition().y_, targetPos.z_));
+	float diff = fabs(targetPos.y_ - node_->GetWorldPosition().y_);
 
 	node_->Rotate(Quaternion(timeStep * 200.0f, Vector3::UP), TS_LOCAL);
 
@@ -56,11 +66,11 @@ void God::FixedUpdate(float timeStep)
 		stateTimer += timeStep;
 		if (!beamed && stateTimer > 0.5f)
 		{
-			Zeus::MakeLightBeam(scene, Vector3(plyPos.x_, node_->GetWorldPosition().y_ - 33.0f, plyPos.z_));
+			Zeus::MakeLightBeam(scene, Vector3(targetPos.x_, node_->GetWorldPosition().y_ - 33.0f, targetPos.z_));
 			beamed = true;
-			game->playerNode->SetParent(scene);
-			game->playerNode->RemoveAllChildren();
-			game->playerNode->Remove();
+			VariantMap map = VariantMap();
+			map.Insert(Pair<StringHash, Variant>(StringHash("target"), target.Get()));
+			SendEvent(E_BEAMED, map);
 		}
 		if (stateTimer > 2.0f)
 		{

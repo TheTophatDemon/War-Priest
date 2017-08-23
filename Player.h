@@ -36,6 +36,7 @@ public:
 protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnProjectileHit(StringHash eventType, VariantMap& eventData);
+	void OnBeamed(StringHash eventType, VariantMap& eventData);
 	void Hurt(Node* source, int damage);
 	void HandleCamera();
 	void HandleShadow();
@@ -66,6 +67,7 @@ protected:
 	SharedPtr<Node> pivot;
 	SharedPtr<SoundSounder> soundSource;
 	WeakPtr<Enemy> nearestCorpse; //Weakptr instead of Sharedptr avoids big-ass memory leak.
+	WeakPtr<Node> currentCheckpoint;
 
 	Quaternion newRotation;
 	Vector3 slideDirection;

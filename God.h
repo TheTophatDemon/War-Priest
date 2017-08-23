@@ -15,12 +15,17 @@ class God : public LogicComponent
 {
 	URHO3D_OBJECT(God, LogicComponent);
 public:
+	static StringHash E_BEAMED;
+
+
 	God(Context* context);
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
 	~God();
+	void SetTarget(Node* n);
 protected:
+	WeakPtr<Node> target;
 	SharedPtr<Gameplay> game;
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<Scene> scene;

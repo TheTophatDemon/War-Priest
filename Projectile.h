@@ -33,6 +33,7 @@ public:
 	int projectileType;
 
 	static Node* MakeProjectile(Scene* sc, String name, Vector3 position, Quaternion rotation, Node* owner);
+	static StringHash E_PROJECTILEHIT;
 protected:
 	SharedPtr<Gameplay> game;
 	SharedPtr<ResourceCache> cache;
