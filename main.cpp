@@ -1,6 +1,8 @@
 //TODO:
-	//Checkpoints
-	//Higher camera
+	//Water death returns to beginning of level
+		//Add height
+	//Mystery crash
+	//Toughen up later levels
 	//MORE PRE-LOADING
 	//Sounds
 		//Player death

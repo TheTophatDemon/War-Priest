@@ -48,6 +48,7 @@ using namespace Urho3D;
 #define STATE_SLIDE 2
 #define STATE_DEAD 3
 #define STATE_WIN 4
+#define STATE_DROWN 5
 
 #define ACCELERATION 150.0f
 #define FRICTION 0.85f
@@ -59,7 +60,7 @@ using namespace Urho3D;
 
 #define MAXHEALTH 100
 
-Vector3 Player::cameraOffset = Vector3(0.0f, 12.0f, -12.0f);
+Vector3 Player::cameraOffset = Vector3(0.0f, 14.4579f, -12.0f);
 
 Player::Player(Context* context) : LogicComponent(context)
 {
@@ -72,7 +73,7 @@ Player::Player(Context* context) : LogicComponent(context)
 	health = MAXHEALTH;
 	cameraPitch = 0.0f;
 	optimalCamPos = Vector3::ZERO;
-	drowning = false;
+	splashNode = nullptr;
 }
 
 void Player::RegisterObject(Context* context)
@@ -137,6 +138,7 @@ void Player::Start()
 	bloodEmitter->SetEmitting(false);
 
 	soundSource = node_->CreateComponent<SoundSounder>();
+	currentCheckpoint = scene->GetChild("exit");
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
 	SubscribeToEvent(Projectile::E_PROJECTILEHIT, URHO3D_HANDLER(Player, OnProjectileHit));
@@ -197,6 +199,9 @@ void Player::FixedUpdate(float timeStep)
 	case STATE_WIN:
 		ST_Win(timeStep);
 		break;
+	case STATE_DROWN:
+		ST_Drown(timeStep);
+		break;
 	}
 
 	if (state != STATE_WIN && state != STATE_DEAD) 
@@ -224,8 +229,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 	}
 	else if (other->HasTag("water"))
 	{
-		drowning = true;
-		health = 0;
+		ChangeState(STATE_DROWN);
 	}
 	else if (other->HasTag("checkpoint"))
 	{
@@ -292,7 +296,6 @@ void Player::HandleCamera()
 	pivot->SetWorldPosition(body->GetPosition());
 	pivot->Rotate(Quaternion(input->GetMouseMoveX() * Settings::GetMouseSensitivity(), Vector3::UP));
 
-
 	const Vector3 orgCamPos = cameraNode->GetWorldPosition();
 	cameraNode->SetPosition(cameraOffset); //Temporarily reset camera to simplify some calculations
 
@@ -315,7 +318,7 @@ void Player::HandleCamera()
 	}
 
 	cameraNode->SetWorldPosition(orgCamPos);
-	float transitionSpeed = Min(0.15f + (1.0f / cameraDownCast.distance_), 1.0f);
+	float transitionSpeed = Min(0.15f + (1.0f / cameraDownCast.distance_), 0.9f);
 	if (input->GetMouseMoveX() > 8)
 	{
 		transitionSpeed = 1.0f;
@@ -396,13 +399,13 @@ void Player::EnterState(int newState)
 			gibs->SetWorldRotation(node_->GetWorldRotation());
 			gibs->SetScale(modelNode->GetScale());
 
-			if (drowning)
+			/*if (drowning)
 			{
 				SoundSource3D* ss = gibs->CreateComponent<SoundSource3D>();
 				ss->SetSoundType("GAMEPLAY");
 				ss->Play(cache->GetResource<Sound>("Sounds/env_splash.wav"));
 				ss->SetTemporary(true);
-			}
+			}*/
 
 			//PODVector<Node*> children;
 			gibs->GetChildren(children, true);
@@ -411,14 +414,7 @@ void Player::EnterState(int newState)
 				Node* n = (Node*)*i;
 				if (n)
 				{
-					if (!drowning)
-					{
-						n->GetComponent<RigidBody>()->ApplyImpulse(Vector3(Random(-250.0f, 250.0f), Random(-10.0f, 500.0f), Random(-250.0f, 250.0f)));
-					}
-					else
-					{
-						n->GetComponent<RigidBody>()->ApplyImpulse(Vector3(Random(-25.0f, 25.0f), -100.0f, Random(-25.0f, 25.0f)));
-					}
+					n->GetComponent<RigidBody>()->ApplyImpulse(Vector3(Random(-250.0f, 250.0f), Random(-10.0f, 500.0f), Random(-250.0f, 250.0f)));
 					n->CloneComponent(bloodEmitter, 0U);
 					//Replace with flowers if blood disabled
 					if (!Settings::IsBloodEnabled()) 
@@ -444,6 +440,15 @@ void Player::EnterState(int newState)
 			dropShadow->Remove();
 			groundDetector->Remove();
 			break;
+		case STATE_DROWN:
+			soundSource->Play("Sounds/env_splash.wav");
+
+			splashNode = node_->CreateChild("splash");
+			ParticleEmitter* splashEmit = splashNode->CreateComponent<ParticleEmitter>();
+			splashEmit->SetEffect(cache->GetResource<ParticleEffect>("Particles/splash.xml"));
+
+			drownPhase = 0;
+			break;
 	}
 }
 
@@ -456,6 +461,10 @@ void Player::LeaveState(int oldState)
 		{
 			body->SetCollisionLayer(body->GetCollisionLayer() + 128);
 		}
+	}
+	else if (oldState == STATE_DROWN)
+	{
+		modelNode->SetEnabled(true);
 	}
 }
 
@@ -641,6 +650,45 @@ void Player::ST_Win(float timeStep)
 	actor->SetMovement(0.0f, 0.0f);
 	actor->Move(timeStep);
 	animController->PlayExclusive("Models/grungle_idle.ani", 0, true, 0.2f);
+}
+
+void Player::ST_Drown(float timeStep)
+{
+	stateTimer += timeStep;
+	if (stateTimer > 0.25f)
+	{
+		switch (drownPhase) 
+		{
+		case 0:
+			Zeus::MakeLightBeam(scene, node_->GetWorldPosition());
+			modelNode->SetEnabled(false);
+			break;
+		case 1:
+			if (splashNode.Get())
+			{
+				splashNode->GetComponent<ParticleEmitter>()->SetEmitting(false);
+			}
+			break;
+		case 4:
+			if (splashNode.Get()) splashNode->Remove();
+			node_->SetWorldPosition(currentCheckpoint->GetWorldPosition() + Vector3(0.0f, 5.0f, 0.0f));
+			break;
+		case 6:
+			Zeus::MakeLightBeam(scene, node_->GetWorldPosition());
+			break;
+		case 7:
+			modelNode->SetEnabled(true);
+			ChangeState(STATE_DEFAULT);
+			break;
+		}
+		stateTimer = 0.0f;
+		drownPhase++;
+	}
+	if (stateTimer >= 0.25f && drownPhase != 0)
+	{
+		body->SetLinearVelocity(Vector3::ZERO);
+		actor->rawMovement = Vector3::ZERO;
+	}
 }
 
 void Player::FindNearestCorpse()

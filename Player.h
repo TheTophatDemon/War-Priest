@@ -47,6 +47,7 @@ protected:
 	void ST_Revive(float timeStep);
 	void ST_Slide(float timeStep);
 	void ST_Win(float timeStep);
+	void ST_Drown(float timeStep);
 	void FindNearestCorpse();
 
 	SharedPtr<Scene> scene;
@@ -68,6 +69,7 @@ protected:
 	SharedPtr<SoundSounder> soundSource;
 	WeakPtr<Enemy> nearestCorpse; //Weakptr instead of Sharedptr avoids big-ass memory leak.
 	WeakPtr<Node> currentCheckpoint;
+	WeakPtr<Node> splashNode;
 
 	Quaternion newRotation;
 	Vector3 slideDirection;
@@ -76,12 +78,13 @@ protected:
 	
 	int hailTimer;
 	int hurtTimer;
+	int drownPhase;
 	float stateTimer;
 	float reviveCooldown;
 	float cameraPitch;
 	float moveX = 0.0f;
 	float moveZ = 0.0f;
-	bool drowning = false;
+	//bool drowning = false;
 
 	bool forwardKey = false;
 	bool backwardKey = false;
