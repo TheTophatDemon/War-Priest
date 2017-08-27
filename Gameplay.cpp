@@ -348,7 +348,7 @@ void Gameplay::UpdateHUD(float timeStep)
 			if (fabs(diff) < 0.1f) oldHealth = player->health;
 		}
 		healthMeter->SetSize(floor((oldHealth / 100.0f) * 628.0f), 22);
-		projectileCounter->SetText("PROJECTILE: " + String(GetGlobalVar("PROJECTILE COUNT").GetInt()));
+		//projectileCounter->SetText("PROJECTILE: " + String(GetGlobalVar("PROJECTILE COUNT").GetInt()));
 	}
 
 	if (flashColor.a_ > 0.0f)
@@ -390,12 +390,12 @@ void Gameplay::MakeHUD()
 	ourUI->AddChild(messageText);
 	messageText->SetVisible(false);
 
-	projectileCounter = new Text(context_);
+	/*projectileCounter = new Text(context_);
 	projectileCounter->SetText("PROJECTILE: " + String(GetGlobalVar("PROJECTILE COUNT").GetInt()));
 	projectileCounter->SetFont("Fonts/Anonymous Pro.ttf", 12);
 	projectileCounter->SetHorizontalAlignment(HA_LEFT);
 	projectileCounter->SetVerticalAlignment(VA_CENTER);
-	ourUI->AddChild(projectileCounter);
+	ourUI->AddChild(projectileCounter);*/
 
 	healthMeter = (Sprite*)ourUI->GetChild("healthbar", true)->GetChild(0);
 	compass1 = (Sprite*)ourUI->GetChild("compass1", true);

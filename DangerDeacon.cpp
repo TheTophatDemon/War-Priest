@@ -42,6 +42,7 @@ void DangerDeacon::DelayedStart()
 	cache->GetResource<Animation>(WALK_ANIM);
 	cache->GetResource<Animation>(EXPLODE_ANIM);
 	cache->GetResource<Animation>(JUMP_ANIM);
+	cache->GetResource<ParticleEffect>("Particles/explosion.xml");
 
 	Enemy::DelayedStart();
 	actor->maxspeed = 17.4f;
