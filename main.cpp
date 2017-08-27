@@ -1,13 +1,9 @@
 //TODO:
 	//Fallrhine 3
-		//Make catwalks a little more deacon-friendly
-		//Put checkpoint on that aclove
 		//Texturing
-		//Remove that one shortcut
-		//Scoot the challenging medkit over a bit
+	//Put checkpoints in other levels
+		//Checkpoint protection? Checkpoint damage?
 	//Mystery crash
-	//Toughen up later levels
-	//MORE PRE-LOADING
 	//Sounds
 		//Player death
 		//God beam

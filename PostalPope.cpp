@@ -4,6 +4,7 @@
 #include <Urho3D/Scene/ValueAnimation.h>
 #include <Urho3D/Audio/Sound.h>
 #include <Urho3D/Graphics/Animation.h>
+#include <Urho3D/Graphics/Model.h>
 
 #include "Gameplay.h"
 #include "Actor.h"
@@ -40,6 +41,9 @@ void PostalPope::DelayedStart()
 	cache->GetResource<Animation>(SUMMON_ANIM);
 	cache->GetResource<Animation>(THROW_ANIM);
 	cache->GetResource<Animation>(REVIVE_ANIM);
+	cache->GetResource<Material>("Materials/telekinesis.xml");
+	cache->GetResource<XMLFile>("Objects/rock.xml");
+	cache->GetResource<Model>("Models/props/rock.mdl");
 
 	Enemy::DelayedStart();
 
