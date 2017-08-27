@@ -5,7 +5,6 @@
 		//Texturing
 		//Remove that one shortcut
 		//Scoot the challenging medkit over a bit
-	//Lower voice pitch
 	//Mystery crash
 	//Toughen up later levels
 	//MORE PRE-LOADING

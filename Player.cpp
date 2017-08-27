@@ -139,6 +139,11 @@ void Player::Start()
 
 	soundSource = node_->CreateComponent<SoundSounder>();
 	currentCheckpoint = scene->GetChild("exit");
+	if (!currentCheckpoint.Get())
+	{
+		currentCheckpoint = scene->CreateChild("exit");
+		currentCheckpoint->SetWorldPosition(node_->GetWorldPosition());
+	}
 	
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
 	SubscribeToEvent(Projectile::E_PROJECTILEHIT, URHO3D_HANDLER(Player, OnProjectileHit));
@@ -260,7 +265,7 @@ void Player::Hurt(Node* source, int amount)
 		{
 			actor->KnockBack(12.0f, source->GetWorldRotation());
 		}
-		soundSource->Play("Sounds/ply_hurt" + String(Random(0, 4)) + ".wav", true);
+		soundSource->Play("Sounds/ply_hurt" + String(Random(0, 5)) + ".wav", true);
 	}
 }
 
@@ -660,7 +665,7 @@ void Player::ST_Drown(float timeStep)
 		switch (drownPhase) 
 		{
 		case 0:
-			beamNode = Zeus::MakeLightBeam(scene, node_->GetWorldPosition());
+			beamNode = Zeus::MakeLightBeam(scene, node_->GetWorldPosition(), 256.0f);
 			modelNode->SetEnabled(false);
 			break;
 		case 1:
@@ -672,7 +677,6 @@ void Player::ST_Drown(float timeStep)
 		case 4:
 			if (splashNode.Get()) splashNode->Remove();
 			node_->SetWorldPosition(currentCheckpoint->GetWorldPosition() + Vector3(0.0f, 5.0f, 0.0f));
-			pivot->SetWorldPosition(node_->GetWorldPosition());
 			break;
 		case 6:
 			Zeus::MakeLightBeam(scene, node_->GetWorldPosition());
@@ -689,8 +693,16 @@ void Player::ST_Drown(float timeStep)
 	{
 		beamNode->SetWorldPosition(node_->GetWorldPosition());
 	}
-	actor->SetMovement(0.0f, 0.0f);
-	actor->Move(timeStep);
+	if (drownPhase <= 4) 
+	{
+		actor->SetMovement(0.0f, 0.0f);
+		actor->Move(timeStep);
+	}
+	else
+	{
+		body->SetLinearVelocity(Vector3::ZERO);
+		pivot->SetWorldPosition(node_->GetWorldPosition());
+	}
 }
 
 void Player::FindNearestCorpse()
