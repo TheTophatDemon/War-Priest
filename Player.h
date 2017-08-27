@@ -70,6 +70,7 @@ protected:
 	WeakPtr<Enemy> nearestCorpse; //Weakptr instead of Sharedptr avoids big-ass memory leak.
 	WeakPtr<Node> currentCheckpoint;
 	WeakPtr<Node> splashNode;
+	WeakPtr<Node> beamNode;
 
 	Quaternion newRotation;
 	Vector3 slideDirection;

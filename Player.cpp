@@ -293,7 +293,7 @@ void Player::OnBeamed(StringHash eventType, VariantMap& eventData)
 void Player::HandleCamera()
 {
 	const Vector3 worldPos = body->GetPosition();
-	pivot->SetWorldPosition(body->GetPosition());
+	if (state != STATE_DROWN) pivot->SetWorldPosition(body->GetPosition());
 	pivot->Rotate(Quaternion(input->GetMouseMoveX() * Settings::GetMouseSensitivity(), Vector3::UP));
 
 	const Vector3 orgCamPos = cameraNode->GetWorldPosition();
@@ -660,7 +660,7 @@ void Player::ST_Drown(float timeStep)
 		switch (drownPhase) 
 		{
 		case 0:
-			Zeus::MakeLightBeam(scene, node_->GetWorldPosition());
+			beamNode = Zeus::MakeLightBeam(scene, node_->GetWorldPosition());
 			modelNode->SetEnabled(false);
 			break;
 		case 1:
@@ -672,6 +672,7 @@ void Player::ST_Drown(float timeStep)
 		case 4:
 			if (splashNode.Get()) splashNode->Remove();
 			node_->SetWorldPosition(currentCheckpoint->GetWorldPosition() + Vector3(0.0f, 5.0f, 0.0f));
+			pivot->SetWorldPosition(node_->GetWorldPosition());
 			break;
 		case 6:
 			Zeus::MakeLightBeam(scene, node_->GetWorldPosition());
@@ -684,11 +685,12 @@ void Player::ST_Drown(float timeStep)
 		stateTimer = 0.0f;
 		drownPhase++;
 	}
-	if (stateTimer >= 0.25f && drownPhase != 0)
+	if (drownPhase > 0 && beamNode.Get())
 	{
-		body->SetLinearVelocity(Vector3::ZERO);
-		actor->rawMovement = Vector3::ZERO;
+		beamNode->SetWorldPosition(node_->GetWorldPosition());
 	}
+	actor->SetMovement(0.0f, 0.0f);
+	actor->Move(timeStep);
 }
 
 void Player::FindNearestCorpse()

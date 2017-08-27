@@ -1,12 +1,17 @@
 //TODO:
-	//Water death returns to beginning of level
-		//Add height
+	//Fallrhine 3
+		//Make catwalks a little more deacon-friendly
+		//Put checkpoint on that aclove
+		//Texturing
+		//Remove that one shortcut
+		//Scoot the challenging medkit over a bit
+	//Lower voice pitch
 	//Mystery crash
 	//Toughen up later levels
 	//MORE PRE-LOADING
 	//Sounds
 		//Player death
-		//Play win & God's beam
+		//God beam
 		//HALLELUJAH!
 	//Roblox?
 	//LODs for: TT, DD, and PostalPope
