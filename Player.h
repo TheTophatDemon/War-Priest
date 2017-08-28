@@ -79,6 +79,7 @@ protected:
 	
 	int hailTimer;
 	int hurtTimer;
+	int lastState;
 	int drownPhase;
 	float stateTimer;
 	float reviveCooldown;

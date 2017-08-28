@@ -2,7 +2,6 @@
 	//Fallrhine 3
 		//Texturing
 	//Put checkpoints in other levels
-		//Checkpoint protection? Checkpoint damage?
 	//Mystery crash
 	//Sounds
 		//Player death

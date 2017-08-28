@@ -256,7 +256,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 
 void Player::Hurt(Node* source, int amount)
 {
-	if (state != STATE_WIN && hurtTimer <= 0 && state != STATE_SLIDE) 
+	if (state != STATE_WIN && hurtTimer <= 0 && state != STATE_SLIDE && (lastState != STATE_DROWN || stateTimer > 1.0f)) 
 	{
 		health -= amount;
 		bloodEmitter->SetEmitting(true);
@@ -370,6 +370,7 @@ void Player::HandleShadow()
 
 void Player::ChangeState(int newState)
 {
+	lastState = state;
 	if (state != newState)
 	{
 		EnterState(newState);
