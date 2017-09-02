@@ -234,7 +234,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 	}
 	else if (other->HasTag("water"))
 	{
-		ChangeState(STATE_DROWN);
+		if (state != STATE_DROWN) ChangeState(STATE_DROWN);
 	}
 	else if (other->HasTag("checkpoint"))
 	{

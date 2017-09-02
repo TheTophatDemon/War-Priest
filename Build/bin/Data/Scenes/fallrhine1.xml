@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16777794" />
-	<attribute name="Next Local Component ID" value="16779255" />
+	<attribute name="Next Local Node ID" value="16777797" />
+	<attribute name="Next Local Component ID" value="16779271" />
 	<attribute name="Variables" />
 	<attribute name="Variable Names" value="spawnertype;spawnerdistance;movement;restTime;speed;rotateSpeed;launchForce;health" />
 	<component type="Octree" id="1" />
@@ -585,7 +585,6 @@
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
 			<component type="ParticleEmitter" id="16778050">
-				<attribute name="Effect" value="ParticleEffect;Particles/blood.xml" />
 				<attribute name="Animation LOD Bias" value="0" />
 				<attribute name="Particles">
 					<variant type="Int" value="150" />
@@ -1885,6 +1884,44 @@
 		<component type="StaticModel" id="16779204">
 			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
 			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
+		</component>
+	</node>
+	<node id="16777795">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="checkpoint" />
+		<attribute name="Tags">
+			<string value="checkpoint" />
+		</attribute>
+		<attribute name="Position" value="-193.967 -22.4615 -90.7884" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779267">
+			<attribute name="Model" value="Model;Models/god.mdl" />
+			<attribute name="Material" value="Material;" />
+		</component>
+		<component type="CollisionShape" id="16779268">
+			<attribute name="Shape Type" value="Sphere" />
+			<attribute name="Size" value="26.92 10 20" />
+		</component>
+	</node>
+	<node id="16777796">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="checkpoint" />
+		<attribute name="Tags">
+			<string value="checkpoint" />
+		</attribute>
+		<attribute name="Position" value="-119.719 -31.992 -21.9422" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779269">
+			<attribute name="Model" value="Model;Models/god.mdl" />
+			<attribute name="Material" value="Material;" />
+		</component>
+		<component type="CollisionShape" id="16779270">
+			<attribute name="Shape Type" value="Sphere" />
+			<attribute name="Size" value="26.92 10 20" />
 		</component>
 	</node>
 </scene>

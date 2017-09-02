@@ -1,8 +1,5 @@
 //TODO:
-	//Fallrhine 3
-		//Texturing
-	//Put checkpoints in other levels
-	//Mystery crash
+	//Fallrhine 4
 	//Sounds
 		//Player death
 		//God beam
@@ -10,6 +7,8 @@
 	//Roblox?
 	//LODs for: TT, DD, and PostalPope
 	//Package assets
+
+	//Sliding into water glitch
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl
