@@ -27,6 +27,8 @@ void PyroPastor::DelayedStart()
 	cache->GetResource<Animation>(REVIVE_ANIM);
 	cache->GetResource<Animation>(WALK_ANIM);
 	cache->GetResource<Animation>(ATTACK_ANIM);
+	cache->GetResource<Material>("Materials/particle_fire.xml");
+	cache->GetResource<Sound>("Sounds/enm_fireball.wav");
 
 	Enemy::DelayedStart();
 

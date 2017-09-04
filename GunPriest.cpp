@@ -18,7 +18,6 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	Actor::RegisterObject(context);
 	Player::RegisterObject(context);
 	TempEffect::RegisterObject(context);
-	Boulder::RegisterObject(context);
 	TitleScreen::RegisterObject(context);
 	PyroPastor::RegisterObject(context);
 	Projectile::RegisterObject(context);
@@ -101,7 +100,9 @@ void GunPriest::Setup()
 void GunPriest::VideoSetup()
 {
 	Graphics* graphics = GetSubsystem<Graphics>();
-	graphics->SetMode(1280, 720, Settings::IsFullScreen(), false, false, false, Settings::IsVsync(), false, 0);
+	graphics->SetShaderCacheDir("Shaders/HLSL/Cache");
+	const int refrate = graphics->GetRefreshRate();
+	graphics->SetMode(1280, 720, Settings::IsFullScreen(), false, false, false, Settings::IsVsync(), false, 0, 0, refrate);
 	renderer->SetDrawShadows(false);
 	if (Settings::AreGraphicsFast())
 	{
@@ -130,6 +131,8 @@ void GunPriest::Start()
 	ui->GetRoot()->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
 	renderer = GetSubsystem<Renderer>();
 	audio = GetSubsystem<Audio>();
+
+	
 
 	Settings::LoadSettings(context_);
 	VideoSetup();

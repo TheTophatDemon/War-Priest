@@ -44,7 +44,6 @@
 #include <iostream>
 
 #include "Player.h"
-#include "Boulder.h"
 #include "Enemy.h"
 #include "PyroPastor.h"
 #include "Projectile.h"
@@ -270,7 +269,9 @@ void Gameplay::SetupGame()
 	SetupProps();
 	
 	messageText->SetVisible(false);
-	viewport->GetRenderPath()->SetShaderParameter("State", 0.0f);
+	RenderPathCommand* cmd = viewport->GetRenderPath()->GetCommand(viewport->GetRenderPath()->GetNumCommands() - 1);
+	cmd->SetShaderParameter("State", Variant(0.0f));
+	//std::cout << cmd->GetShaderParameter("State").GetFloat() << std::endl;
 	initialized = true;
 }
 
@@ -430,6 +431,7 @@ void Gameplay::Lose()
 	{
 		DisplayMessage("Mission Failed.\nThe Lord frowns upon you!", Color::WHITE, 250.0f);
 		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
+		//std::cout << viewport->GetRenderPath()->GetCommand(viewport->GetRenderPath()->GetNumCommands() - 1)->GetShaderParameter("State").GetFloat() << std::endl;
 		restartTimer = 250;
 		gunPriest->musicSource->Stop();
 	}

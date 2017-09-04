@@ -29,9 +29,7 @@
 
 #include "Gameplay.h"
 #include "Actor.h"
-#include "NPC.h"
 #include "TempEffect.h"
-#include "Boulder.h"
 
 #include "Zeus.h"
 #include "Projectile.h"

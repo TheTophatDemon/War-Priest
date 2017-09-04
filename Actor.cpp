@@ -111,7 +111,7 @@ void Actor::SetMovement(Vector3 mv)
 
 void Actor::Jump()
 {
-	if (onGround) 
+	if (onGround)
 	{
 		fall = jumpStrength;
 		onGround = false;
@@ -207,7 +207,7 @@ void Actor::Move(float timeStep)
 	finalMovement = ((transformedMovement + (knockBackDirection * Vector3::FORWARD * knockBack)) * deltaTime * 50.0f);
 	body->SetLinearVelocity(finalMovement);
 	rawMovement = Vector3::ZERO;
-	
+
 	slopeSteepness = 1.0f;
 	GetSlope();
 
@@ -230,7 +230,7 @@ void Actor::KnockBack(float amount, Quaternion direction)
 
 void Actor::FixedUpdate(float timeStep)
 {
-	
+
 }
 
 void Actor::GetSlope()
@@ -264,7 +264,7 @@ void Actor::OnCollisionStart(StringHash eventType, VariantMap& eventData)
 				break;
 			}
 		}
-		
+
 	}
 }
 
@@ -284,7 +284,7 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 			float impulse = contacts.ReadFloat();
 			if (fabs(normal.y_) >= 0.75f)
 			{
-				if (position.y_ <= node_->GetWorldPosition().y_ + 0.5f) 
+				if (position.y_ <= node_->GetWorldPosition().y_ + 0.5f)
 				{
 					onGround = true;
 				}

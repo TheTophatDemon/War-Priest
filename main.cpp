@@ -1,14 +1,14 @@
 //TODO:
 	//Fallrhine 4
+		//More metal textures?
 	//Sounds
 		//Player death
 		//God beam
 		//HALLELUJAH!
+		//Non-blood mode hurt noises
 	//Roblox?
 	//LODs for: TT, DD, and PostalPope
 	//Package assets
-
-	//Sliding into water glitch
 
 	//Loading glitch/Alt-tab
 		//Happens on clicking level select button...Might be a problem with Basic.hlsl

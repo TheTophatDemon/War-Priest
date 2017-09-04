@@ -43,7 +43,6 @@
 #include "Player.h"
 #include "Actor.h"
 #include "TempEffect.h"
-#include "Boulder.h"
 #include "Enemy.h"
 #include "TitleScreen.h"
 #include "PyroPastor.h"
