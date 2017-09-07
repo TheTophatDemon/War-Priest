@@ -83,7 +83,7 @@ void DangerDeacon::Execute()
 		modelNode->Rotate(Quaternion(strafeAmt * 45.0f, Vector3::UP));
 	}
 
-	const float shrinkAmount = deltaTime * EXPLODERANGE * 4.0f;
+	const float shrinkAmount = deltaTime * EXPLODERANGE * 3.5f; //Set to 3.0 if easy mode
 
 	switch (state)
 	{

@@ -74,7 +74,7 @@ void Water::OnCollisionEnter(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (!other->HasComponent<Actor>()) 
+	if (!other->HasComponent<Actor>() && other->GetName() != "player") 
 	{
 		TempEffect* te = new TempEffect(context_);
 		te->life = 3.5f;

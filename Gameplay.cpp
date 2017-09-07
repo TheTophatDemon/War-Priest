@@ -527,6 +527,7 @@ void Gameplay::SetupProps()
 				std::cout << "HEY! One of the instancing groups are mispositioned! " << n->GetName().CString() << std::endl;
 			}
 			StaticModelGroup* modelGroup = n->GetComponent<StaticModelGroup>();
+			assert(modelGroup != nullptr);
 			RigidBody* body = n->CreateComponent<RigidBody>();
 			body->SetCollisionLayer(2);
 			body->SetCollisionEventMode(CollisionEventMode::COLLISION_ACTIVE);

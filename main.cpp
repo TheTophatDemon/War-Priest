@@ -1,6 +1,8 @@
 //TODO:
+	//Fix sliding into hp
 	//Fallrhine 4
-		//More metal textures?
+		//Remove pillar
+		//Stagnate the PopeShip
 	//Sounds
 		//Player death
 		//God beam
@@ -26,6 +28,10 @@
 	//Annoying physics jitter due to interpolation
 	//Need an easier way of getting triangle info from a collision for "platforming logic"
 	//Need a way to restrict transform inheritance from parents (rotation, location, scale)
+	//The editor crashes sometimes when loading other scenes
+	//When the editor first opens, I am unable to edit any text until I alt-tab out and refocus the window.
+	//When running fullscreen, after alt-tabbing the device gets lost over and over again, and the window flashes several times.
+	//The editor keeps thinking "gamesettings.bin" is an XML file.
 
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP

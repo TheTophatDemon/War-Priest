@@ -232,7 +232,11 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 	}
 	else if (other->HasTag("water"))
 	{
-		if (state != STATE_DROWN) ChangeState(STATE_DROWN);
+		if (state != STATE_DROWN)
+		{
+			health -= 25; //Adjust for difficulty
+			ChangeState(STATE_DROWN);
+		}
 	}
 	else if (other->HasTag("checkpoint"))
 	{
@@ -254,7 +258,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 
 void Player::Hurt(Node* source, int amount)
 {
-	if (state != STATE_WIN && hurtTimer <= 0 && state != STATE_SLIDE && (lastState != STATE_DROWN || stateTimer > 1.0f)) 
+	if (state != STATE_WIN && hurtTimer <= 0 && state != STATE_SLIDE && (lastState != STATE_DROWN || stateTimer > 2.5f)) 
 	{
 		health -= amount;
 		bloodEmitter->SetEmitting(true);
