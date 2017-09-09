@@ -213,7 +213,7 @@ void Gameplay::SetupGame()
 		{
 			RigidBody* rb = n->CreateComponent<RigidBody>();
 			rb->SetCollisionLayer(32);
-			rb->SetCollisionMask(128);
+			rb->SetCollisionMask(129); //128+1
 			rb->SetTrigger(true);
 			StaticModel* sm = n->GetComponent<StaticModel>();
 			CollisionShape* cs = n->CreateComponent<CollisionShape>();

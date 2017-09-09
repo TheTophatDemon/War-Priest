@@ -1,8 +1,4 @@
 //TODO:
-	//Fix sliding into hp
-	//Fallrhine 4
-		//Remove pillar
-		//Stagnate the PopeShip
 	//Sounds
 		//Player death
 		//God beam
