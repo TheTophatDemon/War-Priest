@@ -3,7 +3,6 @@
 		//Player death
 		//God beam
 		//HALLELUJAH!
-		//Non-blood mode hurt noises
 	//Roblox?
 	//LODs for: TT, DD, and PostalPope
 	//Package assets

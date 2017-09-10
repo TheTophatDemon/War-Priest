@@ -267,7 +267,9 @@ void Player::Hurt(Node* source, int amount)
 		{
 			actor->KnockBack(12.0f, source->GetWorldRotation());
 		}
-		soundSource->Play("Sounds/ply_hurt" + String(Random(0, 5)) + ".wav", true);
+		String conditional = "";
+		if (!Settings::IsBloodEnabled()) conditional = "b";
+		soundSource->Play("Sounds/ply_hurt" + String(Random(0, 5)) + conditional + ".wav", true);
 	}
 }
 
