@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<node id="16778351">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="statue" />
+	<attribute name="Tags">
+		<string value="statue" />
+	</attribute>
+	<attribute name="Position" value="84.636 -68.4029 -23.5152" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="7 12 7" />
+	<attribute name="Variables" />
+	<component type="StaticModel" id="16780861">
+		<attribute name="Model" value="Model;Models/Box.mdl" />
+		<attribute name="Material" value="Material;Materials/dirt.xml" />
+	</component>
+	<component type="CollisionShape" id="16780862" />
+	<component type="RigidBody" id="16780863">
+		<attribute name="Physics Position" value="84.636 -68.4029 -23.5152" />
+		<attribute name="Collision Layer" value="6" />
+		<attribute name="Use Gravity" value="false" />
+	</component>
+</node>

@@ -22,7 +22,7 @@
 		<attribute name="Anisotropic Friction" value="0 0 0" />
 		<attribute name="Restitution" value="0.1" />
 		<attribute name="Angular Factor" value="0 0 0" />
-		<attribute name="Collision Layer" value="129" />
+		<attribute name="Collision Layer" value="133" />
 		<attribute name="Collision Mask" value="231" />
 		<attribute name="Collision Event Mode" value="Always" />
 		<attribute name="Use Gravity" value="false" />

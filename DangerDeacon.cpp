@@ -12,6 +12,7 @@
 #include "Actor.h"
 #include "TempEffect.h"
 #include "WeakChild.h"
+#include "Projectile.h"
 
 #define STATE_DEAD 0
 #define STATE_WANDER 1
@@ -204,7 +205,25 @@ void DangerDeacon::Execute()
 				map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
 				map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(target)));
 				map.Insert(Pair<StringHash, Variant>(StringHash("damage"), DAMAGE));
-				SendEvent(StringHash("ProjectileHit"), map);
+				SendEvent(Projectile::E_PROJECTILEHIT, map);
+			}
+			//This is mainly for statues
+			PODVector<RigidBody*> result;
+			physworld->GetRigidBodies(result, Sphere(node_->GetWorldPosition(), BLASTRANGE), 4U);
+			for (PODVector<RigidBody*>::Iterator i = result.Begin(); i != result.End(); ++i)
+			{
+				RigidBody* otherBody = (RigidBody*)*i;
+				if (otherBody)
+				{
+					if (otherBody->GetCollisionLayer() & 4)
+					{
+						VariantMap map = VariantMap();
+						map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
+						map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(otherBody->GetNode())));
+						map.Insert(Pair<StringHash, Variant>(StringHash("damage"), DAMAGE));
+						SendEvent(Projectile::E_PROJECTILEHIT, map);
+					}
+				}
 			}
 		}
 
@@ -220,7 +239,7 @@ void DangerDeacon::Execute()
 
 	case STATE_POSE:
 		stateTimer += deltaTime;
-		if (stateTimer > animController->GetLength(REVIVE_ANIM) * 0.7f)
+		if (stateTimer > animController->GetLength(REVIVE_ANIM) * 0.95f)
 		{
 			ChangeState(STATE_WANDER);
 		}

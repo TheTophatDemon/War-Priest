@@ -32,6 +32,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	Launchpad::RegisterObject(context);
 	CompassScene::RegisterObject(context);
 	TempTemplar::RegisterObject(context);
+	Statue::RegisterObject(context);
 
 	state = STATE_TITLE;
 }

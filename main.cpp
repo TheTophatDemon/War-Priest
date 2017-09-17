@@ -1,4 +1,10 @@
 //TODO:
+	//Statues
+		//Statue death
+	//Move "map getting" parts inside respective classes
+	//Portals?
+
+	//Resolution settings
 	//Sounds
 		//Player death
 		//God beam
@@ -7,9 +13,11 @@
 	//LODs for: TT, DD, and PostalPope
 	//Package assets
 
-	//Loading glitch/Alt-tab
-		//Happens on clicking level select button...Might be a problem with Basic.hlsl
-		//SDL_Delay bug
+	//Freezes on SDL_Delay called by DirectSound upon Alt-Tab
+
+//Level Ideas
+	//Two PP's and a TT
+	//Have a PP way below you and firing upwards
 	
 //Potential Optimizations:
 	//Change raycast length
@@ -31,7 +39,7 @@
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP
 	//2 = CAN BE JUMPED ON/SLOPED
-	//4 = NPC
+	//4 = SHOOTABLE
 	//8 = GROUND DETECTOR
 	//16 = SHIELD/ONLY PROJECTILES CAN TOUCH
 	//32 = ITEM

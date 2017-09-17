@@ -267,6 +267,26 @@ void Gameplay::SetupGame()
 		}
 	}
 
+	//Statues
+	PODVector<Node*> statues;
+	scene_->GetChildrenWithTag(statues, "statue", true);
+	for (PODVector<Node*>::Iterator i = statues.Begin(); i != statues.End(); ++i)
+	{
+		Node* n = dynamic_cast<Node*>(*i);
+		if (n)
+		{
+			const Matrix3x4 trans = n->GetWorldTransform();
+			n->LoadXML(cache->GetResource<XMLFile>("Objects/statue.xml")->GetRoot());
+			n->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
+			Statue* s = n->CreateComponent<Statue>();
+			const int hp = n->GetVar("health").GetInt();
+			if (hp != 0) 
+			{
+				s->Damage(s->GetHealth() - hp, true);
+			}
+		}
+	}
+
 	SetupEnemy();
 	SetupProps();
 	

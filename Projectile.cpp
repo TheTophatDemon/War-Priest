@@ -79,13 +79,13 @@ void Projectile::FixedUpdate(float timeStep)
 		}
 
 		PhysicsRaycastResult result;
-		physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement.Normalized()), radius, radius, 210);//128+64+2+16
+		physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement.Normalized()), radius, radius, 214);//128+64+2+16+4
 		if (result.body_)
 		{
 			if (result.body_->GetNode() != owner)
 			{
 				int colLayer = result.body_->GetCollisionLayer();
-				if (colLayer & 128 || colLayer & 64)
+				if (colLayer & 4)
 				{
 					VariantMap map = VariantMap();
 					map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));

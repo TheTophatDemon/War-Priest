@@ -58,6 +58,7 @@
 #include "Launchpad.h"
 #include "CompassScene.h"
 #include "TempTemplar.h"
+#include "Statue.h"
 
 class GunPriest : public Application
 {

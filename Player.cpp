@@ -177,6 +177,10 @@ void Player::FixedUpdate(float timeStep)
 	{
 		health = 0.0f;
 	}
+	if (input->GetKeyDown(KEY_KP_PLUS))
+	{
+		health = 100.0f;
+	}
 	if (health <= 0.0f)
 	{
 		ChangeState(STATE_DEAD);
@@ -234,7 +238,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 	{
 		if (state != STATE_DROWN)
 		{
-			health -= 25; //Adjust for difficulty
+			health -= 22; //Adjust for difficulty
 			ChangeState(STATE_DROWN);
 		}
 	}
