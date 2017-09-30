@@ -84,7 +84,7 @@ void PostalPope::Execute()
 
 
 	case STATE_WANDER:
-		Wander(true);
+		Wander(true, false, 6.0f);
 		stateTimer += deltaTime;
 		if (stateTimer > 2.0f)
 		{
@@ -238,7 +238,7 @@ void PostalPope::Revive()
 bool PostalPope::CanSummon()
 {
 	PODVector<RigidBody*> result;
-	const Vector3 sz = Vector3(5.0f, 0.1f, 5.0f);
+	const Vector3 sz = Vector3(4.5f, 0.1f, 4.5f);
 	const Vector3 h = Vector3(0.0f, 1.5f, 0.0f);
 	physworld->GetRigidBodies(result, BoundingBox(node_->GetWorldPosition() - sz + h, node_->GetWorldPosition() + sz + h), 2);
 	if (result.Size() > 0) 

@@ -2,13 +2,13 @@
 	//Sacsand 1
 		//Checkpoints
 		//Stabilize that one shape
+		//Put borders around the DD part
+		//deepen the pool
 
 	//Portals?
 	//Make lifts that wait for the player.
 
 	//Preload all sounds
-	//Make postal popes more lenient with slopes
-	//Make postal popes move if blocked
 	
 	//Resolution settings
 	//Sounds

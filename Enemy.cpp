@@ -100,7 +100,7 @@ void Enemy::EndFrameCheck(StringHash eventType, VariantMap& eventData)
 	}
 }
 
-void Enemy::Wander(const bool avoidSlopes, const bool pause)
+void Enemy::Wander(const bool avoidSlopes, const bool pause, const float wallMargin)
 {
 	turnTimer += deltaTime;
 	if (turnTimer > 0.6f)
@@ -129,10 +129,10 @@ void Enemy::Wander(const bool avoidSlopes, const bool pause)
 		{
 			//Wall check
 			PhysicsRaycastResult result;
-			physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.1f, 0.0f), node_->GetDirection()), 2.0f, 2U);
+			physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.1f, 0.0f), node_->GetDirection()), wallMargin, 2U);
 			if (result.body_)
 			{
-				if (result.normal_.y_ == 0.0f) walking = false;
+				if (fabs(result.normal_.y_) < 0.1f) walking = false;
 			}
 		}
 	}
@@ -198,10 +198,10 @@ void Enemy::FaceTarget()
 bool Enemy::CheckCliff(const bool avoidSlopes)
 {
 	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.2f, 0.0f) + node_->GetWorldDirection() * shape->GetSize().x_ * 2.5f, Vector3::DOWN), 2.0f, 2);
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.2f, 0.0f) + node_->GetWorldDirection() * shape->GetSize().x_ * actor->forward * 0.5f, Vector3::DOWN), 2.0f, 2);
 	if (actor->fall <= 0.0f)
 	{
-		if (!result.body_ || (fabs(result.normal_.y_) != 1.0f && avoidSlopes))
+		if (!result.body_ || (fabs(result.normal_.y_) < 0.85f && avoidSlopes))
 		{
 			//newRotation = Quaternion(node_->GetWorldRotation().EulerAngles().y_ + 180.0f, Vector3::UP);
 			return true;
