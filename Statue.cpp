@@ -17,7 +17,8 @@ Statue::Statue(Context* context) :
 	LogicComponent(context),
 	health(100),
 	shakeTimer(0.0f),
-	radius(7.0f)
+	radius(7.0f),
+	deathTimer(0.0f)
 {
 }
 
@@ -34,6 +35,7 @@ void Statue::Start()
 	body = node_->GetComponent<RigidBody>();
 
 	originalPosition = node_->GetWorldPosition();
+	translatePosition = originalPosition;
 
 	SubscribeToEvent(GetNode(), E_NODECOLLISIONSTART, URHO3D_HANDLER(Statue, OnCollisionEnter));
 	SubscribeToEvent(Projectile::E_PROJECTILEHIT, URHO3D_HANDLER(Statue, OnProjectileHit));
@@ -49,20 +51,31 @@ void Statue::FixedUpdate(float timeStep)
 {
 	if (shakeTimer >= 0.0f)
 	{
-		shakeTimer -= timeStep;
+		if (health > 0) shakeTimer -= timeStep; //It'll keep shaking forever if it's out of health
 		if (shakeTimer < 0.0f)
 		{
-			node_->SetWorldPosition(originalPosition);
+			node_->SetWorldPosition(translatePosition);
 		}
 		else 
 		{
-			const float rand = Random(-0.1f, 0.1f);
-			node_->SetWorldPosition(originalPosition + Vector3(rand, -rand, -rand * 2.0f));
+			const float rand = Random(-0.2f * shakeTimer, 0.2f * shakeTimer);
+			node_->SetWorldPosition(translatePosition + Vector3(rand, -rand, -rand * 2.0f));
 		}
-		if (Random(0, 10) == 1)
+		int smokeChance = 8;
+		if (health <= 0) smokeChance = 2;
+		if (Random(0, smokeChance) == 1)
 		{
-			Zeus::PuffOfSmoke(scene, node_->GetWorldPosition()
+			Zeus::PuffOfSmoke(scene, originalPosition
 				+ Vector3(Random(-radius,radius), Random(-1.0f,1.0f), Random(-radius,radius)), Random(0.5f, 1.5f));
+		}
+	}
+	if (health <= 0)
+	{
+		deathTimer += timeStep;
+		translatePosition += Vector3(0.0f, -timeStep * 5.0f, 0.0f);
+		if (deathTimer > radius / 2.0f)
+		{
+			node_->Remove();
 		}
 	}
 }

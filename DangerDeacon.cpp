@@ -21,8 +21,8 @@
 #define STATE_POSE 34
 
 #define EXPLODERANGE 16.0f
-#define BLASTRANGE 5.75f
-#define STUNTIME 1.0f
+#define BLASTRANGE 5.5f
+#define STUNTIME 1.3f
 #define DAMAGE 12.0f
 
 #define IDLE_ANIM "Models/enemy/dangerdeacon_idle.ani"
@@ -84,7 +84,7 @@ void DangerDeacon::Execute()
 		modelNode->Rotate(Quaternion(strafeAmt * 45.0f, Vector3::UP));
 	}
 
-	const float shrinkAmount = deltaTime * EXPLODERANGE * 3.5f; //Set to 3.0 if easy mode
+	const float shrinkAmount = deltaTime * EXPLODERANGE * 3.3f; //Set to 3.0 if easy mode
 
 	switch (state)
 	{
@@ -199,7 +199,7 @@ void DangerDeacon::Execute()
 				}
 				soundSource->Play("Sounds/env_explode.wav");
 			}
-			if (targetDist < BLASTRANGE && stateTimer > STUNTIME - 1.0f)
+			if (targetDist < BLASTRANGE && stateTimer < STUNTIME - 0.5f)
 			{
 				VariantMap map = VariantMap();
 				map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
@@ -208,20 +208,23 @@ void DangerDeacon::Execute()
 				SendEvent(Projectile::E_PROJECTILEHIT, map);
 			}
 			//This is mainly for statues
-			PODVector<RigidBody*> result;
-			physworld->GetRigidBodies(result, Sphere(node_->GetWorldPosition(), BLASTRANGE), 4U);
-			for (PODVector<RigidBody*>::Iterator i = result.Begin(); i != result.End(); ++i)
+			if (stateTimer < STUNTIME - 0.5f) 
 			{
-				RigidBody* otherBody = (RigidBody*)*i;
-				if (otherBody)
+				PODVector<RigidBody*> result;
+				physworld->GetRigidBodies(result, Sphere(node_->GetWorldPosition(), BLASTRANGE), 4U);
+				for (PODVector<RigidBody*>::Iterator i = result.Begin(); i != result.End(); ++i)
 				{
-					if (otherBody->GetCollisionLayer() & 4)
+					RigidBody* otherBody = (RigidBody*)*i;
+					if (otherBody)
 					{
-						VariantMap map = VariantMap();
-						map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
-						map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(otherBody->GetNode())));
-						map.Insert(Pair<StringHash, Variant>(StringHash("damage"), DAMAGE));
-						SendEvent(Projectile::E_PROJECTILEHIT, map);
+						if (otherBody->GetCollisionLayer() & 4 && otherBody->GetNode()->GetName() != "player")
+						{
+							VariantMap map = VariantMap();
+							map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
+							map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(otherBody->GetNode())));
+							map.Insert(Pair<StringHash, Variant>(StringHash("damage"), (int)(DAMAGE / 5)));
+							SendEvent(Projectile::E_PROJECTILEHIT, map);
+						}
 					}
 				}
 			}
@@ -239,7 +242,7 @@ void DangerDeacon::Execute()
 
 	case STATE_POSE:
 		stateTimer += deltaTime;
-		if (stateTimer > animController->GetLength(REVIVE_ANIM) * 0.95f)
+		if (stateTimer > animController->GetLength(REVIVE_ANIM) * 0.9f)
 		{
 			ChangeState(STATE_WANDER);
 		}

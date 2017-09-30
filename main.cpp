@@ -1,9 +1,15 @@
 //TODO:
-	//Statues
-		//Statue death
-	//Move "map getting" parts inside respective classes
-	//Portals?
+	//Sacsand 1
+		//Checkpoints
+		//Stabilize that one shape
 
+	//Portals?
+	//Make lifts that wait for the player.
+
+	//Preload all sounds
+	//Make postal popes more lenient with slopes
+	//Make postal popes move if blocked
+	
 	//Resolution settings
 	//Sounds
 		//Player death
@@ -18,6 +24,8 @@
 //Level Ideas
 	//Two PP's and a TT
 	//Have a PP way below you and firing upwards
+	//Little protrusions from the ground that you hop on before descending to the lower levels
+	//Ascending a tower with a bunch of lifts
 	
 //Potential Optimizations:
 	//Change raycast length
@@ -27,7 +35,7 @@
 	//Split map into multiple sections
 
 //Complaints:
-	//It'd be nice to have an event that fires right before the physics steps
+	//It'd be nice to have an event that fires right before the physics steps for keeping track of flags
 	//Annoying physics jitter due to interpolation
 	//Need an easier way of getting triangle info from a collision for "platforming logic"
 	//Need a way to restrict transform inheritance from parents (rotation, location, scale)

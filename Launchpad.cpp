@@ -73,7 +73,7 @@ void Launchpad::OnCollision(StringHash eventType, VariantMap& eventData)
 		if (n->HasComponent<Actor>()) 
 		{
 			Actor* act = n->GetComponent<Actor>();
-			act->fall = launchForce - (Min(act->fall, 0.0f) * 0.2f);
+			act->fall = launchForce + 4.0f;
 			turnSpeedModifier = 512.0f;
 			soundSource->Play(cache->GetResource<Sound>("Sounds/itm_launchpad.wav"));
 		}

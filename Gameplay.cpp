@@ -275,11 +275,11 @@ void Gameplay::SetupGame()
 		Node* n = dynamic_cast<Node*>(*i);
 		if (n)
 		{
+			const int hp = n->GetVar("health").GetInt();
 			const Matrix3x4 trans = n->GetWorldTransform();
 			n->LoadXML(cache->GetResource<XMLFile>("Objects/statue.xml")->GetRoot());
 			n->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
 			Statue* s = n->CreateComponent<Statue>();
-			const int hp = n->GetVar("health").GetInt();
 			if (hp != 0) 
 			{
 				s->Damage(s->GetHealth() - hp, true);

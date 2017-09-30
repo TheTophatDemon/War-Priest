@@ -60,18 +60,19 @@ using namespace Urho3D;
 
 Vector3 Player::cameraOffset = Vector3(0.0f, 14.4579f, -12.0f);
 
-Player::Player(Context* context) : LogicComponent(context)
+Player::Player(Context* context) : 
+	LogicComponent(context),
+	reviveCount(0),
+	hailTimer(0),
+	stateTimer(0),
+	hurtTimer(0),
+	reviveCooldown(0.0f),
+	state(STATE_DEFAULT),
+	health(MAXHEALTH),
+	cameraPitch(0.0f),
+	optimalCamPos(Vector3::ZERO),
+	splashNode(nullptr)
 {
-	reviveCount = 0;
-	hailTimer = 0;
-	stateTimer = 0;
-	hurtTimer = 0;
-	reviveCooldown = 0.0f;
-	state = STATE_DEFAULT;
-	health = MAXHEALTH;
-	cameraPitch = 0.0f;
-	optimalCamPos = Vector3::ZERO;
-	splashNode = nullptr;
 }
 
 void Player::RegisterObject(Context* context)
@@ -150,6 +151,15 @@ void Player::Start()
 
 void Player::FixedUpdate(float timeStep)
 {	
+	//Cheats
+	if (input->GetKeyDown(KEY_K))
+		health = 0.0f;
+	if (input->GetKeyDown(KEY_KP_PLUS))
+		health = 100.0f;
+	if (input->GetKeyDown(KEY_KP_0))
+		actor->onGround = true;
+	speedy = input->GetKeyDown(KEY_KP_PERIOD);
+
 	bloodEmitter->ApplyEffect();
 	float newAngle = 0.0f;
 	
@@ -173,14 +183,7 @@ void Player::FixedUpdate(float timeStep)
 			bloodEmitter->SetEmitting(false);
 		}
 	}
-	if (input->GetKeyDown(KEY_K))
-	{
-		health = 0.0f;
-	}
-	if (input->GetKeyDown(KEY_KP_PLUS))
-	{
-		health = 100.0f;
-	}
+
 	if (health <= 0.0f)
 	{
 		ChangeState(STATE_DEAD);
@@ -502,7 +505,7 @@ void Player::ST_Default(float timeStep)
 		moveX *= FRICTION;
 		if (fabs(moveX) < 0.1f) moveX = 0.0f;
 	}
-	moveX = Clamp(moveX, -WALKSPEED, WALKSPEED);
+	if (!speedy) moveX = Clamp(moveX, -WALKSPEED, WALKSPEED);
 
 	if (forwardKey)
 	{
@@ -517,7 +520,7 @@ void Player::ST_Default(float timeStep)
 		moveZ *= FRICTION;
 		if (fabs(moveZ) < 0.1f) moveZ = 0.0f;
 	}
-	moveZ = Clamp(moveZ, -WALKSPEED, WALKSPEED);
+	if (!speedy) moveZ = Clamp(moveZ, -WALKSPEED, WALKSPEED);
 
 	if (jumpKey)
 	{
@@ -594,11 +597,6 @@ void Player::ST_Default(float timeStep)
 		ChangeState(STATE_SLIDE);
 	}
 
-	if (input->GetKeyDown(KEY_KP_0))
-	{
-		actor->onGround = true;
-	}
-
 	actor->Move(timeStep);
 }
 
@@ -644,7 +642,7 @@ void Player::ST_Slide(float timeStep)
 	actor->SetMovement(slideDirection);
 	actor->Move(timeStep);
 
-	if (stateTimer > 0.4f)
+	if (stateTimer > 0.5f)
 	{
 		stateTimer = 0;
 		ChangeState(STATE_DEFAULT);

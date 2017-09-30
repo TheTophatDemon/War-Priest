@@ -33,8 +33,10 @@ protected:
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<RigidBody> body;
 	Vector3 originalPosition;
+	Vector3 translatePosition;
 	float shakeTimer;
 	float radius;
+	float deathTimer;
 	int health;
 };
 

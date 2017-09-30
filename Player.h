@@ -95,5 +95,7 @@ protected:
 	bool jumpKey = false;
 	bool slideKey = false;
 	bool reviveKey = false;
+
+	bool speedy = false;
 };
 
