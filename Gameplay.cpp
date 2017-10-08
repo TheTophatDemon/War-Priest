@@ -119,7 +119,8 @@ void Gameplay::Start()
 
 void Gameplay::SetupGame()
 {
-	SetGlobalVar("PROJECTILE COUNT", 0);
+	PreloadSounds();
+	
 	winState = 0;
 	restartTimer = 0;
 
@@ -634,6 +635,28 @@ void Gameplay::SetupLighting()
 				l->SetPerVertex(true);
 			else
 				l->SetPerVertex(false);
+		}
+	}
+}
+
+void Gameplay::PreloadSounds()
+{
+	FileSystem* fs = GetSubsystem<FileSystem>();
+	StringVector resDirs = cache->GetResourceDirs();
+	for (String sd : resDirs)
+	{
+		StringVector sounds;
+		fs->ScanDir(sounds, (sd + "Sounds"), "", SCAN_FILES, true);
+		//std::cout << "THERE ARE " << sounds.Size() << " SOUNDS IN " << (sd + "Sounds").CString() << std::endl;
+		for (String s : sounds)
+		{
+			if (!s.EndsWith(".xml", false)) //Skip the config files, m8
+			{
+				const int lastSlash = s.FindLast("/", 4000U, false);
+				String soundName = s.Substring(lastSlash + 1);
+				//std::cout << soundName.CString() << std::endl;
+				cache->GetResource<Sound>("Sounds/" + soundName);
+			}
 		}
 	}
 }

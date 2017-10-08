@@ -133,8 +133,6 @@ void GunPriest::Start()
 	renderer = GetSubsystem<Renderer>();
 	audio = GetSubsystem<Audio>();
 
-	
-
 	Settings::LoadSettings(context_);
 	VideoSetup();
 
@@ -208,7 +206,7 @@ void GunPriest::AfterRenderUpdate(StringHash eventType, VariantMap& eventData)
 {
 	if (state == STATE_GAME && game->initialized)
 	{
-		//scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
+		if (input->GetKeyDown(KEY_KP_DIVIDE)) scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
 	}
 }
 

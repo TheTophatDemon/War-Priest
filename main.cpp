@@ -1,14 +1,16 @@
 //TODO:
 	//Sacsand 1
 		//Checkpoints
-		//Stabilize that one shape
 		//Put borders around the DD part
 		//deepen the pool
+		//Textures
+			//Desaturate sandstone_smooth
+			//Little border tiles
+			//Big ol' blocks of ancientness
+			//Cloth squares / Tent roof
 
 	//Portals?
 	//Make lifts that wait for the player.
-
-	//Preload all sounds
 	
 	//Resolution settings
 	//Sounds

@@ -62,6 +62,7 @@ protected:
 	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);
 	void UpdateHUD(float timeStep);
 	void SetupLighting();
+	void PreloadSounds();
 	
 	void SetupEnemy();
 	void SetupProps();
