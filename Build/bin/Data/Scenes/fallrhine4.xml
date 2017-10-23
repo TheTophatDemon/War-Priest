@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <scene id="1">
-	<attribute name="Name" value="Fallen Rhineland Act 3" />
+	<attribute name="Name" value="Fallen Rhineland Act 4" />
 	<attribute name="Time Scale" value="1" />
 	<attribute name="Smoothing Constant" value="50" />
 	<attribute name="Snap Threshold" value="5" />
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="3" />
 	<attribute name="Next Replicated Component ID" value="5" />
-	<attribute name="Next Local Node ID" value="16778321" />
-	<attribute name="Next Local Component ID" value="16780771" />
+	<attribute name="Next Local Node ID" value="16778327" />
+	<attribute name="Next Local Component ID" value="16780821" />
 	<attribute name="Variables" />
 	<attribute name="Variable Names" value="spawnertype;spawnerdistance;movement;restTime;speed;rotateSpeed;launchForce" />
 	<component type="Octree" id="1" />
@@ -850,7 +850,7 @@
 		</component>
 		<component type="CollisionShape" id="16780429">
 			<attribute name="Shape Type" value="TriangleMesh" />
-			<attribute name="Model" value="Model;Models/props/gear.mdl" />
+			<attribute name="Model" value="Model;Models/props/gear2.mdl" />
 		</component>
 		<component type="RigidBody" id="16780430">
 			<attribute name="Physics Position" value="-78.9673 -69.0751 32.4683" />
@@ -1330,21 +1330,6 @@
 		<component type="StaticModel" id="16780543">
 			<attribute name="Model" value="Model;Models/enemy/temptemplar.mdl" />
 			<attribute name="Material" value="Material;Materials/enemy/temptemplar_skin.xml" />
-		</component>
-	</node>
-	<node id="16778248">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="medkit" />
-		<attribute name="Tags">
-			<string value="medkit" />
-		</attribute>
-		<attribute name="Position" value="-79.1719 -65.2171 -5.22536" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.6 0.6 0.6" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780544">
-			<attribute name="Model" value="Model;Models/medkit.mdl" />
-			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
 		</component>
 	</node>
 	<node id="16778249">
@@ -1948,21 +1933,6 @@
 			<attribute name="Material" value="Material;Materials/decal_tolerance.xml" />
 		</component>
 	</node>
-	<node id="16778309">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="medkit" />
-		<attribute name="Tags">
-			<string value="medkit" />
-		</attribute>
-		<attribute name="Position" value="-34.919 -66.2202 189.007" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.6 0.6 0.6" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780681">
-			<attribute name="Model" value="Model;Models/medkit.mdl" />
-			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
-		</component>
-	</node>
 	<node id="16778310">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="medkit" />
@@ -1984,7 +1954,7 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-80.5906 -50.251 126.788" />
+		<attribute name="Position" value="-28.3013 -66.7474 34.0582" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
 		<attribute name="Variables" />
@@ -2035,5 +2005,20 @@
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
 		</node>
+	</node>
+	<node id="16778322">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="medkit" />
+		<attribute name="Tags">
+			<string value="medkit" />
+		</attribute>
+		<attribute name="Position" value="-79.1719 -65.2171 -5.22536" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.6 0.6 0.6" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780783">
+			<attribute name="Model" value="Model;Models/medkit.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
+		</component>
 	</node>
 </scene>

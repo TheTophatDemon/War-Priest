@@ -12,7 +12,7 @@ TitleMenu::TitleMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(ts, gm)
 
 void TitleMenu::OnEnter()
 {
-	Menu::OnEnter();
+	GP::Menu::OnEnter();
 	resumeButton = (Button*)titleScreen->ourUI->GetChild("resumeGame", true);
 	resumeButton->SetVisible(gameplay->initialized);
 }

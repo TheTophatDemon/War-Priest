@@ -29,7 +29,7 @@ LevelSelectMenu::LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu
 
 void LevelSelectMenu::OnEnter()
 {
-	Menu::OnEnter();
+	GP::Menu::OnEnter();
 	levelList = titleScreen->ourUI->GetChild("levelList", true);
 	buttParent = levelList->GetChild("levelButtonParent", true);
 	scrollBar = (ScrollBar*)levelList->GetChild("levelScroll", true);

@@ -92,6 +92,8 @@ void Gameplay::Start()
 	input->SetMouseGrabbed(true);
 	ourUI->SetEnabledRecursive(true);
 	ourUI->SetVisible(true);
+	ourUI->SetSize(Settings::GetResolutionX(), Settings::GetResolutionY());
+	GetSubsystem<UI>()->SetScale(1.0f);
 	input->SetMouseVisible(false);
 	scene_->SetUpdateEnabled(true);
 
@@ -302,7 +304,6 @@ void Gameplay::FixedUpdate(float timeStep)
 {
 	if (IsEnabled()) 
 	{
-		audio->SetMasterGain("GAMEPLAY", Settings::GetSoundVolume());
 		UpdateHUD(timeStep);
 		if (skybox)
 		{
@@ -394,8 +395,6 @@ void Gameplay::MakeHUD()
 	UI* ui = GetSubsystem<UI>();
 	ui->GetRoot()->LoadChildXML(cache->GetResource<XMLFile>("UI/HUDLayout.xml")->GetRoot());
 	ourUI = ui->GetRoot()->GetChild("hud", true);
-	int width = ourUI->GetWidth();
-	int height = ourUI->GetHeight();
 
 	text = new Text(context_);
 	text->SetText("WAR PRIEST ALPHA : WWW.BITENDOSOFTWARE.COM");
@@ -413,13 +412,6 @@ void Gameplay::MakeHUD()
 	messageText->SetEffectStrokeThickness(4);
 	ourUI->AddChild(messageText);
 	messageText->SetVisible(false);
-
-	/*projectileCounter = new Text(context_);
-	projectileCounter->SetText("PROJECTILE: " + String(GetGlobalVar("PROJECTILE COUNT").GetInt()));
-	projectileCounter->SetFont("Fonts/Anonymous Pro.ttf", 12);
-	projectileCounter->SetHorizontalAlignment(HA_LEFT);
-	projectileCounter->SetVerticalAlignment(VA_CENTER);
-	ourUI->AddChild(projectileCounter);*/
 
 	healthMeter = (Sprite*)ourUI->GetChild("healthbar", true)->GetChild(0);
 	compass1 = (Sprite*)ourUI->GetChild("compass1", true);

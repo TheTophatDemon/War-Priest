@@ -34,11 +34,11 @@ public:
 	GunPriest* gunPriest;
 
 	void MakeMenus();
-	void SetMenu(Menu* newMenu);
+	void SetMenu(GP::Menu* newMenu);
 
-	SharedPtr<Menu> titleMenu;
-	SharedPtr<Menu> levelSelectMenu;
-	SharedPtr<Menu> settingsMenu;
+	SharedPtr<GP::Menu> titleMenu;
+	SharedPtr<GP::Menu> levelSelectMenu;
+	SharedPtr<GP::Menu> settingsMenu;
 
 	SharedPtr<SoundSource> soundSource;
 protected:
@@ -52,7 +52,7 @@ protected:
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<Audio> audio;
 
-	SharedPtr<Menu> currentMenu;
+	SharedPtr<GP::Menu> currentMenu;
 	SharedPtr<Node> soundNode;
 
 	float time;

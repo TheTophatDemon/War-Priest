@@ -45,8 +45,6 @@ void PyroPastor::RegisterObject(Context* context)
 
 void PyroPastor::Execute()
 {
-	
-	float turnAmount = 0.0f;
 	Vector3 aimVec = Vector3::ZERO;
 	Quaternion aim = Quaternion();
 	if (target)

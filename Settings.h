@@ -22,6 +22,8 @@ public:
 	static inline int GetJumpKey() { return keyJump; }
 	static inline int GetReviveKey() { return keyRevive; }
 	static inline int GetSlideKey() { return keySlide; }
+	static inline int GetResolutionX() { return xRes; };
+	static inline int GetResolutionY() { return yRes; };
 	static inline float GetMouseSensitivity() { return mouseSensitivity; }
 	static inline float GetMusicVolume() { return musicVolume; }
 	static inline float GetSoundVolume() { return soundVolume; }
@@ -41,6 +43,8 @@ protected:
 	static int keyJump;
 	static int keyRevive;
 	static int keySlide;
+	static int xRes;
+	static int yRes;
 	static float mouseSensitivity;
 	static float musicVolume;
 	static float soundVolume;

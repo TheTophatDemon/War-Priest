@@ -40,19 +40,12 @@ protected:
 	SharedPtr<RigidBody> body;
 	SharedPtr<Scene> scene;
 	SharedPtr<CollisionShape> shape;
-	Quaternion newRotation;
 	SharedPtr<CollisionShape> oldShape;
 	SharedPtr<Node> target;
 	SharedPtr<SoundSounder> soundSource;
 	SharedPtr<AnimationController> animController;
 
-	float distanceFromPlayer;
-
 	void EndFrameCheck(StringHash eventType, VariantMap& eventData);
-	
-	float stateTimer;
-	int state;
-
 	virtual void Execute();
 	void Wander(const bool avoidSlopes = false, const bool pause = false, const float wallMargin = 2.0f);
 	void Dead();
@@ -63,6 +56,11 @@ protected:
 	void FaceTarget();
 	void KeepOnGround();
 
+	Quaternion newRotation;
+
+	float distanceFromPlayer;
+	float stateTimer;
+	int state;
 	float deltaTime;
 	float turnAmount = 0.0f;
 	float turnTimer = 0.0f;

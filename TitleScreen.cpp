@@ -59,6 +59,7 @@ void TitleScreen::Start()
 	audio->SetMasterGain("GAMEPLAY", 0.0f);
 	audio->SetMasterGain("TITLE", Settings::GetSoundVolume());
 
+	ui->SetWidth(1280);
 	if (ourUI)
 	{
 		ourUI->SetEnabled(true);
@@ -81,6 +82,8 @@ void TitleScreen::Start()
 
 void TitleScreen::OnUpdate(StringHash eventType, VariantMap& eventData)
 {
+	audio->SetMasterGain("GAMEPLAY", 0.0f);
+	audio->SetMasterGain("TITLE", Settings::GetSoundVolume());
 	float timeStep = eventData["TimeStep"].GetFloat();
 	time += timeStep;
 	if (IsEnabled())
@@ -119,7 +122,7 @@ void TitleScreen::OnEvent(StringHash eventType, VariantMap& eventData)
 	}
 }
 
-void TitleScreen::SetMenu(Menu* newMenu)
+void TitleScreen::SetMenu(GP::Menu* newMenu)
 {
 	time = 0.0f;
 	if (currentMenu) currentMenu->OnLeave();

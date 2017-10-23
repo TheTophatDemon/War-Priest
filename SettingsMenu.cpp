@@ -6,7 +6,10 @@
 #include <Urho3D/Input/Input.h>
 #include <iostream>
 
-SettingsMenu::SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(ts, gm)
+Color SettingsMenu::selectedColor = Color(0.65f, 0.75f, 0.65f);
+Color SettingsMenu::unSelectedColor = Color(0.25f, 0.25f, 0.25f);
+
+SettingsMenu::SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(ts, gm), selectedRes(0)
 {
 	layoutPath = "UI/titlemenus/settingsScreen.xml";
 }
@@ -14,7 +17,7 @@ SettingsMenu::SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(ts, g
 void SettingsMenu::OnEnter()
 {
 	Settings::LoadSettings(titleScreen->GetContext());
-	Menu::OnEnter();
+	GP::Menu::OnEnter();
 	input = titleScreen->GetSubsystem<Input>();
 
 	restartText = titleScreen->ourUI->GetChildDynamicCast<Text>("restartText", true);
@@ -31,6 +34,33 @@ void SettingsMenu::OnEnter()
 	vsyncCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("vsyncCheck", true);
 	fullScreenCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("fullScreenCheck", true);
 
+	resolutionList = titleScreen->ourUI->GetChild("resolutionList", true);
+	resolutionList->SetClipChildren(true);
+	resolutionList->SetClipBorder(IntRect(4, 4, 4, 4));
+	//Add buttons for each resolution
+	String resLabels[] = {"1920x1080", "1280x720", "800x600", "800x450", "640x480", "640x360"};
+	const int pResX[] = { 1920, 1280, 800, 800, 640, 640 };
+	const int pResY[] = { 1080, 720, 600, 450, 480, 360 };
+	const int buttHeight = resolutionList->GetSize().y_ / NUM_RESOLUTIONS;
+	for (int i = 0; i < NUM_RESOLUTIONS; ++i)
+	{
+		Button* butt = (Button*)resolutionList->CreateChild(Button::GetTypeStatic());
+		butt->SetSize(resolutionList->GetSize().x_, buttHeight);
+		butt->SetPosition(0, buttHeight*i);
+		butt->SetColor(unSelectedColor);
+		Text* text = (Text*)butt->CreateChild(Text::GetTypeStatic());
+		text->SetText(resLabels[i]);
+		text->SetFont("Fonts/Anonymous Pro.ttf", 12);
+		text->SetHorizontalAlignment(HA_CENTER);
+		text->SetVerticalAlignment(VA_TOP);
+		text->SetColor(Color::WHITE);
+		resButtons[i].button = butt;
+		resButtons[i].label = resLabels[i];
+		resButtons[i].resX = pResX[i];
+		resButtons[i].resY = pResY[i];
+	}
+
+	//Assign rebind buttons to settings
 	rebindButtons[0].button = controlsPanel->GetChildDynamicCast<Button>("forwardButton", false);
 		rebindButtons[0].setting = &Settings::keyForward;
 	rebindButtons[1].button = controlsPanel->GetChildDynamicCast<Button>("backwardButton", false);
@@ -49,7 +79,7 @@ void SettingsMenu::OnEnter()
 	UpdateControls();
 }
 
-void SettingsMenu::UpdateControls()
+void SettingsMenu::UpdateControls() //Syncs the ui controls to the actual settings
 {
 	musicVolumeSlider->SetValue(Settings::GetMusicVolume() * musicVolumeSlider->GetRange());
 	soundVolumeSlider->SetValue(Settings::GetSoundVolume() * soundVolumeSlider->GetRange());
@@ -60,6 +90,19 @@ void SettingsMenu::UpdateControls()
 	invertMouseCheck->SetChecked(Settings::IsMouseInverted());
 	vsyncCheck->SetChecked(Settings::IsVsync());
 	fullScreenCheck->SetChecked(Settings::IsFullScreen());
+	
+	for (int i = 0; i < NUM_RESOLUTIONS; ++i)
+	{
+		if (resButtons[i].resX == Settings::GetResolutionX() && resButtons[i].resY == Settings::GetResolutionY())
+		{
+			resButtons[i].button->SetColor(selectedColor);
+			selectedRes = i;
+		}
+		else
+		{
+			resButtons[i].button->SetColor(unSelectedColor);
+		}
+	}
 	
 	for (int i = 0; i < 7; ++i)
 	{
@@ -115,6 +158,21 @@ void SettingsMenu::OnMouseClick(StringHash eventType, VariantMap& eventData)
 						rebindButton = &rebindButtons[i];
 				}
 			}
+			else if (source->GetParent() == resolutionList)
+			{
+				for (int i = 0; i < NUM_RESOLUTIONS; ++i)
+				{
+					if (resButtons[i].button == source) 
+					{
+						resButtons[i].button->SetColor(selectedColor);
+						selectedRes = i;
+					}
+					else 
+					{
+						resButtons[i].button->SetColor(unSelectedColor);
+					}
+				}
+			}
 			else
 			{
 				if (source->GetName() == "cancelButton")
@@ -130,8 +188,7 @@ void SettingsMenu::OnMouseClick(StringHash eventType, VariantMap& eventData)
 				else if (source->GetName() == "revertButton")
 				{
 					Settings::RevertSettings();
-					Settings::SaveSettings(titleScreen->GetContext());
-					titleScreen->SetMenu(titleScreen->titleMenu);
+					UpdateControls();
 				}
 			}
 		}
@@ -176,21 +233,17 @@ void SettingsMenu::ApplySettings()
 	Settings::soundVolume = soundVolumeSlider->GetValue() / soundVolumeSlider->GetRange();
 	Settings::mouseSensitivity = sensitivitySlider->GetValue() / sensitivitySlider->GetRange();
 
-	bool flag = false;
-	if (Settings::fastGraphics != graphicsCheck->IsChecked()
-		|| Settings::vSync != vsyncCheck->IsChecked()
-		|| Settings::fullScreen != fullScreenCheck->IsChecked())
-	{
-		flag = true;
-	}
-
 	Settings::bloodEnabled = bloodCheck->IsChecked();
 	Settings::mouseInvert = invertMouseCheck->IsChecked();
 	Settings::fastGraphics = graphicsCheck->IsChecked();
 	Settings::vSync = vsyncCheck->IsChecked();
 	Settings::fullScreen = fullScreenCheck->IsChecked();
 
-	if (flag) titleScreen->gunPriest->VideoSetup(); //Apply new graphics stuff
+	Settings::xRes = resButtons[selectedRes].resX;
+	Settings::yRes = resButtons[selectedRes].resY;
+	
+	titleScreen->gunPriest->VideoSetup();
+	ui->SetWidth(1280);
 
 	for (int i = 0; i < 7; ++i)
 	{

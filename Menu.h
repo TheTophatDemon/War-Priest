@@ -10,25 +10,26 @@
 #include <Urho3D/UI/Button.h>
 #include "Gameplay.h"
 
-using namespace Urho3D;
-
 class TitleScreen;
-class Menu : public RefCounted
+namespace GP 
 {
-public:
-	Menu(TitleScreen* ts, SharedPtr<Gameplay> gm);
-	virtual void OnEnter();
-	virtual void OnLeave();
-	virtual void Update(float timeStep);
-	virtual void OnEvent(StringHash eventType, VariantMap& eventData) = 0;
-	virtual 
-	~Menu();
-	String layoutPath;
-protected:
-	SharedPtr<TitleScreen> titleScreen;
-	SharedPtr<Gameplay> gameplay;
-	SharedPtr<ResourceCache> cache;
-	SharedPtr<UI> ui;
-	void DisableTexts();
-};
+	class Menu : public RefCounted
+	{
+	public:
+		Menu(TitleScreen* ts, SharedPtr<Gameplay> gm);
+		virtual void OnEnter();
+		virtual void OnLeave();
+		virtual void Update(float timeStep);
+		virtual void OnEvent(StringHash eventType, VariantMap& eventData) = 0;
+		virtual
+			~Menu();
+		String layoutPath;
+	protected:
+		SharedPtr<TitleScreen> titleScreen;
+		SharedPtr<Gameplay> gameplay;
+		SharedPtr<ResourceCache> cache;
+		SharedPtr<UI> ui;
+		void DisableTexts();
+	};
+}
 

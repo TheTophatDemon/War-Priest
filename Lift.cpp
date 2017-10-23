@@ -40,7 +40,6 @@ void Lift::Start()
 	valAnim->SetKeyFrame((restTime * 2.0f) + speed, pointB);
 	valAnim->SetKeyFrame((restTime + speed) * 2.0f, pointA);
 	node_->SetAttributeAnimation("Position", valAnim, WM_LOOP, 1.0f);
-	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Lift, OnCollision));
 
 	if (!node_->HasComponent<RigidBody>())
 	{
@@ -53,6 +52,8 @@ void Lift::Start()
 		body->SetAngularFactor(Vector3::ZERO);
 		body->SetLinearFactor(Vector3::ZERO);
 	}
+
+	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Lift, OnCollision));
 }
 
 void Lift::FixedUpdate(float timeStep)
@@ -76,7 +77,7 @@ void Lift::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (otherBody->GetCollisionLayer() & 128 || otherBody->GetCollisionLayer() & 64) //KNOCK KNOCK ITS ME
+	if (otherBody->GetCollisionLayer() & 128) //KNOCK KNOCK ITS ME
 	{
 		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
 		while (!contacts.IsEof())
@@ -85,13 +86,15 @@ void Lift::OnCollision(StringHash eventType, VariantMap& eventData)
 			Vector3 normal = contacts.ReadVector3();
 			float distance = contacts.ReadFloat();
 			float impulse = contacts.ReadFloat();
-			if (fabs(normal.y_) >= 0.42f && position.y_ < other->GetWorldPosition().y_ + 0.4f)
+			//if (fabs(normal.y_) >= 0.42f && position.y_ < other->GetWorldPosition().y_ + 0.4f)
+			if (normal.y_ >= 0.75f)
 			{
+				//std::cout << "normal " << normal.y_ << std::endl;
+				node_->SetAttributeAnimationSpeed("Position", 0.0f);
+				timer = 0.5f;
 				return;
 			}
 		}
-		node_->SetAttributeAnimationSpeed("Position", 0.0f);
-		timer = 0.5f;
 	}
 }
 

@@ -2,7 +2,7 @@
 
 #include "Menu.h"
 
-class TitleMenu : public Menu
+class TitleMenu : public GP::Menu
 {
 public:
 	TitleMenu(TitleScreen* ts, SharedPtr<Gameplay> gm);

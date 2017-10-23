@@ -5,17 +5,29 @@
 #include <Urho3D/UI/UIElement.h>
 #include <Urho3D/UI/Text.h>
 #include <Urho3D/UI/CheckBox.h>
+#include <Urho3D/UI/ListView.h>
+
 #include "Menu.h"
 #include "GunPriest.h"
+
+#define NUM_RESOLUTIONS 6
 
 struct RebindButton
 {
 	SharedPtr<Button> button;
-	int* setting;
+	int* setting = nullptr;
 	int value;
 };
 
-class SettingsMenu : public Menu
+struct ResolutionButton
+{
+	WeakPtr<Button> button;
+	String label;
+	int resX;
+	int resY;
+};
+
+class SettingsMenu : public GP::Menu
 {
 public:
 	SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm);
@@ -42,6 +54,12 @@ protected:
 	SharedPtr<CheckBox> invertMouseCheck;
 	SharedPtr<CheckBox> vsyncCheck;
 	SharedPtr<CheckBox> fullScreenCheck;
+
+	SharedPtr<UIElement> resolutionList;
+	ResolutionButton resButtons[NUM_RESOLUTIONS];
+	int selectedRes;
+	static Color selectedColor;
+	static Color unSelectedColor;
 
 	RebindButton rebindButtons[7];
 	RebindButton* rebindButton;

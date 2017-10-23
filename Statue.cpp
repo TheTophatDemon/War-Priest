@@ -17,7 +17,7 @@ Statue::Statue(Context* context) :
 	LogicComponent(context),
 	health(100),
 	shakeTimer(0.0f),
-	radius(7.0f),
+	radius(6.0f),
 	deathTimer(0.0f)
 {
 }

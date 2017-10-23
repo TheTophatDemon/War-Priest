@@ -1,22 +1,15 @@
 //TODO:
-	//Sacsand 1
-		//Checkpoints
-		//Put borders around the DD part
-		//deepen the pool
-		//Textures
-			//Desaturate sandstone_smooth
-			//Little border tiles
-			//Big ol' blocks of ancientness
-			//Cloth squares / Tent roof
+	//Sacsand 2
 
 	//Portals?
-	//Make lifts that wait for the player.
 	
 	//Resolution settings
+		//Fix in-game gui at smaller resolutions
 	//Sounds
 		//Player death
 		//God beam
 		//HALLELUJAH!
+		//Statue damage & destruction
 	//Roblox?
 	//LODs for: TT, DD, and PostalPope
 	//Package assets

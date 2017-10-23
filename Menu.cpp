@@ -2,6 +2,8 @@
 
 #include "TitleScreen.h"
 
+using namespace GP;
+
 Menu::Menu(TitleScreen* ts, SharedPtr<Gameplay> gm)
 {
 	titleScreen = SharedPtr<TitleScreen>(ts);

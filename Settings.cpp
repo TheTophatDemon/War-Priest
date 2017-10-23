@@ -24,6 +24,9 @@ String Settings::GAMESETTINGS_PATH = "/Data/gamesettings.bin";
 #define DF_KREV 1073741895
 #define DF_KSLIDE 1073742055
 
+#define DF_XRES 1280
+#define DF_YRES 720
+
 StringHash Settings::E_SETTINGSCHANGED = StringHash("SettingsChanged");
 
 bool Settings::fastGraphics = DF_FASTGRAPHICS;
@@ -44,6 +47,9 @@ int Settings::keyJump = DF_KJUMP;
 int Settings::keyRevive = DF_KREV;
 int Settings::keySlide = DF_KSLIDE;
 
+int Settings::xRes = DF_XRES;
+int Settings::yRes = DF_YRES;
+
 void Settings::RevertSettings()
 {
 	mouseInvert = DF_MOUSEINVERT;
@@ -60,6 +66,8 @@ void Settings::RevertSettings()
 	keyJump = DF_KJUMP;
 	keyRevive = DF_KREV;
 	keySlide = DF_KSLIDE;
+	xRes = DF_XRES;
+	yRes = DF_YRES;
 	fastGraphics = DF_FASTGRAPHICS;
 }
 
@@ -88,6 +96,10 @@ void Settings::LoadSettings(Context* context)
 		keyJump = file->ReadInt();
 		keyRevive = file->ReadInt();
 		keySlide = file->ReadInt();
+
+		//xRes = file->ReadInt();
+		//yRes = file->ReadInt();
+		
 		file->Close();
 	}
 	else
@@ -122,6 +134,9 @@ void Settings::SaveSettings(Context* context)
 		file->WriteInt(keyJump);
 		file->WriteInt(keyRevive);
 		file->WriteInt(keySlide);
+
+		file->WriteInt(xRes);
+		file->WriteInt(yRes);
 		file->Close();
 	}
 }

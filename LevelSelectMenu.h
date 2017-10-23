@@ -15,7 +15,7 @@ struct LevelEntry
 	SharedPtr<UIElement> listItem;
 };
 
-class LevelSelectMenu : public Menu
+class LevelSelectMenu : public GP::Menu
 {
 public:
 	LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm);
