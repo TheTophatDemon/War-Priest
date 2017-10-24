@@ -3,8 +3,6 @@
 
 	//Portals?
 	
-	//Resolution settings
-		//Fix in-game gui at smaller resolutions
 	//Sounds
 		//Player death
 		//God beam

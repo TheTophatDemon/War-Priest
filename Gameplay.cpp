@@ -92,8 +92,14 @@ void Gameplay::Start()
 	input->SetMouseGrabbed(true);
 	ourUI->SetEnabledRecursive(true);
 	ourUI->SetVisible(true);
+
 	ourUI->SetSize(Settings::GetResolutionX(), Settings::GetResolutionY());
-	GetSubsystem<UI>()->SetScale(1.0f);
+	if (Settings::GetResolutionY() < 600)
+		GetSubsystem<UI>()->SetScale(0.5f);
+	else
+		GetSubsystem<UI>()->SetScale(1.0f);
+	ourUI->SetAlignment(HA_CENTER, VA_BOTTOM);
+
 	input->SetMouseVisible(false);
 	scene_->SetUpdateEnabled(true);
 
