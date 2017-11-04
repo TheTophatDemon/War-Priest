@@ -27,7 +27,7 @@
 #define THROW_ANIM "Models/enemy/postalpope_throw.ani"
 #define REVIVE_ANIM "Models/enemy/postalpope_revive.ani"
 
-PostalPope::PostalPope(Context* context) : Enemy(context)
+PostalPope::PostalPope(Context* context) : Enemy(context), summoned(false)
 {
 	deltaTime = 0.0f;
 	debris = Vector<Node*>();
@@ -84,18 +84,20 @@ void PostalPope::Execute()
 
 
 	case STATE_WANDER:
-		Wander(true, false, 12.0f);
+		actor->gravity = true;
+		Wander(false, false, 8.0f);
 		stateTimer += deltaTime;
 		if (stateTimer > 2.0f)
 		{
-			if (CanSummon()) 
+			ChangeState(STATE_SUMMON);
+			/*if (CanSummon()) 
 			{
 				ChangeState(STATE_SUMMON);
 			}
 			else
 			{
 				stateTimer = 0.0f;
-			}
+			}*/
 		}
 		if (walking)
 			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
@@ -108,16 +110,30 @@ void PostalPope::Execute()
 		animController->PlayExclusive(SUMMON_ANIM, 0, false, 0.2f);
 		FaceTarget();
 		stateTimer += deltaTime;
-		
-		actor->SetMovement(Vector3::ZERO);
-		actor->Move(deltaTime);
-		if (stateTimer > 1.0f)
+		actor->gravity = false;
+		if (CanSummon()) 
 		{
-			ChangeState(STATE_THROW);
+			if (!summoned) SummonDebris();
+			actor->SetMovement(Vector3::ZERO);
+			actor->Move(deltaTime);
+			if (stateTimer > 1.0f)
+			{
+				ChangeState(STATE_THROW);
+			}
+			if (debris.Size() == 0)
+			{
+				ChangeState(STATE_WANDER);
+			}
 		}
-		if (debris.Size() == 0)
+		else
 		{
-			ChangeState(STATE_WANDER);
+			actor->SetMovement(Vector3::ZERO);
+			actor->Move(deltaTime);
+			node_->Translate(Vector3::UP * deltaTime * 2.0f, TS_LOCAL);
+			if (stateTimer > 5.0f)
+			{
+				ChangeState(STATE_WANDER);
+			}
 		}
 		break;
 
@@ -182,35 +198,7 @@ void PostalPope::EnterState(const int newState)
 	Enemy::EnterState(newState);
 	if (newState == STATE_SUMMON)
 	{
-		soundSource->Play("Sounds/enm_summon.wav");
-		weeoo->Play(cache->GetResource<Sound>("Sounds/enm_telekinesis.wav"));
-		if (debris.Size() > 0)
-		{
-			for (PODVector<Node*>::Iterator i = debris.Begin(); i != debris.End(); ++i)
-			{
-				Node* n = dynamic_cast<Node*>(*i);
-				if (n)
-				{
-					n->Remove();
-				}
-			}
-			debris.Clear();
-		}
-		for (int i = 0; i < 5; ++i) //Summon more debris
-		{
-			const float angle = (M_PI / 2.5f) * i;
-			Node* n = spinner->CreateChild();
-			n->LoadXML(cache->GetResource<XMLFile>("Objects/rock.xml")->GetRoot());
-			n->SetPosition(Vector3(cosf(angle) * 4.0f,0.0f,sinf(angle) * 4.0f));
-			Debris* debs = new Debris(context_);
-			debs->damage = 15;
-			n->AddComponent(debs, 666, LOCAL);
-			n->GetComponent<RigidBody>()->SetLinearFactor(Vector3::ZERO);
-			
-			Zeus::PuffOfSmoke(scene, n->GetWorldPosition(), 2.0f);
-
-			debris.Push(n);
-		}
+		summoned = false;
 	}
 	else if (newState == STATE_THROW)
 	{
@@ -238,14 +226,48 @@ void PostalPope::Revive()
 bool PostalPope::CanSummon()
 {
 	PODVector<RigidBody*> result;
-	const Vector3 sz = Vector3(4.5f, 0.1f, 4.5f);
-	const Vector3 h = Vector3(0.0f, 1.5f, 0.0f);
+	const Vector3 sz = Vector3(4.5f, 0.5f, 4.5f);
+	const Vector3 h = Vector3(0.0f, 2.5f, 0.0f);
 	physworld->GetRigidBodies(result, BoundingBox(node_->GetWorldPosition() - sz + h, node_->GetWorldPosition() + sz + h), 2);
 	if (result.Size() > 0) 
 	{
 		return false;
 	}
 	return true;
+}
+
+void PostalPope::SummonDebris()
+{
+	summoned = true;
+	soundSource->Play("Sounds/enm_summon.wav");
+	weeoo->Play(cache->GetResource<Sound>("Sounds/enm_telekinesis.wav"));
+	if (debris.Size() > 0)
+	{
+		for (PODVector<Node*>::Iterator i = debris.Begin(); i != debris.End(); ++i)
+		{
+			Node* n = dynamic_cast<Node*>(*i);
+			if (n)
+			{
+				n->Remove();
+			}
+		}
+		debris.Clear();
+	}
+	for (int i = 0; i < 5; ++i) //Summon more debris
+	{
+		const float angle = (M_PI / 2.5f) * i;
+		Node* n = spinner->CreateChild();
+		n->LoadXML(cache->GetResource<XMLFile>("Objects/rock.xml")->GetRoot());
+		n->SetPosition(Vector3(cosf(angle) * 4.0f, 0.0f, sinf(angle) * 4.0f));
+		Debris* debs = new Debris(context_);
+		debs->damage = 15;
+		n->AddComponent(debs, 666, LOCAL);
+		n->GetComponent<RigidBody>()->SetLinearFactor(Vector3::ZERO);
+
+		Zeus::PuffOfSmoke(scene, n->GetWorldPosition(), 2.0f);
+
+		debris.Push(n);
+	}
 }
 
 PostalPope::~PostalPope()

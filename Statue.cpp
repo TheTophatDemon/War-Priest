@@ -36,6 +36,7 @@ void Statue::Start()
 
 	originalPosition = node_->GetWorldPosition();
 	translatePosition = originalPosition;
+	radius *= (node_->GetScale().x_ / 1.75f); //As thus, the radius increases with scale
 
 	SubscribeToEvent(GetNode(), E_NODECOLLISIONSTART, URHO3D_HANDLER(Statue, OnCollisionEnter));
 	SubscribeToEvent(Projectile::E_PROJECTILEHIT, URHO3D_HANDLER(Statue, OnProjectileHit));

@@ -1,6 +1,9 @@
 //TODO:
 	//Sacsand 2
 
+	//Crazy Caliph
+		//Shoots a physics projectile that turns into a homing missile after a few seconds.
+
 	//Portals?
 	
 	//Sounds

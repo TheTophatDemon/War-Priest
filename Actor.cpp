@@ -30,6 +30,7 @@ Actor::Actor(Context* context) : LogicComponent(context)
 	slopeSteepness = 0.0f;
 	knockBack = 0.0f;
 	deltaTime = 0.0f;
+	gravity = true;
 
 	forward = 0.0f;
 	strafe = 0.0f;
@@ -172,10 +173,14 @@ void Actor::Move(float timeStep)
 			}
 		}
 	}
-	else
+	else if (gravity)
 	{
 		fall -= fallspeed * deltaTime;
 		if (fall < -maxfall) fall = -maxfall;
+	}
+	else
+	{
+		fall = 0.0f;
 	}
 
 	//Manual ceiling collision check: Because physics are RETARDED!

@@ -41,6 +41,7 @@ public:
 	Node* liftOn;
 	bool onGround = false;
 	bool sloping = false;
+	bool gravity = true;
 	
 protected:
 	float deltaTime = 0.0f;

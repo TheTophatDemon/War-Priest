@@ -31,9 +31,11 @@ protected:
 	virtual void Dead();
 	virtual void EnterState(const int newState);
 	virtual void LeaveState(const int oldState);
+	void SummonDebris();
 	bool CanSummon();
 	Vector<Node*> debris;
 	SharedPtr<Node> spinner;
 	SharedPtr<SoundSource> weeoo;
+	bool summoned = false;
 };
 
