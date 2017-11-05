@@ -20,7 +20,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	TempEffect::RegisterObject(context);
 	TitleScreen::RegisterObject(context);
 	PyroPastor::RegisterObject(context);
-	Projectile::RegisterObject(context);
+	Fireball::RegisterObject(context);
 	God::RegisterObject(context);
 	Lift::RegisterObject(context);
 	PostalPope::RegisterObject(context);
@@ -33,6 +33,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	CompassScene::RegisterObject(context);
 	TempTemplar::RegisterObject(context);
 	Statue::RegisterObject(context);
+	ChaosCaliph::RegisterObject(context);
 
 	state = STATE_TITLE;
 }

@@ -56,6 +56,7 @@
 #include "Settings.h"
 #include "Launchpad.h"
 #include "TempTemplar.h"
+#include "ChaosCaliph.h"
 
 using namespace Urho3D;
 
@@ -86,6 +87,9 @@ void Gameplay::RegisterObject(Context* context)
 
 void Gameplay::Start()
 {
+	audio->SetMasterGain("GAMEPLAY", Settings::GetSoundVolume());
+	audio->SetMasterGain("TITLE", 0.0f);
+
 	viewport = renderer->GetViewport(0);
 	scene_ = SharedPtr<Scene>(GetScene());
 
@@ -105,9 +109,6 @@ void Gameplay::Start()
 
 	viewport->SetRenderPath(cache->GetResource<XMLFile>("RenderPaths/Forward.xml"));
 	viewport->GetRenderPath()->SetShaderParameter("State", 0.0f); //Always use decimal
-
-	audio->SetMasterGain("GAMEPLAY", Settings::GetSoundVolume());
-	audio->SetMasterGain("TITLE", 0.0f);
 
 	//Apply certain settings on resume
 	if (Settings::IsBloodEnabled())
@@ -496,6 +497,7 @@ void Gameplay::SetupEnemy()
 			else if (enemyType == "postalpope"){n->CreateComponent<PostalPope>();}
 			else if (enemyType == "dangerdeacon"){n->CreateComponent<DangerDeacon>();}
 			else if (enemyType == "temptemplar"){n->CreateComponent<TempTemplar>();}
+			else if (enemyType == "chaoscaliph") { n->CreateComponent<ChaosCaliph>(); }
 
 			enemyCount += 1;
 		}

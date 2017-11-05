@@ -46,7 +46,7 @@
 #include "Enemy.h"
 #include "TitleScreen.h"
 #include "PyroPastor.h"
-#include "Projectile.h"
+#include "Fireball.h"
 #include "God.h"
 #include "Lift.h"
 #include "PostalPope.h"
@@ -59,6 +59,7 @@
 #include "CompassScene.h"
 #include "TempTemplar.h"
 #include "Statue.h"
+#include "ChaosCaliph.h"
 
 class GunPriest : public Application
 {

@@ -8,33 +8,24 @@
 #include <Urho3D/Scene/SceneEvents.h>
 #include <Urho3D/Physics/CollisionShape.h>
 #include <iostream>
+#include <algorithm>
 
 #include "Enemy.h"
 #include "Gameplay.h"
 #include "Player.h"
 
-#define TYPE_FIREBALL 0
-
 StringHash Projectile::E_PROJECTILEHIT = StringHash("ProjectileHit");
 
-Projectile::Projectile(Context* context) : LogicComponent(context)
+Projectile::Projectile(Context* context) : LogicComponent(context), 
+	radius(0.5f), 
+	damage(10), 
+	speed(30.0f), 
+	hit(false),
+	orgSpeed(0.0f),
+	lifeTimer(0),
+	deathTimer(0.0f),
+	movement(Vector3::ZERO)
 {
-	projectileType = TYPE_FIREBALL;
-	radius = 0.5f;
-	damage = 10;
-	speed = 30.0f;
-	hit = false;
-	movement = Vector3::ZERO;
-	timer = 0;
-	orgSpeed = 0.0f;
-	lifeTimer = 0;
-
-	emitter = nullptr;
-}
-
-void Projectile::RegisterObject(Context* context)
-{
-	context->RegisterFactory<Projectile>();
 }
 
 void Projectile::Start()
@@ -43,41 +34,20 @@ void Projectile::Start()
 	cache = GetSubsystem<ResourceCache>();
 	scene = GetScene();
 	physworld = scene->GetComponent<PhysicsWorld>();
-	if (node_->HasComponent<ParticleEmitter>())
-		emitter = node_->GetComponent<ParticleEmitter>();
-	
+	orgSpeed = speed;
 }
 
 void Projectile::FixedUpdate(float timeStep)
 {
-	if (orgSpeed == 0.0f) orgSpeed = speed;
 	lifeTimer += timeStep;
-	if (lifeTimer > 2.0f && !hit) Destroy();
 	if (hit)
 	{
-		timer += 1;
-		switch (projectileType)
-		{
-		case TYPE_FIREBALL:
-			if (emitter->GetNumParticles() <= 1 || timer > 100)
-			{
-				node_->Remove();
-			}
-			break;
-		default:
-			node_->Remove();
-			break;
-		}
+		deathTimer += timeStep;
 	}
-	else //////////////////////////////////////////////////////////
+	else
 	{
-		switch (projectileType)
-		{
-		case TYPE_FIREBALL:
-			movement = node_->GetWorldRotation() * (Vector3::FORWARD * speed * timeStep);
-			break;
-		}
-
+		Move(timeStep);
+		//Check collisions
 		PhysicsRaycastResult result;
 		physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement.Normalized()), radius, radius, 214);//128+64+2+16+4
 		if (result.body_)
@@ -92,9 +62,9 @@ void Projectile::FixedUpdate(float timeStep)
 					map.Insert(Pair<StringHash, Variant>(StringHash("victim"), result.body_->GetNode()));
 					map.Insert(Pair<StringHash, Variant>(StringHash("damage"), damage));
 					SendEvent(E_PROJECTILEHIT, map);
-					Destroy();
+					OnHit(result.body_->GetNode());
 				}
-				else if (colLayer & 16)
+				else if (colLayer & 16) //Reflect yerself inside of the shield
 				{
 					if (result.body_->GetNode()->HasTag("tempshield"))
 					{
@@ -104,7 +74,7 @@ void Projectile::FixedUpdate(float timeStep)
 				}
 				else
 				{
-					Destroy();
+					OnHit(result.body_->GetNode());
 				}
 			}
 		}
@@ -120,36 +90,12 @@ void Projectile::FixedUpdate(float timeStep)
 	}
 }
 
-void Projectile::Destroy()
+void Projectile::OnHit(Node* n)
 {
 	hit = true;
-	if (emitter)
-	{
-		emitter->SetEmitting(false);
-	}
-	if (node_->HasComponent<StaticModel>())
-		node_->RemoveComponent<StaticModel>();
-	timer = 0;
+	deathTimer = 0.0f;
 }
 
 Projectile::~Projectile()
 {
-	
-}
-
-Node* Projectile::MakeProjectile(Scene* sc, String name, Vector3 position, Quaternion rotation, Node* owner) //Since components can't have constructor parameters...
-{
-	Projectile* p = new Projectile(sc->GetContext());
-	p->owner = owner;
-	Node* n = sc->CreateChild();
-	n->LoadXML(p->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/projectile_" + name + ".xml")->GetRoot());
-	n->SetPosition(position);
-	n->SetRotation(rotation);
-	
-	if (name == "fireball")
-	{
-		p->projectileType = 0;
-	}
-	n->AddComponent(p, 333, LOCAL);
-	return n;
 }

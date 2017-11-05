@@ -4,7 +4,7 @@
 
 #include "Gameplay.h"
 #include "Actor.h"
-#include "Projectile.h"
+#include "Fireball.h"
 #include <iostream>
 
 #define STATE_DEAD 0
@@ -93,7 +93,7 @@ void PyroPastor::Execute()
 		if (stateTimer > 0.26f && !shot)
 		{
 			shot = true;
-			Projectile::MakeProjectile(scene, "fireball", node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aim, node_); //Aim for the head or sliding is useless
+			Fireball::MakeFireball(scene, node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aim, node_); //Aim for the head or sliding is useless
 		}
 		if (stateTimer > 0.66f)
 		{

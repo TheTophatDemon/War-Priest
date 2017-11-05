@@ -78,12 +78,11 @@ void TitleScreen::Start()
 	SubscribeToEvent(E_TOGGLED, URHO3D_HANDLER(TitleScreen, OnEvent));
 
 	SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(TitleScreen, OnUpdate));
+
 }
 
 void TitleScreen::OnUpdate(StringHash eventType, VariantMap& eventData)
 {
-	audio->SetMasterGain("GAMEPLAY", 0.0f);
-	audio->SetMasterGain("TITLE", Settings::GetSoundVolume());
 	float timeStep = eventData["TimeStep"].GetFloat();
 	time += timeStep;
 	if (IsEnabled())
