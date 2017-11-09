@@ -47,7 +47,7 @@ void PyroPastor::Execute()
 {
 	Vector3 aimVec = Vector3::ZERO;
 	Quaternion aim = Quaternion();
-	if (target)
+	if (target.Get())
 	{
 		aimVec = (target->GetWorldPosition() - node_->GetWorldPosition()).Normalized();
 		aim.FromLookRotation(aimVec, Vector3::UP);

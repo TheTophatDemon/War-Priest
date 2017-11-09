@@ -1,10 +1,15 @@
 //TODO:
 	//Sacsand 2
-
-	//Crazy Caliph
-		//Shoots a physics projectile that turns into a homing missile after a few seconds.
+	
+	//Chaos Caliph
+		//Multiple balls?
+		//Make him do something when ammo unavailable
+	//Ninja Nun?
+		//Like danger deacon, but jumps alot and doesn't explode. Can maneuver around pits.
 
 	//Portals?
+
+	//Modify cross imagery
 	
 	//Sounds
 		//Player death
@@ -14,6 +19,7 @@
 	//Roblox?
 	//LODs for: TT, DD, and PostalPope
 	//Package assets
+	//Maybe make a music player node within the scene instead of hard-coding it.
 
 	//Freezes on SDL_Delay called by DirectSound upon Alt-Tab
 
@@ -37,9 +43,9 @@
 	//Need a way to restrict transform inheritance from parents (rotation, location, scale)
 	//The editor crashes sometimes when loading other scenes
 	//When the editor first opens, I am unable to edit any text until I alt-tab out and refocus the window.
-	//When running fullscreen, after alt-tabbing the device gets lost over and over again, and the window flashes several times.
+	//When running fullscreen sometimes, after alt-tabbing the device gets lost over and over again, and the window flashes several times.
 	//The editor keeps thinking "gamesettings.bin" is an XML file.
-
+	//Custom components can't have parameters other than context
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP
 	//2 = CAN BE JUMPED ON/SLOPED

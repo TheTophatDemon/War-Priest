@@ -24,7 +24,8 @@ Projectile::Projectile(Context* context) : LogicComponent(context),
 	orgSpeed(0.0f),
 	lifeTimer(0),
 	deathTimer(0.0f),
-	movement(Vector3::ZERO)
+	movement(Vector3::ZERO),
+	checkCollisionsManually(true)
 {
 }
 
@@ -47,43 +48,45 @@ void Projectile::FixedUpdate(float timeStep)
 	else
 	{
 		Move(timeStep);
-		//Check collisions
-		PhysicsRaycastResult result;
-		physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement.Normalized()), radius, radius, 214);//128+64+2+16+4
-		if (result.body_)
+		if (checkCollisionsManually && movement != Vector3::ZERO) //Check collisions
 		{
-			if (result.body_->GetNode() != owner)
+			PhysicsRaycastResult result;
+			physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement.Normalized()), radius, radius, 214);//128+64+2+16+4
+			if (result.body_)
 			{
-				int colLayer = result.body_->GetCollisionLayer();
-				if (colLayer & 4)
+				if (result.body_->GetNode() != owner)
 				{
-					VariantMap map = VariantMap();
-					map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
-					map.Insert(Pair<StringHash, Variant>(StringHash("victim"), result.body_->GetNode()));
-					map.Insert(Pair<StringHash, Variant>(StringHash("damage"), damage));
-					SendEvent(E_PROJECTILEHIT, map);
-					OnHit(result.body_->GetNode());
-				}
-				else if (colLayer & 16) //Reflect yerself inside of the shield
-				{
-					if (result.body_->GetNode()->HasTag("tempshield"))
+					int colLayer = result.body_->GetCollisionLayer();
+					if (colLayer & 4)
 					{
-						speed -= 2.5f;
-						if (speed == 0.0f) speed = -orgSpeed;
+						VariantMap map = VariantMap();
+						map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
+						map.Insert(Pair<StringHash, Variant>(StringHash("victim"), result.body_->GetNode()));
+						map.Insert(Pair<StringHash, Variant>(StringHash("damage"), damage));
+						SendEvent(E_PROJECTILEHIT, map);
+						OnHit(result.body_->GetNode());
+					}
+					else if (colLayer & 16) //Reflect yerself inside of the shield
+					{
+						if (result.body_->GetNode()->HasTag("tempshield"))
+						{
+							speed -= 2.5f;
+							if (speed == 0.0f) speed = -orgSpeed;
+						}
+					}
+					else
+					{
+						OnHit(result.body_->GetNode());
 					}
 				}
-				else
-				{
-					OnHit(result.body_->GetNode());
-				}
 			}
-		}
-		else
-		{
-			if (fabs(speed) < orgSpeed) //Reset speed after going through shield
+			else
 			{
-				if (speed < 0) speed = -orgSpeed;
-				if (speed > 0) speed = orgSpeed;
+				if (fabs(speed) < orgSpeed) //Reset speed after going through shield
+				{
+					if (speed < 0) speed = -orgSpeed;
+					if (speed > 0) speed = orgSpeed;
+				}
 			}
 		}
 		node_->Translate(movement, TS_WORLD);

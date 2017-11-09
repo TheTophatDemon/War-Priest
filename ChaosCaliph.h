@@ -6,7 +6,9 @@
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Audio/SoundSource3D.h>
 #include <Urho3D/Audio/Sound.h>
+
 #include "Enemy.h"
+#include "Blackstone.h"
 
 using namespace Urho3D;
 
@@ -25,5 +27,8 @@ protected:
 	virtual void Dead();
 	virtual void EnterState(const int newState);
 	virtual void LeaveState(const int oldState);
+
+	WeakPtr<Node> projectile;
+	bool shot;
 };
 

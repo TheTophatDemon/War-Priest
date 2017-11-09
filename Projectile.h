@@ -38,5 +38,6 @@ protected:
 	float lifeTimer;
 	float orgSpeed = 0.0f;
 	bool hit;
+	bool checkCollisionsManually = true;
 };
 

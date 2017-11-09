@@ -60,6 +60,7 @@
 #include "TempTemplar.h"
 #include "Statue.h"
 #include "ChaosCaliph.h"
+#include "Blackstone.h"
 
 class GunPriest : public Application
 {
