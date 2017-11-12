@@ -2,15 +2,15 @@
 	//Sacsand 2
 	
 	//Chaos Caliph
-		//Multiple balls?
-		//Make him do something when ammo unavailable
-	//Ninja Nun?
-		//Like danger deacon, but jumps alot and doesn't explode. Can maneuver around pits.
-
-	//Portals?
-
+		//Spin damage
+		//Different projectile colors?
+		//Model & Animation
+	
+	//Maybe make a music player node within the scene instead of hard-coding it.
 	//Modify cross imagery
 	
+
+	//Test cliff check code
 	//Sounds
 		//Player death
 		//God beam
@@ -19,7 +19,11 @@
 	//Roblox?
 	//LODs for: TT, DD, and PostalPope
 	//Package assets
-	//Maybe make a music player node within the scene instead of hard-coding it.
+
+	//Ninja Nun?
+		//Like danger deacon, but jumps alot and doesn't explode. Can maneuver around pits.
+	//Radical Rabi?
+		//Rides skateboard.
 
 	//Freezes on SDL_Delay called by DirectSound upon Alt-Tab
 

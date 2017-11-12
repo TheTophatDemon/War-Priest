@@ -3,6 +3,7 @@
 #include <Urho3D/Core/Context.h>
 #include <Urho3D/Resource/XMLFile.h>
 #include <Urho3D/Physics/PhysicsEvents.h>
+#include <iostream>
 
 #include "Gameplay.h"
 
@@ -51,16 +52,16 @@ void Blackstone::FixedUpdate(float timeStep)
 		}
 		break;
 	case STATE_STAGNATE:
-		if (speed < 0.0f) speed = orgSpeed;
+		if (speed < 0.0f) speed = orgSpeed; //For when it hits the shield
 		stateTimer += timeStep;
-		if (stateTimer > 0.5f)
+		if (stateTimer > 1.5f)
 		{
 			ChangeState(STATE_CHASE);
 		}
 		break;
 	case STATE_CHASE:
 		stateTimer += timeStep;
-		if (stateTimer > 1.0f)
+		if (stateTimer > 0.5f)
 		{
 			ChangeState(STATE_STAGNATE);
 		}
@@ -78,8 +79,13 @@ void Blackstone::Move(const float timeStep)
 	if (state == STATE_CHASE) 
 	{
 		if (target.Get())
-			moveDir = (target->GetWorldPosition() + Vector3(0.0f, 3.5f, 0.0f) - node_->GetWorldPosition()).Normalized();
+			moveDir = (target->GetWorldPosition() + Vector3(0.0f, 2.5f, 0.0f) - node_->GetWorldPosition()).Normalized();
 		movement = moveDir * speed * timeStep;
+	}
+	else if (state == STATE_STAGNATE)
+	{
+		const float triggy = lifeTimer * 5.0f;
+		movement = Vector3(cosf(triggy), 0.0f, sinf(triggy)) * speed * timeStep;
 	}
 	else
 	{

@@ -10,12 +10,16 @@
 #include "Actor.h"
 #include "Fireball.h"
 
+#define SPIN_RANGE 7.0f
+
 #define STATE_DEAD 0
 #define STATE_WANDER 1
 #define STATE_SHOOT 32
+#define STATE_SPIN 33
 
 ChaosCaliph::ChaosCaliph(Context* context) : Enemy(context), 
-	shot(false)
+	shot(false),
+	lastState(STATE_DEAD)
 {
 }
 
@@ -36,9 +40,12 @@ void ChaosCaliph::DelayedStart()
 void ChaosCaliph::Execute()
 {
 	Vector3 aimVec = Vector3::ZERO;
+	float targetDistance;
 	if (target.Get())
 	{
-		aimVec = (target->GetWorldPosition() - node_->GetWorldPosition()).Normalized();
+		const Vector3 tarDiff = (target->GetWorldPosition() - node_->GetWorldPosition());
+		targetDistance = tarDiff.Length();
+		aimVec = tarDiff.Normalized();
 	}
 
 	switch (state)
@@ -47,12 +54,16 @@ void ChaosCaliph::Execute()
 		Dead();
 		break;
 	case STATE_WANDER:
+		stateTimer += deltaTime;
+
 		Wander(false, false);
 		
-		stateTimer += deltaTime;
+		if (targetDistance < SPIN_RANGE && lastState != STATE_DEAD)
+			ChangeState(STATE_SPIN);
+
 		if (stateTimer > 1.0f)
 		{
-			//Check if player is in range
+			//Check if player is within aim
 			PhysicsRaycastResult result;
 			physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aimVec), 400.0f, 130);//128+2
 			if (result.body_)
@@ -75,37 +86,34 @@ void ChaosCaliph::Execute()
 			if (!shot)
 			{
 				shot = true;
-				/*projectile = Blackstone::MakeBlackstone(scene,
-					node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f) + (node_->GetWorldDirection() * 2.0f),
-					(aimVec * body->GetMass() * 12.0f) + (Vector3::UP*body->GetMass()*(16.0f + (aimVec.y_ * 11.0f))),
-					node_);*/
-				for (int i = -1; i < 1; ++i)
+				for (int i = -1; i <= 1; ++i)
 				{
+					if (i == 0) continue;
 					Fireball::MakeFireball(scene, 
 						node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f) + (node_->GetWorldDirection() * 2.0f),
-						node_->GetWorldRotation() * Quaternion(i*45.0f, Vector3::UP), 
+						Quaternion((i*30.0f) + node_->GetWorldRotation().EulerAngles().y_, Vector3::UP),
 						node_);
 				}
-				
 			}
 			else
 			{
-				if (stateTimer > 2.0f) ChangeState(STATE_WANDER);
-				/*if (projectile.Get())
-				{
-					if (!projectile->IsChildOf(scene))
-					{
-						ChangeState(STATE_WANDER);
-					}
-				}
-				else
-				{
-					ChangeState(STATE_WANDER);
-				}*/
+				if (stateTimer > 0.5f) ChangeState(STATE_WANDER);
 			}
 		}
 		
 		actor->SetMovement(0.0f, 0.0f);
+		actor->Move(deltaTime);
+		break;
+	case STATE_SPIN:
+		stateTimer += deltaTime;
+
+		if (targetDistance > SPIN_RANGE)
+		{
+			ChangeState(STATE_WANDER);
+		}
+		newRotation = Quaternion(stateTimer * 1080.0f, Vector3::UP);
+
+		actor->SetMovement(aimVec * actor->maxspeed * 0.75f);
 		actor->Move(deltaTime);
 		break;
 	}
@@ -113,6 +121,7 @@ void ChaosCaliph::Execute()
 
 void ChaosCaliph::EnterState(const int newState)
 {
+	lastState = state;
 	Enemy::EnterState(newState);
 	if (newState == STATE_SHOOT)
 	{

@@ -29,6 +29,7 @@ protected:
 	virtual void LeaveState(const int oldState);
 
 	WeakPtr<Node> projectile;
+	int lastState;
 	bool shot;
 };
 

@@ -195,15 +195,21 @@ void Enemy::FaceTarget()
 	newRotation = face;
 }
 
-bool Enemy::CheckCliff(const bool avoidSlopes)
+bool Enemy::CheckCliff(const bool avoidSlopes) //Two rays are cast downward from in front of the actor, one to the left and on to the right. 
 {
-	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.2f, 0.0f) + node_->GetWorldDirection() * shape->GetSize().x_ * actor->forward * 0.5f, Vector3::DOWN), 2.0f, 2);
+	//Imagine it as an isosceles triangle with the base point being the enemy's position
+	PhysicsRaycastResult result, result2;
+	const Vector3 base = node_->GetWorldPosition() + Vector3(0.0f, 0.2f, 0.0f) + node_->GetWorldDirection() * shape->GetSize().x_ * actor->forward * 0.5f;
+	physworld->RaycastSingle(result, Ray(base + node_->GetWorldDirection() * Vector3::RIGHT * shape->GetSize().x_, Vector3::DOWN), 2.0f, 2);
+	physworld->RaycastSingle(result2, Ray(base + node_->GetWorldDirection() * Vector3::LEFT * shape->GetSize().x_, Vector3::DOWN), 2.0f, 2);
+	
 	if (actor->fall <= 0.0f)
 	{
-		if (!result.body_ || (fabs(result.normal_.y_) < 0.9f && avoidSlopes))
+		if (!result.body_ 
+			|| (fabs(result.normal_.y_) < 0.9f && avoidSlopes)
+			|| !result2.body_ 
+			|| (fabs(result2.normal_.y_) < 0.9f && avoidSlopes))
 		{
-			//newRotation = Quaternion(node_->GetWorldRotation().EulerAngles().y_ + 180.0f, Vector3::UP);
 			return true;
 		}
 	}
