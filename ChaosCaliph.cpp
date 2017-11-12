@@ -8,6 +8,7 @@
 #include <Urho3D/Math/Ray.h>
 
 #include "Actor.h"
+#include "Fireball.h"
 
 #define STATE_DEAD 0
 #define STATE_WANDER 1
@@ -26,9 +27,9 @@ void ChaosCaliph::RegisterObject(Context* context)
 void ChaosCaliph::DelayedStart()
 {
 	Enemy::DelayedStart();
-	actor->maxspeed = 8.0f;
+	actor->maxspeed = 15.0f;
 	actor->acceleration = 50.0f;
-	actor->friction = 0.95f;
+	actor->friction = 0.5f;
 	actor->maxfall = 15.0f;
 }
 
@@ -46,7 +47,7 @@ void ChaosCaliph::Execute()
 		Dead();
 		break;
 	case STATE_WANDER:
-		Wander(false, true);
+		Wander(false, false);
 		
 		stateTimer += deltaTime;
 		if (stateTimer > 1.0f)
@@ -71,17 +72,26 @@ void ChaosCaliph::Execute()
 		stateTimer += deltaTime;
 		if (stateTimer > 0.25f)
 		{
-			if (!shot) 
+			if (!shot)
 			{
 				shot = true;
-				projectile = Blackstone::MakeBlackstone(scene,
+				/*projectile = Blackstone::MakeBlackstone(scene,
 					node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f) + (node_->GetWorldDirection() * 2.0f),
 					(aimVec * body->GetMass() * 12.0f) + (Vector3::UP*body->GetMass()*(16.0f + (aimVec.y_ * 11.0f))),
-					node_);
+					node_);*/
+				for (int i = -1; i < 1; ++i)
+				{
+					Fireball::MakeFireball(scene, 
+						node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f) + (node_->GetWorldDirection() * 2.0f),
+						node_->GetWorldRotation() * Quaternion(i*45.0f, Vector3::UP), 
+						node_);
+				}
+				
 			}
 			else
 			{
-				if (projectile.Get())
+				if (stateTimer > 2.0f) ChangeState(STATE_WANDER);
+				/*if (projectile.Get())
 				{
 					if (!projectile->IsChildOf(scene))
 					{
@@ -91,7 +101,7 @@ void ChaosCaliph::Execute()
 				else
 				{
 					ChangeState(STATE_WANDER);
-				}
+				}*/
 			}
 		}
 		

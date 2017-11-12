@@ -12,7 +12,8 @@
 
 Blackstone::Blackstone(Context* context) : Projectile(context),
 	state(STATE_BOUNCE),
-	stateTimer(0.0f)
+	stateTimer(0.0f),
+	moveDir(Vector3::ZERO)
 {
 	checkCollisionsManually = false;
 }
@@ -42,7 +43,7 @@ void Blackstone::FixedUpdate(float timeStep)
 	case STATE_BOUNCE:
 		if (lifeTimer > 3.0f)
 		{
-			state = STATE_CHASE;
+			ChangeState(STATE_CHASE);
 			body->SetLinearVelocity(Vector3::ZERO);
 			body->SetEnabled(false);
 			//UnsubscribeFromEvent(GetNode(), E_NODECOLLISION);
@@ -51,15 +52,17 @@ void Blackstone::FixedUpdate(float timeStep)
 		break;
 	case STATE_STAGNATE:
 		if (speed < 0.0f) speed = orgSpeed;
+		stateTimer += timeStep;
+		if (stateTimer > 0.5f)
+		{
+			ChangeState(STATE_CHASE);
+		}
+		break;
 	case STATE_CHASE:
 		stateTimer += timeStep;
 		if (stateTimer > 1.0f)
 		{
-			if (state == STATE_STAGNATE)
-				state = STATE_CHASE;
-			else
-				state = STATE_STAGNATE;
-			stateTimer = 0.0f;
+			ChangeState(STATE_STAGNATE);
 		}
 		break;
 	}
@@ -72,10 +75,11 @@ void Blackstone::FixedUpdate(float timeStep)
 
 void Blackstone::Move(const float timeStep)
 {
-	if (state == STATE_CHASE && target.Get()) 
+	if (state == STATE_CHASE) 
 	{
-		const Vector3 diff = (target->GetWorldPosition() + Vector3(0.0f, 3.5f, 0.0f) - node_->GetWorldPosition()).Normalized();
-		movement = diff * speed * timeStep;
+		if (target.Get())
+			moveDir = (target->GetWorldPosition() + Vector3(0.0f, 3.5f, 0.0f) - node_->GetWorldPosition()).Normalized();
+		movement = moveDir * speed * timeStep;
 	}
 	else
 	{
@@ -83,15 +87,22 @@ void Blackstone::Move(const float timeStep)
 	}
 }
 
+void Blackstone::ChangeState(const int newState)
+{
+	state = newState;
+	stateTimer = 0;
+}
+
 void Blackstone::OnHit(Node* n)
 {
-	if (n == target.Get())
+	if (n->HasComponent<RigidBody>()) 
 	{
-		lifeTimer = 100.0f;
-	}
-	if (state != STATE_BOUNCE && n->GetComponent<RigidBody>()->GetCollisionLayer() & 2)
-	{
-		lifeTimer = 100.0f;
+		RigidBody* rb = n->GetComponent<RigidBody>();
+		if (state != STATE_BOUNCE && 
+			(rb->GetCollisionLayer() & 2 || rb->GetCollisionLayer() & 128))
+		{
+			lifeTimer = 100.0f;
+		}
 	}
 }
 
@@ -120,7 +131,7 @@ Node* Blackstone::MakeBlackstone(Scene* sc, Vector3 position, Vector3 impulse, N
 {
 	Blackstone* p = new Blackstone(sc->GetContext());
 	p->owner = owner;
-	p->speed = 20.0f;
+	p->speed = 15.0f;
 	p->damage = 20;
 	p->radius = 0.5f;
 

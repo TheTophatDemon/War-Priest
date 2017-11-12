@@ -26,11 +26,13 @@ public:
 protected:
 	virtual void OnHit(Node* n);
 	virtual void Move(const float timeStep);
+	void ChangeState(const int newState);
 	void OnPhysicsCollision(StringHash eventType, VariantMap& eventData);
 
 	SharedPtr<ParticleEmitter> emitter;
 	SharedPtr<RigidBody> body;
 	WeakPtr<Node> target;
+	Vector3 moveDir;
 	float stateTimer;
 	int state;
 };
