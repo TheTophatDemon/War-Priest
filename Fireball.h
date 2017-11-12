@@ -23,6 +23,7 @@ public:
 	~Fireball();
 
 	static Node* MakeFireball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner);
+	static Node* MakeBlueFireball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner);
 protected:
 	virtual void OnHit(Node* n);
 	virtual void Move(const float timeStep);

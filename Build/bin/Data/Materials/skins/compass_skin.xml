@@ -1,0 +1,6 @@
+<material>
+	<technique name="Techniques/DiffVColUnlit.xml"/>
+	<texture name="Textures/skins/compass_skin.png" unit="diffuse"/>
+	<parameter name="MatDiffColor" value="1.0 1.0 1.0 1"/>
+	<parameter name="MatSpecColor" value="0.0 0.0 0.0 50"/>
+</material>

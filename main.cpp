@@ -2,13 +2,10 @@
 	//Sacsand 2
 	
 	//Chaos Caliph
-		//Spin damage
-		//Different projectile colors?
 		//Model & Animation
 	
 	//Maybe make a music player node within the scene instead of hard-coding it.
 	//Modify cross imagery
-	
 
 	//Test cliff check code
 	//Sounds
@@ -20,22 +17,18 @@
 	//LODs for: TT, DD, and PostalPope
 	//Package assets
 
-	//Ninja Nun?
-		//Like danger deacon, but jumps alot and doesn't explode. Can maneuver around pits.
-	//Radical Rabi?
-		//Rides skateboard.
-
 	//Freezes on SDL_Delay called by DirectSound upon Alt-Tab
 
 //Level Ideas
 	//Two PP's and a TT
-	//Have a PP way below you and firing upwards
 	//Little protrusions from the ground that you hop on before descending to the lower levels
 	//Ascending a tower with a bunch of lifts
+	//Ninja Nun?
+		//Like danger deacon, but jumps alot and doesn't explode. Can maneuver around pits.
+	//Radical Rabi?
+		//Rides skateboard.
 	
 //Potential Optimizations:
-	//Change raycast length
-	//Less physics
 	//Update event masks
 	//Disable scripts on objects that are far away
 	//Split map into multiple sections
@@ -50,6 +43,7 @@
 	//When running fullscreen sometimes, after alt-tabbing the device gets lost over and over again, and the window flashes several times.
 	//The editor keeps thinking "gamesettings.bin" is an XML file.
 	//Custom components can't have parameters other than context
+
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP
 	//2 = CAN BE JUMPED ON/SLOPED

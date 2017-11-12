@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<material>
+	<technique name="Techniques/Diff.xml" quality="0" loddistance="1" />
+	<technique name="Techniques/DiffNormal.xml" quality="0" loddistance="0" />
+	<texture unit="diffuse" name="Textures/bark.png" />
+	<texture unit="normal" name="Textures/bark_nm.png" />
+	<parameter name="UOffset" value="1 0 0 0" />
+	<parameter name="VOffset" value="0 1 0 0" />
+	<parameter name="MatDiffColor" value="0.8 0.8 0.8 1" />
+	<parameter name="MatEmissiveColor" value="0 0 0" />
+	<parameter name="MatEnvMapColor" value="1 1 1" />
+	<parameter name="MatSpecColor" value="0.5 0.5 0.5 50" />
+	<parameter name="Roughness" value="2.42" />
+	<parameter name="Metallic" value="0.27" />
+	<cull value="ccw" />
+	<shadowcull value="ccw" />
+	<fill value="solid" />
+	<depthbias constant="0" slopescaled="0" />
+	<alphatocoverage enable="false" />
+	<lineantialias enable="false" />
+	<renderorder value="128" />
+	<occlusion enable="true" />
+</material>

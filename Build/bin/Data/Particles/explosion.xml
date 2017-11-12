@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<particleeffect>
+	<material name="Materials/particle_explosion.xml" />
+	<numparticles value="50" />
+	<updateinvisible enable="false" />
+	<relative enable="false" />
+	<scaled enable="true" />
+	<sorted enable="false" />
+	<fixedscreensize enable="false" />
+	<animlodbias value="0" />
+	<emittertype value="Sphere" />
+	<emittersize value="1 1 1" />
+	<direction min="-1 -0.5 -1" max="1 0.5 1" />
+	<constantforce value="0 0 0" />
+	<dampingforce value="0" />
+	<activetime value="0.25" />
+	<inactivetime value="5" />
+	<emissionrate min="100" max="100" />
+	<particlesize min="1 1" max="1 1" />
+	<timetolive min="0.25" max="0.5" />
+	<velocity min="0.5" max="2" />
+	<rotation min="80" max="112" />
+	<rotationspeed min="7" max="44" />
+	<sizedelta add="1.02" mul="0.7" />
+	<faceCameraMode value="Rotate XYZ" />
+	<colorfade color="1 1 1 1" time="0" />
+	<colorfade color="0 0 0 0" time="0.5" />
+	<texanim uv="0 0 0.5 0.5" time="0" />
+	<texanim uv="0.5 0 1 0.5" time="0.1" />
+	<texanim uv="0 0.5 0.5 1" time="0.2" />
+	<texanim uv="0.5 0.5 1 1" time="0.3" />
+</particleeffect>

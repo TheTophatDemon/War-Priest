@@ -2,6 +2,7 @@
 
 #include <Urho3D/Core/Context.h>
 #include <Urho3D/Resource/XMLFile.h>
+#include <Urho3D/Graphics/Material.h>
 #include <iostream>
 
 Fireball::Fireball(Context* context) : Projectile(context)
@@ -66,6 +67,23 @@ Node* Fireball::MakeFireball(Scene* sc, Vector3 position, Quaternion rotation, N
 	n->SetPosition(position);
 	n->SetRotation(rotation);
 	n->AddComponent(p, 333, LOCAL);
+	return n;
+}
+
+Node* Fireball::MakeBlueFireball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner)
+{
+	Fireball* p = new Fireball(sc->GetContext());
+	p->owner = owner;
+	p->speed = 30.0f;
+	p->damage = 10;
+	p->radius = 0.5f;
+
+	Node* n = sc->CreateChild();
+	n->LoadXML(p->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/projectile_fireball_blue.xml")->GetRoot());
+	n->SetPosition(position);
+	n->SetRotation(rotation);
+	n->AddComponent(p, 333, LOCAL);
+
 	return n;
 }
 

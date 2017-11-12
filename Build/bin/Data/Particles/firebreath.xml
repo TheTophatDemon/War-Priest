@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<particleeffect>
+	<material name="Materials/particle_fire.xml" />
+	<numparticles value="150" />
+	<updateinvisible enable="false" />
+	<relative enable="true" />
+	<scaled enable="true" />
+	<sorted enable="false" />
+	<fixedscreensize enable="false" />
+	<animlodbias value="0" />
+	<emittertype value="Sphere" />
+	<emittersize value="1 0.1 1" />
+	<direction min="-0.5 0 -0.5" max="0.5 2 0.5" />
+	<constantforce value="0 0 0" />
+	<dampingforce value="0" />
+	<activetime value="0" />
+	<inactivetime value="0" />
+	<emissionrate min="150" max="150" />
+	<particlesize min="0.1 0.1" max="0.5 0.5" />
+	<timetolive min="1" max="0.5" />
+	<velocity min="0" max="5" />
+	<rotation min="119.36" max="87.46" />
+	<rotationspeed min="44.94" max="7.89" />
+	<sizedelta add="0" mul="0.68" />
+	<faceCameraMode value="Rotate XYZ" />
+	<color value="1 1 1 1" />
+</particleeffect>

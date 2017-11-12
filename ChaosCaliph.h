@@ -27,6 +27,7 @@ protected:
 	virtual void Dead();
 	virtual void EnterState(const int newState);
 	virtual void LeaveState(const int oldState);
+	void OnCollision(StringHash eventType, VariantMap& eventData);
 
 	WeakPtr<Node> projectile;
 	int lastState;

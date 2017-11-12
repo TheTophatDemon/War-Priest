@@ -6,9 +6,11 @@
 #include <Urho3D/Graphics/Animation.h>
 #include <Urho3D/Graphics/Model.h>
 #include <Urho3D/Math/Ray.h>
+#include <Urho3D/Physics/PhysicsEvents.h>
 
 #include "Actor.h"
 #include "Fireball.h"
+#include "Projectile.h"
 
 #define SPIN_RANGE 7.0f
 
@@ -35,6 +37,7 @@ void ChaosCaliph::DelayedStart()
 	actor->acceleration = 50.0f;
 	actor->friction = 0.5f;
 	actor->maxfall = 15.0f;
+	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(ChaosCaliph, OnCollision));
 }
 
 void ChaosCaliph::Execute()
@@ -89,7 +92,7 @@ void ChaosCaliph::Execute()
 				for (int i = -1; i <= 1; ++i)
 				{
 					if (i == 0) continue;
-					Fireball::MakeFireball(scene, 
+					Fireball::MakeBlueFireball(scene, 
 						node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f) + (node_->GetWorldDirection() * 2.0f),
 						Quaternion((i*30.0f) + node_->GetWorldRotation().EulerAngles().y_, Vector3::UP),
 						node_);
@@ -107,13 +110,19 @@ void ChaosCaliph::Execute()
 	case STATE_SPIN:
 		stateTimer += deltaTime;
 
-		if (targetDistance > SPIN_RANGE)
+		if (target.Get()) 
 		{
-			ChangeState(STATE_WANDER);
+			if (targetDistance > SPIN_RANGE)
+			{
+				ChangeState(STATE_WANDER);
+			}
 		}
 		newRotation = Quaternion(stateTimer * 1080.0f, Vector3::UP);
 
-		actor->SetMovement(aimVec * actor->maxspeed * 0.75f);
+		if (!CheckCliff(false))
+			actor->SetMovement(aimVec * actor->maxspeed);
+		else
+			actor->SetMovement(Vector3::ZERO);
 		actor->Move(deltaTime);
 		break;
 	}
@@ -132,6 +141,19 @@ void ChaosCaliph::EnterState(const int newState)
 void ChaosCaliph::LeaveState(const int oldState)
 {
 	Enemy::LeaveState(oldState);
+}
+
+void ChaosCaliph::OnCollision(StringHash eventType, VariantMap& eventData)
+{
+	Node* other = (Node*)eventData["OtherNode"].GetPtr();
+	if (other == target.Get() && state == STATE_SPIN) 
+	{
+		VariantMap map = VariantMap();
+		map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
+		map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(target)));
+		map.Insert(Pair<StringHash, Variant>(StringHash("damage"), 10));
+		SendEvent(Projectile::E_PROJECTILEHIT, map);
+	}
 }
 
 void ChaosCaliph::Dead()

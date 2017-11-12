@@ -1,0 +1,8 @@
+<material>
+	<technique name="Techniques/Diff.xml" quality="0" loddistance="1" />
+	<technique name="Techniques/DiffNormal.xml" quality="1" loddistance="0" />
+	<texture unit="diffuse" name="Textures/purplebrick_window.png" />
+	<texture unit="normal" name="Textures/purplebrick_window_nm.png" />
+	<parameter name="MatDiffColor" value="0.8 0.8 0.8 1"/>
+	<parameter name="MatSpecColor" value="0 0 0 50"/>
+</material>

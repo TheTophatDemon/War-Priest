@@ -1,0 +1,6 @@
+<material>
+	<technique name="Techniques/DiffUnlit.xml"/>
+	<texture name="Textures/fallrhine_light.png" unit="diffuse"/>
+	<parameter name="MatDiffColor" value="1.0 1.0 1.0 1"/>
+	<parameter name="MatSpecColor" value="0 0 0 50"/>
+</material>
