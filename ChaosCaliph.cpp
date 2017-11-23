@@ -11,6 +11,7 @@
 #include "Actor.h"
 #include "Fireball.h"
 #include "Projectile.h"
+#include "WeakChild.h"
 
 #define SPIN_RANGE 7.0f
 
@@ -18,6 +19,12 @@
 #define STATE_WANDER 1
 #define STATE_SHOOT 32
 #define STATE_SPIN 33
+
+#define IDLE_ANIM "Models/enemy/chaoscaliph_idle.ani"
+#define REVIVE_ANIM "Models/enemy/chaoscaliph_revive.ani"
+#define WALK_ANIM "Models/enemy/chaoscaliph_walk.ani"
+#define SHOOT_ANIM "Models/enemy/chaoscaliph_shoot.ani"
+#define SPIN_ANIM "Models/enemy/chaoscaliph_spin.ani"
 
 ChaosCaliph::ChaosCaliph(Context* context) : Enemy(context), 
 	shot(false),
@@ -38,6 +45,26 @@ void ChaosCaliph::DelayedStart()
 	actor->friction = 0.5f;
 	actor->maxfall = 15.0f;
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(ChaosCaliph, OnCollision));
+
+	sparkChild = node_->GetChild("spark");
+	sparkChild->SetParent(scene);
+	WeakChild::MakeWeakChild(sparkChild, node_);
+
+	emitter = sparkChild->GetComponent<ParticleEmitter>();
+	emitter->SetEmitting(false);
+
+	animModel = modelNode->GetComponent<AnimatedModel>();
+	boringMaterial = animModel->GetMaterial();
+	glowyMaterial = cache->GetResource<Material>("Materials/enemy/chaoscaliph_skin_glowy.xml");
+
+	SharedPtr<ValueAnimation> glowyThrob(new ValueAnimation(context_));
+	glowyThrob->SetKeyFrame(0.0f, Color(0.0f, 0.0f, 0.0f));
+	glowyThrob->SetKeyFrame(0.5f, Color(0.0f, 0.0f, 1.0f));
+	glowyThrob->SetKeyFrame(1.0f, Color(0.0f, 0.0f, 0.0f));
+	glowyMaterial->SetShaderParameterAnimation("MatEmissiveColor", glowyThrob, WM_LOOP, 1.0f);
+
+	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
+	animController->SetSpeed(REVIVE_ANIM, 0.0f);
 }
 
 void ChaosCaliph::Execute()
@@ -79,10 +106,17 @@ void ChaosCaliph::Execute()
 			stateTimer = 0.0f;
 		}
 
+		if (walking)
+			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
+		else
+			animController->PlayExclusive(IDLE_ANIM, 0, true, 0.2f);
+
 		break;
 	case STATE_SHOOT:
 		FaceTarget();
 		
+		animController->PlayExclusive(SHOOT_ANIM, 0, false, 0.2f);
+
 		stateTimer += deltaTime;
 		if (stateTimer > 0.25f)
 		{
@@ -110,6 +144,8 @@ void ChaosCaliph::Execute()
 	case STATE_SPIN:
 		stateTimer += deltaTime;
 
+		animController->PlayExclusive(SPIN_ANIM, 0, true, 0.2f);
+
 		if (target.Get()) 
 		{
 			if (targetDistance > SPIN_RANGE)
@@ -126,6 +162,8 @@ void ChaosCaliph::Execute()
 		actor->Move(deltaTime);
 		break;
 	}
+
+	if (sparkChild.Get()) sparkChild->SetWorldPosition(node_->GetWorldPosition());
 }
 
 void ChaosCaliph::EnterState(const int newState)
@@ -136,11 +174,21 @@ void ChaosCaliph::EnterState(const int newState)
 	{
 		shot = false;
 	}
+	else if (newState == STATE_SPIN)
+	{
+		animModel->SetMaterial(glowyMaterial);
+		emitter->SetEmitting(true);
+	}
 }
 
 void ChaosCaliph::LeaveState(const int oldState)
 {
 	Enemy::LeaveState(oldState);
+	if (oldState == STATE_SPIN)
+	{
+		animModel->SetMaterial(boringMaterial);
+		emitter->SetEmitting(false);
+	}
 }
 
 void ChaosCaliph::OnCollision(StringHash eventType, VariantMap& eventData)
@@ -159,12 +207,18 @@ void ChaosCaliph::OnCollision(StringHash eventType, VariantMap& eventData)
 void ChaosCaliph::Dead()
 {
 	Enemy::Dead();
+	animController->PlayExclusive(REVIVE_ANIM, 0, false, 0.0f);
+	if (animController->GetTime(REVIVE_ANIM) >= animController->GetLength(REVIVE_ANIM) * 0.9f)
+	{
+		ChangeState(STATE_WANDER);
+	}
 }
 
 void ChaosCaliph::Revive()
 {
 	Enemy::Revive();
-	ChangeState(STATE_WANDER);
+	animController->PlayExclusive(REVIVE_ANIM, 0, false, 0.2f);
+	animController->SetSpeed(REVIVE_ANIM, 1.0f);
 }
 
 ChaosCaliph::~ChaosCaliph()

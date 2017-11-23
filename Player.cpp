@@ -312,6 +312,18 @@ void Player::HandleCamera()
 	if (state != STATE_DROWN) pivot->SetWorldPosition(body->GetPosition());
 	pivot->Rotate(Quaternion(input->GetMouseMoveX() * Settings::GetMouseSensitivity(), Vector3::UP));
 
+	if (input->GetKeyDown(KEY_KP_ENTER)) //Cheaty first person mode for fun
+	{
+		modelNode->SetEnabled(false);
+		cameraNode->SetWorldPosition(node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f));
+		cameraNode->SetWorldRotation(pivot->GetWorldRotation());
+		return;
+	}
+	else
+	{
+		modelNode->SetEnabled(true);
+	}
+
 	const Vector3 orgCamPos = cameraNode->GetWorldPosition();
 	cameraNode->SetPosition(cameraOffset); //Temporarily reset camera to simplify some calculations
 

@@ -1,20 +1,17 @@
 //TODO:
 	//Sacsand 2
 	
-	//Chaos Caliph
-		//Model & Animation
-	
 	//Maybe make a music player node within the scene instead of hard-coding it.
 	//Modify cross imagery
-
-	//Test cliff check code
+	
 	//Sounds
 		//Player death
 		//God beam
 		//HALLELUJAH!
 		//Statue damage & destruction
+		//Chaos caliph Charge & shoot
 	//Roblox?
-	//LODs for: TT, DD, and PostalPope
+	//LODs for: TT, DD, and PostalPope, CC
 	//Package assets
 
 	//Freezes on SDL_Delay called by DirectSound upon Alt-Tab

@@ -6,6 +6,9 @@
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Audio/SoundSource3D.h>
 #include <Urho3D/Audio/Sound.h>
+#include <Urho3D/Graphics/Material.h>
+#include <Urho3D/Graphics/AnimatedModel.h>
+#include <Urho3D/Graphics/ParticleEmitter.h>
 
 #include "Enemy.h"
 #include "Blackstone.h"
@@ -29,7 +32,12 @@ protected:
 	virtual void LeaveState(const int oldState);
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 
+	SharedPtr<AnimatedModel> animModel;
+	SharedPtr<Material> glowyMaterial;
+	SharedPtr<Material> boringMaterial;
+	SharedPtr<ParticleEmitter> emitter;
 	WeakPtr<Node> projectile;
+	WeakPtr<Node> sparkChild;
 	int lastState;
 	bool shot;
 };
