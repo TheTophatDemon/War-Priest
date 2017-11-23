@@ -40,6 +40,7 @@
 #include <Urho3D/Graphics/ParticleEffect.h>
 #include <Urho3D/Graphics/Technique.h>
 #include <Urho3D/Graphics/Geometry.h>
+#include <Urho3D/Audio/Sound.h>
 
 #include <iostream>
 
@@ -89,6 +90,7 @@ void Gameplay::Start()
 {
 	audio->SetMasterGain("GAMEPLAY", Settings::GetSoundVolume());
 	audio->SetMasterGain("TITLE", 0.0f);
+	audio->SetMasterGain("MUSIC", Settings::GetMusicVolume());
 
 	viewport = renderer->GetViewport(0);
 	scene_ = SharedPtr<Scene>(GetScene());
@@ -300,6 +302,29 @@ void Gameplay::SetupGame()
 	SetupEnemy();
 	SetupProps();
 	
+	//Setup Music
+	musicNode = scene_->GetChild("musicplayer");
+	if (!musicNode.Get())
+		musicNode = scene_->CreateChild("musicplayer", LOCAL, 1280U);
+	musicSource = musicNode->CreateComponent<SoundSource>();
+	musicSource->SetSoundType("MUSIC");
+	if (musicNode->GetVar("music").GetString() != "")
+	{
+		Sound* music = cache->GetResource<Sound>("Music/" + musicNode->GetVar("music").GetString());
+		music->SetLooped(true);
+		musicSource->Play(music);
+	}
+	else if (scene_->GetVar("music").GetString() != "")
+	{
+		Sound* music = cache->GetResource<Sound>("Music/" + scene_->GetVar("music").GetString());
+		music->SetLooped(true);
+		musicSource->Play(music);
+	}
+	else
+	{
+		std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!NO MUSIC IN THIS LEVEL!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+	}
+
 	messageText->SetVisible(false);
 	RenderPathCommand* cmd = viewport->GetRenderPath()->GetCommand(viewport->GetRenderPath()->GetNumCommands() - 1);
 	cmd->SetShaderParameter("State", Variant(0.0f));
@@ -455,7 +480,7 @@ void Gameplay::Lose()
 		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
 		//std::cout << viewport->GetRenderPath()->GetCommand(viewport->GetRenderPath()->GetNumCommands() - 1)->GetShaderParameter("State").GetFloat() << std::endl;
 		restartTimer = 250;
-		gunPriest->musicSource->Stop();
+		musicSource->Stop();
 	}
 	winState = -1;
 }
@@ -473,7 +498,7 @@ void Gameplay::Win()
 		God* god = godNode->CreateComponent<God>();
 		god->SetTarget(playerNode);
 
-		gunPriest->musicSource->Play(cache->GetResource<Sound>("Music/theyfeeltherain.ogg"));
+		musicSource->Play(cache->GetResource<Sound>("Music/theyfeeltherain.ogg"));
 	}
 	winState = 1;
 }

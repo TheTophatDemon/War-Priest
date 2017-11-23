@@ -319,7 +319,7 @@ void Player::HandleCamera()
 		cameraNode->SetWorldRotation(pivot->GetWorldRotation());
 		return;
 	}
-	else
+	else if (state != STATE_DROWN)
 	{
 		modelNode->SetEnabled(true);
 	}

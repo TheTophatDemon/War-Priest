@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16777642" />
-	<attribute name="Next Local Component ID" value="16778653" />
+	<attribute name="Next Local Node ID" value="16777663" />
+	<attribute name="Next Local Component ID" value="16778718" />
 	<attribute name="Variables" />
 	<attribute name="Variable Names" value="spawnertype;spawnerdistance;simpleHitbox;movement;restTime;speed;rotateSpeed" />
 	<component type="Octree" id="1" />
@@ -737,21 +737,6 @@
 			<attribute name="Use Gravity" value="false" />
 		</component>
 	</node>
-	<node id="16777580">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="water" />
-		<attribute name="Tags">
-			<string value="water" />
-		</attribute>
-		<attribute name="Position" value="96.1215 -1.91583 17.3863" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.520073 1 2.48065" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16778204">
-			<attribute name="Model" value="Model;Models/waterplane.mdl" />
-			<attribute name="Material" value="Material;Materials/water.xml" />
-		</component>
-	</node>
 	<node id="16777564">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="postalpope" />
@@ -760,7 +745,7 @@
 			<string value="postalpope" />
 			<string value="shootable" />
 		</attribute>
-		<attribute name="Position" value="90.243 -2.22456 23.8662" />
+		<attribute name="Position" value="100.779 -2.22456 72.1057" />
 		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -771,19 +756,19 @@
 	</node>
 	<node id="16777578">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="pyropastor" />
+		<attribute name="Name" value="chaoscaliph" />
 		<attribute name="Tags">
 			<string value="enemy" />
-			<string value="pyropastor" />
+			<string value="chaoscaliph" />
 			<string value="shootable" />
 		</attribute>
-		<attribute name="Position" value="165.349 -2.68161 39.3833" />
+		<attribute name="Position" value="97.3945 -2.42066 52.8951" />
 		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16778332">
-			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
-			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
 		</component>
 	</node>
 	<node id="16777579">
@@ -1332,6 +1317,295 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16778652">
 			<attribute name="Model" value="Model;Models/enemy/dangerdeacon.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777644">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="postalpope" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="postalpope" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="90.243 -2.22456 23.8662" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778677">
+			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
+			<attribute name="Material" value="Material;Materials/palpan_marble.xml" />
+		</component>
+	</node>
+	<node id="16777646">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="pyropastor" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="pyropastor" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="165.349 -2.68161 39.3833" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778690">
+			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
+		</component>
+	</node>
+	<node id="16777647">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="31.3303 7.44535 32.4043" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778691">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777649">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="165.349 -2.42066 56.7873" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778704">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777650">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="-71.3168 -10.3207 47.0493" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778705">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777651">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="32.5769 7.44535 47.6402" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778706">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777652">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="72.6955 7.44535 32.4043" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778707">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777653">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="72.6955 7.44535 47.6402" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778708">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777654">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="49.4253 -1.17662 31.2666" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778709">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777655">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="31.6612 7.44535 61.0972" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778710">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777656">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="-11.819 6.07876 71.4348" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778711">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777657">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="-21.1274 6.07876 53.2024" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778712">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777658">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="-8.7579 6.07876 33.2668" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778713">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777659">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="-71.3168 -10.3207 33.2668" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778714">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777660">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="-71.3168 -10.3207 61.7846" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778715">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777661">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="72.6955 7.44535 61.0972" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778716">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
+		</component>
+	</node>
+	<node id="16777662">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+			<string value="shootable" />
+		</attribute>
+		<attribute name="Position" value="49.4253 -1.17662 61.0972" />
+		<attribute name="Rotation" value="1 0 5.96045e-08 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778717">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
 			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
 		</component>
 	</node>

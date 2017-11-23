@@ -70,6 +70,8 @@ protected:
 
 	SharedPtr<Node> skybox;
 	SharedPtr<Node> exitNode;
+	WeakPtr<Node> musicNode;
+	WeakPtr<SoundSource> musicSource;
 	
 	SharedPtr<Text> text;
 	SharedPtr<Text> messageText;

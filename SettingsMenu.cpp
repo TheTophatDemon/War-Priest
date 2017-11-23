@@ -4,6 +4,7 @@
 
 #include <Urho3D/Input/Controls.h>
 #include <Urho3D/Input/Input.h>
+#include <Urho3D/Audio/Audio.h>
 #include <iostream>
 
 Color SettingsMenu::selectedColor = Color(0.65f, 0.75f, 0.65f);
@@ -189,6 +190,10 @@ void SettingsMenu::OnMouseClick(StringHash eventType, VariantMap& eventData)
 				{
 					Settings::RevertSettings();
 					UpdateControls();
+					Settings::SaveSettings(titleScreen->GetContext());
+					titleScreen->gunPriest->VideoSetup();
+					ui->SetWidth(1280);
+					titleScreen->SetMenu(titleScreen->titleMenu);
 				}
 			}
 		}
@@ -252,6 +257,13 @@ void SettingsMenu::ApplySettings()
 
 	VariantMap map = VariantMap();
 	titleScreen->SendEvent(Settings::E_SETTINGSCHANGED, map);
+}
+
+void SettingsMenu::OnLeave()
+{
+	Audio* audio = titleScreen->GetSubsystem<Audio>();
+	audio->SetMasterGain("TITLE", Settings::GetSoundVolume());
+	audio->SetMasterGain("MUSIC", Settings::GetMusicVolume());
 }
 
 SettingsMenu::~SettingsMenu()

@@ -58,6 +58,7 @@ void TitleScreen::Start()
 {
 	audio->SetMasterGain("GAMEPLAY", 0.0f);
 	audio->SetMasterGain("TITLE", Settings::GetSoundVolume());
+	audio->SetMasterGain("MUSIC", Settings::GetMusicVolume());
 
 	ui->SetWidth(1280);
 	if (ourUI)

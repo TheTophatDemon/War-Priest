@@ -66,26 +66,6 @@ void GunPriest::StartGame(String path)
 	game->ourUI->SetVisible(true);
 
 	debugRenderer = scene_->GetComponent<DebugRenderer>();
-
-	musicPlayer = new Node(context_);
-	musicSource = musicPlayer->CreateComponent<SoundSource>();
-	musicSource->SetSoundType("MUSIC");
-
-	SharedPtr<XMLFile> levelInfo = SharedPtr<XMLFile>(cache->GetResource<XMLFile>("levelinfo.xml"));
-	assert(levelInfo.Get());
-	XPathQuery query("/levelinfo/level", "ResultSet");
-	XPathResultSet results = query.Evaluate(levelInfo->GetRoot().GetChild("level"));
-	for (int i = 0; i < results.Size(); i++)
-	{
-		if (results[i].GetAttribute("path") == path)
-		{
-			//Load in the music
-			Sound* s = cache->GetResource<Sound>(results[i].GetAttribute("music"));
-			s->SetLooped(true);
-			musicSource->Play(s);
-			break;
-		}
-	}
 }
 
 void GunPriest::Setup()
@@ -194,7 +174,6 @@ void GunPriest::ChangeState(int newState)
 
 void GunPriest::Update(StringHash eventType, VariantMap& eventData)
 {
-	audio->SetMasterGain("MUSIC", Settings::GetMusicVolume());
 	if (state == STATE_GAME)
 	{
 		if (input->GetKeyPress(KEY_ESCAPE))

@@ -32,6 +32,7 @@ class SettingsMenu : public GP::Menu
 public:
 	SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm);
 	virtual void OnEnter();
+	virtual void OnLeave();
 	virtual void OnEvent(StringHash eventType, VariantMap& eventData);
 	~SettingsMenu();
 protected:

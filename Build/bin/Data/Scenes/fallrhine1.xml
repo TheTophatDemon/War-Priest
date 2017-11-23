@@ -7,10 +7,10 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16777797" />
-	<attribute name="Next Local Component ID" value="16779271" />
+	<attribute name="Next Local Node ID" value="16777799" />
+	<attribute name="Next Local Component ID" value="16779283" />
 	<attribute name="Variables" />
-	<attribute name="Variable Names" value="spawnertype;spawnerdistance;movement;restTime;speed;rotateSpeed;launchForce;health" />
+	<attribute name="Variable Names" value="spawnertype;spawnerdistance;movement;restTime;speed;rotateSpeed;launchForce;health;music" />
 	<component type="Octree" id="1" />
 	<component type="DebugRenderer" id="2" />
 	<component type="PhysicsWorld" id="3">
@@ -1923,5 +1923,16 @@
 			<attribute name="Shape Type" value="Sphere" />
 			<attribute name="Size" value="26.92 10 20" />
 		</component>
+	</node>
+	<node id="16777798">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="musicplayer" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="0 -3.94427 7.88854" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables">
+			<variant hash="1749806053" type="String" value="fallenfatherland.ogg" />
+		</attribute>
 	</node>
 </scene>
