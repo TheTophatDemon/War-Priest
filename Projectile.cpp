@@ -31,6 +31,7 @@ Projectile::Projectile(Context* context) : LogicComponent(context),
 
 void Projectile::Start()
 {
+	SetUpdateEventMask(USE_FIXEDUPDATE);
 	game = GetScene()->GetComponent<Gameplay>();
 	cache = GetSubsystem<ResourceCache>();
 	scene = GetScene();
@@ -47,6 +48,9 @@ void Projectile::FixedUpdate(float timeStep)
 	}
 	else
 	{
+		const float dist2p = (game->playerNode->GetWorldPosition() - node_->GetWorldPosition()).Length();
+		if (dist2p > 50.0f) hit = true;
+
 		Move(timeStep);
 		if (checkCollisionsManually && movement != Vector3::ZERO) //Check collisions
 		{

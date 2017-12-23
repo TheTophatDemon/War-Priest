@@ -129,7 +129,7 @@ void PostalPope::Execute()
 		{
 			actor->SetMovement(Vector3::ZERO);
 			actor->Move(deltaTime);
-			node_->Translate(Vector3::UP * deltaTime * 2.0f, TS_LOCAL);
+			node_->Translate(Vector3::UP * deltaTime * 3.0f, TS_LOCAL);
 			if (stateTimer > 5.0f)
 			{
 				ChangeState(STATE_WANDER);
@@ -227,7 +227,7 @@ bool PostalPope::CanSummon()
 {
 	PODVector<RigidBody*> result;
 	const Vector3 sz = Vector3(4.5f, 0.5f, 4.5f);
-	const Vector3 h = Vector3(0.0f, 2.5f, 0.0f);
+	const Vector3 h = Vector3(0.0f, 3.0f, 0.0f);
 	physworld->GetRigidBodies(result, BoundingBox(node_->GetWorldPosition() - sz + h, node_->GetWorldPosition() + sz + h), 2);
 	if (result.Size() > 0) 
 	{

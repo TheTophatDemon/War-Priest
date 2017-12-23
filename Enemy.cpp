@@ -13,14 +13,18 @@
 #define STATE_DEAD 0
 #define STATE_WANDER 1
 
-Enemy::Enemy(Context* context) : LogicComponent(context)
-{
-	turnAmount = 0.0f; distanceFromPlayer = 0.0f; deltaTime = 0.0f;
-	revived = false;
-}
+
+Enemy::Enemy(Context* context) : LogicComponent(context), 
+	distanceFromPlayer(10000.0f), 
+	deltaTime(0.0f), 
+	turnAmount(0.0f), 
+	revived(false),
+	active(false)
+{}
 
 void Enemy::Start()
 {
+	SetUpdateEventMask(USE_FIXEDUPDATE);
 	game = GetScene()->GetComponent<Gameplay>();
 	cache = GetSubsystem<ResourceCache>();
 	scene = GetScene();
@@ -67,21 +71,22 @@ void Enemy::FixedUpdate(float timeStep)
 	Vector3 plyPos = game->playerNode->GetWorldPosition(); plyPos.y_ = 0.0f;
 	Vector3 ourPos = node_->GetWorldPosition(); ourPos.y_ = 0.0f;
 	distanceFromPlayer = (ourPos - plyPos).Length();
-
 	//The max distance from the player for this enemy to be updated is dependant on the graphics settings AND whether or not the camera faces them.
 	float visdist = 100.0f; 
 	const Vector3 camDiff = node_->GetWorldPosition() - game->cameraNode->GetWorldPosition();
 	const float camDot = camDiff.DotProduct(game->cameraNode->GetWorldDirection());
 	if (camDot < 0.0f) visdist *= .5f;
 	if (Settings::AreGraphicsFast()) visdist *= .8f;
-	
+
 	if (distanceFromPlayer < visdist)
 	{
+		active = true;
 		Execute();
 		node_->SetWorldRotation(node_->GetWorldRotation().Slerp(newRotation, 0.25f));
 	}
 	else
 	{
+		active = false;
 		body->SetLinearVelocity(Vector3::ZERO);
 	}
 	if (state == STATE_DEAD)
@@ -123,7 +128,7 @@ void Enemy::Wander(const bool avoidSlopes, const bool pause, const float wallMar
 		if (CheckCliff(avoidSlopes))
 		{
 			walking = false;
-			turnTimer = 0.0f;
+			turnTimer = 0.5f;
 		}
 		else
 		{
@@ -199,16 +204,20 @@ bool Enemy::CheckCliff(const bool avoidSlopes) //Two rays are cast downward from
 {
 	//Imagine it as an isosceles triangle with the base point being the enemy's position
 	PhysicsRaycastResult result, result2;
-	const Vector3 base = node_->GetWorldPosition() + Vector3(0.0f, 0.2f, 0.0f) + node_->GetWorldDirection() * shape->GetSize().x_ * actor->forward * 0.5f;
-	physworld->RaycastSingle(result, Ray(base + node_->GetWorldDirection() * Vector3::RIGHT * shape->GetSize().x_, Vector3::DOWN), 2.0f, 2);
-	physworld->RaycastSingle(result2, Ray(base + node_->GetWorldDirection() * Vector3::LEFT * shape->GetSize().x_, Vector3::DOWN), 2.0f, 2);
+	const Vector3 base = node_->GetWorldPosition() + Vector3(0.0f, 1.2f, 0.0f) + node_->GetWorldDirection() * 1.5f;
+	physworld->RaycastSingle(result, Ray(base + (node_->GetWorldRotation() * Vector3::RIGHT), Vector3::DOWN), 3.0f, 2);
+	physworld->RaycastSingle(result2, Ray(base + (node_->GetWorldRotation() * Vector3::LEFT), Vector3::DOWN), 3.0f, 2);
 	
 	if (actor->fall <= 0.0f)
 	{
+		const float ny1 = fabs(result.normal_.y_);
+		const float ny2 = fabs(result2.normal_.y_);
 		if (!result.body_ 
-			|| (fabs(result.normal_.y_) < 0.9f && avoidSlopes)
+			|| (ny1 < 0.9f && avoidSlopes)
+			|| (ny1 < 0.5f && !avoidSlopes)
 			|| !result2.body_ 
-			|| (fabs(result2.normal_.y_) < 0.9f && avoidSlopes))
+			|| (ny2 < 0.9f && avoidSlopes)
+			|| (ny2 < 0.5f && !avoidSlopes))
 		{
 			return true;
 		}

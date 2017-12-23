@@ -82,6 +82,8 @@ void Player::RegisterObject(Context* context)
 
 void Player::Start()
 {
+	SetUpdateEventMask(USE_FIXEDUPDATE);
+
 	game = GetScene()->GetComponent<Gameplay>();
 	body = node_->GetComponent<RigidBody>();
 	shape = node_->GetComponent<CollisionShape>(); //The main shape is always first
@@ -287,7 +289,7 @@ void Player::OnProjectileHit(StringHash eventType, VariantMap& eventData)
 	int damage = eventData["damage"].GetInt();
 	if (victim == node_)
 	{
-		Hurt(proj, damage);
+		if (!input->GetKeyDown(KEY_KP_PLUS)) Hurt(proj, damage);
 	}
 }
 

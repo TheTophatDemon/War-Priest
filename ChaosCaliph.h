@@ -38,6 +38,7 @@ protected:
 	SharedPtr<ParticleEmitter> emitter;
 	WeakPtr<Node> projectile;
 	WeakPtr<Node> sparkChild;
+	float spinSpeed = 0.0f;
 	int lastState;
 	bool shot;
 };

@@ -1,9 +1,15 @@
 //TODO:
 	//Sacsand 2
+	//Last chance health thing
+	//Add instructions to Sacsand 1
+	//Sacred Sands props
 	
-	//Maybe make a music player node within the scene instead of hard-coding it.
+	//Difficulty Modes
+		//Easier modes modify:
+			//CC spin speed
+			//Revive speed
+			//DD stun period
 	//Modify cross imagery
-	
 	//Sounds
 		//Player death
 		//God beam
@@ -11,14 +17,13 @@
 		//Statue damage & destruction
 		//Chaos caliph Charge & shoot
 	//Roblox?
-	//LODs for: TT, DD, and PostalPope, CC
+	//LODs for: TT, CC, PyroPastor
 	//Package assets
 
 	//Freezes on SDL_Delay called by DirectSound upon Alt-Tab
-
 //Level Ideas
-	//Two PP's and a TT
-	//Little protrusions from the ground that you hop on before descending to the lower levels
+	//Gigantic open area in center w/ bunch of lifts on edge heading towards small islands surrounding the center.
+	//Make use of the beam material so that something's invisible until you revive.
 	//Ascending a tower with a bunch of lifts
 	//Ninja Nun?
 		//Like danger deacon, but jumps alot and doesn't explode. Can maneuver around pits.

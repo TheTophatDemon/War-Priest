@@ -22,6 +22,7 @@ void Debris::RegisterObject(Context* context)
 
 void Debris::Start()
 {
+	SetUpdateEventMask(USE_FIXEDUPDATE);
 	scene = GetScene();
 	body = node_->GetComponent<RigidBody>();
 	physworld = scene->GetComponent<PhysicsWorld>();

@@ -89,7 +89,7 @@ void Water::OnCollisionEnter(StringHash eventType, VariantMap& eventData)
 	}
 	else if (other->GetName() != "player") //God'll get the rest of em
 	{
-		Zeus::MakeLightBeam(scene, other->GetWorldPosition(), fabs(other->GetWorldPosition().y_ - scene->GetComponent<Gameplay>()->cameraNode->GetWorldPosition().y_)*2.0f + 8.0f);
+		Zeus::MakeLightBeam(scene, other->GetWorldPosition(), 2048.0f);
 		other->Remove();
 	}
 }

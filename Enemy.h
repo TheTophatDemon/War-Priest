@@ -31,6 +31,7 @@ public:
 	virtual void Revive();
 	virtual ~Enemy();
 	bool revived = false;
+	bool active = false;
 protected:
 	SharedPtr<Gameplay> game;
 	SharedPtr<ResourceCache> cache;

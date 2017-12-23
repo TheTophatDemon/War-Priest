@@ -74,7 +74,7 @@ Node* Fireball::MakeBlueFireball(Scene* sc, Vector3 position, Quaternion rotatio
 {
 	Fireball* p = new Fireball(sc->GetContext());
 	p->owner = owner;
-	p->speed = 30.0f;
+	p->speed = 20.0f;
 	p->damage = 10;
 	p->radius = 0.5f;
 

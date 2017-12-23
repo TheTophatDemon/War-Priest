@@ -379,11 +379,18 @@ void Gameplay::FixedUpdate(float timeStep)
 
 void Gameplay::UpdateHUD(float timeStep)
 {
-	//Count things
-	PODVector<Node*> projs;
-	scene_->GetChildrenWithTag(projs, "projectile", true);
-	SetGlobalVar("PROJECTILE COUNT", projs.Size());
-
+	int enmCount = 0;
+	PODVector<Node*> enms;
+	scene_->GetChildrenWithTag(enms, "enemy", true);
+	for (Node* n : enms)
+	{
+		Enemy* e = n->GetDerivedComponent<Enemy>();
+		if (e->active)
+		{
+			enmCount++;
+		}
+	}
+	debugText->SetText("ACTIVE ENEMIES: " + String(enmCount));
 	compass1->SetTexture(compassScene->renderedTexture);
 
 	if (messageTimer > 0.0f)
@@ -405,7 +412,6 @@ void Gameplay::UpdateHUD(float timeStep)
 			if (fabs(diff) < 0.1f) oldHealth = player->health;
 		}
 		healthMeter->SetSize(floor((oldHealth / 100.0f) * 628.0f), 22);
-		//projectileCounter->SetText("PROJECTILE: " + String(GetGlobalVar("PROJECTILE COUNT").GetInt()));
 	}
 
 	if (flashColor.a_ > 0.0f)
@@ -444,6 +450,14 @@ void Gameplay::MakeHUD()
 	messageText->SetEffectStrokeThickness(4);
 	ourUI->AddChild(messageText);
 	messageText->SetVisible(false);
+
+	debugText = new Text(context_);
+	debugText->SetText("");
+	debugText->SetFont("Fonts/Anonymous Pro.ttf", 12);
+	debugText->SetAlignment(HA_LEFT, VA_TOP);
+	debugText->SetPosition(64, 160);
+	ourUI->AddChild(debugText);
+	debugText->SetVisible(true);
 
 	healthMeter = (Sprite*)ourUI->GetChild("healthbar", true)->GetChild(0);
 	compass1 = (Sprite*)ourUI->GetChild("compass1", true);

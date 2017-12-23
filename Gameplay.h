@@ -75,7 +75,7 @@ protected:
 	
 	SharedPtr<Text> text;
 	SharedPtr<Text> messageText;
-	SharedPtr<Text> projectileCounter;
+	SharedPtr<Text> debugText;
 	SharedPtr<Sprite> healthMeter;
 	SharedPtr<Sprite> compass1;
 

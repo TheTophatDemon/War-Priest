@@ -40,7 +40,7 @@ void ChaosCaliph::RegisterObject(Context* context)
 void ChaosCaliph::DelayedStart()
 {
 	Enemy::DelayedStart();
-	actor->maxspeed = 15.0f;
+	actor->maxspeed = 16.0f;
 	actor->acceleration = 50.0f;
 	actor->friction = 0.5f;
 	actor->maxfall = 15.0f;
@@ -49,6 +49,9 @@ void ChaosCaliph::DelayedStart()
 	sparkChild = node_->GetChild("spark");
 	sparkChild->SetParent(scene);
 	WeakChild::MakeWeakChild(sparkChild, node_);
+
+	modelNode->SetParent(scene);
+	WeakChild::MakeWeakChild(modelNode, node_);
 
 	emitter = sparkChild->GetComponent<ParticleEmitter>();
 	emitter->SetEmitting(false);
@@ -77,6 +80,10 @@ void ChaosCaliph::Execute()
 		targetDistance = tarDiff.Length();
 		aimVec = tarDiff.Normalized();
 	}
+
+	modelNode->SetWorldPosition(node_->GetWorldPosition());
+	modelNode->SetWorldRotation(node_->GetWorldRotation());
+	modelNode->Rotate(Quaternion(-90.0f, Vector3::UP));
 
 	switch (state)
 	{
@@ -152,13 +159,20 @@ void ChaosCaliph::Execute()
 			{
 				ChangeState(STATE_WANDER);
 			}
-		}
-		newRotation = Quaternion(stateTimer * 1080.0f, Vector3::UP);
+		} 
+		
+		modelNode->SetWorldRotation(Quaternion(stateTimer * 1080.0f, Vector3::UP));
+		newRotation.FromLookRotation(Vector3(aimVec.x_, 0.0f, aimVec.z_), Vector3::UP);
+		//FaceTarget();
 
 		if (!CheckCliff(false))
-			actor->SetMovement(aimVec * actor->maxspeed);
-		else
-			actor->SetMovement(Vector3::ZERO);
+		{
+			actor->SetMovement(true, false, false, false);
+		}
+		else 
+		{
+			actor->SetMovement(false, false, false, false);
+		}
 		actor->Move(deltaTime);
 		break;
 	}
@@ -178,6 +192,9 @@ void ChaosCaliph::EnterState(const int newState)
 	{
 		animModel->SetMaterial(glowyMaterial);
 		emitter->SetEmitting(true);
+		spinSpeed = 0.0f;
+		actor->forward = 0.0f;
+		actor->acceleration = 50.0f;
 	}
 }
 
@@ -188,6 +205,7 @@ void ChaosCaliph::LeaveState(const int oldState)
 	{
 		animModel->SetMaterial(boringMaterial);
 		emitter->SetEmitting(false);
+		actor->acceleration = 50.0f;
 	}
 }
 
@@ -199,7 +217,7 @@ void ChaosCaliph::OnCollision(StringHash eventType, VariantMap& eventData)
 		VariantMap map = VariantMap();
 		map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
 		map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(target)));
-		map.Insert(Pair<StringHash, Variant>(StringHash("damage"), 10));
+		map.Insert(Pair<StringHash, Variant>(StringHash("damage"), 12));
 		SendEvent(Projectile::E_PROJECTILEHIT, map);
 	}
 }
