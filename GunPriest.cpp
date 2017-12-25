@@ -106,7 +106,7 @@ void GunPriest::VideoSetup()
 void GunPriest::Start()
 {
 	SetRandomSeed(clock());
-	engine_->SetMaxFps(60);
+	engine_->SetMaxFps(300);
 
 	input = SharedPtr<Input>(engine_->GetSubsystem<Input>());
 	cache = GetSubsystem<ResourceCache>();

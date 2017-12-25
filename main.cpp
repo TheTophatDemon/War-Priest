@@ -1,8 +1,9 @@
 //TODO:
-	//Sacsand 2
 	//Last chance health thing
 	//Add instructions to Sacsand 1
-	//Sacred Sands props
+	//Collectible Cross bonus?
+	//Optimizations	
+		//Reduce TT shield and PP rocks?
 	
 	//Difficulty Modes
 		//Easier modes modify:
@@ -17,7 +18,7 @@
 		//Statue damage & destruction
 		//Chaos caliph Charge & shoot
 	//Roblox?
-	//LODs for: TT, CC, PyroPastor
+	//LODs for: TT, CC, PyroPastor, Launchpad
 	//Package assets
 
 	//Freezes on SDL_Delay called by DirectSound upon Alt-Tab

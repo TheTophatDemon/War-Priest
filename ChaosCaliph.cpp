@@ -40,7 +40,7 @@ void ChaosCaliph::RegisterObject(Context* context)
 void ChaosCaliph::DelayedStart()
 {
 	Enemy::DelayedStart();
-	actor->maxspeed = 16.0f;
+	actor->maxspeed = 15.5f;
 	actor->acceleration = 50.0f;
 	actor->friction = 0.5f;
 	actor->maxfall = 15.0f;

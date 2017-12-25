@@ -35,7 +35,7 @@ PostalPope::PostalPope(Context* context) : Enemy(context), summoned(false)
 
 void PostalPope::DelayedStart()
 {
-	//Load anims in advance to prevent lag spikes
+	//Load resources in advance to prevent lag spikes
 	cache->GetResource<Animation>(IDLE_ANIM);
 	cache->GetResource<Animation>(WALK_ANIM);
 	cache->GetResource<Animation>(SUMMON_ANIM);
@@ -44,6 +44,7 @@ void PostalPope::DelayedStart()
 	cache->GetResource<Material>("Materials/telekinesis.xml");
 	cache->GetResource<XMLFile>("Objects/rock.xml");
 	cache->GetResource<Model>("Models/props/rock.mdl");
+	cache->GetResource<Material>("Materials/palpan_cliff.xml");
 
 	Enemy::DelayedStart();
 
