@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="3" />
 	<attribute name="Next Replicated Component ID" value="5" />
-	<attribute name="Next Local Node ID" value="16778526" />
-	<attribute name="Next Local Component ID" value="16781510" />
+	<attribute name="Next Local Node ID" value="16778529" />
+	<attribute name="Next Local Component ID" value="16781539" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="sacredsands.ogg" />
 	</attribute>
@@ -421,6 +421,154 @@
 			<attribute name="Collision Event Mode" value="Always" />
 			<attribute name="Use Gravity" value="false" />
 		</component>
+		<node id="16778520">
+			<attribute name="Is Enabled" value="true" />
+			<attribute name="Name" value="stake" />
+			<attribute name="Tags">
+				<string value="prop" />
+			</attribute>
+			<attribute name="Position" value="135.07 -11.2759 6.07723" />
+			<attribute name="Rotation" value="1 0 0 0" />
+			<attribute name="Scale" value="0.666667 0.666667 0.666667" />
+			<attribute name="Variables" />
+			<component type="StaticModel" id="16781493">
+				<attribute name="Model" value="Model;Models/props/stake.mdl" />
+				<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
+			</component>
+			<component type="CollisionShape" id="16781495">
+				<attribute name="Size" value="1 10.43 1" />
+			</component>
+			<component type="RigidBody" id="16781496">
+				<attribute name="Physics Position" value="202.605 -81.2057 9.11584" />
+			</component>
+		</node>
+		<node id="16778521">
+			<attribute name="Is Enabled" value="true" />
+			<attribute name="Name" value="stake" />
+			<attribute name="Tags">
+				<string value="prop" />
+			</attribute>
+			<attribute name="Position" value="125.685 -11.2759 13.4099" />
+			<attribute name="Rotation" value="1 0 0 0" />
+			<attribute name="Scale" value="0.666667 0.666667 0.666667" />
+			<attribute name="Variables" />
+			<component type="StaticModel" id="16781497">
+				<attribute name="Model" value="Model;Models/props/stake.mdl" />
+				<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
+			</component>
+			<component type="CollisionShape" id="16781498">
+				<attribute name="Size" value="1 10.43 1" />
+			</component>
+			<component type="RigidBody" id="16781499">
+				<attribute name="Physics Position" value="188.527 -81.2057 20.1149" />
+			</component>
+		</node>
+		<node id="16778522">
+			<attribute name="Is Enabled" value="true" />
+			<attribute name="Name" value="car" />
+			<attribute name="Tags">
+				<string value="prop" />
+			</attribute>
+			<attribute name="Position" value="100.346 -9.50887 51.6685" />
+			<attribute name="Rotation" value="0.0078803 0.791317 -0.153286 0.591827" />
+			<attribute name="Scale" value="0.666667 0.666667 0.666667" />
+			<attribute name="Variables" />
+			<component type="StaticModel" id="16781500">
+				<attribute name="Model" value="Model;Models/props/car.mdl" />
+				<attribute name="Material" value="Material;Materials/skins/car1.xml" />
+			</component>
+			<component type="CollisionShape" id="16781523">
+				<attribute name="Size" value="10.72 6.65 4.24" />
+				<attribute name="Offset Position" value="0 2.57 0" />
+				<attribute name="Model" value="Model;Models/props/car.mdl" />
+			</component>
+		</node>
+		<node id="16778523">
+			<attribute name="Is Enabled" value="true" />
+			<attribute name="Name" value="stake" />
+			<attribute name="Tags">
+				<string value="prop" />
+			</attribute>
+			<attribute name="Position" value="132.489 -11.2759 2.96079" />
+			<attribute name="Rotation" value="1 0 0 0" />
+			<attribute name="Scale" value="0.666667 0.666667 0.666667" />
+			<attribute name="Variables" />
+			<component type="StaticModel" id="16781503">
+				<attribute name="Model" value="Model;Models/props/stake.mdl" />
+				<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
+			</component>
+			<component type="CollisionShape" id="16781504">
+				<attribute name="Size" value="1 10.43 1" />
+			</component>
+			<component type="RigidBody" id="16781505">
+				<attribute name="Physics Position" value="198.733 -81.2057 4.44118" />
+			</component>
+		</node>
+		<node id="16778524">
+			<attribute name="Is Enabled" value="true" />
+			<attribute name="Name" value="stake" />
+			<attribute name="Tags">
+				<string value="prop" />
+			</attribute>
+			<attribute name="Position" value="120.345 -13.3008 49.7061" />
+			<attribute name="Rotation" value="1 0 0 0" />
+			<attribute name="Scale" value="0.666667 0.666667 0.666667" />
+			<attribute name="Variables" />
+			<component type="StaticModel" id="16781506">
+				<attribute name="Model" value="Model;Models/props/stake.mdl" />
+				<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
+			</component>
+			<component type="CollisionShape" id="16781507">
+				<attribute name="Size" value="1 10.43 1" />
+			</component>
+			<component type="RigidBody" id="16781508">
+				<attribute name="Physics Position" value="180.518 -84.243 74.5591" />
+			</component>
+		</node>
+		<node id="16778525">
+			<attribute name="Is Enabled" value="true" />
+			<attribute name="Name" value="car" />
+			<attribute name="Tags">
+				<string value="prop" />
+			</attribute>
+			<attribute name="Position" value="97.2433 -8.77594 39.7763" />
+			<attribute name="Rotation" value="0.119743 0.968182 -0.0960221 -0.197649" />
+			<attribute name="Scale" value="0.666667 0.666664 0.666664" />
+			<attribute name="Variables" />
+			<component type="StaticModel" id="16781509">
+				<attribute name="Model" value="Model;Models/props/car.mdl" />
+				<attribute name="Material" value="Material;Materials/skins/car0.xml" />
+			</component>
+			<component type="CollisionShape" id="16781522">
+				<attribute name="Size" value="10.37 6.46 4.3" />
+				<attribute name="Offset Position" value="0 2.26 0" />
+				<attribute name="Model" value="Model;Models/props/car.mdl" />
+			</component>
+		</node>
+		<node id="16778527">
+			<attribute name="Is Enabled" value="true" />
+			<attribute name="Name" value="sign" />
+			<attribute name="Tags">
+				<string value="prop" />
+			</attribute>
+			<attribute name="Position" value="95.8713 -3.00933 8.33693" />
+			<attribute name="Rotation" value="0.99837 -0.0570725 0 0" />
+			<attribute name="Scale" value="2.66667 2.66667 2.66667" />
+			<attribute name="Variables" />
+			<component type="StaticModel" id="16781524">
+				<attribute name="Model" value="Model;Models/props/sign.mdl" />
+				<attribute name="Material" value="Material;Materials/skins/sign_skin.xml" />
+			</component>
+			<component type="CollisionShape" id="16781525">
+				<attribute name="Size" value="0.37 0.91 1.5" />
+				<attribute name="Offset Position" value="0 1.15 0" />
+				<attribute name="Model" value="Model;Models/props/sign.mdl" />
+			</component>
+			<component type="CollisionShape" id="16781526">
+				<attribute name="Size" value="0.18 1.2 0.25" />
+				<attribute name="Offset Position" value="0 0.21 0" />
+			</component>
+		</node>
 	</node>
 	<node id="16778333">
 		<attribute name="Is Enabled" value="true" />
@@ -2020,112 +2168,6 @@
 		<component type="StaticModel" id="16781492">
 			<attribute name="Model" value="Model;Models/props/skeleton_lying.mdl" />
 			<attribute name="Material" value="Material;Materials/skeleton_skin.xml" />
-		</component>
-	</node>
-	<node id="16778520">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="stake" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="202.605 -81.2057 9.11584" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1 1 1" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16781493">
-			<attribute name="Model" value="Model;Models/props/stake.mdl" />
-			<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
-		</component>
-		<component type="CollisionShape" id="16781495">
-			<attribute name="Size" value="1 10.43 1" />
-		</component>
-		<component type="RigidBody" id="16781496">
-			<attribute name="Physics Position" value="202.605 -81.2057 9.11584" />
-		</component>
-	</node>
-	<node id="16778521">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="stake" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="188.527 -81.2057 20.1149" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1 1 1" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16781497">
-			<attribute name="Model" value="Model;Models/props/stake.mdl" />
-			<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
-		</component>
-		<component type="CollisionShape" id="16781498">
-			<attribute name="Size" value="1 10.43 1" />
-		</component>
-		<component type="RigidBody" id="16781499">
-			<attribute name="Physics Position" value="188.527 -81.2057 20.1149" />
-		</component>
-	</node>
-	<node id="16778522">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="car" />
-		<attribute name="Tags">
-			<string value="prop" />
-		</attribute>
-		<attribute name="Position" value="150.519 -78.5551 77.5028" />
-		<attribute name="Rotation" value="-0.00788029 -0.791317 0.153286 -0.591827" />
-		<attribute name="Scale" value="1 1 1" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16781500">
-			<attribute name="Model" value="Model;Models/props/car.mdl" />
-			<attribute name="Material" value="Material;Materials/skins/car1.xml" />
-		</component>
-	</node>
-	<node id="16778523">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="stake" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="198.733 -81.2057 4.44118" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1 1 1" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16781503">
-			<attribute name="Model" value="Model;Models/props/stake.mdl" />
-			<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
-		</component>
-		<component type="CollisionShape" id="16781504">
-			<attribute name="Size" value="1 10.43 1" />
-		</component>
-		<component type="RigidBody" id="16781505">
-			<attribute name="Physics Position" value="198.733 -81.2057 4.44118" />
-		</component>
-	</node>
-	<node id="16778524">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="stake" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="180.518 -84.243 74.5591" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1 1 1" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16781506">
-			<attribute name="Model" value="Model;Models/props/stake.mdl" />
-			<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
-		</component>
-		<component type="CollisionShape" id="16781507">
-			<attribute name="Size" value="1 10.43 1" />
-		</component>
-		<component type="RigidBody" id="16781508">
-			<attribute name="Physics Position" value="180.518 -84.243 74.5591" />
-		</component>
-	</node>
-	<node id="16778525">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="car" />
-		<attribute name="Tags">
-			<string value="prop" />
-		</attribute>
-		<attribute name="Position" value="145.865 -77.4557 59.6644" />
-		<attribute name="Rotation" value="-0.119743 -0.968181 0.096022 0.197649" />
-		<attribute name="Scale" value="1 1 1" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16781509">
-			<attribute name="Model" value="Model;Models/props/car.mdl" />
-			<attribute name="Material" value="Material;Materials/skins/car0.xml" />
 		</component>
 	</node>
 </scene>

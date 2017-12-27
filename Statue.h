@@ -26,7 +26,7 @@ public:
 	int GetHealth();
 	~Statue();
 protected:
-	void OnCollisionEnter(StringHash eventType, VariantMap& eventData);
+	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnProjectileHit(StringHash eventType, VariantMap& eventData);
 	SharedPtr<Scene> scene;
 	SharedPtr<PhysicsWorld> physworld;

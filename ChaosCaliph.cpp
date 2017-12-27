@@ -212,11 +212,11 @@ void ChaosCaliph::LeaveState(const int oldState)
 void ChaosCaliph::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
-	if (other == target.Get() && state == STATE_SPIN) 
+	if ((other == target.Get() || other->HasTag("statue")) && state == STATE_SPIN) 
 	{
 		VariantMap map = VariantMap();
 		map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
-		map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(target)));
+		map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(other)));
 		map.Insert(Pair<StringHash, Variant>(StringHash("damage"), 12));
 		SendEvent(Projectile::E_PROJECTILEHIT, map);
 	}

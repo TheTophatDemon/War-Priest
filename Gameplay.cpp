@@ -447,7 +447,7 @@ void Gameplay::MakeHUD()
 	messageText->SetAlignment(HA_CENTER, VA_CENTER);
 	messageText->SetTextAlignment(HA_CENTER);
 	messageText->SetTextEffect(TextEffect::TE_STROKE);
-	messageText->SetEffectStrokeThickness(4);
+	messageText->SetEffectStrokeThickness(2);
 	ourUI->AddChild(messageText);
 	messageText->SetVisible(false);
 

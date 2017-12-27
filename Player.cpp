@@ -71,7 +71,8 @@ Player::Player(Context* context) :
 	health(MAXHEALTH),
 	cameraPitch(0.0f),
 	optimalCamPos(Vector3::ZERO),
-	splashNode(nullptr)
+	splashNode(nullptr),
+	lastChance(false)
 {
 }
 
@@ -146,6 +147,8 @@ void Player::Start()
 		currentCheckpoint->SetWorldPosition(node_->GetWorldPosition());
 	}
 	
+	lastChance = false;
+
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
 	SubscribeToEvent(Projectile::E_PROJECTILEHIT, URHO3D_HANDLER(Player, OnProjectileHit));
 	SubscribeToEvent(God::E_BEAMED, URHO3D_HANDLER(Player, OnBeamed));
@@ -186,8 +189,15 @@ void Player::FixedUpdate(float timeStep)
 		}
 	}
 
-	if (health <= 0.0f)
+	if (health <= 0 && !lastChance)
 	{
+		health = 0;
+		lastChance = true;
+	}
+	else if (health < 0 && lastChance)
+	{
+		lastChance = false;
+		health = -10;
 		ChangeState(STATE_DEAD);
 	}
 
@@ -259,6 +269,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 			game->FlashScreen(Color(1.0f, 1.0f, 1.0f, 0.5f), 0.01f);
 			health += other->GetVar("health").GetInt();
 			if (health > MAXHEALTH) health = MAXHEALTH;
+			lastChance = false;
 			other->Remove();
 			soundSource->Play("Sounds/itm_medkit.wav");
 		}

@@ -29,6 +29,7 @@ public:
 	virtual void DelayedStart();
 	virtual void FixedUpdate(float timeStep);
 	virtual void Revive();
+	inline int GetState() { return state; }
 	virtual ~Enemy();
 	bool revived = false;
 	bool active = false;

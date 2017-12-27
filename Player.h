@@ -97,5 +97,6 @@ protected:
 	bool reviveKey = false;
 
 	bool speedy = false;
+	bool lastChance = false;
 };
 

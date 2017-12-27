@@ -12,6 +12,7 @@
 #include "Projectile.h"
 #include "Debris.h"
 #include "Zeus.h"
+#include "ChaosCaliph.h"
 
 Statue::Statue(Context* context) : 
 	LogicComponent(context),
@@ -38,13 +39,16 @@ void Statue::Start()
 	translatePosition = originalPosition;
 	radius *= (node_->GetScale().x_ / 1.75f); //As thus, the radius increases with scale
 
-	SubscribeToEvent(GetNode(), E_NODECOLLISIONSTART, URHO3D_HANDLER(Statue, OnCollisionEnter));
+	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Statue, OnCollision));
 	SubscribeToEvent(Projectile::E_PROJECTILEHIT, URHO3D_HANDLER(Statue, OnProjectileHit));
 }
 
 void Statue::Damage(const int amount, const bool silent)
 {
-	health -= amount;
+	if (shakeTimer < 0.5f) 
+	{
+		health -= amount;
+	}
 	if (!silent) shakeTimer = 1.0f;
 }
 
@@ -81,7 +85,7 @@ void Statue::FixedUpdate(float timeStep)
 	}
 }
 
-void Statue::OnCollisionEnter(StringHash eventType, VariantMap& eventData)
+void Statue::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
