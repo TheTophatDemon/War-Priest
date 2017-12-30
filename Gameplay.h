@@ -51,12 +51,12 @@ public:
 
 	~Gameplay();
 	int restartTimer = 0;
-	bool initialized = false;
-	SharedPtr<UIElement> ourUI;
-
 	int projectileCount = 0;
 	int enemyCount = 0;
 	int winState = 0;
+	bool initialized = false;
+	String levelPath;
+	SharedPtr<UIElement> ourUI;
 
 protected:
 	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);

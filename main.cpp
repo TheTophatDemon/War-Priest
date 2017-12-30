@@ -1,6 +1,8 @@
 //TODO:
 	//Sacsand3
-	//Collectible Cross bonus?
+	//Collectible Cross bonus
+		//Make sure it saves to xml
+		//Make icon on level select screen
 	
 	//Difficulty Modes
 		//Easier modes modify:

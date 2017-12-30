@@ -48,7 +48,7 @@ void GunPriest::StartGame(String path)
 	cache->ReleaseResources(Model::GetTypeStatic(), true);
 	cache->ReleaseResources(Material::GetTypeStatic(), true);
 	cache->ReleaseResources(Texture2D::GetTypeStatic(), true);
-	cache->ReleaseResources(ParticleEffect::GetTypeStatic(), true);
+	//cache->ReleaseResources(ParticleEffect::GetTypeStatic(), true);
 	cache->ReleaseResources(XMLFile::GetTypeStatic(), true);
 
 	engine_->RunFrame();
@@ -59,6 +59,7 @@ void GunPriest::StartGame(String path)
 	scene_->LoadXML(mapFile->GetRoot());
 	scene_->AddComponent(game, 666, LOCAL);
 	std::cout << "GAME ADDED" << std::endl;
+	game->levelPath = path;
 	game->SetupGame();
 	std::cout << "GAME SETUP" << std::endl;
 

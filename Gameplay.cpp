@@ -58,6 +58,7 @@
 #include "Launchpad.h"
 #include "TempTemplar.h"
 #include "ChaosCaliph.h"
+#include "LevelSelectMenu.h"
 
 using namespace Urho3D;
 
@@ -426,6 +427,7 @@ void Gameplay::UpdateHUD(float timeStep)
 
 Gameplay::~Gameplay()
 {
+	
 }
 
 void Gameplay::MakeHUD()
@@ -513,6 +515,10 @@ void Gameplay::Win()
 		god->SetTarget(playerNode);
 
 		musicSource->Play(cache->GetResource<Sound>("Music/theyfeeltherain.ogg"));
+
+		LevelSelectMenu* lsm = dynamic_cast<LevelSelectMenu*>(gunPriest->titleScreen->levelSelectMenu.Get());
+		if (lsm)
+			lsm->SetLevelCompletionFlag(levelPath, LevelSelectMenu::LCF_BEATEN, true);
 	}
 	winState = 1;
 }

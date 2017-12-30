@@ -13,11 +13,11 @@
 #include <iostream>
 
 #include "Gameplay.h"
+#include "GunPriest.h"
+#include "Settings.h"
 #include "TitleMenu.h"
 #include "LevelSelectMenu.h"
 #include "SettingsMenu.h"
-#include "GunPriest.h"
-#include "Settings.h"
 
 using namespace std;
 
