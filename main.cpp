@@ -1,8 +1,5 @@
 //TODO:
 	//Sacsand3
-	//Collectible Cross bonus
-		//Make sure it saves to xml
-		//Make icon on level select screen
 	
 	//Difficulty Modes
 		//Easier modes modify:
@@ -16,7 +13,9 @@
 		//HALLELUJAH!
 		//Statue damage & destruction
 		//Chaos caliph Charge & shoot
+		//Bonus collection
 	//Roblox?
+	//Bonus Crosses for: SinisterSynagogue, SS4, SS3, SS1, FF4, PP4, PP1, PP2. Do final test through every level.
 	//LODs for: CC, Launchpad, Props
 	//Package assets
 

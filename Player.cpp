@@ -158,7 +158,9 @@ void Player::FixedUpdate(float timeStep)
 {	
 	//Cheats
 	if (input->GetKeyDown(KEY_K))
-		health = 0.0f;
+	{
+		health = 0.0f; lastChance = true;
+	}
 	if (input->GetKeyDown(KEY_KP_PLUS))
 		health = 100.0f;
 	if (input->GetKeyDown(KEY_KP_0))
@@ -273,6 +275,19 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 			other->Remove();
 			soundSource->Play("Sounds/itm_medkit.wav");
 		}
+		else if (other->HasTag("bonus"))
+		{
+			SendEvent(Gameplay::E_BONUSCOLLECTED);
+			other->RemoveTag("bonus"); //To stop colliding with it
+			SharedPtr<TempEffect> tempEffect(new TempEffect(context_));
+			tempEffect->life = 0.5f;
+			other->AddComponent(tempEffect, 4200, LOCAL);
+			//Make it shrink away
+			SharedPtr<ValueAnimation> shrink(new ValueAnimation(context_));
+			shrink->SetKeyFrame(0.0f, other->GetScale());
+			shrink->SetKeyFrame(0.25f, Vector3::ZERO);
+			other->SetAttributeAnimation("Scale", shrink, WM_ONCE, 1.0f);
+		}
 	}
 }
 
@@ -314,7 +329,7 @@ void Player::OnBeamed(StringHash eventType, VariantMap& eventData)
 			node_->SetParent(scene);
 			node_->RemoveAllChildren();
 			node_->Remove();
-			std::cout << "THE PLAYER HAS BEEN BEAMED, BROS" << std::endl;
+			//std::cout << "THE PLAYER HAS BEEN BEAMED, BROS" << std::endl;
 		}
  	}
 }

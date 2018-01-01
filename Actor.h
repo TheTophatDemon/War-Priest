@@ -38,7 +38,7 @@ public:
 	float strafe = 0.0f;
 	float fall = 0.0f;
 	float slopeSteepness = 0.0f;
-	Node* liftOn;
+	WeakPtr<Node> liftOn;
 	bool onGround = false;
 	bool sloping = false;
 	bool gravity = true;

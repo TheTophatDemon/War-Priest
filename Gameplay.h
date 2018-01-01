@@ -26,6 +26,7 @@ class Gameplay : public LogicComponent
 {
 	URHO3D_OBJECT(Gameplay, LogicComponent);
 public:
+	static StringHash E_BONUSCOLLECTED;
 	GunPriest* gunPriest;
 	
 	SharedPtr<CompassScene> compassScene;
@@ -59,7 +60,7 @@ public:
 	SharedPtr<UIElement> ourUI;
 
 protected:
-	void GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount);
+	void HandleEvent(StringHash eventType, VariantMap& eventData);
 	void UpdateHUD(float timeStep);
 	void SetupLighting();
 	void PreloadSounds();
@@ -92,5 +93,6 @@ protected:
 	float flashSpeed;
 	float oldHealth;
 	float messageTimer = 0.0f;
+	bool bonusFlag;
 };
 

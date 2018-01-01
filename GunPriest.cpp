@@ -35,6 +35,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	Statue::RegisterObject(context);
 	ChaosCaliph::RegisterObject(context);
 	Blackstone::RegisterObject(context);
+	Bonus::RegisterObject(context);
 
 	state = STATE_TITLE;
 }

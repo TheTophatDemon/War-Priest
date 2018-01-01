@@ -6,6 +6,7 @@
 #include <Urho3D/UI/UIElement.h>
 #include <Urho3D/UI/ScrollView.h>
 #include <Urho3D/UI/ScrollBar.h>
+#include <Urho3D/Container/Vector.h>
 #include "Menu.h"
 
 struct LevelEntry
@@ -35,5 +36,7 @@ protected:
 	SharedPtr<UIElement> buttParent;
 	SharedPtr<ScrollBar> scrollBar;
 	Vector<LevelEntry*> levelEntries;
+	Vector<Sprite*> sprites;
+	float animTimer;
 };
 

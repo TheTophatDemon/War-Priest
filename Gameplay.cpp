@@ -59,17 +59,21 @@
 #include "TempTemplar.h"
 #include "ChaosCaliph.h"
 #include "LevelSelectMenu.h"
+#include "Bonus.h"
 
 using namespace Urho3D;
 
-Gameplay::Gameplay(Context* context) : LogicComponent(context)
+StringHash Gameplay::E_BONUSCOLLECTED = StringHash("BonusCollected");
+
+Gameplay::Gameplay(Context* context) : LogicComponent(context), 
+	flashSpeed(0.0f), 
+	oldHealth(100.0f), 
+	initialized(false),
+	restartTimer(0),
+	flashColor(Color(0.0f,0.0f,0.0f,0.0f)),
+	bonusFlag(false)
 {
 	SetUpdateEventMask(USE_FIXEDUPDATE);
-	flashSpeed = 0.0f;
-	flashColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
-	oldHealth = 100.0f;
-	initialized = false;
-	restartTimer = 0;
 	
 	cache = GetSubsystem<ResourceCache>();
 	engine_ = GetSubsystem<Engine>();
@@ -127,6 +131,8 @@ void Gameplay::Start()
 		cache->GetResource<Material>("Materials/blood.xml")->SetShaderParameter("MatDiffColor", Color(0.1f, 0.1f, 0.1f, 1.0f));
 	}
 	SetupLighting();
+
+	SubscribeToEvent(E_BONUSCOLLECTED, URHO3D_HANDLER(Gameplay, HandleEvent));
 }
 
 void Gameplay::SetupGame()
@@ -135,6 +141,7 @@ void Gameplay::SetupGame()
 	
 	winState = 0;
 	restartTimer = 0;
+	bonusFlag = false;
 
 	physworld = scene_->GetComponent<PhysicsWorld>();
 	physworld->SetMaxSubSteps(10);
@@ -298,6 +305,18 @@ void Gameplay::SetupGame()
 				s->Damage(s->GetHealth() - hp, true);
 			}
 		}
+	}
+
+	//BONUS (ducks)
+	PODVector<Node*> bonae;
+	scene_->GetChildrenWithTag(bonae, "bonus", true);
+	for (Node* n : bonae)
+	{
+		SharedPtr<Bonus> bonus(new Bonus(context_));
+		const Matrix3x4 trans = n->GetWorldTransform();
+		n->LoadXML(cache->GetResource<XMLFile>("Objects/bonus.xml")->GetRoot());
+		n->SetWorldTransform(trans.Translation(), trans.Rotation());
+		n->AddComponent(bonus, 0, LOCAL);
 	}
 
 	SetupEnemy();
@@ -517,8 +536,11 @@ void Gameplay::Win()
 		musicSource->Play(cache->GetResource<Sound>("Music/theyfeeltherain.ogg"));
 
 		LevelSelectMenu* lsm = dynamic_cast<LevelSelectMenu*>(gunPriest->titleScreen->levelSelectMenu.Get());
-		if (lsm)
-			lsm->SetLevelCompletionFlag(levelPath, LevelSelectMenu::LCF_BEATEN, true);
+		if (lsm) 
+		{
+			const int newFlags = bonusFlag ? LevelSelectMenu::LCF_BEATEN | LevelSelectMenu::LCF_CROSSGOTTEN : LevelSelectMenu::LCF_BEATEN;
+			lsm->SetLevelCompletionFlag(levelPath, newFlags, true);
+		}
 	}
 	winState = 1;
 }
@@ -624,7 +646,7 @@ void Gameplay::SetupProps()
 	}
 }
 
-void Gameplay::ExtractLiquidsFromMap() //For more dynamic liquid volumes
+void Gameplay::ExtractLiquidsFromMap() //For more detailed liquid volumes
 {
 	StaticModel* mapModel = mapNode->GetComponent<StaticModel>();
 	Model* model = mapModel->GetModel();
@@ -706,36 +728,12 @@ void Gameplay::PreloadSounds()
 	}
 }
 
-void Gameplay::GetNextFrame(Sprite* spr, int cellWidth, int cellHeight, int cellCount)
+void Gameplay::HandleEvent(StringHash eventType, VariantMap& eventData)
 {
-	IntRect rect = spr->GetImageRect();
-	Texture* tex = spr->GetTexture();
-
-	rect.bottom_ += cellHeight;
-	rect.top_ += cellHeight;
-	if (rect.bottom_ > tex->GetHeight())
+	if (eventType == E_BONUSCOLLECTED)
 	{
-		rect.top_ = 0.0f;
-		rect.bottom_ = cellHeight;
-
-		rect.left_ += cellWidth;
-		rect.right_ += cellHeight;
-		if (rect.right_ > tex->GetWidth())
-		{
-			rect.left_ = 0.0f;
-			rect.right_ = cellWidth;
-		}
+		FlashScreen(Color(1.0f, 0.0f, 1.0f, 1.0f), 0.01f);
+		DisplayMessage(bonusFlag ? "YOU FOUND THE BONUS CROSS...AGAIN!" : "YOU FOUND THE BONUS CROSS!", Color::MAGENTA, 2.0f);
+		bonusFlag = true;
 	}
-	int columnCount = tex->GetWidth() / cellWidth;
-	int rowCount = tex->GetHeight() / cellHeight;
-	int cellIndex = (rowCount * (rect.left_ / cellWidth)) + (rect.top_ / cellHeight);
-	if (cellIndex >= cellCount)
-	{
-		rect.top_ = 0.0f;
-		rect.bottom_ = cellHeight;
-		rect.left_ = 0.0f;
-		rect.right_ = cellWidth;
-	}
-
-	spr->SetImageRect(rect);
 }

@@ -61,6 +61,7 @@
 #include "Statue.h"
 #include "ChaosCaliph.h"
 #include "Blackstone.h"
+#include "Bonus.h"
 
 class GunPriest : public Application
 {

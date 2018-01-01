@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="3" />
 	<attribute name="Next Replicated Component ID" value="5" />
-	<attribute name="Next Local Node ID" value="16778529" />
-	<attribute name="Next Local Component ID" value="16781539" />
+	<attribute name="Next Local Node ID" value="16778532" />
+	<attribute name="Next Local Component ID" value="16781564" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="sacredsands.ogg" />
 	</attribute>

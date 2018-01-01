@@ -5,6 +5,7 @@
 #include <Urho3D/UI/BorderImage.h>
 #include <Urho3D/IO/FileSystem.h>
 #include <Urho3D/IO/File.h>
+#include <Urho3D/UI/Sprite.h>
 #include <stdlib.h>
 #include <iostream>
 #include "TitleScreen.h"
@@ -16,7 +17,8 @@ int LevelSelectMenu::LCF_UNLOCKED = 1;
 int LevelSelectMenu::LCF_BEATEN = 2;
 int LevelSelectMenu::LCF_CROSSGOTTEN = 4;
 
-LevelSelectMenu::LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(ts, gm)
+LevelSelectMenu::LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(ts, gm),
+	animTimer(0.0f)
 {
 	layoutPath = "UI/titlemenus/levelselect.xml";
 	//Find all possible level
@@ -35,6 +37,8 @@ LevelSelectMenu::LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu
 		fe->completion = atoi(results[i].GetAttribute("completion").CString());
 		levelEntries.Push(fe);
 	}
+
+	sprites = Vector<Sprite*>();
 }
 
 void LevelSelectMenu::SetLevelCompletionFlag(const String levelPath, const int flag, const bool val) 
@@ -47,12 +51,11 @@ void LevelSelectMenu::SetLevelCompletionFlag(const String levelPath, const int f
 			//Change flag
 			if (val)
 			{
-				if (!(le->completion & flag))
-					le->completion += flag;
+				le->completion = le->completion | flag;
 			}
-			else
+			else 
 			{
-				if (le->completion & flag)
+				if (le->completion & flag == flag) //This hasn't been tested yet, because nobody is likely to need it.
 					le->completion -= flag;
 			}
 			//Update levelinfo xml structure
@@ -87,6 +90,7 @@ void LevelSelectMenu::SetLevelCompletionFlag(const String levelPath, const int f
 
 void LevelSelectMenu::OnEnter()
 {
+	sprites.Clear();
 	GP::Menu::OnEnter();
 	levelList = titleScreen->ourUI->GetChild("levelList", true);
 	buttParent = levelList->GetChild("levelButtonParent", true);
@@ -128,7 +132,7 @@ void LevelSelectMenu::OnEnter()
 			button->SetVar("filePath", le->filePath);
 			if (le->completion & LCF_BEATEN)
 			{
-				button->SetColor(Color(0.0f, 1.0f, 0.0f));
+				button->SetColor(Color(0.5f, 1.0f, 0.5f));
 			}
 
 			Text* text = button->CreateChild<Text>();
@@ -136,6 +140,24 @@ void LevelSelectMenu::OnEnter()
 			text->SetFont("Fonts/Anonymous Pro.ttf", 16);
 			text->SetText(le->levelName);
 			text->SetEnabled(false);
+
+			if (le->completion & LCF_CROSSGOTTEN)
+			{
+				Sprite* sprite = button->CreateChild<Sprite>();
+				sprite->SetSize(32, 32);
+				sprite->SetAlignment(HA_LEFT, VA_TOP);
+				sprite->SetPosition(0.0f, 0.0f);
+				sprite->SetTexture(cache->GetResource<Texture2D>("Textures/cross_ui_small.png"));
+				sprite->SetImageRect(IntRect(0, 0, 32, 32));
+				sprites.Push(sprite);
+				Sprite* sprite2 = button->CreateChild<Sprite>();
+				sprite2->SetSize(32, 32);
+				sprite2->SetAlignment(HA_RIGHT, VA_TOP);
+				sprite2->SetPosition(-32.0f, 0.0f);
+				sprite2->SetTexture(cache->GetResource<Texture2D>("Textures/cross_ui_small.png"));
+				sprite2->SetImageRect(IntRect(0, 0, 32, 32));
+				sprites.Push(sprite2);
+			}
 
 			le->listItem = (UIElement*)button;
 		}
@@ -151,6 +173,37 @@ void LevelSelectMenu::Update(float timeStep)
 	{
 		float y = scrollBar->GetValue();
 		buttParent->SetPosition(0, -y * levelEntries.Size() * 36);
+	}
+	//Animates the spinning cross sprites
+	animTimer += timeStep;
+	if (animTimer > 0.1f)
+	{
+		animTimer = 0.0f;
+		Sprite* const baseSpr = sprites.At(0);
+		Texture2D* tex = (Texture2D*)baseSpr->GetTexture();
+		IntRect sourceRect = baseSpr->GetImageRect();
+		const int width = sourceRect.Width();
+		const int height = sourceRect.Height();
+		sourceRect.right_ += width;
+		sourceRect.left_ += width;
+		if (sourceRect.right_ > tex->GetWidth())
+		{
+			sourceRect.right_ = width;
+			sourceRect.left_ = 0;
+			sourceRect.top_ += height;
+			sourceRect.bottom_ += height;
+		}
+		if (sourceRect.bottom_ > tex->GetHeight())
+		{
+			sourceRect.bottom_ = height;
+			sourceRect.top_ = 0;
+			sourceRect.right_ = width;
+			sourceRect.left_ = 0;
+		}
+		for (Sprite* spr : sprites)
+		{
+			spr->SetImageRect(sourceRect);
+		}
 	}
 }
 
