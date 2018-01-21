@@ -232,6 +232,10 @@ void Enemy::KeepOnGround()
 	if (result.body_)
 	{
 		node_->SetWorldPosition(result.position_);
+		if (result.body_->GetNode()->HasTag("lift"))
+		{
+			node_->SetWorldRotation(result.body_->GetNode()->GetWorldRotation());
+		}
 	}
 }
 

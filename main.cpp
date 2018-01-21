@@ -1,5 +1,19 @@
 //TODO:
+	//Make bodies parent to lifts
+	//DangerDeacon walk anim glitch
+	//Preload particle splash
+	//Redo cobblestone texture?
+	//Raise those tiny platform things
+	//Rotation script for tetrahedron
 	//Sacsand3
+		//Link everything to ring
+		//Improve the branch
+	//Sacsand4
+	//Sinsyn
+	//Crossroads
+	//Credits
+	//Palpan2
+	//Palpan1
 	
 	//Difficulty Modes
 		//Easier modes modify:
@@ -7,6 +21,7 @@
 			//Revive speed
 			//DD stun period
 	//Modify cross imagery
+	//Replace red cross on health. It's trademarked!?
 	//Sounds
 		//Player death
 		//God beam
@@ -16,11 +31,13 @@
 		//Bonus collection
 	//Roblox?
 	//Bonus Crosses for: SinisterSynagogue, SS4, SS3, SS1, FF4, PP4, PP1, PP2. Do final test through every level.
-	//LODs for: CC, Launchpad, Props
 	//Package assets
 
 	//Freezes on SDL_Delay called by DirectSound upon Alt-Tab
 //Level Ideas
+	//Giant cross platform rising up and down
+	//A bunch of spiky pyramid things with a bunch of PostalPopes at the top
+	//Lifts sticking out of walls
 	//Gigantic open area in center w/ bunch of lifts on edge heading towards small islands surrounding the center.
 	//Make use of the beam material so that something's invisible until you revive.
 	//Ascending a tower with a bunch of lifts

@@ -8,13 +8,14 @@
 #include <Urho3D/Physics/PhysicsUtils.h>
 #include <iostream>
 
-Lift* Lift::MakeLiftComponent(Context* context, Vector3 mov, float rT, float spd, float rSpd)
+Lift* Lift::MakeLiftComponent(Context* context, const Vector3 mov, const float rT, const float spd, const float rSpd, const float aRad)
 {
 	Lift* lift = new Lift(context);
 	lift->movement = mov;
 	lift->restTime = rT;
 	lift->speed = spd;
 	lift->rotateSpeed = rSpd;
+	lift->activeRadius = aRad;
 	return lift;
 }
 
@@ -29,6 +30,7 @@ void Lift::RegisterObject(Context* context)
 
 void Lift::Start()
 {
+	game = GetScene()->GetComponent<Gameplay>();
 	Vector3 pointA = node_->GetWorldPosition();
 	Vector3 pointB = pointA + movement;
 	valAnim = new ValueAnimation(context_);
@@ -58,6 +60,17 @@ void Lift::Start()
 
 void Lift::FixedUpdate(float timeStep)
 {
+	if (activeRadius > 0.0f)
+	{
+		if ((game->playerNode->GetWorldPosition() - node_->GetWorldPosition()).Length() < activeRadius && timer <= 0.0f)
+		{
+			node_->SetAttributeAnimationSpeed("Position", 1.0f);
+		}
+		else
+		{
+			node_->SetAttributeAnimationSpeed("Position", 0.0f);
+		}
+	}
 	if (timer > 0.0f)
 	{
 		timer -= timeStep;

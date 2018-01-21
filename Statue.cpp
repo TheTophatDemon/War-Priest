@@ -48,8 +48,8 @@ void Statue::Damage(const int amount, const bool silent)
 	if (shakeTimer < 0.5f) 
 	{
 		health -= amount;
+		if (!silent) shakeTimer = 1.0f;
 	}
-	if (!silent) shakeTimer = 1.0f;
 }
 
 void Statue::FixedUpdate(float timeStep)

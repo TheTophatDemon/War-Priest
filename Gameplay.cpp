@@ -200,16 +200,18 @@ void Gameplay::SetupGame()
 			Vector3 movement = n->GetVar("movement").GetVector3();
 			float restSpeed = n->GetVar("restTime").GetFloat(); if (restSpeed == 0.0f) restSpeed = 1.0f;
 			float speed = n->GetVar("speed").GetFloat(); if (speed == 0.0f) speed = 2.0f;
-			float rotSpeed = n->GetVar("rotateSpeed").GetFloat();
+			const float rotSpeed = n->GetVar("rotateSpeed").GetFloat();
+			const float activeRadius = n->GetVar("activeRadius").GetFloat();
 
 			Node* dest = n->GetChild("dest");
 			if (dest)
 			{
-				movement = dest->GetPosition() * dest->GetWorldScale();
+				//movement = dest->GetPosition() * dest->GetWorldScale();
+				movement = dest->GetWorldPosition() - n->GetWorldPosition();
 				dest->Remove();
 			}
 
-			n->AddComponent(Lift::MakeLiftComponent(context_, movement, restSpeed, speed, rotSpeed), 1200, LOCAL);
+			n->AddComponent(Lift::MakeLiftComponent(context_, movement, restSpeed, speed, rotSpeed, activeRadius), 1200, LOCAL);
 			RigidBody* r = n->GetComponent<RigidBody>();
 			if (!r) r = n->CreateComponent<RigidBody>();
 			r->SetLinearFactor(Vector3::ZERO);
@@ -478,7 +480,7 @@ void Gameplay::MakeHUD()
 	debugText->SetAlignment(HA_LEFT, VA_TOP);
 	debugText->SetPosition(64, 160);
 	ourUI->AddChild(debugText);
-	debugText->SetVisible(true);
+	debugText->SetVisible(false);
 
 	healthMeter = (Sprite*)ourUI->GetChild("healthbar", true)->GetChild(0);
 	compass1 = (Sprite*)ourUI->GetChild("compass1", true);
