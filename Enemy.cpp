@@ -82,7 +82,7 @@ void Enemy::FixedUpdate(float timeStep)
 	{
 		active = true;
 		Execute();
-		node_->SetWorldRotation(node_->GetWorldRotation().Slerp(newRotation, 0.25f));
+		if (state != STATE_DEAD) node_->SetWorldRotation(node_->GetWorldRotation().Slerp(newRotation, 0.25f));
 	}
 	else
 	{
@@ -227,14 +227,18 @@ bool Enemy::CheckCliff(const bool avoidSlopes) //Two rays are cast downward from
 
 void Enemy::KeepOnGround()
 {
-	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.1f, 0.0f), Vector3::DOWN), 500.0f, 2);
-	if (result.body_)
+	if (node_->GetParent() == scene) 
 	{
-		node_->SetWorldPosition(result.position_);
-		if (result.body_->GetNode()->HasTag("lift"))
+		PhysicsRaycastResult result;
+		physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.1f, 0.0f), Vector3::DOWN), 500.0f, 2);
+		if (result.body_)
 		{
-			node_->SetWorldRotation(result.body_->GetNode()->GetWorldRotation());
+			node_->SetWorldPosition(result.position_);
+			if (result.body_->GetNode()->HasTag("lift"))
+			{
+				node_->SetParent(result.body_->GetNode());
+				//node_->SetWorldRotation(result.body_->GetNode()->GetWorldRotation());
+			}
 		}
 	}
 }

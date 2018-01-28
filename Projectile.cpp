@@ -49,13 +49,14 @@ void Projectile::FixedUpdate(float timeStep)
 	else
 	{
 		const float dist2p = (game->playerNode->GetWorldPosition() - node_->GetWorldPosition()).Length();
-		if (dist2p > 50.0f) hit = true;
+		if (dist2p > 250.0f) { OnHit(nullptr); deathTimer = 9000.0f; }
 
 		Move(timeStep);
 		if (checkCollisionsManually && movement != Vector3::ZERO) //Check collisions
 		{
 			PhysicsRaycastResult result;
-			physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement.Normalized()), radius, radius, 214);//128+64+2+16+4
+			const float movLength = movement.Length();
+			physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement / movLength), radius, movLength, 214);//128+64+2+16+4
 			if (result.body_)
 			{
 				if (result.body_->GetNode() != owner)

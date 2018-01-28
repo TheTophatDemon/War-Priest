@@ -66,7 +66,7 @@ void PyroPastor::Execute()
 		{
 			//Check if player is in range
 			PhysicsRaycastResult result;
-			physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aimVec), 400.0f, 130);//128+2
+			physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aimVec), 60.0f, 130);//128+2
 			if (result.body_)
 			{
 				if (result.body_->GetCollisionLayer() & 128)

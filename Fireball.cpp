@@ -51,9 +51,9 @@ void Fireball::OnHit(Node* n)
 	{
 		emitter->SetEmitting(false);
 	}
+	//deathTimer = 1000.0f;
 }
 
-//Components can't have constructors that take more than 1 parameter for some reason...
 Node* Fireball::MakeFireball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner)
 {
 	Fireball* p = new Fireball(sc->GetContext());

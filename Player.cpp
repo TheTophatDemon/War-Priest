@@ -149,6 +149,8 @@ void Player::Start()
 	
 	lastChance = false;
 
+	cache->GetResource<ParticleEffect>("Particles/splash.xml");
+
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
 	SubscribeToEvent(Projectile::E_PROJECTILEHIT, URHO3D_HANDLER(Player, OnProjectileHit));
 	SubscribeToEvent(God::E_BEAMED, URHO3D_HANDLER(Player, OnBeamed));
@@ -293,7 +295,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 
 void Player::Hurt(Node* source, int amount)
 {
-	if (state != STATE_WIN && hurtTimer <= 0 && state != STATE_SLIDE && (lastState != STATE_DROWN || stateTimer > 3.5f)) 
+	if (state != STATE_WIN && hurtTimer <= 0 && state != STATE_SLIDE && (lastState != STATE_DROWN || stateTimer > 3.5f) && state != STATE_DROWN) 
 	{
 		health -= amount;
 		bloodEmitter->SetEmitting(true);
@@ -421,9 +423,9 @@ void Player::HandleShadow()
 
 void Player::ChangeState(int newState)
 {
-	lastState = state;
 	if (state != newState)
 	{
+		lastState = state;
 		EnterState(newState);
 		LeaveState(state);
 	}
@@ -455,14 +457,6 @@ void Player::EnterState(int newState)
 			gibs->SetWorldPosition(node_->GetWorldPosition());
 			gibs->SetWorldRotation(node_->GetWorldRotation());
 			gibs->SetScale(modelNode->GetScale());
-
-			/*if (drowning)
-			{
-				SoundSource3D* ss = gibs->CreateComponent<SoundSource3D>();
-				ss->SetSoundType("GAMEPLAY");
-				ss->Play(cache->GetResource<Sound>("Sounds/env_splash.wav"));
-				ss->SetTemporary(true);
-			}*/
 
 			//PODVector<Node*> children;
 			gibs->GetChildren(children, true);
@@ -522,6 +516,7 @@ void Player::LeaveState(int oldState)
 	else if (oldState == STATE_DROWN)
 	{
 		modelNode->SetEnabled(true);
+		stateTimer = 0.0f;
 	}
 }
 
@@ -651,13 +646,13 @@ void Player::ST_Revive(float timeStep)
 
 	actor->SetMovement(pivot->GetWorldRotation() * Vector3(moveX, 0.0f, moveZ));
 
-	animController->PlayExclusive("Models/grungle_revive.ani", 0, true, 0.2f);
-	if (animController->GetTime("Models/grungle_revive.ani") >= animController->GetLength("Models/grungle_revive.ani") * 0.9f || stateTimer > 150)
+	/*animController->PlayExclusive("Models/grungle_revive.ani", 0, true, 0.2f);
+	if (animController->GetTime("Models/grungle_revive.ani") >= animController->GetLength("Models/grungle_revive.ani") * 0.9f || stateTimer > 1)
 	{
 		ChangeState(STATE_DEFAULT);
-	}
-	if (stateTimer == 20)
-	{
+	}*/
+	//if (stateTimer == 10)
+	//{
 		if (nearestCorpse)
 		{
 			const float distance = (nearestCorpse->GetNode()->GetWorldPosition() - node_->GetWorldPosition()).Length();
@@ -667,10 +662,11 @@ void Player::ST_Revive(float timeStep)
 				nearestCorpse->Revive();
 				reviveCount += 1;
 				soundSource->Play("Sounds/ply_revive.wav", true);
-				reviveCooldown = 0.75f;
+				reviveCooldown = 1.25f;
 			}
 		}
-	}
+		ChangeState(STATE_DEFAULT);
+	//}
 	actor->Move(timeStep);
 }
 

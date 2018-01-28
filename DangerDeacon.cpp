@@ -95,7 +95,7 @@ void DangerDeacon::Execute()
 		Wander();
 		if (target)
 		{
-			if (targetDist < 29.0f)
+			if (targetDist < 34.0f)
 			{
 				ChangeState(STATE_CHASE);
 			}
@@ -106,7 +106,7 @@ void DangerDeacon::Execute()
 			animController->PlayExclusive(IDLE_ANIM, 0, true, 0.2f);
 		break;
 	case STATE_CHASE:
-		if (target && targetDist < 30.0f)
+		if (target && targetDist < 35.0f)
 		{
 			const Vector3 headHeight = Vector3(0.0f, 2.0f, 0.0f);
 			const Vector3 ourHead = node_->GetWorldPosition() + headHeight;
@@ -140,7 +140,7 @@ void DangerDeacon::Execute()
 				if (footCast.body_->GetCollisionLayer() & 2 && footCast.distance_ < 1.45f && footCast.normal_.y_ != 0.0f)
 				{
 					actor->Jump();
-					animController->Play(JUMP_ANIM, 128, false, 0.2f);
+					animController->PlayExclusive(JUMP_ANIM, 0, false, 0.2f);
 				}
 			}
 
@@ -164,10 +164,15 @@ void DangerDeacon::Execute()
 			{
 				ChangeState(STATE_EXPLODE);
 			}
-
-			if (animController->GetTime(JUMP_ANIM) > animController->GetLength(JUMP_ANIM) * 0.9f)
-				animController->Stop(JUMP_ANIM, 0.2f);
-			animController->Play(WALK_ANIM, 0, true, 0.2f);
+			
+			if (!actor->onGround && animController->GetTime(JUMP_ANIM) < animController->GetLength(JUMP_ANIM) * 0.9f)
+			{
+				
+			}
+			else
+			{
+				animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
+			}
 		}
 		else
 		{
@@ -176,7 +181,7 @@ void DangerDeacon::Execute()
 		break;
 	case STATE_EXPLODE:
 		stateTimer += deltaTime;
-		animController->PlayExclusive(EXPLODE_ANIM, 0, false, 0.2f);
+		animController->PlayExclusive(EXPLODE_ANIM, 128, false, 0.2f);
 		
 		orbThing->SetScale(orbThing->GetScale() - Vector3(shrinkAmount, shrinkAmount, shrinkAmount));
 		if (orbThing->GetScale().x_ <= 0.0f)
@@ -222,7 +227,7 @@ void DangerDeacon::Execute()
 							VariantMap map = VariantMap();
 							map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
 							map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(otherBody->GetNode())));
-							map.Insert(Pair<StringHash, Variant>(StringHash("damage"), (int)(DAMAGE / 5)));
+							map.Insert(Pair<StringHash, Variant>(StringHash("damage"), (int)(DAMAGE / 2)));
 							SendEvent(Projectile::E_PROJECTILEHIT, map);
 						}
 					}
@@ -280,6 +285,7 @@ void DangerDeacon::LeaveState(const int oldState)
 	if (oldState == STATE_EXPLODE)
 	{
 		orbModel->SetViewMask(0);
+		animController->StopAll();
 	}
 }
 

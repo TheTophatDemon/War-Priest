@@ -1,13 +1,17 @@
 //TODO:
-	//Make bodies parent to lifts
-	//DangerDeacon walk anim glitch
-	//Preload particle splash
+	//Indicator when within reviving range
+	//New revive animations & timer HUD
+	//CC got smushed under lift
 	//Redo cobblestone texture?
-	//Raise those tiny platform things
-	//Rotation script for tetrahedron
+	//Rotation script for tetrahedron not working!!!!
+	//Modify cross imagery
+	//Replace red cross on health. It's trademarked!?
 	//Sacsand3
-		//Link everything to ring
-		//Improve the branch
+		//Pope hat cacti
+		//Protect staircase portion
+		//Reduce CC # in side group
+		//More health in first area
+		//
 	//Sacsand4
 	//Sinsyn
 	//Crossroads
@@ -15,13 +19,13 @@
 	//Palpan2
 	//Palpan1
 	
+	//Make projectiles build up speed
+
 	//Difficulty Modes
 		//Easier modes modify:
 			//CC spin speed
 			//Revive speed
 			//DD stun period
-	//Modify cross imagery
-	//Replace red cross on health. It's trademarked!?
 	//Sounds
 		//Player death
 		//God beam
@@ -30,7 +34,7 @@
 		//Chaos caliph Charge & shoot
 		//Bonus collection
 	//Roblox?
-	//Bonus Crosses for: SinisterSynagogue, SS4, SS3, SS1, FF4, PP4, PP1, PP2. Do final test through every level.
+	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. Do final test through every level.
 	//Package assets
 
 	//Freezes on SDL_Delay called by DirectSound upon Alt-Tab
