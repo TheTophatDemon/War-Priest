@@ -1,11 +1,10 @@
 //TODO:
 	//Indicator when within reviving range
-	//New revive animations & timer HUD
-	//CC got smushed under lift
+	//New revive animations
+	//Revive timer HUD
 	//Redo cobblestone texture?
 	//Rotation script for tetrahedron not working!!!!
 	//Modify cross imagery
-	//Replace red cross on health. It's trademarked!?
 	//Sacsand3
 		//Pope hat cacti
 		//Protect staircase portion

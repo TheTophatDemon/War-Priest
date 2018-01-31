@@ -90,7 +90,7 @@ void Lift::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (otherBody->GetCollisionLayer() & 128) //KNOCK KNOCK ITS ME
+	if (otherBody->GetCollisionLayer() & 128 || otherBody->GetCollisionLayer() & 64) //KNOCK KNOCK ITS ME
 	{
 		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
 		while (!contacts.IsEof())
