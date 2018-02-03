@@ -38,6 +38,13 @@
 
 using namespace Urho3D;
 
+#define IDLE_ANIM "Models/grungle_idle.ani"
+#define WALK_ANIM "Models/grungle_walk.ani"
+#define JUMP_ANIM "Models/grungle_jump.ani"
+#define SLIDE_ANIM "Models/grungle_slide.ani"
+#define HAIL_ANIM "Models/grungle_hailmary.ani"
+#define REVIVE_ANIM "Models/grungle_revive.ani"
+
 #define PITCH_LIMIT_HIGHER 65
 #define PITCH_LIMIT_LOWER 15
 
@@ -53,7 +60,7 @@ using namespace Urho3D;
 #define FALLSPEED 50.0f
 #define MAXFALL 30.0f
 #define JUMPSTRENGTH 18.0f
-#define WALKSPEED 16.0f
+#define WALKSPEED 15.0f
 #define SLIDESPEED 20.0f
 
 #define MAXHEALTH 100
@@ -124,6 +131,7 @@ void Player::Start()
 	newRotation = modelNode->GetRotation();
 	node_->RemoveChild(modelNode);
 	scene->AddChild(modelNode);
+	animModel = modelNode->GetComponent<AnimatedModel>();
 
 	if (modelNode->HasComponent<AnimationController>())
 		animController = modelNode->GetComponent<AnimationController>();
@@ -154,6 +162,8 @@ void Player::Start()
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
 	SubscribeToEvent(Projectile::E_PROJECTILEHIT, URHO3D_HANDLER(Player, OnProjectileHit));
 	SubscribeToEvent(God::E_BEAMED, URHO3D_HANDLER(Player, OnBeamed));
+
+	animController->StopAll();
 }
 
 void Player::FixedUpdate(float timeStep)
@@ -213,9 +223,6 @@ void Player::FixedUpdate(float timeStep)
 	{
 	case STATE_DEFAULT:
 		ST_Default(timeStep);
-		break;
-	case STATE_REVIVE:
-		ST_Revive(timeStep);
 		break;
 	case STATE_SLIDE:
 		ST_Slide(timeStep);
@@ -522,9 +529,6 @@ void Player::LeaveState(int oldState)
 
 void Player::ST_Default(float timeStep)
 {
-	PODVector<RigidBody*> grounds;
-	bool diddly = false;
-
 	stateTimer += timeStep;
 
 	if (rightKey)
@@ -572,11 +576,13 @@ void Player::ST_Default(float timeStep)
 		newRotation = dir;
 	}
 
-	//!!!!
+	//Ground detection
 	if (!groundDetector->IsActive())
 		groundDetector->Activate();
 	groundDetector->SetPosition(body->GetPosition());
 
+	PODVector<RigidBody*> grounds;
+	bool diddly = false;
 	physworld->GetRigidBodies(grounds, groundDetector);
 	for (PODVector<RigidBody*>::Iterator i = grounds.Begin(); i != grounds.End(); ++i)
 	{
@@ -589,19 +595,19 @@ void Player::ST_Default(float timeStep)
 				break;
 			}
 		}
-	}
+	}	
 
 	//Select Animation
 	if (!diddly)
 	{
-		animController->PlayExclusive("Models/grungle_jump.ani", 0, false, 0.2f);
+		animController->PlayExclusive(JUMP_ANIM, 0, false, 0.2f);
 	}
 	else
 	{
 		dropShadow->SetEnabled(false);
 		if (forwardKey || backwardKey || leftKey || rightKey)
 		{
-			animController->PlayExclusive("Models/grungle_walk.ani", 0, true, 0.2f);
+			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
 			hailTimer = 0;
 		}
 		else
@@ -609,25 +615,49 @@ void Player::ST_Default(float timeStep)
 			hailTimer += 1;
 			if (hailTimer == 500)
 			{
-				animController->PlayExclusive("Models/grungle_hailmary.ani", 0, false, 0.2f);
+				animController->PlayExclusive(HAIL_ANIM, 0, false, 0.2f);
 			}
 			else if (hailTimer < 500)
 			{
-				animController->PlayExclusive("Models/grungle_idle.ani", 0, true, 0.2f);
+				animController->PlayExclusive(IDLE_ANIM, 0, true, 0.2f);
 			}
-			else if (animController->IsAtEnd("Models/grungle_hailmary.ani"))
+			else if (animController->IsAtEnd(HAIL_ANIM))
 			{
 				hailTimer = 0;
 			}
 		}
 	}
 
-	if (reviveCooldown > 0) reviveCooldown -= timeStep;
+	//Reviving
 	if (reviveKey && reviveCooldown <= 0.0f)
 	{
-		ChangeState(STATE_REVIVE);
+		animController->Play(REVIVE_ANIM, 128, false, 0.2f);
+		animController->SetStartBone(REVIVE_ANIM, "torso");
+		animController->SetAutoFade(REVIVE_ANIM, 0.2f);
+		reviveCooldown = 1.25f;
+		revived = false;
 	}
-	else if (slideKey && actor->onGround && stateTimer > 0.5f)
+	if (reviveCooldown > 0) reviveCooldown -= timeStep;
+	if (nearestCorpse)
+	{
+		const float distance = (nearestCorpse->GetNode()->GetWorldPosition() - node_->GetWorldPosition()).Length();
+		if (distance < 8.0f)
+		{
+			//Spawn arrow over the body to indicate that it can be revived
+			if (!revived && reviveCooldown > 0.0f && reviveCooldown <= 1.0f)
+			{
+				revived = true;
+				Zeus::MakeLightBeam(scene, nearestCorpse->GetNode()->GetWorldPosition());
+				nearestCorpse->Revive();
+				reviveCount += 1;
+				soundSource->Play("Sounds/ply_revive.wav", true);
+			}
+		}
+	}
+	
+
+	//Sliding
+	if (slideKey && actor->onGround && stateTimer > 0.5f)
 	{
 		ChangeState(STATE_SLIDE);
 	}
@@ -635,45 +665,10 @@ void Player::ST_Default(float timeStep)
 	actor->Move(timeStep);
 }
 
-void Player::ST_Revive(float timeStep)
-{
-	stateTimer += 1;
-
-	moveX *= FRICTION;
-	if (fabs(moveX) < 0.1f) moveX = 0.0f;
-	moveZ *= FRICTION;
-	if (fabs(moveZ) < 0.1f) moveZ = 0.0f;
-
-	actor->SetMovement(pivot->GetWorldRotation() * Vector3(moveX, 0.0f, moveZ));
-
-	/*animController->PlayExclusive("Models/grungle_revive.ani", 0, true, 0.2f);
-	if (animController->GetTime("Models/grungle_revive.ani") >= animController->GetLength("Models/grungle_revive.ani") * 0.9f || stateTimer > 1)
-	{
-		ChangeState(STATE_DEFAULT);
-	}*/
-	//if (stateTimer == 10)
-	//{
-		if (nearestCorpse)
-		{
-			const float distance = (nearestCorpse->GetNode()->GetWorldPosition() - node_->GetWorldPosition()).Length();
-			if (distance < 8.0f) 
-			{
-				Zeus::MakeLightBeam(scene, nearestCorpse->GetNode()->GetWorldPosition());
-				nearestCorpse->Revive();
-				reviveCount += 1;
-				soundSource->Play("Sounds/ply_revive.wav", true);
-				reviveCooldown = 1.25f;
-			}
-		}
-		ChangeState(STATE_DEFAULT);
-	//}
-	actor->Move(timeStep);
-}
-
 void Player::ST_Slide(float timeStep)
 {
 	stateTimer += timeStep;
-	animController->PlayExclusive("Models/grungle_slide.ani", 0, false, 0.2f);
+	animController->PlayExclusive(SLIDE_ANIM, 0, false, 0.2f);
 
 	actor->SetMovement(slideDirection);
 	actor->Move(timeStep);
@@ -697,7 +692,7 @@ void Player::ST_Win(float timeStep)
 {
 	actor->SetMovement(0.0f, 0.0f);
 	actor->Move(timeStep);
-	animController->PlayExclusive("Models/grungle_idle.ani", 0, true, 0.2f);
+	animController->PlayExclusive(IDLE_ANIM, 0, true, 0.2f);
 }
 
 void Player::ST_Drown(float timeStep)

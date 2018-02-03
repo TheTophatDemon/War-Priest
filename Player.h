@@ -11,6 +11,7 @@
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Graphics/ParticleEmitter.h>
 #include <Urho3D/Graphics/AnimationController.h>
+#include <Urho3D/Graphics/AnimatedModel.h>
 #include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Audio/SoundSource.h>
 #include "SoundSounder.h"
@@ -44,7 +45,6 @@ protected:
 	void EnterState(int newState);
 	void LeaveState(int oldState);
 	void ST_Default(float timeStep);
-	void ST_Revive(float timeStep);
 	void ST_Slide(float timeStep);
 	void ST_Win(float timeStep);
 	void ST_Drown(float timeStep);
@@ -59,6 +59,7 @@ protected:
 	SharedPtr<Actor> actor;
 	SharedPtr<RigidBody> body;
 	SharedPtr<Node> modelNode;
+	SharedPtr<AnimatedModel> animModel;
 	SharedPtr<AnimationController> animController;
 	SharedPtr<Node> dropShadow;
 	SharedPtr<RigidBody> groundDetector;
@@ -98,5 +99,6 @@ protected:
 
 	bool speedy = false;
 	bool lastChance = false;
+	bool revived = false;
 };
 

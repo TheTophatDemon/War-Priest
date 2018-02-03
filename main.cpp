@@ -1,8 +1,9 @@
 //TODO:
-	//Indicator when within reviving range
-	//New revive animations
+	//Indicator when within reviving range (floating arrow?)
 	//Revive timer HUD
-	//Redo cobblestone texture?
+	//Difficulty Adjustments
+		//Make walkspeed slower
+		//Less health
 	//Rotation script for tetrahedron not working!!!!
 	//Modify cross imagery
 	//Sacsand3
@@ -10,7 +11,8 @@
 		//Protect staircase portion
 		//Reduce CC # in side group
 		//More health in first area
-		//
+		//Texture error at runways
+		//DDs can't jump over star thingy
 	//Sacsand4
 	//Sinsyn
 	//Crossroads
@@ -18,7 +20,6 @@
 	//Palpan2
 	//Palpan1
 	
-	//Make projectiles build up speed
 
 	//Difficulty Modes
 		//Easier modes modify:
@@ -34,6 +35,7 @@
 		//Bonus collection
 	//Roblox?
 	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. Do final test through every level.
+	//Remove health from sacsand2
 	//Package assets
 
 	//Freezes on SDL_Delay called by DirectSound upon Alt-Tab
@@ -56,7 +58,7 @@
 
 //Complaints:
 	//It'd be nice to have an event that fires right before the physics steps for keeping track of flags
-	//Annoying physics jitter due to interpolation
+	//Interpolation causes physics objects to jitter
 	//Need an easier way of getting triangle info from a collision for "platforming logic"
 	//Need a way to restrict transform inheritance from parents (rotation, location, scale)
 	//The editor crashes sometimes when loading other scenes
