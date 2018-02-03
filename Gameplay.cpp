@@ -401,7 +401,7 @@ void Gameplay::FixedUpdate(float timeStep)
 
 void Gameplay::UpdateHUD(float timeStep)
 {
-	int enmCount = 0;
+	/*int enmCount = 0;
 	PODVector<Node*> enms;
 	scene_->GetChildrenWithTag(enms, "enemy", true);
 	for (Node* n : enms)
@@ -412,7 +412,7 @@ void Gameplay::UpdateHUD(float timeStep)
 			enmCount++;
 		}
 	}
-	debugText->SetText("ACTIVE ENEMIES: " + String(enmCount));
+	debugText->SetText("ACTIVE ENEMIES: " + String(enmCount));*/
 	compass1->SetTexture(compassScene->renderedTexture);
 
 	if (messageTimer > 0.0f)
@@ -433,7 +433,8 @@ void Gameplay::UpdateHUD(float timeStep)
 			oldHealth -= diff * 0.25f;
 			if (fabs(diff) < 0.1f) oldHealth = player->health;
 		}
-		healthMeter->SetSize(floor((oldHealth / 100.0f) * 628.0f), 22);
+		healthMeter->SetSize(floor((oldHealth / 100.0f) * 628.0f), healthMeter->GetHeight());
+		reviveMeter->SetSize(floor(((player->reviveCooldownMax - player->reviveCooldown) / player->reviveCooldownMax) * 628.0f), reviveMeter->GetHeight());
 	}
 
 	if (flashColor.a_ > 0.0f)
@@ -482,7 +483,8 @@ void Gameplay::MakeHUD()
 	ourUI->AddChild(debugText);
 	debugText->SetVisible(false);
 
-	healthMeter = (Sprite*)ourUI->GetChild("healthbar", true)->GetChild(0);
+	healthMeter = (Sprite*)ourUI->GetChild("healthbar", true)->GetChild("health", false);
+	reviveMeter = (Sprite*)ourUI->GetChild("healthbar", true)->GetChild("reviveCooldown", false);
 	compass1 = (Sprite*)ourUI->GetChild("compass1", true);
 	compass1->SetTexture(compassScene->renderedTexture);
 	compass1->SetFullImageRect();

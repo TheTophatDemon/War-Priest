@@ -1,10 +1,4 @@
 //TODO:
-	//Indicator when within reviving range (floating arrow?)
-	//Revive timer HUD
-	//Difficulty Adjustments
-		//Make walkspeed slower
-		//Less health
-	//Rotation script for tetrahedron not working!!!!
 	//Modify cross imagery
 	//Sacsand3
 		//Pope hat cacti
@@ -13,13 +7,16 @@
 		//More health in first area
 		//Texture error at runways
 		//DDs can't jump over star thingy
+	//Tweak Sacsand1
+		//Make statues weaker (particularly the DD one)
+		//Can slip past DD statue
+		//Can jump fence with launchpad
 	//Sacsand4
 	//Sinsyn
 	//Crossroads
 	//Credits
 	//Palpan2
 	//Palpan1
-	
 
 	//Difficulty Modes
 		//Easier modes modify:

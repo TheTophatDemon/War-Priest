@@ -65,6 +65,7 @@ using namespace Urho3D;
 
 #define MAXHEALTH 100
 
+const float Player::reviveCooldownMax = 1.25f;
 Vector3 Player::cameraOffset = Vector3(0.0f, 14.4579f, -12.0f);
 
 Player::Player(Context* context) : 
@@ -131,7 +132,6 @@ void Player::Start()
 	newRotation = modelNode->GetRotation();
 	node_->RemoveChild(modelNode);
 	scene->AddChild(modelNode);
-	animModel = modelNode->GetComponent<AnimatedModel>();
 
 	if (modelNode->HasComponent<AnimationController>())
 		animController = modelNode->GetComponent<AnimationController>();
@@ -154,6 +154,24 @@ void Player::Start()
 		currentCheckpoint = scene->CreateChild("exit");
 		currentCheckpoint->SetWorldPosition(node_->GetWorldPosition());
 	}
+
+	//Arrow
+	arrowNode = scene->CreateChild();
+	arrowNode->SetScale(0.5f);
+	StaticModel* sm = arrowNode->CreateComponent<StaticModel>();
+	sm->SetModel(cache->GetResource<Model>("Models/arrow.mdl"));
+	sm->SetMaterial(cache->GetResource<Material>("Materials/arrow.xml"));
+
+	SharedPtr<ValueAnimation> spinAnim(new ValueAnimation(context_));
+	spinAnim->SetKeyFrame(0.0f, Quaternion::IDENTITY);
+	spinAnim->SetKeyFrame(0.5f, Quaternion(90.0f, Vector3::UP));
+	spinAnim->SetKeyFrame(1.0f, Quaternion(180.0f, Vector3::UP));
+	spinAnim->SetKeyFrame(1.5f, Quaternion(270.0f, Vector3::UP));
+	spinAnim->SetKeyFrame(2.0f, Quaternion(360.0f, Vector3::UP));
+	arrowNode->SetAttributeAnimation("Rotation", spinAnim, WM_LOOP, 1.0f);
+
+	arrowNode->SetEnabled(false);
+	WeakChild::MakeWeakChild(arrowNode, node_);
 	
 	lastChance = false;
 
@@ -634,17 +652,18 @@ void Player::ST_Default(float timeStep)
 		animController->Play(REVIVE_ANIM, 128, false, 0.2f);
 		animController->SetStartBone(REVIVE_ANIM, "torso");
 		animController->SetAutoFade(REVIVE_ANIM, 0.2f);
-		reviveCooldown = 1.25f;
+		reviveCooldown = reviveCooldownMax;
 		revived = false;
 	}
-	if (reviveCooldown > 0) reviveCooldown -= timeStep;
+	if (reviveCooldown > 0) reviveCooldown = Max(0.0f, reviveCooldown - timeStep);
 	if (nearestCorpse)
 	{
 		const float distance = (nearestCorpse->GetNode()->GetWorldPosition() - node_->GetWorldPosition()).Length();
 		if (distance < 8.0f)
 		{
-			//Spawn arrow over the body to indicate that it can be revived
-			if (!revived && reviveCooldown > 0.0f && reviveCooldown <= 1.0f)
+			arrowNode->SetEnabled(true);
+			arrowNode->SetWorldPosition(nearestCorpse->GetNode()->GetWorldPosition() + Vector3(0.0f, 5.0f, 0.0f));
+			if (!revived && reviveCooldown > reviveCooldownMax - 0.5f && reviveCooldown <= reviveCooldownMax - 0.25f)
 			{
 				revived = true;
 				Zeus::MakeLightBeam(scene, nearestCorpse->GetNode()->GetWorldPosition());
@@ -653,6 +672,14 @@ void Player::ST_Default(float timeStep)
 				soundSource->Play("Sounds/ply_revive.wav", true);
 			}
 		}
+		else
+		{
+			arrowNode->SetEnabled(false);
+		}
+	}
+	else
+	{
+		arrowNode->SetEnabled(false);
 	}
 	
 

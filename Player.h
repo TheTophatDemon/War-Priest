@@ -23,6 +23,7 @@ class Gameplay;
 class Actor;
 class Player : public LogicComponent
 {
+	friend class Gameplay;
 	URHO3D_OBJECT(Player, LogicComponent);
 public:
 	Player(Context* context);
@@ -31,9 +32,7 @@ public:
 	virtual void FixedUpdate(float timeStep);
 	~Player();
 	
-	int state;
-	int health;
-	int reviveCount = 0;
+	static const float reviveCooldownMax;
 protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnProjectileHit(StringHash eventType, VariantMap& eventData);
@@ -59,7 +58,6 @@ protected:
 	SharedPtr<Actor> actor;
 	SharedPtr<RigidBody> body;
 	SharedPtr<Node> modelNode;
-	SharedPtr<AnimatedModel> animModel;
 	SharedPtr<AnimationController> animController;
 	SharedPtr<Node> dropShadow;
 	SharedPtr<RigidBody> groundDetector;
@@ -72,12 +70,16 @@ protected:
 	WeakPtr<Node> currentCheckpoint;
 	WeakPtr<Node> splashNode;
 	WeakPtr<Node> beamNode;
+	WeakPtr<Node> arrowNode;
 
 	Quaternion newRotation;
 	Vector3 slideDirection;
 	Vector3 optimalCamPos;
 	static Vector3 cameraOffset;
 	
+	int state;
+	int health;
+	int reviveCount = 0;
 	int hailTimer;
 	int hurtTimer;
 	int lastState;
