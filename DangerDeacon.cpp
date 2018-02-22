@@ -13,6 +13,7 @@
 #include "TempEffect.h"
 #include "WeakChild.h"
 #include "Projectile.h"
+#include "Settings.h"
 
 #define STATE_DEAD 0
 #define STATE_WANDER 1
@@ -36,6 +37,11 @@ DangerDeacon::DangerDeacon(Context* context) : Enemy(context)
 	strafeAmt = 0.0f;
 }
 
+void DangerDeacon::OnSettingsChange(StringHash eventType, VariantMap& eventData)
+{
+	actor->maxspeed = 17.4f + Settings::ScaleWithDifficulty(-0.5f, 0.0f, 0.6f);
+}
+
 void DangerDeacon::DelayedStart()
 {
 	cache->GetResource<Animation>(IDLE_ANIM);
@@ -46,7 +52,7 @@ void DangerDeacon::DelayedStart()
 	cache->GetResource<ParticleEffect>("Particles/explosion.xml");
 
 	Enemy::DelayedStart();
-	actor->maxspeed = 17.4f;
+	actor->maxspeed = 17.4f + Settings::ScaleWithDifficulty(-0.5f, 0.0f, 0.6f);
 
 	modelNode->SetParent(scene);
 	WeakChild::MakeWeakChild(modelNode, node_);
@@ -84,7 +90,7 @@ void DangerDeacon::Execute()
 		modelNode->Rotate(Quaternion(strafeAmt * 45.0f, Vector3::UP));
 	}
 
-	const float shrinkAmount = deltaTime * EXPLODERANGE * 3.3f; //Set to 3.0 if easy mode
+	const float shrinkAmount = deltaTime * EXPLODERANGE * Settings::ScaleWithDifficulty(2.7f, 3.3f, 3.5f);
 
 	switch (state)
 	{
@@ -142,6 +148,12 @@ void DangerDeacon::Execute()
 					actor->Jump();
 					animController->PlayExclusive(JUMP_ANIM, 0, false, 0.2f);
 				}
+			}
+
+			if (Settings::GetDifficulty() > 1.4f && footCast.distance_ > 3.0f)
+			{
+				actor->Jump();
+				animController->PlayExclusive(JUMP_ANIM, 0, false, 0.2f);
 			}
 
 			if (fabs(actor->fall) > 0.5f)
@@ -213,7 +225,7 @@ void DangerDeacon::Execute()
 				SendEvent(Projectile::E_PROJECTILEHIT, map);
 			}
 			//This is mainly for statues
-			if (stateTimer < STUNTIME - 0.5f) 
+			if (stateTimer < STUNTIME - 0.5f)
 			{
 				PODVector<RigidBody*> result;
 				physworld->GetRigidBodies(result, Sphere(node_->GetWorldPosition(), BLASTRANGE), 4U);

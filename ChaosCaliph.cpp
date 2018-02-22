@@ -12,6 +12,7 @@
 #include "Fireball.h"
 #include "Projectile.h"
 #include "WeakChild.h"
+#include "Settings.h"
 
 #define SPIN_RANGE 7.0f
 
@@ -37,10 +38,15 @@ void ChaosCaliph::RegisterObject(Context* context)
 	context->RegisterFactory<ChaosCaliph>();
 }
 
+void ChaosCaliph::OnSettingsChange(StringHash eventType, VariantMap& eventData)
+{
+	actor->maxspeed = 15.5f + Settings::ScaleWithDifficulty(-1.0f, 0.0f, 1.5f);
+}
+
 void ChaosCaliph::DelayedStart()
 {
 	Enemy::DelayedStart();
-	actor->maxspeed = 15.5f;
+	actor->maxspeed = 15.5f + Settings::ScaleWithDifficulty(-1.0f, 0.0f, 1.5f);
 	actor->acceleration = 50.0f;
 	actor->friction = 0.5f;
 	actor->maxfall = 15.0f;
@@ -68,6 +74,8 @@ void ChaosCaliph::DelayedStart()
 
 	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
 	animController->SetSpeed(REVIVE_ANIM, 0.0f);
+
+	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(ChaosCaliph, OnSettingsChange));
 }
 
 void ChaosCaliph::Execute()
@@ -132,7 +140,7 @@ void ChaosCaliph::Execute()
 				shot = true;
 				for (int i = -1; i <= 1; ++i)
 				{
-					if (i == 0) continue;
+					if (i == 0 && Settings::GetDifficulty() < 1.4f) continue;
 					Fireball::MakeBlueFireball(scene, 
 						node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f) + (node_->GetWorldDirection() * 2.0f),
 						Quaternion((i*30.0f) + node_->GetWorldRotation().EulerAngles().y_, Vector3::UP),

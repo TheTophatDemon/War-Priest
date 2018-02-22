@@ -13,6 +13,7 @@
 #include "Debris.h"
 #include "Zeus.h"
 #include "ChaosCaliph.h"
+#include "Settings.h"
 
 Statue::Statue(Context* context) : 
 	LogicComponent(context),
@@ -47,7 +48,7 @@ void Statue::Damage(const int amount, const bool silent)
 {
 	if (shakeTimer < 0.5f) 
 	{
-		health -= amount;
+		health -= amount * Settings::ScaleWithDifficulty(3.0f, 1.0f, 1.0f);
 		if (!silent) shakeTimer = 1.0f;
 	}
 }
@@ -77,7 +78,7 @@ void Statue::FixedUpdate(float timeStep)
 	if (health <= 0)
 	{
 		deathTimer += timeStep;
-		translatePosition += Vector3(0.0f, -timeStep * 5.0f, 0.0f);
+		translatePosition += Vector3(0.0f, -timeStep * 6.0f, 0.0f);
 		if (deathTimer > radius / 2.0f)
 		{
 			node_->Remove();

@@ -23,12 +23,13 @@ public:
 	virtual void Revive();
 	~DangerDeacon();
 protected:
-	float strafeAmt;
+	void OnSettingsChange(StringHash eventType, VariantMap& eventData);
 	virtual void Execute();
 	virtual void Dead();
 	virtual void EnterState(const int newState);
 	virtual void LeaveState(const int oldState);
 	SharedPtr<Node> orbThing;
 	SharedPtr<StaticModel> orbModel;
+	float strafeAmt;
 };
 

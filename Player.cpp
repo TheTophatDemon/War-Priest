@@ -282,7 +282,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 	{
 		if (state != STATE_DROWN)
 		{
-			health -= 22; //Adjust for difficulty
+			health -= floor(22 * Settings::GetDifficulty());
 			ChangeState(STATE_DROWN);
 		}
 	}
@@ -322,7 +322,7 @@ void Player::Hurt(Node* source, int amount)
 {
 	if (state != STATE_WIN && hurtTimer <= 0 && state != STATE_SLIDE && (lastState != STATE_DROWN || stateTimer > 3.5f) && state != STATE_DROWN) 
 	{
-		health -= amount;
+		health -= amount * Settings::GetDifficulty();
 		bloodEmitter->SetEmitting(true);
 		hurtTimer = 25;
 		if (source)

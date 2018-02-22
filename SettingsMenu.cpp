@@ -21,13 +21,11 @@ void SettingsMenu::OnEnter()
 	GP::Menu::OnEnter();
 	input = titleScreen->GetSubsystem<Input>();
 
-	restartText = titleScreen->ourUI->GetChildDynamicCast<Text>("restartText", true);
-	restartText->SetVisible(false);
-
 	controlsPanel = titleScreen->ourUI->GetChild("controlsPanel", true);
 	musicVolumeSlider = titleScreen->ourUI->GetChildDynamicCast<Slider>("musicVolumeSlider", true);
 	soundVolumeSlider = titleScreen->ourUI->GetChildDynamicCast<Slider>("soundVolumeSlider", true);
 	sensitivitySlider = titleScreen->ourUI->GetChildDynamicCast<Slider>("sensitivitySlider", true);
+	difficultySlider = titleScreen->ourUI->GetChildDynamicCast<Slider>("difficultySlider", true);
 
 	graphicsCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("graphicsCheck", true);
 	bloodCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("bloodCheck", true);
@@ -85,6 +83,7 @@ void SettingsMenu::UpdateControls() //Syncs the ui controls to the actual settin
 	musicVolumeSlider->SetValue(Settings::GetMusicVolume() * musicVolumeSlider->GetRange());
 	soundVolumeSlider->SetValue(Settings::GetSoundVolume() * soundVolumeSlider->GetRange());
 	sensitivitySlider->SetValue(Settings::GetMouseSensitivity() * sensitivitySlider->GetRange());
+	difficultySlider->SetValue((Settings::GetDifficulty() - 0.5f) * difficultySlider->GetRange());
 	
 	graphicsCheck->SetChecked(Settings::AreGraphicsFast());
 	bloodCheck->SetChecked(Settings::IsBloodEnabled());
@@ -237,6 +236,7 @@ void SettingsMenu::ApplySettings()
 	Settings::musicVolume = musicVolumeSlider->GetValue() / musicVolumeSlider->GetRange();
 	Settings::soundVolume = soundVolumeSlider->GetValue() / soundVolumeSlider->GetRange();
 	Settings::mouseSensitivity = sensitivitySlider->GetValue() / sensitivitySlider->GetRange();
+	Settings::difficulty = (difficultySlider->GetValue() / difficultySlider->GetRange()) + 0.5f;
 
 	Settings::bloodEnabled = bloodCheck->IsChecked();
 	Settings::mouseInvert = invertMouseCheck->IsChecked();
@@ -246,7 +246,7 @@ void SettingsMenu::ApplySettings()
 
 	Settings::xRes = resButtons[selectedRes].resX;
 	Settings::yRes = resButtons[selectedRes].resY;
-	
+
 	titleScreen->gunPriest->VideoSetup();
 	ui->SetWidth(1280);
 
@@ -254,11 +254,9 @@ void SettingsMenu::ApplySettings()
 	{
 		*rebindButtons[i].setting = rebindButtons[i].value;
 	}
-
-	VariantMap map = VariantMap();
-	titleScreen->SendEvent(Settings::E_SETTINGSCHANGED, map);
+	
+	titleScreen->SendEvent(Settings::E_SETTINGSCHANGED, VariantMap());
 }
-
 void SettingsMenu::OnLeave()
 {
 	Audio* audio = titleScreen->GetSubsystem<Audio>();

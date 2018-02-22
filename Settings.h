@@ -27,12 +27,15 @@ public:
 	static inline float GetMouseSensitivity() { return mouseSensitivity; }
 	static inline float GetMusicVolume() { return musicVolume; }
 	static inline float GetSoundVolume() { return soundVolume; }
+	static inline float GetDifficulty() { return difficulty; }
 	static inline bool IsMouseInverted() { return mouseInvert; }
 	static inline bool IsBloodEnabled() { return bloodEnabled; }
 	static inline bool IsFullScreen() { return fullScreen; }
 	static inline bool IsVsync() { return vSync; }
 	static inline bool AreGraphicsFast() { return fastGraphics; }
+
 	static bool IsKeyDown(Input* input, int key);
+	static float ScaleWithDifficulty(const float easyValue, const float hardValue, const float unholyValue);
 
 	static StringHash E_SETTINGSCHANGED;
 protected:
@@ -48,6 +51,7 @@ protected:
 	static float mouseSensitivity;
 	static float musicVolume;
 	static float soundVolume;
+	static float difficulty;
 	static bool mouseInvert;
 	static bool bloodEnabled;
 	static bool fullScreen;

@@ -254,9 +254,23 @@ void PostalPope::SummonDebris()
 		}
 		debris.Clear();
 	}
-	for (int i = 0; i < 5; ++i) //Summon more debris
+	int count = 5;
+	const float difficulty = Settings::GetDifficulty();
+	if (difficulty < 1.4f && difficulty >= 0.75f)
+		count = 5;
+	if (difficulty >= 1.4f)
+		count = 7;
+	else if (difficulty >= 1.25f)
+		count = 6;
+	if (difficulty < 0.55f)
+		count = 3;
+	else if (difficulty < 0.75f)
+		count = 4;
+	
+
+	for (int i = 0; i < count; ++i) //Summon more debris
 	{
-		const float angle = (M_PI / 2.5f) * i;
+		const float angle = (M_PI / (count / 2.0f)) * i;
 		Node* n = spinner->CreateChild();
 		n->LoadXML(cache->GetResource<XMLFile>("Objects/rock.xml")->GetRoot());
 		n->SetPosition(Vector3(cosf(angle) * 4.0f, 0.0f, sinf(angle) * 4.0f));

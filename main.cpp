@@ -1,28 +1,16 @@
 //TODO:
 	//Modify cross imagery
-	//Sacsand3
-		//Pope hat cacti
-		//Protect staircase portion
-		//Reduce CC # in side group
-		//More health in first area
-		//Texture error at runways
-		//DDs can't jump over star thingy
-	//Tweak Sacsand1
-		//Make statues weaker (particularly the DD one)
-		//Can slip past DD statue
-		//Can jump fence with launchpad
+	//Pope hat cacti
+	//Investigate CC & Platorm issue
+	//Investigate rising platform issue
 	//Sacsand4
+		//Killer Kaaba (Make move speed adjustable)
 	//Sinsyn
 	//Crossroads
 	//Credits
 	//Palpan2
 	//Palpan1
 
-	//Difficulty Modes
-		//Easier modes modify:
-			//CC spin speed
-			//Revive speed
-			//DD stun period
 	//Sounds
 		//Player death
 		//God beam
@@ -33,12 +21,12 @@
 	//Roblox?
 	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. Do final test through every level.
 	//Remove health from sacsand2
+	//Fix exploit on sacsand1
 	//Package assets
 
 	//Freezes on SDL_Delay called by DirectSound upon Alt-Tab
 //Level Ideas
 	//Giant cross platform rising up and down
-	//A bunch of spiky pyramid things with a bunch of PostalPopes at the top
 	//Lifts sticking out of walls
 	//Gigantic open area in center w/ bunch of lifts on edge heading towards small islands surrounding the center.
 	//Make use of the beam material so that something's invisible until you revive.

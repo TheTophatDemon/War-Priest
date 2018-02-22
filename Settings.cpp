@@ -5,6 +5,7 @@
 #include <Urho3D/IO/File.h>
 
 String Settings::GAMESETTINGS_PATH = "/Data/gamesettings.bin";
+StringHash Settings::E_SETTINGSCHANGED = StringHash("SettingsChanged");
 
 #define DF_FASTGRAPHICS false
 #define DF_MOUSEINVERT false
@@ -15,6 +16,7 @@ String Settings::GAMESETTINGS_PATH = "/Data/gamesettings.bin";
 #define DF_MOUSESENS 0.25f
 #define DF_MUSVOL 0.5f
 #define DF_SNDVOL 0.5f
+#define DF_DIFF 1.0f
 
 #define DF_KBACK 115
 #define DF_KFOR 119
@@ -27,8 +29,6 @@ String Settings::GAMESETTINGS_PATH = "/Data/gamesettings.bin";
 #define DF_XRES 1280
 #define DF_YRES 720
 
-StringHash Settings::E_SETTINGSCHANGED = StringHash("SettingsChanged");
-
 bool Settings::fastGraphics = DF_FASTGRAPHICS;
 bool Settings::mouseInvert = DF_MOUSEINVERT;
 bool Settings::bloodEnabled = DF_BLOOD;
@@ -38,6 +38,7 @@ bool Settings::vSync = DF_VSYNC;
 float Settings::mouseSensitivity = DF_MOUSESENS;
 float Settings::musicVolume = DF_MUSVOL;
 float Settings::soundVolume = DF_SNDVOL;
+float Settings::difficulty = DF_DIFF;
 
 int Settings::keyBackward = DF_KBACK;
 int Settings::keyForward = DF_KFOR;
@@ -69,6 +70,7 @@ void Settings::RevertSettings()
 	xRes = DF_XRES;
 	yRes = DF_YRES;
 	fastGraphics = DF_FASTGRAPHICS;
+	difficulty = DF_DIFF;
 }
 
 void Settings::LoadSettings(Context* context)
@@ -97,8 +99,10 @@ void Settings::LoadSettings(Context* context)
 		keyRevive = file->ReadInt();
 		keySlide = file->ReadInt();
 
-		//xRes = file->ReadInt();
-		//yRes = file->ReadInt();
+		xRes = file->ReadInt();
+		yRes = file->ReadInt();
+
+		difficulty = file->ReadFloat();
 		
 		file->Close();
 	}
@@ -137,6 +141,8 @@ void Settings::SaveSettings(Context* context)
 
 		file->WriteInt(xRes);
 		file->WriteInt(yRes);
+
+		file->WriteFloat(difficulty);
 		file->Close();
 	}
 }
@@ -151,4 +157,20 @@ bool Settings::IsKeyDown(Input* input, int key) //A hack that subtitutes certain
 		return true;
 	else
 		return input->GetKeyDown(key);
+}
+
+float Settings::ScaleWithDifficulty(const float easyValue, const float hardValue, const float unholyValue)
+{
+	float scaledDifficulty = GetDifficulty() - 0.5f;
+	if (scaledDifficulty >= 0.5f)
+	{
+		scaledDifficulty -= 0.5f;
+		scaledDifficulty *= 2.0f;
+		return (hardValue * (1.0f - scaledDifficulty)) + (unholyValue * scaledDifficulty);
+	}
+	else
+	{
+		scaledDifficulty *= 2.0f;
+		return (easyValue * (1.0f - scaledDifficulty)) + (hardValue * scaledDifficulty);
+	}
 }

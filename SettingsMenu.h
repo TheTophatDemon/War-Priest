@@ -43,12 +43,12 @@ protected:
 	void UpdateButtonLabel(RebindButton& butt);
 
 	SharedPtr<Input> input;
-	SharedPtr<Text> restartText;
 	SharedPtr<UIElement> controlsPanel;
 
 	SharedPtr<Slider> musicVolumeSlider;
 	SharedPtr<Slider> soundVolumeSlider;
 	SharedPtr<Slider> sensitivitySlider;
+	SharedPtr<Slider> difficultySlider;
 
 	SharedPtr<CheckBox> graphicsCheck;
 	SharedPtr<CheckBox> bloodCheck;
@@ -64,7 +64,7 @@ protected:
 
 	RebindButton rebindButtons[7];
 	RebindButton* rebindButton;
-
+	
 	bool rebinding = false;
 };
 

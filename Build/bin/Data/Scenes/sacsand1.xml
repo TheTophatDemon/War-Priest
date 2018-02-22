@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="3" />
 	<attribute name="Next Replicated Component ID" value="5" />
-	<attribute name="Next Local Node ID" value="16778532" />
-	<attribute name="Next Local Component ID" value="16781564" />
+	<attribute name="Next Local Node ID" value="16778538" />
+	<attribute name="Next Local Component ID" value="16781636" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="sacredsands.ogg" />
 	</attribute>
@@ -551,7 +551,7 @@
 			<attribute name="Tags">
 				<string value="prop" />
 			</attribute>
-			<attribute name="Position" value="95.8713 -3.00933 8.33693" />
+			<attribute name="Position" value="95.8713 -5.75113 17.2956" />
 			<attribute name="Rotation" value="0.99837 -0.0570725 0 0" />
 			<attribute name="Scale" value="2.66667 2.66667 2.66667" />
 			<attribute name="Variables" />
@@ -717,10 +717,12 @@
 		<attribute name="Tags">
 			<string value="statue" />
 		</attribute>
-		<attribute name="Position" value="143.118 -70.9265 22.0817" />
+		<attribute name="Position" value="143.529 -69.0962 16.032" />
 		<attribute name="Rotation" value="0.676425 0.100082 -0.721821 -0.106799" />
 		<attribute name="Scale" value="1.75 1.75 1.75" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="2768288956" type="Float" value="75" />
+		</attribute>
 		<component type="StaticModel" id="16780885">
 			<attribute name="Model" value="Model;Models/props/statue.mdl" />
 			<attribute name="Material" value="Material;Materials/dirt.xml" />
@@ -728,7 +730,7 @@
 		<component type="CollisionShape" id="16780886" />
 		<component type="RigidBody" id="16780887">
 			<attribute name="Physics Rotation" value="0.676426 0.100083 -0.721821 -0.106799" />
-			<attribute name="Physics Position" value="143.118 -70.9265 22.0817" />
+			<attribute name="Physics Position" value="143.529 -69.0962 16.032" />
 			<attribute name="Collision Layer" value="2" />
 			<attribute name="Use Gravity" value="false" />
 		</component>
@@ -772,7 +774,7 @@
 		<attribute name="Scale" value="1.5 1 1.5" />
 		<attribute name="Variables">
 			<variant hash="1366131055" type="Vector3" value="0 10 0" />
-			<variant hash="588515681" type="Float" value="4" />
+			<variant hash="588515681" type="Float" value="2" />
 			<variant hash="273365031" type="Float" value="4" />
 			<variant hash="3779712780" type="Float" value="0" />
 		</attribute>
@@ -878,11 +880,11 @@
 		<attribute name="Tags">
 			<string value="statue" />
 		</attribute>
-		<attribute name="Position" value="109.881 -74.9962 72.4376" />
+		<attribute name="Position" value="109.748 -74.9962 71.7939" />
 		<attribute name="Rotation" value="0.994827 0 0.101578 0" />
-		<attribute name="Scale" value="1.75 1.75 1.75" />
+		<attribute name="Scale" value="2 2 2" />
 		<attribute name="Variables">
-			<variant hash="2768288956" type="Int" value="200" />
+			<variant hash="2768288956" type="Int" value="100" />
 		</attribute>
 		<component type="StaticModel" id="16780951">
 			<attribute name="Model" value="Model;Models/props/statue.mdl" />
@@ -891,7 +893,7 @@
 		<component type="CollisionShape" id="16780952" />
 		<component type="RigidBody" id="16780953">
 			<attribute name="Physics Rotation" value="0.994828 0 0.101578 0" />
-			<attribute name="Physics Position" value="109.881 -74.9962 72.4376" />
+			<attribute name="Physics Position" value="109.748 -74.9962 71.7939" />
 			<attribute name="Collision Layer" value="2" />
 			<attribute name="Use Gravity" value="false" />
 		</component>
@@ -906,7 +908,7 @@
 		<attribute name="Rotation" value="-0.428448 0 0.903566 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
-			<variant hash="2768288956" type="Int" value="200" />
+			<variant hash="2768288956" type="Int" value="50" />
 		</attribute>
 		<component type="StaticModel" id="16780954">
 			<attribute name="Model" value="Model;Models/props/statue.mdl" />
@@ -1107,11 +1109,11 @@
 		<attribute name="Tags">
 			<string value="statue" />
 		</attribute>
-		<attribute name="Position" value="162.705 -77.6507 69.9649" />
+		<attribute name="Position" value="162.705 -77.6507 69.7915" />
 		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1.5 1.5 1.5" />
+		<attribute name="Scale" value="1.75 1.75 1.75" />
 		<attribute name="Variables">
-			<variant hash="2768288956" type="Int" value="200" />
+			<variant hash="2768288956" type="Int" value="75" />
 		</attribute>
 		<component type="StaticModel" id="16781003">
 			<attribute name="Model" value="Model;Models/props/statue.mdl" />
@@ -1119,7 +1121,7 @@
 		</component>
 		<component type="CollisionShape" id="16781004" />
 		<component type="RigidBody" id="16781005">
-			<attribute name="Physics Position" value="162.705 -77.6507 69.9649" />
+			<attribute name="Physics Position" value="162.705 -77.6507 69.7915" />
 			<attribute name="Collision Layer" value="2" />
 			<attribute name="Use Gravity" value="false" />
 		</component>
@@ -1225,17 +1227,19 @@
 		<attribute name="Tags">
 			<string value="launchpad" />
 		</attribute>
-		<attribute name="Position" value="142.897 -71.9434 21.7032" />
+		<attribute name="Position" value="142.897 -70.1013 15.7955" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="2 2 2" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="1350475192" type="Float" value="27" />
+		</attribute>
 		<component type="CollisionShape" id="16781033">
 			<attribute name="Shape Type" value="Cylinder" />
 			<attribute name="Size" value="1.8 0.75 1" />
 			<attribute name="Offset Position" value="0 0.18 0" />
 		</component>
 		<component type="RigidBody" id="16781034">
-			<attribute name="Physics Position" value="142.897 -71.9434 21.7032" />
+			<attribute name="Physics Position" value="142.897 -70.1013 15.7955" />
 			<attribute name="Use Gravity" value="false" />
 			<attribute name="Is Trigger" value="true" />
 		</component>

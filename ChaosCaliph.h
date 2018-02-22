@@ -31,6 +31,7 @@ protected:
 	virtual void EnterState(const int newState);
 	virtual void LeaveState(const int oldState);
 	void OnCollision(StringHash eventType, VariantMap& eventData);
+	void OnSettingsChange(StringHash eventType, VariantMap& eventData);
 
 	SharedPtr<AnimatedModel> animModel;
 	SharedPtr<Material> glowyMaterial;

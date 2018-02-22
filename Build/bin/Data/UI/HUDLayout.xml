@@ -2,20 +2,39 @@
 <element>
 	<attribute name="Name" value="hud" />
 	<attribute name="Size" value="1280 720" />
+	<attribute name="Pivot" value="0 0" />
 	<element type="Sprite" style="Sprite">
 		<attribute name="Name" value="healthbar" />
-		<attribute name="Size" value="640 32" />
+		<attribute name="Position" value="0 -8" />
+		<attribute name="Size" value="640 48" />
 		<attribute name="Hotspot" value="320 64" />
 		<attribute name="Texture" value="Texture2D;UI/healthbar.png" />
-		<attribute name="Image Rect" value="0 0 640 64" />
+		<attribute name="Image Rect" value="0 0 640 96" />
 		<attribute name="Horiz Alignment" value="Center" />
 		<attribute name="Vert Alignment" value="Bottom" />
+		<element type="Sprite" style="Sprite">
+			<attribute name="Name" value="reviveCooldown" />
+			<attribute name="Position" value="6 34" />
+			<attribute name="Size" value="628 10" />
+			<attribute name="Texture" value="Texture2D;UI/health.png" />
+			<attribute name="Image Rect" value="0 0 1 64" />
+			<attribute name="Color" value="0 1 1 1" />
+			<attribute name="Top Left Color" value="0 1 1 1" />
+			<attribute name="Top Right Color" value="0 1 1 1" />
+			<attribute name="Bottom Left Color" value="0 1 1 1" />
+			<attribute name="Bottom Right Color" value="0 1 1 1" />
+		</element>
 		<element type="Sprite" style="Sprite">
 			<attribute name="Name" value="health" />
 			<attribute name="Position" value="6 5" />
 			<attribute name="Size" value="628 22" />
 			<attribute name="Texture" value="Texture2D;UI/health.png" />
 			<attribute name="Image Rect" value="0 0 1 64" />
+			<attribute name="Color" value="0.5 1 0.5 1" />
+			<attribute name="Top Left Color" value="0.5 1 0.5 1" />
+			<attribute name="Top Right Color" value="0.5 1 0.5 1" />
+			<attribute name="Bottom Left Color" value="0.5 1 0.5 1" />
+			<attribute name="Bottom Right Color" value="0.5 1 0.5 1" />
 		</element>
 	</element>
 	<element type="Sprite" style="Sprite">
