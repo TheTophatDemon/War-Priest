@@ -11,7 +11,6 @@
 #include <Urho3D/Graphics/ParticleEmitter.h>
 
 #include "Enemy.h"
-#include "Blackstone.h"
 
 using namespace Urho3D;
 

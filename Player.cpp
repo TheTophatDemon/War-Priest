@@ -269,14 +269,14 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
 	if (otherBody->GetCollisionLayer() & 2)
 	{
-		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
+		/*VectorBuffer contacts = eventData["Contacts"].GetBuffer();
 		while (!contacts.IsEof())
 		{
 			Vector3 position = contacts.ReadVector3();
 			Vector3 normal = contacts.ReadVector3();
 			float distance = contacts.ReadFloat();
 			float impulse = contacts.ReadFloat();
-		}
+		}*/
 	}
 	else if (other->HasTag("water"))
 	{

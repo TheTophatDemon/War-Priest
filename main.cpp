@@ -1,10 +1,14 @@
 //TODO:
+	//Modify lift logic
+
+	//Sacsand4
+		//Killer Kaaba
+			//Attacking
 	//Modify cross imagery
 	//Pope hat cacti
-	//Investigate CC & Platorm issue
-	//Investigate rising platform issue
-	//Sacsand4
-		//Killer Kaaba (Make move speed adjustable)
+
+	//Optimize enemies by setting collision event mode to not always	
+
 	//Sinsyn
 	//Crossroads
 	//Credits
@@ -35,11 +39,6 @@
 		//Like danger deacon, but jumps alot and doesn't explode. Can maneuver around pits.
 	//Radical Rabi?
 		//Rides skateboard.
-	
-//Potential Optimizations:
-	//Update event masks
-	//Disable scripts on objects that are far away
-	//Split map into multiple sections
 
 //Complaints:
 	//It'd be nice to have an event that fires right before the physics steps for keeping track of flags
@@ -56,7 +55,7 @@
 	//1 = ANYTHING THAT'S NOT THE MAP
 	//2 = CAN BE JUMPED ON/SLOPED
 	//4 = SHOOTABLE
-	//8 = GROUND DETECTOR
+	//8 = GROUND DETECTOR / TRIGGER
 	//16 = SHIELD/ONLY PROJECTILES CAN TOUCH
 	//32 = ITEM
 	//64 = ENEMY

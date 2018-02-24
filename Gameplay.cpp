@@ -321,6 +321,14 @@ void Gameplay::SetupGame()
 		n->AddComponent(bonus, 0, LOCAL);
 	}
 
+	//Killed Kaaba
+	Node* kk = scene_->GetChild("killedkaaba");
+	if (kk != nullptr)
+	{
+		KilledKaaba* kkc = new KilledKaaba(context_);
+		kk->AddComponent(kkc, 999, LOCAL);
+	}
+
 	SetupEnemy();
 	SetupProps();
 	

@@ -6,15 +6,19 @@
 #include <Urho3D/Physics/RigidBody.h>
 #include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
+#include <Urho3D/AngelScript/APITemplates.h>
 #include "Lift.h"
 
 using namespace Urho3D;
 
 class Actor : public LogicComponent
 {
+	URHO3D_OBJECT(Actor, LogicComponent);
 public:
 	Actor(Context* context);
 	static void RegisterObject(Context* context);
+	virtual void ApplyAttributes();
+	
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
 	void SetMovement(bool fw, bool bk, bool lf, bool rg);

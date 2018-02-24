@@ -44,6 +44,25 @@ Actor::Actor(Context* context) : LogicComponent(context)
 void Actor::RegisterObject(Context* context)
 {
 	context->RegisterFactory<Actor>();
+	URHO3D_ATTRIBUTE("Acceleration", float, acceleration, 150.0f, AM_DEFAULT);
+	URHO3D_ATTRIBUTE("Max Speed", float, maxspeed, 15.0f, AM_DEFAULT);
+	URHO3D_ATTRIBUTE("Friction", float, friction, 0.85f, AM_DEFAULT);
+	URHO3D_ATTRIBUTE("Fall Speed", float, fallspeed, 50.0f, AM_DEFAULT);
+	URHO3D_ATTRIBUTE("Max Fall", float, maxfall, 30.0f, AM_DEFAULT);
+	URHO3D_ATTRIBUTE("Jump Strength", float, jumpStrength, 18.0f, AM_DEFAULT);
+	URHO3D_ATTRIBUTE("On Ground", bool, onGround, false, AM_DEFAULT);
+	URHO3D_ATTRIBUTE("Gravity Enabled", bool, gravity, true, AM_DEFAULT);
+}
+
+void Actor::ApplyAttributes()
+{
+	acceleration = node_->GetAttribute("Acceleration").GetFloat();
+	maxspeed = node_->GetAttribute("Max Speed").GetFloat();
+	friction = node_->GetAttribute("Friction").GetFloat();
+	fallspeed = node_->GetAttribute("Fall Speed").GetFloat();
+	maxfall = node_->GetAttribute("Max Fall").GetFloat();
+	jumpStrength = node_->GetAttribute("Jump Strength").GetFloat();
+	gravity = node_->GetAttribute("Gravity Enabled").GetBool();
 }
 
 void Actor::Start()
