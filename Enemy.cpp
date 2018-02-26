@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "Urho3D/Physics/CollisionShape.h"
 #include "Urho3D/Core/Context.h"
+#include <Urho3D/Physics/PhysicsEvents.h>
 #include <iostream>
 
 #include "Gameplay.h"
@@ -236,8 +237,22 @@ void Enemy::KeepOnGround()
 			node_->SetWorldPosition(result.position_);
 			if (result.body_->GetNode()->HasTag("lift"))
 			{
-				node_->SetParent(result.body_->GetNode());
-				//node_->SetWorldRotation(result.body_->GetNode()->GetWorldRotation());
+				//The corpse's mass cannot be anything other than 0. However, we need lifts to recognize their presence so that
+				//corpses rotate when they're resting on lifts.
+				//Here, we're making a fake NodeCollision event and having the lift's node send it
+				//This will trick the lift into registering the corpse as an object that moves along with it
+				VariantMap map = VariantMap();
+				map.Insert(Pair<StringHash, Variant>(NodeCollision::P_BODY, Variant(result.body_)));
+				map.Insert(Pair<StringHash, Variant>(NodeCollision::P_OTHERBODY, Variant(body)));
+				map.Insert(Pair<StringHash, Variant>(NodeCollision::P_OTHERNODE, Variant(node_)));
+				map.Insert(Pair<StringHash, Variant>(NodeCollision::P_TRIGGER, Variant(false)));
+				VectorBuffer contacts = VectorBuffer();
+				contacts.WriteVector3(node_->GetWorldPosition()); //Position
+				contacts.WriteVector3(Vector3(0.0f, -1.0f, 0.0f)); //Normal (Make it think we're on top)
+				contacts.WriteFloat(0.0f); //Distance
+				contacts.WriteFloat(0.0f); //Impulse
+				map.Insert(Pair<StringHash, Variant>(NodeCollision::P_CONTACTS, Variant(contacts)));
+				result.body_->GetNode()->SendEvent(E_NODECOLLISION, map);
 			}
 		}
 	}

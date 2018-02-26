@@ -38,6 +38,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	Bonus::RegisterObject(context);
 	KilledKaaba::RegisterObject(context);
 
+	pause = false;
 	state = STATE_TITLE;
 }
 
@@ -179,6 +180,19 @@ void GunPriest::Update(StringHash eventType, VariantMap& eventData)
 {
 	if (state == STATE_GAME)
 	{
+		if (input->GetKeyDown(KEY_KP_MULTIPLY))
+		{
+			pause = true;
+			if (input->GetKeyPress(KEY_KP_MINUS))
+			{
+				pause = false;
+			}
+		}
+		else
+		{
+			pause = false;
+		}
+		scene_->SetUpdateEnabled(!pause);
 		if (input->GetKeyPress(KEY_ESCAPE))
 		{
 			ChangeState(STATE_TITLE);

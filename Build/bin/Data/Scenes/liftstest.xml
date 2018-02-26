@@ -7,10 +7,10 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16777663" />
-	<attribute name="Next Local Component ID" value="16778718" />
+	<attribute name="Next Local Node ID" value="16777668" />
+	<attribute name="Next Local Component ID" value="16778769" />
 	<attribute name="Variables" />
-	<attribute name="Variable Names" value="spawnertype;spawnerdistance;simpleHitbox;movement;restTime;speed;rotateSpeed" />
+	<attribute name="Variable Names" value="spawnertype;spawnerdistance;simpleHitbox;movement;restTime;speed;rotateSpeed;waitForPlayer" />
 	<component type="Octree" id="1" />
 	<component type="DebugRenderer" id="2" />
 	<component type="PhysicsWorld" id="3">
@@ -418,14 +418,15 @@
 		<attribute name="Tags">
 			<string value="lift" />
 		</attribute>
-		<attribute name="Position" value="186.893 9.91823 -3.64844" />
+		<attribute name="Position" value="186.893 -1.8918 -3.64844" />
 		<attribute name="Rotation" value="0.707107 0 0.707107 0" />
 		<attribute name="Scale" value="2 2 2" />
 		<attribute name="Variables">
-			<variant hash="1366131055" type="Vector3" value="0 -10 0" />
+			<variant hash="1366131055" type="Vector3" value="0 30 0" />
 			<variant hash="588515681" type="Float" value="1" />
-			<variant hash="273365031" type="Float" value="4" />
+			<variant hash="273365031" type="Float" value="2" />
 			<variant hash="3779712780" type="Float" value="50" />
+			<variant hash="3807544725" type="Bool" value="true" />
 		</attribute>
 		<component type="StaticModel" id="16778119">
 			<attribute name="Model" value="Model;Models/lift.mdl" />
@@ -436,7 +437,7 @@
 		</component>
 		<component type="RigidBody" id="16778121">
 			<attribute name="Physics Rotation" value="0.707107 0 0.707107 0" />
-			<attribute name="Physics Position" value="186.893 9.91823 -3.64844" />
+			<attribute name="Physics Position" value="186.893 -1.8918 -3.64844" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Linear Factor" value="0 0 0" />
 			<attribute name="Angular Factor" value="0 0 0" />

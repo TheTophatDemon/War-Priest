@@ -37,8 +37,6 @@ Actor::Actor(Context* context) : LogicComponent(context)
 
 	rawMovement = Vector3::ZERO;
 	finalMovement = Vector3::ZERO;
-	lastPosition = Vector3::ZERO;
-	liftOn = nullptr;
 }
 
 void Actor::RegisterObject(Context* context)
@@ -72,12 +70,7 @@ void Actor::Start()
 	physworld = scene->GetComponent<PhysicsWorld>();
 	shape = node_->GetComponent<CollisionShape>();
 
-	liftHelper = scene->CreateChild();
-	WeakChild::MakeWeakChild(liftHelper, node_);
-
-	lastPosition = node_->GetWorldPosition();
-
-	SubscribeToEvent(GetNode(), E_NODECOLLISIONSTART, URHO3D_HANDLER(Actor, OnCollisionStart));
+	//SubscribeToEvent(GetNode(), E_NODECOLLISIONSTART, URHO3D_HANDLER(Actor, OnCollisionStart));
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Actor, OnCollision));
 	//SubscribeToEvent(GetNode(), E_NODECOLLISIONEND, URHO3D_HANDLER(Actor, OnCollisionEnd));
 }
@@ -142,34 +135,6 @@ void Actor::Move(float timeStep)
 {
 	deltaTime = timeStep;
 	if (fabs(deltaTime) > 10.0f) deltaTime = 0.0f;
-
-	const Vector3 physicsMovement = node_->GetWorldPosition() - lastPosition;
-
-	if (liftOn)
-	{
-		onGround = true;
-		node_->SetWorldPosition(liftHelper->GetWorldPosition() + physicsMovement);
-		//Check manually if we're still on the moving platform because using Collision End events causes unbearable jittering
-		PhysicsRaycastResult stillOn;
-		physworld->SphereCast(stillOn, Ray(node_->GetWorldPosition() + Vector3(0.0f, shape->GetSize().x_, 0.0f), Vector3::DOWN), shape->GetSize().x_, 100, 2U);
-		bool diddly = false;
-		if (stillOn.body_)
-		{
-			if (!stillOn.body_->GetNode()->HasTag("lift") || stillOn.distance_ >= shape->GetSize().x_ + 0.1f)
-			{
-				diddly = true;
-			}
-		}
-		else
-		{
-			diddly = true;
-		}
-		if (diddly)
-		{
-			liftOn = nullptr;
-			liftHelper->SetParent(scene);
-		}
-	}
 
 	//Falling logic
 	sloping = false;
@@ -236,14 +201,6 @@ void Actor::Move(float timeStep)
 	GetSlope();
 
 	onGround = false;
-
-	if (liftOn)
-	{
-		liftHelper->SetWorldPosition(node_->GetWorldPosition());
-		onGround = true;
-	}
-
-	lastPosition = node_->GetWorldPosition();
 }
 
 void Actor::KnockBack(float amount, Quaternion direction)
@@ -264,31 +221,6 @@ void Actor::GetSlope()
 	if (downCast.body_)
 	{
 		slopeSteepness = downCast.normal_.y_;
-	}
-}
-
-void Actor::OnCollisionStart(StringHash eventType, VariantMap& eventData)
-{
-	Node* other = (Node*)eventData["OtherNode"].GetPtr();
-	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (other->HasTag("lift"))
-	{
-		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
-		while (!contacts.IsEof())
-		{
-			Vector3 position = contacts.ReadVector3();
-			Vector3 normal = contacts.ReadVector3();
-			float distance = contacts.ReadFloat();
-			float impulse = contacts.ReadFloat();
-			if (position.y_ <= node_->GetWorldPosition().y_ + 0.5f && fabs(normal.y_) >= 0.42f)
-			{
-				liftOn = other;
-				liftHelper->SetWorldPosition(node_->GetWorldPosition());
-				liftHelper->SetParent(other);
-				break;
-			}
-		}
-
 	}
 }
 
@@ -319,12 +251,6 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 			}
 		}
 	}
-}
-
-void Actor::OnCollisionEnd(StringHash eventType, VariantMap& eventData)
-{
-	Node* other = (Node*)eventData["OtherNode"].GetPtr();
-	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
 }
 
 Actor::~Actor()

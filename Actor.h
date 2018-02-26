@@ -37,33 +37,26 @@ public:
 	float fallspeed = 0.0f;
 	float maxfall = 0.0f;
 	float jumpStrength = 0.0f;
-
 	float forward = 0.0f;
 	float strafe = 0.0f;
 	float fall = 0.0f;
 	float slopeSteepness = 0.0f;
-	WeakPtr<Node> liftOn;
 	bool onGround = false;
 	bool sloping = false;
 	bool gravity = true;
 	
 protected:
-	float deltaTime = 0.0f;
 	void GetSlope();
-	void OnCollisionStart(StringHash eventType, VariantMap& eventData);
 	void OnCollision(StringHash eventType, VariantMap& eventData);
-	void OnCollisionEnd(StringHash eventType, VariantMap& eventData);
+
 	SharedPtr<PhysicsWorld> physworld;
 	SharedPtr<Scene> scene;
 	WeakPtr<RigidBody> body;
 	SharedPtr<CollisionShape> shape;
-
-	SharedPtr<Node> liftHelper;
-	Vector3 lastPosition;
 	
 	PhysicsRaycastResult downCast;
-
 	Quaternion knockBackDirection;
 	float knockBack = 0.0f;
+	float deltaTime = 0.0f;
 };
 

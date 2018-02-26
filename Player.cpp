@@ -186,6 +186,11 @@ void Player::Start()
 
 void Player::FixedUpdate(float timeStep)
 {	
+	if (state != STATE_WIN && state != STATE_DEAD)
+	{
+		modelNode->SetPosition(node_->GetWorldPosition());
+		modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
+	}
 	//Cheats
 	if (input->GetKeyDown(KEY_K))
 	{
@@ -257,8 +262,8 @@ void Player::FixedUpdate(float timeStep)
 
 	if (state != STATE_WIN && state != STATE_DEAD) 
 	{
-		modelNode->SetPosition(node_->GetWorldPosition());
-		modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
+		//modelNode->SetPosition(body->GetPosition());
+		//modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
 		HandleCamera();
 	}
 }
@@ -269,14 +274,14 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
 	if (otherBody->GetCollisionLayer() & 2)
 	{
-		/*VectorBuffer contacts = eventData["Contacts"].GetBuffer();
+		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
 		while (!contacts.IsEof())
 		{
 			Vector3 position = contacts.ReadVector3();
 			Vector3 normal = contacts.ReadVector3();
 			float distance = contacts.ReadFloat();
 			float impulse = contacts.ReadFloat();
-		}*/
+		}
 	}
 	else if (other->HasTag("water"))
 	{
@@ -374,7 +379,7 @@ void Player::HandleCamera()
 		cameraNode->SetWorldRotation(pivot->GetWorldRotation());
 		return;
 	}
-	else if (state != STATE_DROWN)
+	else if (state != STATE_DROWN && !input->GetKeyDown(KEY_KP_DIVIDE))
 	{
 		modelNode->SetEnabled(true);
 	}
@@ -547,6 +552,15 @@ void Player::LeaveState(int oldState)
 
 void Player::ST_Default(float timeStep)
 {
+	/*if (input->GetKeyDown(KEY_KP_DIVIDE))
+	{
+		modelNode->SetEnabled(false);
+	}
+	else
+	{
+		modelNode->SetEnabled(true);
+	}*/
+
 	stateTimer += timeStep;
 
 	if (rightKey)

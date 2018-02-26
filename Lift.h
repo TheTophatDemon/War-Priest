@@ -18,20 +18,32 @@ class Lift : public LogicComponent
 public:
 	Lift(Context* context);
 	static void RegisterObject(Context* context);
-	static Lift* MakeLiftComponent(Context* context, const Vector3 mov, const float rT, const float spd, const float rSpd, const float aRad);
 	virtual void FixedUpdate(float timeStep);
 	virtual void Start();
 	~Lift();
-	Vector3 movement;
-	//Vector3 unitMovement;
+	Vector3 pointB;
+	Vector3 pointA;
 	float restTime = 0.0f;
 	float speed = 1.0f;
 	float rotateSpeed = 0.0f;
 	float activeRadius = 0.0f;
+	bool wait = false;
 protected:
-	WeakPtr<Gameplay> game;
-	SharedPtr<ValueAnimation> valAnim;
+	void OnCollisionStart(StringHash eventType, VariantMap& eventData);
 	void OnCollision(StringHash eventType, VariantMap& eventData);
-	float timer = 0.0f;
+	void ChangeState(const int newState);
+	void SetTarget(Vector3& targ);
+	
+	Vector<Pair<WeakPtr<Node>, float>> childCache;
+
+	SharedPtr<RigidBody> body;
+	WeakPtr<Gameplay> game;
+	Matrix3x4 oldTransform;
+	Vector3 target;
+	Vector3 moveDir;
+	int rotateDirection;
+	
+	int state;
+	float stateTimer;
 };
 

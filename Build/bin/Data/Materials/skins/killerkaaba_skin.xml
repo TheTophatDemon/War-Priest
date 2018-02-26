@@ -1,8 +1,0 @@
-<material>
-	<technique name="Techniques/Diff.xml" quality="0"/>
-	<technique name="Techniques/DiffNormal.xml" quality="1"/>
-	<texture name="Textures/skins/killerkaaba_skin.png" unit="diffuse"/>
-	<texture name="Textures/skins/killerkaaba_skin_nm.png" unit="normal"/>
-	<parameter name="MatDiffColor" value="0.8 0.8 0.8 1"/>
-	<parameter name="MatSpecColor" value="0.5 0.5 0.5 50"/>
-</material>

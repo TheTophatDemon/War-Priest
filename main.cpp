@@ -1,5 +1,6 @@
 //TODO:
 	//Modify lift logic
+		//Smooth motion
 
 	//Sacsand4
 		//Killer Kaaba
@@ -7,6 +8,7 @@
 	//Modify cross imagery
 	//Pope hat cacti
 
+	//Add scrolling to level select menu
 	//Optimize enemies by setting collision event mode to not always	
 
 	//Sinsyn
@@ -26,6 +28,8 @@
 	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. Do final test through every level.
 	//Remove health from sacsand2
 	//Fix exploit on sacsand1
+
+	//Model-rigidbody lag?
 	//Package assets
 
 	//Freezes on SDL_Delay called by DirectSound upon Alt-Tab

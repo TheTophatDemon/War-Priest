@@ -144,6 +144,7 @@ void Gameplay::SetupGame()
 	bonusFlag = false;
 
 	physworld = scene_->GetComponent<PhysicsWorld>();
+	physworld->SetFps(60);
 	physworld->SetMaxSubSteps(10);
 	physworld->SetInterpolation(false);
 	physworld->SetInternalEdge(true);
@@ -198,26 +199,34 @@ void Gameplay::SetupGame()
 		if (n)
 		{
 			Vector3 movement = n->GetVar("movement").GetVector3();
-			float restSpeed = n->GetVar("restTime").GetFloat(); if (restSpeed == 0.0f) restSpeed = 1.0f;
+			float restTime = n->GetVar("restTime").GetFloat(); if (restTime == 0.0f) restTime = 1.0f;
 			float speed = n->GetVar("speed").GetFloat(); if (speed == 0.0f) speed = 2.0f;
-			const float rotSpeed = n->GetVar("rotateSpeed").GetFloat();
+			const float rotateSpeed = n->GetVar("rotateSpeed").GetFloat();
 			const float activeRadius = n->GetVar("activeRadius").GetFloat();
+			const bool wait = n->GetVar("waitForPlayer").GetBool();
+
+			Vector3 pointA = n->GetWorldPosition();
+			Vector3 pointB = pointA + movement;
 
 			Node* dest = n->GetChild("dest");
 			if (dest)
 			{
-				//movement = dest->GetPosition() * dest->GetWorldScale();
-				movement = dest->GetWorldPosition() - n->GetWorldPosition();
+				pointB = dest->GetWorldPosition();
 				dest->Remove();
 			}
 
-			n->AddComponent(Lift::MakeLiftComponent(context_, movement, restSpeed, speed, rotSpeed, activeRadius), 1200, LOCAL);
-			RigidBody* r = n->GetComponent<RigidBody>();
-			if (!r) r = n->CreateComponent<RigidBody>();
-			r->SetLinearFactor(Vector3::ZERO);
-			r->SetAngularFactor(Vector3::ZERO);
-			r->SetCollisionEventMode(COLLISION_ALWAYS);
-			r->SetCollisionLayer(3);
+			Lift* lift = new Lift(context_);
+			lift->pointA = pointA;
+			lift->pointB = pointB;
+			lift->restTime = restTime;
+			//The speed value used to represent the number of seconds it would take
+			//to get from point A to point B, but it's not like that anymore, so we
+			//must calculate the correct speed value based on distance and time.
+			lift->speed = ((pointA-pointB).Length()) / speed;
+			lift->activeRadius = activeRadius;
+			lift->rotateSpeed = rotateSpeed;
+			lift->wait = wait;
+			n->AddComponent(lift, 1200, LOCAL);
 		}
 	}
 

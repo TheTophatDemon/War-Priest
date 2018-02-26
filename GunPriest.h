@@ -98,5 +98,6 @@ protected:
 	SharedPtr<Audio> audio;
 
 	int state = 1;
+	bool pause;
 };
 
