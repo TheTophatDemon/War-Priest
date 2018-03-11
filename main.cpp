@@ -1,12 +1,13 @@
 //TODO:
-	//Modify lift logic
-		//Smooth motion
-
 	//Sacsand4
 		//Killer Kaaba
+			//Keeps collding w/ enemies
+			//Gets stuck on lift
 			//Attacking
-	//Modify cross imagery
-	//Pope hat cacti
+				//Drop a giant bouncing stone on the ground
+				//Shoot high velocity missiles at medium range
+				//Ring of bouncing fireballs
+				//Contact damage
 
 	//Add scrolling to level select menu
 	//Optimize enemies by setting collision event mode to not always	
@@ -24,6 +25,7 @@
 		//Statue damage & destruction
 		//Chaos caliph Charge & shoot
 		//Bonus collection
+		//Killed Kaaba awakening & bounce
 	//Roblox?
 	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. Do final test through every level.
 	//Remove health from sacsand2

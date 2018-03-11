@@ -25,7 +25,8 @@ Projectile::Projectile(Context* context) : LogicComponent(context),
 	lifeTimer(0),
 	deathTimer(0.0f),
 	movement(Vector3::ZERO),
-	checkCollisionsManually(true)
+	checkCollisionsManually(true),
+	limitRange(true)
 {
 }
 
@@ -49,7 +50,7 @@ void Projectile::FixedUpdate(float timeStep)
 	else
 	{
 		const float dist2p = (game->playerNode->GetWorldPosition() - node_->GetWorldPosition()).Length();
-		if (dist2p > 250.0f) { OnHit(nullptr); deathTimer = 9000.0f; }
+		if (dist2p > 250.0f && limitRange) { OnHit(PhysicsRaycastResult()); deathTimer = 9000.0f; }
 
 		Move(timeStep);
 		if (checkCollisionsManually && movement != Vector3::ZERO) //Check collisions
@@ -69,7 +70,7 @@ void Projectile::FixedUpdate(float timeStep)
 						map.Insert(Pair<StringHash, Variant>(StringHash("victim"), result.body_->GetNode()));
 						map.Insert(Pair<StringHash, Variant>(StringHash("damage"), damage));
 						SendEvent(E_PROJECTILEHIT, map);
-						OnHit(result.body_->GetNode());
+						OnHit(result);
 					}
 					else if (colLayer & 16) //Reflect yerself inside of the shield
 					{
@@ -81,7 +82,7 @@ void Projectile::FixedUpdate(float timeStep)
 					}
 					else
 					{
-						OnHit(result.body_->GetNode());
+						OnHit(result);
 					}
 				}
 			}
@@ -98,8 +99,10 @@ void Projectile::FixedUpdate(float timeStep)
 	}
 }
 
-void Projectile::OnHit(Node* n)
+void Projectile::OnHit(PhysicsRaycastResult result)
 {
+	if (!result.body_) return;
+	if (result.body_->GetNode() == owner.Get()) return;
 	hit = true;
 	deathTimer = 0.0f;
 }

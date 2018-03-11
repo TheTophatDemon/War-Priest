@@ -6,10 +6,12 @@
 #include <Urho3D/Scene/ValueAnimation.h>
 #include <Urho3D/Physics/PhysicsEvents.h>
 #include "Settings.h"
+#include "Blackstone.h"
 
 #define STATE_DORMANT 0
 #define STATE_RISE 1
 #define STATE_FLY 2
+#define STATE_BALLATTACK 3
 
 #define HEIGHT_FROM_BOTTOM 9.0f
 #define RISE_SPEED 500.0f
@@ -21,7 +23,9 @@ KilledKaaba::KilledKaaba(Context* context) : LogicComponent(context),
 	moveSpeed(1.0f),
 	direction(1.0f, 0.0f, 0.0f),
 	targetHeight(0.0f),
-	lastState(-1)
+	lastState(-1),
+	attackTimer(0.0f),
+	shootTimer(0.0f)
 {
 }
 
@@ -74,6 +78,8 @@ void KilledKaaba::FixedUpdate(float timeStep)
 	distanceFromPlayer = (ourPos - plyPos).Length();
 
 	const float hDiff = targetHeight - node_->GetWorldPosition().y_;
+	const float currentSpeed = body->GetLinearVelocity().Length();
+	const int spinDir = Sign(body->GetAngularVelocity().y_);
 
 	stateTimer += timeStep;
 	switch (state)
@@ -86,11 +92,10 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		}
 		break;
 	case STATE_RISE:
-		if (Abs(hDiff) < 1.0f)
+		if (Abs(hDiff) < 1.0f) //Decelerate the spinning before resuming activity
 		{
 			body->SetLinearVelocity(Vector3::ZERO);
-			const int dir = -Sign(body->GetAngularVelocity().y_);
-			body->ApplyTorqueImpulse(Vector3(0.0f, dir * timeStep * 500.0f, 0.0f));
+			body->ApplyTorqueImpulse(Vector3(0.0f, -spinDir * timeStep * 500.0f, 0.0f));
 			if (body->GetAngularVelocity().Length() < 1.0f)
 			{
 				body->SetAngularVelocity(Vector3::ZERO);
@@ -108,7 +113,6 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		break;
 	case STATE_FLY:
 		node_->Rotate(Quaternion(timeStep * 100.0f, Vector3::UP), TS_LOCAL);
-		const float currentSpeed = body->GetLinearVelocity().Length();
 		if (currentSpeed < moveSpeed) 
 		{
 			body->ApplyForce(Vector3(direction.x_ * moveSpeed, 0.0f, direction.z_ * moveSpeed));
@@ -116,6 +120,27 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		else if (currentSpeed > moveSpeed)
 		{
 			body->SetLinearVelocity(body->GetLinearVelocity().Normalized() * moveSpeed);
+		}
+
+		attackTimer -= timeStep;
+		if (attackTimer < 0.0f)
+		{
+			const int attack = Random(0, 5);
+			switch (attack)
+			{
+			default:
+			{
+				int count = floorf(Settings::ScaleWithDifficulty(8.0f, 12.0f, 16.0));
+				for (int i = 0; i < count; ++i)
+				{
+					float degree = (360.0f / count) * i;
+					BouncyFireball::MakeBouncyFireball(scene, node_->GetWorldPosition() + Vector3(0.0f, -4.0f, 0.0f), Quaternion(degree, Vector3::UP), node_);
+				}
+				attackTimer = Random(Settings::ScaleWithDifficulty(8.0f, 5.0f, 3.0f), 10.0f);
+				break;
+			}
+			}
+			//ChangeState(STATE_BALLATTACK);
 		}
 		
 		if (hDiff < -1.0f) 
@@ -132,6 +157,31 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		else if (hDiff > 1.0f)
 		{
 			ChangeState(STATE_RISE);
+		}
+		break;
+	case STATE_BALLATTACK:
+		body->SetLinearVelocity(Vector3::ZERO);
+		if (stateTimer < 4.0f) 
+		{
+			body->ApplyTorqueImpulse(Vector3(0.0f, timeStep * 500.0f, 0.0f));
+		}
+		else //Decelerate spinning before going back to normal
+		{
+			body->ApplyTorqueImpulse(Vector3(0.0f, -spinDir * timeStep * 500.0f, 0.0f));
+			if (body->GetAngularVelocity().Length() < 1.0f)
+			{
+				body->SetAngularVelocity(Vector3::ZERO);
+				ChangeState(STATE_FLY);
+			}
+		}
+		shootTimer += timeStep;
+		if (shootTimer > Settings::ScaleWithDifficulty(1.0f, 0.5f, 0.5f))
+		{
+			shootTimer = 0.0f;
+			Vector3 shootDirection = Vector3(0.0f, 16.0f, 0.0f);
+			shootDirection.x_ = Random(100.0f, 500.0f) * Sign(Random(-1.0f, 1.0f));
+			shootDirection.z_ = Random(100.0f, 500.0f) * Sign(Random(-1.0f, 1.0f));
+			Blackstone::MakeBlackstone(scene, node_->GetWorldPosition() + Vector3(0.0f, 12.0f, 0.0f), shootDirection, node_);
 		}
 		break;
 	}
@@ -159,7 +209,8 @@ void KilledKaaba::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (otherBody->GetCollisionLayer() & 2)
+	if (otherBody->GetCollisionLayer() & 2 || 
+		(otherBody->IsTrigger() && other->HasTag("enemy_barrier")) )
 	{
 		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
 		while (!contacts.IsEof()) 
@@ -180,9 +231,9 @@ void KilledKaaba::ChangeState(const int newState)
 {
 	if (newState != state)
 	{
+		LeaveState(state);
 		EnterState(newState);
 		lastState = state;
-		LeaveState(state);
 		stateTimer = 0.0f;
 	}
 	state = newState;
@@ -190,26 +241,34 @@ void KilledKaaba::ChangeState(const int newState)
 
 void KilledKaaba::EnterState(const int newState)
 {
-	if (newState == STATE_DORMANT)
+	switch (newState)
 	{
-		glowNode->SetEnabled(false);
-		glowNode->SetScale(0.0f);
-	}
-	else if (newState == STATE_FLY)
-	{
-		direction = Vector3(Random(-1.0f, 1.0f), Random(-1.0f, 1.0f), Random(-1.0f, 1.0f));
-		direction.Normalize();
-	}
-	else if (newState == STATE_RISE)
-	{
-		body->SetAngularFactor(Vector3::UP);
-		body->SetLinearFactor(Vector3::ONE);
+		case STATE_DORMANT:
+			glowNode->SetEnabled(false);
+			glowNode->SetScale(0.0f);
+			break;
+		case STATE_FLY:
+			direction = Vector3(Random(-1.0f, 1.0f), Random(-1.0f, 1.0f), Random(-1.0f, 1.0f));
+			direction.Normalize();
+			attackTimer = Random(Settings::ScaleWithDifficulty(8.0f, 5.0f, 3.0f), 10.0f);
+			break;
+		case STATE_RISE:
+			body->SetAngularFactor(Vector3::UP);
+			body->SetLinearFactor(Vector3::ONE);
+			break;
+		case STATE_BALLATTACK:
+			body->SetAngularFactor(Vector3::UP);
+			body->SetLinearFactor(Vector3::ONE);
+			shootTimer = 0.0f;
+			break;
 	}
 }
 
 void KilledKaaba::LeaveState(const int oldState)
 {
-	if (oldState == STATE_DORMANT)
+	switch(oldState) 
+	{
+	case STATE_DORMANT:
 	{
 		glowNode->SetEnabled(true);
 		glowNode->SetScale(8.25f);
@@ -220,11 +279,18 @@ void KilledKaaba::LeaveState(const int oldState)
 		valAnim->SetKeyFrame(1.0f, Vector3(8.5f, 8.5f, 8.5f));
 
 		glowNode->SetAttributeAnimation("Scale", valAnim, WM_LOOP, 1.0f);
+
+		game->FlashScreen(Color::WHITE, 0.01f);
+		break;
 	}
-	else if (oldState == STATE_RISE)
-	{
+	case STATE_RISE:
 		body->SetAngularFactor(Vector3::ZERO);
 		body->SetLinearFactor(Vector3(1.0f, 0.0f, 1.0f));
+		break;
+	case STATE_BALLATTACK:
+		body->SetAngularFactor(Vector3::ZERO);
+		body->SetLinearFactor(Vector3(1.0f, 0.0f, 1.0f));
+		break;
 	}
 }
 

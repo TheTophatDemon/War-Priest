@@ -37,6 +37,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	Blackstone::RegisterObject(context);
 	Bonus::RegisterObject(context);
 	KilledKaaba::RegisterObject(context);
+	BouncyFireball::RegisterObject(context);
 
 	pause = false;
 	state = STATE_TITLE;
@@ -47,11 +48,9 @@ void GunPriest::StartGame(String path)
 	scene_->SetUpdateEnabled(false);
 	game->ourUI->SetVisible(false);
 	loadingText->SetVisible(true);
-	//cache->ReleaseAllResources(true);
 	cache->ReleaseResources(Model::GetTypeStatic(), true);
 	cache->ReleaseResources(Material::GetTypeStatic(), true);
 	cache->ReleaseResources(Texture2D::GetTypeStatic(), true);
-	//cache->ReleaseResources(ParticleEffect::GetTypeStatic(), true);
 	cache->ReleaseResources(XMLFile::GetTypeStatic(), true);
 
 	engine_->RunFrame();

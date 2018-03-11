@@ -101,14 +101,21 @@ void Blackstone::ChangeState(const int newState)
 
 void Blackstone::OnHit(Node* n)
 {
-	if (n->HasComponent<RigidBody>()) 
+	if (n != nullptr) 
 	{
-		RigidBody* rb = n->GetComponent<RigidBody>();
-		if (state != STATE_BOUNCE && 
-			(rb->GetCollisionLayer() & 2 || rb->GetCollisionLayer() & 128))
+		if (n->HasComponent<RigidBody>())
 		{
-			lifeTimer = 100.0f;
+			RigidBody* rb = n->GetComponent<RigidBody>();
+			if (state != STATE_BOUNCE &&
+				(rb->GetCollisionLayer() & 2 || rb->GetCollisionLayer() & 128))
+			{
+				lifeTimer = 100.0f;
+			}
 		}
+	}
+	else
+	{
+		lifeTimer = 100.0f;
 	}
 }
 

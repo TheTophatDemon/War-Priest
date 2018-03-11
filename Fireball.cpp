@@ -6,9 +6,9 @@
 #include <iostream>
 #include "Settings.h"
 
-Fireball::Fireball(Context* context) : Projectile(context)
+Fireball::Fireball(Context* context) : Projectile(context),
+	lifeTime(2.0f)
 {
-	//Properties are set in the MakeFireball function
 }
 
 void Fireball::Start()
@@ -35,7 +35,7 @@ void Fireball::FixedUpdate(float timeStep)
 	}
 	else
 	{
-		if (lifeTimer > 2.0f) OnHit(nullptr);
+		if (lifeTimer > lifeTime) OnHit(PhysicsRaycastResult());
 	}
 	Projectile::FixedUpdate(timeStep);
 }
@@ -45,9 +45,9 @@ void Fireball::Move(const float timeStep)
 	movement = node_->GetWorldRotation() * (Vector3::FORWARD * speed * timeStep);
 }
 
-void Fireball::OnHit(Node* n)
+void Fireball::OnHit(PhysicsRaycastResult result)
 {
-	Projectile::OnHit(n);
+	Projectile::OnHit(result);
 	if (emitter)
 	{
 		emitter->SetEmitting(false);
@@ -92,6 +92,8 @@ Node* Fireball::MakeBlueFireball(Scene* sc, Vector3 position, Quaternion rotatio
 
 	return n;
 }
+
+
 
 Fireball::~Fireball()
 {

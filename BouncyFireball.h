@@ -12,22 +12,20 @@
 
 using namespace Urho3D;
 
-class Fireball : public Projectile
+class BouncyFireball : public Projectile
 {
-	URHO3D_OBJECT(Fireball, LogicComponent);
+	URHO3D_OBJECT(BouncyFireball, LogicComponent);
 public:
-	Fireball(Context* context);
+	BouncyFireball(Context* context);
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
-	~Fireball();
+	~BouncyFireball();
 
-	static Node* MakeFireball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner);
-	static Node* MakeBlueFireball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner);
+	static Node* MakeBouncyFireball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner);
 protected:
 	virtual void OnHit(PhysicsRaycastResult result);
 	virtual void Move(const float timeStep);
 	SharedPtr<ParticleEmitter> emitter;
-	float lifeTime;
 };
 

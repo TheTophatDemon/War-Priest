@@ -64,9 +64,11 @@ void Lift::FixedUpdate(float timeStep)
 	{
 		if (state == STATE_MOVE) 
 		{
-			node_->Translate(timeStep * moveDir * speed, TS_WORLD);
+			float damping = 1.0f;
 			const float targetDistance = (target - node_->GetWorldPosition()).Length();
-			if (Abs(targetDistance) < 0.033f * speed) //If it's less than a thirtieth of a second away...
+			if (targetDistance < 1.0f) damping = Max(0.1f, targetDistance);
+			node_->Translate(timeStep * moveDir * speed * damping, TS_WORLD);
+			if (Abs(targetDistance) < 0.033f * speed * damping) //If it's less than a thirtieth of a second away...
 			{
 				node_->SetWorldPosition(target);
 				ChangeState(STATE_REST);

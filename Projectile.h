@@ -22,10 +22,11 @@ public:
 	float radius;
 	float speed;
 	int damage;
+	bool limitRange;
 
 	static StringHash E_PROJECTILEHIT;
 protected:
-	virtual void OnHit(Node* n);
+	virtual void OnHit(PhysicsRaycastResult result);
 	virtual void Move(const float timeStep) = 0;
 
 	SharedPtr<Gameplay> game;

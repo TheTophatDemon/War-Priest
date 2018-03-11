@@ -142,7 +142,7 @@ void Player::Start()
 	dropShadow = scene->CreateChild();
 	StaticModel* shadModel = dropShadow->CreateComponent<StaticModel>();
 	shadModel->SetModel(cache->GetResource<Model>("Models/shadow.mdl"));
-	shadModel->SetMaterial(cache->GetResource<Material>("Materials/shadow.xml"));
+	shadModel->SetMaterial(cache->GetResource<Material>("Materials/shadow_simple.xml"));
 
 	bloodEmitter = node_->GetChild("blood")->GetComponent<ParticleEmitter>();
 	bloodEmitter->SetEmitting(false);

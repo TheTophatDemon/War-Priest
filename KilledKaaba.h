@@ -47,6 +47,8 @@ protected:
 	float distanceFromPlayer;
 	float stateTimer;
 	float targetHeight;
+	float attackTimer;
+	float shootTimer;
 	int state;
 	int lastState;
 };

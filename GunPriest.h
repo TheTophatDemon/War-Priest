@@ -63,6 +63,7 @@
 #include "Blackstone.h"
 #include "Bonus.h"
 #include "KilledKaaba.h"
+#include "BouncyFireball.h"
 
 class GunPriest : public Application
 {
