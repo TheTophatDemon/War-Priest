@@ -225,6 +225,14 @@ void KilledKaaba::OnCollision(StringHash eventType, VariantMap& eventData)
 		direction.Normalize();
 		body->ApplyImpulse(Vector3(direction.x_ * moveSpeed, 0.0f, direction.z_ * moveSpeed));
 	}
+	else if (otherBody->GetCollisionLayer() & 128 && other->GetName() == "player")
+	{
+		VariantMap map = VariantMap();
+		map.Insert(Pair<StringHash, Variant>(Projectile::P_PERPETRATOR, node_));
+		map.Insert(Pair<StringHash, Variant>(Projectile::P_VICTIM, other));
+		map.Insert(Pair<StringHash, Variant>(Projectile::P_DAMAGE, Settings::ScaleWithDifficulty(10.0f, 12.0f, 15.0f)));
+		SendEvent(Projectile::E_PROJECTILEHIT, map);
+	}
 }
 
 void KilledKaaba::ChangeState(const int newState)

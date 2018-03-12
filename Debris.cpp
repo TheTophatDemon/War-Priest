@@ -8,6 +8,7 @@
 #include <Urho3D/Graphics/Model.h>
 #include <iostream>
 #include "Zeus.h"
+#include "Projectile.h"
 
 Debris::Debris(Context* context) : LogicComponent(context)
 {
@@ -65,10 +66,10 @@ void Debris::OnCollision(StringHash eventType, VariantMap& eventData)
 	if (otherBody->GetCollisionLayer() & 128 && node_->GetParent() == scene)
 	{
 		VariantMap map = VariantMap();
-		map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
-		map.Insert(Pair<StringHash, Variant>(StringHash("victim"), other));
-		map.Insert(Pair<StringHash, Variant>(StringHash("damage"), damage));
-		SendEvent(StringHash("ProjectileHit"), map);
+		map.Insert(Pair<StringHash, Variant>(Projectile::P_PERPETRATOR, node_));
+		map.Insert(Pair<StringHash, Variant>(Projectile::P_VICTIM, other));
+		map.Insert(Pair<StringHash, Variant>(Projectile::P_DAMAGE, damage));
+		SendEvent(Projectile::E_PROJECTILEHIT, map);
 		Die();
 	}
 }

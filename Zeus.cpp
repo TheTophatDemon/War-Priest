@@ -32,6 +32,7 @@
 #include <Urho3D/Scene/ObjectAnimation.h>
 #include "TempEffect.h"
 #include "WeakChild.h"
+#include "Projectile.h"
 
 #include <iostream>
 
@@ -131,6 +132,42 @@ Node* Zeus::MakeShield(Scene* scene, Vector3 position, float radius)
 	te->life = 0.2f;
 
 	return shield;
+}
+
+Node* Zeus::MakeExplosion(Scene* scene, Vector3 position, const float life, const float size)
+{
+	ResourceCache* cache = scene->GetSubsystem<ResourceCache>();
+
+	Node* explosion = scene->CreateChild();
+	explosion->SetWorldPosition(position);
+	explosion->SetScale(size);
+
+	ParticleEmitter* emitter = explosion->CreateComponent<ParticleEmitter>();
+	emitter->SetEffect(cache->GetResource<ParticleEffect>("Particles/explosion.xml"));
+
+	TempEffect* te = explosion->CreateComponent<TempEffect>();
+	te->life = 2.0f;
+
+	return explosion;
+}
+
+void Zeus::ApplyRadialDamage(Scene* scene, Node* perpetrator, const float radius, const int damage, const int mask)
+{
+	PhysicsWorld* physworld = scene->GetComponent<PhysicsWorld>();
+	PODVector<RigidBody*> result;
+	physworld->GetRigidBodies(result, Sphere(perpetrator->GetWorldPosition(), radius), mask);
+	for (PODVector<RigidBody*>::Iterator i = result.Begin(); i != result.End(); ++i)
+	{
+		RigidBody* otherBody = (RigidBody*)*i;
+		if (otherBody)
+		{
+			VariantMap map = VariantMap();
+			map.Insert(Pair<StringHash, Variant>(Projectile::P_PERPETRATOR, perpetrator));
+			map.Insert(Pair<StringHash, Variant>(Projectile::P_VICTIM, Variant(otherBody->GetNode())));
+			map.Insert(Pair<StringHash, Variant>(Projectile::P_DAMAGE, damage));
+			perpetrator->SendEvent(Projectile::E_PROJECTILEHIT, map);
+		}
+	}
 }
 
 Zeus::~Zeus()

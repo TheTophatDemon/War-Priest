@@ -14,6 +14,7 @@
 #include "WeakChild.h"
 #include "Projectile.h"
 #include "Settings.h"
+#include "Zeus.h"
 
 #define STATE_DEAD 0
 #define STATE_WANDER 1
@@ -207,43 +208,14 @@ void DangerDeacon::Execute()
 					Vector3 pos = node_->GetWorldPosition() + Vector3(0.0f, 1.5f, 0.0f);
 					pos.x_ += cosf(i * 1.0472f) * 3.5f;
 					pos.z_ += sinf(i * 1.0472f) * 3.5f;
-					Node* explosion = scene->CreateChild();
-					explosion->SetWorldPosition(pos);
-					ParticleEmitter* emitter = explosion->CreateComponent<ParticleEmitter>();
-					emitter->SetEffect(cache->GetResource<ParticleEffect>("Particles/explosion.xml"));
-					TempEffect* te = explosion->CreateComponent<TempEffect>();
-					te->life = 2.0f;
+					Zeus::MakeExplosion(scene, pos, 2.0f);
 				}
 				soundSource->Play("Sounds/env_explode.wav");
 			}
-			if (targetDist < BLASTRANGE && stateTimer < STUNTIME - 0.5f)
-			{
-				VariantMap map = VariantMap();
-				map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
-				map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(target)));
-				map.Insert(Pair<StringHash, Variant>(StringHash("damage"), DAMAGE));
-				SendEvent(Projectile::E_PROJECTILEHIT, map);
-			}
-			//This is mainly for statues
+			//Apply damage to entities
 			if (stateTimer < STUNTIME - 0.5f)
 			{
-				PODVector<RigidBody*> result;
-				physworld->GetRigidBodies(result, Sphere(node_->GetWorldPosition(), BLASTRANGE), 4U);
-				for (PODVector<RigidBody*>::Iterator i = result.Begin(); i != result.End(); ++i)
-				{
-					RigidBody* otherBody = (RigidBody*)*i;
-					if (otherBody)
-					{
-						if (otherBody->GetCollisionLayer() & 4 && otherBody->GetNode()->GetName() != "player")
-						{
-							VariantMap map = VariantMap();
-							map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
-							map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(otherBody->GetNode())));
-							map.Insert(Pair<StringHash, Variant>(StringHash("damage"), (int)(DAMAGE / 2)));
-							SendEvent(Projectile::E_PROJECTILEHIT, map);
-						}
-					}
-				}
+				Zeus::ApplyRadialDamage(scene, node_, BLASTRANGE, DAMAGE, 132); //128 + 4
 			}
 		}
 

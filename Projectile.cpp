@@ -15,6 +15,9 @@
 #include "Player.h"
 
 StringHash Projectile::E_PROJECTILEHIT = StringHash("ProjectileHit");
+StringHash Projectile::P_PERPETRATOR = StringHash("perpetrator");
+StringHash Projectile::P_VICTIM = StringHash("victim");
+StringHash Projectile::P_DAMAGE = StringHash("damage");
 
 Projectile::Projectile(Context* context) : LogicComponent(context), 
 	radius(0.5f), 
@@ -66,9 +69,9 @@ void Projectile::FixedUpdate(float timeStep)
 					if (colLayer & 4)
 					{
 						VariantMap map = VariantMap();
-						map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
-						map.Insert(Pair<StringHash, Variant>(StringHash("victim"), result.body_->GetNode()));
-						map.Insert(Pair<StringHash, Variant>(StringHash("damage"), damage));
+						map.Insert(Pair<StringHash, Variant>(P_PERPETRATOR, node_));
+						map.Insert(Pair<StringHash, Variant>(P_VICTIM, result.body_->GetNode()));
+						map.Insert(Pair<StringHash, Variant>(P_DAMAGE, damage));
 						SendEvent(E_PROJECTILEHIT, map);
 						OnHit(result);
 					}

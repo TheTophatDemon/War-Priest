@@ -223,9 +223,9 @@ void ChaosCaliph::OnCollision(StringHash eventType, VariantMap& eventData)
 	if ((other == target.Get() || other->HasTag("statue")) && state == STATE_SPIN) 
 	{
 		VariantMap map = VariantMap();
-		map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
-		map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(other)));
-		map.Insert(Pair<StringHash, Variant>(StringHash("damage"), 12));
+		map.Insert(Pair<StringHash, Variant>(Projectile::P_PERPETRATOR, node_));
+		map.Insert(Pair<StringHash, Variant>(Projectile::P_VICTIM, Variant(other)));
+		map.Insert(Pair<StringHash, Variant>(Projectile::P_DAMAGE, 12));
 		SendEvent(Projectile::E_PROJECTILEHIT, map);
 	}
 }

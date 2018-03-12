@@ -128,10 +128,10 @@ void TempTemplar::Execute()
 		{
 			attacked = true;
 			VariantMap map = VariantMap();
-			map.Insert(Pair<StringHash, Variant>(StringHash("perpetrator"), node_));
-			map.Insert(Pair<StringHash, Variant>(StringHash("victim"), Variant(target)));
-			map.Insert(Pair<StringHash, Variant>(StringHash("damage"), MELEE_DAMAGE));
-			SendEvent(StringHash("ProjectileHit"), map);
+			map.Insert(Pair<StringHash, Variant>(Projectile::P_PERPETRATOR, node_));
+			map.Insert(Pair<StringHash, Variant>(Projectile::P_VICTIM, Variant(target)));
+			map.Insert(Pair<StringHash, Variant>(Projectile::P_DAMAGE, MELEE_DAMAGE));
+			SendEvent(Projectile::E_PROJECTILEHIT, map);
 		}
 		if (stateTimer > animController->GetLength(SWING_ANIM) * 0.9f)
 		{

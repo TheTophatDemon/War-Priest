@@ -24,6 +24,7 @@
 #include <Urho3D/Graphics/ParticleEffect.h>
 #include <Urho3D/Audio/Sound.h>
 #include <Urho3D/Audio/SoundSource3D.h>
+#include <Urho3D/Graphics/Light.h>
 
 #include <iostream>
 
@@ -35,6 +36,8 @@
 #include "Projectile.h"
 #include "GunPriest.h"
 #include "Settings.h"
+
+#include "Missile.h"
 
 using namespace Urho3D;
 
@@ -106,6 +109,7 @@ void Player::Start()
 	cameraNode->SetParent(pivot);
 	cameraNode->SetPosition(cameraOffset);
 
+	//Actor setup
 	if (!node_->HasComponent<Actor>())
 	{
 		actor = node_->CreateComponent<Actor>();
@@ -121,6 +125,7 @@ void Player::Start()
 	actor->jumpStrength = JUMPSTRENGTH;
 	actor->maxspeed = WALKSPEED;
 
+	//Ground detector
 	groundDetector = node_->GetChild("groundDetector")->GetComponent<RigidBody>();
 	if (!groundDetector)
 		std::cout << "GROUND DETECTOR MISSING" << std::endl;
@@ -138,15 +143,14 @@ void Player::Start()
 	else
 		animController = modelNode->CreateComponent<AnimationController>();
 
-	//Drop Shadow
+	//Drop shadow
 	dropShadow = scene->CreateChild();
-	StaticModel* shadModel = dropShadow->CreateComponent<StaticModel>();
-	shadModel->SetModel(cache->GetResource<Model>("Models/shadow.mdl"));
-	shadModel->SetMaterial(cache->GetResource<Material>("Materials/shadow_simple.xml"));
 
+	//Blood
 	bloodEmitter = node_->GetChild("blood")->GetComponent<ParticleEmitter>();
 	bloodEmitter->SetEmitting(false);
 
+	//Sound source
 	soundSource = node_->CreateComponent<SoundSounder>();
 	currentCheckpoint = scene->GetChild("exit");
 	if (!currentCheckpoint.Get())
@@ -180,8 +184,43 @@ void Player::Start()
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
 	SubscribeToEvent(Projectile::E_PROJECTILEHIT, URHO3D_HANDLER(Player, OnProjectileHit));
 	SubscribeToEvent(God::E_BEAMED, URHO3D_HANDLER(Player, OnBeamed));
+	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(Player, OnSettingsChange));
+
+	SendEvent(Settings::E_SETTINGSCHANGED); //We fake a settings change
+	//This is so that we only have to initialize the settings-dependent values in one piece of code
 
 	animController->StopAll();
+}
+
+void Player::OnSettingsChange(StringHash eventType, VariantMap& eventData)
+{
+	//Drop Shadow
+	//Fast graphics mode's drop shadow is a model that is positioned using a raycast
+	//Slow graphics mode's drop shadow is a spot light with an inverted brightness
+	if (Settings::AreGraphicsFast()) 
+	{
+		if (dropShadow->HasComponent<Light>()) dropShadow->RemoveComponent<Light>();
+		if (!dropShadow->HasComponent<StaticModel>()) 
+		{
+			StaticModel* shadModel = dropShadow->CreateComponent<StaticModel>();
+			shadModel->SetModel(cache->GetResource<Model>("Models/shadow.mdl"));
+			shadModel->SetMaterial(cache->GetResource<Material>("Materials/shadow_simple.xml"));
+			dropShadow->SetRotation(Quaternion::IDENTITY);
+		}
+	}
+	else
+	{
+		if (dropShadow->HasComponent<StaticModel>()) dropShadow->RemoveComponent<StaticModel>();
+		if (!dropShadow->HasComponent<Light>())
+		{
+			Light* light = dropShadow->CreateComponent<Light>();
+			light->SetLightType(LightType::LIGHT_SPOT);
+			light->SetBrightness(-0.8f);
+			light->SetFov(50.0f);
+			light->SetRange(25.0f);
+			dropShadow->SetRotation(Quaternion(90.0f, Vector3::RIGHT));
+		}
+	}
 }
 
 void Player::FixedUpdate(float timeStep)
@@ -201,6 +240,8 @@ void Player::FixedUpdate(float timeStep)
 	if (input->GetKeyDown(KEY_KP_0))
 		actor->onGround = true;
 	speedy = input->GetKeyDown(KEY_KP_PERIOD);
+	if (input->GetKeyPress(KEY_KP_9))
+		Missile::MakeMissile(scene, node_->GetWorldPosition() + Vector3(0.0f, 4.0f, 0.0f), newRotation, node_);
 
 	bloodEmitter->ApplyEffect();
 	float newAngle = 0.0f;
@@ -342,9 +383,9 @@ void Player::Hurt(Node* source, int amount)
 
 void Player::OnProjectileHit(StringHash eventType, VariantMap& eventData)
 {
-	Node* proj = (Node*)eventData["perpetrator"].GetPtr();
-	Node* victim = (Node*)eventData["victim"].GetPtr();
-	int damage = eventData["damage"].GetInt();
+	Node* proj = (Node*)eventData[Projectile::P_PERPETRATOR].GetPtr();
+	Node* victim = (Node*)eventData[Projectile::P_VICTIM].GetPtr();
+	int damage = eventData[Projectile::P_DAMAGE].GetInt();
 	if (victim == node_)
 	{
 		if (!input->GetKeyDown(KEY_KP_PLUS)) Hurt(proj, damage);
@@ -427,18 +468,25 @@ void Player::HandleCamera()
 
 void Player::HandleShadow()
 {
-	PhysicsRaycastResult shadowRaycast;
-	Vector3 doot = Vector3(0.0f, 0.1f, 0.0f);
-	physworld->RaycastSingle(shadowRaycast, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
-	if (shadowRaycast.body_)
+	if (Settings::AreGraphicsFast()) 
 	{
-		if (!actor->onGround && shadowRaycast.distance_ > 0.5f)
+		PhysicsRaycastResult shadowRaycast;
+		Vector3 doot = Vector3(0.0f, 0.1f, 0.0f);
+		physworld->RaycastSingle(shadowRaycast, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
+		if (shadowRaycast.body_ && shadowRaycast.distance_ > 0.1f)
 		{
-			dropShadow->SetEnabled(true);
-			dropShadow->SetWorldPosition(shadowRaycast.position_ + Vector3(0.0f, 0.1f, 0.0f));
-			Quaternion q = Quaternion();
-			q.FromLookRotation(shadowRaycast.normal_);
-			dropShadow->SetRotation(q);
+			if (!actor->onGround && shadowRaycast.distance_ > 0.5f)
+			{
+				dropShadow->SetEnabled(true);
+				dropShadow->SetWorldPosition(shadowRaycast.position_ + Vector3(0.0f, 0.1f, 0.0f));
+				Quaternion q = Quaternion();
+				q.FromLookRotation(shadowRaycast.normal_);
+				dropShadow->SetRotation(q);
+			}
+			else
+			{
+				dropShadow->SetEnabled(false);
+			}
 		}
 		else
 		{
@@ -447,7 +495,8 @@ void Player::HandleShadow()
 	}
 	else
 	{
-		dropShadow->SetEnabled(false);
+		dropShadow->SetEnabled(true);
+		dropShadow->SetWorldPosition(node_->GetWorldPosition());
 	}
 }
 
@@ -636,7 +685,6 @@ void Player::ST_Default(float timeStep)
 	}
 	else
 	{
-		dropShadow->SetEnabled(false);
 		if (forwardKey || backwardKey || leftKey || rightKey)
 		{
 			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);

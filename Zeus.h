@@ -26,6 +26,8 @@ public:
 	static Node* MakeLightBeam(Scene* scene, Vector3 position, const float height=64.0f);
 	static Node* MakeShield(Scene* scene, Vector3 position, float radius);
 	static Node* PuffOfSmoke(Scene* scene, Vector3 position, float length);
+	static Node* MakeExplosion(Scene* scene, Vector3 position, const float life, const float size = 1.0f);
+	static void ApplyRadialDamage(Scene* scene, Node* perpetrator, const float radius, const int damage, const int mask);
 	~Zeus();
 };
 

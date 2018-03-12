@@ -37,6 +37,7 @@ protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnProjectileHit(StringHash eventType, VariantMap& eventData);
 	void OnBeamed(StringHash eventType, VariantMap& eventData);
+	void OnSettingsChange(StringHash eventType, VariantMap& eventData);
 	void Hurt(Node* source, int damage);
 	void HandleCamera();
 	void HandleShadow();

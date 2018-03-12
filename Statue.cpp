@@ -99,9 +99,9 @@ void Statue::OnCollision(StringHash eventType, VariantMap& eventData)
 
 void Statue::OnProjectileHit(StringHash eventType, VariantMap& eventData)
 {
-	Node* perpetrator = (Node*)eventData["perpetrator"].GetPtr();
-	Node* victim = (Node*)eventData["victim"].GetPtr();
-	const int damage = eventData["damage"].GetInt();
+	Node* perpetrator = (Node*)eventData[Projectile::P_PERPETRATOR].GetPtr();
+	Node* victim = (Node*)eventData[Projectile::P_VICTIM].GetPtr();
+	const int damage = eventData[Projectile::P_DAMAGE].GetInt();
 	if (victim == GetNode())
 	{
 		Damage(damage);

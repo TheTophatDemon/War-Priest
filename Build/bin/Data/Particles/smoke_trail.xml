@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<particleeffect>
+	<material name="Materials/particle_smoke.xml" />
+	<numparticles value="150" />
+	<updateinvisible enable="false" />
+	<relative enable="false" />
+	<scaled enable="true" />
+	<sorted enable="false" />
+	<fixedscreensize enable="false" />
+	<animlodbias value="0" />
+	<emittertype value="Sphere" />
+	<emittersize value="1 1 1" />
+	<direction min="-1 -1 -1" max="1 1 1" />
+	<constantforce value="0 0 0" />
+	<dampingforce value="2.97" />
+	<activetime value="0.0" />
+	<inactivetime value="0.0" />
+	<emissionrate min="100" max="100" />
+	<particlesize min="0.2 0.2" max="0.4 0.4" />
+	<timetolive min="1" max="0.5" />
+	<velocity min="3" max="3" />
+	<rotation min="119.36" max="87.46" />
+	<rotationspeed min="44.94" max="7.89" />
+	<sizedelta add="2.49" mul="0.22" />
+	<faceCameraMode value="Rotate XYZ" />
+	<colorfade color="1 1 1 1" time="0" />
+	<colorfade color="1 0 0 0" time="1" />
+</particleeffect>

@@ -4,10 +4,11 @@
 			//Keeps collding w/ enemies
 			//Gets stuck on lift
 			//Attacking
-				//Drop a giant bouncing stone on the ground
 				//Shoot high velocity missiles at medium range
-				//Ring of bouncing fireballs
-				//Contact damage
+					//Missile-shield interaction
+					//Homing
+					//Exploding sound
+				//Charging
 
 	//Add scrolling to level select menu
 	//Optimize enemies by setting collision event mode to not always	
@@ -25,7 +26,11 @@
 		//Statue damage & destruction
 		//Chaos caliph Charge & shoot
 		//Bonus collection
-		//Killed Kaaba awakening & bounce
+		//Killed Kaaba
+			//Awakening
+			//Bounce
+			//Missile fire
+			//Charge?
 	//Roblox?
 	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. Do final test through every level.
 	//Remove health from sacsand2
@@ -60,7 +65,7 @@
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP
 	//2 = CAN BE JUMPED ON/SLOPED
-	//4 = SHOOTABLE
+	//4 = SHOOTABLE (STATUES)
 	//8 = GROUND DETECTOR / TRIGGER
 	//16 = SHIELD/ONLY PROJECTILES CAN TOUCH
 	//32 = ITEM

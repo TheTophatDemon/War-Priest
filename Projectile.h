@@ -25,6 +25,9 @@ public:
 	bool limitRange;
 
 	static StringHash E_PROJECTILEHIT;
+	static StringHash P_PERPETRATOR;
+	static StringHash P_VICTIM;
+	static StringHash P_DAMAGE;
 protected:
 	virtual void OnHit(PhysicsRaycastResult result);
 	virtual void Move(const float timeStep) = 0;
