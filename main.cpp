@@ -5,10 +5,8 @@
 			//Gets stuck on lift
 			//Attacking
 				//Shoot high velocity missiles at medium range
-					//Missile-shield interaction
-					//Homing
-					//Exploding sound
 				//Charging
+	//Drop shadow goes through platforms
 
 	//Add scrolling to level select menu
 	//Optimize enemies by setting collision event mode to not always	

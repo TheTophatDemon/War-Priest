@@ -22,12 +22,14 @@ public:
 	virtual void FixedUpdate(float timeStep);
 	~Missile();
 
-	static Node* MakeMissile(Scene* sc, Vector3 position, Quaternion rotation, Node* owner);
+	static Node* MakeMissile(Scene* sc, Vector3 position, Quaternion rotation, Node* owner, Node* target);
 protected:
 	virtual void OnCollision(StringHash eventType, VariantMap& eventData);
 	virtual void Move(const float timeStep);
 	SharedPtr<Node> emitterNode;
 	SharedPtr<ParticleEmitter> emitter;
+	WeakPtr<Node> target;
+	int state;
 	float deltaTime;
 };
 

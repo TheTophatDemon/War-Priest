@@ -241,7 +241,7 @@ void Player::FixedUpdate(float timeStep)
 		actor->onGround = true;
 	speedy = input->GetKeyDown(KEY_KP_PERIOD);
 	if (input->GetKeyPress(KEY_KP_9))
-		Missile::MakeMissile(scene, node_->GetWorldPosition() + Vector3(0.0f, 4.0f, 0.0f), newRotation, node_);
+		Missile::MakeMissile(scene, node_->GetWorldPosition() + Vector3(0.0f, 4.0f, 0.0f), newRotation, node_, node_);
 
 	bloodEmitter->ApplyEffect();
 	float newAngle = 0.0f;
