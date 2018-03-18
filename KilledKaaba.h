@@ -35,7 +35,6 @@ protected:
 	SharedPtr<RigidBody> body;
 	SharedPtr<Scene> scene;
 	SharedPtr<Node> glowNode;
-	SharedPtr<Node> target;
 	void ChangeState(const int newState);
 	void EnterState(const int newState);
 	void LeaveState(const int oldState);

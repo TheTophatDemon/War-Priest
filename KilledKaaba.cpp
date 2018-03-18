@@ -7,11 +7,12 @@
 #include <Urho3D/Physics/PhysicsEvents.h>
 #include "Settings.h"
 #include "Blackstone.h"
+#include "Missile.h"
 
 #define STATE_DORMANT 0
 #define STATE_RISE 1
 #define STATE_FLY 2
-#define STATE_BALLATTACK 3
+#define STATE_MISSILE 3
 
 #define HEIGHT_FROM_BOTTOM 9.0f
 #define RISE_SPEED 500.0f
@@ -125,9 +126,13 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		attackTimer -= timeStep;
 		if (attackTimer < 0.0f)
 		{
-			const int attack = Random(0, 5);
+			int attack = Random(0, 5);
+			if (attack == 0 && distanceFromPlayer < 40.0f) attack++; //Don't fire missiles if the player is too close
 			switch (attack)
 			{
+			case 0:
+				ChangeState(STATE_MISSILE);
+				break;
 			default:
 			{
 				int count = floorf(Settings::ScaleWithDifficulty(8.0f, 12.0f, 16.0));
@@ -140,7 +145,6 @@ void KilledKaaba::FixedUpdate(float timeStep)
 				break;
 			}
 			}
-			//ChangeState(STATE_BALLATTACK);
 		}
 		
 		if (hDiff < -1.0f) 
@@ -159,7 +163,7 @@ void KilledKaaba::FixedUpdate(float timeStep)
 			ChangeState(STATE_RISE);
 		}
 		break;
-	case STATE_BALLATTACK:
+	case STATE_MISSILE:
 		body->SetLinearVelocity(Vector3::ZERO);
 		if (stateTimer < 4.0f) 
 		{
@@ -175,13 +179,18 @@ void KilledKaaba::FixedUpdate(float timeStep)
 			}
 		}
 		shootTimer += timeStep;
-		if (shootTimer > Settings::ScaleWithDifficulty(1.0f, 0.5f, 0.5f))
+		if (shootTimer > Settings::ScaleWithDifficulty(1.0f, 0.5f, 0.25f))
 		{
 			shootTimer = 0.0f;
-			Vector3 shootDirection = Vector3(0.0f, 16.0f, 0.0f);
+			/*Vector3 shootDirection = Vector3(0.0f, 16.0f, 0.0f);
 			shootDirection.x_ = Random(100.0f, 500.0f) * Sign(Random(-1.0f, 1.0f));
 			shootDirection.z_ = Random(100.0f, 500.0f) * Sign(Random(-1.0f, 1.0f));
-			Blackstone::MakeBlackstone(scene, node_->GetWorldPosition() + Vector3(0.0f, 12.0f, 0.0f), shootDirection, node_);
+			Blackstone::MakeBlackstone(scene, node_->GetWorldPosition() + Vector3(0.0f, 12.0f, 0.0f), shootDirection, node_);*/
+			Quaternion shootDirection = Quaternion();
+			shootDirection.FromLookRotation(Vector3(
+				Random(-1.0f, 1.0f), Random(0.0f, 1.0f), Random(-1.0f, 1.0f)
+			).Normalized(), Vector3::UP);
+			Missile::MakeMissile(scene, node_->GetWorldPosition(), shootDirection, node_, game->playerNode);
 		}
 		break;
 	}
@@ -233,6 +242,20 @@ void KilledKaaba::OnCollision(StringHash eventType, VariantMap& eventData)
 		map.Insert(Pair<StringHash, Variant>(Projectile::P_DAMAGE, Settings::ScaleWithDifficulty(10.0f, 12.0f, 15.0f)));
 		SendEvent(Projectile::E_PROJECTILEHIT, map);
 	}
+	else if (otherBody->GetCollisionLayer() & 64) //Shove enemies aside
+	{
+		if (other->HasComponent<Actor>())
+		{
+			Actor* actor = other->GetComponent<Actor>();
+			Quaternion direction = Quaternion();
+			VectorBuffer contacts = eventData["Contacts"].GetBuffer();
+			Vector3 position = contacts.ReadVector3();
+			Vector3 normal = contacts.ReadVector3();
+			normal.y_ = 0.0f;
+			direction.FromLookRotation(-normal, Vector3::UP);
+			actor->KnockBack(100.0f, direction);
+		}
+	}
 }
 
 void KilledKaaba::ChangeState(const int newState)
@@ -264,7 +287,7 @@ void KilledKaaba::EnterState(const int newState)
 			body->SetAngularFactor(Vector3::UP);
 			body->SetLinearFactor(Vector3::ONE);
 			break;
-		case STATE_BALLATTACK:
+		case STATE_MISSILE:
 			body->SetAngularFactor(Vector3::UP);
 			body->SetLinearFactor(Vector3::ONE);
 			shootTimer = 0.0f;
@@ -295,7 +318,7 @@ void KilledKaaba::LeaveState(const int oldState)
 		body->SetAngularFactor(Vector3::ZERO);
 		body->SetLinearFactor(Vector3(1.0f, 0.0f, 1.0f));
 		break;
-	case STATE_BALLATTACK:
+	case STATE_MISSILE:
 		body->SetAngularFactor(Vector3::ZERO);
 		body->SetLinearFactor(Vector3(1.0f, 0.0f, 1.0f));
 		break;

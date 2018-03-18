@@ -16,6 +16,8 @@
 	<component type="RigidBody" id="16777229">
 		<attribute name="Physics Position" value="-1.85421 -2.5012 7.88966" />
 		<attribute name="Mass" value="100" />
+		<attribute name="Collision Layer" value="1" />
+		<attribute name="Collision Mask" value="210" />
 		<attribute name="Use Gravity" value="false" />
 		<attribute name="Is Kinematic" value="true" />
 	</component>

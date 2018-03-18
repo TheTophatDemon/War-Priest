@@ -1,17 +1,16 @@
 //TODO:
 	//Sacsand4
 		//Killer Kaaba
-			//Keeps collding w/ enemies
 			//Gets stuck on lift
 			//Attacking
-				//Shoot high velocity missiles at medium range
 				//Charging
+				//Fireballs
+					//Don't react with shield well enough
+					//Change graphics. They's ugly.
 	//Drop shadow goes through platforms
-
 	//Add scrolling to level select menu
-	//Optimize enemies by setting collision event mode to not always	
 
-	//Sinsyn
+	//Sinister Synagogue
 	//Crossroads
 	//Credits
 	//Palpan2
@@ -27,12 +26,12 @@
 		//Killed Kaaba
 			//Awakening
 			//Bounce
-			//Missile fire
 			//Charge?
 	//Roblox?
-	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. Do final test through every level.
-	//Remove health from sacsand2
-	//Fix exploit on sacsand1
+	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. 
+	//Do final test through every level.
+		//Remove health from sacsand2
+		//Fix exploit on sacsand1
 
 	//Model-rigidbody lag?
 	//Package assets

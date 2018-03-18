@@ -445,7 +445,7 @@
 			<attribute name="Mass" value="2" />
 			<attribute name="Linear Factor" value="1 0 1" />
 			<attribute name="Angular Factor" value="0 0 0" />
-			<attribute name="Collision Layer" value="7" />
+			<attribute name="Collision Layer" value="1" />
 			<attribute name="Collision Mask" value="199" />
 			<attribute name="CCD Radius" value="14" />
 			<attribute name="Use Gravity" value="false" />

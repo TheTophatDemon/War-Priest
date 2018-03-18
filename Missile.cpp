@@ -55,7 +55,7 @@ void Missile::Move(const float timeStep)
 	switch (state)
 	{
 	case 0:
-		speed -= (timeStep * 25.0f) * Sign(orgSpeed);
+		speed -= (timeStep * 28.0f) * Sign(orgSpeed);
 		if (speed <= 0.0f)
 		{
 			state++;
@@ -68,7 +68,7 @@ void Missile::Move(const float timeStep)
 			Quaternion dest = Quaternion();
 			dest.FromLookRotation((target->GetWorldPosition() + Vector3(0.0f, 1.0f, 0.0f) - node_->GetWorldPosition()).Normalized(), Vector3::UP);
 			node_->SetWorldRotation(node_->GetWorldRotation().Slerp(dest, 5.0f * timeStep));
-			speed += (timeStep * 25.0f) * Sign(orgSpeed);
+			speed += (timeStep * 20.5f) * Sign(orgSpeed);
 			if (fabs(speed) > fabs(orgSpeed))
 			{
 				speed = orgSpeed;
@@ -134,7 +134,7 @@ Node* Missile::MakeMissile(Scene* sc, Vector3 position, Quaternion rotation, Nod
 {
 	Missile* m = new Missile(sc->GetContext());
 	m->owner = owner;
-	m->speed = 40.0f + Settings::ScaleWithDifficulty(-10.0f, 0.0f, 10.0f);
+	m->speed = 50.0f + Settings::ScaleWithDifficulty(-20.0f, 0.0f, 20.0f);
 	m->damage = 0;
 	m->radius = 0.5f;
 	m->limitRange = false;
