@@ -145,6 +145,10 @@ void Player::Start()
 
 	//Drop shadow
 	dropShadow = scene->CreateChild();
+	StaticModel* shadModel = dropShadow->CreateComponent<StaticModel>();
+	shadModel->SetModel(cache->GetResource<Model>("Models/shadow.mdl"));
+	shadModel->SetMaterial(cache->GetResource<Material>("Materials/shadow_simple.xml"));
+	dropShadow->SetRotation(Quaternion::IDENTITY);
 
 	//Blood
 	bloodEmitter = node_->GetChild("blood")->GetComponent<ParticleEmitter>();
@@ -194,33 +198,6 @@ void Player::Start()
 
 void Player::OnSettingsChange(StringHash eventType, VariantMap& eventData)
 {
-	//Drop Shadow
-	//Fast graphics mode's drop shadow is a model that is positioned using a raycast
-	//Slow graphics mode's drop shadow is a spot light with an inverted brightness
-	if (Settings::AreGraphicsFast()) 
-	{
-		if (dropShadow->HasComponent<Light>()) dropShadow->RemoveComponent<Light>();
-		if (!dropShadow->HasComponent<StaticModel>()) 
-		{
-			StaticModel* shadModel = dropShadow->CreateComponent<StaticModel>();
-			shadModel->SetModel(cache->GetResource<Model>("Models/shadow.mdl"));
-			shadModel->SetMaterial(cache->GetResource<Material>("Materials/shadow_simple.xml"));
-			dropShadow->SetRotation(Quaternion::IDENTITY);
-		}
-	}
-	else
-	{
-		if (dropShadow->HasComponent<StaticModel>()) dropShadow->RemoveComponent<StaticModel>();
-		if (!dropShadow->HasComponent<Light>())
-		{
-			Light* light = dropShadow->CreateComponent<Light>();
-			light->SetLightType(LightType::LIGHT_SPOT);
-			light->SetBrightness(-0.8f);
-			light->SetFov(50.0f);
-			light->SetRange(25.0f);
-			dropShadow->SetRotation(Quaternion(90.0f, Vector3::RIGHT));
-		}
-	}
 }
 
 void Player::FixedUpdate(float timeStep)
@@ -242,6 +219,32 @@ void Player::FixedUpdate(float timeStep)
 	speedy = input->GetKeyDown(KEY_KP_PERIOD);
 	if (input->GetKeyPress(KEY_KP_9))
 		Missile::MakeMissile(scene, node_->GetWorldPosition() + Vector3(0.0f, 4.0f, 0.0f), newRotation, node_, node_);
+	if (input->GetKeyPress(KEY_KP_3)) //Query
+	{
+		PhysicsRaycastResult query;
+		IntVector2 mousePos = input->GetMousePosition();
+		Ray mouseRay = camera->GetScreenRay((float)mousePos.x_ / (float)Settings::GetResolutionX(), (float)mousePos.y_ / (float)Settings::GetResolutionY());
+		//mouseRay.origin_ = cameraNode->GetWorldPosition();
+		physworld->RaycastSingle(query, mouseRay, 500.0f);
+		if (query.body_)
+		{
+			Node* mark = scene->CreateChild();
+			mark->LoadXML(cache->GetResource<XMLFile>("Objects/god.xml")->GetRoot());
+			mark->SetWorldPosition(query.position_);
+			Node* node = query.body_->GetNode();
+			UniquePtr<XMLFile> file;
+			file.Reset(new XMLFile(context_));
+			file->GetOrCreateRoot("rooty");
+			if (node->SaveXML(file->GetRoot()))
+			{
+				std::cout << file->ToString().CString() << std::endl;
+			}
+			else
+			{
+				std::cout << "COULD NOT SAVE QUERIED NODE INTO XML" << std::endl;
+			}
+		}
+	}
 
 	bloodEmitter->ApplyEffect();
 	float newAngle = 0.0f;
@@ -468,25 +471,18 @@ void Player::HandleCamera()
 
 void Player::HandleShadow()
 {
-	if (Settings::AreGraphicsFast()) 
+	Vector3 doot = Vector3(0.0f, 0.1f, 0.0f);
+	PhysicsRaycastResult shadowRaycast;
+	physworld->RaycastSingle(shadowRaycast, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
+	if (shadowRaycast.body_)
 	{
-		PhysicsRaycastResult shadowRaycast;
-		Vector3 doot = Vector3(0.0f, 0.1f, 0.0f);
-		physworld->RaycastSingle(shadowRaycast, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
-		if (shadowRaycast.body_ && shadowRaycast.distance_ > 0.1f)
+		if (!actor->onGround && shadowRaycast.distance_ > 0.5f)
 		{
-			if (!actor->onGround && shadowRaycast.distance_ > 0.5f)
-			{
-				dropShadow->SetEnabled(true);
-				dropShadow->SetWorldPosition(shadowRaycast.position_ + Vector3(0.0f, 0.1f, 0.0f));
-				Quaternion q = Quaternion();
-				q.FromLookRotation(shadowRaycast.normal_);
-				dropShadow->SetRotation(q);
-			}
-			else
-			{
-				dropShadow->SetEnabled(false);
-			}
+			dropShadow->SetEnabled(true);
+			dropShadow->SetWorldPosition(shadowRaycast.position_ + Vector3(0.0f, 0.1f, 0.0f));
+			Quaternion q = Quaternion();
+			q.FromLookRotation(shadowRaycast.normal_);
+			dropShadow->SetRotation(q);
 		}
 		else
 		{
@@ -495,8 +491,7 @@ void Player::HandleShadow()
 	}
 	else
 	{
-		dropShadow->SetEnabled(true);
-		dropShadow->SetWorldPosition(node_->GetWorldPosition());
+		dropShadow->SetEnabled(false);
 	}
 }
 

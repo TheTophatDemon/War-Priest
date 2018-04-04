@@ -174,6 +174,9 @@ void LevelSelectMenu::Update(float timeStep)
 		float y = scrollBar->GetValue();
 		buttParent->SetPosition(0, -y * levelEntries.Size() * 36);
 	}
+
+	
+
 	//Animates the spinning cross sprites
 	animTimer += timeStep;
 	if (animTimer > 0.1f)
@@ -225,6 +228,11 @@ void LevelSelectMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 				titleScreen->gunPriest->StartGame(path);
 			}
 		}
+	}
+	else if (eventType == E_MOUSEWHEEL)
+	{
+		const int wheelValue = eventData["Wheel"].GetInt();
+		scrollBar->SetValue(scrollBar->GetValue() + (scrollBar->GetRange() / buttParent->GetNumChildren() * -wheelValue * 2.0f));
 	}
 }
 

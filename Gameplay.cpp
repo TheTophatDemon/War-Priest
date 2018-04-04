@@ -266,12 +266,12 @@ void Gameplay::SetupGame()
 		Node* n = dynamic_cast<Node*>(*i);
 		if (n)
 		{
-			Matrix3x4 trans = n->GetWorldTransform();
+			Matrix3x4 trans = n->GetTransform();
 
 			const float lf = n->GetVar("launchForce").GetFloat();
 
 			n->LoadXML(cache->GetResource<XMLFile>("Objects/launchpad.xml")->GetRoot());
-			n->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
+			n->SetTransform(trans.Translation(), trans.Rotation(), trans.Scale());
 
 			Launchpad* lp = n->CreateComponent<Launchpad>();
 			if (lf != 0.0f)
@@ -375,6 +375,16 @@ void Gameplay::FixedUpdate(float timeStep)
 {
 	if (IsEnabled()) 
 	{
+		if (input->GetKeyDown(KEY_ALT))
+		{
+			input->SetMouseGrabbed(false);
+			input->SetMouseVisible(true);
+		}
+		else
+		{
+			input->SetMouseGrabbed(true);
+			input->SetMouseVisible(false);
+		}
 		UpdateHUD(timeStep);
 		if (skybox)
 		{
@@ -679,11 +689,14 @@ void Gameplay::ExtractLiquidsFromMap() //For more detailed liquid volumes
 	SharedPtr<Geometry> emptyGeo = SharedPtr<Geometry>(new Geometry(context_)); //Fake geometry so they don't complain at us
 	for (int i = 0; i < mapModel->GetNumGeometries(); i++)
 	{
-		if (mapModel->GetMaterial(i)->GetTechnique(0) == cache->GetResource<Technique>("Techniques/Liquid.xml"))
+		if (mapModel->GetMaterial(i) != nullptr) 
 		{
-			std::cout << "WATER FOUND" << std::endl;
-			waterGeometries.Push(SharedPtr<Geometry>(model->GetGeometry(i, 0)));
-			model->SetGeometry(i, 0, emptyGeo); //This only affects the collisionshape generation for some reason.
+			if (mapModel->GetMaterial(i)->GetTechnique(0) == cache->GetResource<Technique>("Techniques/Liquid.xml"))
+			{
+				std::cout << "WATER FOUND" << std::endl;
+				waterGeometries.Push(SharedPtr<Geometry>(model->GetGeometry(i, 0)));
+				model->SetGeometry(i, 0, emptyGeo); //This only affects the collisionshape generation for some reason.
+			}
 		}
 	}
 	CollisionShape* cs = mapNode->GetComponent<CollisionShape>(); //Update the map's collision shape; should now exclude water geometry.

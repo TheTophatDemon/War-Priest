@@ -39,7 +39,7 @@ void Missile::FixedUpdate(float timeStep)
 	if (!hit)
 	{
 		emitterNode->SetWorldPosition(node_->GetWorldPosition());
-		if (lifeTimer > 10.0f)
+		if (lifeTimer > 25.0f)
 		{
 			emitterNode->Remove();
 			node_->Remove();

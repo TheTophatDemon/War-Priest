@@ -10,6 +10,7 @@
 #include <Urho3D/IO/FileSystem.h>
 #include <Urho3D/Physics/PhysicsEvents.h>
 #include <Urho3D/Core/CoreEvents.h>
+#include <Urho3D/Input/InputEvents.h>
 #include <iostream>
 
 #include "Gameplay.h"
@@ -77,6 +78,7 @@ void TitleScreen::Start()
 	SubscribeToEvent(E_KEYDOWN, URHO3D_HANDLER(TitleScreen, OnEvent));
 	SubscribeToEvent(E_SLIDERCHANGED, URHO3D_HANDLER(TitleScreen, OnEvent));
 	SubscribeToEvent(E_TOGGLED, URHO3D_HANDLER(TitleScreen, OnEvent));
+	SubscribeToEvent(E_MOUSEWHEEL, URHO3D_HANDLER(TitleScreen, OnEvent));
 
 	SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(TitleScreen, OnUpdate));
 

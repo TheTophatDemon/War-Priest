@@ -1,14 +1,18 @@
 //TODO:
 	//Sacsand4
+		//No floor under glass
+		//Put statues on the starting island!
+		//Make platforms not dip into the liquid
 		//Killer Kaaba
 			//Gets stuck on lift
+			//Fix spinning bullcrap
+			//Make missiles home more when further away
 			//Attacking
 				//Charging
-				//Fireballs
-					//Don't react with shield well enough
-					//Change graphics. They's ugly.
-	//Drop shadow goes through platforms
-	//Add scrolling to level select menu
+	//Fade out the shadow when closer to ground?
+	//Remove specific religious symbols
+	//Redo texturing on lifts
+	//Wololo
 
 	//Sinister Synagogue
 	//Crossroads
@@ -35,8 +39,6 @@
 
 	//Model-rigidbody lag?
 	//Package assets
-
-	//Freezes on SDL_Delay called by DirectSound upon Alt-Tab
 //Level Ideas
 	//Giant cross platform rising up and down
 	//Lifts sticking out of walls
@@ -49,15 +51,17 @@
 		//Rides skateboard.
 
 //Complaints:
-	//It'd be nice to have an event that fires right before the physics steps for keeping track of flags
+	//PrePhysicsUpdate problems?
 	//Interpolation causes physics objects to jitter
 	//Need an easier way of getting triangle info from a collision for "platforming logic"
 	//Need a way to restrict transform inheritance from parents (rotation, location, scale)
-	//The editor crashes sometimes when loading other scenes
+	//The editor crashes sometimes when loading scenes for a second time
 	//When the editor first opens, I am unable to edit any text until I alt-tab out and refocus the window.
 	//When running fullscreen sometimes, after alt-tabbing the device gets lost over and over again, and the window flashes several times.
 	//The editor keeps thinking "gamesettings.bin" is an XML file.
 	//Custom components can't have parameters other than context
+	//GetWorldTransform scaling bug?
+	//Freezes on "SDL_Delay" (Called by DirectSound, I think) sometimes when re-focusing the window after an alt-tab.
 
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP

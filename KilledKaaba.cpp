@@ -14,7 +14,7 @@
 #define STATE_FLY 2
 #define STATE_MISSILE 3
 
-#define HEIGHT_FROM_BOTTOM 9.0f
+#define HEIGHT_FROM_BOTTOM 5.0f
 #define RISE_SPEED 500.0f
 
 KilledKaaba::KilledKaaba(Context* context) : LogicComponent(context),
@@ -126,13 +126,13 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		attackTimer -= timeStep;
 		if (attackTimer < 0.0f)
 		{
-			int attack = Random(0, 5);
+			/*int attack = Random(0, 5);
 			if (attack == 0 && distanceFromPlayer < 40.0f) attack++; //Don't fire missiles if the player is too close
 			switch (attack)
 			{
-			case 0:
+			case 0:*/
 				ChangeState(STATE_MISSILE);
-				break;
+				/*break;
 			default:
 			{
 				int count = floorf(Settings::ScaleWithDifficulty(8.0f, 12.0f, 16.0));
@@ -144,7 +144,7 @@ void KilledKaaba::FixedUpdate(float timeStep)
 				attackTimer = Random(Settings::ScaleWithDifficulty(8.0f, 5.0f, 3.0f), 10.0f);
 				break;
 			}
-			}
+			}*/
 		}
 		
 		if (hDiff < -1.0f) 
