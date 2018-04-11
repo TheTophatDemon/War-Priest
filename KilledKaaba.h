@@ -43,6 +43,7 @@ protected:
 
 	Vector3 direction;
 	float moveSpeed;
+	float spinSpeed;
 	float distanceFromPlayer;
 	float stateTimer;
 	float targetHeight;

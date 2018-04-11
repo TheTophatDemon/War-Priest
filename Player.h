@@ -88,6 +88,7 @@ protected:
 	float stateTimer;
 	float reviveCooldown;
 	float cameraPitch;
+	float cameraYaw;
 	float moveX = 0.0f;
 	float moveZ = 0.0f;
 	//bool drowning = false;

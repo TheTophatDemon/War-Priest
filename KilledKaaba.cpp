@@ -15,13 +15,17 @@
 #define STATE_MISSILE 3
 
 #define HEIGHT_FROM_BOTTOM 5.0f
-#define RISE_SPEED 500.0f
+#define RISE_SPEED 750.0f
+#define MAX_SPINSPEED 100.0f
+#define SPIN_ACCEL 7.0f
+#define SPIN_FRICTION 0.97f
 
 KilledKaaba::KilledKaaba(Context* context) : LogicComponent(context),
 	distanceFromPlayer(0.0f),
 	stateTimer(0.0f),
 	state(-1),
 	moveSpeed(1.0f),
+	spinSpeed(0.0f),
 	direction(1.0f, 0.0f, 0.0f),
 	targetHeight(0.0f),
 	lastState(-1),
@@ -47,6 +51,7 @@ void KilledKaaba::Start()
 	
 	body = node_->GetComponent<RigidBody>();
 	body->SetLinearVelocity(Vector3::ZERO);
+	body->SetAngularFactor(Vector3::ZERO);
 
 	targetHeight = node_->GetWorldPosition().y_ + HEIGHT_FROM_BOTTOM;
 
@@ -76,7 +81,8 @@ void KilledKaaba::FixedUpdate(float timeStep)
 	plyPos.y_ = 0.0f;
 	Vector3 ourPos = node_->GetWorldPosition(); 
 	ourPos.y_ = 0.0f;
-	distanceFromPlayer = (ourPos - plyPos).Length();
+	const Vector3 targetDiff = (ourPos - plyPos);
+	distanceFromPlayer = targetDiff.Length();
 
 	const float hDiff = targetHeight - node_->GetWorldPosition().y_;
 	const float currentSpeed = body->GetLinearVelocity().Length();
@@ -86,20 +92,27 @@ void KilledKaaba::FixedUpdate(float timeStep)
 	switch (state)
 	{
 	case STATE_DORMANT:
+	{
 		body->SetLinearVelocity(Vector3::ZERO);
-		if (distanceFromPlayer < 40.0f)
+
+		//Instead of a direct distance, we measure the distance from the player to an infinite plane spanning the Kube's front surface
+		//so that you can't walk past it without activating it.
+		const Vector3 actualForward = node_->GetWorldDirection().CrossProduct(Vector3::UP);
+		const float distanceToFrontPlane = (-targetDiff).DotProduct(actualForward);
+		if (fabs(distanceToFrontPlane) < 40.0f)
 		{
 			ChangeState(STATE_RISE);
 		}
 		break;
+	}
 	case STATE_RISE:
+		node_->Rotate(Quaternion(spinSpeed, Vector3::UP), TS_WORLD);
 		if (Abs(hDiff) < 1.0f) //Decelerate the spinning before resuming activity
 		{
 			body->SetLinearVelocity(Vector3::ZERO);
-			body->ApplyTorqueImpulse(Vector3(0.0f, -spinDir * timeStep * 500.0f, 0.0f));
-			if (body->GetAngularVelocity().Length() < 1.0f)
+			spinSpeed *= SPIN_FRICTION;
+			if (fabs(spinSpeed) < 1.0f)
 			{
-				body->SetAngularVelocity(Vector3::ZERO);
 				ChangeState(STATE_FLY);
 			}
 		}
@@ -109,7 +122,8 @@ void KilledKaaba::FixedUpdate(float timeStep)
 				body->SetLinearVelocity(Vector3(0.0f, timeStep * RISE_SPEED * Sign(hDiff) * 0.1f, 0.0f));
 			else
 				body->SetLinearVelocity(Vector3(0.0f, timeStep * RISE_SPEED * Sign(hDiff), 0.0f));
-			body->ApplyTorqueImpulse(Vector3(0.0f, 500.0f * timeStep, 0.0f));
+			//body->ApplyTorqueImpulse(Vector3(0.0f, 500.0f * timeStep, 0.0f));
+			spinSpeed = Min(MAX_SPINSPEED, spinSpeed + (timeStep * SPIN_ACCEL));
 		}
 		break;
 	case STATE_FLY:
@@ -164,15 +178,18 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		}
 		break;
 	case STATE_MISSILE:
+		node_->Rotate(Quaternion(spinSpeed, Vector3::UP), TS_WORLD);
 		body->SetLinearVelocity(Vector3::ZERO);
 		if (stateTimer < 4.0f) 
 		{
-			body->ApplyTorqueImpulse(Vector3(0.0f, timeStep * 500.0f, 0.0f));
+			//body->ApplyTorqueImpulse(Vector3(0.0f, timeStep * 500.0f, 0.0f));
+			spinSpeed = Min(MAX_SPINSPEED, spinSpeed + (timeStep * SPIN_ACCEL));
 		}
 		else //Decelerate spinning before going back to normal
 		{
-			body->ApplyTorqueImpulse(Vector3(0.0f, -spinDir * timeStep * 500.0f, 0.0f));
-			if (body->GetAngularVelocity().Length() < 1.0f)
+			//body->ApplyTorqueImpulse(Vector3(0.0f, -spinDir * timeStep * 500.0f, 0.0f));
+			spinSpeed *= SPIN_FRICTION;
+			if (fabs(spinSpeed) < 1.0f)
 			{
 				body->SetAngularVelocity(Vector3::ZERO);
 				ChangeState(STATE_FLY);
@@ -188,7 +205,7 @@ void KilledKaaba::FixedUpdate(float timeStep)
 			Blackstone::MakeBlackstone(scene, node_->GetWorldPosition() + Vector3(0.0f, 12.0f, 0.0f), shootDirection, node_);*/
 			Quaternion shootDirection = Quaternion();
 			shootDirection.FromLookRotation(Vector3(
-				Random(-1.0f, 1.0f), Random(0.0f, 1.0f), Random(-1.0f, 1.0f)
+				Random(-1.0f, 1.0f), 0.0f, Random(-1.0f, 1.0f)
 			).Normalized(), Vector3::UP);
 			Missile::MakeMissile(scene, node_->GetWorldPosition(), shootDirection, node_, game->playerNode);
 		}
@@ -284,11 +301,11 @@ void KilledKaaba::EnterState(const int newState)
 			attackTimer = Random(Settings::ScaleWithDifficulty(8.0f, 5.0f, 3.0f), 10.0f);
 			break;
 		case STATE_RISE:
-			body->SetAngularFactor(Vector3::UP);
+			spinSpeed = 10.0f;
 			body->SetLinearFactor(Vector3::ONE);
 			break;
 		case STATE_MISSILE:
-			body->SetAngularFactor(Vector3::UP);
+			spinSpeed = 0.0f;
 			body->SetLinearFactor(Vector3::ONE);
 			shootTimer = 0.0f;
 			break;
@@ -315,11 +332,9 @@ void KilledKaaba::LeaveState(const int oldState)
 		break;
 	}
 	case STATE_RISE:
-		body->SetAngularFactor(Vector3::ZERO);
 		body->SetLinearFactor(Vector3(1.0f, 0.0f, 1.0f));
 		break;
 	case STATE_MISSILE:
-		body->SetAngularFactor(Vector3::ZERO);
 		body->SetLinearFactor(Vector3(1.0f, 0.0f, 1.0f));
 		break;
 	}

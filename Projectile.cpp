@@ -79,7 +79,7 @@ void Projectile::FixedUpdate(float timeStep)
 					{
 						if (result.body_->GetNode()->HasTag("tempshield"))
 						{
-							speed -= 2.5f;
+							speed -= 3.5f;
 							if (speed == 0.0f) speed = -orgSpeed;
 						}
 					}

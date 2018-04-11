@@ -29,6 +29,7 @@ protected:
 	SharedPtr<Node> emitterNode;
 	SharedPtr<ParticleEmitter> emitter;
 	WeakPtr<Node> target;
+	Vector3 targetOffset; //Not neccessarily directly on the target. That's too boring.
 	int state;
 	float deltaTime;
 };

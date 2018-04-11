@@ -1,21 +1,20 @@
 //TODO:
 	//Sacsand4
-		//No floor under glass
-		//Put statues on the starting island!
-		//Make platforms not dip into the liquid
 		//Killer Kaaba
-			//Gets stuck on lift
-			//Fix spinning bullcrap
-			//Make missiles home more when further away
 			//Attacking
-				//Charging
+				//Missile
+					// smoke trails disappear prenatally
+					// Warning
+				//Close range attack (sphere of death?)
 	//Fade out the shadow when closer to ground?
 	//Remove specific religious symbols
-	//Redo texturing on lifts
+	//Diamond platform buggery
 	//Wololo
+	//Ridiculous drowning animation
 
 	//Sinister Synagogue
 	//Crossroads
+		//Scrolling waluigi background
 	//Credits
 	//Palpan2
 	//Palpan1
@@ -31,11 +30,12 @@
 			//Awakening
 			//Bounce
 			//Charge?
-	//Roblox?
 	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. 
 	//Do final test through every level.
+		//Sacsand3 platforms going wrong way
 		//Remove health from sacsand2
 		//Fix exploit on sacsand1
+		//Fallrhine 2 barrel platform unreachable
 
 	//Model-rigidbody lag?
 	//Package assets

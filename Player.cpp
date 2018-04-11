@@ -69,7 +69,7 @@ using namespace Urho3D;
 #define MAXHEALTH 100
 
 const float Player::reviveCooldownMax = 1.25f;
-Vector3 Player::cameraOffset = Vector3(0.0f, 14.4579f, -12.0f);
+Vector3 Player::cameraOffset = Vector3(0.0f, 18.0f, -15.0f);
 
 Player::Player(Context* context) : 
 	LogicComponent(context),

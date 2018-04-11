@@ -11,7 +11,8 @@
 
 Missile::Missile(Context* context) : Projectile(context),
 	deltaTime(0.0f),
-	state(0)
+	state(0),
+	targetOffset(0.0f,0.0f,0.0f)
 {
 	checkCollisionsManually = false;
 }
@@ -58,6 +59,7 @@ void Missile::Move(const float timeStep)
 		speed -= (timeStep * 28.0f) * Sign(orgSpeed);
 		if (speed <= 0.0f)
 		{
+			targetOffset = Vector3(Random(-1.0f, 1.0f), 2.0f, Random(-1.0f, 1.0f));
 			state++;
 		}
 		break;
@@ -65,13 +67,17 @@ void Missile::Move(const float timeStep)
 	{
 		if (target.Get() != nullptr)
 		{
+			const Vector3 diff = target->GetWorldPosition() + targetOffset - node_->GetWorldPosition();
 			Quaternion dest = Quaternion();
-			dest.FromLookRotation((target->GetWorldPosition() + Vector3(0.0f, 1.0f, 0.0f) - node_->GetWorldPosition()).Normalized(), Vector3::UP);
+			dest.FromLookRotation(diff.Normalized(), Vector3::UP);
 			node_->SetWorldRotation(node_->GetWorldRotation().Slerp(dest, 5.0f * timeStep));
 			speed += (timeStep * 20.5f) * Sign(orgSpeed);
 			if (fabs(speed) > fabs(orgSpeed))
 			{
 				speed = orgSpeed;
+			}
+			if (diff.Length() < 20.0f && fabs(speed) >= fabs(orgSpeed) / 2.0f)
+			{
 				state++;
 			}
 		}
@@ -106,8 +112,8 @@ void Missile::OnCollision(StringHash eventType, VariantMap& eventData)
 				t->life = 2.0f;
 				emitterNode->AddComponent(t, 1212, LOCAL);
 
-				Node* explosion = Zeus::MakeExplosion(scene, node_->GetWorldPosition(), 2.0f, 4.0f);
-				Zeus::ApplyRadialDamage(scene, node_, 5.5f, Settings::ScaleWithDifficulty(10.0f, 12.0f, 15.0f), 132); //128 + 4
+				Node* explosion = Zeus::MakeExplosion(scene, node_->GetWorldPosition(), 2.0f, 3.5f);
+				Zeus::ApplyRadialDamage(scene, node_, 4.0f, Settings::ScaleWithDifficulty(7.0f, 10.0f, 13.0f), 132); //128 + 4
 
 				SoundSource3D* s = explosion->CreateComponent<SoundSource3D>();
 				s->SetSoundType("GAMEPLAY");
