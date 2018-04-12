@@ -10,7 +10,6 @@
 	//Remove specific religious symbols
 	//Diamond platform buggery
 	//Wololo
-	//Ridiculous drowning animation
 
 	//Sinister Synagogue
 	//Crossroads

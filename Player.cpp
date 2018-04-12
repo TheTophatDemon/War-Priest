@@ -47,6 +47,7 @@ using namespace Urho3D;
 #define SLIDE_ANIM "Models/grungle_slide.ani"
 #define HAIL_ANIM "Models/grungle_hailmary.ani"
 #define REVIVE_ANIM "Models/grungle_revive.ani"
+#define DROWN_ANIM "Models/grungle_drown.ani"
 
 #define PITCH_LIMIT_HIGHER 65
 #define PITCH_LIMIT_LOWER 15
@@ -676,7 +677,15 @@ void Player::ST_Default(float timeStep)
 	//Select Animation
 	if (!diddly)
 	{
-		animController->PlayExclusive(JUMP_ANIM, 0, false, 0.2f);
+		if ((lastState == STATE_DROWN && stateTimer < 0.5f)
+			|| Settings::GetDifficulty() > 1.4f)
+		{
+			animController->PlayExclusive(DROWN_ANIM, 0, true, 0.2f);
+		}
+		else 
+		{
+			animController->PlayExclusive(JUMP_ANIM, 0, false, 0.2f);
+		}
 	}
 	else
 	{
@@ -781,6 +790,7 @@ void Player::ST_Win(float timeStep)
 
 void Player::ST_Drown(float timeStep)
 {
+	animController->PlayExclusive(DROWN_ANIM, 0, true, 0.2f);
 	stateTimer += timeStep;
 	if (stateTimer > 0.25f)
 	{
