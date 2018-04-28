@@ -42,8 +42,7 @@ void Missile::FixedUpdate(float timeStep)
 		emitterNode->SetWorldPosition(node_->GetWorldPosition());
 		if (lifeTimer > 25.0f)
 		{
-			emitterNode->Remove();
-			node_->Remove();
+			OnHit(PhysicsRaycastResult());
 			return;
 		}
 	}
@@ -94,6 +93,28 @@ void Missile::Move(const float timeStep)
 	movement = node_->GetWorldRotation() * (Vector3::FORWARD * speed * timeStep);
 }
 
+void Missile::OnHit(PhysicsRaycastResult result)
+{
+	Projectile::OnHit(result);
+
+	emitter->SetEmitting(false);
+
+	Node* explosion = Zeus::MakeExplosion(scene, node_->GetWorldPosition(), 2.0f, 3.5f);
+	Zeus::ApplyRadialDamage(scene, node_, 4.0f, Settings::ScaleWithDifficulty(7.0f, 10.0f, 13.0f), 132); //128 + 4
+
+	SoundSource3D* s = explosion->CreateComponent<SoundSource3D>();
+	s->SetSoundType("GAMEPLAY");
+	s->Play(cache->GetResource<Sound>("Sounds/env_explode.wav"));
+
+	node_->RemoveComponent<StaticModel>(); //The smoke trail is WeakParented to it, so instead of removing it we make it empty.
+	node_->RemoveComponent<RigidBody>();
+	node_->RemoveComponent<CollisionShape>();
+
+	TempEffect* t = new TempEffect(context_);
+	t->life = 2.0f;
+	node_->AddComponent(t, 1212, LOCAL);
+}
+
 void Missile::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
@@ -105,21 +126,7 @@ void Missile::OnCollision(StringHash eventType, VariantMap& eventData)
 		{
 			if (!hit)
 			{
-				hit = true;
-
-				emitter->SetEmitting(false);
-				TempEffect* t = new TempEffect(context_);
-				t->life = 2.0f;
-				emitterNode->AddComponent(t, 1212, LOCAL);
-
-				Node* explosion = Zeus::MakeExplosion(scene, node_->GetWorldPosition(), 2.0f, 3.5f);
-				Zeus::ApplyRadialDamage(scene, node_, 4.0f, Settings::ScaleWithDifficulty(7.0f, 10.0f, 13.0f), 132); //128 + 4
-
-				SoundSource3D* s = explosion->CreateComponent<SoundSource3D>();
-				s->SetSoundType("GAMEPLAY");
-				s->Play(cache->GetResource<Sound>("Sounds/env_explode.wav"));
-
-				node_->Remove();
+				OnHit(PhysicsRaycastResult());
 			}
 		}
 		else if (otherBody->GetCollisionLayer() & 16) //SHIELD!

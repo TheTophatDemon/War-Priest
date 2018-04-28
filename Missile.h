@@ -25,7 +25,9 @@ public:
 	static Node* MakeMissile(Scene* sc, Vector3 position, Quaternion rotation, Node* owner, Node* target);
 protected:
 	virtual void OnCollision(StringHash eventType, VariantMap& eventData);
+	virtual void OnHit(PhysicsRaycastResult result);
 	virtual void Move(const float timeStep);
+	
 	SharedPtr<Node> emitterNode;
 	SharedPtr<ParticleEmitter> emitter;
 	WeakPtr<Node> target;

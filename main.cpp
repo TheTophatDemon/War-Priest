@@ -3,13 +3,16 @@
 		//Killer Kaaba
 			//Attacking
 				//Missile
-					// smoke trails disappear prenatally
 					// Warning
 				//Close range attack (sphere of death?)
 	//Fade out the shadow when closer to ground?
 	//Remove specific religious symbols
 	//Diamond platform buggery
 	//Wololo
+	
+	//Fix uneven shading on door.png
+	//Redo sandstone texture
+	//Give Danger Deacons drowning animation
 
 	//Sinister Synagogue
 	//Crossroads

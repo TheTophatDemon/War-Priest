@@ -104,8 +104,12 @@ void Projectile::FixedUpdate(float timeStep)
 
 void Projectile::OnHit(PhysicsRaycastResult result)
 {
-	if (!result.body_) return;
-	if (result.body_->GetNode() == owner.Get()) return;
+	//if (!result.body_) return;
+	if (hit) return;
+	if (result.body_) 
+	{
+		if (result.body_->GetNode() == owner.Get()) return;
+	}
 	hit = true;
 	deathTimer = 0.0f;
 }

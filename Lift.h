@@ -34,7 +34,9 @@ protected:
 	void ChangeState(const int newState);
 	void SetTarget(Vector3& targ);
 	
-	Vector<Pair<WeakPtr<Node>, float>> childCache;
+	Vector<Pair<WeakPtr<Node>, float>> childCache; //Keeps track of all actors on top of the platform so they can be moved with it each frame.
+	//The float in each pair keeps track of how much time it has been since the actor stopped colliding with the platform.
+	//It is neccessary because the physics engine periodically "forgets" that the actor is on the platform and sends a collision end event.
 
 	SharedPtr<RigidBody> body;
 	WeakPtr<Gameplay> game;

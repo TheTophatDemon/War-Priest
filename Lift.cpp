@@ -105,7 +105,7 @@ void Lift::FixedUpdate(float timeStep)
 			{
 				Matrix3x4 diddly = node_->GetWorldTransform() * oldTransform.Inverse() * pair.first_->GetWorldTransform();
 				Vector3 diddlyPos = diddly.Translation();
-				bool doddly = diddlyPos.y_ > pair.first_->GetWorldPosition().y_;
+				//bool doddly = diddlyPos.y_ > pair.first_->GetWorldPosition().y_;
 				//if (doddly) diddlyPos.y_ = pair.first_->GetWorldPosition().y_;
 				pair.first_->SetWorldTransform(diddlyPos, diddly.Rotation());
 				pair.first_->GetComponent<RigidBody>()->SetTransform(diddlyPos, diddly.Rotation());

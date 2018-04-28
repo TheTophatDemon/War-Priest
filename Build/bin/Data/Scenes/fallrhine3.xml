@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="3" />
 	<attribute name="Next Replicated Component ID" value="5" />
-	<attribute name="Next Local Node ID" value="16778192" />
-	<attribute name="Next Local Component ID" value="16780387" />
+	<attribute name="Next Local Node ID" value="16778193" />
+	<attribute name="Next Local Component ID" value="16780399" />
 	<attribute name="Variables" />
 	<attribute name="Variable Names" value="spawnertype;spawnerdistance;movement;restTime;speed;rotateSpeed;launchForce;music" />
 	<component type="Octree" id="1" />
@@ -2019,7 +2019,7 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="corpse" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="84.9849 -62.1438 0.594998" />
+		<attribute name="Position" value="55.0359 -61.8653 0.594998" />
 		<attribute name="Rotation" value="-0.000544619 -0.0134264 -0.999909 -0.000776989" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
 		<attribute name="Variables" />

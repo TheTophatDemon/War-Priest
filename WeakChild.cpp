@@ -28,7 +28,7 @@ void WeakChild::FixedUpdate(float timeStep)
 	}
 	else
 	{
-		if (parent->GetParent() == nullptr) 
+		if (parent->GetParent() == nullptr) //This means that it's no longer in the scene
 		{
 			node_->Remove();
 		}
