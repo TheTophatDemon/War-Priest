@@ -428,18 +428,8 @@ void Gameplay::FixedUpdate(float timeStep)
 
 void Gameplay::UpdateHUD(float timeStep)
 {
-	/*int enmCount = 0;
-	PODVector<Node*> enms;
-	scene_->GetChildrenWithTag(enms, "enemy", true);
-	for (Node* n : enms)
-	{
-		Enemy* e = n->GetDerivedComponent<Enemy>();
-		if (e->active)
-		{
-			enmCount++;
-		}
-	}
-	debugText->SetText("ACTIVE ENEMIES: " + String(enmCount));*/
+	DetectMissiles();
+
 	compass1->SetTexture(compassScene->renderedTexture);
 
 	if (messageTimer > 0.0f)
@@ -472,6 +462,23 @@ void Gameplay::UpdateHUD(float timeStep)
 	viewport->GetRenderPath()->SetShaderParameter("FlashColor", flashColor);
 	if (winState == -1)
 		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
+}
+
+void Gameplay::DetectMissiles() 
+{
+	/*
+	//static PODVector<Sprite*> indicators = PODVector<Sprite*>();
+
+	PODVector<Node*> missiles = scene_->GetChildrenWithTag("missile", true);
+	//PODVector<Node*> nearbyMissiles = PODVector<Node*>();
+	for (Node* n : missiles) 
+	{
+		const Vector3 diff = (n->GetWorldPosition() - playerNode->GetWorldPosition());
+		if (diff.Length() < 30.0f)
+		{
+			//nearbyMissiles.Push(n);
+		}
+	}*/
 }
 
 Gameplay::~Gameplay()
