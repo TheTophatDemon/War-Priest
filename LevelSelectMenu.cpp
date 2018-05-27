@@ -55,7 +55,7 @@ void LevelSelectMenu::SetLevelCompletionFlag(const String levelPath, const int f
 			}
 			else 
 			{
-				if (le->completion & flag == flag) //This hasn't been tested yet, because nobody is likely to need it.
+				if ((le->completion & flag) == flag) //This hasn't been tested yet, because nobody is likely to need it.
 					le->completion -= flag;
 			}
 			//Update levelinfo xml structure

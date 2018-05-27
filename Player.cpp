@@ -194,6 +194,9 @@ void Player::Start()
 	SendEvent(Settings::E_SETTINGSCHANGED); //We fake a settings change
 	//This is so that we only have to initialize the settings-dependent values in one piece of code
 
+	if (scene->GetChild("killedkaaba", true) != nullptr)
+		node_->CreateComponent<MissileFinder>(LOCAL, 9001U);
+
 	animController->StopAll();
 }
 
@@ -284,8 +287,9 @@ void Player::FixedUpdate(float timeStep)
 	}
 
 	HandleShadow();
-
 	FindNearestCorpse();
+
+	if (reviveCooldown > 0) reviveCooldown = Max(0.0f, reviveCooldown - timeStep);
 
 	switch (state) 
 	{
@@ -721,7 +725,6 @@ void Player::ST_Default(float timeStep)
 		reviveCooldown = reviveCooldownMax;
 		revived = false;
 	}
-	if (reviveCooldown > 0) reviveCooldown = Max(0.0f, reviveCooldown - timeStep);
 	if (nearestCorpse)
 	{
 		const float distance = (nearestCorpse->GetNode()->GetWorldPosition() - node_->GetWorldPosition()).Length();

@@ -60,6 +60,7 @@
 #include "ChaosCaliph.h"
 #include "LevelSelectMenu.h"
 #include "Bonus.h"
+#include "MissileFinder.h"
 
 using namespace Urho3D;
 
@@ -428,8 +429,6 @@ void Gameplay::FixedUpdate(float timeStep)
 
 void Gameplay::UpdateHUD(float timeStep)
 {
-	DetectMissiles();
-
 	compass1->SetTexture(compassScene->renderedTexture);
 
 	if (messageTimer > 0.0f)
@@ -462,23 +461,6 @@ void Gameplay::UpdateHUD(float timeStep)
 	viewport->GetRenderPath()->SetShaderParameter("FlashColor", flashColor);
 	if (winState == -1)
 		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
-}
-
-void Gameplay::DetectMissiles() 
-{
-	/*
-	//static PODVector<Sprite*> indicators = PODVector<Sprite*>();
-
-	PODVector<Node*> missiles = scene_->GetChildrenWithTag("missile", true);
-	//PODVector<Node*> nearbyMissiles = PODVector<Node*>();
-	for (Node* n : missiles) 
-	{
-		const Vector3 diff = (n->GetWorldPosition() - playerNode->GetWorldPosition());
-		if (diff.Length() < 30.0f)
-		{
-			//nearbyMissiles.Push(n);
-		}
-	}*/
 }
 
 Gameplay::~Gameplay()

@@ -68,7 +68,6 @@ protected:
 	void SetupEnemy();
 	void SetupProps();
 	void ExtractLiquidsFromMap();
-	void DetectMissiles();
 
 	SharedPtr<Node> skybox;
 	SharedPtr<Node> exitNode;

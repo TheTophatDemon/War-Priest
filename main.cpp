@@ -1,17 +1,17 @@
 //TODO:
+	//Sinister Synagogue
+		//Auto-adjusting antigravity platform component
 	//Sacsand4
 		//Killer Kaaba
-			//Attacking
-				//Missile
-					// Warning
-				//Close range attack (sphere of death?)
+			//Close range attack (sphere of death?)
 	//Fade out the shadow when closer to ground?
-	//Remove specific religious symbols
 	//Diamond platform buggery
-	//Wololo
+	//Don't revive and slide
 	
-	//Fix uneven shading on door.png
+	//Update missile warning texture
+	//Remove specific religious symbols
 	//Redo sandstone texture
+	//Wololo
 	//Give Danger Deacons drowning animation
 
 	//Sinister Synagogue
