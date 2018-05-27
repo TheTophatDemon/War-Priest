@@ -204,13 +204,8 @@ void Player::OnSettingsChange(StringHash eventType, VariantMap& eventData)
 {
 }
 
-void Player::FixedUpdate(float timeStep)
-{	
-	if (state != STATE_WIN && state != STATE_DEAD)
-	{
-		modelNode->SetPosition(node_->GetWorldPosition());
-		modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
-	}
+void Player::Cheats()
+{
 	//Cheats
 	if (input->GetKeyDown(KEY_K))
 	{
@@ -249,10 +244,10 @@ void Player::FixedUpdate(float timeStep)
 			}
 		}
 	}
+}
 
-	bloodEmitter->ApplyEffect();
-	float newAngle = 0.0f;
-	
+void Player::FixedUpdate(float timeStep)
+{	
 	forwardKey = Settings::IsKeyDown(input, Settings::GetForwardKey());
 	backwardKey = Settings::IsKeyDown(input, Settings::GetBackwardKey());
 	rightKey = Settings::IsKeyDown(input, Settings::GetRightKey());
@@ -261,10 +256,19 @@ void Player::FixedUpdate(float timeStep)
 	reviveKey = Settings::IsKeyDown(input, Settings::GetReviveKey());
 	slideKey = Settings::IsKeyDown(input, Settings::GetSlideKey());
 
+	if (state != STATE_WIN && state != STATE_DEAD)
+	{
+		modelNode->SetPosition(node_->GetWorldPosition());
+		modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
+	}
+
+	Cheats();
+	
 	if (game->winState == 1)
 	{
 		ChangeState(STATE_WIN);
 	}
+	bloodEmitter->ApplyEffect();
 	if (hurtTimer > 0)
 	{
 		hurtTimer -= 1;
@@ -273,7 +277,6 @@ void Player::FixedUpdate(float timeStep)
 			bloodEmitter->SetEmitting(false);
 		}
 	}
-
 	if (health <= 0 && !lastChance)
 	{
 		health = 0;
@@ -287,7 +290,7 @@ void Player::FixedUpdate(float timeStep)
 	}
 
 	HandleShadow();
-	FindNearestCorpse();
+	HandleNearestCorpse();
 
 	if (reviveCooldown > 0) reviveCooldown = Max(0.0f, reviveCooldown - timeStep);
 
@@ -601,15 +604,6 @@ void Player::LeaveState(int oldState)
 
 void Player::ST_Default(float timeStep)
 {
-	/*if (input->GetKeyDown(KEY_KP_DIVIDE))
-	{
-		modelNode->SetEnabled(false);
-	}
-	else
-	{
-		modelNode->SetEnabled(true);
-	}*/
-
 	stateTimer += timeStep;
 
 	if (rightKey)
@@ -722,39 +716,15 @@ void Player::ST_Default(float timeStep)
 		animController->Play(REVIVE_ANIM, 128, false, 0.2f);
 		animController->SetStartBone(REVIVE_ANIM, "torso");
 		animController->SetAutoFade(REVIVE_ANIM, 0.2f);
-		reviveCooldown = reviveCooldownMax;
 		revived = false;
+		reviveCooldown = reviveCooldownMax;
+		//The actual reviving is done in HandleNearestCorpse()
 	}
-	if (nearestCorpse)
-	{
-		const float distance = (nearestCorpse->GetNode()->GetWorldPosition() - node_->GetWorldPosition()).Length();
-		if (distance < 8.0f)
-		{
-			arrowNode->SetEnabled(true);
-			arrowNode->SetWorldPosition(nearestCorpse->GetNode()->GetWorldPosition() + Vector3(0.0f, 5.0f, 0.0f));
-			if (!revived && reviveCooldown > reviveCooldownMax - 0.5f && reviveCooldown <= reviveCooldownMax - 0.25f)
-			{
-				revived = true;
-				Zeus::MakeLightBeam(scene, nearestCorpse->GetNode()->GetWorldPosition());
-				nearestCorpse->Revive();
-				reviveCount += 1;
-				soundSource->Play("Sounds/ply_revive.wav", true);
-			}
-		}
-		else
-		{
-			arrowNode->SetEnabled(false);
-		}
-	}
-	else
-	{
-		arrowNode->SetEnabled(false);
-	}
-	
 
 	//Sliding
 	if (slideKey && actor->onGround && stateTimer > 0.5f)
 	{
+		animController->Stop(REVIVE_ANIM, 0.2f);
 		ChangeState(STATE_SLIDE);
 	}
 
@@ -840,7 +810,7 @@ void Player::ST_Drown(float timeStep)
 	}
 }
 
-void Player::FindNearestCorpse()
+void Player::HandleNearestCorpse()
 {
 	PODVector<Node*> enemies;
 	scene->GetChildrenWithTag(enemies, "enemy", true);
@@ -878,6 +848,32 @@ void Player::FindNearestCorpse()
 	else
 	{
 		game->compassScene->compassRotation += 25.0f;
+	}
+	//Handle revival and floating arrow
+	if (nearestCorpse)
+	{
+		const float distance = (nearestCorpse->GetNode()->GetWorldPosition() - node_->GetWorldPosition()).Length();
+		if (distance < 8.0f)
+		{
+			arrowNode->SetEnabled(true);
+			arrowNode->SetWorldPosition(nearestCorpse->GetNode()->GetWorldPosition() + Vector3(0.0f, 5.0f, 0.0f));
+			if (!revived && reviveCooldown > reviveCooldownMax - 0.5f && reviveCooldown <= reviveCooldownMax - 0.25f)
+			{
+				revived = true;
+				Zeus::MakeLightBeam(scene, nearestCorpse->GetNode()->GetWorldPosition());
+				nearestCorpse->Revive();
+				reviveCount += 1;
+				soundSource->Play("Sounds/ply_revive.wav", true);
+			}
+		}
+		else
+		{
+			arrowNode->SetEnabled(false);
+		}
+	}
+	else
+	{
+		arrowNode->SetEnabled(false);
 	}
 }
 

@@ -6,7 +6,6 @@
 			//Close range attack (sphere of death?)
 	//Fade out the shadow when closer to ground?
 	//Diamond platform buggery
-	//Don't revive and slide
 	
 	//Update missile warning texture
 	//Remove specific religious symbols

@@ -48,7 +48,8 @@ protected:
 	void ST_Slide(float timeStep);
 	void ST_Win(float timeStep);
 	void ST_Drown(float timeStep);
-	void FindNearestCorpse();
+	void HandleNearestCorpse();
+	void Cheats();
 
 	SharedPtr<Scene> scene;
 	SharedPtr<ResourceCache> cache;
