@@ -67,6 +67,7 @@ void VS(float4 iPos : POSITION,
     #endif
     out float3 oNormal : TEXCOORD1,
     out float4 oWorldPos : TEXCOORD2,
+	out float4 oScreenPos : TEXCOORD6,
     #ifdef PERPIXEL
         #ifdef SHADOW
             out float4 oShadowPos[NUMCASCADES] : TEXCOORD4,
@@ -79,9 +80,8 @@ void VS(float4 iPos : POSITION,
         #endif
     #else
         out float3 oVertexLight : TEXCOORD4,
-        out float4 oScreenPos : TEXCOORD5,
         #ifdef ENVCUBEMAP
-            out float3 oReflectionVec : TEXCOORD6,
+            out float3 oReflectionVec : TEXCOORD5,
         #endif
         #if defined(LIGHTMAP) || defined(AO)
             out float2 oTexCoord2 : TEXCOORD7,
@@ -155,13 +155,12 @@ void VS(float4 iPos : POSITION,
             for (int i = 0; i < NUMVERTEXLIGHTS; ++i)
                 oVertexLight += GetVertexLight(i, worldPos, oNormal) * cVertexLights[i * 3].rgb;
         #endif
-        
-        oScreenPos = GetScreenPos(oPos);
 
         #ifdef ENVCUBEMAP
             oReflectionVec = worldPos - cCameraPos;
         #endif
     #endif
+	oScreenPos = GetScreenPos(oPos);
 }
 
 void PS(
@@ -173,6 +172,7 @@ void PS(
     #endif
     float3 iNormal : TEXCOORD1,
     float4 iWorldPos : TEXCOORD2,
+	float4 iScreenPos : TEXCOORD6,
     #ifdef PERPIXEL
         #ifdef SHADOW
             float4 iShadowPos[NUMCASCADES] : TEXCOORD4,
@@ -185,9 +185,8 @@ void PS(
         #endif
     #else
         float3 iVertexLight : TEXCOORD4,
-        float4 iScreenPos : TEXCOORD5,
         #ifdef ENVCUBEMAP
-            float3 iReflectionVec : TEXCOORD6,
+            float3 iReflectionVec : TEXCOORD5,
         #endif
         #if defined(LIGHTMAP) || defined(AO)
             float2 iTexCoord2 : TEXCOORD7,
@@ -275,7 +274,13 @@ void PS(
         #else
             finalColor = diff * lightColor * (diffColor.rgb);
         #endif
-
+		
+		//if (iScreenPos.x > 16.0)
+		//{
+		//	float avg = (finalColor.r + finalColor.g + finalColor.b) / 3;
+		//	finalColor *= avg;
+		//}
+		
         #ifdef AMBIENT
             finalColor += cAmbientColor.rgb * diffColor.rgb;
             finalColor += cMatEmissiveColor;
@@ -283,38 +288,6 @@ void PS(
         #else
             oColor = (float4(GetLitFog(finalColor, fogFactor), diffColor.a));
         #endif
-    #elif defined(PREPASS)
-        // Fill light pre-pass G-Buffer
-        float specPower = cMatSpecColor.a / 255.0;
-
-        oColor = float4(normal * 0.5 + 0.5, specPower);
-        oDepth = iWorldPos.w;
-    #elif defined(DEFERRED)
-        // Fill deferred G-buffer
-        float specIntensity = specColor.g;
-        float specPower = cMatSpecColor.a / 255.0;
-
-        float3 finalColor = iVertexLight * diffColor.rgb;
-        #ifdef AO
-            // If using AO, the vertex light ambient is black, calculate occluded ambient here
-            finalColor += Sample2D(EmissiveMap, iTexCoord2).rgb * cAmbientColor.rgb * diffColor.rgb;
-        #endif
-        #ifdef ENVCUBEMAP
-            finalColor += cMatEnvMapColor * SampleCube(EnvCubeMap, reflect(iReflectionVec, normal)).rgb;
-        #endif
-        #ifdef LIGHTMAP
-            finalColor += Sample2D(EmissiveMap, iTexCoord2).rgb * diffColor.rgb;
-        #endif
-        #ifdef EMISSIVEMAP
-            finalColor += cMatEmissiveColor * Sample2D(EmissiveMap, iTexCoord.xy).rgb;
-        #else
-            finalColor += cMatEmissiveColor;
-        #endif
-
-        oColor = (float4(GetFog(finalColor, fogFactor), 1.0));
-        oAlbedo = fogFactor * float4(diffColor.rgb, specIntensity);
-        oNormal = float4(normal * 0.5 + 0.5, specPower);
-        oDepth = iWorldPos.w;
     #else
         // Ambient & per-vertex lighting
         float3 finalColor = crushColor3(iVertexLight) * diffColor.rgb;

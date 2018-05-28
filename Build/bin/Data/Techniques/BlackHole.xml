@@ -1,0 +1,3 @@
+<technique vs="BlackHole" ps="BlackHole" vsdefines="NOUV">
+    <pass name="alpha" depthwrite="false" blend="subtract" />
+</technique>

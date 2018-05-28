@@ -2,10 +2,10 @@
 	//Sacsand4
 		//Killer Kaaba
 			//Black hole attack
+				//Sucking in
 	//Sinister Synagogue
 		//Auto-adjusting antigravity platform component
 	
-	//Update missile warning texture
 	//Remove specific religious symbols
 	//Redo sandstone texture
 	//Wololo
@@ -14,9 +14,6 @@
 	//Replace sign post in FF4 with actual signpost model
 	//Enhanced water gfx
 
-	//Make Enemy and Player derive from Actor instead of a has-a relationship?
-	//Send E_SETTINGSCHANGE to self
-
 	//Crossroads
 		//Scrolling waluigi background
 	//Credits
@@ -24,16 +21,16 @@
 	//Palpan1
 
 	//Sounds
-		//Player death
+		//Player death / Chime
 		//God beam
-		//HALLELUJAH!
 		//Statue damage & destruction
 		//Chaos caliph Charge & shoot
 		//Bonus collection
 		//Killed Kaaba
 			//Awakening
 			//Bounce
-			//Charge?
+			//Missile fire
+			//Black hole noise
 	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. 
 	//Do final test through every level.
 		//Sacsand3 platforms going wrong way
@@ -41,6 +38,8 @@
 		//Fix exploit on sacsand1
 		//Fallrhine 2 barrel platform unreachable
 
+	//Make Enemy and Player derive from Actor instead of a has-a relationship?
+	//Send E_SETTINGSCHANGE to self
 	//Replace CompassScene with faster alternative?
 	//Model-rigidbody lag?
 	//Package assets

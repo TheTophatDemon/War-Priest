@@ -1,0 +1,3 @@
+<technique vs="Liquid" ps="Liquid" psdefines="DIFFMAP">
+    <pass name="postalpha" depthwrite="false" blend="add" />
+</technique>

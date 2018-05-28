@@ -13,6 +13,7 @@
 #define STATE_RISE 1
 #define STATE_FLY 2
 #define STATE_MISSILE 3
+#define STATE_BLACKHOLE 4
 
 #define HEIGHT_FROM_BOTTOM 5.0f
 #define RISE_SPEED 750.0f
@@ -57,6 +58,12 @@ void KilledKaaba::Start()
 	StaticModel* sm = glowNode->CreateComponent<StaticModel>();
 	sm->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
 	sm->SetMaterial(cache->GetResource<Material>("Materials/fireglow.xml"));
+
+	blackHoleNode = node_->CreateChild();
+	sm = blackHoleNode->CreateComponent<StaticModel>();
+	sm->SetModel(cache->GetResource<Model>("Models/Sphere.mdl"));
+	sm->SetMaterial(cache->GetResource<Material>("Materials/blackhole.xml"));
+	blackHoleNode->SetScale(0.0f);
 
 	areas = Vector<SharedPtr<Node>>();
 	PODVector<Node*> areas_ptrs = scene->GetChildrenWithTag("kaaba_area", true);
@@ -126,7 +133,6 @@ void KilledKaaba::FixedUpdate(float timeStep)
 				body->SetLinearVelocity(Vector3(0.0f, timeStep * RISE_SPEED * Sign(hDiff) * 0.1f, 0.0f));
 			else
 				body->SetLinearVelocity(Vector3(0.0f, timeStep * RISE_SPEED * Sign(hDiff), 0.0f));
-			//body->ApplyTorqueImpulse(Vector3(0.0f, 500.0f * timeStep, 0.0f));
 			spinSpeed = Min(MAX_SPINSPEED, spinSpeed + (timeStep * SPIN_ACCEL));
 		}
 		break;
@@ -144,25 +150,14 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		attackTimer -= timeStep;
 		if (attackTimer < 0.0f)
 		{
-			/*int attack = Random(0, 5);
-			if (attack == 0 && distanceFromPlayer < 40.0f) attack++; //Don't fire missiles if the player is too close
-			switch (attack)
+			//if (distanceFromPlayer < 30.0f) 
 			{
-			case 0:*/
-				ChangeState(STATE_MISSILE);
-				/*break;
-			default:
-			{
-				int count = floorf(Settings::ScaleWithDifficulty(8.0f, 12.0f, 16.0));
-				for (int i = 0; i < count; ++i)
-				{
-					float degree = (360.0f / count) * i;
-					BouncyFireball::MakeBouncyFireball(scene, node_->GetWorldPosition() + Vector3(0.0f, -4.0f, 0.0f), Quaternion(degree, Vector3::UP), node_);
-				}
-				attackTimer = Random(Settings::ScaleWithDifficulty(8.0f, 5.0f, 3.0f), 10.0f);
-				break;
+				ChangeState(STATE_BLACKHOLE);
 			}
-			}*/
+			//else 
+			//{
+			//	ChangeState(STATE_MISSILE);
+			//}
 		}
 		
 		if (hDiff < -1.0f) 
@@ -186,12 +181,10 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		body->SetLinearVelocity(Vector3::ZERO);
 		if (stateTimer < 4.0f) 
 		{
-			//body->ApplyTorqueImpulse(Vector3(0.0f, timeStep * 500.0f, 0.0f));
 			spinSpeed = Min(MAX_SPINSPEED, spinSpeed + (timeStep * SPIN_ACCEL));
 		}
 		else //Decelerate spinning before going back to normal
 		{
-			//body->ApplyTorqueImpulse(Vector3(0.0f, -spinDir * timeStep * 500.0f, 0.0f));
 			spinSpeed *= SPIN_FRICTION;
 			if (fabs(spinSpeed) < 1.0f)
 			{
@@ -203,15 +196,36 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		if (shootTimer > Settings::ScaleWithDifficulty(1.0f, 0.5f, 0.25f))
 		{
 			shootTimer = 0.0f;
-			/*Vector3 shootDirection = Vector3(0.0f, 16.0f, 0.0f);
-			shootDirection.x_ = Random(100.0f, 500.0f) * Sign(Random(-1.0f, 1.0f));
-			shootDirection.z_ = Random(100.0f, 500.0f) * Sign(Random(-1.0f, 1.0f));
-			Blackstone::MakeBlackstone(scene, node_->GetWorldPosition() + Vector3(0.0f, 12.0f, 0.0f), shootDirection, node_);*/
 			Quaternion shootDirection = Quaternion();
 			shootDirection.FromLookRotation(Vector3(
 				Random(-1.0f, 1.0f), 0.0f, Random(-1.0f, 1.0f)
 			).Normalized(), Vector3::UP);
 			Missile::MakeMissile(scene, node_->GetWorldPosition(), shootDirection, node_, game->playerNode);
+		}
+		break;
+	case STATE_BLACKHOLE:
+		node_->Rotate(Quaternion(spinSpeed, Vector3::UP), TS_WORLD);
+		body->SetLinearVelocity(Vector3::ZERO);
+		if (stateTimer < 16.0f)
+		{
+			spinSpeed = Min(MAX_SPINSPEED, spinSpeed + (timeStep * SPIN_ACCEL));
+		}
+		else if (stateTimer > 24.0f)
+		{
+			spinSpeed *= SPIN_FRICTION;
+		}
+		if (stateTimer < 16.0f) 
+		{
+			blackHoleNode->SetScale(blackHoleNode->GetScale().x_ + timeStep * 2.0f);
+		}
+		else
+		{
+			blackHoleNode->SetScale(blackHoleNode->GetScale().x_ - timeStep * 3.0f);
+			if (blackHoleNode->GetScale().x_ < 1.0f)
+			{
+				body->SetAngularVelocity(Vector3::ZERO);
+				ChangeState(STATE_FLY);
+			}
 		}
 		break;
 	}
@@ -313,6 +327,9 @@ void KilledKaaba::EnterState(const int newState)
 			body->SetLinearFactor(Vector3::ONE);
 			shootTimer = 0.0f;
 			break;
+		case STATE_BLACKHOLE:
+			blackHoleNode->SetScale(0.0f);
+			break;
 	}
 }
 
@@ -340,6 +357,9 @@ void KilledKaaba::LeaveState(const int oldState)
 		break;
 	case STATE_MISSILE:
 		body->SetLinearFactor(Vector3(1.0f, 0.0f, 1.0f));
+		break;
+	case STATE_BLACKHOLE:
+		blackHoleNode->SetScale(0.0f);
 		break;
 	}
 }
