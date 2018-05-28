@@ -1,19 +1,22 @@
 //TODO:
-	//Sinister Synagogue
-		//Auto-adjusting antigravity platform component
 	//Sacsand4
 		//Killer Kaaba
-			//Close range attack (sphere of death?)
-	//Fade out the shadow when closer to ground?
-	//Diamond platform buggery
+			//Black hole attack
+	//Sinister Synagogue
+		//Auto-adjusting antigravity platform component
 	
 	//Update missile warning texture
 	//Remove specific religious symbols
 	//Redo sandstone texture
 	//Wololo
 	//Give Danger Deacons drowning animation
+	//Replace snare drum in victory theme
+	//Replace sign post in FF4 with actual signpost model
+	//Enhanced water gfx
 
-	//Sinister Synagogue
+	//Make Enemy and Player derive from Actor instead of a has-a relationship?
+	//Send E_SETTINGSCHANGE to self
+
 	//Crossroads
 		//Scrolling waluigi background
 	//Credits
@@ -38,6 +41,7 @@
 		//Fix exploit on sacsand1
 		//Fallrhine 2 barrel platform unreachable
 
+	//Replace CompassScene with faster alternative?
 	//Model-rigidbody lag?
 	//Package assets
 //Level Ideas
@@ -73,6 +77,7 @@
 	//32 = ITEM
 	//64 = ENEMY
 	//128 = PLAYER
+	//256 = LIQUID/WATER
 
 //SOUND TYPES
 	//GAMEPLAY

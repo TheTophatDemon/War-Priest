@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="3" />
 	<attribute name="Next Replicated Component ID" value="5" />
-	<attribute name="Next Local Node ID" value="16778333" />
-	<attribute name="Next Local Component ID" value="16780897" />
+	<attribute name="Next Local Node ID" value="16778334" />
+	<attribute name="Next Local Component ID" value="16780909" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="fallenfatherland.ogg" />
 	</attribute>
@@ -691,7 +691,7 @@
 		<attribute name="Tags">
 			<string value="lift" />
 		</attribute>
-		<attribute name="Position" value="-45.7 -71.3001 48.5331" />
+		<attribute name="Position" value="-45.7 -70.1942 48.5331" />
 		<attribute name="Rotation" value="0.995161 0 -0.0982557 0" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables">
@@ -710,7 +710,7 @@
 		</component>
 		<component type="RigidBody" id="16780418">
 			<attribute name="Physics Rotation" value="0.995161 0 -0.0982557 0" />
-			<attribute name="Physics Position" value="-45.7 -71.3001 48.5331" />
+			<attribute name="Physics Position" value="-45.7 -70.1942 48.5331" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Linear Factor" value="0 0 0" />
 			<attribute name="Angular Factor" value="0 0 0" />

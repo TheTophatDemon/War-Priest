@@ -206,8 +206,8 @@ bool Enemy::CheckCliff(const bool avoidSlopes) //Two rays are cast downward from
 	//Imagine it as an isosceles triangle with the base point being the enemy's position
 	PhysicsRaycastResult result, result2;
 	const Vector3 base = node_->GetWorldPosition() + Vector3(0.0f, 1.2f, 0.0f) + node_->GetWorldDirection() * 1.5f;
-	physworld->RaycastSingle(result, Ray(base + (node_->GetWorldRotation() * Vector3::RIGHT), Vector3::DOWN), 3.0f, 2);
-	physworld->RaycastSingle(result2, Ray(base + (node_->GetWorldRotation() * Vector3::LEFT), Vector3::DOWN), 3.0f, 2);
+	physworld->RaycastSingle(result, Ray(base + (node_->GetWorldRotation() * Vector3::RIGHT), Vector3::DOWN), 3.0f, 258); //2+256
+	physworld->RaycastSingle(result2, Ray(base + (node_->GetWorldRotation() * Vector3::LEFT), Vector3::DOWN), 3.0f, 258); //2+256
 	
 	if (actor->fall <= 0.0f)
 	{
@@ -222,39 +222,49 @@ bool Enemy::CheckCliff(const bool avoidSlopes) //Two rays are cast downward from
 		{
 			return true;
 		}
+		//Avoid liquid, too!
+		if (result.body_)
+		{
+			if (result.body_->GetCollisionLayer() & 256) return true;
+		}
+		if (result2.body_)
+		{
+			if (result2.body_->GetCollisionLayer() & 256) return true;
+		}
 	}
 	return false;
 }
 
 void Enemy::KeepOnGround()
 {
-	if (node_->GetParent() == scene) 
+	PhysicsRaycastResult result;
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 500.0f, 2);
+	if (result.body_)
 	{
-		PhysicsRaycastResult result;
-		physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.1f, 0.0f), Vector3::DOWN), 500.0f, 2);
-		if (result.body_)
+		node_->SetWorldPosition(result.position_);
+		if (result.body_->GetNode()->HasTag("lift"))
 		{
-			node_->SetWorldPosition(result.position_);
-			if (result.body_->GetNode()->HasTag("lift"))
-			{
-				//The corpse's mass cannot be anything other than 0. However, we need lifts to recognize their presence so that
-				//corpses rotate when they're resting on lifts.
-				//Here, we're making a fake NodeCollision event and having the lift's node send it
-				//This will trick the lift into registering the corpse as an object that moves along with it
-				VariantMap map = VariantMap();
-				map.Insert(Pair<StringHash, Variant>(NodeCollision::P_BODY, Variant(result.body_)));
-				map.Insert(Pair<StringHash, Variant>(NodeCollision::P_OTHERBODY, Variant(body)));
-				map.Insert(Pair<StringHash, Variant>(NodeCollision::P_OTHERNODE, Variant(node_)));
-				map.Insert(Pair<StringHash, Variant>(NodeCollision::P_TRIGGER, Variant(false)));
-				VectorBuffer contacts = VectorBuffer();
-				contacts.WriteVector3(node_->GetWorldPosition()); //Position
-				contacts.WriteVector3(Vector3(0.0f, -1.0f, 0.0f)); //Normal (Make it think we're on top)
-				contacts.WriteFloat(0.0f); //Distance
-				contacts.WriteFloat(0.0f); //Impulse
-				map.Insert(Pair<StringHash, Variant>(NodeCollision::P_CONTACTS, Variant(contacts)));
-				result.body_->GetNode()->SendEvent(E_NODECOLLISION, map);
-			}
+			//The corpse's mass cannot be anything other than 0. However, we need lifts to recognize their presence so that
+			//corpses rotate when they're resting on lifts.
+			//Here, we're making a fake NodeCollision event and having the lift's node send it
+			//This will trick the lift into registering the corpse as an object that moves along with it
+			VariantMap map = VariantMap();
+			map.Insert(Pair<StringHash, Variant>(NodeCollision::P_BODY, Variant(result.body_)));
+			map.Insert(Pair<StringHash, Variant>(NodeCollision::P_OTHERBODY, Variant(body)));
+			map.Insert(Pair<StringHash, Variant>(NodeCollision::P_OTHERNODE, Variant(node_)));
+			map.Insert(Pair<StringHash, Variant>(NodeCollision::P_TRIGGER, Variant(false)));
+			VectorBuffer contacts = VectorBuffer();
+			contacts.WriteVector3(node_->GetWorldPosition()); //Position
+			contacts.WriteVector3(Vector3(0.0f, -1.0f, 0.0f)); //Normal (Make it think we're on top)
+			contacts.WriteFloat(0.0f); //Distance
+			contacts.WriteFloat(0.0f); //Impulse
+			map.Insert(Pair<StringHash, Variant>(NodeCollision::P_CONTACTS, Variant(contacts)));
+			result.body_->GetNode()->SendEvent(E_NODECOLLISION, map);
 		}
+	}
+	else
+	{
+		std::cout << "WHAT" << std::endl;
 	}
 }
 

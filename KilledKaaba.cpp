@@ -41,8 +41,6 @@ void KilledKaaba::OnSettingsChange(StringHash eventType, VariantMap& eventData)
 
 void KilledKaaba::Start()
 {
-	moveSpeed = 50.0f * Settings::GetDifficulty();
-
 	SetUpdateEventMask(USE_FIXEDUPDATE);
 	game = GetScene()->GetComponent<Gameplay>();
 	cache = GetSubsystem<ResourceCache>();
@@ -69,8 +67,14 @@ void KilledKaaba::Start()
 		SubscribeToEvent(n, E_NODECOLLISION, URHO3D_HANDLER(KilledKaaba, OnAreaCollision));
 	}
 
+	//The MissileFinder is only neccessary when a Kaaba is in the level, so their presences are tied.
+	if (game->playerNode->GetScene() == scene && !game->playerNode->HasComponent<MissileFinder>())
+		game->playerNode->CreateComponent<MissileFinder>();
+
 	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(KilledKaaba, OnSettingsChange));
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(KilledKaaba, OnCollision));
+
+	SendEvent(Settings::E_SETTINGSCHANGED);
 
 	ChangeState(STATE_DORMANT);
 }

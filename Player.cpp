@@ -194,9 +194,6 @@ void Player::Start()
 	SendEvent(Settings::E_SETTINGSCHANGED); //We fake a settings change
 	//This is so that we only have to initialize the settings-dependent values in one piece of code
 
-	if (scene->GetChild("killedkaaba", true) != nullptr)
-		node_->CreateComponent<MissileFinder>(LOCAL, 9001U);
-
 	animController->StopAll();
 }
 
@@ -479,7 +476,7 @@ void Player::HandleCamera()
 
 void Player::HandleShadow()
 {
-	Vector3 doot = Vector3(0.0f, 0.1f, 0.0f);
+	Vector3 doot = Vector3(0.0f, 0.2f, 0.0f);
 	PhysicsRaycastResult shadowRaycast;
 	physworld->RaycastSingle(shadowRaycast, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
 	if (shadowRaycast.body_)
@@ -491,6 +488,8 @@ void Player::HandleShadow()
 			Quaternion q = Quaternion();
 			q.FromLookRotation(shadowRaycast.normal_);
 			dropShadow->SetRotation(q);
+			StaticModel* sm = dropShadow->GetComponent<StaticModel>();
+			sm->GetMaterial(0)->SetShaderParameter("MatDiffColor", Vector4(1.0f, 1.0f, 1.0f, Min(1.0f, shadowRaycast.distance_ * 0.5f)));
 		}
 		else
 		{

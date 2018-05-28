@@ -42,6 +42,7 @@ void Water::Start()
 	{
 		body = node_->CreateComponent<RigidBody>();
 		body->SetTrigger(true);
+		body->SetCollisionLayer(1 | 256);
 	}
 
 	if (node_->HasComponent<CollisionShape>())

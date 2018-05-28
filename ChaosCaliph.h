@@ -23,6 +23,7 @@ public:
 	static void RegisterObject(Context* context);
 	virtual void DelayedStart();
 	virtual void Revive();
+	virtual void FixedUpdate(float timeStep);
 	~ChaosCaliph();
 protected:
 	virtual void Execute();

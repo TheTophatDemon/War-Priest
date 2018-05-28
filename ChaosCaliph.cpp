@@ -78,6 +78,15 @@ void ChaosCaliph::DelayedStart()
 	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(ChaosCaliph, OnSettingsChange));
 }
 
+void ChaosCaliph::FixedUpdate(float timeStep)
+{
+	modelNode->SetWorldPosition(node_->GetWorldPosition());
+	modelNode->SetWorldRotation(node_->GetWorldRotation());
+	modelNode->Rotate(Quaternion(-90.0f, Vector3::UP));
+
+	Enemy::FixedUpdate(timeStep);
+}
+
 void ChaosCaliph::Execute()
 {
 	Vector3 aimVec = Vector3::ZERO;
@@ -88,10 +97,6 @@ void ChaosCaliph::Execute()
 		targetDistance = tarDiff.Length();
 		aimVec = tarDiff.Normalized();
 	}
-
-	modelNode->SetWorldPosition(node_->GetWorldPosition());
-	modelNode->SetWorldRotation(node_->GetWorldRotation());
-	modelNode->Rotate(Quaternion(-90.0f, Vector3::UP));
 
 	switch (state)
 	{

@@ -200,6 +200,28 @@ void Actor::Move(float timeStep)
 	slopeSteepness = 1.0f;
 	GetSlope();
 
+	if (downCast.body_)
+	{
+		if (downCast.distance_ <= 0.6f && downCast.body_->GetNode()->HasTag("lift"))
+		{
+			//Sending a fake collision event to fix a weird bug where lifts occasionally forget that things are standing on them
+			VariantMap eventData = VariantMap();
+			eventData.Insert(Pair<StringHash, Variant>(NodeCollision::P_OTHERBODY, Variant(body)));
+			eventData.Insert(Pair<StringHash, Variant>(NodeCollision::P_OTHERNODE, Variant(node_)));
+			eventData.Insert(Pair<StringHash, Variant>(NodeCollision::P_TRIGGER, false));
+			eventData.Insert(Pair<StringHash, Variant>(NodeCollision::P_BODY, Variant(downCast.body_)));
+
+			VectorBuffer contacts = VectorBuffer();
+			contacts.WriteVector3(Vector3::ZERO); //Position. Ignore.
+			contacts.WriteVector3(Vector3(0.0f, -666.0f, 0.0f)); //Normal. Must be negative on Y to be recognized as "on top"
+			contacts.WriteFloat(downCast.distance_); //Distance
+			contacts.WriteFloat(0.0f); //Impulse. Ignored.
+			eventData.Insert(Pair<StringHash, Variant>(NodeCollision::P_CONTACTS, contacts));
+
+			downCast.body_->GetNode()->SendEvent(E_NODECOLLISION, eventData);
+		}
+	}
+
 	onGround = false;
 }
 

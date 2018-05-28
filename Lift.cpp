@@ -6,6 +6,7 @@
 #include <Urho3D/Physics/RigidBody.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
 #include <Urho3D/Physics/PhysicsUtils.h>
+#include <Bullet\BulletDynamics\Dynamics\btRigidBody.h>
 #include <iostream>
 
 #define STATE_REST 0
@@ -97,18 +98,16 @@ void Lift::FixedUpdate(float timeStep)
 	}
 
 	//All bodies standing on the lift get moved
+	const Matrix3x4 deltaTransform = node_->GetWorldTransform() * oldTransform.Inverse();
 	if (state == STATE_MOVE || rotateSpeed != 0.0f)
 	{
 		for (Pair<WeakPtr<Node>, float>& pair : childCache)
 		{
 			if (pair.first_.Get())
 			{
-				Matrix3x4 diddly = node_->GetWorldTransform() * oldTransform.Inverse() * pair.first_->GetWorldTransform();
-				Vector3 diddlyPos = diddly.Translation();
-				//bool doddly = diddlyPos.y_ > pair.first_->GetWorldPosition().y_;
-				//if (doddly) diddlyPos.y_ = pair.first_->GetWorldPosition().y_;
-				pair.first_->SetWorldTransform(diddlyPos, diddly.Rotation());
-				pair.first_->GetComponent<RigidBody>()->SetTransform(diddlyPos, diddly.Rotation());
+				const Matrix3x4 diddly = deltaTransform * pair.first_->GetWorldTransform();
+				pair.first_->SetWorldTransform(diddly.Translation(), diddly.Rotation());
+				pair.first_->GetComponent<RigidBody>()->SetTransform(diddly.Translation(), diddly.Rotation());
 			}
 			pair.second_ -= timeStep;
 			if (pair.second_ <= 0.0f)
@@ -116,10 +115,8 @@ void Lift::FixedUpdate(float timeStep)
 				childCache.Remove(pair);
 			}
 		}
-		//std::cout << childCache.Size() << std::endl;
 	}
 
-	//childCache.Clear();
 	body->SetTransform(node_->GetWorldTransform().Translation(), node_->GetWorldTransform().Rotation());
 	oldTransform = node_->GetWorldTransform();
 }
@@ -139,21 +136,22 @@ void Lift::SetTarget(Vector3& targ)
 
 void Lift::OnCollision(StringHash eventType, VariantMap& eventData)
 {
-	Node* other = (Node*)eventData["OtherNode"].GetPtr();
-	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
+	Node* other = (Node*)eventData[NodeCollision::P_OTHERNODE].GetPtr();
+	RigidBody* otherBody = (RigidBody*)eventData[NodeCollision::P_OTHERBODY].GetPtr();
 	if (otherBody->GetCollisionLayer() & 128 || otherBody->GetCollisionLayer() & 64 || other->GetName() == "player")
 	{
-		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
+		VectorBuffer contacts = eventData[NodeCollision::P_CONTACTS].GetBuffer();
 		while (!contacts.IsEof())
 		{
 			Vector3 position = contacts.ReadVector3();
 			Vector3 normal = contacts.ReadVector3();
 			float distance = contacts.ReadFloat();
 			float impulse = contacts.ReadFloat();
+			//if (normal.y_ == -666.0f) std::cout << "GOTCHAA!" << std::endl;
 			if (normal.y_ < -0.1f) //When something is on top
 			{
 				bool found = false;
-				for (Pair<WeakPtr<Node>, float> pair : childCache)
+				for (Pair<WeakPtr<Node>, float>& pair : childCache)
 				{
 					if (pair.first_.Get() == other)
 					{
