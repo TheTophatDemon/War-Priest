@@ -28,6 +28,7 @@ protected:
 	void OnSettingsChange(StringHash eventType, VariantMap& eventData);
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnAreaCollision(StringHash eventType, VariantMap& eventData);
+	void OnBlackHoleCollision(StringHash eventType, VariantMap& eventData);
 
 	SharedPtr<Gameplay> game;
 	SharedPtr<ResourceCache> cache;
@@ -36,6 +37,7 @@ protected:
 	SharedPtr<Scene> scene;
 	SharedPtr<Node> glowNode;
 	SharedPtr<Node> blackHoleNode;
+	WeakPtr<StaticModel> blackHoleModel;
 	void ChangeState(const int newState);
 	void EnterState(const int newState);
 	void LeaveState(const int oldState);

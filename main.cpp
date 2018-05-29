@@ -1,11 +1,8 @@
 //TODO:
-	//Sacsand4
-		//Killer Kaaba
-			//Black hole attack
-				//Sucking in
+	//Sacsand4 (Final tests)
 	//Sinister Synagogue
 		//Auto-adjusting antigravity platform component
-	
+
 	//Remove specific religious symbols
 	//Redo sandstone texture
 	//Wololo
@@ -72,7 +69,7 @@
 	//2 = CAN BE JUMPED ON/SLOPED
 	//4 = SHOOTABLE (STATUES)
 	//8 = GROUND DETECTOR / TRIGGER
-	//16 = SHIELD/ONLY PROJECTILES CAN TOUCH
+	//16 = SHIELD/BLACK HOLE
 	//32 = ITEM
 	//64 = ENEMY
 	//128 = PLAYER

@@ -100,7 +100,7 @@ void Missile::OnHit(PhysicsRaycastResult result)
 	emitter->SetEmitting(false);
 
 	Node* explosion = Zeus::MakeExplosion(scene, node_->GetWorldPosition(), 2.0f, 3.5f);
-	Zeus::ApplyRadialDamage(scene, node_, 4.0f, Settings::ScaleWithDifficulty(7.0f, 10.0f, 13.0f), 132); //128 + 4
+	Zeus::ApplyRadialDamage(scene, node_, 4.5f, Settings::ScaleWithDifficulty(7.0f, 10.0f, 13.0f), 132); //128 + 4
 
 	SoundSource3D* s = explosion->CreateComponent<SoundSource3D>();
 	s->SetSoundType("GAMEPLAY");
@@ -122,18 +122,26 @@ void Missile::OnCollision(StringHash eventType, VariantMap& eventData)
 	if (other != owner) 
 	{
 		if (otherBody->GetCollisionLayer() & 2 || otherBody->GetCollisionLayer() & 128
-			|| otherBody->GetCollisionLayer() & 64)
+			|| otherBody->GetCollisionLayer() & 64 || otherBody->GetCollisionLayer() & 4)
 		{
 			if (!hit)
 			{
 				OnHit(PhysicsRaycastResult());
 			}
 		}
-		else if (otherBody->GetCollisionLayer() & 16) //SHIELD!
+		else if (otherBody->GetCollisionLayer() & 16)
 		{
 			if (other->HasTag("tempshield")) 
 			{
 				Vector3 diff = (node_->GetWorldPosition() - other->GetWorldPosition()).Normalized();
+				Quaternion quatty = node_->GetWorldRotation();
+				quatty.FromLookRotation(diff, Vector3::UP);
+				node_->SetWorldRotation(node_->GetWorldRotation().Slerp(quatty, 2.0f * deltaTime));
+				state = 3;
+			}
+			else if (other->HasTag("blackhole"))
+			{
+				Vector3 diff = (other->GetWorldPosition() - node_->GetWorldPosition()).Normalized();
 				Quaternion quatty = node_->GetWorldRotation();
 				quatty.FromLookRotation(diff, Vector3::UP);
 				node_->SetWorldRotation(node_->GetWorldRotation().Slerp(quatty, 2.0f * deltaTime));

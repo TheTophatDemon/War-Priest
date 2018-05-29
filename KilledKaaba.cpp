@@ -5,6 +5,7 @@
 #include <Urho3D/Core/Context.h>
 #include <Urho3D/Scene/ValueAnimation.h>
 #include <Urho3D/Physics/PhysicsEvents.h>
+#include <Urho3D/Graphics/Technique.h>
 #include "Settings.h"
 #include "Blackstone.h"
 #include "Missile.h"
@@ -54,17 +55,30 @@ void KilledKaaba::Start()
 
 	targetHeight = node_->GetWorldPosition().y_ + HEIGHT_FROM_BOTTOM;
 
+	//Glowy red aura
 	glowNode = node_->CreateChild();
 	StaticModel* sm = glowNode->CreateComponent<StaticModel>();
 	sm->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
 	sm->SetMaterial(cache->GetResource<Material>("Materials/fireglow.xml"));
 
+	//Black hole
 	blackHoleNode = node_->CreateChild();
-	sm = blackHoleNode->CreateComponent<StaticModel>();
-	sm->SetModel(cache->GetResource<Model>("Models/Sphere.mdl"));
-	sm->SetMaterial(cache->GetResource<Material>("Materials/blackhole.xml"));
-	blackHoleNode->SetScale(0.0f);
+	blackHoleNode->AddTag("blackhole");
+	blackHoleModel = blackHoleNode->CreateComponent<StaticModel>();
+	blackHoleModel->SetModel(cache->GetResource<Model>("Models/Sphere.mdl"));
+	blackHoleModel->SetMaterial(cache->GetResource<Material>("Materials/blackhole.xml"));
+	RigidBody* bhrb = blackHoleNode->CreateComponent<RigidBody>();
+	bhrb->SetCollisionLayer(17); //1+16
+	bhrb->SetTrigger(true);
+	bhrb->SetLinearFactor(Vector3::ZERO);
+	bhrb->SetAngularFactor(Vector3::ZERO);
+	CollisionShape* bhcol = blackHoleNode->CreateComponent<CollisionShape>();
+	bhcol->SetSphere(1.0f, Vector3::ZERO, Quaternion::IDENTITY);
+	blackHoleNode->SetScale(0.1f);
 
+	blackHoleNode->SetEnabled(false);
+
+	//Find the boundaries of its flying space
 	areas = Vector<SharedPtr<Node>>();
 	PODVector<Node*> areas_ptrs = scene->GetChildrenWithTag("kaaba_area", true);
 	for (Node* n : areas_ptrs)
@@ -80,8 +94,9 @@ void KilledKaaba::Start()
 
 	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(KilledKaaba, OnSettingsChange));
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(KilledKaaba, OnCollision));
+	SubscribeToEvent(blackHoleNode, E_NODECOLLISION, URHO3D_HANDLER(KilledKaaba, OnBlackHoleCollision));
 
-	SendEvent(Settings::E_SETTINGSCHANGED);
+	SendEvent(Settings::E_SETTINGSCHANGED); //To initialize
 
 	ChangeState(STATE_DORMANT);
 }
@@ -150,14 +165,14 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		attackTimer -= timeStep;
 		if (attackTimer < 0.0f)
 		{
-			//if (distanceFromPlayer < 30.0f) 
+			if (distanceFromPlayer < 70.0f) 
 			{
 				ChangeState(STATE_BLACKHOLE);
 			}
-			//else 
-			//{
-			//	ChangeState(STATE_MISSILE);
-			//}
+			else 
+			{
+				ChangeState(STATE_MISSILE);
+			}
 		}
 		
 		if (hDiff < -1.0f) 
@@ -212,20 +227,30 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		}
 		else if (stateTimer > 24.0f)
 		{
-			spinSpeed *= SPIN_FRICTION;
+			spinSpeed *= 0.25f;
 		}
-		if (stateTimer < 16.0f) 
+		if (stateTimer < 8.0f) 
 		{
-			blackHoleNode->SetScale(blackHoleNode->GetScale().x_ + timeStep * 2.0f);
+			blackHoleNode->SetScale(blackHoleNode->GetScale().x_ + timeStep * 32.0f);
 		}
 		else
 		{
-			blackHoleNode->SetScale(blackHoleNode->GetScale().x_ - timeStep * 3.0f);
+			blackHoleNode->SetScale(blackHoleNode->GetScale().x_ - timeStep * 32.0f / Settings::GetDifficulty());
 			if (blackHoleNode->GetScale().x_ < 1.0f)
 			{
 				body->SetAngularVelocity(Vector3::ZERO);
 				ChangeState(STATE_FLY);
 			}
+		}
+		//Hack to make it so that it still looks black-holey when the camera is inside of the black hole model
+		const float camDist = (blackHoleNode->GetWorldPosition() - game->cameraNode->GetWorldPosition()).Length();
+		if (camDist < blackHoleNode->GetScale().x_ * 0.75f)
+		{
+			blackHoleModel->GetMaterial(0)->GetTechnique(0)->GetPass("muzzleflash")->SetDepthTestMode(CompareMode::CMP_ALWAYS);
+		}
+		else
+		{
+			blackHoleModel->GetMaterial(0)->GetTechnique(0)->GetPass("muzzleflash")->SetDepthTestMode(CompareMode::CMP_LESSEQUAL);
 		}
 		break;
 	}
@@ -293,6 +318,19 @@ void KilledKaaba::OnCollision(StringHash eventType, VariantMap& eventData)
 	}
 }
 
+void KilledKaaba::OnBlackHoleCollision(StringHash eventType, VariantMap& eventData)
+{
+	Node* other = (Node*)eventData["OtherNode"].GetPtr();
+	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
+	if (other != node_ && otherBody->GetCollisionLayer() <= 1 && otherBody->GetMass() > 0)
+	{ 
+		//All rigid bodies that aren't likely to have code for this interaction are pushed towards the center
+		const Vector3 diff = node_->GetWorldPosition() - other->GetWorldPosition();
+		const float push = 12.0f + (4.0f * diff.LengthSquared());
+		otherBody->ApplyImpulse(diff.Normalized() * Vector3(push, push, push) * otherBody->GetMass());
+	}
+}
+
 void KilledKaaba::ChangeState(const int newState)
 {
 	if (newState != state)
@@ -328,7 +366,8 @@ void KilledKaaba::EnterState(const int newState)
 			shootTimer = 0.0f;
 			break;
 		case STATE_BLACKHOLE:
-			blackHoleNode->SetScale(0.0f);
+			blackHoleNode->SetScale(0.1f);
+			blackHoleNode->SetEnabled(true);
 			break;
 	}
 }
@@ -359,7 +398,8 @@ void KilledKaaba::LeaveState(const int oldState)
 		body->SetLinearFactor(Vector3(1.0f, 0.0f, 1.0f));
 		break;
 	case STATE_BLACKHOLE:
-		blackHoleNode->SetScale(0.0f);
+		blackHoleNode->SetScale(1.0f);
+		blackHoleNode->SetEnabled(false);
 		break;
 	}
 }

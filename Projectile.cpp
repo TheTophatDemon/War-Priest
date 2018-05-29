@@ -82,6 +82,11 @@ void Projectile::FixedUpdate(float timeStep)
 							speed -= 3.5f;
 							if (speed == 0.0f) speed = -orgSpeed;
 						}
+						else if (result.body_->GetNode()->HasTag("blackhole"))
+						{
+							speed = Min(speed * 2.0f, speed + 3.5f);
+							movement = movement.Lerp(result.body_->GetNode()->GetWorldPosition() - node_->GetWorldPosition(), 2.0f * timeStep);
+						}
 					}
 					else
 					{

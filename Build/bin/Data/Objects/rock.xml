@@ -24,6 +24,6 @@
 		<attribute name="Mass" value="200" />
 		<attribute name="Friction" value="0.8" />
 		<attribute name="Linear Damping" value="0.18" />
-		<attribute name="Collision Layer" value="17" />
+		<attribute name="Collision Layer" value="1" />
 	</component>
 </node>

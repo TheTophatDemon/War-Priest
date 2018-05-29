@@ -190,23 +190,12 @@ void TempTemplar::OnShieldCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-
-	if (other != node_) 
+	if (other != node_ && otherBody->GetCollisionLayer() <= 1 && otherBody->GetMass() > 0)
 	{
-		if (other->HasComponent<Actor>())
-		{
-			Vector3 diff = other->GetWorldPosition() - node_->GetWorldPosition();
-			diff.y_ = 0.0f;
-			Quaternion direction = Quaternion();
-			direction.FromLookRotation(diff.Normalized(), Vector3::UP);
-			other->GetComponent<Actor>()->KnockBack(10.0f + (12.0f / diff.LengthSquared()), direction);
-		}
-		else if (otherBody->GetMass() > 0) //Any physics object that isn't an actor gets pushed away
-		{
-			const Vector3 diff = other->GetWorldPosition() - node_->GetWorldPosition();
-			const float push = 3.0f + (12.0f / diff.LengthSquared());
-			otherBody->ApplyImpulse(diff.Normalized() * Vector3(push, push, push) * otherBody->GetMass());
-		}
+		//All rigidbodies that are unlikely to have code to handle this interaction are pushed away
+		const Vector3 diff = other->GetWorldPosition() - node_->GetWorldPosition();
+		const float push = 3.0f + (12.0f / diff.LengthSquared());
+		otherBody->ApplyImpulse(diff.Normalized() * Vector3(push, push, push) * otherBody->GetMass());
 	}
 }
 
