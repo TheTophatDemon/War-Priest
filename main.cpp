@@ -1,11 +1,13 @@
 //TODO:
+	//Remove specific religious symbols
+		//Touch up big cross skin
+		//Temple thing
+		//Postal pope skin
+		//Grungle skin
 	//Sacsand4 (Final tests)
 	//Sinister Synagogue
 		//Auto-adjusting antigravity platform component
 
-	//Remove specific religious symbols
-	//Redo sandstone texture
-	//Wololo
 	//Give Danger Deacons drowning animation
 	//Replace snare drum in victory theme
 	//Replace sign post in FF4 with actual signpost model

@@ -862,7 +862,14 @@ void Player::HandleNearestCorpse()
 				Zeus::MakeLightBeam(scene, nearestCorpse->GetNode()->GetWorldPosition());
 				nearestCorpse->Revive();
 				reviveCount += 1;
-				soundSource->Play("Sounds/ply_revive.wav", true);
+				if (Random(0, 3000) == 42)
+				{
+					soundSource->Play("Sounds/ply_wololo.wav", true);
+				}
+				else
+				{
+					soundSource->Play("Sounds/ply_revive.wav", true);
+				}
 			}
 		}
 		else
