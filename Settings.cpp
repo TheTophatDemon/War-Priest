@@ -15,7 +15,7 @@ StringHash Settings::E_SETTINGSCHANGED = StringHash("SettingsChanged");
 
 #define DF_MOUSESENS 0.25f
 #define DF_MUSVOL 0.5f
-#define DF_SNDVOL 0.5f
+#define DF_SNDVOL 1.0f
 #define DF_DIFF 1.0f
 
 #define DF_KBACK 115

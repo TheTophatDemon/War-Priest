@@ -1,16 +1,13 @@
+//Commit: Postal Pope skin update. Sacsand1 update. Bonus sound/graphics. Missile sound. Replaced crosses. Settings change.
+
 //TODO:
-	//Remove specific religious symbols
-		//Touch up big cross skin
-		//Temple thing
-		//Postal pope skin
-		//Grungle skin
 	//Sacsand4 (Final tests)
 	//Sinister Synagogue
 		//Auto-adjusting antigravity platform component
-
+	
+	//Replace launchpad sound
 	//Give Danger Deacons drowning animation
 	//Replace snare drum in victory theme
-	//Replace sign post in FF4 with actual signpost model
 	//Enhanced water gfx
 
 	//Crossroads
@@ -24,11 +21,9 @@
 		//God beam
 		//Statue damage & destruction
 		//Chaos caliph Charge & shoot
-		//Bonus collection
 		//Killed Kaaba
 			//Awakening
 			//Bounce
-			//Missile fire
 			//Black hole noise
 	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. 
 	//Do final test through every level.
@@ -37,6 +32,7 @@
 		//Fix exploit on sacsand1
 		//Fallrhine 2 barrel platform unreachable
 
+	//Look into SoundSounder optimization?
 	//Make Enemy and Player derive from Actor instead of a has-a relationship?
 	//Send E_SETTINGSCHANGE to self
 	//Replace CompassScene with faster alternative?

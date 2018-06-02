@@ -55,6 +55,9 @@ void KilledKaaba::Start()
 
 	targetHeight = node_->GetWorldPosition().y_ + HEIGHT_FROM_BOTTOM;
 
+	soundSource = node_->CreateComponent<SoundSounder>();
+	soundSource->SetDistanceAttenuation(0.0f, 1000.0f);
+
 	//Glowy red aura
 	glowNode = node_->CreateChild();
 	StaticModel* sm = glowNode->CreateComponent<StaticModel>();
@@ -216,6 +219,7 @@ void KilledKaaba::FixedUpdate(float timeStep)
 				Random(-1.0f, 1.0f), 0.0f, Random(-1.0f, 1.0f)
 			).Normalized(), Vector3::UP);
 			Missile::MakeMissile(scene, node_->GetWorldPosition(), shootDirection, node_, game->playerNode);
+			soundSource->Play("Sounds/enm_missile.wav", true);
 		}
 		break;
 	case STATE_BLACKHOLE:

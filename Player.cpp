@@ -368,6 +368,8 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 			shrink->SetKeyFrame(0.0f, other->GetScale());
 			shrink->SetKeyFrame(0.25f, Vector3::ZERO);
 			other->SetAttributeAnimation("Scale", shrink, WM_ONCE, 1.0f);
+
+			soundSource->Play("Sounds/itm_bonus.wav", false);
 		}
 	}
 }

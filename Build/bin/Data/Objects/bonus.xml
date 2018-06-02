@@ -5,7 +5,7 @@
 	<attribute name="Tags">
 		<string value="bonus" />
 	</attribute>
-	<attribute name="Position" value="0 0 0" />
+	<attribute name="Position" value="0 -2.21572 7.88854" />
 	<attribute name="Rotation" value="1 0 0 0" />
 	<attribute name="Scale" value="0.7 0.7 0.7" />
 	<attribute name="Variables" />
@@ -18,6 +18,7 @@
 		<attribute name="Size" value="5 1 1" />
 	</component>
 	<component type="RigidBody" id="16777230">
+		<attribute name="Physics Position" value="0 -2.21572 7.88854" />
 		<attribute name="Linear Factor" value="0 0 0" />
 		<attribute name="Angular Factor" value="0 0 0" />
 		<attribute name="Collision Layer" value="33" />
@@ -31,10 +32,10 @@
 		<attribute name="Tags" />
 		<attribute name="Position" value="0 0 0" />
 		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1.25 1.25 1.25" />
+		<attribute name="Scale" value="3.5 5 3" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16777231">
-			<attribute name="Model" value="Model;Models/cross.mdl" />
+			<attribute name="Model" value="Model;Models/Sphere.mdl" />
 			<attribute name="Material" value="Material;Materials/telekinesis.xml" />
 		</component>
 	</node>

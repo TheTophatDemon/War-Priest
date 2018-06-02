@@ -37,11 +37,11 @@ void Bonus::Start()
 	SharedPtr<ValueAnimation> glowAnim(new ValueAnimation(context_));
 	glowAnim->SetInterpolationMethod(IM_SPLINE);
 	glowAnim->SetSplineTension(0.1f);
-	glowAnim->SetKeyFrame(0.0f, Vector3(1.05f, 1.05f, 1.05f));
-	glowAnim->SetKeyFrame(1.0f, Vector3(1.25f, 1.25f, 1.25f));
-	glowAnim->SetKeyFrame(2.0f, Vector3(1.05f, 1.05f, 1.05f));
+	glowAnim->SetKeyFrame(0.0f, Vector3(3.5f, 5.0f, 3.0f));
+	glowAnim->SetKeyFrame(1.0f, Vector3(4.0f, 5.5f, 3.5f));
+	glowAnim->SetKeyFrame(2.0f, Vector3(3.5f, 5.0f, 3.0f));
 	Node* const glow = node_->GetChild("glow");
-	glow->SetAttributeAnimation("Scale", glowAnim, WM_LOOP, 1.0f);
+	glow->SetAttributeAnimation("Scale", glowAnim, WM_LOOP, 2.0f);
 }
 
 Bonus::~Bonus()

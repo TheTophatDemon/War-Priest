@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="3" />
 	<attribute name="Next Replicated Component ID" value="5" />
-	<attribute name="Next Local Node ID" value="16778334" />
-	<attribute name="Next Local Component ID" value="16780909" />
+	<attribute name="Next Local Node ID" value="16778336" />
+	<attribute name="Next Local Component ID" value="16780933" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="fallenfatherland.ogg" />
 	</attribute>
@@ -394,7 +394,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16779883">
 			<attribute name="Model" value="Model;Models/maps/fallrhine4.mdl" />
-			<attribute name="Material" value="Material;Materials/bark.xml;Materials/purplefloor.xml;Materials/purplebrick_ridge.xml;Materials/fallrhine_triroof.xml;Materials/rock.xml;Materials/fallrhine_pipe.xml;Materials/metal.xml;Materials/fallrhine_light.xml;Materials/purplebrick2.xml;Materials/ship_ridge.xml;Materials/asphalt.xml;Materials/metal_darker.xml;Materials/cobblestone_darker.xml;Materials/fallrhine_castlebridge.xml;Materials/ship_metal.xml;Materials/concrete.xml;Materials/sheet_metal.xml;Materials/cobblestone.xml;Materials/grass_coarse.xml;Materials/purplebrick_window_cracked.xml" />
+			<attribute name="Material" value="Material;Materials/purplefloor.xml;Materials/purplebrick_ridge.xml;Materials/fallrhine_triroof.xml;Materials/rock.xml;Materials/fallrhine_pipe.xml;Materials/metal.xml;Materials/fallrhine_light.xml;Materials/purplebrick2.xml;Materials/ship_ridge.xml;Materials/asphalt.xml;Materials/metal_darker.xml;Materials/cobblestone_darker.xml;Materials/fallrhine_castlebridge.xml;Materials/bark.xml;Materials/ship_metal.xml;Materials/concrete.xml;Materials/sheet_metal.xml;Materials/cobblestone.xml;Materials/grass_coarse.xml;Materials/purplebrick_window_cracked.xml" />
 		</component>
 		<component type="CollisionShape" id="16779884">
 			<attribute name="Shape Type" value="TriangleMesh" />
@@ -410,7 +410,7 @@
 			<attribute name="Tags">
 				<string value="prop" />
 			</attribute>
-			<attribute name="Position" value="-74.3224 25.4786 178.005" />
+			<attribute name="Position" value="-74.3224 29.5501 178.005" />
 			<attribute name="Rotation" value="1 0 0 0" />
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
@@ -419,8 +419,8 @@
 				<attribute name="Material" value="Material;Materials/skins/bigcross_skin.xml" />
 			</component>
 			<component type="CollisionShape" id="16780602">
-				<attribute name="Size" value="2 32 6" />
-				<attribute name="Offset Position" value="0 -2.5 0" />
+				<attribute name="Size" value="2 36 6" />
+				<attribute name="Offset Position" value="0 -4.5 0" />
 			</component>
 		</node>
 		<node id="16778289">
@@ -1320,7 +1320,7 @@
 		<attribute name="Tags">
 			<string value="launchpad" />
 		</attribute>
-		<attribute name="Position" value="14.5948 -66.2457 173.388" />
+		<attribute name="Position" value="14.5948 -65.8957 173.388" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="2 2 2" />
 		<attribute name="Variables">
@@ -1332,7 +1332,7 @@
 			<attribute name="Offset Position" value="0 0.18 0" />
 		</component>
 		<component type="RigidBody" id="16780538">
-			<attribute name="Physics Position" value="14.5948 -66.2457 173.388" />
+			<attribute name="Physics Position" value="14.5948 -65.8957 173.388" />
 			<attribute name="Use Gravity" value="false" />
 			<attribute name="Is Trigger" value="true" />
 		</component>
@@ -2000,7 +2000,7 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="decal_tolerance" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="-32.8999 -58.8588 173.826" />
+		<attribute name="Position" value="-32.8321 -58.9451 174.2" />
 		<attribute name="Rotation" value="-3.09086e-08 -0.707107 0.707107 3.09086e-08" />
 		<attribute name="Scale" value="2.84173 1.66108 6.4899" />
 		<attribute name="Variables" />

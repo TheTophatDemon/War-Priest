@@ -124,12 +124,14 @@ void Gameplay::Start()
 		cache->GetResource<ParticleEffect>("Particles/blood.xml")->SetMaterial(cache->GetResource<Material>("Materials/particle_blood.xml"));
 		cache->GetResource<Material>("Materials/skins/stake_skin.xml")->SetShaderParameter("MatDiffColor", Color::WHITE);
 		cache->GetResource<Material>("Materials/blood.xml")->SetShaderParameter("MatDiffColor", Color::WHITE);
+		cache->GetResource<Material>("Materials/decal_death.xml")->SetShaderParameter("MatDiffColor", Color::WHITE);
 	}
 	else
 	{
 		cache->GetResource<ParticleEffect>("Particles/blood.xml")->SetMaterial(cache->GetResource<Material>("Materials/particle_heart.xml"));
 		cache->GetResource<Material>("Materials/skins/stake_skin.xml")->SetShaderParameter("MatDiffColor", Color::BLUE);
 		cache->GetResource<Material>("Materials/blood.xml")->SetShaderParameter("MatDiffColor", Color(0.1f, 0.1f, 0.1f, 1.0f));
+		cache->GetResource<Material>("Materials/decal_death.xml")->SetShaderParameter("MatDiffColor", Color(0.1f, 0.1f, 0.1f, 1.0f));
 	}
 	SetupLighting();
 

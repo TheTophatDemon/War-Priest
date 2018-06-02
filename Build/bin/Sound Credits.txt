@@ -4,6 +4,7 @@ enm_fire.wav = "JM_FX_Fireball 01.wav" by Julien Matthey of Freesound.org under 
 enm_telekinesis.wav = "Speaker Buzz" by Ev-Dawg of Freesound.org under CC0 (Heavily edited)
 enm_telethrow.wav = "heavy beam weapon" by roper1911 of Freesound.org under CC0
 enm_summon.wav = "Poof.wav" by ryansitz of Freesound.org under CC0
+enm_missile.wav = "rlaunch.wav" from "4 Projectile Launches" by Michel Baradari (Submitted by qubodup of opengameart.org) under CC-BY-3.0
 itm_medkit.wav = "cloth_ripping.wav" by reg7783 of Freesound.org under CC0
 itm_launchpad.wav = "03306 space flare launch.wav" by Robinhood76 of Freesound.org under CC-BY-NC-3.0
 ply_revive.wav = "Small poofs of flux.ogg" by jobro of Freesound.org under CC-BY-3.0

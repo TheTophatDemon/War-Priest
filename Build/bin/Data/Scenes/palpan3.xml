@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="49.7946" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16777774" />
-	<attribute name="Next Local Component ID" value="16779364" />
+	<attribute name="Next Local Node ID" value="16777777" />
+	<attribute name="Next Local Component ID" value="16779400" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="palisadepantheon.ogg" />
 	</attribute>
@@ -928,8 +928,8 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-51.8205 -18.5484 1.54656" />
-		<attribute name="Rotation" value="0.947588 -0.210583 -0.052125 0.234553" />
+		<attribute name="Position" value="-51.8205 -18.3562 1.54656" />
+		<attribute name="Rotation" value="0.961895 -0.122867 -0.0577224 0.23734" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16778843">
@@ -956,12 +956,12 @@
 		<attribute name="Tags">
 			<string value="lift" />
 		</attribute>
-		<attribute name="Position" value="-64.5714 -20.023 -10.9488" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="2 2 2.3" />
+		<attribute name="Position" value="-69.8504 -19.9709 -6.48113" />
+		<attribute name="Rotation" value="-0.966794 0 0.25555 0" />
+		<attribute name="Scale" value="2.3 2.3 2.3" />
 		<attribute name="Variables">
 			<variant hash="1366131055" type="Vector3" value="0 0 0" />
-			<variant hash="3779712780" type="Float" value="25" />
+			<variant hash="3779712780" type="Float" value="10" />
 		</attribute>
 		<component type="StaticModel" id="16778959">
 			<attribute name="Model" value="Model;Models/lift_long.mdl" />
@@ -1019,12 +1019,12 @@
 		<attribute name="Name" value="temple" />
 		<attribute name="Tags" />
 		<attribute name="Position" value="159.934 -35.6856 -121.669" />
-		<attribute name="Rotation" value="0.5 0.5 -0.5 0.5" />
+		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16779021">
 			<attribute name="Model" value="Model;Models/maps/temple0.mdl" />
-			<attribute name="Material" value="Material;Materials/cobblestone_darker.xml;Materials/metal_darker.xml;Materials/concrete.xml;Materials/rock.xml;Materials/palpan_romebrick3.xml;Materials/palpan_romebrick3_mossy.xml" />
+			<attribute name="Material" value="Material;Materials/metal_darker.xml;Materials/cobblestone_darker.xml;Materials/palpan_romebrick3_mossy.xml;Materials/palpan_romebrick3.xml;Materials/rock.xml;Materials/cobblestone.xml" />
 		</component>
 	</node>
 	<node id="16777693">
@@ -1069,7 +1069,7 @@
 		</attribute>
 		<attribute name="Position" value="-23.8513 -22.8445 -164.478" />
 		<attribute name="Rotation" value="0.956156 0 0.292858 0" />
-		<attribute name="Scale" value="2 2 2" />
+		<attribute name="Scale" value="2.5 2.5 2.5" />
 		<attribute name="Variables">
 			<variant hash="3779712780" type="Float" value="50" />
 		</attribute>
@@ -1558,7 +1558,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16779363">
 			<attribute name="Model" value="Model;Models/cross.mdl" />
-			<attribute name="Material" value="Material;" />
+			<attribute name="Material" value="Material;Materials/cross.xml" />
 		</component>
 	</node>
 </scene>

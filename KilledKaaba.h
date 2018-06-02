@@ -11,6 +11,7 @@
 #include <Urho3D/Graphics/ParticleEmitter.h>
 
 #include "Enemy.h"
+#include "SoundSounder.h"
 
 using namespace Urho3D;
 
@@ -38,6 +39,7 @@ protected:
 	SharedPtr<Node> glowNode;
 	SharedPtr<Node> blackHoleNode;
 	WeakPtr<StaticModel> blackHoleModel;
+	SharedPtr<SoundSounder> soundSource;
 	void ChangeState(const int newState);
 	void EnterState(const int newState);
 	void LeaveState(const int oldState);

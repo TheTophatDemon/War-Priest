@@ -16,7 +16,5 @@ public:
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	~Bonus();
-protected:
-
 };
 
