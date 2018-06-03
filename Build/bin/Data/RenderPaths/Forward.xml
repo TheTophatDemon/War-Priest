@@ -1,0 +1,15 @@
+<renderpath>
+    <command type="clear" color="fog" depth="1.0" stencil="y" />
+    <command type="scenepass" pass="base" vertexlights="true" metadata="base" />
+    <command type="forwardlights" pass="light" />
+    <command type="scenepass" pass="postopaque" />
+    <command type="scenepass" pass="alpha" vertexlights="true" sort="backtofront" metadata="alpha" />
+	<command type="scenepass" pass="liquid"/>
+    <command type="scenepass" pass="postalpha" sort="backtofront" />
+	<command type="quad" tag="Screenflash" vs="screenflash" ps="screenflash" output="viewport">
+        <parameter name="FlashColor" value="0.0 0.0 0.0 0.0"/>
+		<parameter name="State" value="0.0"/>
+		<texture unit="diffuse" name="viewport" />
+		<texture unit="normal" name="UI/shadernoise.png"/>
+    </command>
+</renderpath>

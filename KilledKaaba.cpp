@@ -250,11 +250,11 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		const float camDist = (blackHoleNode->GetWorldPosition() - game->cameraNode->GetWorldPosition()).Length();
 		if (camDist < blackHoleNode->GetScale().x_ * 0.75f)
 		{
-			blackHoleModel->GetMaterial(0)->GetTechnique(0)->GetPass("muzzleflash")->SetDepthTestMode(CompareMode::CMP_ALWAYS);
+			blackHoleModel->GetMaterial(0)->GetTechnique(0)->GetPass("postalpha")->SetDepthTestMode(CompareMode::CMP_ALWAYS);
 		}
 		else
 		{
-			blackHoleModel->GetMaterial(0)->GetTechnique(0)->GetPass("muzzleflash")->SetDepthTestMode(CompareMode::CMP_LESSEQUAL);
+			blackHoleModel->GetMaterial(0)->GetTechnique(0)->GetPass("postalpha")->SetDepthTestMode(CompareMode::CMP_LESSEQUAL);
 		}
 		break;
 	}

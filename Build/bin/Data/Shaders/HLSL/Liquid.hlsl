@@ -1,47 +1,39 @@
 #include "Uniforms.hlsl"
 #include "Samplers.hlsl"
 #include "Transform.hlsl"
+#include "Fog.hlsl"
 
 void VS(float4 iPos : POSITION,
     float2 iTexCoord : TEXCOORD0,
-    float3 iNormal : NORMAL,
     out float2 oTexCoord : TEXCOORD0,
     out float4 oWorldPos : TEXCOORD2,
-	out float3 oNormal : NORMAL,
-    #ifdef VERTEXCOLOR
-        out float4 oColor : COLOR0,
+	#ifdef INSTANCED
+        float4x3 iModelInstance : TEXCOORD4,
     #endif
     #if defined(D3D11) && defined(CLIPPLANE)
         out float oClip : SV_CLIPDISTANCE0,
     #endif
+	out float4 oClipPos : TEXCOORD3,
     out float4 oPos : OUTPOSITION)
 {
     float4x3 modelMatrix = iModelMatrix;
     float3 worldPos = GetWorldPos(modelMatrix);
     oPos = GetClipPos(worldPos);
+	oClipPos = oPos;
 	float2 texCoord = worldPos.xz * 0.1;
     oTexCoord = texCoord;
     oWorldPos = float4(worldPos, GetDepth(oPos));
-	oNormal = iNormal;
-
     #if defined(D3D11) && defined(CLIPPLANE)
         oClip = dot(oPos, cClipPlane);
-    #endif
-    
-    #ifdef VERTEXCOLOR
-        oColor = iColor;
     #endif
 }
 
 void PS(float2 iTexCoord : TEXCOORD0,
     float4 iWorldPos: TEXCOORD2,
-	float3 iNormal: NORMAL,
-    #ifdef VERTEXCOLOR
-        float4 iColor : COLOR0,
-    #endif
     #if defined(D3D11) && defined(CLIPPLANE)
         float iClip : SV_CLIPDISTANCE0,
     #endif
+	float4 iClipPos : TEXCOORD3,
     out float4 oColor : OUTCOLOR0)
 {
 	float2 anim = float2(cElapsedTimePS, cElapsedTimePS);
@@ -52,5 +44,9 @@ void PS(float2 iTexCoord : TEXCOORD0,
 	diffColor -= diff2Color * 0.5;
 	diffColor += noiseColor * 0.25;
 	diffColor.a = 0.75;
+	
+	//float2 sourceSample = (iClipPos.xy * float2(1.0, -1.0) / iClipPos.w + float2(1.0, 1.0)) / 2.0;
+	//float4 sourceColor = Sample2D(NormalMap, sourceSample);
+	
     oColor = diffColor;
 }

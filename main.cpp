@@ -1,14 +1,12 @@
-//Commit: Postal Pope skin update. Sacsand1 update. Bonus sound/graphics. Missile sound. Replaced crosses. Settings change.
-
 //TODO:
-	//Sacsand4 (Final tests)
+	//Kaaba gets stuck
+	//Replace cross on Tempest Templar, Pyro Pastor
 	//Sinister Synagogue
 		//Auto-adjusting antigravity platform component
 	
 	//Replace launchpad sound
 	//Give Danger Deacons drowning animation
 	//Replace snare drum in victory theme
-	//Enhanced water gfx
 
 	//Crossroads
 		//Scrolling waluigi background
@@ -61,6 +59,7 @@
 	//Custom components can't have parameters other than context
 	//GetWorldTransform scaling bug?
 	//Freezes on "SDL_Delay" (Called by DirectSound, I think) sometimes when re-focusing the window after an alt-tab.
+	//HLSL's TEXCOORD(n) semantics are misleading
 
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP

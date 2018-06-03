@@ -2,7 +2,6 @@
 <material>
 	<technique name="Techniques/Liquid.xml" quality="0" loddistance="0" />
 	<texture unit="diffuse" name="Textures/slime.png" />
-	<texture unit="normal" name="Textures/grass.png" />
 	<texture unit="environment" name="Textures/waternoise.png" />
 	<parameter name="UOffset" value="1 0 0 0" />
 	<parameter name="VOffset" value="0 1 0 0" />

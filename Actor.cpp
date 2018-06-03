@@ -293,7 +293,7 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 			Vector3 diff = other->GetWorldPosition() - node_->GetWorldPosition();
 			Quaternion direction = Quaternion();
 			direction.FromLookRotation(diff.Normalized(), Vector3::UP);
-			KnockBack(20.0f + (24.0f / diff.LengthSquared()), direction);
+			KnockBack(15.0f + (35.0f / diff.LengthSquared()), direction);
 		}
 	skip: {} //I am a PROFESSIONAL C++ DEVELOPER
 	}

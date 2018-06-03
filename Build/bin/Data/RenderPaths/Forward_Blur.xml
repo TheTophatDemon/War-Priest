@@ -3,6 +3,7 @@
     <command type="scenepass" pass="base" vertexlights="true" metadata="base" />
     <command type="scenepass" pass="postopaque" />
     <command type="scenepass" pass="alpha" vertexlights="true" sort="backtofront" metadata="alpha" />
+	<command type="scenepass" pass="liquid"/>
     <command type="scenepass" pass="postalpha" sort="backtofront" />
 	<rendertarget name="blurh" tag="Blur" sizedivisor="2 2" format="rgba" filter="true" />
     <rendertarget name="blurv" tag="Blur" sizedivisor="2 2" format="rgba" filter="true" />
