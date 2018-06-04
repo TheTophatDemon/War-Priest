@@ -313,11 +313,7 @@ void Gameplay::SetupGame()
 			const Matrix3x4 trans = n->GetWorldTransform();
 			n->LoadXML(cache->GetResource<XMLFile>("Objects/statue.xml")->GetRoot());
 			n->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
-			Statue* s = n->CreateComponent<Statue>();
-			if (hp != 0) 
-			{
-				s->Damage(s->GetHealth() - hp, true);
-			}
+			n->AddComponent(Statue::MakeStatueComponent(context_, hp == 0 ? 100 : hp), 3333, LOCAL);
 		}
 	}
 

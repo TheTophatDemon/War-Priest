@@ -19,6 +19,7 @@ class Statue : public LogicComponent
 	URHO3D_OBJECT(Statue, LogicComponent);
 public:
 	Statue(Context* context);
+	static Statue* MakeStatueComponent(Context* context, const int hp);
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);

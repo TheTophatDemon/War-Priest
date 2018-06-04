@@ -47,6 +47,8 @@ protected:
 	Vector<SharedPtr<Node>> areas;
 
 	Vector3 direction;
+	float deltaTime;
+	float maxMoveSpeed;
 	float moveSpeed;
 	float spinSpeed;
 	float distanceFromPlayer;

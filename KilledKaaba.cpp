@@ -16,7 +16,7 @@
 #define STATE_MISSILE 3
 #define STATE_BLACKHOLE 4
 
-#define HEIGHT_FROM_BOTTOM 5.0f
+#define HEIGHT_FROM_BOTTOM 5.25f
 #define RISE_SPEED 750.0f
 #define MAX_SPINSPEED 100.0f
 #define SPIN_ACCEL 7.0f
@@ -26,19 +26,21 @@ KilledKaaba::KilledKaaba(Context* context) : LogicComponent(context),
 	distanceFromPlayer(0.0f),
 	stateTimer(0.0f),
 	state(-1),
-	moveSpeed(1.0f),
+	maxMoveSpeed(1.0f),
+	moveSpeed(0.0f),
 	spinSpeed(0.0f),
 	direction(1.0f, 0.0f, 0.0f),
 	targetHeight(0.0f),
 	lastState(-1),
 	attackTimer(0.0f),
-	shootTimer(0.0f)
+	shootTimer(0.0f),
+	deltaTime(0.0f)
 {
 }
 
 void KilledKaaba::OnSettingsChange(StringHash eventType, VariantMap& eventData)
 {
-	moveSpeed = 50.0f * Settings::GetDifficulty();
+	maxMoveSpeed = 50.0f * Settings::GetDifficulty();
 }
 
 void KilledKaaba::Start()
@@ -114,8 +116,6 @@ void KilledKaaba::FixedUpdate(float timeStep)
 	distanceFromPlayer = targetDiff.Length();
 
 	const float hDiff = targetHeight - node_->GetWorldPosition().y_;
-	const float currentSpeed = body->GetLinearVelocity().Length();
-	const int spinDir = Sign(body->GetAngularVelocity().y_);
 
 	stateTimer += timeStep;
 	switch (state)
@@ -155,30 +155,46 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		}
 		break;
 	case STATE_FLY:
+	{
 		node_->Rotate(Quaternion(timeStep * 100.0f, Vector3::UP), TS_LOCAL);
-		if (currentSpeed < moveSpeed) 
+		body->SetLinearVelocity(direction * moveSpeed);
+
+		moveSpeed = Clamp(moveSpeed + 0.5f, -maxMoveSpeed, maxMoveSpeed);
+
+		if (GetSubsystem<Input>()->GetKeyDown(KEY_KP_6))
 		{
-			body->ApplyForce(Vector3(direction.x_ * moveSpeed, 0.0f, direction.z_ * moveSpeed));
+			direction.y_ = 1.0f;
 		}
-		else if (currentSpeed > moveSpeed)
+		else if (GetSubsystem<Input>()->GetKeyDown(KEY_KP_5))
 		{
-			body->SetLinearVelocity(body->GetLinearVelocity().Normalized() * moveSpeed);
+			direction.y_ = -1.0f;
+		}
+
+		//Running into walls shifts it up, but it must return to ground level
+		if (fabs(hDiff) > 0.1f)
+		{
+			//std::cout << direction.y_ << std::endl;
+			direction.y_ = Clamp(direction.y_ + timeStep * Sign(hDiff), -1.0f, 1.0f);
+		}
+		else
+		{
+			direction.y_ = 0.0f;
 		}
 
 		attackTimer -= timeStep;
 		if (attackTimer < 0.0f)
 		{
-			if (distanceFromPlayer < 70.0f) 
+			if (distanceFromPlayer < 70.0f)
 			{
 				ChangeState(STATE_BLACKHOLE);
 			}
-			else 
+			else
 			{
 				ChangeState(STATE_MISSILE);
 			}
 		}
-		
-		if (hDiff < -1.0f) 
+
+		/*if (hDiff < -1.0f)
 		{
 			const int buffer = body->GetCollisionLayer();
 			body->SetCollisionLayer(0);
@@ -192,8 +208,9 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		else if (hDiff > 1.0f)
 		{
 			ChangeState(STATE_RISE);
-		}
+		}*/
 		break;
+	}
 	case STATE_MISSILE:
 		node_->Rotate(Quaternion(spinSpeed, Vector3::UP), TS_WORLD);
 		body->SetLinearVelocity(Vector3::ZERO);
@@ -258,6 +275,7 @@ void KilledKaaba::FixedUpdate(float timeStep)
 		}
 		break;
 	}
+	deltaTime = timeStep;
 }
 
 void KilledKaaba::OnAreaCollision(StringHash eventType, VariantMap& eventData)
@@ -296,7 +314,12 @@ void KilledKaaba::OnCollision(StringHash eventType, VariantMap& eventData)
 		}
 		direction.y_ = 0.0f;
 		direction.Normalize();
-		body->ApplyImpulse(Vector3(direction.x_ * moveSpeed, 0.0f, direction.z_ * moveSpeed));
+		direction.x_ += Random(-0.1f, 0.1f);
+		direction.z_ += Random(-0.1f, 0.1f);
+		direction.Normalize();
+		//Make it shimmy up the obstacle in case it's stuck
+		direction.y_ += deltaTime;
+		//body->ApplyImpulse(Vector3(direction.x_ * moveSpeed, 0.0f, direction.z_ * moveSpeed));
 	}
 	else if (otherBody->GetCollisionLayer() & 128 && other->GetName() == "player")
 	{
@@ -356,7 +379,8 @@ void KilledKaaba::EnterState(const int newState)
 			glowNode->SetScale(0.0f);
 			break;
 		case STATE_FLY:
-			direction = Vector3(Random(-1.0f, 1.0f), Random(-1.0f, 1.0f), Random(-1.0f, 1.0f));
+			moveSpeed = 0.0f;
+			direction = Vector3(Random(-1.0f, 1.0f), 0.0f, Random(-1.0f, 1.0f));
 			direction.Normalize();
 			attackTimer = Random(Settings::ScaleWithDifficulty(8.0f, 5.0f, 3.0f), 10.0f);
 			break;
@@ -396,10 +420,10 @@ void KilledKaaba::LeaveState(const int oldState)
 		break;
 	}
 	case STATE_RISE:
-		body->SetLinearFactor(Vector3(1.0f, 0.0f, 1.0f));
+		body->SetLinearFactor(Vector3(1.0f, 1.0f, 1.0f));
 		break;
 	case STATE_MISSILE:
-		body->SetLinearFactor(Vector3(1.0f, 0.0f, 1.0f));
+		body->SetLinearFactor(Vector3(1.0f, 1.0f, 1.0f));
 		break;
 	case STATE_BLACKHOLE:
 		blackHoleNode->SetScale(1.0f);

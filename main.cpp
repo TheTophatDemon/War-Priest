@@ -1,15 +1,16 @@
 //TODO:
-	//Kaaba gets stuck
 	//Replace cross on Tempest Templar, Pyro Pastor
 	//Sinister Synagogue
 		//Auto-adjusting antigravity platform component
 	
+	//Give TT some gimmick for Unholy Mode
+	//Make PP's fire faster in Unholy Mode
+	//Reskin Kaaba?
 	//Replace launchpad sound
 	//Give Danger Deacons drowning animation
 	//Replace snare drum in victory theme
 
 	//Crossroads
-		//Scrolling waluigi background
 	//Credits
 	//Palpan2
 	//Palpan1

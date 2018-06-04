@@ -24,6 +24,13 @@ Statue::Statue(Context* context) :
 {
 }
 
+Statue* Statue::MakeStatueComponent(Context* context, const int hp)
+{
+	Statue* statue = new Statue(context);
+	statue->health = hp;
+	return statue;
+}
+
 void Statue::RegisterObject(Context* context)
 {
 	context->RegisterFactory<Statue>();
@@ -48,7 +55,7 @@ void Statue::Damage(const int amount, const bool silent)
 {
 	if (shakeTimer < 0.5f) 
 	{
-		health -= amount * Settings::ScaleWithDifficulty(3.0f, 1.0f, 1.0f);
+		health -= amount * Settings::ScaleWithDifficulty(3.0f, 1.0f, 0.75f);
 		if (!silent) shakeTimer = 1.0f;
 	}
 }
