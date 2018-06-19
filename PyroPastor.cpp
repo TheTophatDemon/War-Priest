@@ -5,6 +5,7 @@
 #include "Gameplay.h"
 #include "Actor.h"
 #include "Fireball.h"
+#include "Settings.h"
 #include <iostream>
 
 #define STATE_DEAD 0
@@ -62,7 +63,7 @@ void PyroPastor::Execute()
 		Wander();
 
 		stateTimer += deltaTime;
-		if (stateTimer > 1.0f)
+		if (stateTimer > Settings::ScaleWithDifficulty(1.5f, 1.0f, 0.5f))
 		{
 			//Check if player is in range
 			PhysicsRaycastResult result;

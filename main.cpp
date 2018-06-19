@@ -1,15 +1,13 @@
 //TODO:
-	//Replace cross on Tempest Templar, Pyro Pastor
 	//Sinister Synagogue
 		//Auto-adjusting antigravity platform component
 	
-	//Give TT some gimmick for Unholy Mode
-	//Make PP's fire faster in Unholy Mode
 	//Reskin Kaaba?
 	//Replace launchpad sound
 	//Give Danger Deacons drowning animation
 	//Replace snare drum in victory theme
-
+	//Expand ridge in FF4
+	
 	//Crossroads
 	//Credits
 	//Palpan2
@@ -26,10 +24,12 @@
 			//Black hole noise
 	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. 
 	//Do final test through every level.
+		//Make fog match the skybox color
 		//Sacsand3 platforms going wrong way
 		//Remove health from sacsand2
 		//Fix exploit on sacsand1
 		//Fallrhine 2 barrel platform unreachable
+		//Exaggerate movement of spinning platform in FF3
 
 	//Look into SoundSounder optimization?
 	//Make Enemy and Player derive from Actor instead of a has-a relationship?

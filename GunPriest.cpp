@@ -39,6 +39,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	KilledKaaba::RegisterObject(context);
 	BouncyFireball::RegisterObject(context);
 	MissileFinder::RegisterObject(context);
+	TempShield::RegisterObject(context);
 
 	pause = false;
 	state = STATE_TITLE;

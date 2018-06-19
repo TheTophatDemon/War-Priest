@@ -65,6 +65,7 @@
 #include "KilledKaaba.h"
 #include "BouncyFireball.h"
 #include "MissileFinder.h"
+#include "TempShield.h"
 
 class GunPriest : public Application
 {

@@ -58,7 +58,7 @@ void KilledKaaba::Start()
 	targetHeight = node_->GetWorldPosition().y_ + HEIGHT_FROM_BOTTOM;
 
 	soundSource = node_->CreateComponent<SoundSounder>();
-	soundSource->SetDistanceAttenuation(0.0f, 1000.0f);
+	soundSource->SetDistanceAttenuation(0.0f, 500.0f);
 
 	//Glowy red aura
 	glowNode = node_->CreateChild();

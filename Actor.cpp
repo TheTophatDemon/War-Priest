@@ -11,6 +11,7 @@
 #include <Urho3D/Math/Ray.h>
 #include <iostream>
 #include "WeakChild.h"
+#include "TempShield.h"
 
 using namespace Urho3D;
 
@@ -275,18 +276,16 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 	}
 	else if (otherBody->GetCollisionLayer() & 16)
 	{
-		if (other->HasComponent<WeakChild>()) //Check if the shield is one that this node owns
-		{
-			WeakChild* wc = other->GetComponent<WeakChild>();
-			if (wc->parent.Get() == node_) goto skip;
-		}
 		if (other->HasTag("tempshield"))
 		{
-			Vector3 diff = node_->GetWorldPosition() - other->GetWorldPosition();
-			diff.y_ = 0.0f;
-			Quaternion direction = Quaternion();
-			direction.FromLookRotation(diff.Normalized(), Vector3::UP);
-			KnockBack(10.0f + (12.0f / diff.LengthSquared()), direction);
+			if (other->GetComponent<TempShield>()->owner.Get() != node_) 
+			{
+				Vector3 diff = node_->GetWorldPosition() - other->GetWorldPosition();
+				diff.y_ = 0.0f;
+				Quaternion direction = Quaternion();
+				direction.FromLookRotation(diff.Normalized(), Vector3::UP);
+				KnockBack(10.0f + (12.0f / diff.LengthSquared()), direction);
+			}
 		}
 		else if (other->HasTag("blackhole"))
 		{
@@ -295,7 +294,6 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 			direction.FromLookRotation(diff.Normalized(), Vector3::UP);
 			KnockBack(15.0f + (35.0f / diff.LengthSquared()), direction);
 		}
-	skip: {} //I am a PROFESSIONAL C++ DEVELOPER
 	}
 }
 

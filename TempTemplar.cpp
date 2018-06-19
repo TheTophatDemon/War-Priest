@@ -14,13 +14,13 @@
 #include "WeakChild.h"
 #include "GunPriest.h"
 #include "Settings.h"
+#include "TempShield.h"
 #include <iostream>
 
 #define STATE_DEAD 0
 #define STATE_WANDER 1
 #define STATE_ATTACK 32
 
-#define SHIELD_SIZE 18.0f
 #define MELEE_RANGE 3.0f
 #define MELEE_DAMAGE 10.0f
 
@@ -42,44 +42,23 @@ void TempTemplar::DelayedStart()
 	cache->GetResource<Animation>(SWING_ANIM);
 
 	Enemy::DelayedStart();
-	actor->maxspeed = 5.0f;
 
-	//Make shield
-	shield = scene->CreateChild("shield");
-	shield->AddTag("tempshield");
-	CollisionShape* cs = shield->CreateComponent<CollisionShape>();
-	cs->SetSphere(1.0f);
-	RigidBody* rb = shield->CreateComponent<RigidBody>();
-	rb->SetCollisionLayer(17);//1+16
-	rb->SetTrigger(true);
-	rb->SetLinearFactor(Vector3::ZERO);
-	rb->SetAngularFactor(Vector3::ZERO);
+	shieldNode = scene->CreateChild("shield");
+	shieldComponent = SharedPtr<TempShield>(new TempShield(context_));
+	shieldComponent->owner = node_;
 	
-	shieldModel = shield->CreateComponent<StaticModel>();
-	shieldModel->SetModel(cache->GetResource<Model>("Models/Sphere.mdl"));
-	shieldModel->SetMaterial(cache->GetResource<Material>("Materials/shield.xml"));
-	shieldModel->SetEnabled(false);
-	shield->SetScale(0.5f);
-	WeakChild::MakeWeakChild(shield, node_);
-	subShield = shield->CreateChild("subshield");
-	StaticModel* subModel = (StaticModel*)subShield->CloneComponent(shieldModel);
-	subShield->SetScale(0.95f);
+	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(TempTemplar, OnSettingsChange));
 
-	//Spin those shields
-	SharedPtr<ValueAnimation> spinAnim(new ValueAnimation(context_));
-	spinAnim->SetKeyFrame(0.0f, Quaternion::IDENTITY);
-	spinAnim->SetKeyFrame(0.5f, Quaternion(90.0f, Vector3::UP));
-	spinAnim->SetKeyFrame(1.0f, Quaternion(180.0f, Vector3::UP));
-	spinAnim->SetKeyFrame(1.5f, Quaternion(270.0f, Vector3::UP));
-	spinAnim->SetKeyFrame(2.0f, Quaternion::IDENTITY);
-	shield->SetAttributeAnimation("Rotation", spinAnim, WM_LOOP, 1.0f);
-	subShield->SetAttributeAnimation("Rotation", spinAnim, WM_LOOP, 2.0f);
-
-	SubscribeToEvent(shield, E_NODECOLLISION, URHO3D_HANDLER(TempTemplar, OnShieldCollision));
+	SendEvent(Settings::E_SETTINGSCHANGED); //To initialize
 
 	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
 	animController->SetSpeed(REVIVE_ANIM, 0.0f);
 	animController->SetSpeed(WALK_ANIM, 6.0f);
+}
+
+void TempTemplar::OnSettingsChange(StringHash eventType, VariantMap& eventData)
+{
+	actor->maxspeed = Settings::ScaleWithDifficulty(2.5f, 5.0f, 10.0f);
 }
 
 void TempTemplar::RegisterObject(Context* context)
@@ -90,35 +69,54 @@ void TempTemplar::RegisterObject(Context* context)
 void TempTemplar::Execute()
 {
 	float targetDist = 10000.0f;
+	Vector3 targetDiff = Vector3::ZERO;
 	if (target)
 	{
-		targetDist = (target->GetWorldPosition() - node_->GetWorldPosition()).Length();
+		targetDiff = (target->GetWorldPosition() - node_->GetWorldPosition());
+		targetDist = targetDiff.Length();
 	}
-	shield->SetWorldPosition(node_->GetWorldPosition());
+	
 	switch (state)
 	{
 	case STATE_DEAD:
 		Dead();
 		break;
 	case STATE_WANDER:
-		if (shield->GetScale().x_ < SHIELD_SIZE)
+	{
+		if (shieldComponent->formed)
 		{
-			shield->SetScale(shield->GetScale() + Vector3(deltaTime * 15.0f, deltaTime * 15.0f, deltaTime * 15.0f));
-		}
-		else
-		{
-			shield->SetScale(SHIELD_SIZE);
 			if (targetDist < MELEE_RANGE)
 			{
 				ChangeState(STATE_ATTACK);
 			}
 		}
-		Wander(false, true);
+		const Vector3 shieldDiff = node_->GetWorldPosition() - shieldNode->GetWorldPosition();
+		if (shieldDiff.Length() > shieldComponent->maxSize * 0.4f) //Stay inside the shield
+		{
+			walking = true;
+			turnTimer = 3.0f;
+			newRotation.FromLookRotation(Vector3(-shieldDiff.x_, 0.0f, -shieldDiff.z_), Vector3::UP);
+			actor->SetMovement(true, false, false, false);
+			actor->Move(deltaTime);
+		}
+		else if (targetDist < MELEE_RANGE * 3.0f && Settings::GetDifficulty() > 1.4f) //Chase after the player in Unholy Mode
+		{
+			walking = true;
+			newRotation.FromLookRotation(Vector3(targetDiff.x_, 0.0, targetDiff.z_) / targetDist, Vector3::UP);
+			actor->SetMovement(true, false, false, false);
+			actor->Move(deltaTime);
+		}
+		else
+		{
+			Wander(false, true);
+		}
+
 		if (walking)
 			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
 		else
 			animController->PlayExclusive(IDLE_ANIM, 0, true, 0.2f);
 		break;
+	}
 	case STATE_ATTACK:
 		animController->PlayExclusive(SWING_ANIM, 0, true, 0.2f);
 		stateTimer += deltaTime;
@@ -164,8 +162,11 @@ void TempTemplar::EnterState(const int newState)
 	}
 	else if (newState == STATE_WANDER)
 	{
-		shieldModel->SetEnabled(true);
-		subShield->GetComponent<StaticModel>()->SetEnabled(true);
+		if (!shieldNode->HasComponent<TempShield>())
+		{
+			shieldNode->AddComponent(shieldComponent, 255, LOCAL);
+			shieldNode->SetWorldPosition(node_->GetWorldPosition());
+		}
 	}
 	else if (newState == STATE_ATTACK)
 	{
@@ -184,19 +185,6 @@ void TempTemplar::Revive()
 	Enemy::Revive();
 	animController->PlayExclusive(REVIVE_ANIM, 0, false, 0.2f);
 	animController->SetSpeed(REVIVE_ANIM, 1.0f);
-}
-
-void TempTemplar::OnShieldCollision(StringHash eventType, VariantMap& eventData)
-{
-	Node* other = (Node*)eventData["OtherNode"].GetPtr();
-	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (other != node_ && otherBody->GetCollisionLayer() <= 1 && otherBody->GetMass() > 0)
-	{
-		//All rigidbodies that are unlikely to have code to handle this interaction are pushed away
-		const Vector3 diff = other->GetWorldPosition() - node_->GetWorldPosition();
-		const float push = 3.0f + (12.0f / diff.LengthSquared());
-		otherBody->ApplyImpulse(diff.Normalized() * Vector3(push, push, push) * otherBody->GetMass());
-	}
 }
 
 TempTemplar::~TempTemplar()

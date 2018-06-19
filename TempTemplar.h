@@ -16,6 +16,7 @@ using namespace Urho3D;
 
 class Actor;
 class Gameplay;
+class TempShield;
 class TempTemplar : public Enemy 
 {
 	URHO3D_OBJECT(TempTemplar, LogicComponent);
@@ -26,14 +27,13 @@ public:
 	virtual void DelayedStart();
 	~TempTemplar();
 protected:
-	void OnShieldCollision(StringHash eventType, VariantMap& eventData);
+	void OnSettingsChange(StringHash eventType, VariantMap& eventData);
 	virtual void Execute();
 	virtual void Dead();
 	virtual void EnterState(const int newState);
 	virtual void LeaveState(const int oldState);
-	WeakPtr<Node> shield;
-	WeakPtr<StaticModel> shieldModel;
-	WeakPtr<Node> subShield;
+	SharedPtr<Node> shieldNode;
+	SharedPtr<TempShield> shieldComponent;
 	bool attacked = false;
 };
 

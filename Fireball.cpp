@@ -59,7 +59,7 @@ Node* Fireball::MakeFireball(Scene* sc, Vector3 position, Quaternion rotation, N
 {
 	Fireball* p = new Fireball(sc->GetContext());
 	p->owner = owner;
-	p->speed = 30.0f + Settings::ScaleWithDifficulty(0.0f, 0.0f, 10.0f);
+	p->speed = 30.0f;
 	p->damage = 10;
 	p->radius = 0.5f;
 
