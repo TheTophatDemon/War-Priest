@@ -62,7 +62,7 @@
 #include "ChaosCaliph.h"
 #include "Blackstone.h"
 #include "Bonus.h"
-#include "KilledKaaba.h"
+#include "KillerKube.h"
 #include "BouncyFireball.h"
 #include "MissileFinder.h"
 #include "TempShield.h"

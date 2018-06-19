@@ -61,6 +61,7 @@
 #include "LevelSelectMenu.h"
 #include "Bonus.h"
 #include "MissileFinder.h"
+#include "KillerKube.h"
 
 using namespace Urho3D;
 
@@ -329,11 +330,11 @@ void Gameplay::SetupGame()
 		n->AddComponent(bonus, 0, LOCAL);
 	}
 
-	//Killed Kaaba
-	Node* kk = scene_->GetChild("killedkaaba");
+	//Killer Kube
+	Node* kk = scene_->GetChild("killerkube");
 	if (kk != nullptr)
 	{
-		KilledKaaba* kkc = new KilledKaaba(context_);
+		KillerKube* kkc = new KillerKube(context_);
 		kk->AddComponent(kkc, 999, LOCAL);
 	}
 

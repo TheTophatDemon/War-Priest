@@ -36,7 +36,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	ChaosCaliph::RegisterObject(context);
 	Blackstone::RegisterObject(context);
 	Bonus::RegisterObject(context);
-	KilledKaaba::RegisterObject(context);
+	KillerKube::RegisterObject(context);
 	BouncyFireball::RegisterObject(context);
 	MissileFinder::RegisterObject(context);
 	TempShield::RegisterObject(context);

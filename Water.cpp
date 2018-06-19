@@ -75,23 +75,26 @@ void Water::OnCollisionEnter(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (!other->HasComponent<Actor>() && other->GetName() != "player") 
+	if (!other->HasTag("nodrowning")) 
 	{
-		TempEffect* te = new TempEffect(context_);
-		te->life = 3.5f;
-		other->AddComponent(te, 413, LOCAL);
+		if (!other->HasComponent<Actor>() && otherBody->GetMass() > 0)
+		{
+			TempEffect* te = new TempEffect(context_);
+			te->life = 3.5f;
+			other->AddComponent(te, 413, LOCAL);
 
-		ParticleEmitter* prt = other->CreateComponent<ParticleEmitter>();
-		prt->SetEffect(cache->GetResource<ParticleEffect>("Particles/splash.xml"));
+			ParticleEmitter* prt = other->CreateComponent<ParticleEmitter>();
+			prt->SetEffect(cache->GetResource<ParticleEffect>("Particles/splash.xml"));
 
-		SoundSource3D* s = other->CreateComponent<SoundSource3D>();
-		s->SetSoundType("GAMEPLAY");
-		s->Play(splashSound);
-	}
-	else if (other->GetName() != "player") //God'll get the rest of em
-	{
-		Zeus::MakeLightBeam(scene, other->GetWorldPosition(), 2048.0f);
-		other->Remove();
+			SoundSource3D* s = other->CreateComponent<SoundSource3D>();
+			s->SetSoundType("GAMEPLAY");
+			s->Play(splashSound);
+		}
+		else if (other->GetName() != "player") //God'll get the rest of em
+		{
+			Zeus::MakeLightBeam(scene, other->GetWorldPosition(), 2048.0f);
+			other->Remove();
+		}
 	}
 }
 

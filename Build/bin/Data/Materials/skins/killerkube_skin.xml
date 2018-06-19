@@ -2,9 +2,9 @@
 <material>
 	<technique name="Techniques/Diff.xml" quality="0" loddistance="10" />
 	<technique name="Techniques/DiffNormalSpec.xml" quality="1" loddistance="0" />
-	<texture unit="diffuse" name="Textures/skins/killedkaaba_skin.png" />
-	<texture unit="normal" name="Textures/skins/killedkaaba_skin_nm.png" />
-	<texture unit="specular" name="Textures/skins/killedkaaba_sm.png" />
+	<texture unit="diffuse" name="Textures/skins/killerkube_skin.png" />
+	<texture unit="normal" name="Textures/skins/killerkube_skin_nm.png" />
+	<texture unit="specular" name="Textures/skins/killerkube_skin_sm.png" />
 	<parameter name="UOffset" value="1 0 0 0" />
 	<parameter name="VOffset" value="0 1 0 0" />
 	<parameter name="MatDiffColor" value="0.8 0.8 0.8 1" />

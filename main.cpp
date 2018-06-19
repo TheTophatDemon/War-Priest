@@ -2,11 +2,8 @@
 	//Sinister Synagogue
 		//Auto-adjusting antigravity platform component
 	
-	//Reskin Kaaba?
-	//Replace launchpad sound
 	//Give Danger Deacons drowning animation
-	//Replace snare drum in victory theme
-	//Expand ridge in FF4
+	//Replace title screen
 	
 	//Crossroads
 	//Credits
@@ -22,14 +19,17 @@
 			//Awakening
 			//Bounce
 			//Black hole noise
+	
 	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. 
 	//Do final test through every level.
 		//Make fog match the skybox color
-		//Sacsand3 platforms going wrong way
-		//Remove health from sacsand2
-		//Fix exploit on sacsand1
+		//Make platform in PP3 double-edged.
 		//Fallrhine 2 barrel platform unreachable
 		//Exaggerate movement of spinning platform in FF3
+		//Expand ridge in FF4
+		//Fix exploit on sacsand1
+		//Remove health from sacsand2
+		//Sacsand3 platforms going wrong way
 
 	//Look into SoundSounder optimization?
 	//Make Enemy and Player derive from Actor instead of a has-a relationship?
