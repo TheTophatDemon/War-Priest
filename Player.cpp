@@ -31,13 +31,12 @@
 #include "Gameplay.h"
 #include "Actor.h"
 #include "TempEffect.h"
-
 #include "Zeus.h"
 #include "Projectile.h"
 #include "GunPriest.h"
 #include "Settings.h"
-
 #include "Missile.h"
+#include "TempShield.h"
 
 using namespace Urho3D;
 
@@ -240,6 +239,13 @@ void Player::Cheats()
 				std::cout << "COULD NOT SAVE QUERIED NODE INTO XML" << std::endl;
 			}
 		}
+	}
+	if (input->GetKeyPress(KEY_KP_4))
+	{
+		Node* shield = scene->CreateChild("shield");
+		shield->SetWorldPosition(node_->GetWorldPosition());
+		TempShield* shieldComponent = shield->CreateComponent<TempShield>();
+		shieldComponent->owner = node_;
 	}
 }
 

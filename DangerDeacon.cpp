@@ -32,10 +32,12 @@
 #define WALK_ANIM "Models/enemy/dangerdeacon_walk.ani"
 #define EXPLODE_ANIM "Models/enemy/dangerdeacon_explode.ani"
 #define JUMP_ANIM "Models/enemy/dangerdeacon_jump.ani"
+#define DROWN_ANIM "Models/enemy/dangerdeacon_drown.ani"
 
-DangerDeacon::DangerDeacon(Context* context) : Enemy(context)
+DangerDeacon::DangerDeacon(Context* context) : Enemy(context),
+	strafeAmt(0.0f),
+	fallTimer(0.0f)
 {
-	strafeAmt = 0.0f;
 }
 
 void DangerDeacon::OnSettingsChange(StringHash eventType, VariantMap& eventData)
@@ -50,6 +52,7 @@ void DangerDeacon::DelayedStart()
 	cache->GetResource<Animation>(WALK_ANIM);
 	cache->GetResource<Animation>(EXPLODE_ANIM);
 	cache->GetResource<Animation>(JUMP_ANIM);
+	cache->GetResource<Animation>(DROWN_ANIM);
 	cache->GetResource<ParticleEffect>("Particles/explosion.xml");
 
 	Enemy::DelayedStart();
@@ -92,6 +95,20 @@ void DangerDeacon::Execute()
 	}
 
 	const float shrinkAmount = deltaTime * EXPLODERANGE * Settings::ScaleWithDifficulty(2.7f, 3.3f, 3.5f);
+
+	//Falling animation
+	if (!actor->onGround && actor->IsEnabled() && !animController->IsPlaying(JUMP_ANIM))
+	{
+		fallTimer += deltaTime;
+		if (fallTimer > 0.25f)
+		{
+			animController->PlayExclusive(DROWN_ANIM, 255, true, 0.2f);
+		}
+	}
+	else
+	{
+		fallTimer = 0.0f;
+	}
 
 	switch (state)
 	{
@@ -147,14 +164,14 @@ void DangerDeacon::Execute()
 				if (footCast.body_->GetCollisionLayer() & 2 && footCast.distance_ < 1.45f && footCast.normal_.y_ != 0.0f)
 				{
 					actor->Jump();
-					animController->PlayExclusive(JUMP_ANIM, 0, false, 0.2f);
+					animController->Play(JUMP_ANIM, 128, false, 0.2f);
 				}
 			}
 
 			if (Settings::GetDifficulty() > 1.4f && footCast.distance_ > 3.0f)
 			{
 				actor->Jump();
-				animController->PlayExclusive(JUMP_ANIM, 0, false, 0.2f);
+				animController->Play(JUMP_ANIM, 128, false, 0.2f);
 			}
 
 			if (fabs(actor->fall) > 0.5f)
@@ -169,6 +186,9 @@ void DangerDeacon::Execute()
 				nRot.FromLookRotation(dir, Vector3::UP);
 				newRotation = nRot;
 			}
+			
+			if (animController->IsAtEnd(JUMP_ANIM)) animController->Stop(JUMP_ANIM, 0.2f);
+			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
 
 			actor->SetMovement(true, false, strafeAmt < 0.0f, strafeAmt > 0.0f);
 			actor->Move(deltaTime);
@@ -176,15 +196,6 @@ void DangerDeacon::Execute()
 			if (targetDist < 6.0f && canSeePlayer)
 			{
 				ChangeState(STATE_EXPLODE);
-			}
-			
-			if (!actor->onGround && animController->GetTime(JUMP_ANIM) < animController->GetLength(JUMP_ANIM) * 0.9f)
-			{
-				
-			}
-			else
-			{
-				animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
 			}
 		}
 		else
@@ -260,6 +271,10 @@ void DangerDeacon::EnterState(const int newState)
 		orbThing->SetScale(EXPLODERANGE);
 		animController->StopAll();
 		soundSource->Play("Sounds/enm_fuse.wav");
+	}
+	else if (newState == STATE_CHASE)
+	{
+		animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
 	}
 }
 

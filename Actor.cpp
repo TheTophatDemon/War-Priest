@@ -282,17 +282,25 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 			{
 				Vector3 diff = node_->GetWorldPosition() - other->GetWorldPosition();
 				diff.y_ = 0.0f;
-				Quaternion direction = Quaternion();
-				direction.FromLookRotation(diff.Normalized(), Vector3::UP);
-				KnockBack(10.0f + (12.0f / diff.LengthSquared()), direction);
+				const float lensq = diff.LengthSquared();
+				if (lensq != 0.0f) 
+				{
+					Quaternion direction = Quaternion();
+					direction.FromLookRotation(diff.Normalized(), Vector3::UP);
+					KnockBack(10.0f + (12.0f / lensq), direction);
+				}
 			}
 		}
 		else if (other->HasTag("blackhole"))
 		{
 			Vector3 diff = other->GetWorldPosition() - node_->GetWorldPosition();
-			Quaternion direction = Quaternion();
-			direction.FromLookRotation(diff.Normalized(), Vector3::UP);
-			KnockBack(15.0f + (35.0f / diff.LengthSquared()), direction);
+			const float lensq = diff.LengthSquared();
+			if (lensq != 0.0f) 
+			{
+				Quaternion direction = Quaternion();
+				direction.FromLookRotation(diff.Normalized(), Vector3::UP);
+				KnockBack(15.0f + (35.0f / lensq), direction);
+			}
 		}
 	}
 }

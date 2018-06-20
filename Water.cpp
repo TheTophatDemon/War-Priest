@@ -90,11 +90,11 @@ void Water::OnCollisionEnter(StringHash eventType, VariantMap& eventData)
 			s->SetSoundType("GAMEPLAY");
 			s->Play(splashSound);
 		}
-		else if (other->GetName() != "player") //God'll get the rest of em
+		/*else if (other->GetName() != "player") //God'll get the rest of em
 		{
 			Zeus::MakeLightBeam(scene, other->GetWorldPosition(), 2048.0f);
 			other->Remove();
-		}
+		}*/
 	}
 }
 

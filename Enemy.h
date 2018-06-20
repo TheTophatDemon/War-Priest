@@ -57,6 +57,7 @@ protected:
 	virtual void LeaveState(const int oldState);
 	void FaceTarget();
 	void KeepOnGround();
+	virtual void OnCollision(StringHash eventType, VariantMap& eventData);
 
 	Quaternion newRotation;
 

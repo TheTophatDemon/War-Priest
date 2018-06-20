@@ -31,5 +31,6 @@ protected:
 	SharedPtr<Node> orbThing;
 	SharedPtr<StaticModel> orbModel;
 	float strafeAmt;
+	float fallTimer;
 };
 

@@ -50,7 +50,6 @@ void ChaosCaliph::DelayedStart()
 	actor->acceleration = 50.0f;
 	actor->friction = 0.5f;
 	actor->maxfall = 15.0f;
-	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(ChaosCaliph, OnCollision));
 
 	sparkChild = node_->GetChild("spark");
 	sparkChild->SetParent(scene);
@@ -224,6 +223,7 @@ void ChaosCaliph::LeaveState(const int oldState)
 
 void ChaosCaliph::OnCollision(StringHash eventType, VariantMap& eventData)
 {
+	Enemy::OnCollision(eventType, eventData);
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	if ((other == target.Get() || other->HasTag("statue")) && state == STATE_SPIN) 
 	{

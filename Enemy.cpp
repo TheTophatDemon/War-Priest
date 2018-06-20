@@ -2,6 +2,8 @@
 #include "Urho3D/Physics/CollisionShape.h"
 #include "Urho3D/Core/Context.h"
 #include <Urho3D/Physics/PhysicsEvents.h>
+#include <Urho3D/Graphics/ParticleEmitter.h>
+#include <Urho3D/Graphics/ParticleEffect.h>
 #include <iostream>
 
 #include "Gameplay.h"
@@ -10,9 +12,11 @@
 #include "WeakChild.h"
 #include "GunPriest.h"
 #include "Settings.h"
+#include "Zeus.h"
 
 #define STATE_DEAD 0
 #define STATE_WANDER 1
+#define STATE_DROWN 2
 
 
 Enemy::Enemy(Context* context) : LogicComponent(context), 
@@ -48,6 +52,8 @@ void Enemy::Start()
 	else
 		animController = modelNode->CreateComponent<AnimationController>();
 	soundSource = node_->CreateComponent<SoundSounder>();
+
+	SubscribeToEvent(node_, E_NODECOLLISION, URHO3D_HANDLER(Enemy, OnCollision));
 
 	state = -1;
 	ChangeState(STATE_DEAD);
@@ -90,8 +96,31 @@ void Enemy::FixedUpdate(float timeStep)
 		active = false;
 		body->SetLinearVelocity(Vector3::ZERO);
 	}
-	if (state == STATE_DEAD)
+	if (state == STATE_DROWN)
+	{
+		stateTimer += timeStep;
+		actor->SetMovement(false, false, false, false);
+		actor->Move(timeStep);
+		if (stateTimer > 0.75f)
+		{
+			Zeus::MakeLightBeam(scene, node_->GetWorldPosition(), 2048.0f);
+			node_->Remove();
+		}
+	}
+	else if (state == STATE_DEAD) 
+	{
 		KeepOnGround();
+	}
+}
+
+void Enemy::OnCollision(StringHash eventType, VariantMap& eventData)
+{
+	Node* other = (Node*)eventData["OtherNode"].GetPtr();
+	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
+	if (otherBody->GetCollisionLayer() & 256)
+	{
+		ChangeState(STATE_DROWN);
+	}
 }
 
 void Enemy::EndFrameCheck(StringHash eventType, VariantMap& eventData)
@@ -178,6 +207,12 @@ void Enemy::EnterState(const int newState)
 		shape->SetSize(Vector3(oldShape->GetSize().y_, oldShape->GetSize().x_ * 0.5f, oldShape->GetSize().y_));
 		shape->SetPosition(Vector3(0.0f, -oldShape->GetSize().x_ * 0.5f, 0.0f));
 		body->SetMass(0.0f);
+	}
+	else if (newState == STATE_DROWN)
+	{
+		soundSource->Play("Sounds/env_splash.wav");
+		ParticleEmitter* splashEmit = node_->CreateComponent<ParticleEmitter>();
+		splashEmit->SetEffect(cache->GetResource<ParticleEffect>("Particles/splash.xml"));
 	}
 }
 

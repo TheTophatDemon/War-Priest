@@ -2,7 +2,6 @@
 	//Sinister Synagogue
 		//Auto-adjusting antigravity platform component
 	
-	//Give Danger Deacons drowning animation
 	//Replace title screen
 	
 	//Crossroads
