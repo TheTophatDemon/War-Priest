@@ -9,6 +9,8 @@
 #include "Settings.h"
 #include "Blackstone.h"
 #include "Missile.h"
+#include "MissileFinder.h"
+#include "Actor.h"
 
 #define STATE_DORMANT 0
 #define STATE_RISE 1

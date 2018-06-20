@@ -4,10 +4,13 @@
 #include <Urho3D/Resource/XMLFile.h>
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/Physics/PhysicsEvents.h>
+#include <Urho3D/Audio/SoundSource3D.h>
+#include <Urho3D/Physics/CollisionShape.h>
 #include <iostream>
 #include "Settings.h"
 #include "TempEffect.h"
 #include "Zeus.h"
+#include "WeakChild.h"
 
 Missile::Missile(Context* context) : Projectile(context),
 	deltaTime(0.0f),
@@ -55,7 +58,7 @@ void Missile::Move(const float timeStep)
 	switch (state)
 	{
 	case 0:
-		speed -= (timeStep * 28.0f) * Sign(orgSpeed);
+		speed -= (timeStep * 35.0f) * Sign(orgSpeed);
 		if (speed <= 0.0f)
 		{
 			targetOffset = Vector3(Random(-1.0f, 1.0f), 2.0f, Random(-1.0f, 1.0f));
@@ -155,7 +158,7 @@ Node* Missile::MakeMissile(Scene* sc, Vector3 position, Quaternion rotation, Nod
 {
 	Missile* m = new Missile(sc->GetContext());
 	m->owner = owner;
-	m->speed = 50.0f + Settings::ScaleWithDifficulty(-20.0f, 0.0f, 20.0f);
+	m->speed = 55.0f + Settings::ScaleWithDifficulty(-20.0f, 0.0f, 20.0f);
 	m->damage = 0;
 	m->radius = 0.5f;
 	m->limitRange = false;

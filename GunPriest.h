@@ -40,32 +40,7 @@
 #include <time.h>
 
 #include "Gameplay.h"
-#include "Player.h"
-#include "Actor.h"
-#include "TempEffect.h"
-#include "Enemy.h"
 #include "TitleScreen.h"
-#include "PyroPastor.h"
-#include "Fireball.h"
-#include "God.h"
-#include "Lift.h"
-#include "PostalPope.h"
-#include "Debris.h"
-#include "Water.h"
-#include "WeakChild.h"
-#include "SoundSounder.h"
-#include "DangerDeacon.h"
-#include "Launchpad.h"
-#include "CompassScene.h"
-#include "TempTemplar.h"
-#include "Statue.h"
-#include "ChaosCaliph.h"
-#include "Blackstone.h"
-#include "Bonus.h"
-#include "KillerKube.h"
-#include "BouncyFireball.h"
-#include "MissileFinder.h"
-#include "TempShield.h"
 
 class GunPriest : public Application
 {

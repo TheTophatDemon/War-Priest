@@ -7,6 +7,33 @@
 #include <Urho3D/Resource/XMLFile.h>
 #include <iostream>
 
+#include "Player.h"
+#include "Actor.h"
+#include "TempEffect.h"
+#include "Enemy.h"
+#include "PyroPastor.h"
+#include "Fireball.h"
+#include "God.h"
+#include "Lift.h"
+#include "PostalPope.h"
+#include "Debris.h"
+#include "Water.h"
+#include "WeakChild.h"
+#include "SoundSounder.h"
+#include "DangerDeacon.h"
+#include "Launchpad.h"
+#include "CompassScene.h"
+#include "TempTemplar.h"
+#include "Statue.h"
+#include "ChaosCaliph.h"
+#include "Blackstone.h"
+#include "Bonus.h"
+#include "KillerKube.h"
+#include "BouncyFireball.h"
+#include "MissileFinder.h"
+#include "TempShield.h"
+#include "GravityPlate.h"
+
 int GunPriest::STATE_GAME = 0;
 int GunPriest::STATE_TITLE = 1;
 
@@ -40,6 +67,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	BouncyFireball::RegisterObject(context);
 	MissileFinder::RegisterObject(context);
 	TempShield::RegisterObject(context);
+	GravityPlate::RegisterObject(context);
 
 	pause = false;
 	state = STATE_TITLE;

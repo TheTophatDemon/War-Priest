@@ -108,6 +108,7 @@ void DangerDeacon::Execute()
 	else
 	{
 		fallTimer = 0.0f;
+		animController->Stop(DROWN_ANIM, 0.2f);
 	}
 
 	switch (state)

@@ -37,6 +37,8 @@
 #include "Settings.h"
 #include "Missile.h"
 #include "TempShield.h"
+#include "God.h"
+#include "WeakChild.h"
 
 using namespace Urho3D;
 
@@ -860,7 +862,7 @@ void Player::HandleNearestCorpse()
 	if (nearestCorpse)
 	{
 		const float distance = (nearestCorpse->GetNode()->GetWorldPosition() - node_->GetWorldPosition()).Length();
-		if (distance < 8.0f)
+		if (distance < 6.0f)
 		{
 			arrowNode->SetEnabled(true);
 			arrowNode->SetWorldPosition(nearestCorpse->GetNode()->GetWorldPosition() + Vector3(0.0f, 5.0f, 0.0f));

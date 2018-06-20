@@ -62,6 +62,9 @@
 #include "Bonus.h"
 #include "MissileFinder.h"
 #include "KillerKube.h"
+#include "Statue.h"
+#include "Lift.h"
+#include "GravityPlate.h"
 
 using namespace Urho3D;
 
@@ -182,56 +185,48 @@ void Gameplay::SetupGame()
 	skybox = scene_->GetChild("skybox");
 	exitNode = scene_->GetChild("exit");
 
+	PODVector<Node*> results;
+
 	//Load "liquids"
-	PODVector<Node*> waters;
-	scene_->GetChildrenWithTag(waters, "water", true);
-	for (PODVector<Node*>::Iterator i = waters.Begin(); i != waters.End(); ++i)
+	scene_->GetChildrenWithTag(results, "water", true);
+	for (Node* n : results)
 	{
-		Node* n = dynamic_cast<Node*>(*i);
-		if (n)
-		{
-			n->CreateComponent<Water>();
-		}
+		n->CreateComponent<Water>();
 	}
 
 	//Setup Lifts
-	PODVector<Node*> lifts;
-	scene_->GetChildrenWithTag(lifts, "lift", true);
-	for (PODVector<Node*>::Iterator i = lifts.Begin(); i != lifts.End(); ++i)
+	scene_->GetChildrenWithTag(results, "lift", true);
+	for (Node* n : results)
 	{
-		Node* n = dynamic_cast<Node*>(*i);
-		if (n)
+		Vector3 movement = n->GetVar("movement").GetVector3();
+		float restTime = n->GetVar("restTime").GetFloat(); if (restTime == 0.0f) restTime = 1.0f;
+		float speed = n->GetVar("speed").GetFloat(); if (speed == 0.0f) speed = 2.0f;
+		const float rotateSpeed = n->GetVar("rotateSpeed").GetFloat();
+		const float activeRadius = n->GetVar("activeRadius").GetFloat();
+		const bool wait = n->GetVar("waitForPlayer").GetBool();
+
+		Vector3 pointA = n->GetWorldPosition();
+		Vector3 pointB = pointA + movement;
+
+		Node* dest = n->GetChild("dest");
+		if (dest)
 		{
-			Vector3 movement = n->GetVar("movement").GetVector3();
-			float restTime = n->GetVar("restTime").GetFloat(); if (restTime == 0.0f) restTime = 1.0f;
-			float speed = n->GetVar("speed").GetFloat(); if (speed == 0.0f) speed = 2.0f;
-			const float rotateSpeed = n->GetVar("rotateSpeed").GetFloat();
-			const float activeRadius = n->GetVar("activeRadius").GetFloat();
-			const bool wait = n->GetVar("waitForPlayer").GetBool();
-
-			Vector3 pointA = n->GetWorldPosition();
-			Vector3 pointB = pointA + movement;
-
-			Node* dest = n->GetChild("dest");
-			if (dest)
-			{
-				pointB = dest->GetWorldPosition();
-				dest->Remove();
-			}
-
-			Lift* lift = new Lift(context_);
-			lift->pointA = pointA;
-			lift->pointB = pointB;
-			lift->restTime = restTime;
-			//The speed value used to represent the number of seconds it would take
-			//to get from point A to point B, but it's not like that anymore, so we
-			//must calculate the correct speed value based on distance and time.
-			lift->speed = ((pointA-pointB).Length()) / speed;
-			lift->activeRadius = activeRadius;
-			lift->rotateSpeed = rotateSpeed;
-			lift->wait = wait;
-			n->AddComponent(lift, 1200, LOCAL);
+			pointB = dest->GetWorldPosition();
+			dest->Remove();
 		}
+
+		Lift* lift = new Lift(context_);
+		lift->pointA = pointA;
+		lift->pointB = pointB;
+		lift->restTime = restTime;
+		//The speed value used to represent the number of seconds it would take
+		//to get from point A to point B, but it's not like that anymore, so we
+		//must calculate the correct speed value based on distance and time.
+		lift->speed = ((pointA-pointB).Length()) / speed;
+		lift->activeRadius = activeRadius;
+		lift->rotateSpeed = rotateSpeed;
+		lift->wait = wait;
+		n->AddComponent(lift, 1200, LOCAL);
 	}
 
 	//Setup Medkits
@@ -241,93 +236,83 @@ void Gameplay::SetupGame()
 	va->SetKeyFrame(2.0f, Color::BLACK);
 	cache->GetResource<Material>("Materials/skins/medkit_skin.xml")->SetShaderParameterAnimation("MatEmissiveColor", va, WM_LOOP, 1.0f);
 
-	PODVector<Node*> medkits;
-	scene_->GetChildrenWithTag(medkits, "medkit", true);
-	for (PODVector<Node*>::Iterator i = medkits.Begin(); i != medkits.End(); ++i)
+	scene_->GetChildrenWithTag(results, "medkit", true);
+	for (Node* n : results)
 	{
-		Node* n = dynamic_cast<Node*>(*i);
-		if (n)
+		RigidBody* rb = n->CreateComponent<RigidBody>();
+		rb->SetCollisionLayer(32);
+		rb->SetCollisionMask(129); //128+1
+		rb->SetTrigger(true);
+		StaticModel* sm = n->GetComponent<StaticModel>();
+		CollisionShape* cs = n->CreateComponent<CollisionShape>();
+		cs->SetBox(sm->GetBoundingBox().Size(),sm->GetBoundingBox().Center(), Quaternion::IDENTITY);
+		if (n->GetVar("health").GetInt() == 0)
 		{
-			RigidBody* rb = n->CreateComponent<RigidBody>();
-			rb->SetCollisionLayer(32);
-			rb->SetCollisionMask(129); //128+1
-			rb->SetTrigger(true);
-			StaticModel* sm = n->GetComponent<StaticModel>();
-			CollisionShape* cs = n->CreateComponent<CollisionShape>();
-			cs->SetBox(sm->GetBoundingBox().Size(),sm->GetBoundingBox().Center(), Quaternion::IDENTITY);
-			if (n->GetVar("health").GetInt() == 0)
-			{
-				n->SetVar("health", 20);
-			}
+			n->SetVar("health", 20);
 		}
 	}
 
 	//How about the launchpads, mate?
-	PODVector<Node*> launchPads;
-	scene_->GetChildrenWithTag(launchPads, "launchpad", true);
-	for (PODVector<Node*>::Iterator i = launchPads.Begin(); i != launchPads.End(); ++i)
+	scene_->GetChildrenWithTag(results, "launchpad", true);
+	for (Node* n : results)
 	{
-		Node* n = dynamic_cast<Node*>(*i);
-		if (n)
+		Matrix3x4 trans = n->GetTransform();
+
+		const float lf = n->GetVar("launchForce").GetFloat();
+
+		n->LoadXML(cache->GetResource<XMLFile>("Objects/launchpad.xml")->GetRoot());
+		n->SetTransform(trans.Translation(), trans.Rotation(), trans.Scale());
+
+		Launchpad* lp = n->CreateComponent<Launchpad>();
+		if (lf != 0.0f)
 		{
-			Matrix3x4 trans = n->GetTransform();
-
-			const float lf = n->GetVar("launchForce").GetFloat();
-
-			n->LoadXML(cache->GetResource<XMLFile>("Objects/launchpad.xml")->GetRoot());
-			n->SetTransform(trans.Translation(), trans.Rotation(), trans.Scale());
-
-			Launchpad* lp = n->CreateComponent<Launchpad>();
-			if (lf != 0.0f)
-			{
-				lp->launchForce = lf;
-			}
+			lp->launchForce = lf;
 		}
 	}
 	
 	//Czechpoints
-	PODVector<Node*> checkpoints;
-	scene_->GetChildrenWithTag(checkpoints, "checkpoint", true);
-	for (PODVector<Node*>::Iterator i = checkpoints.Begin(); i != checkpoints.End(); ++i)
+	scene_->GetChildrenWithTag(results, "checkpoint", true);
+	for (Node* n : results)
 	{
-		Node* n = dynamic_cast<Node*>(*i);
-		if (n)
-		{
-			n->RemoveComponent<StaticModel>();
-			RigidBody* rb = nullptr;
-			if (!n->HasComponent<RigidBody>())
-				n->CreateComponent<RigidBody>();
-			rb = n->GetComponent<RigidBody>();
-			rb->SetTrigger(true);
-		}
+		n->RemoveComponent<StaticModel>();
+		RigidBody* rb = nullptr;
+		if (!n->HasComponent<RigidBody>())
+			n->CreateComponent<RigidBody>();
+		rb = n->GetComponent<RigidBody>();
+		rb->SetTrigger(true);
 	}
 
 	//Statues
-	PODVector<Node*> statues;
-	scene_->GetChildrenWithTag(statues, "statue", true);
-	for (PODVector<Node*>::Iterator i = statues.Begin(); i != statues.End(); ++i)
+	scene_->GetChildrenWithTag(results, "statue", true);
+	for (Node* n : results)
 	{
-		Node* n = dynamic_cast<Node*>(*i);
-		if (n)
-		{
-			const int hp = n->GetVar("health").GetInt();
-			const Matrix3x4 trans = n->GetWorldTransform();
-			n->LoadXML(cache->GetResource<XMLFile>("Objects/statue.xml")->GetRoot());
-			n->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
-			n->AddComponent(Statue::MakeStatueComponent(context_, hp == 0 ? 100 : hp), 3333, LOCAL);
-		}
+		const int hp = n->GetVar("health").GetInt();
+		const Matrix3x4 trans = n->GetWorldTransform();
+		n->LoadXML(cache->GetResource<XMLFile>("Objects/statue.xml")->GetRoot());
+		n->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
+		n->AddComponent(Statue::MakeStatueComponent(context_, hp == 0 ? 100 : hp), 3333, LOCAL);
 	}
 
 	//BONUS (ducks)
-	PODVector<Node*> bonae;
-	scene_->GetChildrenWithTag(bonae, "bonus", true);
-	for (Node* n : bonae)
+	scene_->GetChildrenWithTag(results, "bonus", true);
+	for (Node* n : results)
 	{
 		SharedPtr<Bonus> bonus(new Bonus(context_));
 		const Matrix3x4 trans = n->GetWorldTransform();
 		n->LoadXML(cache->GetResource<XMLFile>("Objects/bonus.xml")->GetRoot());
 		n->SetWorldTransform(trans.Translation(), trans.Rotation());
 		n->AddComponent(bonus, 0, LOCAL);
+	}
+
+	//Gravity Plates
+	scene_->GetChildrenWithTag(results, "gravityplate", true);
+	for (Node* n : results)
+	{
+		SharedPtr<GravityPlate> gravityPlate(new GravityPlate(context_));
+		const Matrix3x4 trans = n->GetWorldTransform();
+		n->LoadXML(cache->GetResource<XMLFile>("Objects/gravityplate.xml")->GetRoot());
+		n->SetWorldTransform(trans.Translation(), trans.Rotation());
+		n->AddComponent(gravityPlate, 0, LOCAL);
 	}
 
 	//Killer Kube
@@ -569,24 +554,20 @@ void Gameplay::SetupEnemy()
 	enemyCount = 0;
 	PODVector<Node*> enemies;
 	scene_->GetChildrenWithTag(enemies, "enemy", true);
-	for (PODVector<Node*>::Iterator i = enemies.Begin(); i != enemies.End(); ++i)
+	for (Node* n : enemies)
 	{
-		Node* n = (Node*)*i;
-		if (n)
-		{
-			String enemyType = n->GetName();
-			Matrix3x4 t = n->GetWorldTransform();
-			n->LoadXML(cache->GetResource<XMLFile>("Objects/" + enemyType + ".xml")->GetRoot());
-			n->SetWorldTransform(t.Translation(), t.Rotation(), t.Scale());
+		String enemyType = n->GetName();
+		Matrix3x4 t = n->GetWorldTransform();
+		n->LoadXML(cache->GetResource<XMLFile>("Objects/" + enemyType + ".xml")->GetRoot());
+		n->SetWorldTransform(t.Translation(), t.Rotation(), t.Scale());
 
-			if (enemyType == "pyropastor"){n->CreateComponent<PyroPastor>();}
-			else if (enemyType == "postalpope"){n->CreateComponent<PostalPope>();}
-			else if (enemyType == "dangerdeacon"){n->CreateComponent<DangerDeacon>();}
-			else if (enemyType == "temptemplar"){n->CreateComponent<TempTemplar>();}
-			else if (enemyType == "chaoscaliph") { n->CreateComponent<ChaosCaliph>(); }
+		if (enemyType == "pyropastor"){n->CreateComponent<PyroPastor>();}
+		else if (enemyType == "postalpope"){n->CreateComponent<PostalPope>();}
+		else if (enemyType == "dangerdeacon"){n->CreateComponent<DangerDeacon>();}
+		else if (enemyType == "temptemplar"){n->CreateComponent<TempTemplar>();}
+		else if (enemyType == "chaoscaliph") { n->CreateComponent<ChaosCaliph>(); }
 
-			enemyCount += 1;
-		}
+		enemyCount += 1;
 	}
 }
 
@@ -597,71 +578,63 @@ void Gameplay::SetupProps()
 	PODVector<Node*> props; //Get the existing props
 	mapNode->GetChildrenWithTag(props, "prop", true);
 
-	PODVector<Node*> instancers;
-	mapNode->GetChildrenWithTag(instancers, "propInstancer", false);
-
 	//Go through each prop and add rigid bodies
-	for (PODVector<Node*>::Iterator i = props.Begin(); i != props.End(); ++i) 
+	for (Node* n : props) 
 	{
-		Node* n = (Node*)*i;
-		if (n)
+		StaticModel* m = n->GetComponent<StaticModel>();
+		if (m)
 		{
-			StaticModel* m = n->GetComponent<StaticModel>();
-			if (m)
+			if (!n->HasComponent<CollisionShape>()) //Generate collision shapes for those props unassigned
 			{
-				if (!n->HasComponent<CollisionShape>()) //Generate collision shapes for those props unassigned
-				{
-					CollisionShape* newShape = new CollisionShape(context_);
-					newShape->SetBox(m->GetBoundingBox().Size());
-					n->AddComponent(newShape, 1200, LOCAL);
-				}
-				if (!n->GetParent()->HasTag("propInstancer")) //Add rigidbodies to uninstanced props
-				{
-					RigidBody* body = n->CreateComponent<RigidBody>();
-					body->SetCollisionLayer(2);
-					body->SetCollisionEventMode(CollisionEventMode::COLLISION_ACTIVE);
-				}
+				CollisionShape* newShape = new CollisionShape(context_);
+				newShape->SetBox(m->GetBoundingBox().Size());
+				n->AddComponent(newShape, 1200, LOCAL);
+			}
+			if (!n->GetParent()->HasTag("propInstancer")) //Add rigidbodies to uninstanced props
+			{
+				RigidBody* body = n->CreateComponent<RigidBody>();
+				body->SetCollisionLayer(2);
+				body->SetCollisionEventMode(CollisionEventMode::COLLISION_ACTIVE);
 			}
 		}
 	}
 
+	PODVector<Node*> instancers;
+	mapNode->GetChildrenWithTag(instancers, "propInstancer", false);
+
 	//Find the instancing groups and remove the children's StaticMesh components and add them to the instancing groups
-	for (PODVector<Node*>::Iterator i = instancers.Begin(); i != instancers.End(); ++i)
+	for (Node* n : instancers)
 	{
-		Node* n = (Node*)*i;
-		if (n)
+		if (n->GetPosition() != Vector3::ZERO)
 		{
-			if (n->GetPosition() != Vector3::ZERO)
-			{
-				std::cout << "HEY! One of the instancing groups are mispositioned! " << n->GetName().CString() << std::endl;
-			}
-			StaticModelGroup* modelGroup = n->GetComponent<StaticModelGroup>();
-			assert(modelGroup != nullptr);
-			RigidBody* body = n->CreateComponent<RigidBody>();
-			body->SetCollisionLayer(2);
-			body->SetCollisionEventMode(CollisionEventMode::COLLISION_ACTIVE);
-			body->DisableMassUpdate();
-
-			PODVector<Node*> children;
-			n->GetChildren(children);
-			for (PODVector<Node*>::Iterator c = children.Begin(); c != children.End(); c++)
-			{
-				Node* child = (Node*)*c;
-				child->RemoveComponent<StaticModel>();
-				if (child->HasComponent<CollisionShape>()) //Also add children's collision shapes to parent's rigid body
-				{
-					SharedPtr<CollisionShape> shape = SharedPtr<CollisionShape>(child->GetComponent<CollisionShape>());
-					shape->SetPosition((shape->GetPosition() * child->GetScale()) + child->GetPosition());
-					shape->SetSize(shape->GetSize() * child->GetScale());
-					shape->SetRotation(shape->GetRotation() * child->GetRotation());
-					child->RemoveComponent<CollisionShape>();
-					n->AddComponent(shape, 1200, LOCAL);
-				}
-				modelGroup->AddInstanceNode(child);
-			}
-
-			body->EnableMassUpdate();
+			std::cout << "HEY! One of the instancing groups are mispositioned! " << n->GetName().CString() << std::endl;
 		}
+		StaticModelGroup* modelGroup = n->GetComponent<StaticModelGroup>();
+		assert(modelGroup != nullptr);
+		RigidBody* body = n->CreateComponent<RigidBody>();
+		body->SetCollisionLayer(2);
+		body->SetCollisionEventMode(CollisionEventMode::COLLISION_ACTIVE);
+		body->DisableMassUpdate();
+
+		PODVector<Node*> children;
+		n->GetChildren(children);
+		for (PODVector<Node*>::Iterator c = children.Begin(); c != children.End(); c++)
+		{
+			Node* child = (Node*)*c;
+			child->RemoveComponent<StaticModel>();
+			if (child->HasComponent<CollisionShape>()) //Also add children's collision shapes to parent's rigid body
+			{
+				SharedPtr<CollisionShape> shape = SharedPtr<CollisionShape>(child->GetComponent<CollisionShape>());
+				shape->SetPosition((shape->GetPosition() * child->GetScale()) + child->GetPosition());
+				shape->SetSize(shape->GetSize() * child->GetScale());
+				shape->SetRotation(shape->GetRotation() * child->GetRotation());
+				child->RemoveComponent<CollisionShape>();
+				n->AddComponent(shape, 1200, LOCAL);
+			}
+			modelGroup->AddInstanceNode(child);
+		}
+
+		body->EnableMassUpdate();
 	}
 }
 

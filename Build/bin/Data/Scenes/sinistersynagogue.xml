@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="36" />
 	<attribute name="Next Replicated Component ID" value="5" />
-	<attribute name="Next Local Node ID" value="16779918" />
-	<attribute name="Next Local Component ID" value="16783662" />
+	<attribute name="Next Local Node ID" value="16779921" />
+	<attribute name="Next Local Component ID" value="16783676" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="sacredsands.ogg" />
 	</attribute>
@@ -58,8 +58,8 @@
 		<attribute name="Tags">
 			<string value="shootable" />
 		</attribute>
-		<attribute name="Position" value="-0.192017 4.7918 17.069" />
-		<attribute name="Rotation" value="0.707107 0 0.707107 0" />
+		<attribute name="Position" value="-0.192017 4.7918 -15.0398" />
+		<attribute name="Rotation" value="0.707107 0 -0.707107 0" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
 		<component type="CollisionShape" id="16778045">
@@ -69,8 +69,8 @@
 			<attribute name="Model" value="Model;Models/playerCollider.mdl" />
 		</component>
 		<component type="RigidBody" id="16778046">
-			<attribute name="Physics Rotation" value="0.707107 0 0.707107 0" />
-			<attribute name="Physics Position" value="-0.192017 4.7918 17.069" />
+			<attribute name="Physics Rotation" value="0.707107 0 -0.707107 0" />
+			<attribute name="Physics Position" value="-0.192017 4.7918 -15.0398" />
 			<attribute name="Mass" value="120" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Anisotropic Friction" value="0 0 0" />
@@ -334,8 +334,8 @@
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
 			<component type="RigidBody" id="16778051">
-				<attribute name="Physics Rotation" value="0.707107 0 0.707107 0" />
-				<attribute name="Physics Position" value="-0.192017 4.7918 17.069" />
+				<attribute name="Physics Rotation" value="0.707107 0 -0.707107 0" />
+				<attribute name="Physics Position" value="-0.192017 4.7918 -15.0398" />
 				<attribute name="Friction" value="0" />
 				<attribute name="Linear Factor" value="0 0 0" />
 				<attribute name="Angular Factor" value="0 0 0" />
@@ -354,7 +354,7 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="exit" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="-0.125016 2.0434 17.0491" />
+		<attribute name="Position" value="-0.125016 2.0434 -15.0597" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="1.4 1.4 1.4" />
 		<attribute name="Variables" />
@@ -367,7 +367,7 @@
 			<attribute name="Model" value="Model;Models/exit.mdl" />
 		</component>
 		<component type="RigidBody" id="16778565">
-			<attribute name="Physics Position" value="-0.125016 2.0434 17.0491" />
+			<attribute name="Physics Position" value="-0.125016 2.0434 -15.0597" />
 			<attribute name="Collision Layer" value="2" />
 			<attribute name="Collision Event Mode" value="Always" />
 			<attribute name="Use Gravity" value="false" />
@@ -411,7 +411,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16780795">
 			<attribute name="Model" value="Model;Models/maps/sinistersynagogue.mdl" />
-			<attribute name="Material" value="Material;Materials/grass.xml" />
+			<attribute name="Material" value="Material;Materials/grass.xml;" />
 		</component>
 		<component type="CollisionShape" id="16780796">
 			<attribute name="Shape Type" value="TriangleMesh" />
@@ -445,7 +445,7 @@
 				<attribute name="Tags">
 					<string value="prop" />
 				</attribute>
-				<attribute name="Position" value="-12.9162 4.43237 -12.0266" />
+				<attribute name="Position" value="-8.8064 4.43237 8.79668" />
 				<attribute name="Rotation" value="1 0 0 0" />
 				<attribute name="Scale" value="1 1 1" />
 				<attribute name="Variables" />
@@ -460,11 +460,41 @@
 				<attribute name="Tags">
 					<string value="prop" />
 				</attribute>
-				<attribute name="Position" value="13.8579 4.7627 -12.5254" />
+				<attribute name="Position" value="9.21057 4.7627 8.88366" />
 				<attribute name="Rotation" value="1 0 0 0" />
 				<attribute name="Scale" value="1 1 1" />
 				<attribute name="Variables" />
 				<component type="StaticModel" id="16783607">
+					<attribute name="Model" value="Model;Models/props/pillar.mdl" />
+					<attribute name="Material" value="Material;Materials/sacsand_greenbrick.xml;Materials/sacsand_greenbrick.xml;Materials/sandstone.xml" />
+				</component>
+			</node>
+			<node id="16779919">
+				<attribute name="Is Enabled" value="true" />
+				<attribute name="Name" value="pillar" />
+				<attribute name="Tags">
+					<string value="prop" />
+				</attribute>
+				<attribute name="Position" value="-7.95684 4.43237 -8.79978" />
+				<attribute name="Rotation" value="1 0 0 0" />
+				<attribute name="Scale" value="1 1 1" />
+				<attribute name="Variables" />
+				<component type="StaticModel" id="16783674">
+					<attribute name="Model" value="Model;Models/props/pillar.mdl" />
+					<attribute name="Material" value="Material;Materials/sacsand_greenbrick.xml;Materials/sacsand_greenbrick.xml;Materials/sandstone.xml" />
+				</component>
+			</node>
+			<node id="16779920">
+				<attribute name="Is Enabled" value="true" />
+				<attribute name="Name" value="pillar" />
+				<attribute name="Tags">
+					<string value="prop" />
+				</attribute>
+				<attribute name="Position" value="7.60324 4.7627 -9.72447" />
+				<attribute name="Rotation" value="1 0 0 0" />
+				<attribute name="Scale" value="1 1 1" />
+				<attribute name="Variables" />
+				<component type="StaticModel" id="16783675">
 					<attribute name="Model" value="Model;Models/props/pillar.mdl" />
 					<attribute name="Material" value="Material;Materials/sacsand_greenbrick.xml;Materials/sacsand_greenbrick.xml;Materials/sandstone.xml" />
 				</component>
@@ -477,7 +507,7 @@
 		<attribute name="Tags">
 			<string value="gravityplate" />
 		</attribute>
-		<attribute name="Position" value="0.411803 0.281424 -101.608" />
+		<attribute name="Position" value="0.411803 0.281424 -97.7509" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="15 1 15" />
 		<attribute name="Variables" />
@@ -489,7 +519,7 @@
 			<attribute name="Shape Type" value="Cylinder" />
 		</component>
 		<component type="RigidBody" id="16783646">
-			<attribute name="Physics Position" value="0.411803 0.281424 -101.608" />
+			<attribute name="Physics Position" value="0.411803 0.281424 -97.7509" />
 			<attribute name="Mass" value="10000" />
 			<attribute name="Friction" value="0.95" />
 			<attribute name="Linear Factor" value="0 0 0" />
@@ -504,7 +534,7 @@
 		<attribute name="Tags">
 			<string value="gravityplate" />
 		</attribute>
-		<attribute name="Position" value="0.411803 0.281424 0.789685" />
+		<attribute name="Position" value="0.411803 0.281424 -0.144499" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="15 1 15" />
 		<attribute name="Variables" />
@@ -516,7 +546,7 @@
 			<attribute name="Shape Type" value="Cylinder" />
 		</component>
 		<component type="RigidBody" id="16783649">
-			<attribute name="Physics Position" value="0.411803 0.281424 0.789685" />
+			<attribute name="Physics Position" value="0.411803 0.281424 -0.144499" />
 			<attribute name="Mass" value="10000" />
 			<attribute name="Friction" value="0.95" />
 			<attribute name="Linear Factor" value="0 0 0" />
@@ -531,7 +561,7 @@
 		<attribute name="Tags">
 			<string value="gravityplate" />
 		</attribute>
-		<attribute name="Position" value="0.411803 0.281424 -33.8449" />
+		<attribute name="Position" value="0.411803 0.281424 -29.9878" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="15 1 15" />
 		<attribute name="Variables" />
@@ -543,7 +573,7 @@
 			<attribute name="Shape Type" value="Cylinder" />
 		</component>
 		<component type="RigidBody" id="16783652">
-			<attribute name="Physics Position" value="0.411803 0.281424 -33.8449" />
+			<attribute name="Physics Position" value="0.411803 0.281424 -29.9878" />
 			<attribute name="Mass" value="10000" />
 			<attribute name="Friction" value="0.95" />
 			<attribute name="Linear Factor" value="0 0 0" />
@@ -558,7 +588,7 @@
 		<attribute name="Tags">
 			<string value="gravityplate" />
 		</attribute>
-		<attribute name="Position" value="0.411803 0.281424 -51.4258" />
+		<attribute name="Position" value="0.411803 0.281424 -47.5687" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="15 1 15" />
 		<attribute name="Variables" />
@@ -570,7 +600,7 @@
 			<attribute name="Shape Type" value="Cylinder" />
 		</component>
 		<component type="RigidBody" id="16783655">
-			<attribute name="Physics Position" value="0.411803 0.281424 -51.4258" />
+			<attribute name="Physics Position" value="0.411803 0.281424 -47.5687" />
 			<attribute name="Mass" value="10000" />
 			<attribute name="Friction" value="0.95" />
 			<attribute name="Linear Factor" value="0 0 0" />
@@ -585,7 +615,7 @@
 		<attribute name="Tags">
 			<string value="gravityplate" />
 		</attribute>
-		<attribute name="Position" value="0.411803 0.281424 -68.2631" />
+		<attribute name="Position" value="0.411803 0.281424 -64.406" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="15 1 15" />
 		<attribute name="Variables" />
@@ -597,7 +627,7 @@
 			<attribute name="Shape Type" value="Cylinder" />
 		</component>
 		<component type="RigidBody" id="16783658">
-			<attribute name="Physics Position" value="0.411803 0.281424 -68.2631" />
+			<attribute name="Physics Position" value="0.411803 0.281424 -64.406" />
 			<attribute name="Mass" value="10000" />
 			<attribute name="Friction" value="0.95" />
 			<attribute name="Linear Factor" value="0 0 0" />
@@ -612,7 +642,7 @@
 		<attribute name="Tags">
 			<string value="gravityplate" />
 		</attribute>
-		<attribute name="Position" value="0.411803 0.281424 -84.9642" />
+		<attribute name="Position" value="0.411803 0.281424 -81.1071" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="15 1 15" />
 		<attribute name="Variables" />
@@ -624,7 +654,7 @@
 			<attribute name="Shape Type" value="Cylinder" />
 		</component>
 		<component type="RigidBody" id="16783661">
-			<attribute name="Physics Position" value="0.411803 0.281424 -84.9642" />
+			<attribute name="Physics Position" value="0.411803 0.281424 -81.1071" />
 			<attribute name="Mass" value="10000" />
 			<attribute name="Friction" value="0.95" />
 			<attribute name="Linear Factor" value="0 0 0" />

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<node id="16779913">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="gravityplate" />
+	<attribute name="Tags">
+		<string value="gravityplate" />
+	</attribute>
+	<attribute name="Position" value="0.411803 0.281424 -0.144499" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="15 1 15" />
+	<attribute name="Variables" />
+	<component type="StaticModel" id="16783647">
+		<attribute name="Model" value="Model;Models/Cylinder.mdl" />
+		<attribute name="Material" value="Material;Materials/blue_marble.xml" />
+	</component>
+	<component type="CollisionShape" id="16783648">
+		<attribute name="Shape Type" value="Cylinder" />
+	</component>
+	<component type="RigidBody" id="16783649">
+		<attribute name="Physics Position" value="0.411803 0.281424 -0.144499" />
+		<attribute name="Mass" value="10000" />
+		<attribute name="Friction" value="0.95" />
+		<attribute name="Linear Factor" value="0 0 0" />
+		<attribute name="Collision Layer" value="3" />
+		<attribute name="Collision Mask" value="253" />
+		<attribute name="Use Gravity" value="false" />
+	</component>
+</node>
