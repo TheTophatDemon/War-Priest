@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="36" />
 	<attribute name="Next Replicated Component ID" value="5" />
-	<attribute name="Next Local Node ID" value="16779921" />
-	<attribute name="Next Local Component ID" value="16783676" />
+	<attribute name="Next Local Node ID" value="16779923" />
+	<attribute name="Next Local Component ID" value="16783700" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="sacredsands.ogg" />
 	</attribute>
@@ -383,7 +383,7 @@
 		<attribute name="Variables" />
 		<component type="Skybox" id="16778646">
 			<attribute name="Model" value="Model;Models/Dome.mdl" />
-			<attribute name="Material" value="Material;Materials/sky3.xml" />
+			<attribute name="Material" value="Material;Materials/sky4.xml" />
 		</component>
 	</node>
 	<node id="16778189">
@@ -445,7 +445,7 @@
 				<attribute name="Tags">
 					<string value="prop" />
 				</attribute>
-				<attribute name="Position" value="-8.8064 4.43237 8.79668" />
+				<attribute name="Position" value="-15.1475 4.43237 16.1792" />
 				<attribute name="Rotation" value="1 0 0 0" />
 				<attribute name="Scale" value="1 1 1" />
 				<attribute name="Variables" />
@@ -460,7 +460,7 @@
 				<attribute name="Tags">
 					<string value="prop" />
 				</attribute>
-				<attribute name="Position" value="9.21057 4.7627 8.88366" />
+				<attribute name="Position" value="19.2071 4.7627 16.2662" />
 				<attribute name="Rotation" value="1 0 0 0" />
 				<attribute name="Scale" value="1 1 1" />
 				<attribute name="Variables" />
@@ -475,7 +475,7 @@
 				<attribute name="Tags">
 					<string value="prop" />
 				</attribute>
-				<attribute name="Position" value="-7.95684 4.43237 -8.79978" />
+				<attribute name="Position" value="-14.2979 4.43237 -19.4758" />
 				<attribute name="Rotation" value="1 0 0 0" />
 				<attribute name="Scale" value="1 1 1" />
 				<attribute name="Variables" />
@@ -490,7 +490,7 @@
 				<attribute name="Tags">
 					<string value="prop" />
 				</attribute>
-				<attribute name="Position" value="7.60324 4.7627 -9.72447" />
+				<attribute name="Position" value="17.5998 4.7627 -20.4005" />
 				<attribute name="Rotation" value="1 0 0 0" />
 				<attribute name="Scale" value="1 1 1" />
 				<attribute name="Variables" />

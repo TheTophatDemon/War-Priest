@@ -2,8 +2,6 @@
 	//Sinister Synagogue
 		//Auto-adjusting antigravity platform component
 	
-	//Replace title screen
-	
 	//Crossroads
 	//Credits
 	//Palpan2
@@ -15,9 +13,9 @@
 		//Statue damage & destruction
 		//Chaos caliph Charge & shoot
 		//Killed Kaaba
-			//Awakening
 			//Bounce
 			//Black hole noise
+			//Float
 	
 	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. 
 	//Do final test through every level.

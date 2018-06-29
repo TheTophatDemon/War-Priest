@@ -5,6 +5,7 @@
 #include <Urho3D/Scene/Node.h>
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Audio/SoundSource3D.h>
+#include <Urho3D/Audio/SoundSource.h>
 #include <Urho3D/Audio/Sound.h>
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/Graphics/StaticModel.h>
@@ -39,7 +40,9 @@ protected:
 	SharedPtr<Node> glowNode;
 	SharedPtr<Node> blackHoleNode;
 	WeakPtr<StaticModel> blackHoleModel;
-	SharedPtr<SoundSounder> soundSource;
+	WeakPtr<SoundSounder> soundSource;
+	WeakPtr<SoundSource> soundSource2D;
+	WeakPtr<Node> soundNode;
 	void ChangeState(const int newState);
 	void EnterState(const int newState);
 	void LeaveState(const int oldState);

@@ -11,6 +11,7 @@
 #include "Missile.h"
 #include "MissileFinder.h"
 #include "Actor.h"
+#include "WeakChild.h"
 
 #define STATE_DORMANT 0
 #define STATE_RISE 1
@@ -59,8 +60,12 @@ void KillerKube::Start()
 
 	targetHeight = node_->GetWorldPosition().y_ + HEIGHT_FROM_BOTTOM;
 
-	soundSource = node_->CreateComponent<SoundSounder>();
-	soundSource->SetDistanceAttenuation(0.0f, 500.0f);
+	soundNode = scene->CreateChild("sound");
+	soundSource = soundNode->CreateComponent<SoundSounder>();
+	soundSource->SetDistanceAttenuation(10.0f, 700.0f);
+	soundSource2D = soundNode->CreateComponent<SoundSource>();
+	soundSource2D->SetSoundType("GAMEPLAY");
+	WeakChild::MakeWeakChild(soundNode, node_);
 
 	//Glowy red aura
 	glowNode = node_->CreateChild();
@@ -82,7 +87,6 @@ void KillerKube::Start()
 	CollisionShape* bhcol = blackHoleNode->CreateComponent<CollisionShape>();
 	bhcol->SetSphere(1.0f, Vector3::ZERO, Quaternion::IDENTITY);
 	blackHoleNode->SetScale(0.1f);
-
 	blackHoleNode->SetEnabled(false);
 
 	//Find the boundaries of its flying space
@@ -110,6 +114,7 @@ void KillerKube::Start()
 
 void KillerKube::FixedUpdate(float timeStep)
 {
+	soundNode->SetWorldPosition(node_->GetWorldPosition());
 	Vector3 plyPos = game->playerNode->GetWorldPosition(); 
 	plyPos.y_ = 0.0f;
 	Vector3 ourPos = node_->GetWorldPosition(); 
@@ -132,6 +137,7 @@ void KillerKube::FixedUpdate(float timeStep)
 		const float distanceToFrontPlane = (-targetDiff).DotProduct(actualForward);
 		if (fabs(distanceToFrontPlane) < 40.0f)
 		{
+			soundSource2D->Play(cache->GetResource<Sound>("Sounds/enm_kubeintro.wav"));
 			ChangeState(STATE_RISE);
 		}
 		break;

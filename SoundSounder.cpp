@@ -35,7 +35,7 @@ void SoundSounder::FixedUpdate(float timeStep)
 	}
 }
 
-void SoundSounder::Play(const String path, const bool variate)
+void SoundSounder::Play(const String path, bool variate)
 {
 	float freq = 44100.0f;
 	if (variate) freq += Random(-1500.0f, 1500.0f);
@@ -50,7 +50,7 @@ void SoundSounder::Play(const String path, const bool variate)
 	sources[0]->Play(cache->GetResource<Sound>(path), freq);
 }
 
-void SoundSounder::SetDistanceAttenuation(const float nearDist, const float farDist, const float rollOff)
+void SoundSounder::SetDistanceAttenuation(const float nearDist, const float farDist, float rollOff)
 {
 	for (int i = 0; i < MAX_INSTANCE; ++i)
 	{

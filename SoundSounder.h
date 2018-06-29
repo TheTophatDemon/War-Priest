@@ -19,8 +19,8 @@ public:
 	static void RegisterObject(Context* context);
 	virtual void Start();
 	virtual void FixedUpdate(float timeStep);
-	void Play(const String path, const bool variate = false);
-	void SetDistanceAttenuation(const float nearDist, const float farDist, const float rollOff = 2.0f);
+	void Play(const String path, bool variate = false);
+	void SetDistanceAttenuation(const float nearDist, const float farDist, float rollOff = 2.0f);
 	~SoundSounder();
 protected:
 	SharedPtr<SoundSource3D> sources[MAX_INSTANCE];
