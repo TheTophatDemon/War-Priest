@@ -309,6 +309,8 @@ void Gameplay::SetupGame()
 	for (Node* n : results)
 	{
 		SharedPtr<GravityPlate> gravityPlate(new GravityPlate(context_));
+		gravityPlate->rotationAxis = n->GetVar("rotationAxis").GetVector3().Normalized();
+		gravityPlate->rotationForce = n->GetVar("rotationForce").GetFloat();
 		const Matrix3x4 trans = n->GetWorldTransform();
 		n->LoadXML(cache->GetResource<XMLFile>("Objects/gravityplate.xml")->GetRoot());
 		n->SetWorldTransform(trans.Translation(), trans.Rotation());
@@ -375,8 +377,6 @@ void Gameplay::FixedUpdate(float timeStep)
 		{
 			skybox->Rotate(Quaternion(timeStep * 5.0f, Vector3::UP));
 		}
-		if (input->GetKeyDown(KEY_L)) player->reviveCount = 666;
-		if (input->GetKeyDown(KEY_F1)) player->health = 100;
 		if (player->reviveCount >= enemyCount && enemyCount > 0)
 		{
 			if (exitNode) 

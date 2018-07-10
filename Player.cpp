@@ -205,6 +205,7 @@ void Player::OnSettingsChange(StringHash eventType, VariantMap& eventData)
 void Player::Cheats()
 {
 	//Cheats
+	if (input->GetKeyDown(KEY_L)) reviveCount = 666;
 	if (input->GetKeyDown(KEY_K))
 	{
 		health = 0.0f; lastChance = true;

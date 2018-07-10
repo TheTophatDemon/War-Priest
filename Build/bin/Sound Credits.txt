@@ -10,7 +10,11 @@ itm_launchpad.wav = "Voxy Synth Pop" by ani_music of Freesound.org under CC0 (He
 					combined with "hit_002" by leviclaassen of Freesound.org under CC-BY-3.0
 ply_revive.wav = "Small poofs of flux.ogg" by jobro of Freesound.org under CC-BY-3.0
 ply_slide.wav = "sand.mp3" by Taira Komori of Freesound.org under CC-BY-3.0
-The rest were custom made.
+enm_kubeintro.wav = "Magic Click" by FlechaBr of Freesound.org under CC-BY-3.0 (Heavily edited)
+enm_blackhole.wav = "black hole shower drain" by slowmountain of freesound.org under CC-BY-3.0
+enm_fly.wav = "Wind on Beach" by BrandonNyte of freesound.org under CC0 (Heavily edited)
+env_damage.wav = "Impact_1_full.wav" by Deganoth of Freesound.org under CC-BY-3.0
+The rest of the sounds were custom made.
 
 Some sounds were modified.
 
@@ -20,8 +24,3 @@ CC-BY-NC-3.0 License:
 http://creativecommons.org/licenses/by-nc/3.0/
 CC0 License:
 http://creativecommons.org/publicdomain/zero/1.0/
-
-
-
-Keep these in mind for later:
-http://freesound.org/people/Deganoth/sounds/349132/

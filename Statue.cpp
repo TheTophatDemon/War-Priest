@@ -47,6 +47,8 @@ void Statue::Start()
 	translatePosition = originalPosition;
 	radius *= (node_->GetScale().x_ / 1.75f); //As thus, the radius increases with scale
 
+	soundSource = node_->CreateComponent<SoundSounder>();
+
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Statue, OnCollision));
 	SubscribeToEvent(Projectile::E_PROJECTILEHIT, URHO3D_HANDLER(Statue, OnProjectileHit));
 }
@@ -56,7 +58,11 @@ void Statue::Damage(const int amount, const bool silent)
 	if (shakeTimer < 0.5f) 
 	{
 		health -= amount * Settings::ScaleWithDifficulty(3.0f, 1.0f, 0.75f);
-		if (!silent) shakeTimer = 1.0f;
+		if (!silent)
+		{
+			soundSource->Play("Sounds/env_damage.wav", true);
+			shakeTimer = 1.0f;
+		}
 	}
 }
 

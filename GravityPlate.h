@@ -13,6 +13,7 @@ using namespace Urho3D;
 class Gameplay;
 class GravityPlate : public LogicComponent
 {
+	friend class Gameplay;
 	URHO3D_OBJECT(GravityPlate, LogicComponent);
 public:
 	GravityPlate(Context* context);
@@ -21,19 +22,10 @@ public:
 	virtual void FixedUpdate(float timeStep) override;
 	~GravityPlate();
 protected:
-	static float p_constant;
-	static float i_constant;
-	static float i_max;
-	static float d_constant;
-	static float stop_threshold;
-	static float stop_duration;
-	static float final_damp;
-
-	void OnCollision(StringHash eventType, VariantMap& eventData);
 	WeakPtr<Gameplay> game;
 	WeakPtr<RigidBody> body;
-	Quaternion lastRot;
-	float rectifyTimer;
-	float stopTimer;
+	Quaternion rotationDirection;
+	Vector3 rotationAxis;
+	float rotationForce;
 };
 

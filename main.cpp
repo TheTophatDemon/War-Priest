@@ -1,8 +1,8 @@
 //TODO:
-	//Sinister Synagogue
-		//Auto-adjusting antigravity platform component
-	
+	//Make missiles stop going through Kube
+
 	//Crossroads
+		//Robloxians
 	//Credits
 	//Palpan2
 	//Palpan1
@@ -10,14 +10,11 @@
 	//Sounds
 		//Player death / Chime
 		//God beam
-		//Statue damage & destruction
+		//Statue destruction
 		//Chaos caliph Charge & shoot
-		//Killed Kaaba
-			//Bounce
-			//Black hole noise
-			//Float
+		//Tempest templar shield
 	
-	//Bonus Crosses for: SinisterSynagogue, SS4, SS1, FF4, PP4, PP1, PP2. 
+	//Bonus Crosses for: SS4, SS1, FF4, PP4, PP1, PP2. 
 	//Do final test through every level.
 		//Make fog match the skybox color
 		//Make platform in PP3 double-edged.

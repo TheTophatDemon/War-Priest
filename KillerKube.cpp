@@ -25,6 +25,12 @@
 #define SPIN_ACCEL 7.0f
 #define SPIN_FRICTION 0.97f
 
+#define SOUND_BLACKHOLE "Sounds/enm_blackhole.wav"
+#define SOUND_FLY "Sounds/enm_fly.wav"
+#define SOUND_BOUNCE "Sounds/enm_bounce.wav"
+#define SOUND_MISSILE "Sounds/enm_missile.wav"
+#define SOUND_INTRO "Sounds/enm_kubeintro.wav"
+
 KillerKube::KillerKube(Context* context) : LogicComponent(context),
 	distanceFromPlayer(0.0f),
 	stateTimer(0.0f),
@@ -37,7 +43,8 @@ KillerKube::KillerKube(Context* context) : LogicComponent(context),
 	lastState(-1),
 	attackTimer(0.0f),
 	shootTimer(0.0f),
-	deltaTime(0.0f)
+	deltaTime(0.0f),
+	collideTime(0.0f)
 {
 }
 
@@ -62,7 +69,7 @@ void KillerKube::Start()
 
 	soundNode = scene->CreateChild("sound");
 	soundSource = soundNode->CreateComponent<SoundSounder>();
-	soundSource->SetDistanceAttenuation(10.0f, 700.0f);
+	soundSource->SetDistanceAttenuation(10.0f, 700.0f, 3.0f);
 	soundSource2D = soundNode->CreateComponent<SoundSource>();
 	soundSource2D->SetSoundType("GAMEPLAY");
 	WeakChild::MakeWeakChild(soundNode, node_);
@@ -137,7 +144,8 @@ void KillerKube::FixedUpdate(float timeStep)
 		const float distanceToFrontPlane = (-targetDiff).DotProduct(actualForward);
 		if (fabs(distanceToFrontPlane) < 40.0f)
 		{
-			soundSource2D->Play(cache->GetResource<Sound>("Sounds/enm_kubeintro.wav"));
+			soundSource2D->Play(cache->GetResource<Sound>(SOUND_INTRO));
+			soundSource->Play(SOUND_FLY, true);
 			ChangeState(STATE_RISE);
 		}
 		break;
@@ -202,21 +210,26 @@ void KillerKube::FixedUpdate(float timeStep)
 			}
 		}
 
-		/*if (hDiff < -1.0f)
+		if (GetSubsystem<Input>()->GetKeyPress(KEY_KP_7))
+			ChangeState(STATE_BLACKHOLE);
+
+		//Check for collisions 
+		PhysicsRaycastResult result;
+		physworld->SphereCast(result, Ray(node_->GetWorldPosition(), direction), 8.0f, 16.0f, 10U); //2 + 8
+		if (result.body_)
 		{
-			const int buffer = body->GetCollisionLayer();
-			body->SetCollisionLayer(0);
-
-			PhysicsRaycastResult result;
-			physworld->SphereCast(result, Ray(node_->GetWorldPosition(), Vector3::DOWN), 8.0f, 10.0f, 2U);
-			if (result.body_ == nullptr || result.body_ == body) ChangeState(STATE_RISE);
-
-			body->SetCollisionLayer(buffer);
+			if (collideTime == 0.0f)
+			{
+				soundSource->Play(SOUND_BOUNCE, true);
+			}
+			collideTime += deltaTime;
+			if (fabs(result.normal_.x_) + fabs(result.normal_.z_) > 0.0f) direction = Vector3(result.normal_.x_, 0.0f, result.normal_.z_).Normalized() + Vector3(0.0f, collideTime * 0.25f, 0.0f);
 		}
-		else if (hDiff > 1.0f)
+		else
 		{
-			ChangeState(STATE_RISE);
-		}*/
+			collideTime = 0.0f;
+		}
+		
 		break;
 	}
 	case STATE_MISSILE:
@@ -244,7 +257,7 @@ void KillerKube::FixedUpdate(float timeStep)
 				Random(-1.0f, 1.0f), 0.0f, Random(-1.0f, 1.0f)
 			).Normalized(), Vector3::UP);
 			Missile::MakeMissile(scene, node_->GetWorldPosition(), shootDirection, node_, game->playerNode);
-			soundSource->Play("Sounds/enm_missile.wav", true);
+			soundSource->Play(SOUND_MISSILE, true);
 		}
 		break;
 	case STATE_BLACKHOLE:
@@ -308,28 +321,7 @@ void KillerKube::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (otherBody->GetCollisionLayer() & 2 || 
-		(otherBody->IsTrigger() && other->HasTag("enemy_barrier")) )
-	{
-		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
-		while (!contacts.IsEof()) 
-		{
-			Vector3 position = contacts.ReadVector3();
-			Vector3 normal = contacts.ReadVector3();
-			float distance = contacts.ReadFloat();
-			float impulse = contacts.ReadFloat();
-			direction += normal * -Sign(distance);
-		}
-		direction.y_ = 0.0f;
-		direction.Normalize();
-		direction.x_ += Random(-0.1f, 0.1f);
-		direction.z_ += Random(-0.1f, 0.1f);
-		direction.Normalize();
-		//Make it shimmy up the obstacle in case it's stuck
-		direction.y_ += deltaTime;
-		//body->ApplyImpulse(Vector3(direction.x_ * moveSpeed, 0.0f, direction.z_ * moveSpeed));
-	}
-	else if (otherBody->GetCollisionLayer() & 128 && other->GetName() == "player")
+	if (otherBody->GetCollisionLayer() & 128 && other->GetName() == "player")
 	{
 		VariantMap map = VariantMap();
 		map.Insert(Pair<StringHash, Variant>(Projectile::P_PERPETRATOR, node_));
@@ -337,7 +329,7 @@ void KillerKube::OnCollision(StringHash eventType, VariantMap& eventData)
 		map.Insert(Pair<StringHash, Variant>(Projectile::P_DAMAGE, Settings::ScaleWithDifficulty(10.0f, 12.0f, 15.0f)));
 		SendEvent(Projectile::E_PROJECTILEHIT, map);
 	}
-	else if (otherBody->GetCollisionLayer() & 64) //Shove enemies aside
+	else if (otherBody->GetCollisionLayer() & 64 && state != STATE_BLACKHOLE) //Shove enemies aside
 	{
 		if (other->HasComponent<Actor>())
 		{
@@ -361,8 +353,7 @@ void KillerKube::OnBlackHoleCollision(StringHash eventType, VariantMap& eventDat
 	{ 
 		//All rigid bodies that aren't likely to have code for this interaction are pushed towards the center
 		const Vector3 diff = node_->GetWorldPosition() - other->GetWorldPosition();
-		const float push = 12.0f + (4.0f * diff.LengthSquared());
-		otherBody->ApplyImpulse(diff.Normalized() * Vector3(push, push, push) * otherBody->GetMass());
+		otherBody->ApplyImpulse(diff.Normalized() * 2.0f * otherBody->GetMass());
 	}
 }
 
@@ -400,10 +391,13 @@ void KillerKube::EnterState(const int newState)
 			spinSpeed = 0.0f;
 			body->SetLinearFactor(Vector3::ONE);
 			shootTimer = 0.0f;
+			soundSource->Play(SOUND_FLY, true);
 			break;
 		case STATE_BLACKHOLE:
 			blackHoleNode->SetScale(0.1f);
 			blackHoleNode->SetEnabled(true);
+			body->SetLinearFactor(Vector3::ZERO);
+			soundSource->Play(SOUND_BLACKHOLE);
 			break;
 	}
 }
@@ -432,10 +426,13 @@ void KillerKube::LeaveState(const int oldState)
 		break;
 	case STATE_MISSILE:
 		body->SetLinearFactor(Vector3(1.0f, 1.0f, 1.0f));
+		soundSource->StopPlaying();
 		break;
 	case STATE_BLACKHOLE:
 		blackHoleNode->SetScale(1.0f);
 		blackHoleNode->SetEnabled(false);
+		body->SetLinearFactor(Vector3::ONE);
+		soundSource->StopPlaying();
 		break;
 	}
 }

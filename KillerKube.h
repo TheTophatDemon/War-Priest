@@ -59,6 +59,7 @@ protected:
 	float targetHeight;
 	float attackTimer;
 	float shootTimer;
+	float collideTime;
 	int state;
 	int lastState;
 };

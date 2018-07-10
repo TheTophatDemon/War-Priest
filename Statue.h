@@ -11,6 +11,7 @@
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Graphics/ParticleEmitter.h>
 #include <Urho3D/Graphics/ParticleEffect.h>
+#include "SoundSounder.h"
 
 using namespace Urho3D;
 
@@ -33,6 +34,7 @@ protected:
 	SharedPtr<PhysicsWorld> physworld;
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<RigidBody> body;
+	WeakPtr<SoundSounder> soundSource;
 	Vector3 originalPosition;
 	Vector3 translatePosition;
 	float shakeTimer;

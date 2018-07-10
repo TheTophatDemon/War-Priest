@@ -50,6 +50,14 @@ void SoundSounder::Play(const String path, bool variate)
 	sources[0]->Play(cache->GetResource<Sound>(path), freq);
 }
 
+void SoundSounder::StopPlaying()
+{
+	for (int i = 0; i < MAX_INSTANCE; ++i)
+	{
+		sources[i]->Stop();
+	}
+}
+
 void SoundSounder::SetDistanceAttenuation(const float nearDist, const float farDist, float rollOff)
 {
 	for (int i = 0; i < MAX_INSTANCE; ++i)
