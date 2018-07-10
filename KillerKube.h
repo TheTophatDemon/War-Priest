@@ -31,6 +31,9 @@ protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnAreaCollision(StringHash eventType, VariantMap& eventData);
 	void OnBlackHoleCollision(StringHash eventType, VariantMap& eventData);
+	void ChangeState(const int newState);
+	void EnterState(const int newState);
+	void LeaveState(const int oldState);
 
 	SharedPtr<Gameplay> game;
 	SharedPtr<ResourceCache> cache;
@@ -39,15 +42,12 @@ protected:
 	SharedPtr<Scene> scene;
 	SharedPtr<Node> glowNode;
 	SharedPtr<Node> blackHoleNode;
+	SharedPtr<ValueAnimation> blackHoleAnimation;
+	SharedPtr<ValueAnimation> spinSpeedAnimation;
 	WeakPtr<StaticModel> blackHoleModel;
 	WeakPtr<SoundSounder> soundSource;
 	WeakPtr<SoundSource> soundSource2D;
 	WeakPtr<Node> soundNode;
-	void ChangeState(const int newState);
-	void EnterState(const int newState);
-	void LeaveState(const int oldState);
-	
-	Vector<SharedPtr<Node>> areas;
 
 	Vector3 direction;
 	float deltaTime;

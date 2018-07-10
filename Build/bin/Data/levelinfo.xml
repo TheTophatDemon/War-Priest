@@ -1,8 +1,21 @@
 <?xml version="1.0"?>
 <levelinfo>
-	<level name="Beta Map 01" path="Scenes/palisadepantheon.xml"/>
-	<level name="Alpha Map 02" path="Scenes/map02.xml"/>
-	<level name="Alpha Map 01" path="Scenes/testmap.xml"/>
-	<level name="Crossroads" path="Scenes/crossroads.xml"/>
-	<level name="Lifts Test" path="Scenes/liftstest.xml"/>
+	<level name="Palisade Pantheon Act 1" path="Scenes/palisadepantheon.xml" completion="3" />
+	<level name="Palisade Pantheon Act 3" path="Scenes/palpan3.xml" completion="7" />
+	<level name="Palisade Pantheon Act 4" path="Scenes/palpan4.xml" completion="3" />
+	<level name="Fallen Fatherland Act 1" path="Scenes/fallrhine1.xml" completion="3" />
+	<level name="Fallen Fatherland Act 2" path="Scenes/fallrhine2.xml" completion="7" />
+	<level name="Fallen Fatherland Act 3" path="Scenes/fallrhine3.xml" completion="3" />
+	<level name="Fallen Fatherland Act 4" path="Scenes/fallrhine4.xml" completion="3" />
+	<level name="Sacred Sands Act 1" path="Scenes/sacsand1.xml" completion="3" />
+	<level name="Sacred Sands Act 2" path="Scenes/sacsand2.xml" completion="7" />
+	<level name="Sacred Sands Act 3" path="Scenes/sacsand3.xml" completion="7" />
+	<level name="Sacred Sands Act 4" path="Scenes/sacsand4.xml" completion="7" />
+	<level name="Sinister Synagogue" path="Scenes/sinistersynagogue.xml" completion="3" />
+	<level name="Alpha Map 02" path="Scenes/map02.xml" completion="7" />
+	<level name="Alpha Map 01" path="Scenes/testmap.xml" completion="7" />
+	<level name="Crossroads" path="Scenes/crossroads.xml" completion="7" />
+	<level name="Lifts Test" path="Scenes/liftstest.xml" completion="7" />
+	<level name="The Stupid Room" path="Scenes/thestupidroom.xml" completion="7" />
+	<level name="Kube Test" path="Scenes/kubetest.xml" completion="7" />
 </levelinfo>

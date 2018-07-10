@@ -22,6 +22,8 @@ Missile::Missile(Context* context) : Projectile(context),
 
 void Missile::Start()
 {
+	SetUpdateEventMask(USE_FIXEDUPDATE);
+
 	Projectile::Start();
 	emitterNode = node_->GetChild("smoke");
 	emitter = emitterNode->GetComponent<ParticleEmitter>();
@@ -122,10 +124,11 @@ void Missile::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (other != owner) 
+	if (other != owner || state > 0) //Will collide with owner, but not while it's still being launched
 	{
 		if (otherBody->GetCollisionLayer() & 2 || otherBody->GetCollisionLayer() & 128
-			|| otherBody->GetCollisionLayer() & 64 || otherBody->GetCollisionLayer() & 4)
+			|| otherBody->GetCollisionLayer() & 64 || otherBody->GetCollisionLayer() & 4
+			|| other == owner)
 		{
 			if (!hit)
 			{

@@ -12,6 +12,7 @@
 #include "MissileFinder.h"
 #include "Actor.h"
 #include "WeakChild.h"
+#include "Zeus.h"
 
 #define STATE_DORMANT 0
 #define STATE_RISE 1
@@ -86,25 +87,24 @@ void KillerKube::Start()
 	blackHoleModel = blackHoleNode->CreateComponent<StaticModel>();
 	blackHoleModel->SetModel(cache->GetResource<Model>("Models/Sphere.mdl"));
 	blackHoleModel->SetMaterial(cache->GetResource<Material>("Materials/blackhole.xml"));
+
 	RigidBody* bhrb = blackHoleNode->CreateComponent<RigidBody>();
 	bhrb->SetCollisionLayer(17); //1+16
 	bhrb->SetTrigger(true);
 	bhrb->SetLinearFactor(Vector3::ZERO);
 	bhrb->SetAngularFactor(Vector3::ZERO);
+
 	CollisionShape* bhcol = blackHoleNode->CreateComponent<CollisionShape>();
 	bhcol->SetSphere(1.0f, Vector3::ZERO, Quaternion::IDENTITY);
 	blackHoleNode->SetScale(0.1f);
 	blackHoleNode->SetEnabled(false);
 
-	//Find the boundaries of its flying space
-	areas = Vector<SharedPtr<Node>>();
-	PODVector<Node*> areas_ptrs = scene->GetChildrenWithTag("kube_area", true);
-	for (Node* n : areas_ptrs)
-	{
-		n->RemoveComponent<StaticModel>();
-		areas.Push(SharedPtr<Node>(n));
-		SubscribeToEvent(n, E_NODECOLLISION, URHO3D_HANDLER(KillerKube, OnAreaCollision));
-	}
+	blackHoleAnimation = SharedPtr<ValueAnimation>(new ValueAnimation(context_));
+	blackHoleAnimation->SetKeyFrame(0.0f, Vector3(0.1f, 0.1f, 0.1f));
+	blackHoleAnimation->SetKeyFrame(16.0f, Vector3(256.0f, 256.0f, 256.0f));
+	blackHoleAnimation->SetKeyFrame(32.0f, Vector3(0.1f, 0.1f, 0.1f));
+	blackHoleAnimation->SetInterpolationMethod(IM_SPLINE);
+	blackHoleAnimation->SetSplineTension(0.1f);
 
 	//The MissileFinder is only neccessary when a Kube is in the level, so their presences are tied.
 	if (game->playerNode->GetScene() == scene && !game->playerNode->HasComponent<MissileFinder>())
@@ -202,7 +202,10 @@ void KillerKube::FixedUpdate(float timeStep)
 		{
 			if (distanceFromPlayer < 70.0f)
 			{
-				ChangeState(STATE_BLACKHOLE);
+				if (Random(0.0f, 1.0f) > 0.5f)
+					ChangeState(STATE_BLACKHOLE);
+				else
+					ChangeState(STATE_MISSILE);
 			}
 			else
 			{
@@ -212,6 +215,8 @@ void KillerKube::FixedUpdate(float timeStep)
 
 		if (GetSubsystem<Input>()->GetKeyPress(KEY_KP_7))
 			ChangeState(STATE_BLACKHOLE);
+		if (GetSubsystem<Input>()->GetKeyPress(KEY_KP_8))
+			ChangeState(STATE_MISSILE);
 
 		//Check for collisions 
 		PhysicsRaycastResult result;
@@ -252,38 +257,34 @@ void KillerKube::FixedUpdate(float timeStep)
 		if (shootTimer > Settings::ScaleWithDifficulty(1.0f, 0.5f, 0.25f))
 		{
 			shootTimer = 0.0f;
-			Quaternion shootDirection = Quaternion();
-			shootDirection.FromLookRotation(Vector3(
+			const Vector3 shootDirection = Vector3(
 				Random(-1.0f, 1.0f), 0.0f, Random(-1.0f, 1.0f)
-			).Normalized(), Vector3::UP);
-			Missile::MakeMissile(scene, node_->GetWorldPosition(), shootDirection, node_, game->playerNode);
+			).Normalized();
+			Quaternion shootRotation = Quaternion();
+			shootRotation.FromLookRotation(shootDirection, Vector3::UP);
+			Missile::MakeMissile(scene, node_->GetWorldPosition() + shootDirection * 8.0f, shootRotation, node_, game->playerNode);
 			soundSource->Play(SOUND_MISSILE, true);
+			Zeus::PuffOfSmoke(scene, node_->GetWorldPosition() + shootDirection * 8.0f, 0.5f)->SetScale(2.0f);
 		}
 		break;
 	case STATE_BLACKHOLE:
-		node_->Rotate(Quaternion(spinSpeed, Vector3::UP), TS_WORLD);
-		body->SetLinearVelocity(Vector3::ZERO);
-		if (stateTimer < 16.0f)
+		if (blackHoleNode->GetAttributeAnimationTime("Scale") < (blackHoleAnimation->GetEndTime() - blackHoleAnimation->GetBeginTime()) / 2.0f)
 		{
-			spinSpeed = Min(MAX_SPINSPEED, spinSpeed + (timeStep * SPIN_ACCEL));
-		}
-		else if (stateTimer > 24.0f)
-		{
-			spinSpeed *= 0.25f;
-		}
-		if (stateTimer < 8.0f) 
-		{
-			blackHoleNode->SetScale(blackHoleNode->GetScale().x_ + timeStep * 32.0f);
+			spinSpeed = 10.0f + blackHoleNode->GetAttributeAnimationTime("Scale") * 2.0f;
 		}
 		else
 		{
-			blackHoleNode->SetScale(blackHoleNode->GetScale().x_ - timeStep * 32.0f / Settings::GetDifficulty());
-			if (blackHoleNode->GetScale().x_ < 1.0f)
-			{
-				body->SetAngularVelocity(Vector3::ZERO);
-				ChangeState(STATE_FLY);
-			}
+			spinSpeed = 10.0f + (blackHoleAnimation->GetEndTime() - blackHoleNode->GetAttributeAnimationTime("Scale")) * 2.0f;
 		}
+		node_->Rotate(Quaternion(spinSpeed, Vector3::UP), TS_WORLD);
+		body->SetLinearVelocity(Vector3::ZERO);
+		
+		if (blackHoleNode->GetAttributeAnimationTime("Scale") >= blackHoleAnimation->GetEndTime())
+		{
+			body->SetAngularVelocity(Vector3::ZERO);
+			ChangeState(STATE_FLY);
+		}
+
 		//Hack to make it so that it still looks black-holey when the camera is inside of the black hole model
 		const float camDist = (blackHoleNode->GetWorldPosition() - game->cameraNode->GetWorldPosition()).Length();
 		if (camDist < blackHoleNode->GetScale().x_ * 0.75f)
@@ -297,24 +298,6 @@ void KillerKube::FixedUpdate(float timeStep)
 		break;
 	}
 	deltaTime = timeStep;
-}
-
-void KillerKube::OnAreaCollision(StringHash eventType, VariantMap& eventData)
-{
-	RigidBody* body = (RigidBody*)eventData["Body"].GetPtr();
-	Node* area = body->GetNode();
-	Node* otherNode = (Node*)eventData["OtherNode"].GetPtr();
-	if (otherNode->GetName() == "player")
-	{
-		for (SharedPtr<Node> a : areas)
-		{
-			if (a.Get() == area)
-			{
-				targetHeight = a->GetWorldPosition().y_ + HEIGHT_FROM_BOTTOM;
-				break;
-			}
-		}
-	}
 }
 
 void KillerKube::OnCollision(StringHash eventType, VariantMap& eventData)
@@ -398,6 +381,9 @@ void KillerKube::EnterState(const int newState)
 			blackHoleNode->SetEnabled(true);
 			body->SetLinearFactor(Vector3::ZERO);
 			soundSource->Play(SOUND_BLACKHOLE);
+			blackHoleNode->SetAttributeAnimation("Scale", blackHoleAnimation, WM_CLAMP, 1.0f);
+			blackHoleNode->SetAttributeAnimationTime("Scale", 0.0f);
+			spinSpeed = 1.0f;
 			break;
 	}
 }

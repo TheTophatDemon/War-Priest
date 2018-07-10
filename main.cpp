@@ -1,6 +1,6 @@
-//TODO:
-	//Make missiles stop going through Kube
+//COMMIT: Mixed some audio, made missiles collidable with the Kube, smoothed the black hole animation, tweaked Kube attack pattern.
 
+//TODO:
 	//Crossroads
 		//Robloxians
 	//Credits
@@ -14,7 +14,7 @@
 		//Chaos caliph Charge & shoot
 		//Tempest templar shield
 	
-	//Bonus Crosses for: SS4, SS1, FF4, PP4, PP1, PP2. 
+	//Bonus Crosses for: SS1, FF4, PP4, PP1, PP2. 
 	//Do final test through every level.
 		//Make fog match the skybox color
 		//Make platform in PP3 double-edged.

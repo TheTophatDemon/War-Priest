@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="36" />
 	<attribute name="Next Replicated Component ID" value="5" />
-	<attribute name="Next Local Node ID" value="16780010" />
-	<attribute name="Next Local Component ID" value="16783971" />
+	<attribute name="Next Local Node ID" value="16780019" />
+	<attribute name="Next Local Component ID" value="16784013" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="sacredsands.ogg" />
 	</attribute>
@@ -466,6 +466,7 @@
 			<attribute name="Mass" value="2" />
 			<attribute name="Linear Factor" value="1 0 1" />
 			<attribute name="Angular Factor" value="0 0 0" />
+			<attribute name="Collision Layer" value="1" />
 			<attribute name="Collision Mask" value="199" />
 			<attribute name="CCD Radius" value="14" />
 			<attribute name="Use Gravity" value="false" />
@@ -485,6 +486,7 @@
 		<component type="RigidBody" id="16782988">
 			<attribute name="Physics Rotation" value="0.707107 0 0.707107 0" />
 			<attribute name="Physics Position" value="-202.269 27.831 3.59702" />
+			<attribute name="Collision Layer" value="9" />
 			<attribute name="Collision Event Mode" value="Always" />
 			<attribute name="Use Gravity" value="false" />
 			<attribute name="Is Trigger" value="true" />
@@ -505,6 +507,7 @@
 		</component>
 		<component type="RigidBody" id="16782992">
 			<attribute name="Physics Position" value="1.01819 26.9658 -114.737" />
+			<attribute name="Collision Layer" value="9" />
 			<attribute name="Collision Event Mode" value="Always" />
 			<attribute name="Use Gravity" value="false" />
 			<attribute name="Is Trigger" value="true" />
@@ -525,6 +528,7 @@
 		</component>
 		<component type="RigidBody" id="16782996">
 			<attribute name="Physics Position" value="1.01819 26.9658 201.234" />
+			<attribute name="Collision Layer" value="9" />
 			<attribute name="Collision Event Mode" value="Always" />
 			<attribute name="Use Gravity" value="false" />
 			<attribute name="Is Trigger" value="true" />
@@ -546,6 +550,7 @@
 		<component type="RigidBody" id="16782998">
 			<attribute name="Physics Rotation" value="0.707107 0 0.707107 0" />
 			<attribute name="Physics Position" value="139.147 26.9658 3.59702" />
+			<attribute name="Collision Layer" value="9" />
 			<attribute name="Collision Event Mode" value="Always" />
 			<attribute name="Use Gravity" value="false" />
 			<attribute name="Is Trigger" value="true" />
@@ -668,7 +673,7 @@
 			<string value="enemy" />
 			<string value="postalpope" />
 		</attribute>
-		<attribute name="Position" value="-125.797 0.258691 -17.6979" />
+		<attribute name="Position" value="-137.389 0.258691 108.503" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -1348,21 +1353,6 @@
 			<attribute name="Use Gravity" value="false" />
 		</component>
 	</node>
-	<node id="16779865">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="medkit" />
-		<attribute name="Tags">
-			<string value="medkit" />
-		</attribute>
-		<attribute name="Position" value="-157.24 0.046152 46.8805" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16783488">
-			<attribute name="Model" value="Model;Models/medkit.mdl" />
-			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
-		</component>
-	</node>
 	<node id="16779806">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="launchpad" />
@@ -1581,22 +1571,6 @@
 			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
 		</component>
 	</node>
-	<node id="16779880">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="dangerdeacon" />
-		<attribute name="Tags">
-			<string value="enemy" />
-			<string value="dangerdeacon" />
-		</attribute>
-		<attribute name="Position" value="84.9318 17.3974 -110.241" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16783506">
-			<attribute name="Model" value="Model;Models/enemy/dangerdeacon.mdl" />
-			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
-		</component>
-	</node>
 	<node id="16779881">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="dangerdeacon" />
@@ -1613,22 +1587,6 @@
 			<attribute name="Material" value="Material;Materials/enemy/dangerdeacon_skin.xml" />
 		</component>
 	</node>
-	<node id="16779882">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="chaoscaliph" />
-		<attribute name="Tags">
-			<string value="enemy" />
-			<string value="chaoscaliph" />
-		</attribute>
-		<attribute name="Position" value="-107.581 19.8046 -79.8583" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16783508">
-			<attribute name="Model" value="Model;Models/enemy/chaoscaliph.mdl" />
-			<attribute name="Material" value="Material;Materials/enemy/chaoscaliph_skin.xml" />
-		</component>
-	</node>
 	<node id="16779883">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="pyropastor" />
@@ -1636,7 +1594,7 @@
 			<string value="enemy" />
 			<string value="pyropastor" />
 		</attribute>
-		<attribute name="Position" value="-14.3433 29.9517 185.277" />
+		<attribute name="Position" value="152.083 -0.854528 118.476" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -2648,8 +2606,8 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="156.68 0.0821844 116.635" />
-		<attribute name="Rotation" value="0.994634 0.0609994 0.0158357 0.0820418" />
+		<attribute name="Position" value="-137.815 -0.0803153 47.1373" />
+		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16783724">
@@ -3090,6 +3048,117 @@
 		<component type="StaticModel" id="16783958">
 			<attribute name="Model" value="Model;Models/medkit.mdl" />
 			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
+		</component>
+	</node>
+	<node id="16780012">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+		</attribute>
+		<attribute name="Position" value="-107.581 19.8046 -79.8583" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16783995">
+			<attribute name="Model" value="Model;Models/enemy/chaoscaliph.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/chaoscaliph_skin.xml" />
+		</component>
+	</node>
+	<node id="16780013">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+		</attribute>
+		<attribute name="Position" value="122.992 1.90824 -61.4299" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16783996">
+			<attribute name="Model" value="Model;Models/enemy/chaoscaliph.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/chaoscaliph_skin.xml" />
+		</component>
+	</node>
+	<node id="16780014">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="postalpope" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="postalpope" />
+		</attribute>
+		<attribute name="Position" value="-125.797 0.258691 -17.6979" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16783997">
+			<attribute name="Model" value="Model;Models/enemy/postalpope.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/postalpope_skin.xml" />
+		</component>
+	</node>
+	<node id="16780015">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="pyropastor" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="pyropastor" />
+		</attribute>
+		<attribute name="Position" value="-14.3433 29.9517 185.277" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16783998">
+			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
+		</component>
+	</node>
+	<node id="16780016">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="pyropastor" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="pyropastor" />
+		</attribute>
+		<attribute name="Position" value="146.586 -0.854528 110.134" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16783999">
+			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
+		</component>
+	</node>
+	<node id="16780017">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="medkit" />
+		<attribute name="Tags">
+			<string value="medkit" />
+		</attribute>
+		<attribute name="Position" value="156.68 0.0821844 116.635" />
+		<attribute name="Rotation" value="0.994634 0.0609994 0.0158357 0.0820418" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16784000">
+			<attribute name="Model" value="Model;Models/medkit.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
+		</component>
+	</node>
+	<node id="16779882">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="chaoscaliph" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="chaoscaliph" />
+		</attribute>
+		<attribute name="Position" value="112.096 1.90824 -72.2706" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16783508">
+			<attribute name="Model" value="Model;Models/enemy/chaoscaliph.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/chaoscaliph_skin.xml" />
 		</component>
 	</node>
 </scene>
