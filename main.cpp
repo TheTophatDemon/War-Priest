@@ -10,7 +10,6 @@
 		//God beam
 		//Statue destruction
 		//Chaos caliph Charge & shoot
-		//Tempest templar attack
 	
 	//Bonus Crosses for: SS1, FF4, PP4, PP1, PP2. 
 	//Do final test through every level.

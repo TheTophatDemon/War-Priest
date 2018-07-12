@@ -6,6 +6,7 @@
 #include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Physics/PhysicsEvents.h>
 #include <Urho3D/Graphics/Animation.h>
+#include <Urho3D/Graphics/DrawableEvents.h>
 
 #include "Gameplay.h"
 #include "Actor.h"
@@ -29,6 +30,8 @@
 #define WALK_ANIM "Models/enemy/temptemplar_walk.ani"
 #define SWING_ANIM "Models/enemy/temptemplar_swing.ani"
 
+#define SOUND_SWORD "Sounds/enm_sword.wav"
+
 TempTemplar::TempTemplar(Context* context) : Enemy(context)
 {
 	deltaTime = 0.0f;
@@ -46,7 +49,7 @@ void TempTemplar::DelayedStart()
 	shieldNode = scene->CreateChild("shield");
 	shieldComponent = SharedPtr<TempShield>(new TempShield(context_));
 	shieldComponent->owner = node_;
-	
+
 	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(TempTemplar, OnSettingsChange));
 
 	SendEvent(Settings::E_SETTINGSCHANGED); //To initialize
@@ -118,7 +121,6 @@ void TempTemplar::Execute()
 		break;
 	}
 	case STATE_ATTACK:
-		animController->PlayExclusive(SWING_ANIM, 0, true, 0.2f);
 		stateTimer += deltaTime;
 
 		FaceTarget();
@@ -131,7 +133,7 @@ void TempTemplar::Execute()
 			map.Insert(Pair<StringHash, Variant>(Projectile::P_DAMAGE, MELEE_DAMAGE));
 			SendEvent(Projectile::E_PROJECTILEHIT, map);
 		}
-		if (stateTimer > animController->GetLength(SWING_ANIM) * 0.9f)
+		if (animController->IsAtEnd(SWING_ANIM))
 		{
 			ChangeState(STATE_WANDER);
 		}
@@ -139,6 +141,16 @@ void TempTemplar::Execute()
 		actor->SetMovement(0.0f, 0.0f);
 		actor->Move(deltaTime);
 		break;
+	}
+}
+
+void TempTemplar::OnAnimTrigger(StringHash eventType, VariantMap& eventData)
+{
+	const String name = eventData[AnimationTrigger::P_NAME].GetString();
+	const Animation* anim = (Animation*)eventData[AnimationTrigger::P_ANIMATION].GetPtr();
+	if (anim->GetName() == SWING_ANIM)
+	{
+		soundSource->Play(SOUND_SWORD, true);
 	}
 }
 
@@ -171,13 +183,20 @@ void TempTemplar::EnterState(const int newState)
 	else if (newState == STATE_ATTACK)
 	{
 		attacked = false;
-		animController->StopAll();
+		animController->PlayExclusive(SWING_ANIM, 128, false, 0.2f);
+		animController->SetTime(SWING_ANIM, 0.0f);
+		SubscribeToEvent(modelNode, E_ANIMATIONTRIGGER, URHO3D_HANDLER(TempTemplar, OnAnimTrigger));
 	}
 }
 
 void TempTemplar::LeaveState(const int oldState)
 {
 	Enemy::LeaveState(oldState);
+	if (oldState == STATE_ATTACK)
+	{
+		animController->StopLayer(128, 0.2f);
+		UnsubscribeFromEvent(modelNode, E_ANIMATIONTRIGGER);
+	}
 }
 
 void TempTemplar::Revive()

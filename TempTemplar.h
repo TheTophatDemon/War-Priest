@@ -28,6 +28,7 @@ public:
 	~TempTemplar();
 protected:
 	void OnSettingsChange(StringHash eventType, VariantMap& eventData);
+	void OnAnimTrigger(StringHash eventType, VariantMap& eventData);
 	virtual void Execute();
 	virtual void Dead();
 	virtual void EnterState(const int newState);

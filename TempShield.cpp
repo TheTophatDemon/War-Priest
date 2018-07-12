@@ -52,7 +52,7 @@ void TempShield::Start()
 	SoundSource3D* windSound = node_->CreateComponent<SoundSource3D>();
 	windSound->SetSoundType("GAMEPLAY");
 	windSound->Play(cache->GetResource<Sound>("Sounds/enm_wind.wav"));
-	windSound->SetDistanceAttenuation(0.0f, 100.0f, 2.0f);
+	windSound->SetDistanceAttenuation(0.0f, 60.0f, 2.0f);
 	windSound->SetAttributeAnimation("Gain", fadeIn, WM_CLAMP, 1.0f);
 
 	SubscribeToEvent(node_, E_NODECOLLISION, URHO3D_HANDLER(TempShield, OnCollision));
