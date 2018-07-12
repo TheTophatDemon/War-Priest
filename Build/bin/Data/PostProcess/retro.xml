@@ -1,0 +1,5 @@
+<renderpath>
+    <command type="quad" tag="Retro" vs="retro" ps="retro" output="viewport">
+        <texture unit="diffuse" name="viewport" />
+    </command>
+</renderpath>

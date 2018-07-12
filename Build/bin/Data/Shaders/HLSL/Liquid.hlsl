@@ -43,7 +43,6 @@ void PS(float2 iTexCoord : TEXCOORD0,
 	float4 diff2Color = cMatDiffColor * Sample2D(DiffMap, iTexCoord - float2(sin(cElapsedTimePS * 0.1), cos(cElapsedTimePS * 0.1)));
 	diffColor -= diff2Color * 0.5;
 	diffColor += noiseColor * 0.25;
-	diffColor.a = 0.75;
 	
 	//float2 sourceSample = (iClipPos.xy * float2(1.0, -1.0) / iClipPos.w + float2(1.0, 1.0)) / 2.0;
 	//float4 sourceColor = Sample2D(NormalMap, sourceSample);

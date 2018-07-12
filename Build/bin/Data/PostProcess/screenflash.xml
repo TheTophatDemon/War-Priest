@@ -1,0 +1,7 @@
+<renderpath>
+    <command type="quad" tag="Screenflash" vs="screenflash" ps="screenflash" output="viewport">
+        <parameter name="FlashColor" value="0.0 0.0 0.0 0.0"/>
+		<parameter name="State" value="0"/>
+		<texture unit="diffuse" name="viewport" />
+    </command>
+</renderpath>
