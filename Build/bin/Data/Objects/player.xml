@@ -27,7 +27,6 @@
 		<attribute name="Collision Event Mode" value="Always" />
 		<attribute name="Use Gravity" value="false" />
 	</component>
-	<component type="SoundListener" id="16778047" />
 	<component type="CollisionShape" id="16778048">
 		<attribute name="Shape Type" value="Sphere" />
 		<attribute name="Size" value="0.5 1 1" />

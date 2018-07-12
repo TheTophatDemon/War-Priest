@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <material>
 	<technique name="Techniques/Diff.xml" quality="0" loddistance="1" />
-	<technique name="Techniques/DiffNormalSpec.xml" quality="0" loddistance="0" />
+	<technique name="Techniques/DiffNormalSpec.xml" quality="1" loddistance="0" />
 	<texture unit="diffuse" name="Textures/door_large.png" />
 	<texture unit="normal" name="Textures/door_large_nm.png" />
 	<texture unit="specular" name="Textures/door_large_sm.png" />

@@ -168,13 +168,14 @@ void Gameplay::SetupGame()
 	playerNode->LoadXML(cache->GetResource<XMLFile>("Objects/player.xml")->GetRoot());
 	playerNode->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
 	player = new Player(context_);
-	audio->SetListener(playerNode->GetComponent<SoundListener>());
+	
 
 	//Setup Camera
 	cameraNode = scene_->CreateChild();
 	cameraNode->SetPosition(Vector3(0.0f, 24.0f, -10.0f));
 	camera = cameraNode->CreateComponent<Camera>();
 	camera->SetFov(70.0f);
+	audio->SetListener(cameraNode->CreateComponent<SoundListener>());
 
 	//Initialize player now that camera is ready
 	playerNode->AddComponent(player, 666, LOCAL);

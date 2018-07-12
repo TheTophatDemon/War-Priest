@@ -1,5 +1,3 @@
-//COMMIT: Mixed some audio, made missiles collidable with the Kube, smoothed the black hole animation, tweaked Kube attack pattern.
-
 //TODO:
 	//Crossroads
 		//Robloxians
@@ -12,7 +10,7 @@
 		//God beam
 		//Statue destruction
 		//Chaos caliph Charge & shoot
-		//Tempest templar shield
+		//Tempest templar attack
 	
 	//Bonus Crosses for: SS1, FF4, PP4, PP1, PP2. 
 	//Do final test through every level.

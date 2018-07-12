@@ -14,13 +14,11 @@ enm_kubeintro.wav = "Magic Click" by FlechaBr of Freesound.org under CC-BY-3.0 (
 enm_blackhole.wav = "black hole shower drain" by slowmountain of freesound.org under CC-BY-3.0
 enm_fly.wav = "Wind on Beach" by BrandonNyte of freesound.org under CC0 (Heavily edited)
 env_damage.wav = "Impact_1_full.wav" by Deganoth of Freesound.org under CC-BY-3.0
-The rest of the sounds were custom made.
+The rest of the sounds were custom made using mostly synths, old instrument samples, and my own voice.
 
 Some sounds were modified.
 
 CC-BY-3.0 License:
 http://creativecommons.org/licenses/by/3.0/
-CC-BY-NC-3.0 License:
-http://creativecommons.org/licenses/by-nc/3.0/
 CC0 License:
 http://creativecommons.org/publicdomain/zero/1.0/

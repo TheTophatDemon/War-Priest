@@ -6,6 +6,7 @@
 #include <Urho3D/Scene/ValueAnimation.h>
 #include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Graphics/Material.h>
+#include <Urho3D/Audio/SoundSource3D.h>
 
 TempShield::TempShield(Context* context) : LogicComponent(context),
 	maxSize(18.0f),
@@ -43,6 +44,16 @@ void TempShield::Start()
 	spinAnim->SetKeyFrame(2.0f, Quaternion::IDENTITY);
 	node_->SetAttributeAnimation("Rotation", spinAnim, WM_LOOP, 1.0f);
 	subShield->SetAttributeAnimation("Rotation", spinAnim, WM_LOOP, 2.0f);
+
+	SharedPtr<ValueAnimation> fadeIn(new ValueAnimation(context_));
+	fadeIn->SetKeyFrame(0.0f, 0.0f);
+	fadeIn->SetKeyFrame(2.0f, 1.0f);
+
+	SoundSource3D* windSound = node_->CreateComponent<SoundSource3D>();
+	windSound->SetSoundType("GAMEPLAY");
+	windSound->Play(cache->GetResource<Sound>("Sounds/enm_wind.wav"));
+	windSound->SetDistanceAttenuation(0.0f, 100.0f, 2.0f);
+	windSound->SetAttributeAnimation("Gain", fadeIn, WM_CLAMP, 1.0f);
 
 	SubscribeToEvent(node_, E_NODECOLLISION, URHO3D_HANDLER(TempShield, OnCollision));
 }
