@@ -27,6 +27,9 @@
 #define SHOOT_ANIM "Models/enemy/chaoscaliph_shoot.ani"
 #define SPIN_ANIM "Models/enemy/chaoscaliph_spin.ani"
 
+#define SOUND_LASER "Sounds/enm_laser.wav"
+#define SOUND_SHOCK "Sounds/enm_shock.wav"
+
 ChaosCaliph::ChaosCaliph(Context* context) : Enemy(context), 
 	shot(false),
 	lastState(STATE_DEAD)
@@ -149,6 +152,7 @@ void ChaosCaliph::Execute()
 						node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f) + (node_->GetWorldDirection() * 2.0f),
 						Quaternion((i*30.0f) + node_->GetWorldRotation().EulerAngles().y_, Vector3::UP),
 						node_);
+					soundSource->Play(SOUND_LASER, true);
 				}
 			}
 			else
@@ -207,6 +211,7 @@ void ChaosCaliph::EnterState(const int newState)
 		spinSpeed = 0.0f;
 		actor->forward = 0.0f;
 		actor->acceleration = 50.0f;
+		soundSource->Play(SOUND_SHOCK, true);
 	}
 }
 
@@ -218,6 +223,7 @@ void ChaosCaliph::LeaveState(const int oldState)
 		animModel->SetMaterial(boringMaterial);
 		emitter->SetEmitting(false);
 		actor->acceleration = 50.0f;
+		soundSource->StopPlaying();
 	}
 }
 

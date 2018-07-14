@@ -63,6 +63,10 @@ void Statue::Damage(const int amount, const bool silent)
 			soundSource->Play("Sounds/env_damage.wav", true);
 			shakeTimer = 1.0f;
 		}
+		if (health <= 0.0f)
+		{
+			soundSource->Play("Sounds/env_destruction.wav", true);
+		}
 	}
 }
 

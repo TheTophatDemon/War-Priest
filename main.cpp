@@ -1,4 +1,6 @@
 //TODO:
+	//Chaos caliph spin sound too low pitch
+	
 	//Crossroads
 		//Robloxians
 	//Credits
@@ -8,8 +10,6 @@
 	//Sounds
 		//Player death / Chime
 		//God beam
-		//Statue destruction
-		//Chaos caliph Charge & shoot
 	
 	//Bonus Crosses for: SS1, FF4, PP4, PP1, PP2. 
 	//Do final test through every level.
@@ -28,6 +28,8 @@
 	//Replace CompassScene with faster alternative?
 	//Model-rigidbody lag?
 	//Package assets
+	
+	//Send to Somecallmejohnny?
 //Level Ideas
 	//Giant cross platform rising up and down
 	//Lifts sticking out of walls
