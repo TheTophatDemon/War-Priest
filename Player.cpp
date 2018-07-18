@@ -780,7 +780,7 @@ void Player::ST_Drown(float timeStep)
 		switch (drownPhase) 
 		{
 		case 0:
-			beamNode = Zeus::MakeLightBeam(scene, node_->GetWorldPosition(), 256.0f);
+			beamNode = Zeus::MakeLightBeam(scene, node_->GetWorldPosition(), 256.0f, 1);
 			modelNode->SetEnabled(false);
 			break;
 		case 1:
@@ -794,7 +794,7 @@ void Player::ST_Drown(float timeStep)
 			node_->SetWorldPosition(currentCheckpoint->GetWorldPosition() + Vector3(0.0f, 5.0f, 0.0f));
 			break;
 		case 6:
-			Zeus::MakeLightBeam(scene, node_->GetWorldPosition());
+			Zeus::MakeLightBeam(scene, node_->GetWorldPosition(), 64.0f, 2);
 			break;
 		case 7:
 			modelNode->SetEnabled(true);
@@ -870,7 +870,7 @@ void Player::HandleNearestCorpse()
 			if (!revived && reviveCooldown > reviveCooldownMax - 0.5f && reviveCooldown <= reviveCooldownMax - 0.25f)
 			{
 				revived = true;
-				Zeus::MakeLightBeam(scene, nearestCorpse->GetNode()->GetWorldPosition());
+				Zeus::MakeLightBeam(scene, nearestCorpse->GetNode()->GetWorldPosition(), 64.0f, 0);
 				nearestCorpse->Revive();
 				reviveCount += 1;
 				if (Random(0, 3000) == 42)

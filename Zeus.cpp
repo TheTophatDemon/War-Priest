@@ -40,7 +40,7 @@ Zeus::Zeus()
 {
 }
 
-Node* Zeus::MakeLightBeam(Scene* scene, Vector3 position, const float height)
+Node* Zeus::MakeLightBeam(Scene* scene, Vector3 position, const float height, const int sound)
 {
 	Vector3 beamSize = Vector3(3.5f, height, 3.5f);
 	Vector3 closed = Vector3(0.0f, beamSize.y_, 0.0f);
@@ -84,6 +84,20 @@ Node* Zeus::MakeLightBeam(Scene* scene, Vector3 position, const float height)
 	scaleAnim->SetKeyFrame(0.25f, beamSize);
 	scaleAnim->SetKeyFrame(0.75f, closed);
 	columnAnimation->AddAttributeAnimation("Scale", scaleAnim, WM_CLAMP, 1.0f);
+
+	if (sound > 0)
+	{
+		SoundSource3D* soundSource = smoker->CreateComponent<SoundSource3D>();
+		soundSource->SetSoundType("GAMEPLAY");
+		if (sound == 1)
+		{
+			soundSource->Play(cache->GetResource<Sound>("Sounds/env_beam.wav"));
+		}
+		else
+		{
+			soundSource->Play(cache->GetResource<Sound>("Sounds/env_beam2.wav"));
+		}
+	}
 
 	lightColumn->SetObjectAnimation(columnAnimation);
 	return lightColumn;

@@ -1,5 +1,4 @@
 //TODO:
-	//Chaos caliph spin sound too low pitch
 	
 	//Crossroads
 		//Robloxians
@@ -8,8 +7,7 @@
 	//Palpan1
 
 	//Sounds
-		//Player death / Chime
-		//God beam
+		//Boulder bounce
 	
 	//Bonus Crosses for: SS1, FF4, PP4, PP1, PP2. 
 	//Do final test through every level.
@@ -18,7 +16,6 @@
 		//Fallrhine 2 barrel platform unreachable
 		//Exaggerate movement of spinning platform in FF3
 		//Expand ridge in FF4
-		//Fix exploit on sacsand1
 		//Remove health from sacsand2
 		//Sacsand3 platforms going wrong way
 

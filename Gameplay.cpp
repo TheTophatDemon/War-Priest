@@ -518,9 +518,9 @@ void Gameplay::Lose()
 	{
 		DisplayMessage("Mission Failed.\nThe Lord frowns upon you!", Color::WHITE, 250.0f);
 		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
+		musicSource->Play(cache->GetResource<Sound>("Music/frownofthelord.ogg"));
 		//std::cout << viewport->GetRenderPath()->GetCommand(viewport->GetRenderPath()->GetNumCommands() - 1)->GetShaderParameter("State").GetFloat() << std::endl;
 		restartTimer = 250;
-		musicSource->Stop();
 	}
 	winState = -1;
 }
