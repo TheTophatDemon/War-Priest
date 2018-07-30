@@ -299,7 +299,7 @@ void Enemy::KeepOnGround()
 	}
 	else
 	{
-		std::cout << "WHAT" << std::endl;
+		std::cout << "ENEMY IN THE WATER" << std::endl;
 	}
 }
 

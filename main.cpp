@@ -1,18 +1,22 @@
 //TODO:
-	
-	//Crossroads
-		//Robloxians
-	//Credits
 	//Palpan2
+		//Add third island?
+		//Make return trip faster?
 	//Palpan1
+	//Crossroads
+	//Credits
 
 	//Sounds
 		//Boulder bounce
+		
+	//New camera?
+	//Subtitles / indicators for offscreen projectiles
 	
 	//Bonus Crosses for: SS1, FF4, PP4, PP1, PP2. 
 	//Do final test through every level.
 		//Make fog match the skybox color
-		//Make platform in PP3 double-edged.
+		//Make platform in PP3 double-edged (and faster).
+		//PP3 make that slope less steep
 		//Fallrhine 2 barrel platform unreachable
 		//Exaggerate movement of spinning platform in FF3
 		//Expand ridge in FF4
@@ -47,6 +51,7 @@
 	//When the editor first opens, I am unable to edit any text until I alt-tab out and refocus the window.
 	//When running fullscreen sometimes, after alt-tabbing the device gets lost over and over again, and the window flashes several times.
 	//The editor keeps thinking "gamesettings.bin" is an XML file.
+	//The controls near the top of the Hierarchy window in the Editor are confusing
 	//Custom components can't have parameters other than context
 	//GetWorldTransform scaling bug?
 	//Freezes on "SDL_Delay" (Called by DirectSound, I think) sometimes when re-focusing the window after an alt-tab.

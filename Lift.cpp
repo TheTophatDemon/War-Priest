@@ -9,6 +9,8 @@
 #include <Bullet\BulletDynamics\Dynamics\btRigidBody.h>
 #include <iostream>
 
+#define STICK_TIME 0.05f
+
 #define STATE_REST 0
 #define STATE_MOVE 1
 
@@ -99,8 +101,8 @@ void Lift::FixedUpdate(float timeStep)
 
 	//All bodies standing on the lift get moved
 	const Matrix3x4 deltaTransform = node_->GetWorldTransform() * oldTransform.Inverse();
-	if (state == STATE_MOVE || rotateSpeed != 0.0f)
-	{
+	//if (state == STATE_MOVE || rotateSpeed != 0.0f)
+	//{
 		for (Pair<WeakPtr<Node>, float>& pair : childCache)
 		{
 			if (pair.first_.Get())
@@ -115,7 +117,7 @@ void Lift::FixedUpdate(float timeStep)
 				childCache.Remove(pair);
 			}
 		}
-	}
+	//}
 
 	body->SetTransform(node_->GetWorldTransform().Translation(), node_->GetWorldTransform().Rotation());
 	oldTransform = node_->GetWorldTransform();
@@ -155,12 +157,12 @@ void Lift::OnCollision(StringHash eventType, VariantMap& eventData)
 				{
 					if (pair.first_.Get() == other)
 					{
-						pair.second_ = 0.1f;
+						pair.second_ = STICK_TIME;
 						found = true;
 						break;
 					}
 				}
-				if (!found) childCache.Push(Pair<WeakPtr<Node>, float>(WeakPtr<Node>(other), 0.1f)); //The float is a timer. It will consider a child "off" after 1/10 of a second.
+				if (!found) childCache.Push(Pair<WeakPtr<Node>, float>(WeakPtr<Node>(other), STICK_TIME)); 
 				break;
 			}
 		}
