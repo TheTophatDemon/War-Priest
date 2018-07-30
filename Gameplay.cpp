@@ -157,7 +157,8 @@ void Gameplay::SetupGame()
 	physworld->SetInternalEdge(true);
 
 	mapNode = scene_->GetChild("map");
-
+	RigidBody* mapBody = mapNode->GetComponent<RigidBody>();
+	mapBody->SetCollisionLayer(mapBody->GetCollisionLayer() + 512);
 	ExtractLiquidsFromMap();
 	
 	compassScene->Start();

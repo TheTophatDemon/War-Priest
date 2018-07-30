@@ -5,11 +5,11 @@
 	//Palpan1
 	//Crossroads
 	//Credits
+		//Have player drop down from above
 
 	//Sounds
 		//Boulder bounce
 		
-	//New camera?
 	//Subtitles / indicators for offscreen projectiles
 	
 	//Bonus Crosses for: SS1, FF4, PP4, PP1, PP2. 
@@ -23,6 +23,7 @@
 		//Remove health from sacsand2
 		//Sacsand3 platforms going wrong way
 
+	//Optimize raycast distances (The more geometry that intersects it, the slower it gets)
 	//Look into SoundSounder optimization?
 	//Make Enemy and Player derive from Actor instead of a has-a relationship?
 	//Send E_SETTINGSCHANGE to self
@@ -67,6 +68,7 @@
 	//64 = ENEMY
 	//128 = PLAYER
 	//256 = LIQUID/WATER
+	//512 = THE MAP ONLY
 
 //SOUND TYPES
 	//GAMEPLAY

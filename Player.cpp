@@ -52,6 +52,7 @@ using namespace Urho3D;
 
 #define PITCH_LIMIT_HIGHER 65
 #define PITCH_LIMIT_LOWER 15
+#define MAX_CAMERA_HEIGHT 128.0f
 
 #define STATE_DEFAULT 0
 #define STATE_REVIVE 1
@@ -426,13 +427,59 @@ void Player::OnBeamed(StringHash eventType, VariantMap& eventData)
  	}
 }
 
+/*void Player::HandleCamera()
+{
+	const Vector3 worldPos = body->GetPosition();
+	const Vector3 headPos = worldPos + Vector3(0.0f, 2.5f, 0.0f);
+
+	//Yaw rotation
+	if (state != STATE_DROWN) pivot->SetWorldPosition(body->GetPosition());
+	pivot->Rotate(Quaternion(input->GetMouseMoveX() * Settings::GetMouseSensitivity(), Vector3::UP));
+	
+	const Vector3 defaultCameraPosition = (pivot->GetWorldTransform() * Matrix3x4(cameraOffset, Quaternion::IDENTITY, 1.0f)).Translation();
+	Vector3 playerToCam = defaultCameraPosition - headPos;
+	const float camDist = playerToCam.Length();
+	playerToCam /= camDist; //Normalizing it
+
+	PhysicsRaycastResult result;
+	physworld->SphereCast(result, Ray(headPos, playerToCam), 0.5f, camDist, 512U);
+	
+	optimalCamPos = defaultCameraPosition;
+	if (result.body_)
+	{
+		optimalCamPos = result.position_ - (playerToCam * 0.5f);
+	}
+
+	float transitionSpeed = Min(0.15f + (1.0f / result.distance_), 0.9f);
+	if (input->GetMouseMoveX() > 8)
+	{
+		transitionSpeed = 1.0f;
+	}
+	cameraNode->Translate((optimalCamPos - cameraNode->GetWorldPosition()) * transitionSpeed, TS_WORLD);
+	//cameraNode->SetWorldPosition(optimalCamPos);
+
+	//Rotate it to look at the player's feet
+	Quaternion newAngle = Quaternion();
+	newAngle.FromLookRotation((worldPos - cameraNode->GetWorldPosition()).Normalized());
+	cameraNode->SetWorldRotation(newAngle);
+
+	//Pitch rotation
+	float mvy = input->GetMouseMoveY();
+	if (Settings::IsMouseInverted()) mvy = -mvy;
+	cameraPitch = Clamp(cameraPitch + (mvy * Settings::GetMouseSensitivity() * 0.25f), -15.0f, 15.0f);
+	cameraNode->Rotate(Quaternion(cameraPitch, Vector3::RIGHT), TS_LOCAL);
+}*/
+
 void Player::HandleCamera()
 {
 	const Vector3 worldPos = body->GetPosition();
+
+	//Yaw rotation via pivot
 	if (state != STATE_DROWN) pivot->SetWorldPosition(body->GetPosition());
 	pivot->Rotate(Quaternion(input->GetMouseMoveX() * Settings::GetMouseSensitivity(), Vector3::UP));
 
-	if (input->GetKeyDown(KEY_KP_ENTER)) //Cheaty first person mode for fun
+	//Cheaty first person mode for fun
+	if (input->GetKeyDown(KEY_KP_ENTER))
 	{
 		modelNode->SetEnabled(false);
 		cameraNode->SetWorldPosition(node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f));
@@ -444,18 +491,15 @@ void Player::HandleCamera()
 		modelNode->SetEnabled(true);
 	}
 
-	const Vector3 orgCamPos = cameraNode->GetWorldPosition();
-	cameraNode->SetPosition(cameraOffset); //Temporarily reset camera to simplify some calculations
-
-	const Vector3 maxCameraHeight = Vector3(cameraNode->GetWorldPosition().x_, 42.0f, cameraNode->GetWorldPosition().z_);
+	//Move camera above obstacles
+	const Vector3 defaultCameraPosition = (pivot->GetWorldTransform() * Matrix3x4(cameraOffset, Quaternion::IDENTITY, 1.0f)).Translation();
+	const Vector3 maxCameraHeight = Vector3(cameraNode->GetWorldPosition().x_, MAX_CAMERA_HEIGHT, cameraNode->GetWorldPosition().z_);
 	const float diff = maxCameraHeight.y_ - cameraNode->GetWorldPosition().y_;
-
 	float peekOffset = 5.0f;
-
-	optimalCamPos = cameraNode->GetWorldPosition();
+	optimalCamPos = defaultCameraPosition;
 
 	PhysicsRaycastResult cameraDownCast;
-	physworld->SphereCast(cameraDownCast, Ray(maxCameraHeight, Vector3::DOWN), 0.5f, 500.0f, 2);
+	physworld->SphereCast(cameraDownCast, Ray(maxCameraHeight, Vector3::DOWN), 0.5f, fabs(maxCameraHeight.y_ - worldPos.y_), 2U);
 	if (cameraDownCast.body_)
 	{
 		peekOffset = 5.0f + fabs(cameraDownCast.distance_ - diff) * 0.1f;
@@ -464,8 +508,9 @@ void Player::HandleCamera()
 			optimalCamPos.y_ = cameraDownCast.position_.y_ + peekOffset;
 		}
 	}
-
-	cameraNode->SetWorldPosition(orgCamPos);
+	optimalCamPos.y_ = Min(optimalCamPos.y_, MAX_CAMERA_HEIGHT);
+	
+	//Smooth movement
 	float transitionSpeed = Min(0.15f + (1.0f / cameraDownCast.distance_), 0.9f);
 	if (input->GetMouseMoveX() > 8)
 	{
@@ -473,11 +518,12 @@ void Player::HandleCamera()
 	}
 	cameraNode->Translate((optimalCamPos - cameraNode->GetWorldPosition()) * transitionSpeed, TS_WORLD);
 
-	//Camera rotation
+	//Make camera look at player's feet
 	Quaternion newAngle = Quaternion();
 	newAngle.FromLookRotation((worldPos - cameraNode->GetWorldPosition()).Normalized());
 	cameraNode->SetWorldRotation(newAngle);
 
+	//Pitch rotation
 	float mvy = input->GetMouseMoveY();
 	if (Settings::IsMouseInverted())
 		mvy = -mvy;
