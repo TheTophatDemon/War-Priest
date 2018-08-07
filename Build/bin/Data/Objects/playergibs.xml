@@ -19,7 +19,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16777230">
 			<attribute name="Model" value="Model;Models/grungle_gibarm.mdl" />
-			<attribute name="Material" value="Material;Materials/grungle_skin.xml" />
+			<attribute name="Material" value="Material;Materials/skins/grungle_skin.xml" />
 		</component>
 		<component type="CollisionShape" id="16777231">
 			<attribute name="Size" value="0.46 0.62 2" />
@@ -43,7 +43,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16777245">
 			<attribute name="Model" value="Model;Models/grungle_gibmeat.mdl" />
-			<attribute name="Material" value="Material;Materials/grungle_skin.xml" />
+			<attribute name="Material" value="Material;Materials/skins/grungle_skin.xml" />
 		</component>
 		<component type="CollisionShape" id="16777246">
 			<attribute name="Shape Type" value="Sphere" />
@@ -67,7 +67,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16777248">
 			<attribute name="Model" value="Model;Models/grungle_gibtorso.mdl" />
-			<attribute name="Material" value="Material;Materials/grungle_skin.xml" />
+			<attribute name="Material" value="Material;Materials/skins/grungle_skin.xml" />
 		</component>
 		<component type="CollisionShape" id="16777249">
 			<attribute name="Shape Type" value="Capsule" />
@@ -92,7 +92,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16777251">
 			<attribute name="Model" value="Model;Models/grungle_giblegs.mdl" />
-			<attribute name="Material" value="Material;Materials/grungle_skin.xml" />
+			<attribute name="Material" value="Material;Materials/skins/grungle_skin.xml" />
 		</component>
 		<component type="CollisionShape" id="16777252">
 			<attribute name="Shape Type" value="Capsule" />
@@ -116,7 +116,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16777254">
 			<attribute name="Model" value="Model;Models/grungle_gibarm.mdl" />
-			<attribute name="Material" value="Material;Materials/grungle_skin.xml" />
+			<attribute name="Material" value="Material;Materials/skins/grungle_skin.xml" />
 		</component>
 		<component type="CollisionShape" id="16777255">
 			<attribute name="Size" value="0.46 0.62 2" />
@@ -139,7 +139,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16777257">
 			<attribute name="Model" value="Model;Models/grungle_gibhead.mdl" />
-			<attribute name="Material" value="Material;Materials/grungle_skin.xml" />
+			<attribute name="Material" value="Material;Materials/skins/grungle_skin.xml" />
 		</component>
 		<component type="CollisionShape" id="16777258">
 			<attribute name="Shape Type" value="Capsule" />
@@ -163,7 +163,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16777260">
 			<attribute name="Model" value="Model;Models/grungle_gibmeat.mdl" />
-			<attribute name="Material" value="Material;Materials/grungle_skin.xml" />
+			<attribute name="Material" value="Material;Materials/skins/grungle_skin.xml" />
 		</component>
 		<component type="CollisionShape" id="16777261">
 			<attribute name="Shape Type" value="Sphere" />

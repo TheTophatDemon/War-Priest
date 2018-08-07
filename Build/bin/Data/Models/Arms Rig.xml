@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<animation>
+	<trigger normalizedtime="0.0" type="Int" value="0" />
+	<trigger normalizedtime="0.16" type="Int" value="1" />
+	<trigger normalizedtime="0.5" type="Int" value="2"/>
+	<trigger normalizedtime="0.66" type="Int" value="3"/>
+</animation>

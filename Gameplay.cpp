@@ -60,7 +60,6 @@
 #include "ChaosCaliph.h"
 #include "LevelSelectMenu.h"
 #include "Bonus.h"
-#include "MissileFinder.h"
 #include "KillerKube.h"
 #include "Statue.h"
 #include "Lift.h"
@@ -460,13 +459,6 @@ void Gameplay::MakeHUD()
 	ui->GetRoot()->LoadChildXML(cache->GetResource<XMLFile>("UI/HUDLayout.xml")->GetRoot());
 	ourUI = ui->GetRoot()->GetChild("hud", true);
 
-	text = new Text(context_);
-	text->SetText("WAR PRIEST ALPHA : WWW.BITENDOSOFTWARE.COM");
-	text->SetFont("Fonts/Anonymous Pro.ttf", 12);
-	text->SetHorizontalAlignment(HA_CENTER);
-	text->SetVerticalAlignment(VA_TOP);
-	ourUI->AddChild(text);
-
 	messageText = new Text(context_);
 	messageText->SetText("");
 	messageText->SetFont("Fonts/Anonymous Pro.ttf", 24);
@@ -559,7 +551,7 @@ void Gameplay::SetupEnemy()
 	for (Node* n : enemies)
 	{
 		String enemyType = n->GetName();
-		Matrix3x4 t = n->GetWorldTransform();
+		const Matrix3x4 t = n->GetWorldTransform();
 		n->LoadXML(cache->GetResource<XMLFile>("Objects/" + enemyType + ".xml")->GetRoot());
 		n->SetWorldTransform(t.Translation(), t.Rotation(), t.Scale());
 
@@ -575,68 +567,56 @@ void Gameplay::SetupEnemy()
 
 void Gameplay::SetupProps()
 {
-	float mapScale = mapNode->GetScale().x_;
+	//A set of instancing group nodes for each type of model
+	HashMap<Model*, Node*> groups = HashMap<Model*, Node*>();
 
-	PODVector<Node*> props; //Get the existing props
-	mapNode->GetChildrenWithTag(props, "prop", true);
+	PODVector<Node*> props;
+	scene_->GetChildrenWithTag(props, "prop", true);
 
-	//Go through each prop and add rigid bodies
 	for (Node* n : props) 
 	{
-		StaticModel* m = n->GetComponent<StaticModel>();
-		if (m)
+		n->SetParent(scene_);
+		if (n->HasComponent<StaticModel>()) n->RemoveComponent<StaticModel>();
+		const Matrix3x4 trans = n->GetWorldTransform();
+		const bool collision = !n->GetVar("noCollision").GetBool();
+		const bool preciseCollision = n->GetVar("preciseCollision").GetBool();
+		n->LoadXML(cache->GetResource<XMLFile>("Objects/prop_" + n->GetName() + ".xml")->GetRoot());
+		n->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
+		
+		StaticModel* sm = n->GetComponent<StaticModel>();
+		if (sm)
 		{
-			if (!n->HasComponent<CollisionShape>()) //Generate collision shapes for those props unassigned
+			Model* mdl = sm->GetModel();
+			if (groups.Contains(mdl))
 			{
-				CollisionShape* newShape = new CollisionShape(context_);
-				newShape->SetBox(m->GetBoundingBox().Size());
-				n->AddComponent(newShape, 1200, LOCAL);
+				Node* groupNode = groups.Find(mdl)->second_;
+				StaticModelGroup* smg = groupNode->GetComponent<StaticModelGroup>();
+				smg->AddInstanceNode(n);
 			}
-			if (!n->GetParent()->HasTag("propInstancer")) //Add rigidbodies to uninstanced props
+			else
 			{
-				RigidBody* body = n->CreateComponent<RigidBody>();
-				body->SetCollisionLayer(2);
-				body->SetCollisionEventMode(CollisionEventMode::COLLISION_ACTIVE);
+				//Create a StaticModelGroup for this model if it hasn't been made already
+				Node* groupNode = scene_->CreateChild(n->GetName() + "_instancer");
+				StaticModelGroup* smg = groupNode->CreateComponent<StaticModelGroup>();
+				smg->SetModel(mdl);
+				smg->SetMaterialsAttr(sm->GetMaterialsAttr());
+				smg->AddInstanceNode(n);
+				groups.Insert(Pair<Model*, Node*>(mdl, groupNode));
+			}
+			//Some props need triangle mesh colliders on a case-by-case basis
+			if (collision && preciseCollision)
+			{
+				n->RemoveComponents<CollisionShape>();
+				CollisionShape* newShape = n->CreateComponent<CollisionShape>();
+				newShape->SetShapeType(ShapeType::SHAPE_TRIANGLEMESH);
+				newShape->SetModel(mdl);
 			}
 		}
-	}
-
-	PODVector<Node*> instancers;
-	mapNode->GetChildrenWithTag(instancers, "propInstancer", false);
-
-	//Find the instancing groups and remove the children's StaticMesh components and add them to the instancing groups
-	for (Node* n : instancers)
-	{
-		if (n->GetPosition() != Vector3::ZERO)
+		if (collision) 
 		{
-			std::cout << "HEY! One of the instancing groups are mispositioned! " << n->GetName().CString() << std::endl;
+			RigidBody* rb = n->CreateComponent<RigidBody>();
+			rb->SetCollisionLayer(2U);
 		}
-		StaticModelGroup* modelGroup = n->GetComponent<StaticModelGroup>();
-		assert(modelGroup != nullptr);
-		RigidBody* body = n->CreateComponent<RigidBody>();
-		body->SetCollisionLayer(2);
-		body->SetCollisionEventMode(CollisionEventMode::COLLISION_ACTIVE);
-		body->DisableMassUpdate();
-
-		PODVector<Node*> children;
-		n->GetChildren(children);
-		for (PODVector<Node*>::Iterator c = children.Begin(); c != children.End(); c++)
-		{
-			Node* child = (Node*)*c;
-			child->RemoveComponent<StaticModel>();
-			if (child->HasComponent<CollisionShape>()) //Also add children's collision shapes to parent's rigid body
-			{
-				SharedPtr<CollisionShape> shape = SharedPtr<CollisionShape>(child->GetComponent<CollisionShape>());
-				shape->SetPosition((shape->GetPosition() * child->GetScale()) + child->GetPosition());
-				shape->SetSize(shape->GetSize() * child->GetScale());
-				shape->SetRotation(shape->GetRotation() * child->GetRotation());
-				child->RemoveComponent<CollisionShape>();
-				n->AddComponent(shape, 1200, LOCAL);
-			}
-			modelGroup->AddInstanceNode(child);
-		}
-
-		body->EnableMassUpdate();
 	}
 }
 

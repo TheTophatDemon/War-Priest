@@ -9,7 +9,6 @@
 #include "Settings.h"
 #include "Blackstone.h"
 #include "Missile.h"
-#include "MissileFinder.h"
 #include "Actor.h"
 #include "WeakChild.h"
 #include "Zeus.h"
@@ -105,10 +104,6 @@ void KillerKube::Start()
 	blackHoleAnimation->SetKeyFrame(32.0f, Vector3(0.1f, 0.1f, 0.1f));
 	blackHoleAnimation->SetInterpolationMethod(IM_SPLINE);
 	blackHoleAnimation->SetSplineTension(0.1f);
-
-	//The MissileFinder is only neccessary when a Kube is in the level, so their presences are tied.
-	if (game->playerNode->GetScene() == scene && !game->playerNode->HasComponent<MissileFinder>())
-		game->playerNode->CreateComponent<MissileFinder>();
 
 	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(KillerKube, OnSettingsChange));
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(KillerKube, OnCollision));

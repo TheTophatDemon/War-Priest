@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<material>
-	<technique name="Techniques/Diff.xml" />
-	<texture unit="diffuse" name="Textures/grungle_skin.png" />
-	<parameter name="MatDiffColor" value="0.8 0.8 0.8 1" />
-	<parameter name="MatSpecColor" value="1 1 1 50" />
-	<parameter name="MatEmissiveColor" value="0 0 0 1" />
-</material>

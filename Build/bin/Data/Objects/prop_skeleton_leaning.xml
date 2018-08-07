@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<node id="16777451">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="skeleton_leaning" />
+	<attribute name="Tags">
+		<string value="prop" />
+	</attribute>
+	<attribute name="Position" value="208.094 -9.89807 -1.44115" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="0.5 0.5 0.5" />
+	<attribute name="Variables" />
+	<component type="StaticModel" id="16777903">
+		<attribute name="Model" value="Model;Models/props/skeleton_leaning.mdl" />
+		<attribute name="Material" value="Material;Materials/skins/skeleton_skin.xml" />
+	</component>
+	<component type="CollisionShape" id="16778269">
+		<attribute name="Shape Type" value="Sphere" />
+		<attribute name="Size" value="2.21 1 1" />
+		<attribute name="Offset Position" value="-2.08 3.37 0" />
+	</component>
+	<component type="CollisionShape" id="16778270">
+		<attribute name="Shape Type" value="Capsule" />
+		<attribute name="Size" value="1.74 3.47 1" />
+		<attribute name="Offset Position" value="-1.21 1.13 0" />
+		<attribute name="Offset Rotation" value="0.881386 0 0 0.472397" />
+	</component>
+</node>

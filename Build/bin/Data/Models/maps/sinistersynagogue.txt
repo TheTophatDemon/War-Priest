@@ -1,0 +1,8 @@
+Materials/sinsyn_block.xml
+Materials/darkbrick.xml
+Materials/sinsyn_mosaic.xml
+Materials/glass.xml
+Materials/dirt.xml
+Materials/door_large.xml
+Materials/invisible.xml
+Materials/sinsyn_mural.xml

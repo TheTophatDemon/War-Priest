@@ -1,7 +1,7 @@
 //TODO:
-	//Palpan2
-		//Add third island?
-		//Make return trip faster?
+	//Refurbish props in: PP4, FF1-4, SS1-4
+	//Mountain props
+	//Pile of skull prop
 	//Palpan1
 	//Crossroads
 	//Credits
@@ -10,18 +10,22 @@
 	//Sounds
 		//Boulder bounce
 		
-	//Subtitles / indicators for offscreen projectiles
+	//Indicators for offscreen projectiles???
+	//Make font more scalable
 	
-	//Bonus Crosses for: SS1, FF4, PP4, PP1, PP2. 
+	//Bonus Crosses for: SS1, FF4, PP4, PP1. 
 	//Do final test through every level.
 		//Make fog match the skybox color
 		//Make platform in PP3 double-edged (and faster).
 		//PP3 make that slope less steep
+		//Switch PP3 and PP4?
+		//Fallrhine 1 ledge is too high
 		//Fallrhine 2 barrel platform unreachable
 		//Exaggerate movement of spinning platform in FF3
 		//Expand ridge in FF4
 		//Remove health from sacsand2
 		//Sacsand3 platforms going wrong way
+		//SS3 less enemies on side island
 
 	//Optimize raycast distances (The more geometry that intersects it, the slower it gets)
 	//Look into SoundSounder optimization?
@@ -53,6 +57,7 @@
 	//When running fullscreen sometimes, after alt-tabbing the device gets lost over and over again, and the window flashes several times.
 	//The editor keeps thinking "gamesettings.bin" is an XML file.
 	//The controls near the top of the Hierarchy window in the Editor are confusing
+	//Can't unparent multiple selections that are selected using "shift"
 	//Custom components can't have parameters other than context
 	//GetWorldTransform scaling bug?
 	//Freezes on "SDL_Delay" (Called by DirectSound, I think) sometimes when re-focusing the window after an alt-tab.

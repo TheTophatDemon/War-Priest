@@ -433,7 +433,7 @@
 			<attribute name="Scale" value="0.666667 0.666667 0.666667" />
 			<attribute name="Variables" />
 			<component type="StaticModel" id="16783407">
-				<attribute name="Model" value="Model;Models/treegroup.mdl" />
+				<attribute name="Model" value="Model;Models/props/treegroup.mdl" />
 				<attribute name="Material" value="Material;Materials/bark.xml;Materials/leaves.xml" />
 			</component>
 			<component type="CollisionShape" id="16783710">

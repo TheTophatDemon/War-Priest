@@ -1,0 +1,6 @@
+Materials/metal_darker.xml
+Materials/cobblestone_darker.xml
+Materials/palpan_romebrick3_mossy.xml
+Materials/palpan_romebrick3.xml
+Materials/rock.xml
+Materials/cobblestone.xml

@@ -109,7 +109,7 @@ void Projectile::FixedUpdate(float timeStep)
 
 void Projectile::OnHit(PhysicsRaycastResult result)
 {
-	//if (!result.body_) return;
+	node_->RemoveTag("projectile");
 	if (hit) return;
 	if (result.body_) 
 	{

@@ -42,7 +42,7 @@
 		<attribute name="Variables" />
 		<component type="AnimatedModel" id="16778049">
 			<attribute name="Model" value="Model;Models/grungle.mdl" />
-			<attribute name="Material" value="Material;Materials/grungle_skin.xml" />
+			<attribute name="Material" value="Material;Materials/skins/grungle_skin.xml" />
 			<attribute name="Can Be Occluded" value="false" />
 			<attribute name="Bone Animation Enabled">
 				<variant type="Bool" value="true" />

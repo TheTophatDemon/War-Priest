@@ -682,7 +682,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16778254">
 			<attribute name="Model" value="Model;Models/props/skeleton_lying.mdl" />
-			<attribute name="Material" value="Material;Materials/skeleton_skin.xml" />
+			<attribute name="Material" value="Material;Materials/skins/skeleton_skin.xml" />
 		</component>
 	</node>
 	<node id="16777541">
@@ -695,7 +695,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16778255">
 			<attribute name="Model" value="Model;Models/props/skeleton_leaning.mdl" />
-			<attribute name="Material" value="Material;Materials/skeleton_skin.xml" />
+			<attribute name="Material" value="Material;Materials/skins/skeleton_skin.xml" />
 		</component>
 	</node>
 	<node id="16777556">
@@ -1046,7 +1046,7 @@
 		</attribute>
 		<component type="StaticModel" id="16778582">
 			<attribute name="Model" value="Model;Models/props/skeleton_lying.mdl" />
-			<attribute name="Material" value="Material;Materials/skeleton_skin.xml" />
+			<attribute name="Material" value="Material;Materials/skins/skeleton_skin.xml" />
 		</component>
 	</node>
 	<node id="16777628">
@@ -1076,7 +1076,7 @@
 		</attribute>
 		<component type="StaticModel" id="16778715">
 			<attribute name="Model" value="Model;Models/props/skeleton_lying.mdl" />
-			<attribute name="Material" value="Material;Materials/skeleton_skin.xml" />
+			<attribute name="Material" value="Material;Materials/skins/skeleton_skin.xml" />
 		</component>
 	</node>
 	<node id="16777630">

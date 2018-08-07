@@ -1,0 +1,4 @@
+Materials/metal_darker.xml
+Materials/ship_ridge.xml
+Materials/fallrhine_light.xml
+Materials/fallrhine_pipe.xml

@@ -2233,7 +2233,7 @@
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16782700">
-			<attribute name="Model" value="Model;Models/treegroup.mdl" />
+			<attribute name="Model" value="Model;Models/props/treegroup.mdl" />
 			<attribute name="Material" value="Material;Materials/fallrhine_tile.xml;Materials/glass.xml" />
 		</component>
 	</node>

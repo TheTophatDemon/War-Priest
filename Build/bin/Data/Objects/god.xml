@@ -9,7 +9,7 @@
 	<attribute name="Variables" />
 	<component type="StaticModel" id="16778045">
 		<attribute name="Model" value="Model;Models/god.mdl" />
-		<attribute name="Material" value="Material;Materials/god_skin.xml" />
+		<attribute name="Material" value="Material;Materials/skins/god_skin.xml" />
 	</component>
 	<component type="Light" id="16778046">
 		<attribute name="Brightness Multiplier" value="1.71" />

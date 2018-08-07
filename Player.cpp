@@ -39,6 +39,7 @@
 #include "TempShield.h"
 #include "God.h"
 #include "WeakChild.h"
+#include "ProjectileWarner.h"
 
 using namespace Urho3D;
 
@@ -183,6 +184,8 @@ void Player::Start()
 
 	arrowNode->SetEnabled(false);
 	WeakChild::MakeWeakChild(arrowNode, node_);
+
+	node_->CreateComponent<ProjectileWarner>();
 	
 	lastChance = false;
 

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<node id="16777984">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="rock" />
+	<attribute name="Tags">
+		<string value="prop" />
+	</attribute>
+	<attribute name="Position" value="324.336 -7.28209 8.55721" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="1 1 1" />
+	<attribute name="Variables" />
+	<component type="StaticModel" id="16779883">
+		<attribute name="Model" value="Model;Models/props/rock.mdl" />
+		<attribute name="Material" value="Material;Materials/palpan_cliff.xml" />
+	</component>
+	<component type="CollisionShape" id="16779884">
+		<attribute name="Shape Type" value="Sphere" />
+		<attribute name="Size" value="4.28 1 1" />
+		<attribute name="Offset Position" value="0 -0.22 0" />
+	</component>
+</node>

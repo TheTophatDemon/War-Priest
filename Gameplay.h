@@ -74,7 +74,6 @@ protected:
 	WeakPtr<Node> musicNode;
 	WeakPtr<SoundSource> musicSource;
 	
-	SharedPtr<Text> text;
 	SharedPtr<Text> messageText;
 	SharedPtr<Text> debugText;
 	SharedPtr<Sprite> healthMeter;

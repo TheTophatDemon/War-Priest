@@ -434,7 +434,7 @@
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
 			<component type="StaticModelGroup" id="16780615">
-				<attribute name="Model" value="Model;Models/treegroup_distorted.mdl" />
+				<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
 				<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
 				<attribute name="Instance Nodes">
 					<variant type="Int" value="0" />
@@ -451,12 +451,12 @@
 				<attribute name="Scale" value="1 1 1" />
 				<attribute name="Variables" />
 				<component type="StaticModel" id="16780616">
-					<attribute name="Model" value="Model;Models/treegroup_distorted.mdl" />
+					<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
 					<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
 				</component>
 				<component type="CollisionShape" id="16780617">
 					<attribute name="Shape Type" value="TriangleMesh" />
-					<attribute name="Model" value="Model;Models/treegroup_distorted.mdl" />
+					<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
 				</component>
 			</node>
 			<node id="16778292">
@@ -470,12 +470,12 @@
 				<attribute name="Scale" value="1 1 1" />
 				<attribute name="Variables" />
 				<component type="StaticModel" id="16780618">
-					<attribute name="Model" value="Model;Models/treegroup_distorted.mdl" />
+					<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
 					<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
 				</component>
 				<component type="CollisionShape" id="16780619">
 					<attribute name="Shape Type" value="TriangleMesh" />
-					<attribute name="Model" value="Model;Models/treegroup_distorted.mdl" />
+					<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
 				</component>
 			</node>
 		</node>
@@ -583,7 +583,7 @@
 			<attribute name="Scale" value="2 2 2" />
 			<attribute name="Variables" />
 			<component type="StaticModel" id="16780627">
-				<attribute name="Model" value="Model;Models/tree_tall.mdl" />
+				<attribute name="Model" value="Model;Models/props/tree_tall.mdl" />
 				<attribute name="Material" value="Material;Materials/fallrhine_bark.xml" />
 			</component>
 			<component type="CollisionShape" id="16780630">
@@ -1967,7 +1967,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16780626">
 			<attribute name="Model" value="Model;Models/props/skull.mdl" />
-			<attribute name="Material" value="Material;Materials/skeleton_skin.xml" />
+			<attribute name="Material" value="Material;Materials/skins/skeleton_skin.xml" />
 		</component>
 	</node>
 	<node id="16778302">
@@ -1979,7 +1979,7 @@
 		<attribute name="Scale" value="2 2 2" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16780628">
-			<attribute name="Model" value="Model;Models/tree_tall.mdl" />
+			<attribute name="Model" value="Model;Models/props/tree_tall.mdl" />
 			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml" />
 		</component>
 	</node>
@@ -1992,7 +1992,7 @@
 		<attribute name="Scale" value="2 2 2" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16780629">
-			<attribute name="Model" value="Model;Models/tree_tall.mdl" />
+			<attribute name="Model" value="Model;Models/props/tree_tall.mdl" />
 			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml" />
 		</component>
 	</node>

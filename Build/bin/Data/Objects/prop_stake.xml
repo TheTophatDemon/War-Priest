@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<node id="16777988">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="stake" />
+	<attribute name="Tags">
+		<string value="prop" />
+	</attribute>
+	<attribute name="Position" value="388.873 -12.1893 -9.58857" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="1 1 1" />
+	<attribute name="Variables" />
+	<component type="StaticModel" id="16779889">
+		<attribute name="Model" value="Model;Models/props/stake.mdl" />
+		<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
+	</component>
+	<component type="CollisionShape" id="16779907">
+		<attribute name="Size" value="0.5 5 0.5" />
+		<attribute name="Offset Position" value="0 2.5 0" />
+	</component>
+</node>

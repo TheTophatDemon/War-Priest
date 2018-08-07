@@ -1,31 +1,31 @@
 <?xml version="1.0"?>
-<node id="16777718">
+<node id="16777782">
 	<attribute name="Is Enabled" value="true" />
 	<attribute name="Name" value="treegroup" />
 	<attribute name="Tags">
 		<string value="prop" />
 	</attribute>
-	<attribute name="Position" value="-1.53917 28.234 7.87542" />
-	<attribute name="Rotation" value="0.666427 -0.666427 0.236377 -0.236377" />
+	<attribute name="Position" value="1.79533 -0.19476 8.3258" />
+	<attribute name="Rotation" value="1 0 0 0" />
 	<attribute name="Scale" value="1 1 1" />
 	<attribute name="Variables" />
-	<component type="StaticModel" id="16779100">
+	<component type="StaticModel" id="16779452">
 		<attribute name="Model" value="Model;Models/props/treegroup.mdl" />
 		<attribute name="Material" value="Material;Materials/bark.xml;Materials/leaves.xml" />
 	</component>
-	<component type="CollisionShape" id="16779101">
+	<component type="CollisionShape" id="16779453">
 		<attribute name="Shape Type" value="Cylinder" />
-		<attribute name="Size" value="3.88 9.42 1" />
-		<attribute name="Offset Position" value="-2.17 1.65 0.45" />
+		<attribute name="Size" value="4.39 9.72 1" />
+		<attribute name="Offset Position" value="-2.16 1.65 0.47" />
 	</component>
-	<component type="CollisionShape" id="16779102">
+	<component type="CollisionShape" id="16779454">
 		<attribute name="Shape Type" value="Cylinder" />
-		<attribute name="Size" value="4.52 7.57 1" />
-		<attribute name="Offset Position" value="0.81 1.77 -2.1" />
+		<attribute name="Size" value="4.52 8.75 1" />
+		<attribute name="Offset Position" value="0.81 1.09 -2.1" />
 	</component>
-	<component type="CollisionShape" id="16779103">
+	<component type="CollisionShape" id="16779455">
 		<attribute name="Shape Type" value="Cylinder" />
-		<attribute name="Size" value="4.72 6.6 1" />
-		<attribute name="Offset Position" value="1.53 0.5 1.51" />
+		<attribute name="Size" value="5.5 6.91 1" />
+		<attribute name="Offset Position" value="0.98 0.23 1.1" />
 	</component>
 </node>

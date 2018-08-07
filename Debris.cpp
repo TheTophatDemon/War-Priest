@@ -72,12 +72,17 @@ void Debris::OnCollision(StringHash eventType, VariantMap& eventData)
 		SendEvent(Projectile::E_PROJECTILEHIT, map);
 		Die();
 	}
+	else if (otherBody->GetCollisionLayer() & 256) 
+	{
+		node_->RemoveTag("projectile");
+	}
 }
 
 void Debris::Die()
 {
 	if (dieTimer == 0.0f) 
 	{
+		node_->RemoveTag("projectile");
 		smokeNode = Zeus::PuffOfSmoke(GetScene(), node_->GetWorldPosition(), 2.0f);
 		dieTimer = 0.5f;
 	}
