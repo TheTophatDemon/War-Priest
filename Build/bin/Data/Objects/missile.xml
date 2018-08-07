@@ -4,6 +4,7 @@
 	<attribute name="Name" value="missile" />
 	<attribute name="Tags">
 		<string value="missile" />
+		<string value="projectile" />
 	</attribute>
 	<attribute name="Position" value="-1.85421 -2.5012 7.88966" />
 	<attribute name="Rotation" value="1 0 0 0" />

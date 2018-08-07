@@ -4,6 +4,7 @@
 	<attribute name="Name" value="rock" />
 	<attribute name="Tags">
 		<string value="debris" />
+		<string value="projectile" />
 	</attribute>
 	<attribute name="Position" value="0.0746018 -2.85696 7.83409" />
 	<attribute name="Rotation" value="1 0 0 0" />
