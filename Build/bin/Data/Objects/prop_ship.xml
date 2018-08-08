@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<node id="16778513">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="ship" />
+	<attribute name="Tags">
+		<string value="prop" />
+	</attribute>
+	<attribute name="Position" value="2.75975 -68.9881 -85.1609" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="5 5 5" />
+	<attribute name="Variables">
+		<variant hash="4251118801" type="Bool" value="true" />
+	</attribute>
+	<component type="StaticModel" id="16781485">
+		<attribute name="Model" value="Model;Models/props/ship.mdl" />
+		<attribute name="Material" value="Material;Materials/ship_metal.xml;Materials/fallrhine_castlebridge.xml;Materials/sacsand_salt.xml;Materials/sacsand_window.xml" />
+	</component>
+</node>

@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="3" />
 	<attribute name="Next Replicated Component ID" value="5" />
-	<attribute name="Next Local Node ID" value="16778775" />
-	<attribute name="Next Local Component ID" value="16782231" />
+	<attribute name="Next Local Node ID" value="16778776" />
+	<attribute name="Next Local Component ID" value="16782243" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="sacredsands.ogg" />
 	</attribute>
@@ -96,7 +96,7 @@
 			<attribute name="Variables" />
 			<component type="AnimatedModel" id="16778049">
 				<attribute name="Model" value="Model;Models/grungle.mdl" />
-				<attribute name="Material" value="Material;Materials/grungle_skin.xml" />
+				<attribute name="Material" value="Material;Materials/skins/grungle_skin.xml" />
 				<attribute name="Can Be Occluded" value="false" />
 				<attribute name="Bone Animation Enabled">
 					<variant type="Bool" value="true" />
@@ -2331,8 +2331,10 @@
 	</node>
 	<node id="16778741">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="corpse" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="skull" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="193.591 -37.1998 -166.753" />
 		<attribute name="Rotation" value="0.766008 0.21056 0.572052 0.204082" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
@@ -2344,8 +2346,10 @@
 	</node>
 	<node id="16778742">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="corpse" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="skeleton_leaning" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="207.467 -36.4489 -174.217" />
 		<attribute name="Rotation" value="-0.0563633 0 0 -0.99841" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
@@ -2357,8 +2361,10 @@
 	</node>
 	<node id="16778744">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="corpse" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="skeleton_lying" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="204.738 -35.4643 -165.34" />
 		<attribute name="Rotation" value="0.657957 -0.178803 0.32339 -0.656155" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
@@ -2371,11 +2377,15 @@
 	<node id="16778745">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="ship" />
-		<attribute name="Tags" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="172.054 -91.7034 -369.048" />
 		<attribute name="Rotation" value="0.790954 0.407621 -0.420805 0.176518" />
 		<attribute name="Scale" value="4 4 4" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16782107">
 			<attribute name="Model" value="Model;Models/props/ship.mdl" />
 			<attribute name="Material" value="Material;Materials/ship_metal.xml;Materials/fallrhine_castlebridge.xml;Materials/sacsand_salt.xml;Materials/sacsand_window.xml" />
@@ -2384,11 +2394,15 @@
 	<node id="16778746">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="ship" />
-		<attribute name="Tags" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-186.295 -85.8048 -40.3657" />
 		<attribute name="Rotation" value="0.999572 0 0.0292461 0" />
 		<attribute name="Scale" value="4 4 4" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16782108">
 			<attribute name="Model" value="Model;Models/props/ship.mdl" />
 			<attribute name="Material" value="Material;Materials/ship_metal.xml;Materials/fallrhine_castlebridge.xml;Materials/sacsand_salt.xml;Materials/sacsand_window.xml" />
@@ -2397,11 +2411,15 @@
 	<node id="16778747">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="ship" />
-		<attribute name="Tags" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-253.48 -85.8048 -75.3548" />
 		<attribute name="Rotation" value="0.998904 0 0.0467907 0" />
 		<attribute name="Scale" value="4 4 4" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16782109">
 			<attribute name="Model" value="Model;Models/props/ship.mdl" />
 			<attribute name="Material" value="Material;Materials/ship_metal.xml;Materials/fallrhine_castlebridge.xml;Materials/sacsand_salt.xml;Materials/sacsand_window.xml" />
@@ -2410,11 +2428,15 @@
 	<node id="16778748">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="ship" />
-		<attribute name="Tags" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="433.521 -85.8048 28.2653" />
 		<attribute name="Rotation" value="0.146289 0 0.989241 0" />
 		<attribute name="Scale" value="4 4 4" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16782110">
 			<attribute name="Model" value="Model;Models/props/ship.mdl" />
 			<attribute name="Material" value="Material;Materials/ship_metal.xml;Materials/fallrhine_castlebridge.xml;Materials/sacsand_salt.xml;Materials/sacsand_window.xml" />
@@ -2422,12 +2444,16 @@
 	</node>
 	<node id="16778749">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="cross" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="bigcross" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="109.412 -69.1622 -372.523" />
 		<attribute name="Rotation" value="0.824505 -0.18817 0.416601 -0.333503" />
 		<attribute name="Scale" value="2 2 2" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16782111">
 			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
 			<attribute name="Material" value="Material;Materials/skins/bigcross_skin.xml" />
@@ -2436,11 +2462,15 @@
 	<node id="16778752">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="ship" />
-		<attribute name="Tags" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-54.577 -90.4705 -356.176" />
 		<attribute name="Rotation" value="0.809862 0.24299 -0.511403 -0.15344" />
 		<attribute name="Scale" value="4 4 4" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16782114">
 			<attribute name="Model" value="Model;Models/props/ship.mdl" />
 			<attribute name="Material" value="Material;Materials/ship_metal.xml;Materials/fallrhine_castlebridge.xml;Materials/sacsand_salt.xml;Materials/sacsand_window.xml" />
@@ -2448,8 +2478,10 @@
 	</node>
 	<node id="16778753">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="corpse" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="skeleton_lying" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="151.725 -45.3951 -176.306" />
 		<attribute name="Rotation" value="0.989688 -0.061255 -0.121849 0.0437762" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
@@ -2462,11 +2494,15 @@
 	<node id="16778754">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="ship" />
-		<attribute name="Tags" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-226.377 -85.8048 -136.18" />
 		<attribute name="Rotation" value="0.992161 0 -0.124963 0" />
 		<attribute name="Scale" value="4 4 4" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16782116">
 			<attribute name="Model" value="Model;Models/props/ship.mdl" />
 			<attribute name="Material" value="Material;Materials/ship_metal.xml;Materials/fallrhine_castlebridge.xml;Materials/sacsand_salt.xml;Materials/sacsand_window.xml" />
@@ -2475,11 +2511,15 @@
 	<node id="16778755">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="ship" />
-		<attribute name="Tags" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="248.433 -85.8048 108.916" />
 		<attribute name="Rotation" value="0.36319 0 0.931714 0" />
 		<attribute name="Scale" value="4 4 4" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16782117">
 			<attribute name="Model" value="Model;Models/props/ship.mdl" />
 			<attribute name="Material" value="Material;Materials/ship_metal.xml;Materials/fallrhine_castlebridge.xml;Materials/sacsand_salt.xml;Materials/sacsand_window.xml" />
@@ -2528,8 +2568,8 @@
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16782170">
-			<attribute name="Model" value="Model;Models/cross.mdl" />
-			<attribute name="Material" value="Material;Materials/cross.xml" />
+			<attribute name="Model" value="Model;Models/bonus.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/bonus_skin.xml" />
 		</component>
 	</node>
 	<node id="16778769">

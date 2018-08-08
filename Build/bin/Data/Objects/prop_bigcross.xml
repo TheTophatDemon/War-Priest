@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<node id="16778288">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="bigcross" />
+	<attribute name="Tags">
+		<string value="prop" />
+	</attribute>
+	<attribute name="Position" value="-74.3224 -28.1645 140.304" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="1 1 1" />
+	<attribute name="Variables" />
+	<component type="StaticModel" id="16780601">
+		<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+		<attribute name="Material" value="Material;Materials/skins/bigcross_skin.xml" />
+	</component>
+	<component type="CollisionShape" id="16780602">
+		<attribute name="Size" value="2 36 6" />
+		<attribute name="Offset Position" value="0 -4.5 0" />
+	</component>
+</node>

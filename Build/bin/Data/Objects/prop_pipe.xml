@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<node id="16778036">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="pipe" />
+	<attribute name="Tags">
+		<string value="prop" />
+	</attribute>
+	<attribute name="Position" value="34.9771 -43.7973 39.034" />
+	<attribute name="Rotation" value="1 1.11022e-16 0 0" />
+	<attribute name="Scale" value="1.5 1.5 1.5" />
+	<attribute name="Variables" />
+	<component type="StaticModel" id="16779991">
+		<attribute name="Model" value="Model;Models/props/pipe.mdl" />
+		<attribute name="Material" value="Material;Materials/concrete.xml;Materials/metal_darker.xml" />
+	</component>
+	<component type="CollisionShape" id="16779992">
+		<attribute name="Shape Type" value="Cylinder" />
+		<attribute name="Size" value="4 12 1" />
+		<attribute name="Offset Rotation" value="0.707107 0.707107 0 0" />
+	</component>
+</node>

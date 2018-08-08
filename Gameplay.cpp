@@ -567,8 +567,8 @@ void Gameplay::SetupEnemy()
 
 void Gameplay::SetupProps()
 {
-	//A set of instancing group nodes for each type of model
-	HashMap<Model*, Node*> groups = HashMap<Model*, Node*>();
+	//A set of instancing group nodes for each type of prop
+	HashMap<String, Node*> groups = HashMap<String, Node*>();
 
 	PODVector<Node*> props;
 	scene_->GetChildrenWithTag(props, "prop", true);
@@ -576,7 +576,6 @@ void Gameplay::SetupProps()
 	for (Node* n : props) 
 	{
 		n->SetParent(scene_);
-		if (n->HasComponent<StaticModel>()) n->RemoveComponent<StaticModel>();
 		const Matrix3x4 trans = n->GetWorldTransform();
 		const bool collision = !n->GetVar("noCollision").GetBool();
 		const bool preciseCollision = n->GetVar("preciseCollision").GetBool();
@@ -587,9 +586,9 @@ void Gameplay::SetupProps()
 		if (sm)
 		{
 			Model* mdl = sm->GetModel();
-			if (groups.Contains(mdl))
+			if (groups.Contains(n->GetName()))
 			{
-				Node* groupNode = groups.Find(mdl)->second_;
+				Node* groupNode = groups.Find(n->GetName())->second_;
 				StaticModelGroup* smg = groupNode->GetComponent<StaticModelGroup>();
 				smg->AddInstanceNode(n);
 			}
@@ -601,7 +600,7 @@ void Gameplay::SetupProps()
 				smg->SetModel(mdl);
 				smg->SetMaterialsAttr(sm->GetMaterialsAttr());
 				smg->AddInstanceNode(n);
-				groups.Insert(Pair<Model*, Node*>(mdl, groupNode));
+				groups.Insert(Pair<String, Node*>(n->GetName(), groupNode));
 			}
 			//Some props need triangle mesh colliders on a case-by-case basis
 			if (collision && preciseCollision)

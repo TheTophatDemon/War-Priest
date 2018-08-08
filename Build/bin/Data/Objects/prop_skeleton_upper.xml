@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<node id="16777783">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="skeleton_upper" />
+	<attribute name="Tags">
+		<string value="prop" />
+	</attribute>
+	<attribute name="Position" value="-236.513 -18.6023 -103.916" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="1 1 1" />
+	<attribute name="Variables" />
+	<component type="StaticModel" id="16779155">
+		<attribute name="Model" value="Model;Models/props/skeleton_upper.mdl" />
+		<attribute name="Material" value="Material;Materials/skins/skeleton_skin.xml" />
+	</component>
+	<component type="CollisionShape" id="16779314">
+		<attribute name="Shape Type" value="Capsule" />
+		<attribute name="Size" value="1.65 3.79 1" />
+		<attribute name="Offset Position" value="-0.78 0.82 0" />
+		<attribute name="Offset Rotation" value="0.993403 0 0 0.114677" />
+	</component>
+	<component type="CollisionShape" id="16779315">
+		<attribute name="Shape Type" value="Sphere" />
+		<attribute name="Size" value="2.21 1 1" />
+		<attribute name="Offset Position" value="-0.68 3.39 0" />
+	</component>
+</node>

@@ -7,12 +7,12 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16777672" />
-	<attribute name="Next Local Component ID" value="16778883" />
+	<attribute name="Next Local Node ID" value="16777678" />
+	<attribute name="Next Local Component ID" value="16778908" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="palisadepantheon.ogg" />
 	</attribute>
-	<attribute name="Variable Names" value="spawnertype;spawnerdistance;simpleHitbox;movement;restTime;speed;rotateSpeed;music" />
+	<attribute name="Variable Names" value="spawnertype;spawnerdistance;simpleHitbox;movement;restTime;speed;rotateSpeed;music;noCollision" />
 	<component type="Octree" id="1" />
 	<component type="DebugRenderer" id="2" />
 	<component type="PhysicsWorld" id="3">
@@ -39,279 +39,6 @@
 			<attribute name="Physics Rotation" value="0.5 0.5 -0.5 0.5" />
 			<attribute name="Collision Layer" value="2" />
 		</component>
-		<node id="16777542">
-			<attribute name="Is Enabled" value="true" />
-			<attribute name="Name" value="pillarInstance" />
-			<attribute name="Tags">
-				<string value="propInstancer" />
-			</attribute>
-			<attribute name="Position" value="0 0 0" />
-			<attribute name="Rotation" value="0.5 -0.5 0.5 -0.5" />
-			<attribute name="Scale" value="1 1 1" />
-			<attribute name="Variables" />
-			<component type="StaticModelGroup" id="16778256">
-				<attribute name="Model" value="Model;Models/props/pillar.mdl" />
-				<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
-				<attribute name="Instance Nodes">
-					<variant type="Int" value="0" />
-				</attribute>
-			</component>
-			<node id="16777549">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="pillar" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="34.7232 -2.25488 80.7354" />
-				<attribute name="Rotation" value="0.633468 0.314196 0.314196 0.633467" />
-				<attribute name="Scale" value="0.5 0.5 0.5" />
-				<attribute name="Variables">
-					<variant hash="1131166506" type="Bool" value="true" />
-				</attribute>
-				<component type="StaticModel" id="16778274">
-					<attribute name="Model" value="Model;Models/props/pillar.mdl" />
-					<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
-				</component>
-				<component type="CollisionShape" id="16778776">
-					<attribute name="Shape Type" value="Cylinder" />
-					<attribute name="Size" value="3.6 7 1" />
-				</component>
-			</node>
-			<node id="16777651">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="pillar" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="41.808 -2.25488 81.6902" />
-				<attribute name="Rotation" value="0.595081 0.381941 0.381941 0.595081" />
-				<attribute name="Scale" value="0.5 0.5 0.5" />
-				<attribute name="Variables">
-					<variant hash="1131166506" type="Bool" value="true" />
-				</attribute>
-				<component type="StaticModel" id="16778777">
-					<attribute name="Model" value="Model;Models/props/pillar.mdl" />
-					<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
-				</component>
-				<component type="CollisionShape" id="16778778">
-					<attribute name="Shape Type" value="Cylinder" />
-					<attribute name="Size" value="3.6 7 1" />
-				</component>
-			</node>
-			<node id="16777652">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="pillar" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="37.52 -2.25488 84.1966" />
-				<attribute name="Rotation" value="0.425547 0.56472 0.564721 0.425546" />
-				<attribute name="Scale" value="0.499999 0.499999 0.499999" />
-				<attribute name="Variables">
-					<variant hash="1131166506" type="Bool" value="true" />
-				</attribute>
-				<component type="StaticModel" id="16778779">
-					<attribute name="Model" value="Model;Models/props/pillar.mdl" />
-					<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
-				</component>
-				<component type="CollisionShape" id="16778780">
-					<attribute name="Shape Type" value="Cylinder" />
-					<attribute name="Size" value="3.6 7 1" />
-				</component>
-			</node>
-		</node>
-		<node id="16777608">
-			<attribute name="Is Enabled" value="true" />
-			<attribute name="Name" value="car" />
-			<attribute name="Tags">
-				<string value="prop" />
-			</attribute>
-			<attribute name="Position" value="93.3022 -21.726 7.26379" />
-			<attribute name="Rotation" value="0.707037 -0.707037 -0.00994718 0.00994718" />
-			<attribute name="Scale" value="0.45 0.45 0.45" />
-			<attribute name="Variables">
-				<variant hash="1131166506" type="Bool" value="true" />
-			</attribute>
-			<component type="StaticModel" id="16778578">
-				<attribute name="Model" value="Model;Models/props/car.mdl" />
-				<attribute name="Material" value="Material;Materials/skins/car1.xml" />
-			</component>
-		</node>
-		<node id="16777611">
-			<attribute name="Is Enabled" value="true" />
-			<attribute name="Name" value="car" />
-			<attribute name="Tags">
-				<string value="prop" />
-			</attribute>
-			<attribute name="Position" value="82.0221 -12.8319 7.26379" />
-			<attribute name="Rotation" value="0.603329 -0.603329 0.368775 -0.368775" />
-			<attribute name="Scale" value="0.45 0.45 0.45" />
-			<attribute name="Variables">
-				<variant hash="1131166506" type="Bool" value="true" />
-			</attribute>
-			<component type="StaticModel" id="16778581">
-				<attribute name="Model" value="Model;Models/props/car.mdl" />
-				<attribute name="Material" value="Material;Materials/skins/car0.xml" />
-			</component>
-		</node>
-		<node id="16777610">
-			<attribute name="Is Enabled" value="true" />
-			<attribute name="Name" value="car" />
-			<attribute name="Tags">
-				<string value="prop" />
-			</attribute>
-			<attribute name="Position" value="82.4233 1.07995 6.02362" />
-			<attribute name="Rotation" value="0.655296 0.620045 0.318209 0.291331" />
-			<attribute name="Scale" value="0.449999 0.449998 0.45" />
-			<attribute name="Variables">
-				<variant hash="1131166506" type="Bool" value="true" />
-			</attribute>
-			<component type="StaticModel" id="16778580">
-				<attribute name="Model" value="Model;Models/props/car.mdl" />
-				<attribute name="Material" value="Material;Materials/skins/car0.xml" />
-			</component>
-		</node>
-		<node id="16777649">
-			<attribute name="Is Enabled" value="true" />
-			<attribute name="Name" value="treeGroup" />
-			<attribute name="Tags">
-				<string value="prop" />
-			</attribute>
-			<attribute name="Position" value="87.8445 -13.0062 5.75973" />
-			<attribute name="Rotation" value="0.601326 -0.601326 0.372031 -0.372031" />
-			<attribute name="Scale" value="0.7 0.7 0.7" />
-			<attribute name="Variables">
-				<variant hash="1131166506" type="Bool" value="true" />
-			</attribute>
-			<component type="StaticModel" id="16778773">
-				<attribute name="Model" value="Model;Models/props/treegroup.mdl" />
-				<attribute name="Material" value="Material;Materials/bark.xml;Materials/leaves.xml" />
-			</component>
-			<component type="CollisionShape" id="16778774">
-				<attribute name="Shape Type" value="TriangleMesh" />
-				<attribute name="Model" value="Model;Models/props/treegroup.mdl" />
-			</component>
-		</node>
-		<node id="16777654">
-			<attribute name="Is Enabled" value="true" />
-			<attribute name="Name" value="pillarInstance" />
-			<attribute name="Tags">
-				<string value="propInstancer" />
-			</attribute>
-			<attribute name="Position" value="0 0 0" />
-			<attribute name="Rotation" value="0.5 -0.5 0.5 -0.5" />
-			<attribute name="Scale" value="1 1 1" />
-			<attribute name="Variables" />
-			<component type="StaticModelGroup" id="16778784">
-				<attribute name="Model" value="Model;Models/props/pillar.mdl" />
-				<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
-				<attribute name="Instance Nodes">
-					<variant type="Int" value="0" />
-				</attribute>
-			</component>
-			<node id="16777655">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="pillar" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="-21.5263 4.50726 31.2643" />
-				<attribute name="Rotation" value="1 1.56462e-07 -3.72528e-08 3.72529e-08" />
-				<attribute name="Scale" value="0.5 0.431201 0.5" />
-				<attribute name="Variables">
-					<variant hash="1131166506" type="Bool" value="true" />
-				</attribute>
-				<component type="StaticModel" id="16778785">
-					<attribute name="Model" value="Model;Models/props/pillar.mdl" />
-					<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
-				</component>
-			</node>
-			<node id="16777656">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="pillar" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="-10.5534 4.50726 29.5733" />
-				<attribute name="Rotation" value="1 1.56462e-07 -3.72528e-08 3.72529e-08" />
-				<attribute name="Scale" value="0.5 0.431201 0.5" />
-				<attribute name="Variables">
-					<variant hash="1131166506" type="Bool" value="true" />
-				</attribute>
-				<component type="StaticModel" id="16778786">
-					<attribute name="Model" value="Model;Models/props/pillar.mdl" />
-					<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
-				</component>
-			</node>
-			<node id="16777657">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="pillar" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="-15.7349 4.50726 30.5475" />
-				<attribute name="Rotation" value="1 1.56462e-07 -3.72528e-08 3.72529e-08" />
-				<attribute name="Scale" value="0.5 0.431201 0.5" />
-				<attribute name="Variables">
-					<variant hash="1131166506" type="Bool" value="true" />
-				</attribute>
-				<component type="StaticModel" id="16778787">
-					<attribute name="Model" value="Model;Models/props/pillar.mdl" />
-					<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
-				</component>
-			</node>
-			<node id="16777658">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="pillar" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="-15.7349 4.50726 42.0055" />
-				<attribute name="Rotation" value="1 1.56462e-07 -3.72528e-08 3.72529e-08" />
-				<attribute name="Scale" value="0.5 0.431201 0.5" />
-				<attribute name="Variables">
-					<variant hash="1131166506" type="Bool" value="true" />
-				</attribute>
-				<component type="StaticModel" id="16778788">
-					<attribute name="Model" value="Model;Models/props/pillar.mdl" />
-					<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
-				</component>
-			</node>
-			<node id="16777659">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="pillar" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="-21.5263 4.50726 42.0055" />
-				<attribute name="Rotation" value="1 1.56462e-07 -3.72528e-08 3.72529e-08" />
-				<attribute name="Scale" value="0.5 0.431201 0.5" />
-				<attribute name="Variables">
-					<variant hash="1131166506" type="Bool" value="true" />
-				</attribute>
-				<component type="StaticModel" id="16778789">
-					<attribute name="Model" value="Model;Models/props/pillar.mdl" />
-					<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
-				</component>
-			</node>
-			<node id="16777660">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="pillar" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="-10.5534 4.50726 41.1748" />
-				<attribute name="Rotation" value="1 1.56462e-07 -3.72528e-08 3.72529e-08" />
-				<attribute name="Scale" value="0.5 0.431201 0.5" />
-				<attribute name="Variables">
-					<variant hash="1131166506" type="Bool" value="true" />
-				</attribute>
-				<component type="StaticModel" id="16778790">
-					<attribute name="Model" value="Model;Models/props/pillar.mdl" />
-					<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
-				</component>
-			</node>
-		</node>
 	</node>
 	<node id="16777218">
 		<attribute name="Is Enabled" value="true" />
@@ -405,7 +132,7 @@
 			<attribute name="Variables" />
 			<component type="AnimatedModel" id="16778049">
 				<attribute name="Model" value="Model;Models/grungle.mdl" />
-				<attribute name="Material" value="Material;Materials/grungle_skin.xml" />
+				<attribute name="Material" value="Material;Materials/skins/grungle_skin.xml" />
 				<attribute name="Can Be Occluded" value="false" />
 				<attribute name="Bone Animation Enabled">
 					<variant type="Bool" value="true" />
@@ -674,8 +401,10 @@
 	</node>
 	<node id="16777540">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="corpse" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="skeleton_lying" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-35.3481 -4.03944 41.66" />
 		<attribute name="Rotation" value="0.95755 0 -0.288264 0" />
 		<attribute name="Scale" value="0.5 0.5 0.5" />
@@ -687,8 +416,10 @@
 	</node>
 	<node id="16777541">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="corpse" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="skeleton_leaning" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-28.1691 -4.03944 52.497" />
 		<attribute name="Rotation" value="0.710695 0 0.7035 0" />
 		<attribute name="Scale" value="0.5 0.5 0.5" />
@@ -975,12 +706,15 @@
 	<node id="16777543">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="pillar" />
-		<attribute name="Tags" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="24.3032 -4.46441 133.465" />
 		<attribute name="Rotation" value="1 1.56462e-07 -3.72528e-08 3.72529e-08" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables">
 			<variant hash="1131166506" type="Bool" value="false" />
+			<variant hash="4251118801" type="Bool" value="true" />
 		</attribute>
 		<component type="StaticModel" id="16778269">
 			<attribute name="Model" value="Model;Models/props/pillar.mdl" />
@@ -990,12 +724,15 @@
 	<node id="16777548">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="pillar" />
-		<attribute name="Tags" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="32.8804 -4.46441 114.196" />
 		<attribute name="Rotation" value="1 1.56462e-07 -3.72528e-08 3.72529e-08" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables">
 			<variant hash="1131166506" type="Bool" value="false" />
+			<variant hash="4251118801" type="Bool" value="true" />
 		</attribute>
 		<component type="StaticModel" id="16778273">
 			<attribute name="Model" value="Model;Models/props/pillar.mdl" />
@@ -1013,6 +750,7 @@
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables">
 			<variant hash="1131166506" type="Bool" value="false" />
+			<variant hash="4251118801" type="Bool" value="true" />
 		</attribute>
 		<component type="StaticModel" id="16778419">
 			<attribute name="Model" value="Model;Models/props/pillar.mdl" />
@@ -1022,12 +760,15 @@
 	<node id="16777545">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="pillar" />
-		<attribute name="Tags" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="37.6808 -5.09781 114.722" />
 		<attribute name="Rotation" value="0.857835 -5.74124e-08 1.51667e-07 0.513925" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables">
 			<variant hash="1131166506" type="Bool" value="false" />
+			<variant hash="4251118801" type="Bool" value="true" />
 		</attribute>
 		<component type="StaticModel" id="16778270">
 			<attribute name="Model" value="Model;Models/props/pillar.mdl" />
@@ -1036,8 +777,10 @@
 	</node>
 	<node id="16777612">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="corpse" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="skeleton_lying" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="33.0555 -16.0849 132.9" />
 		<attribute name="Rotation" value="-0.896808 5.90522e-09 -0.442421 -4.87032e-09" />
 		<attribute name="Scale" value="0.5 0.5 0.5" />
@@ -1049,25 +792,12 @@
 			<attribute name="Material" value="Material;Materials/skins/skeleton_skin.xml" />
 		</component>
 	</node>
-	<node id="16777628">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="corpse" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="31.0322 -16.0849 125.377" />
-		<attribute name="Rotation" value="0.973357 -7.65452e-09 -0.229295 0" />
-		<attribute name="Scale" value="0.4 0.4 0.4" />
-		<attribute name="Variables">
-			<variant hash="1131166506" type="Bool" value="false" />
-		</attribute>
-		<component type="StaticModel" id="16778714">
-			<attribute name="Model" value="Model;Models/props/skeleton_leaning.mdl" />
-			<attribute name="Material" value="Material;Materials/rock.xml" />
-		</component>
-	</node>
 	<node id="16777629">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="corpse" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="skeleton_lying" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="41.3797 -16.0849 132.9" />
 		<attribute name="Rotation" value="-0.301824 5.75474e-10 -0.953364 -7.63286e-09" />
 		<attribute name="Scale" value="0.5 0.5 0.5" />
@@ -1267,6 +997,256 @@
 		<component type="CollisionShape" id="16778846">
 			<attribute name="Shape Type" value="Sphere" />
 			<attribute name="Size" value="25.22 1 1" />
+		</component>
+	</node>
+	<node id="16777657">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="pillar" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-31.4698 9.01452 61.095" />
+		<attribute name="Rotation" value="1 1.56462e-07 -3.72528e-08 3.72529e-08" />
+		<attribute name="Scale" value="1 0.862402 1" />
+		<attribute name="Variables">
+			<variant hash="1131166506" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16778787">
+			<attribute name="Model" value="Model;Models/props/pillar.mdl" />
+			<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
+		</component>
+	</node>
+	<node id="16777655">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="pillar" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-43.0526 9.01452 62.5286" />
+		<attribute name="Rotation" value="1 1.56462e-07 -3.72528e-08 3.72529e-08" />
+		<attribute name="Scale" value="1 0.862402 1" />
+		<attribute name="Variables">
+			<variant hash="1131166506" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16778785">
+			<attribute name="Model" value="Model;Models/props/pillar.mdl" />
+			<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
+		</component>
+	</node>
+	<node id="16777656">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="pillar" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-21.1068 9.01452 59.1466" />
+		<attribute name="Rotation" value="1 1.56462e-07 -3.72528e-08 3.72529e-08" />
+		<attribute name="Scale" value="1 0.862402 1" />
+		<attribute name="Variables">
+			<variant hash="1131166506" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16778786">
+			<attribute name="Model" value="Model;Models/props/pillar.mdl" />
+			<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
+		</component>
+	</node>
+	<node id="16777658">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="pillar" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-31.4698 9.01452 84.011" />
+		<attribute name="Rotation" value="1 1.56462e-07 -3.72528e-08 3.72529e-08" />
+		<attribute name="Scale" value="1 0.862402 1" />
+		<attribute name="Variables">
+			<variant hash="1131166506" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16778788">
+			<attribute name="Model" value="Model;Models/props/pillar.mdl" />
+			<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
+		</component>
+	</node>
+	<node id="16777659">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="pillar" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-43.0526 9.01452 84.011" />
+		<attribute name="Rotation" value="1 1.56462e-07 -3.72528e-08 3.72529e-08" />
+		<attribute name="Scale" value="1 0.862402 1" />
+		<attribute name="Variables">
+			<variant hash="1131166506" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16778789">
+			<attribute name="Model" value="Model;Models/props/pillar.mdl" />
+			<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
+		</component>
+	</node>
+	<node id="16777660">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="pillar" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-21.1068 9.01452 82.3496" />
+		<attribute name="Rotation" value="1 1.56462e-07 -3.72528e-08 3.72529e-08" />
+		<attribute name="Scale" value="1 0.862402 1" />
+		<attribute name="Variables">
+			<variant hash="1131166506" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16778790">
+			<attribute name="Model" value="Model;Models/props/pillar.mdl" />
+			<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
+		</component>
+	</node>
+	<node id="16777649">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="treeGroup" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="26.0124 -11.5195 175.689" />
+		<attribute name="Rotation" value="0.973357 -7.65452e-09 -0.229295 0" />
+		<attribute name="Scale" value="1.4 1.4 1.4" />
+		<attribute name="Variables">
+			<variant hash="1131166506" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16778773">
+			<attribute name="Model" value="Model;Models/props/treegroup.mdl" />
+			<attribute name="Material" value="Material;Materials/bark.xml;Materials/leaves.xml" />
+		</component>
+	</node>
+	<node id="16777610">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="car" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-2.1599 -12.0472 164.847" />
+		<attribute name="Rotation" value="0.0310647 0.332901 -0.00418668 0.942441" />
+		<attribute name="Scale" value="0.899998 0.899996 0.899999" />
+		<attribute name="Variables">
+			<variant hash="1131166506" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16778580">
+			<attribute name="Model" value="Model;Models/props/car.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/car0.xml" />
+		</component>
+	</node>
+	<node id="16777549">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="pillar" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="69.4464 -4.50976 161.471" />
+		<attribute name="Rotation" value="0.633468 0.314196 0.314196 0.633467" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables">
+			<variant hash="1131166506" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16778274">
+			<attribute name="Model" value="Model;Models/props/pillar.mdl" />
+			<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
+		</component>
+		<component type="CollisionShape" id="16778776">
+			<attribute name="Shape Type" value="Cylinder" />
+			<attribute name="Size" value="3.6 7 1" />
+		</component>
+	</node>
+	<node id="16777651">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="pillar" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="83.616 -4.50976 163.38" />
+		<attribute name="Rotation" value="0.59508 0.381941 0.381941 0.595081" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables">
+			<variant hash="1131166506" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16778777">
+			<attribute name="Model" value="Model;Models/props/pillar.mdl" />
+			<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
+		</component>
+		<component type="CollisionShape" id="16778778">
+			<attribute name="Shape Type" value="Cylinder" />
+			<attribute name="Size" value="3.6 7 1" />
+		</component>
+	</node>
+	<node id="16777652">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="pillar" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="75.04 -4.50976 168.393" />
+		<attribute name="Rotation" value="0.425548 0.564721 0.564721 0.425547" />
+		<attribute name="Scale" value="0.999996 0.999996 0.999995" />
+		<attribute name="Variables">
+			<variant hash="1131166506" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16778779">
+			<attribute name="Model" value="Model;Models/props/pillar.mdl" />
+			<attribute name="Material" value="Material;Materials/cobblestone.xml;Materials/pillar_bottom.xml;Materials/pillar.xml" />
+		</component>
+		<component type="CollisionShape" id="16778780">
+			<attribute name="Shape Type" value="Cylinder" />
+			<attribute name="Size" value="3.6 7 1" />
+		</component>
+	</node>
+	<node id="16777673">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="car" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="25.6638 -14.5276 164.044" />
+		<attribute name="Rotation" value="0.972103 -4.67527e-07 -0.234553 -4.75191e-07" />
+		<attribute name="Scale" value="0.900001 0.900002 0.900002" />
+		<attribute name="Variables">
+			<variant hash="1131166506" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16778895">
+			<attribute name="Model" value="Model;Models/props/car.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/car0.xml" />
+		</component>
+	</node>
+	<node id="16777674">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="car1" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="43.452 -14.5276 186.604" />
+		<attribute name="Rotation" value="0.69709 -1.7293e-07 -0.716984 -1.7101e-07" />
+		<attribute name="Scale" value="0.9 0.9 0.9" />
+		<attribute name="Variables">
+			<variant hash="1131166506" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16778899">
+			<attribute name="Model" value="Model;Models/props/car.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/car1.xml" />
+		</component>
+	</node>
+	<node id="16777676">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="skeleton_leaning_burnt" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="31.0322 -16.0849 125.377" />
+		<attribute name="Rotation" value="0.973357 -7.65452e-09 -0.229295 0" />
+		<attribute name="Scale" value="0.4 0.4 0.4" />
+		<attribute name="Variables">
+			<variant hash="1131166506" type="Bool" value="false" />
+		</attribute>
+		<component type="StaticModel" id="16778904">
+			<attribute name="Model" value="Model;Models/props/skeleton_leaning.mdl" />
+			<attribute name="Material" value="Material;Materials/rock.xml" />
 		</component>
 	</node>
 </scene>

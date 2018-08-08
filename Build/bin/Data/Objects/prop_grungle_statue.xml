@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<node id="16778179">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="grungle_statue" />
+	<attribute name="Tags">
+		<string value="prop" />
+	</attribute>
+	<attribute name="Position" value="52.1286 -47.9384 -0.46911" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="2 2 2" />
+	<attribute name="Variables" />
+	<component type="StaticModel" id="16780332">
+		<attribute name="Model" value="Model;Models/props/grungle_statue.mdl" />
+		<attribute name="Material" value="Material;Materials/skins/grungle_statue_skin.xml" />
+	</component>
+	<component type="CollisionShape" id="16780412">
+		<attribute name="Size" value="2.76 6.51 3.29" />
+		<attribute name="Offset Position" value="0 2.26 0" />
+	</component>
+</node>

@@ -103,8 +103,8 @@ void ProjectileWarner::FixedUpdate(float timeStep)
 				{
 					Sprite* spr = baseElement->CreateChild<Sprite>();
 					spr->SetFullImageRect();
-					spr->SetSize(32, 32);
-					spr->SetHotSpot(16, 16);
+					spr->SetSize(64, 64);
+					spr->SetHotSpot(32, 32);
 					spr->SetTexture(cache->GetResource<Texture2D>("UI/missile_indicator.png"));
 					spr->SetPosition(halfResX, halfResY);
 					spr->SetAttributeAnimation("Color", fadeInAnimation, WM_CLAMP, 1.0f);

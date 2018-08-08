@@ -1,5 +1,6 @@
 //TODO:
-	//Refurbish props in: PP4, FF1-4, SS1-4
+	//Fix Projectile Warner
+	//Signs with floating text?
 	//Mountain props
 	//Pile of skull prop
 	//Palpan1

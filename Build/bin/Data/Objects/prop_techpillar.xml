@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<node id="16777933">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="techpillar" />
+	<attribute name="Tags">
+		<string value="prop" />
+	</attribute>
+	<attribute name="Position" value="-76.6734 -24.0875 -46.0307" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="0.75 0.75 0.75" />
+	<attribute name="Variables" />
+	<component type="StaticModel" id="16779613">
+		<attribute name="Model" value="Model;Models/props/techpillar.mdl" />
+		<attribute name="Material" value="Material;Materials/fallrhine_pipe_big.xml;Materials/fallrhine_light.xml;Materials/rock.xml" />
+	</component>
+	<component type="CollisionShape" id="16779614">
+		<attribute name="Shape Type" value="Cylinder" />
+		<attribute name="Size" value="8 27 1" />
+		<attribute name="Offset Position" value="0 13.5 0" />
+	</component>
+</node>

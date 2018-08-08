@@ -7,10 +7,12 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16777803" />
-	<attribute name="Next Local Component ID" value="16779299" />
-	<attribute name="Variables" />
-	<attribute name="Variable Names" value="spawnertype;spawnerdistance;movement;restTime;speed;rotateSpeed;launchForce;health;music" />
+	<attribute name="Next Local Node ID" value="16777807" />
+	<attribute name="Next Local Component ID" value="16779317" />
+	<attribute name="Variables">
+		<variant hash="1749806053" type="String" value="fallenfatherland.ogg" />
+	</attribute>
+	<attribute name="Variable Names" value="spawnertype;spawnerdistance;movement;restTime;speed;rotateSpeed;launchForce;health;music;noCollision" />
 	<component type="Octree" id="1" />
 	<component type="DebugRenderer" id="2" />
 	<component type="PhysicsWorld" id="3">
@@ -37,258 +39,6 @@
 			<attribute name="Physics Rotation" value="0.5 0.5 -0.5 0.5" />
 			<attribute name="Collision Layer" value="2" />
 		</component>
-		<node id="16777675">
-			<attribute name="Is Enabled" value="true" />
-			<attribute name="Name" value="treeGroup" />
-			<attribute name="Tags">
-				<string value="prop" />
-			</attribute>
-			<attribute name="Position" value="-13.9462 97.417 14.5135" />
-			<attribute name="Rotation" value="-0.591784 0.445605 0.500536 -0.447986" />
-			<attribute name="Scale" value="1 1 1" />
-			<attribute name="Variables" />
-			<component type="StaticModel" id="16778860">
-				<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
-				<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
-			</component>
-			<component type="CollisionShape" id="16778861">
-				<attribute name="Shape Type" value="TriangleMesh" />
-				<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
-			</component>
-		</node>
-		<node id="16777676">
-			<attribute name="Is Enabled" value="true" />
-			<attribute name="Name" value="treeGroup" />
-			<attribute name="Tags">
-				<string value="prop" />
-			</attribute>
-			<attribute name="Position" value="-44.1763 32.8133 9.79265" />
-			<attribute name="Rotation" value="0.707107 -0.707107 0 0" />
-			<attribute name="Scale" value="1 1 1" />
-			<attribute name="Variables" />
-			<component type="StaticModel" id="16778862">
-				<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
-				<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
-			</component>
-			<component type="CollisionShape" id="16778863">
-				<attribute name="Shape Type" value="TriangleMesh" />
-				<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
-			</component>
-		</node>
-		<node id="16777677">
-			<attribute name="Is Enabled" value="true" />
-			<attribute name="Name" value="treeGroup" />
-			<attribute name="Tags">
-				<string value="prop" />
-			</attribute>
-			<attribute name="Position" value="-20.1675 47.0488 13.5119" />
-			<attribute name="Rotation" value="0.244169 -0.0933771 -0.663612 0.700914" />
-			<attribute name="Scale" value="1 1 1" />
-			<attribute name="Variables" />
-			<component type="StaticModel" id="16778864">
-				<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
-				<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
-			</component>
-			<component type="CollisionShape" id="16778865">
-				<attribute name="Shape Type" value="TriangleMesh" />
-				<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
-			</component>
-		</node>
-		<node id="16777678">
-			<attribute name="Is Enabled" value="true" />
-			<attribute name="Name" value="treeGroup" />
-			<attribute name="Tags">
-				<string value="prop" />
-			</attribute>
-			<attribute name="Position" value="-14.474 113.346 10.5535" />
-			<attribute name="Rotation" value="-0.588218 0.600349 -0.297795 0.452657" />
-			<attribute name="Scale" value="0.8 0.8 0.8" />
-			<attribute name="Variables" />
-			<component type="StaticModel" id="16778866">
-				<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
-				<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
-			</component>
-			<component type="CollisionShape" id="16778867">
-				<attribute name="Shape Type" value="TriangleMesh" />
-				<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
-			</component>
-		</node>
-		<node id="16777679">
-			<attribute name="Is Enabled" value="true" />
-			<attribute name="Name" value="treeGroup" />
-			<attribute name="Tags">
-				<string value="prop" />
-			</attribute>
-			<attribute name="Position" value="-6.32782 116.274 10.5535" />
-			<attribute name="Rotation" value="-0.506491 0.35348 0.569344 -0.542556" />
-			<attribute name="Scale" value="0.8 0.8 0.8" />
-			<attribute name="Variables" />
-			<component type="StaticModel" id="16778868">
-				<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
-				<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
-			</component>
-			<component type="CollisionShape" id="16778869">
-				<attribute name="Shape Type" value="TriangleMesh" />
-				<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
-			</component>
-		</node>
-		<node id="16777776">
-			<attribute name="Is Enabled" value="true" />
-			<attribute name="Name" value="stakeGroup" />
-			<attribute name="Tags" />
-			<attribute name="Position" value="0 0 0" />
-			<attribute name="Rotation" value="1 0 0 0" />
-			<attribute name="Scale" value="1 1 1" />
-			<attribute name="Variables" />
-			<node id="16777774">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="stake" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="-57.4082 117.88 13.8778" />
-				<attribute name="Rotation" value="0.70131 -0.70131 0.090353 0.090353" />
-				<attribute name="Scale" value="0.7 0.7 0.7" />
-				<attribute name="Variables" />
-				<component type="StaticModel" id="16779146">
-					<attribute name="Model" value="Model;Models/props/stake.mdl" />
-					<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
-				</component>
-				<node id="16777782">
-					<attribute name="Is Enabled" value="true" />
-					<attribute name="Name" value="" />
-					<attribute name="Tags" />
-					<attribute name="Position" value="0.541885 0.708656 0" />
-					<attribute name="Rotation" value="0.965348 9.3387e-08 2.84262e-08 -0.260993" />
-					<attribute name="Scale" value="0.4 0.4 0.4" />
-					<attribute name="Variables" />
-					<component type="StaticModel" id="16779154">
-						<attribute name="Model" value="Model;Models/props/skeleton_lying.mdl" />
-						<attribute name="Material" value="Material;Materials/skins/skeleton_skin.xml" />
-					</component>
-				</node>
-			</node>
-			<node id="16777777">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="stake" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="-57.419 104.647 13.5086" />
-				<attribute name="Rotation" value="0.707107 -0.707107 0 0" />
-				<attribute name="Scale" value="0.7 0.7 0.7" />
-				<attribute name="Variables" />
-				<component type="StaticModel" id="16779149">
-					<attribute name="Model" value="Model;Models/props/stake.mdl" />
-					<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
-				</component>
-				<node id="16777775">
-					<attribute name="Is Enabled" value="true" />
-					<attribute name="Name" value="skull" />
-					<attribute name="Tags" />
-					<attribute name="Position" value="0.114456 3.45003 0.202774" />
-					<attribute name="Rotation" value="0.905618 2.69895e-07 0.424094 1.2639e-07" />
-					<attribute name="Scale" value="0.5 0.5 0.5" />
-					<attribute name="Variables" />
-					<component type="StaticModel" id="16779148">
-						<attribute name="Model" value="Model;Models/props/skull.mdl" />
-						<attribute name="Material" value="Material;Materials/skins/skeleton_skin.xml" />
-					</component>
-				</node>
-			</node>
-			<node id="16777778">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="stake" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="-60.1012 106.821 13.6446" />
-				<attribute name="Rotation" value="0.680703 -0.732559 7.05427e-08 7.75551e-08" />
-				<attribute name="Scale" value="0.7 0.7 0.7" />
-				<attribute name="Variables" />
-				<component type="StaticModel" id="16779150">
-					<attribute name="Model" value="Model;Models/props/stake.mdl" />
-					<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
-				</component>
-			</node>
-			<node id="16777779">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="stake" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="-50.962 106.821 13.6446" />
-				<attribute name="Rotation" value="0.147151 -0.239834 -0.713717 0.641429" />
-				<attribute name="Scale" value="0.7 0.7 0.7" />
-				<attribute name="Variables" />
-				<component type="StaticModel" id="16779151">
-					<attribute name="Model" value="Model;Models/props/stake.mdl" />
-					<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
-				</component>
-			</node>
-			<node id="16777780">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="stake" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="-51.7461 117.88 13.6446" />
-				<attribute name="Rotation" value="0.707107 -0.707107 0 0" />
-				<attribute name="Scale" value="0.7 0.7 0.7" />
-				<attribute name="Variables" />
-				<component type="StaticModel" id="16779152">
-					<attribute name="Model" value="Model;Models/props/stake.mdl" />
-					<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
-				</component>
-				<node id="16777783">
-					<attribute name="Is Enabled" value="true" />
-					<attribute name="Name" value="" />
-					<attribute name="Tags" />
-					<attribute name="Position" value="-0.302528 3.45222 0.537521" />
-					<attribute name="Rotation" value="0.505846 -0.371897 -0.739127 0.244002" />
-					<attribute name="Scale" value="0.4 0.4 0.4" />
-					<attribute name="Variables" />
-					<component type="StaticModel" id="16779155">
-						<attribute name="Model" value="Model;Models/props/skeleton_upper.mdl" />
-						<attribute name="Material" value="Material;Materials/skins/skeleton_skin.xml" />
-					</component>
-				</node>
-			</node>
-			<node id="16777781">
-				<attribute name="Is Enabled" value="true" />
-				<attribute name="Name" value="stake" />
-				<attribute name="Tags">
-					<string value="prop" />
-				</attribute>
-				<attribute name="Position" value="-55.3971 118.581 13.6446" />
-				<attribute name="Rotation" value="0.707107 -0.707107 0 0" />
-				<attribute name="Scale" value="0.7 0.7 0.7" />
-				<attribute name="Variables" />
-				<component type="StaticModel" id="16779153">
-					<attribute name="Model" value="Model;Models/props/stake.mdl" />
-					<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
-				</component>
-			</node>
-		</node>
-		<node id="16777792">
-			<attribute name="Is Enabled" value="true" />
-			<attribute name="Name" value="treeGroup" />
-			<attribute name="Tags">
-				<string value="prop" />
-			</attribute>
-			<attribute name="Position" value="15.2227 106.276 14.5135" />
-			<attribute name="Rotation" value="-0.703938 0.582227 0.331831 -0.23531" />
-			<attribute name="Scale" value="1 1 1" />
-			<attribute name="Variables" />
-			<component type="StaticModel" id="16779241">
-				<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
-				<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
-			</component>
-			<component type="CollisionShape" id="16779242">
-				<attribute name="Shape Type" value="TriangleMesh" />
-				<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
-			</component>
-		</node>
 	</node>
 	<node id="16777218">
 		<attribute name="Is Enabled" value="true" />
@@ -362,12 +112,12 @@
 			<attribute name="Name" value="model" />
 			<attribute name="Tags" />
 			<attribute name="Position" value="0 0 0" />
-			<attribute name="Rotation" value="1 0 0 0" />
+			<attribute name="Rotation" value="-4.37114e-08 0 1 -0" />
 			<attribute name="Scale" value="0.6 0.6 0.6" />
 			<attribute name="Variables" />
 			<component type="AnimatedModel" id="16778049">
 				<attribute name="Model" value="Model;Models/grungle.mdl" />
-				<attribute name="Material" value="Material;Materials/grungle_skin.xml" />
+				<attribute name="Material" value="Material;Materials/skins/grungle_skin.xml" />
 				<attribute name="Can Be Occluded" value="false" />
 				<attribute name="Bone Animation Enabled">
 					<variant type="Bool" value="true" />
@@ -796,8 +546,10 @@
 	</node>
 	<node id="16777680">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="corpse" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="skeleton_leaning" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-117.925 -26.8603 56.8746" />
 		<attribute name="Rotation" value="0.988659 0 0.150177 0" />
 		<attribute name="Scale" value="0.5 0.5 0.5" />
@@ -809,8 +561,10 @@
 	</node>
 	<node id="16777681">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="corpse" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="skeleton_lying" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-111.695 -31.8973 11.503" />
 		<attribute name="Rotation" value="0.885612 0 -0.464426 0" />
 		<attribute name="Scale" value="0.5 0.5 0.5" />
@@ -822,8 +576,10 @@
 	</node>
 	<node id="16777682">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="corpse" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="skeleton_lying" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-111.695 -31.8973 26.4987" />
 		<attribute name="Rotation" value="0.98852 0 -0.151089 0" />
 		<attribute name="Scale" value="0.5 0.5 0.5" />
@@ -835,8 +591,10 @@
 	</node>
 	<node id="16777683">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="corpse" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="skeleton_lying" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-95.7367 -31.8973 26.4987" />
 		<attribute name="Rotation" value="0.90404 0 0.427446 0" />
 		<attribute name="Scale" value="0.5 0.5 0.5" />
@@ -848,8 +606,10 @@
 	</node>
 	<node id="16777684">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="corpse" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="skeleton_lying" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-90.4228 -26.8603 38.2642" />
 		<attribute name="Rotation" value="0.288434 0 0.9575 0" />
 		<attribute name="Scale" value="0.5 0.5 0.5" />
@@ -1374,8 +1134,8 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-191.893 -34.3241 -26.8699" />
-		<attribute name="Rotation" value="0.99811 -0.0600902 0.00566095 -0.0114439" />
+		<attribute name="Position" value="-192.506 -34.172 -27.1035" />
+		<attribute name="Rotation" value="0.999489 0.0319436 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables">
 			<variant hash="2768288956" type="Int" value="10" />
@@ -1701,27 +1461,18 @@
 			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
 		</component>
 	</node>
-	<node id="16777758">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="tree" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="-287.86 -49.0705 116.524" />
-		<attribute name="Rotation" value="0.764245 0.142186 -0.629056 -0.00158358" />
-		<attribute name="Scale" value="2 2 2" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16779086">
-			<attribute name="Model" value="Model;Models/props/tree_tall.mdl" />
-			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml" />
-		</component>
-	</node>
 	<node id="16777759">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="tree" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="tree_tall" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-65.0148 -49.0705 -169.554" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="2 2 2" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16779087">
 			<attribute name="Model" value="Model;Models/props/tree_tall.mdl" />
 			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml" />
@@ -1729,12 +1480,16 @@
 	</node>
 	<node id="16777760">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="tree" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="tree_tall" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="83.0628 -49.0705 6.31062" />
 		<attribute name="Rotation" value="-0.26492 0.0661755 0.956211 0.105334" />
 		<attribute name="Scale" value="2 2 2" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16779088">
 			<attribute name="Model" value="Model;Models/props/tree_tall.mdl" />
 			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml" />
@@ -1742,12 +1497,16 @@
 	</node>
 	<node id="16777761">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="tree" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="tree_tall" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-195.302 -49.0705 105.771" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="2 2 2" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16779089">
 			<attribute name="Model" value="Model;Models/props/tree_tall.mdl" />
 			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml" />
@@ -1755,12 +1514,16 @@
 	</node>
 	<node id="16777762">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="tree" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="tree_tall" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-293.204 -49.0705 -117.448" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="2 2 2" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16779090">
 			<attribute name="Model" value="Model;Models/props/tree_tall.mdl" />
 			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml" />
@@ -1768,12 +1531,16 @@
 	</node>
 	<node id="16777763">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="tree" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="tree_tall" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-276.862 -49.0705 -154.505" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="2 2 2" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16779091">
 			<attribute name="Model" value="Model;Models/props/tree_tall.mdl" />
 			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml" />
@@ -1781,12 +1548,16 @@
 	</node>
 	<node id="16777764">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="tree" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="tree_tall" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="-223.891 -49.0705 97.8994" />
 		<attribute name="Rotation" value="0.69736 0 -0.716721 0" />
 		<attribute name="Scale" value="2 2 2" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16779092">
 			<attribute name="Model" value="Model;Models/props/tree_tall.mdl" />
 			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml" />
@@ -1794,12 +1565,16 @@
 	</node>
 	<node id="16777765">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="tree" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="tree_tall" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="30.4865 -49.0705 97.8994" />
 		<attribute name="Rotation" value="0.69736 0 -0.716721 0" />
 		<attribute name="Scale" value="2 2 2" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16779093">
 			<attribute name="Model" value="Model;Models/props/tree_tall.mdl" />
 			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml" />
@@ -1807,12 +1582,16 @@
 	</node>
 	<node id="16777766">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="tree" />
-		<attribute name="Tags" />
+		<attribute name="Name" value="tree_tall" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
 		<attribute name="Position" value="73.5969 -49.0705 62.0203" />
 		<attribute name="Rotation" value="0.845062 0 0.534668 0" />
 		<attribute name="Scale" value="2 2 2" />
-		<attribute name="Variables" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
 		<component type="StaticModel" id="16779094">
 			<attribute name="Model" value="Model;Models/props/tree_tall.mdl" />
 			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml" />
@@ -1924,17 +1703,6 @@
 			<attribute name="Size" value="26.92 10 20" />
 		</component>
 	</node>
-	<node id="16777798">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="musicplayer" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="0 -3.94427 7.88854" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1 1 1" />
-		<attribute name="Variables">
-			<variant hash="1749806053" type="String" value="fallenfatherland.ogg" />
-		</attribute>
-	</node>
 	<node id="16777800">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="bonus" />
@@ -1946,8 +1714,8 @@
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16779295">
-			<attribute name="Model" value="Model;Models/cross.mdl" />
-			<attribute name="Material" value="Material;" />
+			<attribute name="Model" value="Model;Models/bonus.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/bonus_skin.xml" />
 		</component>
 	</node>
 	<node id="16777801">
@@ -1990,5 +1758,273 @@
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
 		</node>
+	</node>
+	<node id="16777675">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="treegroup_distorted" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-194.834 -29.027 -27.8924" />
+		<attribute name="Rotation" value="-0.0444335 -0.0993645 0.992956 -0.0468145" />
+		<attribute name="Scale" value="2 2 2" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778860">
+			<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
+			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
+		</component>
+		<component type="CollisionShape" id="16778861">
+			<attribute name="Shape Type" value="TriangleMesh" />
+			<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
+		</component>
+	</node>
+	<node id="16777676">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="treegroup_distorted" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-65.6266 -19.5853 -88.3526" />
+		<attribute name="Rotation" value="0.707107 -2.10734e-07 -0.707107 -2.10734e-07" />
+		<attribute name="Scale" value="2 2 2" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778862">
+			<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
+			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
+		</component>
+		<component type="CollisionShape" id="16778863">
+			<attribute name="Shape Type" value="TriangleMesh" />
+			<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
+		</component>
+	</node>
+	<node id="16777677">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="treegroup_distorted" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-94.0976 -27.0238 -40.335" />
+		<attribute name="Rotation" value="0.51349 -0.0567446 0.851036 -0.0940467" />
+		<attribute name="Scale" value="2 2 2" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778864">
+			<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
+			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
+		</component>
+		<component type="CollisionShape" id="16778865">
+			<attribute name="Shape Type" value="TriangleMesh" />
+			<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
+		</component>
+	</node>
+	<node id="16777678">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="treegroup_distorted" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-226.692 -21.107 -28.948" />
+		<attribute name="Rotation" value="0.96951 0.0713656 -0.219058 -0.0834964" />
+		<attribute name="Scale" value="1.6 1.6 1.6" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778866">
+			<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
+			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
+		</component>
+		<component type="CollisionShape" id="16778867">
+			<attribute name="Shape Type" value="TriangleMesh" />
+			<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
+		</component>
+	</node>
+	<node id="16777679">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="treegroup_distorted" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-232.548 -21.107 -12.6556" />
+		<attribute name="Rotation" value="0.125965 -0.0898993 0.985935 -0.0631113" />
+		<attribute name="Scale" value="1.6 1.6 1.6" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16778868">
+			<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
+			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
+		</component>
+		<component type="CollisionShape" id="16778869">
+			<attribute name="Shape Type" value="TriangleMesh" />
+			<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
+		</component>
+	</node>
+	<node id="16777774">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="stake" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-235.76 -27.7556 -114.816" />
+		<attribute name="Rotation" value="0.70131 -0.0903526 -0.70131 0.0903534" />
+		<attribute name="Scale" value="1.4 1.4 1.4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779146">
+			<attribute name="Model" value="Model;Models/props/stake.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
+		</component>
+	</node>
+	<node id="16777777">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="stake" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-209.294 -27.0172 -114.838" />
+		<attribute name="Rotation" value="0.707107 -2.10734e-07 -0.707107 -2.10734e-07" />
+		<attribute name="Scale" value="1.4 1.4 1.4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779149">
+			<attribute name="Model" value="Model;Models/props/stake.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
+		</component>
+	</node>
+	<node id="16777778">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="stake" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-213.642 -27.2892 -120.202" />
+		<attribute name="Rotation" value="0.706631 -0.0259279 -0.706631 -0.0259277" />
+		<attribute name="Scale" value="1.4 1.4 1.4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779150">
+			<attribute name="Model" value="Model;Models/props/stake.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
+		</component>
+	</node>
+	<node id="16777779">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="stake" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-213.642 -27.2892 -101.924" />
+		<attribute name="Rotation" value="0.484081 0.0101967 0.871067 0.0824847" />
+		<attribute name="Scale" value="1.39999 1.4 1.4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779151">
+			<attribute name="Model" value="Model;Models/props/stake.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
+		</component>
+	</node>
+	<node id="16777780">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="stake" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-235.76 -27.2892 -103.492" />
+		<attribute name="Rotation" value="0.707107 -2.10734e-07 -0.707107 -2.10734e-07" />
+		<attribute name="Scale" value="1.4 1.4 1.4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779152">
+			<attribute name="Model" value="Model;Models/props/stake.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
+		</component>
+	</node>
+	<node id="16777781">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="stake" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-237.162 -27.2892 -110.794" />
+		<attribute name="Rotation" value="0.707107 -2.10734e-07 -0.707107 -2.10734e-07" />
+		<attribute name="Scale" value="1.4 1.4 1.4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779153">
+			<attribute name="Model" value="Model;Models/props/stake.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/stake_skin.xml" />
+		</component>
+	</node>
+	<node id="16777804">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="treegroup_distorted" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-212.552 -29.027 30.4454" />
+		<attribute name="Rotation" value="-0.359512 -0.109116 0.926653 -0.0125951" />
+		<attribute name="Scale" value="2 2 2" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779311">
+			<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
+			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml;Materials/fallrhine_leaves.xml" />
+		</component>
+		<component type="CollisionShape" id="16779312">
+			<attribute name="Shape Type" value="TriangleMesh" />
+			<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
+		</component>
+	</node>
+	<node id="16777782">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="skeleton_lying" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-235.76 -26.6036 -114.334" />
+		<attribute name="Rotation" value="0.700585 0.0958175 -0.700585 -0.0958162" />
+		<attribute name="Scale" value="0.560001 0.56 0.559999" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779154">
+			<attribute name="Model" value="Model;Models/props/skeleton_lying.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/skeleton_skin.xml" />
+		</component>
+	</node>
+	<node id="16777805">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="skeleton_upper" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-236.513 -22.4561 -103.916" />
+		<attribute name="Rotation" value="0.16497 0.435505 0.880309 0.090436" />
+		<attribute name="Scale" value="0.560023 0.560008 0.560025" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779313">
+			<attribute name="Model" value="Model;Models/props/skeleton_upper.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/skeleton_skin.xml" />
+		</component>
+	</node>
+	<node id="16777775">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="skull" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-209.578 -22.1872 -114.678" />
+		<attribute name="Rotation" value="0.940248 -2.15643e-13 -0.340489 8.63653e-14" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16779148">
+			<attribute name="Model" value="Model;Models/props/skull.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/skeleton_skin.xml" />
+		</component>
+	</node>
+	<node id="16777806">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="tree_tall" />
+		<attribute name="Tags">
+			<string value="prop" />
+		</attribute>
+		<attribute name="Position" value="-287.86 -49.0705 116.524" />
+		<attribute name="Rotation" value="0.764245 0.142186 -0.629056 -0.00158358" />
+		<attribute name="Scale" value="2 2 2" />
+		<attribute name="Variables">
+			<variant hash="4251118801" type="Bool" value="true" />
+		</attribute>
+		<component type="StaticModel" id="16779316">
+			<attribute name="Model" value="Model;Models/props/tree_tall.mdl" />
+			<attribute name="Material" value="Material;Materials/fallrhine_bark.xml" />
+		</component>
 	</node>
 </scene>
