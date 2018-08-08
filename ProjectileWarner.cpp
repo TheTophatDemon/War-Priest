@@ -38,13 +38,17 @@ void ProjectileWarner::Start()
 void ProjectileWarner::FixedUpdate(float timeStep)
 {
 	PODVector<Node*> missiles = scene->GetChildrenWithTag("missile", true);
-	//Remove indicators for dead missiles
+	//Update indicators
 	for (Vector<SharedPtr<Indicator>>::Iterator i = indicators.Begin(); i != indicators.End(); i++)
 	{	
 		Indicator* ind = (Indicator*)*i;
 		if (ind) 
 		{
-			if (ind->missile.Get() && ind->sprite.Get())
+			if (!ind->sprite.Get())
+			{
+				ind->deleteMe = true;
+			}
+			if (ind->missile.Get())
 			{
 				//Projectiles remove their "projectile" tag once they've hit something and are no longer a threat.
 				if (!ind->missile->HasTag("projectile")) ind->deleteMe = true;
@@ -55,20 +59,20 @@ void ProjectileWarner::FixedUpdate(float timeStep)
 			}
 			if (ind->deleteMe == true)
 			{
-				if (ind->sprite.Get())
+				if (!ind->sprite.Get()) goto remove;
+				if (ind->sprite->GetAttributeAnimationTime("Color") > fadeInAnimation->GetEndTime())
 				{
-					ind->sprite->SetAttributeAnimationSpeed("Color", -1.0f); //Reverse the fade in animation
-					if (ind->sprite->GetAttributeAnimationTime("Color") <= 0.0f)
-					{
-						indicators.Remove(*i);
-						i--; //This prevents the iterator from skipping over the last item
-					}
+					ind->sprite->SetAttributeAnimationTime("Color", fadeInAnimation->GetEndTime());
 				}
-				else
+				ind->sprite->SetAttributeAnimationSpeed("Color", -1.0f); //Reverse the fade in animation
+				if (ind->sprite->GetColor(Corner::C_TOPLEFT).a_ <= 0.0f)
 				{
-					indicators.Remove(*i);
-					i--;
+					goto remove;
 				}
+				continue;
+			remove:
+				indicators.Remove(*i);
+				i--; //This prevents the iterator from skipping over the last item
 			}
 		}
 	}

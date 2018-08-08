@@ -1,6 +1,6 @@
 //TODO:
-	//Fix Projectile Warner
 	//Signs with floating text?
+	//Fix skeleton LOD
 	//Mountain props
 	//Pile of skull prop
 	//Palpan1
@@ -11,7 +11,7 @@
 	//Sounds
 		//Boulder bounce
 		
-	//Indicators for offscreen projectiles???
+	//Indicators for offscreen projectiles?
 	//Make font more scalable
 	
 	//Bonus Crosses for: SS1, FF4, PP4, PP1. 
@@ -19,7 +19,6 @@
 		//Make fog match the skybox color
 		//Make platform in PP3 double-edged (and faster).
 		//PP3 make that slope less steep
-		//Switch PP3 and PP4?
 		//Fallrhine 1 ledge is too high
 		//Fallrhine 2 barrel platform unreachable
 		//Exaggerate movement of spinning platform in FF3
@@ -27,13 +26,12 @@
 		//Remove health from sacsand2
 		//Sacsand3 platforms going wrong way
 		//SS3 less enemies on side island
+		//SS4 intial launchpad comes up too short
 
 	//Optimize raycast distances (The more geometry that intersects it, the slower it gets)
 	//Look into SoundSounder optimization?
-	//Make Enemy and Player derive from Actor instead of a has-a relationship?
 	//Send E_SETTINGSCHANGE to self
 	//Replace CompassScene with faster alternative?
-	//Model-rigidbody lag?
 	//Package assets
 	
 	//Send to Somecallmejohnny?
@@ -42,7 +40,6 @@
 	//Lifts sticking out of walls
 	//Gigantic open area in center w/ bunch of lifts on edge heading towards small islands surrounding the center.
 	//Make use of the beam material so that something's invisible until you revive.
-	//Ascending a tower with a bunch of lifts
 	//Ninja Nun?
 		//Like danger deacon, but jumps alot and doesn't explode. Can maneuver around pits.
 	//Radical Rabi?
@@ -58,7 +55,7 @@
 	//When running fullscreen sometimes, after alt-tabbing the device gets lost over and over again, and the window flashes several times.
 	//The editor keeps thinking "gamesettings.bin" is an XML file.
 	//The controls near the top of the Hierarchy window in the Editor are confusing
-	//Can't unparent multiple selections that are selected using "shift"
+	//Can't unparent selections that are selected using "shift"
 	//Custom components can't have parameters other than context
 	//GetWorldTransform scaling bug?
 	//Freezes on "SDL_Delay" (Called by DirectSound, I think) sometimes when re-focusing the window after an alt-tab.
