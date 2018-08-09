@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="49.7946" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16777785" />
-	<attribute name="Next Local Component ID" value="16779458" />
+	<attribute name="Next Local Node ID" value="16777795" />
+	<attribute name="Next Local Component ID" value="16779479" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="palisadepantheon.ogg" />
 	</attribute>
@@ -1560,6 +1560,123 @@
 		<component type="CollisionShape" id="16779149">
 			<attribute name="Shape Type" value="Cylinder" />
 			<attribute name="Size" value="3.5 7 3" />
+		</component>
+	</node>
+	<node id="16777786">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="cliff" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="-61.8897 -39.4945 532.976" />
+		<attribute name="Rotation" value="-0.441106 0.0167359 -0.893358 -0.0840113" />
+		<attribute name="Scale" value="2 1.5 2" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779470">
+			<attribute name="Model" value="Model;Models/maps/cliff.mdl" />
+			<attribute name="Material" value="Material;Materials/palpan_cliff.xml;Materials/grass.xml" />
+		</component>
+	</node>
+	<node id="16777787">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="cliff" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="-200.393 -45.51 355.286" />
+		<attribute name="Rotation" value="0.165323 0 0.986239 0" />
+		<attribute name="Scale" value="2 2 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779471">
+			<attribute name="Model" value="Model;Models/maps/cliff2.mdl" />
+			<attribute name="Material" value="Material;Materials/palpan_cliff.xml;Materials/grass.xml" />
+		</component>
+	</node>
+	<node id="16777788">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="cliff" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="18.9264 -45.7877 -478.524" />
+		<attribute name="Rotation" value="0.479176 0 -0.877718 0" />
+		<attribute name="Scale" value="1.5 1 1.9" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779472">
+			<attribute name="Model" value="Model;Models/maps/cliff.mdl" />
+			<attribute name="Material" value="Material;Materials/palpan_cliff.xml;Materials/grass.xml" />
+		</component>
+	</node>
+	<node id="16777789">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="cliff" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="261.582 -27.7178 -339.643" />
+		<attribute name="Rotation" value="-0.676022 0 -0.73688 0" />
+		<attribute name="Scale" value="1.5 2 1.9" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779473">
+			<attribute name="Model" value="Model;Models/maps/cliff.mdl" />
+			<attribute name="Material" value="Material;Materials/palpan_cliff.xml;Materials/grass.xml" />
+		</component>
+	</node>
+	<node id="16777790">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="cliff" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="261.582 -31.6177 246.909" />
+		<attribute name="Rotation" value="0.954558 0.0696896 -0.265937 -0.115058" />
+		<attribute name="Scale" value="1.5 2 1.9" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779474">
+			<attribute name="Model" value="Model;Models/maps/cliff3.mdl" />
+			<attribute name="Material" value="Material;Materials/palpan_cliff.xml;Materials/grass.xml" />
+		</component>
+	</node>
+	<node id="16777791">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="cliff" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="-104.042 -45.7877 -340.937" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779475">
+			<attribute name="Model" value="Model;Models/maps/cliff.mdl" />
+			<attribute name="Material" value="Material;Materials/palpan_cliff.xml;Materials/grass.xml" />
+		</component>
+	</node>
+	<node id="16777792">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="cliff" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="-319.263 -45.51 -121.482" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779476">
+			<attribute name="Model" value="Model;Models/maps/cliff4.mdl" />
+			<attribute name="Material" value="Material;Materials/palpan_cliff.xml;Materials/grass.xml" />
+		</component>
+	</node>
+	<node id="16777793">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="cliff" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="-426.913 -45.51 -47.9553" />
+		<attribute name="Rotation" value="0.559283 0 0.828977 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779477">
+			<attribute name="Model" value="Model;Models/maps/cliff2.mdl" />
+			<attribute name="Material" value="Material;Materials/palpan_cliff.xml;Materials/grass.xml" />
+		</component>
+	</node>
+	<node id="16777794">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="cliff" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="140.673 -21.7263 386.029" />
+		<attribute name="Rotation" value="-0.441106 0.0167359 -0.893358 -0.0840113" />
+		<attribute name="Scale" value="2 1 2" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779478">
+			<attribute name="Model" value="Model;Models/maps/cliff3.mdl" />
+			<attribute name="Material" value="Material;Materials/palpan_cliff.xml;Materials/grass.xml" />
 		</component>
 	</node>
 </scene>
