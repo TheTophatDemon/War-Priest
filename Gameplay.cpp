@@ -64,6 +64,7 @@
 #include "Statue.h"
 #include "Lift.h"
 #include "GravityPlate.h"
+#include "Sign.h"
 
 using namespace Urho3D;
 
@@ -169,7 +170,6 @@ void Gameplay::SetupGame()
 	playerNode->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
 	player = new Player(context_);
 	
-
 	//Setup Camera
 	cameraNode = scene_->CreateChild();
 	cameraNode->SetPosition(Vector3(0.0f, 24.0f, -10.0f));
@@ -185,6 +185,9 @@ void Gameplay::SetupGame()
 
 	skybox = scene_->GetChild("skybox");
 	exitNode = scene_->GetChild("exit");
+
+	SetupEnemy();
+	SetupProps();
 
 	PODVector<Node*> results;
 
@@ -318,6 +321,13 @@ void Gameplay::SetupGame()
 		n->AddComponent(gravityPlate, 0, LOCAL);
 	}
 
+	//Signs
+	scene_->GetChildrenWithTag(results, "sign", true);
+	for (Node* n : results)
+	{
+		n->CreateComponent<GP::Sign>();
+	}
+
 	//Killer Kube
 	Node* kk = scene_->GetChild("killerkube");
 	if (kk != nullptr)
@@ -325,9 +335,6 @@ void Gameplay::SetupGame()
 		KillerKube* kkc = new KillerKube(context_);
 		kk->AddComponent(kkc, 999, LOCAL);
 	}
-
-	SetupEnemy();
-	SetupProps();
 	
 	//Setup Music
 	musicNode = scene_->GetChild("musicplayer");
@@ -384,7 +391,7 @@ void Gameplay::FixedUpdate(float timeStep)
 			{
 				if (!exitNode->HasComponent<ParticleEmitter>())
 				{
-					DisplayMessage("Mission Complete! Return to the start of the level!", Color::WHITE, 10.0f);
+					DisplayMessage("Mission Complete! Return to the start of the level!", Color::WHITE, 10.0f, 10);
 					ParticleEmitter* em = exitNode->CreateComponent<ParticleEmitter>();
 					em->SetEffect(cache->GetResource<ParticleEffect>("Particles/muzzleflash.xml"));
 					em->SetEmitting(true);
@@ -487,21 +494,22 @@ void Gameplay::MakeHUD()
 	ourUI->SetVisible(false);
 }
 
-void Gameplay::FlashScreen(Color c, float spd)
+void Gameplay::FlashScreen(const Color c, const float spd)
 {
 	flashColor = c;
 	flashSpeed = spd;
 	viewport->GetRenderPath()->SetShaderParameter("FlashColor", c);
 }
 
-void Gameplay::DisplayMessage(String msg, Color col, float time)
+void Gameplay::DisplayMessage(const String msg, const Color col, const float time, const int priority)
 {
-	if (winState == 0) //So nobody tries to cover up the win message
+	if (priority >= messagePriority || !messageText->IsVisible())
 	{
 		messageText->SetText(msg);
 		messageText->SetColor(col);
 		messageText->SetVisible(true);
 		messageTimer = time;
+		messagePriority = priority;
 	}
 }
 
@@ -509,7 +517,7 @@ void Gameplay::Lose()
 {
 	if (restartTimer == 0)
 	{
-		DisplayMessage("Mission Failed.\nThe Lord frowns upon you!", Color::WHITE, 250.0f);
+		DisplayMessage("Mission Failed.\nThe Lord frowns upon you!", Color::WHITE, 250.0f, 10);
 		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
 		musicSource->Play(cache->GetResource<Sound>("Music/frownofthelord.ogg"));
 		//std::cout << viewport->GetRenderPath()->GetCommand(viewport->GetRenderPath()->GetNumCommands() - 1)->GetShaderParameter("State").GetFloat() << std::endl;
@@ -522,7 +530,7 @@ void Gameplay::Win()
 {
 	if (restartTimer == 0)
 	{
-		DisplayMessage("Mission Complete!", Color::WHITE, 250.0f);
+		DisplayMessage("Mission Complete!", Color::WHITE, 250.0f, 10);
 		viewport->GetRenderPath()->SetShaderParameter("State", 0.0f);
 		restartTimer = 250;
 
@@ -579,9 +587,17 @@ void Gameplay::SetupProps()
 		const Matrix3x4 trans = n->GetWorldTransform();
 		const bool collision = !n->GetVar("noCollision").GetBool();
 		const bool preciseCollision = n->GetVar("preciseCollision").GetBool();
+		VariantMap variables = n->GetVars();
+		//Set node to match its prop template, then restore individual charicteristics.
 		n->LoadXML(cache->GetResource<XMLFile>("Objects/prop_" + n->GetName() + ".xml")->GetRoot());
 		n->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
-		
+		for (StringHash key : variables.Keys())
+		{
+			Variant var;
+			variables.TryGetValue(key, var);
+			n->SetVar(key, var);
+		}
+
 		StaticModel* sm = n->GetComponent<StaticModel>();
 		if (sm)
 		{
@@ -709,7 +725,7 @@ void Gameplay::HandleEvent(StringHash eventType, VariantMap& eventData)
 	if (eventType == E_BONUSCOLLECTED)
 	{
 		FlashScreen(Color(1.0f, 0.0f, 1.0f, 1.0f), 0.01f);
-		DisplayMessage(bonusFlag ? "YOU FOUND THE BONUS CROSS...AGAIN!" : "YOU FOUND THE BONUS CROSS!", Color::MAGENTA, 2.0f);
+		DisplayMessage(bonusFlag ? "YOU FOUND THE BONUS CROSS...AGAIN!" : "YOU FOUND THE BONUS CROSS!", Color::MAGENTA, 2.0f, 0);
 		bonusFlag = true;
 	}
 }

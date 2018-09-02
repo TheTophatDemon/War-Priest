@@ -212,7 +212,7 @@ void Player::Cheats()
 	if (input->GetKeyDown(KEY_L)) reviveCount = 666;
 	if (input->GetKeyDown(KEY_K))
 	{
-		health = 0.0f; lastChance = true;
+		health = -10000.0f; lastChance = true;
 	}
 	if (input->GetKeyDown(KEY_KP_PLUS))
 		health = 100.0f;

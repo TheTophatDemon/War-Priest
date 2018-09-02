@@ -1,24 +1,26 @@
 //TODO:
-	//Signs with floating text?
-	//Fix skeleton LOD
-	//Mountain props
-	//Pile of skull prop
 	//Palpan1
+		//Make it moodier
 	//Crossroads
 	//Credits
 		//Have player drop down from above
-
+	//Test key name stuff
+	
+	//Backgrounds?
+	//Pile of skull prop
+	//Make font more scalable
 	//Sounds
 		//Boulder bounce
-		
-	//Indicators for offscreen projectiles?
-	//Make font more scalable
+	//Add LODs
+		//Treegroup
+		//Treegroup_distorted
 	
 	//Bonus Crosses for: SS1, FF4, PP4, PP1. 
 	//Do final test through every level.
 		//Make fog match the skybox color
 		//Make platform in PP3 double-edged (and faster).
 		//PP3 make that slope less steep
+		//Danger Deacon gets stuck in floor on PP3
 		//Fallrhine 1 ledge is too high
 		//Fallrhine 2 barrel platform unreachable
 		//Exaggerate movement of spinning platform in FF3
@@ -58,6 +60,7 @@
 	//Can't unparent selections that are selected using "shift"
 	//Custom components can't have parameters other than context
 	//GetWorldTransform scaling bug?
+	//Trouble with Text3D custom materials
 	//Freezes on "SDL_Delay" (Called by DirectSound, I think) sometimes when re-focusing the window after an alt-tab.
 	//HLSL's TEXCOORD(n) semantics are misleading
 

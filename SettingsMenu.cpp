@@ -214,21 +214,7 @@ void SettingsMenu::UpdateButtonLabel(RebindButton& butt)
 {
 	Text* label = butt.button->GetChildDynamicCast<Text>("label", false);
 	assert(label);
-	switch (butt.value)
-	{
-	case KEY_SCROLLLOCK:
-		label->SetText("LMB");
-		break;
-	case KEY_RGUI:
-		label->SetText("RMB");
-		break;
-	case KEY_PAUSE:
-		label->SetText("MMB");
-		break;
-	default:
-		label->SetText(input->GetKeyName(butt.value));
-		break;
-	}
+	label->SetText(Settings::GetKeyName(input, butt.value));
 }
 
 void SettingsMenu::ApplySettings()

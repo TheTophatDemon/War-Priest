@@ -174,3 +174,20 @@ float Settings::ScaleWithDifficulty(const float easyValue, const float hardValue
 		return (easyValue * (1.0f - scaledDifficulty)) + (hardValue * scaledDifficulty);
 	}
 }
+
+String Settings::GetKeyName(Input* input, const int keyCode)
+{
+	switch (keyCode)
+	{
+	case KEY_SCROLLLOCK:
+		return "LMB";
+		break;
+	case KEY_RGUI:
+		return "RMB";
+		break;
+	case KEY_PAUSE:
+		return "MMB";
+		break;
+	}
+	return input->GetKeyName(keyCode);
+}

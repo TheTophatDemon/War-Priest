@@ -45,8 +45,8 @@ public:
 
 	void SetupGame();
 	void MakeHUD();
-	void FlashScreen(Color c, float spd);
-	void DisplayMessage(String msg, Color col, float time);
+	void FlashScreen(const Color c, const float spd);
+	void DisplayMessage(const String msg, const Color col, const float time, const int priority);
 	void Lose();
 	void Win();
 
@@ -93,6 +93,7 @@ protected:
 	float flashSpeed;
 	float oldHealth;
 	float messageTimer = 0.0f;
+	int messagePriority = 0;
 	bool bonusFlag;
 };
 

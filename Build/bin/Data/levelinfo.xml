@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <levelinfo>
-	<level name="Palisade Pantheon Act 1" path="Scenes/palisadepantheon.xml" completion="3" />
+	<level name="Palisade Pantheon Act 1" path="Scenes/palpan1.xml" completion="3" />
+	<level name="Palisade Pantheon Act 2" path="Scenes/palpan2.xml" completion="7" />
 	<level name="Palisade Pantheon Act 3" path="Scenes/palpan3.xml" completion="7" />
 	<level name="Palisade Pantheon Act 4" path="Scenes/palpan4.xml" completion="3" />
 	<level name="Fallen Fatherland Act 1" path="Scenes/fallrhine1.xml" completion="3" />
@@ -18,4 +19,5 @@
 	<level name="Lifts Test" path="Scenes/liftstest.xml" completion="7" />
 	<level name="The Stupid Room" path="Scenes/thestupidroom.xml" completion="7" />
 	<level name="Kube Test" path="Scenes/kubetest.xml" completion="7" />
+	<level name="Beta Map 01" path="Scenes/palisadepantheon.xml" completion="7" />
 </levelinfo>

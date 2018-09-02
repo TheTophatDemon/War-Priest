@@ -3,7 +3,8 @@
 	<attribute name="Is Enabled" value="true" />
 	<attribute name="Name" value="sign" />
 	<attribute name="Tags">
-		<string value="prop" />
+		<string value="prop"/> 
+		<string value="sign"/>
 	</attribute>
 	<attribute name="Position" value="143.865 -68.7257 -12.8201" />
 	<attribute name="Rotation" value="1 1.38778e-17 0 0" />

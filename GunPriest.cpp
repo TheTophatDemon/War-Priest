@@ -33,6 +33,7 @@
 #include "ProjectileWarner.h"
 #include "TempShield.h"
 #include "GravityPlate.h"
+#include "Sign.h"
 
 int GunPriest::STATE_GAME = 0;
 int GunPriest::STATE_TITLE = 1;
@@ -68,6 +69,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	ProjectileWarner::RegisterObject(context);
 	TempShield::RegisterObject(context);
 	GravityPlate::RegisterObject(context);
+	GP::Sign::RegisterObject(context);
 
 	pause = false;
 	state = STATE_TITLE;
