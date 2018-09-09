@@ -172,7 +172,6 @@ void Gameplay::SetupGame()
 	
 	//Setup Camera
 	cameraNode = scene_->CreateChild();
-	cameraNode->SetPosition(Vector3(0.0f, 24.0f, -10.0f));
 	camera = cameraNode->CreateComponent<Camera>();
 	camera->SetFov(70.0f);
 	audio->SetListener(cameraNode->CreateComponent<SoundListener>());

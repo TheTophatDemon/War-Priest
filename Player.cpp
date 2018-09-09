@@ -51,8 +51,6 @@ using namespace Urho3D;
 #define REVIVE_ANIM "Models/grungle_revive.ani"
 #define DROWN_ANIM "Models/grungle_drown.ani"
 
-#define PITCH_LIMIT_HIGHER 65
-#define PITCH_LIMIT_LOWER 15
 #define MAX_CAMERA_HEIGHT 128.0f
 
 #define STATE_DEFAULT 0
@@ -84,7 +82,7 @@ Player::Player(Context* context) :
 	reviveCooldown(0.0f),
 	state(STATE_DEFAULT),
 	health(MAXHEALTH),
-	cameraPitch(0.0f),
+	cameraPitch(-15.0f),
 	optimalCamPos(Vector3::ZERO),
 	splashNode(nullptr),
 	lastChance(false)
@@ -110,8 +108,10 @@ void Player::Start()
 	cameraNode = game->cameraNode;
 	camera = game->camera;
 	pivot = scene->CreateChild();
+	pivot->SetWorldRotation(node_->GetWorldRotation() * Quaternion(90.0f, Vector3::UP));
 	cameraNode->SetParent(pivot);
 	cameraNode->SetPosition(cameraOffset);
+	newRotation = node_->GetWorldRotation();
 
 	//Actor setup
 	if (!node_->HasComponent<Actor>())
@@ -138,7 +138,7 @@ void Player::Start()
 	modelNode = node_->GetChild("model");
 	if (!modelNode)
 		std::cout << "PLAYER HAS NO MODEL!" << std::endl;
-	newRotation = modelNode->GetRotation();
+	//newRotation = modelNode->GetRotation();
 	node_->RemoveChild(modelNode);
 	scene->AddChild(modelNode);
 

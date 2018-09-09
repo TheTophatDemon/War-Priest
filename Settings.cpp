@@ -175,18 +175,18 @@ float Settings::ScaleWithDifficulty(const float easyValue, const float hardValue
 	}
 }
 
-String Settings::GetKeyName(Input* input, const int keyCode)
+String Settings::GetKeyName(Input* input, const int keyCode, bool verbose)
 {
 	switch (keyCode)
 	{
 	case KEY_SCROLLLOCK:
-		return "LMB";
+		return verbose ? "the Left Mouse Button" : "LMB";
 		break;
 	case KEY_RGUI:
-		return "RMB";
+		return verbose ? "the Right Mouse Button" : "RMB";
 		break;
 	case KEY_PAUSE:
-		return "MMB";
+		return verbose ? "the Middle Mouse Button" : "MMB";
 		break;
 	}
 	return input->GetKeyName(keyCode);

@@ -36,7 +36,7 @@ public:
 
 	static bool IsKeyDown(Input* input, int key);
 	static float ScaleWithDifficulty(const float easyValue, const float hardValue, const float unholyValue);
-	static String GetKeyName(Input* input, const int keyCode);
+	static String GetKeyName(Input* input, const int keyCode, bool verbose = false);
 
 	static StringHash E_SETTINGSCHANGED;
 protected:

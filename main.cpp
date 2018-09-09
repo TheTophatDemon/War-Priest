@@ -1,12 +1,13 @@
 //TODO:
 	//Palpan1
-		//Make it moodier
+		//Add rain
 	//Crossroads
 	//Credits
 		//Have player drop down from above
 	//Test key name stuff
 	
 	//Backgrounds?
+	//Change sign text
 	//Pile of skull prop
 	//Make font more scalable
 	//Sounds
@@ -25,6 +26,7 @@
 		//Fallrhine 2 barrel platform unreachable
 		//Exaggerate movement of spinning platform in FF3
 		//Expand ridge in FF4
+		//FF4 Enemy in the water?
 		//Remove health from sacsand2
 		//Sacsand3 platforms going wrong way
 		//SS3 less enemies on side island

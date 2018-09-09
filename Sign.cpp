@@ -40,19 +40,19 @@ String Sign::ParseMessage(const String& message)
 		if (token.StartsWith("%"))
 		{
 			if (token == "%FKEY")
-				newMessage += Settings::GetKeyName(input, Settings::GetForwardKey());
+				newMessage += Settings::GetKeyName(input, Settings::GetForwardKey(), true);
 			else if (token == "%BKEY")
-				newMessage += Settings::GetKeyName(input, Settings::GetBackwardKey());
+				newMessage += Settings::GetKeyName(input, Settings::GetBackwardKey(), true);
 			else if (token == "%LKEY")
-				newMessage += Settings::GetKeyName(input, Settings::GetLeftKey());
+				newMessage += Settings::GetKeyName(input, Settings::GetLeftKey(), true);
 			else if (token == "%RKEY")
-				newMessage += Settings::GetKeyName(input, Settings::GetRightKey());
+				newMessage += Settings::GetKeyName(input, Settings::GetRightKey(), true);
 			else if (token == "%JKEY")
-				newMessage += Settings::GetKeyName(input, Settings::GetJumpKey());
-			else if (token == "%RKEY")
-				newMessage += Settings::GetKeyName(input, Settings::GetReviveKey());
+				newMessage += Settings::GetKeyName(input, Settings::GetJumpKey(), true);
+			else if (token == "%RVKEY")
+				newMessage += Settings::GetKeyName(input, Settings::GetReviveKey(), true);
 			else if (token == "%SKEY")
-				newMessage += Settings::GetKeyName(input, Settings::GetSlideKey());
+				newMessage += Settings::GetKeyName(input, Settings::GetSlideKey(), true);
 		}
 		else
 		{
