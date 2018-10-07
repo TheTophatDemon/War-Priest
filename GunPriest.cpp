@@ -97,6 +97,8 @@ void GunPriest::StartGame(String path)
 	game->SetupGame();
 	std::cout << "GAME SETUP" << std::endl;
 
+	scene_->SetElapsedTime(0.0f);
+
 	loadingText->SetVisible(false);
 	game->ourUI->SetVisible(true);
 
@@ -202,6 +204,7 @@ void GunPriest::ChangeState(int newState)
 		titleScreen->ourUI->SetEnabled(false);
 		scene_->RemoveComponent(titleScreen);
 		scene_->AddComponent(game, 666, LOCAL);
+		scene_->SetElapsedTime(0.0f);
 	}
 	else if (newState == STATE_TITLE && state == STATE_GAME)
 	{
@@ -211,6 +214,7 @@ void GunPriest::ChangeState(int newState)
 		game->ourUI->SetEnabled(false);
 		scene_->RemoveComponent(game);
 		scene_->AddComponent(titleScreen, 777, LOCAL);
+		scene_->SetElapsedTime(0.0f);
 	}
 	state = newState;
 }

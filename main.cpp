@@ -1,10 +1,11 @@
 //TODO:
 	//Palpan1
-		//Add rain
 	//Crossroads
 	//Credits
 		//Have player drop down from above
-	//Test key name stuff
+	//Refactor mouse binding 
+	//Fix HUD scaling
+	//Add Mecha Minister?
 	
 	//Backgrounds?
 	//Change sign text
@@ -65,6 +66,9 @@
 	//Trouble with Text3D custom materials
 	//Freezes on "SDL_Delay" (Called by DirectSound, I think) sometimes when re-focusing the window after an alt-tab.
 	//HLSL's TEXCOORD(n) semantics are misleading
+	//No documentation for:
+		//CreateTemporaryChild
+	//Particle effects don't turn on until you see them, despite being set to emit
 
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP

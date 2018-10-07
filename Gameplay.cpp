@@ -76,7 +76,8 @@ Gameplay::Gameplay(Context* context) : LogicComponent(context),
 	initialized(false),
 	restartTimer(0),
 	flashColor(Color(0.0f,0.0f,0.0f,0.0f)),
-	bonusFlag(false)
+	bonusFlag(false),
+	weatherNode(nullptr)
 {
 	SetUpdateEventMask(USE_FIXEDUPDATE);
 	
@@ -110,8 +111,8 @@ void Gameplay::Start()
 	ourUI->SetVisible(true);
 
 	ourUI->SetSize(Settings::GetResolutionX(), Settings::GetResolutionY());
-	if (Settings::GetResolutionY() < 600)
-		GetSubsystem<UI>()->SetScale(0.5f);
+	if (Settings::GetResolutionY() <= 600)
+		GetSubsystem<UI>()->SetScale(0.75f);
 	else
 		GetSubsystem<UI>()->SetScale(1.0f);
 	ourUI->SetAlignment(HA_CENTER, VA_BOTTOM);
@@ -140,6 +141,7 @@ void Gameplay::Start()
 	SetupLighting();
 
 	SubscribeToEvent(E_BONUSCOLLECTED, URHO3D_HANDLER(Gameplay, HandleEvent));
+	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(Gameplay, HandleEvent));
 }
 
 void Gameplay::SetupGame()
@@ -189,6 +191,25 @@ void Gameplay::SetupGame()
 	SetupProps();
 
 	PODVector<Node*> results;
+
+	//Rain
+	if (scene_->GetVar("raining").GetBool())
+	{
+		weatherNode = cameraNode->CreateChild();
+		weatherNode->SetPosition(Vector3::FORWARD);
+		ParticleEmitter* emitter = weatherNode->CreateComponent<ParticleEmitter>();
+		emitter->SetEffect(cache->GetResource<ParticleEffect>("Particles/rain.xml"));
+		emitter->SetEmitting(true);
+		for (int i = 0; i < 3; ++i)
+		{
+			Node* sphere = weatherNode->CreateChild();
+			StaticModel* sm = sphere->CreateComponent<StaticModel>();
+			sm->SetModel(cache->GetResource<Model>("Models/inverted_sphere.mdl"));
+			sm->SetMaterial(cache->GetResource<Material>("Materials/rain_backdrop.xml"));
+			sphere->SetScale(50.0f + 25.0f * i);
+			sphere->SetRotation(Quaternion(Random(0.0f, 360.0f), Vector3::UP));
+		}
+	}
 
 	//Load "liquids"
 	scene_->GetChildrenWithTag(results, "water", true);
@@ -379,11 +400,25 @@ void Gameplay::FixedUpdate(float timeStep)
 			input->SetMouseGrabbed(true);
 			input->SetMouseVisible(false);
 		}
-		UpdateHUD(timeStep);
-		if (skybox)
+		if (weatherNode.Get())
 		{
-			skybox->Rotate(Quaternion(timeStep * 5.0f, Vector3::UP));
+			if (scene_->GetElapsedTime() > 0.1f) //Particles won't turn on unless they're on camera for a bit
+			{
+				Vector3 xzOfs = (cameraNode->GetParent()->GetWorldPosition() - cameraNode->GetWorldPosition()).Normalized() * 8.0f;
+				xzOfs.y_ = 1.0f;
+				weatherNode->SetWorldPosition(cameraNode->GetWorldPosition() + xzOfs);
+				weatherNode->SetWorldRotation(Quaternion::IDENTITY);
+			}
 		}
+		if (input->GetKeyPress(KEY_R) && input->GetKeyDown(KEY_LCTRL))
+		{
+			UniquePtr<XMLFile> file;
+			file.Reset(new XMLFile(context_));
+			file->GetOrCreateRoot("rooty");
+			scene_->SaveXML(file->GetRoot());
+			file->SaveFile("scene_capture.xml");
+		}
+		UpdateHUD(timeStep);
 		if (player->reviveCount >= enemyCount && enemyCount > 0)
 		{
 			if (exitNode) 
@@ -472,6 +507,8 @@ void Gameplay::MakeHUD()
 	messageText->SetTextAlignment(HA_CENTER);
 	messageText->SetTextEffect(TextEffect::TE_STROKE);
 	messageText->SetEffectStrokeThickness(2);
+	messageText->SetWordwrap(true);
+	messageText->SetSize(1280.0f * 0.75f, 720.0f * 0.75f);
 	ourUI->AddChild(messageText);
 	messageText->SetVisible(false);
 
@@ -726,5 +763,9 @@ void Gameplay::HandleEvent(StringHash eventType, VariantMap& eventData)
 		FlashScreen(Color(1.0f, 0.0f, 1.0f, 1.0f), 0.01f);
 		DisplayMessage(bonusFlag ? "YOU FOUND THE BONUS CROSS...AGAIN!" : "YOU FOUND THE BONUS CROSS!", Color::MAGENTA, 2.0f, 0);
 		bonusFlag = true;
+	}
+	else if (eventType == Settings::E_SETTINGSCHANGED)
+	{
+
 	}
 }

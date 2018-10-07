@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<material>
+	<technique name="Techniques/DiffUnlitAlphaScroll.xml" quality="0" loddistance="0" />
+	<texture unit="diffuse" name="Textures/rain_backdrop.png" />
+	<parameter name="UOffset" value="12 0 0 0" />
+	<parameter name="VOffset" value="0 12 0 0" />
+	<parameter name="MatDiffColor" value="1 1 1 0.25" />
+	<parameter name="MatEmissiveColor" value="0 0 0" />
+	<parameter name="MatEnvMapColor" value="1 1 1" />
+	<parameter name="MatSpecColor" value="0 0 0 0" />
+	<parameter name="Roughness" value="0.5" />
+	<parameter name="Metallic" value="0" />
+	<parameter name="ScrollSpeed" value="5" />
+	<parameter name="ScrollDirection" value="0 -1" />
+	<cull value="ccw" />
+	<shadowcull value="ccw" />
+	<fill value="solid" />
+	<depthbias constant="0" slopescaled="0" />
+	<alphatocoverage enable="false" />
+	<lineantialias enable="false" />
+	<renderorder value="2" />
+	<occlusion enable="true" />
+</material>

@@ -34,6 +34,8 @@ public:
 	WeakPtr<Node> cameraNode;
 	WeakPtr<Camera> camera;
 
+	WeakPtr<Node> weatherNode;
+
 	SharedPtr<Node> playerNode;
 	SharedPtr<Player> player;
 	SharedPtr<Node> mapNode;

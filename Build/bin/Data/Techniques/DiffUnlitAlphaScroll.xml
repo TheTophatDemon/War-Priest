@@ -1,0 +1,3 @@
+<technique vs="UnlitScrolling" ps="UnlitScrolling" psdefines="DIFFMAP">
+    <pass name="alpha" depthwrite="false" blend="alpha" />
+</technique>

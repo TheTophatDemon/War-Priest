@@ -1,0 +1,3 @@
+<technique vs="Text" ps="Text" psdefines="SIGNED_DISTANCE_FIELD TEXT_EFFECT_STROKE ALPHAMAP">
+    <pass name="alpha" lighting="unlit" blend="alpha" depthwrite="false" depthtest="always"/>
+</technique>
