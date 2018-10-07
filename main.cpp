@@ -3,8 +3,8 @@
 	//Crossroads
 	//Credits
 		//Have player drop down from above
-	//Refactor mouse binding 
 	//Fix HUD scaling
+		//Make missile indicators fit
 	//Add Mecha Minister?
 	
 	//Backgrounds?

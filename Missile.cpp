@@ -6,6 +6,7 @@
 #include <Urho3D/Physics/PhysicsEvents.h>
 #include <Urho3D/Audio/SoundSource3D.h>
 #include <Urho3D/Physics/CollisionShape.h>
+#include <Urho3D/Graphics/StaticModel.h>
 #include <iostream>
 #include "Settings.h"
 #include "TempEffect.h"

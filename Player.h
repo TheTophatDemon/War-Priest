@@ -94,14 +94,6 @@ protected:
 	float moveZ = 0.0f;
 	//bool drowning = false;
 
-	bool forwardKey = false;
-	bool backwardKey = false;
-	bool rightKey = false;
-	bool leftKey = false;
-	bool jumpKey = false;
-	bool slideKey = false;
-	bool reviveKey = false;
-
 	bool speedy = false;
 	bool lastChance = false;
 	bool revived = false;

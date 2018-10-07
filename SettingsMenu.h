@@ -9,14 +9,17 @@
 
 #include "Menu.h"
 #include "GunPriest.h"
+#include "Settings.h"
 
 #define NUM_RESOLUTIONS 6
 
 struct RebindButton
 {
 	SharedPtr<Button> button;
-	int* setting = nullptr;
-	int value;
+	SharedPtr<UInput>* setting = nullptr;
+	SharedPtr<UInput> value;
+	RebindButton(Button* butt, SharedPtr<UInput>* set) : button(butt), setting(set) {}
+	RebindButton() {}
 };
 
 struct ResolutionButton
@@ -31,9 +34,9 @@ class SettingsMenu : public GP::Menu
 {
 public:
 	SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm);
-	virtual void OnEnter();
-	virtual void OnLeave();
-	virtual void OnEvent(StringHash eventType, VariantMap& eventData);
+	virtual void OnEnter() override;
+	virtual void OnLeave() override;
+	virtual void OnEvent(StringHash eventType, VariantMap& eventData) override;
 	~SettingsMenu();
 protected:
 	void OnKeyPress(StringHash eventType, VariantMap& eventData);
@@ -62,7 +65,7 @@ protected:
 	static Color selectedColor;
 	static Color unSelectedColor;
 
-	RebindButton rebindButtons[7];
+	RebindButton rebindButtons[Settings::numInputs];
 	RebindButton* rebindButton;
 	
 	bool rebinding = false;

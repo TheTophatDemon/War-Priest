@@ -1,6 +1,5 @@
 #include "SettingsMenu.h"
 #include "TitleScreen.h"
-#include "Settings.h"
 
 #include <Urho3D/Input/Controls.h>
 #include <Urho3D/Input/Input.h>
@@ -10,7 +9,7 @@
 Color SettingsMenu::selectedColor = Color(0.65f, 0.75f, 0.65f);
 Color SettingsMenu::unSelectedColor = Color(0.25f, 0.25f, 0.25f);
 
-SettingsMenu::SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(ts, gm), selectedRes(0)
+SettingsMenu::SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : GP::Menu(ts, gm), selectedRes(0)
 {
 	layoutPath = "UI/titlemenus/settingsScreen.xml";
 }
@@ -33,10 +32,10 @@ void SettingsMenu::OnEnter()
 	vsyncCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("vsyncCheck", true);
 	fullScreenCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("fullScreenCheck", true);
 
+	//Add buttons for each resolution
 	resolutionList = titleScreen->ourUI->GetChild("resolutionList", true);
 	resolutionList->SetClipChildren(true);
 	resolutionList->SetClipBorder(IntRect(4, 4, 4, 4));
-	//Add buttons for each resolution
 	String resLabels[] = {"1920x1080", "1280x720", "800x600", "800x450", "640x480", "640x360"};
 	const int pResX[] = { 1920, 1280, 800, 800, 640, 640 };
 	const int pResY[] = { 1080, 720, 600, 450, 480, 360 };
@@ -60,20 +59,13 @@ void SettingsMenu::OnEnter()
 	}
 
 	//Assign rebind buttons to settings
-	rebindButtons[0].button = controlsPanel->GetChildDynamicCast<Button>("forwardButton", false);
-		rebindButtons[0].setting = &Settings::keyForward;
-	rebindButtons[1].button = controlsPanel->GetChildDynamicCast<Button>("backwardButton", false);
-		rebindButtons[1].setting = &Settings::keyBackward;
-	rebindButtons[2].button = controlsPanel->GetChildDynamicCast<Button>("leftButton", false);
-		rebindButtons[2].setting = &Settings::keyLeft;
-	rebindButtons[3].button = controlsPanel->GetChildDynamicCast<Button>("rightButton", false);
-		rebindButtons[3].setting = &Settings::keyRight;
-	rebindButtons[4].button = controlsPanel->GetChildDynamicCast<Button>("slideButton", false);
-		rebindButtons[4].setting = &Settings::keySlide;
-	rebindButtons[5].button = controlsPanel->GetChildDynamicCast<Button>("reviveButton", false);
-		rebindButtons[5].setting = &Settings::keyRevive;
-	rebindButtons[6].button = controlsPanel->GetChildDynamicCast<Button>("jumpButton", false);
-		rebindButtons[6].setting = &Settings::keyJump;
+	rebindButtons[0] = RebindButton(controlsPanel->GetChildDynamicCast<Button>("forwardButton", false), &Settings::keyForward);
+	rebindButtons[1] = RebindButton(controlsPanel->GetChildDynamicCast<Button>("backwardButton", false), &Settings::keyBackward);
+	rebindButtons[2] = RebindButton(controlsPanel->GetChildDynamicCast<Button>("leftButton", false), &Settings::keyLeft);
+	rebindButtons[3] = RebindButton(controlsPanel->GetChildDynamicCast<Button>("rightButton", false), &Settings::keyRight);
+	rebindButtons[4] = RebindButton(controlsPanel->GetChildDynamicCast<Button>("slideButton", false), &Settings::keySlide);
+	rebindButtons[5] = RebindButton(controlsPanel->GetChildDynamicCast<Button>("reviveButton", false), &Settings::keyRevive);
+	rebindButtons[6] = RebindButton(controlsPanel->GetChildDynamicCast<Button>("jumpButton", false), &Settings::keyJump);
 
 	UpdateControls();
 }
@@ -129,18 +121,7 @@ void SettingsMenu::OnMouseClick(StringHash eventType, VariantMap& eventData)
 
 	if (rebinding)
 	{
-		if (mouseButtonPressed == MOUSEB_LEFT)
-		{
-			rebindButton->value = KEY_SCROLLLOCK;
-		}
-		else if (mouseButtonPressed == MOUSEB_RIGHT)
-		{
-			rebindButton->value = KEY_RGUI;
-		}
-		else if (mouseButtonPressed == MOUSEB_MIDDLE)
-		{
-			rebindButton->value = KEY_PAUSE;
-		}
+		rebindButton->value = SharedPtr<UInput>(new MouseInput(mouseButtonPressed, input));
 		UpdateButtonLabel(*rebindButton);
 		rebinding = false;
 	}
@@ -152,7 +133,7 @@ void SettingsMenu::OnMouseClick(StringHash eventType, VariantMap& eventData)
 			if (source->GetParent() == controlsPanel)
 			{
 				rebinding = true;
-				for (int i = 0; i < 7; ++i)
+				for (int i = 0; i < Settings::numInputs; ++i)
 				{
 					if (rebindButtons[i].button == source)
 						rebindButton = &rebindButtons[i];
@@ -187,7 +168,7 @@ void SettingsMenu::OnMouseClick(StringHash eventType, VariantMap& eventData)
 				}
 				else if (source->GetName() == "revertButton")
 				{
-					Settings::RevertSettings();
+					Settings::RevertSettings(titleScreen->GetContext());
 					UpdateControls();
 					Settings::SaveSettings(titleScreen->GetContext());
 					titleScreen->gunPriest->VideoSetup();
@@ -204,7 +185,7 @@ void SettingsMenu::OnKeyPress(StringHash eventType, VariantMap& eventData)
 	int keyPressed = eventData["Key"].GetInt();
 	if (rebinding)
 	{
-		rebindButton->value = keyPressed;
+		rebindButton->value = SharedPtr<UInput>(new KeyInput(keyPressed, input));
 		UpdateButtonLabel(*rebindButton);
 		rebinding = false;
 	}
@@ -214,7 +195,7 @@ void SettingsMenu::UpdateButtonLabel(RebindButton& butt)
 {
 	Text* label = butt.button->GetChildDynamicCast<Text>("label", false);
 	assert(label);
-	label->SetText(Settings::GetKeyName(input, butt.value));
+	label->SetText(butt.value->name);
 }
 
 void SettingsMenu::ApplySettings()
@@ -236,9 +217,9 @@ void SettingsMenu::ApplySettings()
 	titleScreen->gunPriest->VideoSetup();
 	ui->SetWidth(1280);
 
-	for (int i = 0; i < 7; ++i)
+	for (int i = 0; i < Settings::numInputs; ++i)
 	{
-		*rebindButtons[i].setting = rebindButtons[i].value;
+		*rebindButtons[i].setting = SharedPtr<UInput>(rebindButtons[i].value);
 	}
 	
 	titleScreen->SendEvent(Settings::E_SETTINGSCHANGED, VariantMap());

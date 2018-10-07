@@ -2,26 +2,54 @@
 
 #include <Urho3D/Core/Context.h>
 #include <Urho3D/Input/Input.h>
-#include "SettingsMenu.h"
 
 using namespace Urho3D;
+
+class SettingsMenu;
+
+class UInput : public RefCounted //Universal Input type. Can be a keyboard key or a mouse button
+{
+public:
+	UInput();
+	UInput(String name, Input* input);
+	String name;
+	virtual bool isDown() = 0;
+	virtual bool isPressed() = 0;
+protected:
+	Input* input;
+};
+class KeyInput : public UInput
+{
+public:
+	KeyInput(const int keyCode, Input* input);
+	virtual bool isDown() override;
+	virtual bool isPressed() override;
+	int keyCode;
+};
+class MouseInput : public UInput
+{
+public:
+	MouseInput(const int button, Input* input);
+	virtual bool isDown() override;
+	virtual bool isPressed() override;
+	int button;
+};
 
 class Settings //Not to be confused with SettingsMenu.h
 {
 	friend class SettingsMenu;
 public:
-	static String GAMESETTINGS_PATH;
 	static void LoadSettings(Context* context);
 	static void SaveSettings(Context* context);
-	static void RevertSettings();
-
-	static inline int GetBackwardKey() { return keyBackward; }
-	static inline int GetForwardKey() { return keyForward; }
-	static inline int GetRightKey() { return keyRight;  }
-	static inline int GetLeftKey() { return keyLeft; }
-	static inline int GetJumpKey() { return keyJump; }
-	static inline int GetReviveKey() { return keyRevive; }
-	static inline int GetSlideKey() { return keySlide; }
+	static void RevertSettings(Context* context);
+	
+	static inline UInput* GetBackwardKey() { return keyBackward; }
+	static inline UInput* GetForwardKey() { return keyForward; }
+	static inline UInput* GetRightKey() { return keyRight;  }
+	static inline UInput* GetLeftKey() { return keyLeft; }
+	static inline UInput* GetJumpKey() { return keyJump; }
+	static inline UInput* GetReviveKey() { return keyRevive; }
+	static inline UInput* GetSlideKey() { return keySlide; }
 	static inline int GetResolutionX() { return xRes; };
 	static inline int GetResolutionY() { return yRes; };
 	static inline float GetMouseSensitivity() { return mouseSensitivity; }
@@ -34,19 +62,35 @@ public:
 	static inline bool IsVsync() { return vSync; }
 	static inline bool AreGraphicsFast() { return fastGraphics; }
 
-	static bool IsKeyDown(Input* input, int key);
-	static float ScaleWithDifficulty(const float easyValue, const float hardValue, const float unholyValue);
-	static String GetKeyName(Input* input, const int keyCode, bool verbose = false);
+	//Linearly interpolates between three values depending on the game's difficulty scalar
+	static inline float ScaleWithDifficulty(const float easyValue, const float hardValue, const float unholyValue)
+	{
+		float scaledDifficulty = GetDifficulty() - 0.5f;
+		if (scaledDifficulty >= 0.5f)
+		{
+			scaledDifficulty -= 0.5f;
+			scaledDifficulty *= 2.0f;
+			return (hardValue * (1.0f - scaledDifficulty)) + (unholyValue * scaledDifficulty);
+		}
+		else
+		{
+			scaledDifficulty *= 2.0f;
+			return (easyValue * (1.0f - scaledDifficulty)) + (hardValue * scaledDifficulty);
+		}
+	}
 
+	static const constexpr int numInputs = 7;
 	static StringHash E_SETTINGSCHANGED;
+	static String GAMESETTINGS_PATH;
 protected:
-	static int keyBackward;
-	static int keyForward;
-	static int keyRight;
-	static int keyLeft;
-	static int keyJump;
-	static int keyRevive;
-	static int keySlide;
+	static SharedPtr<UInput>* inputs[];
+	static SharedPtr<UInput> keyBackward;
+	static SharedPtr<UInput> keyForward;
+	static SharedPtr<UInput> keyRight;
+	static SharedPtr<UInput> keyLeft;
+	static SharedPtr<UInput> keyJump;
+	static SharedPtr<UInput> keyRevive;
+	static SharedPtr<UInput> keySlide;
 	static int xRes;
 	static int yRes;
 	static float mouseSensitivity;

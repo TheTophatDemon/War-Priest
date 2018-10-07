@@ -3,6 +3,7 @@
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/IO/FileSystem.h>
 #include <Urho3D/IO/File.h>
+#include "SettingsMenu.h"
 
 String Settings::GAMESETTINGS_PATH = "/Data/gamesettings.bin";
 StringHash Settings::E_SETTINGSCHANGED = StringHash("SettingsChanged");
@@ -18,14 +19,6 @@ StringHash Settings::E_SETTINGSCHANGED = StringHash("SettingsChanged");
 #define DF_SNDVOL 1.0f
 #define DF_DIFF 1.0f
 
-#define DF_KBACK 115
-#define DF_KFOR 119
-#define DF_KLEF 97
-#define DF_KRIG 100
-#define DF_KJUMP 32
-#define DF_KREV 1073741895
-#define DF_KSLIDE 1073742055
-
 #define DF_XRES 1280
 #define DF_YRES 720
 
@@ -40,19 +33,50 @@ float Settings::musicVolume = DF_MUSVOL;
 float Settings::soundVolume = DF_SNDVOL;
 float Settings::difficulty = DF_DIFF;
 
-int Settings::keyBackward = DF_KBACK;
-int Settings::keyForward = DF_KFOR;
-int Settings::keyLeft = DF_KLEF;
-int Settings::keyRight = DF_KRIG;
-int Settings::keyJump = DF_KJUMP;
-int Settings::keyRevive = DF_KREV;
-int Settings::keySlide = DF_KSLIDE;
+SharedPtr<UInput> Settings::keyBackward;
+SharedPtr<UInput> Settings::keyForward;
+SharedPtr<UInput> Settings::keyLeft;
+SharedPtr<UInput> Settings::keyRight;
+SharedPtr<UInput> Settings::keyJump;
+SharedPtr<UInput> Settings::keyRevive;
+SharedPtr<UInput> Settings::keySlide;
+SharedPtr<UInput>* Settings::inputs[] = { &keyForward, &keyBackward, &keyLeft, &keyRight, &keyJump, &keyRevive, &keySlide };
 
 int Settings::xRes = DF_XRES;
 int Settings::yRes = DF_YRES;
 
-void Settings::RevertSettings()
+UInput::UInput() { name = "ERROR"; input = nullptr; }
+UInput::UInput(String name, Input* input)
 {
+	this->name = name;
+	this->input = input;
+}
+
+KeyInput::KeyInput(const int keyCode, Input* input) : UInput(input->GetKeyName(keyCode), input), keyCode(keyCode) {}
+bool KeyInput::isDown() { return input->GetKeyDown(keyCode); }
+bool KeyInput::isPressed() { return input->GetKeyPress(keyCode); }
+
+MouseInput::MouseInput(const int button, Input* input) : UInput("", input), button(button) 
+{
+	switch (button)
+	{
+	case MOUSEB_LEFT:
+		name = "LMB";
+		break;
+	case MOUSEB_RIGHT:
+		name = "RMB";
+		break;
+	case MOUSEB_MIDDLE:
+		name = "MMB";
+		break;
+	}
+}
+bool MouseInput::isDown() { return input->GetMouseButtonDown(button); }
+bool MouseInput::isPressed() { return input->GetMouseButtonPress(button); }
+
+void Settings::RevertSettings(Context* context)
+{
+	Input* input = context->GetSubsystem<Input>();
 	mouseInvert = DF_MOUSEINVERT;
 	bloodEnabled = DF_BLOOD;
 	fullScreen = DF_FULLSCREEN;
@@ -60,13 +84,13 @@ void Settings::RevertSettings()
 	mouseSensitivity = DF_MOUSESENS;
 	musicVolume = DF_MUSVOL;
 	soundVolume = DF_SNDVOL;
-	keyBackward = DF_KBACK;
-	keyForward = DF_KFOR;
-	keyLeft = DF_KLEF;
-	keyRight = DF_KRIG;
-	keyJump = DF_KJUMP;
-	keyRevive = DF_KREV;
-	keySlide = DF_KSLIDE;
+	keyBackward = SharedPtr<UInput>(new KeyInput(KEY_S, input));
+	keyForward = SharedPtr<UInput>(new KeyInput(KEY_W, input));
+	keyLeft = SharedPtr<UInput>(new KeyInput(KEY_A, input));
+	keyRight = SharedPtr<UInput>(new KeyInput(KEY_D, input));
+	keyJump = SharedPtr<UInput>(new KeyInput(KEY_SPACE, input));
+	keyRevive = SharedPtr<UInput>(new MouseInput(MOUSEB_LEFT, input));
+	keySlide = SharedPtr<UInput>(new MouseInput(MOUSEB_RIGHT, input));
 	xRes = DF_XRES;
 	yRes = DF_YRES;
 	fastGraphics = DF_FASTGRAPHICS;
@@ -75,6 +99,7 @@ void Settings::RevertSettings()
 
 void Settings::LoadSettings(Context* context)
 {
+	Input* input = context->GetSubsystem<Input>();
 	FileSystem* fileSystem = context->GetSubsystem<FileSystem>();
 	ResourceCache* cache = context->GetSubsystem<ResourceCache>();
 	File* file = new File(context);
@@ -91,13 +116,19 @@ void Settings::LoadSettings(Context* context)
 		musicVolume = file->ReadFloat();
 		soundVolume = file->ReadFloat();
 
-		keyBackward = file->ReadInt();
-		keyForward = file->ReadInt();
-		keyLeft = file->ReadInt();
-		keyRight = file->ReadInt();
-		keyJump = file->ReadInt();
-		keyRevive = file->ReadInt();
-		keySlide = file->ReadInt();
+		for (int i = 0; i < numInputs; ++i)
+		{
+			unsigned char type = file->ReadUByte();
+			switch (type)
+			{
+			case 0: //KEY
+				*inputs[i] = SharedPtr<UInput>(new KeyInput(file->ReadInt(), input));
+				break;
+			case 1: //MOUSE
+				*inputs[i] = SharedPtr<UInput>(new MouseInput(file->ReadInt(), input));
+				break;
+			}
+		}
 
 		xRes = file->ReadInt();
 		yRes = file->ReadInt();
@@ -108,7 +139,9 @@ void Settings::LoadSettings(Context* context)
 	}
 	else
 	{
+		std::cout << "SETTINGS FILE NOT FOUND. IT HAS BEEN CREATED." << std::endl;
 		file->Close();
+		RevertSettings(context);
 		SaveSettings(context);
 	}
 }
@@ -131,13 +164,24 @@ void Settings::SaveSettings(Context* context)
 		file->WriteFloat(musicVolume);
 		file->WriteFloat(soundVolume);
 
-		file->WriteInt(keyBackward);
-		file->WriteInt(keyForward);
-		file->WriteInt(keyLeft);
-		file->WriteInt(keyRight);
-		file->WriteInt(keyJump);
-		file->WriteInt(keyRevive);
-		file->WriteInt(keySlide);
+		for (int i = 0; i < numInputs; ++i)
+		{
+			KeyInput* k = dynamic_cast<KeyInput*>(inputs[i]->Get());
+			if (k)
+			{
+				file->WriteUByte(0U);
+				file->WriteInt(k->keyCode);
+			}
+			else
+			{
+				MouseInput* m = dynamic_cast<MouseInput*>(inputs[i]->Get());
+				if (m)
+				{
+					file->WriteUByte(1U);
+					file->WriteInt(m->button);
+				}
+			}
+		}
 
 		file->WriteInt(xRes);
 		file->WriteInt(yRes);
@@ -145,49 +189,4 @@ void Settings::SaveSettings(Context* context)
 		file->WriteFloat(difficulty);
 		file->Close();
 	}
-}
-
-bool Settings::IsKeyDown(Input* input, int key) //A hack that subtitutes certain unused key codes for mouse buttons for simplicity's sake.
-{
-	if (key == KEY_SCROLLLOCK && input->GetMouseButtonDown(MOUSEB_LEFT))
-		return true;
-	else if (key == KEY_RGUI && input->GetMouseButtonDown(MOUSEB_RIGHT))
-		return true;
-	else if (key == KEY_PAUSE && input->GetMouseButtonDown(MOUSEB_MIDDLE))
-		return true;
-	else
-		return input->GetKeyDown(key);
-}
-
-float Settings::ScaleWithDifficulty(const float easyValue, const float hardValue, const float unholyValue)
-{
-	float scaledDifficulty = GetDifficulty() - 0.5f;
-	if (scaledDifficulty >= 0.5f)
-	{
-		scaledDifficulty -= 0.5f;
-		scaledDifficulty *= 2.0f;
-		return (hardValue * (1.0f - scaledDifficulty)) + (unholyValue * scaledDifficulty);
-	}
-	else
-	{
-		scaledDifficulty *= 2.0f;
-		return (easyValue * (1.0f - scaledDifficulty)) + (hardValue * scaledDifficulty);
-	}
-}
-
-String Settings::GetKeyName(Input* input, const int keyCode, bool verbose)
-{
-	switch (keyCode)
-	{
-	case KEY_SCROLLLOCK:
-		return verbose ? "the Left Mouse Button" : "LMB";
-		break;
-	case KEY_RGUI:
-		return verbose ? "the Right Mouse Button" : "RMB";
-		break;
-	case KEY_PAUSE:
-		return verbose ? "the Middle Mouse Button" : "MMB";
-		break;
-	}
-	return input->GetKeyName(keyCode);
 }

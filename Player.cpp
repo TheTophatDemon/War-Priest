@@ -258,14 +258,6 @@ void Player::Cheats()
 
 void Player::FixedUpdate(float timeStep)
 {	
-	forwardKey = Settings::IsKeyDown(input, Settings::GetForwardKey());
-	backwardKey = Settings::IsKeyDown(input, Settings::GetBackwardKey());
-	rightKey = Settings::IsKeyDown(input, Settings::GetRightKey());
-	leftKey = Settings::IsKeyDown(input, Settings::GetLeftKey());
-	jumpKey = Settings::IsKeyDown(input, Settings::GetJumpKey());
-	reviveKey = Settings::IsKeyDown(input, Settings::GetReviveKey());
-	slideKey = Settings::IsKeyDown(input, Settings::GetSlideKey());
-
 	if (state != STATE_WIN && state != STATE_DEAD)
 	{
 		modelNode->SetPosition(node_->GetWorldPosition());
@@ -665,13 +657,17 @@ void Player::ST_Default(float timeStep)
 {
 	stateTimer += timeStep;
 
-	if (rightKey)
+
+	bool walking = false;
+	if (Settings::GetRightKey()->isDown())
 	{
 		moveX += ACCELERATION * timeStep;
+		walking = true;
 	}
-	else if (leftKey)
+	else if (Settings::GetLeftKey()->isDown())
 	{
 		moveX -= ACCELERATION * timeStep;
+		walking = true;
 	}
 	else
 	{
@@ -680,13 +676,15 @@ void Player::ST_Default(float timeStep)
 	}
 	if (!speedy) moveX = Clamp(moveX, -WALKSPEED, WALKSPEED);
 
-	if (forwardKey)
+	if (Settings::GetForwardKey()->isDown())
 	{
 		moveZ += ACCELERATION * timeStep;
+		walking = true;
 	}
-	else if (backwardKey)
+	else if (Settings::GetBackwardKey()->isDown())
 	{
 		moveZ -= ACCELERATION * timeStep;
+		walking = true;
 	}
 	else
 	{
@@ -695,14 +693,14 @@ void Player::ST_Default(float timeStep)
 	}
 	if (!speedy) moveZ = Clamp(moveZ, -WALKSPEED, WALKSPEED);
 
-	if (jumpKey)
+	if (Settings::GetJumpKey()->isDown())
 	{
 		actor->Jump();
 	}
 	actor->SetMovement(pivot->GetWorldRotation() * Vector3(moveX, 0.0f, moveZ));
 
 	//Decide what angle the model will be facing
-	if (rightKey || leftKey || forwardKey || backwardKey)
+	if (walking)
 	{
 		Quaternion dir = Quaternion();
 		dir.FromLookRotation(actor->rawMovement.Normalized().CrossProduct(Vector3::UP));
@@ -746,7 +744,7 @@ void Player::ST_Default(float timeStep)
 	}
 	else
 	{
-		if (forwardKey || backwardKey || leftKey || rightKey)
+		if (walking)
 		{
 			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
 			hailTimer = 0;
@@ -770,7 +768,7 @@ void Player::ST_Default(float timeStep)
 	}
 
 	//Reviving
-	if (reviveKey && reviveCooldown <= 0.0f)
+	if (Settings::GetReviveKey()->isDown() && reviveCooldown <= 0.0f)
 	{
 		animController->Play(REVIVE_ANIM, 128, false, 0.2f);
 		animController->SetStartBone(REVIVE_ANIM, "torso");
@@ -781,7 +779,7 @@ void Player::ST_Default(float timeStep)
 	}
 
 	//Sliding
-	if (slideKey && actor->onGround && stateTimer > 0.5f)
+	if (Settings::GetSlideKey()->isDown() && actor->onGround && stateTimer > 0.5f)
 	{
 		animController->Stop(REVIVE_ANIM, 0.2f);
 		ChangeState(STATE_SLIDE);
