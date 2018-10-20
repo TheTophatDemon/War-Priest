@@ -1,22 +1,22 @@
 //TODO:
 	//Palpan1
+		//Texturing
 	//Crossroads
 	//Credits
 		//Have player drop down from above
 	//Fix HUD scaling
 		//Make missile indicators fit
-	//Add Mecha Minister?
-	
-	//Backgrounds?
+	//Shorten black hole attack duration
+	//Make font more scalable
 	//Change sign text
 	//Pile of skull prop
-	//Make font more scalable
+	//Add Mecha Minister?
+	//Backgrounds?
 	//Sounds
 		//Boulder bounce
 	//Add LODs
 		//Treegroup
 		//Treegroup_distorted
-	
 	//Bonus Crosses for: SS1, FF4, PP4, PP1. 
 	//Do final test through every level.
 		//Make fog match the skybox color
@@ -34,9 +34,7 @@
 		//SS4 intial launchpad comes up too short
 
 	//Optimize raycast distances (The more geometry that intersects it, the slower it gets)
-	//Look into SoundSounder optimization?
 	//Send E_SETTINGSCHANGE to self
-	//Replace CompassScene with faster alternative?
 	//Package assets
 	
 	//Send to Somecallmejohnny?
