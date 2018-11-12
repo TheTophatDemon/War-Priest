@@ -114,6 +114,7 @@ void LevelSelectMenu::OnEnter()
 	LevelEntry* lastEntry = nullptr;
 	for (Vector<LevelEntry*>::Iterator i = levelEntries.Begin(); i != levelEntries.End(); ++i)
 	{
+		//Unlock next level in sequence if not done already
 		LevelEntry* le = (LevelEntry*)*i;
 		if (lastEntry) 
 		{
@@ -123,13 +124,15 @@ void LevelSelectMenu::OnEnter()
 			}
 		}
 
+		//Generate button for each level
 		if (le->completion & LCF_UNLOCKED) 
 		{
 			Button* button = buttParent->CreateChild<Button>();
 			button->LoadXML(cache->GetResource<XMLFile>("UI/titlemenus/levelbutton.xml")->GetRoot());
 			button->SetTexture((Texture*)cache->GetResource<Texture2D>("Textures/UI.png"));
-			button->SetPosition(0, 4 + (counter * 36));
+			button->SetPosition(0, 4 + (counter * 52));
 			button->SetVar("filePath", le->filePath);
+
 			if (le->completion & LCF_BEATEN)
 			{
 				button->SetColor(Color(0.5f, 1.0f, 0.5f));
@@ -137,23 +140,24 @@ void LevelSelectMenu::OnEnter()
 
 			Text* text = button->CreateChild<Text>();
 			text->SetAlignment(HA_CENTER, VA_CENTER);
-			text->SetFont("Fonts/Anonymous Pro.ttf", 16);
+			text->SetFont("Fonts/Anonymous Pro.ttf", 20);
 			text->SetText(le->levelName);
 			text->SetEnabled(false);
 
+			//Make spinning cross sprites
 			if (le->completion & LCF_CROSSGOTTEN)
 			{
 				Sprite* sprite = button->CreateChild<Sprite>();
-				sprite->SetSize(32, 32);
+				sprite->SetSize(48, 48);
 				sprite->SetAlignment(HA_LEFT, VA_TOP);
 				sprite->SetPosition(0.0f, 0.0f);
 				sprite->SetTexture(cache->GetResource<Texture2D>("Textures/cross_ui_small.png"));
 				sprite->SetImageRect(IntRect(0, 0, 32, 32));
 				sprites.Push(sprite);
 				Sprite* sprite2 = button->CreateChild<Sprite>();
-				sprite2->SetSize(32, 32);
+				sprite2->SetSize(48, 48);
 				sprite2->SetAlignment(HA_RIGHT, VA_TOP);
-				sprite2->SetPosition(-32.0f, 0.0f);
+				sprite2->SetPosition(-48.0f, 0.0f);
 				sprite2->SetTexture(cache->GetResource<Texture2D>("Textures/cross_ui_small.png"));
 				sprite2->SetImageRect(IntRect(0, 0, 32, 32));
 				sprites.Push(sprite2);
@@ -174,8 +178,6 @@ void LevelSelectMenu::Update(float timeStep)
 		float y = scrollBar->GetValue();
 		buttParent->SetPosition(0, -y * levelEntries.Size() * 36);
 	}
-
-	
 
 	//Animates the spinning cross sprites
 	animTimer += timeStep;

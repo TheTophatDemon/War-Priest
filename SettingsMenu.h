@@ -13,15 +13,6 @@
 
 #define NUM_RESOLUTIONS 6
 
-struct RebindButton
-{
-	SharedPtr<Button> button;
-	SharedPtr<UInput>* setting = nullptr;
-	SharedPtr<UInput> value;
-	RebindButton(Button* butt, SharedPtr<UInput>* set) : button(butt), setting(set) {}
-	RebindButton() {}
-};
-
 struct ResolutionButton
 {
 	WeakPtr<Button> button;
@@ -39,11 +30,9 @@ public:
 	virtual void OnEvent(StringHash eventType, VariantMap& eventData) override;
 	~SettingsMenu();
 protected:
-	void OnKeyPress(StringHash eventType, VariantMap& eventData);
 	void OnMouseClick(StringHash eventType, VariantMap& eventData);
 	void UpdateControls();
 	void ApplySettings();
-	void UpdateButtonLabel(RebindButton& butt);
 
 	SharedPtr<Input> input;
 	SharedPtr<UIElement> controlsPanel;
@@ -64,9 +53,6 @@ protected:
 	int selectedRes;
 	static Color selectedColor;
 	static Color unSelectedColor;
-
-	RebindButton rebindButtons[Settings::numInputs];
-	RebindButton* rebindButton;
 	
 	bool rebinding = false;
 };

@@ -21,7 +21,7 @@ using namespace Urho3D;
 
 class GunPriest;
 class Gameplay;
-class TitleScreen : public LogicComponent
+class TitleScreen : public LogicComponent //Manages and displays non-game UI
 {
 	URHO3D_OBJECT(TitleScreen, LogicComponent);
 public:

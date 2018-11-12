@@ -2,6 +2,7 @@
 <element>
 	<attribute name="Name" value="titlescreen" />
 	<attribute name="Size" value="1280 720" />
+	<attribute name="Pivot" value="0 0" />
 	<element type="Sprite" style="Sprite">
 		<attribute name="Name" value="title" />
 		<attribute name="Position" value="0 196" />
@@ -12,131 +13,146 @@
 		<attribute name="Blend Mode" value="alpha" />
 		<attribute name="Horiz Alignment" value="Center" />
 	</element>
-	<element type="Button">
-		<attribute name="Name" value="resumeGame" />
-		<attribute name="Size" value="256 48" />
-		<attribute name="Horiz Alignment" value="Center" />
-		<attribute name="Vert Alignment" value="Center" />
-		<attribute name="Priority" value="10" />
-		<attribute name="Color" value="0.5 0.5 1 1" />
-		<attribute name="Top Left Color" value="0.5 0.5 1 1" />
-		<attribute name="Top Right Color" value="0.5 0.5 1 1" />
-		<attribute name="Bottom Left Color" value="0.5 0.5 1 1" />
-		<attribute name="Bottom Right Color" value="0.5 0.5 1 1" />
-		<attribute name="Is Editable" value="false" />
-		<element type="Text">
-			<attribute name="Horiz Alignment" value="Center" />
-			<attribute name="Vert Alignment" value="Center" />
-			<attribute name="Priority" value="-10" />
-			<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
-			<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
-			<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
-			<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+	<element>
+		<attribute name="Name" value="buttParent" />
+		<attribute name="Position" value="0 16" />
+		<attribute name="Min Anchor" value="0.5 0.5" />
+		<attribute name="Max Anchor" value="0.5 0.5" />
+		<attribute name="Pivot" value="0.5 0.5" />
+		<element type="Button">
+			<attribute name="Name" value="resumeGame" />
+			<attribute name="Size" value="480 64" />
+			<attribute name="Min Anchor" value="0.5 0.5" />
+			<attribute name="Max Anchor" value="0.5 0.5" />
+			<attribute name="Pivot" value="0.5 0.5" />
+			<attribute name="Priority" value="10" />
+			<attribute name="Color" value="0.5 0.5 1 1" />
+			<attribute name="Top Left Color" value="0.5 0.5 1 1" />
+			<attribute name="Top Right Color" value="0.5 0.5 1 1" />
+			<attribute name="Bottom Left Color" value="0.5 0.5 1 1" />
+			<attribute name="Bottom Right Color" value="0.5 0.5 1 1" />
 			<attribute name="Is Editable" value="false" />
-			<attribute name="Font Size" value="24" />
-			<attribute name="Text" value="Resume Game" />
-			<attribute name="Text Alignment" value="Center" />
-			<attribute name="Row Spacing" value="0.97" />
-			<attribute name="Text Effect" value="Stroke" />
-			<attribute name="Stroke Thickness" value="3" />
-			<attribute name="Round Stroke" value="true" />
-			<attribute name="Effect Color" value="0 0 1 1" />
+			<element type="Text">
+				<attribute name="Min Anchor" value="0.5 0.5" />
+				<attribute name="Max Anchor" value="0.5 0.5" />
+				<attribute name="Pivot" value="0.5 0.5" />
+				<attribute name="Priority" value="-10" />
+				<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Is Editable" value="false" />
+				<attribute name="Font Size" value="32" />
+				<attribute name="Text" value="Resume Game" />
+				<attribute name="Text Alignment" value="Center" />
+				<attribute name="Row Spacing" value="0.97" />
+				<attribute name="Text Effect" value="Stroke" />
+				<attribute name="Stroke Thickness" value="3" />
+				<attribute name="Round Stroke" value="true" />
+				<attribute name="Effect Color" value="0 0 1 1" />
+			</element>
 		</element>
-	</element>
-	<element type="Button">
-		<attribute name="Name" value="startGame" />
-		<attribute name="Position" value="0 64" />
-		<attribute name="Size" value="256 48" />
-		<attribute name="Horiz Alignment" value="Center" />
-		<attribute name="Vert Alignment" value="Center" />
-		<attribute name="Priority" value="10" />
-		<attribute name="Color" value="0.5 0.5 1 1" />
-		<attribute name="Top Left Color" value="0.5 0.5 1 1" />
-		<attribute name="Top Right Color" value="0.5 0.5 1 1" />
-		<attribute name="Bottom Left Color" value="0.5 0.5 1 1" />
-		<attribute name="Bottom Right Color" value="0.5 0.5 1 1" />
-		<attribute name="Is Editable" value="false" />
-		<element type="Text">
-			<attribute name="Horiz Alignment" value="Center" />
-			<attribute name="Vert Alignment" value="Center" />
-			<attribute name="Priority" value="-10" />
-			<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
-			<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
-			<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
-			<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+		<element type="Button">
+			<attribute name="Name" value="startGame" />
+			<attribute name="Position" value="0 80" />
+			<attribute name="Size" value="480 64" />
+			<attribute name="Min Anchor" value="0.5 0.5" />
+			<attribute name="Max Anchor" value="0.5 0.5" />
+			<attribute name="Pivot" value="0.5 0.5" />
+			<attribute name="Priority" value="10" />
+			<attribute name="Color" value="0.5 0.5 1 1" />
+			<attribute name="Top Left Color" value="0.5 0.5 1 1" />
+			<attribute name="Top Right Color" value="0.5 0.5 1 1" />
+			<attribute name="Bottom Left Color" value="0.5 0.5 1 1" />
+			<attribute name="Bottom Right Color" value="0.5 0.5 1 1" />
 			<attribute name="Is Editable" value="false" />
-			<attribute name="Font Size" value="24" />
-			<attribute name="Text" value="Start Game" />
-			<attribute name="Text Alignment" value="Center" />
-			<attribute name="Row Spacing" value="0.97" />
-			<attribute name="Text Effect" value="Stroke" />
-			<attribute name="Stroke Thickness" value="3" />
-			<attribute name="Round Stroke" value="true" />
-			<attribute name="Effect Color" value="0 0 1 1" />
+			<element type="Text">
+				<attribute name="Min Anchor" value="0.5 0.5" />
+				<attribute name="Max Anchor" value="0.5 0.5" />
+				<attribute name="Pivot" value="0.5 0.5" />
+				<attribute name="Priority" value="-10" />
+				<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Is Editable" value="false" />
+				<attribute name="Font Size" value="32" />
+				<attribute name="Text" value="Start Game" />
+				<attribute name="Text Alignment" value="Center" />
+				<attribute name="Row Spacing" value="0.97" />
+				<attribute name="Text Effect" value="Stroke" />
+				<attribute name="Stroke Thickness" value="3" />
+				<attribute name="Round Stroke" value="true" />
+				<attribute name="Effect Color" value="0 0 1 1" />
+			</element>
 		</element>
-	</element>
-	<element type="Button">
-		<attribute name="Name" value="settings" />
-		<attribute name="Position" value="0 128" />
-		<attribute name="Size" value="256 48" />
-		<attribute name="Horiz Alignment" value="Center" />
-		<attribute name="Vert Alignment" value="Center" />
-		<attribute name="Priority" value="10" />
-		<attribute name="Color" value="0.5 0.5 1 1" />
-		<attribute name="Top Left Color" value="0.5 0.5 1 1" />
-		<attribute name="Top Right Color" value="0.5 0.5 1 1" />
-		<attribute name="Bottom Left Color" value="0.5 0.5 1 1" />
-		<attribute name="Bottom Right Color" value="0.5 0.5 1 1" />
-		<attribute name="Is Editable" value="false" />
-		<element type="Text">
-			<attribute name="Horiz Alignment" value="Center" />
-			<attribute name="Vert Alignment" value="Center" />
-			<attribute name="Priority" value="-10" />
-			<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
-			<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
-			<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
-			<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+		<element type="Button">
+			<attribute name="Name" value="settings" />
+			<attribute name="Position" value="0 160" />
+			<attribute name="Size" value="480 64" />
+			<attribute name="Min Anchor" value="0.5 0.5" />
+			<attribute name="Max Anchor" value="0.5 0.5" />
+			<attribute name="Pivot" value="0.5 0.5" />
+			<attribute name="Priority" value="10" />
+			<attribute name="Color" value="0.5 0.5 1 1" />
+			<attribute name="Top Left Color" value="0.5 0.5 1 1" />
+			<attribute name="Top Right Color" value="0.5 0.5 1 1" />
+			<attribute name="Bottom Left Color" value="0.5 0.5 1 1" />
+			<attribute name="Bottom Right Color" value="0.5 0.5 1 1" />
 			<attribute name="Is Editable" value="false" />
-			<attribute name="Font Size" value="24" />
-			<attribute name="Text" value="Settings" />
-			<attribute name="Text Alignment" value="Center" />
-			<attribute name="Row Spacing" value="0.97" />
-			<attribute name="Text Effect" value="Stroke" />
-			<attribute name="Stroke Thickness" value="3" />
-			<attribute name="Round Stroke" value="true" />
-			<attribute name="Effect Color" value="0 0 1 1" />
+			<element type="Text">
+				<attribute name="Min Anchor" value="0.5 0.5" />
+				<attribute name="Max Anchor" value="0.5 0.5" />
+				<attribute name="Pivot" value="0.5 0.5" />
+				<attribute name="Priority" value="-10" />
+				<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Is Editable" value="false" />
+				<attribute name="Font Size" value="32" />
+				<attribute name="Text" value="Settings" />
+				<attribute name="Text Alignment" value="Center" />
+				<attribute name="Row Spacing" value="0.97" />
+				<attribute name="Text Effect" value="Stroke" />
+				<attribute name="Stroke Thickness" value="3" />
+				<attribute name="Round Stroke" value="true" />
+				<attribute name="Effect Color" value="0 0 1 1" />
+			</element>
 		</element>
-	</element>
-	<element type="Button">
-		<attribute name="Name" value="exitGame" />
-		<attribute name="Position" value="0 192" />
-		<attribute name="Size" value="256 48" />
-		<attribute name="Horiz Alignment" value="Center" />
-		<attribute name="Vert Alignment" value="Center" />
-		<attribute name="Priority" value="10" />
-		<attribute name="Color" value="0.5 0.5 1 1" />
-		<attribute name="Top Left Color" value="0.5 0.5 1 1" />
-		<attribute name="Top Right Color" value="0.5 0.5 1 1" />
-		<attribute name="Bottom Left Color" value="0.5 0.5 1 1" />
-		<attribute name="Bottom Right Color" value="0.5 0.5 1 1" />
-		<attribute name="Is Editable" value="false" />
-		<element type="Text">
-			<attribute name="Horiz Alignment" value="Center" />
-			<attribute name="Vert Alignment" value="Center" />
-			<attribute name="Priority" value="-10" />
-			<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
-			<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
-			<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
-			<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+		<element type="Button">
+			<attribute name="Name" value="exitGame" />
+			<attribute name="Position" value="0 240" />
+			<attribute name="Size" value="480 64" />
+			<attribute name="Min Anchor" value="0.5 0.5" />
+			<attribute name="Max Anchor" value="0.5 0.5" />
+			<attribute name="Pivot" value="0.5 0.5" />
+			<attribute name="Priority" value="10" />
+			<attribute name="Color" value="0.5 0.5 1 1" />
+			<attribute name="Top Left Color" value="0.5 0.5 1 1" />
+			<attribute name="Top Right Color" value="0.5 0.5 1 1" />
+			<attribute name="Bottom Left Color" value="0.5 0.5 1 1" />
+			<attribute name="Bottom Right Color" value="0.5 0.5 1 1" />
 			<attribute name="Is Editable" value="false" />
-			<attribute name="Font Size" value="24" />
-			<attribute name="Text" value="Exit Game" />
-			<attribute name="Text Alignment" value="Center" />
-			<attribute name="Row Spacing" value="0.97" />
-			<attribute name="Text Effect" value="Stroke" />
-			<attribute name="Stroke Thickness" value="3" />
-			<attribute name="Round Stroke" value="true" />
-			<attribute name="Effect Color" value="0 0 1 1" />
+			<element type="Text">
+				<attribute name="Min Anchor" value="0.5 0.5" />
+				<attribute name="Max Anchor" value="0.5 0.5" />
+				<attribute name="Pivot" value="0.5 0.5" />
+				<attribute name="Priority" value="-10" />
+				<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Is Editable" value="false" />
+				<attribute name="Font Size" value="32" />
+				<attribute name="Text" value="Exit Game" />
+				<attribute name="Text Alignment" value="Center" />
+				<attribute name="Row Spacing" value="0.97" />
+				<attribute name="Text Effect" value="Stroke" />
+				<attribute name="Stroke Thickness" value="3" />
+				<attribute name="Round Stroke" value="true" />
+				<attribute name="Effect Color" value="0 0 1 1" />
+			</element>
 		</element>
 	</element>
 </element>

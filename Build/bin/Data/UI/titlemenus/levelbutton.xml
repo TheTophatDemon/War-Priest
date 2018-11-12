@@ -2,7 +2,7 @@
 <element type="Button">
 	<attribute name="Name" value="levelButton" />
 	<attribute name="Position" value="0 190" />
-	<attribute name="Size" value="320 32" />
+	<attribute name="Size" value="480 48" />
 	<attribute name="Horiz Alignment" value="Center" />
 	<attribute name="Color" value="0.5 0.5 0.5 1" />
 	<attribute name="Top Left Color" value="0.5 0.5 0.5 1" />

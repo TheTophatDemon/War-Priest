@@ -367,6 +367,7 @@ void Gameplay::SetupGame()
 		Sound* music = cache->GetResource<Sound>("Music/" + musicNode->GetVar("music").GetString());
 		music->SetLooped(true);
 		musicSource->Play(music);
+
 	}
 	else if (scene_->GetVar("music").GetString() != "")
 	{

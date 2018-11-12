@@ -1,19 +1,25 @@
 //TODO:
+	//Reimplement key rebinding menu
+	//Fix Game HUD scaling
+		//Make missile indicators fit
+	//Make missile indicators ignore past missiles (those that have passed the camera plane)
+	//UNHOLY_THRESHOLD
+	//Make enemies avoid blocking lifts? (except for Danger Deacons)
 	//Palpan1
-		//Texturing
+		//God Cutscene
+			//Voice line
+			//Subtitles
 	//Crossroads
 	//Credits
 		//Have player drop down from above
-	//Fix HUD scaling
-		//Make missile indicators fit
-	//Shorten black hole attack duration
-	//Make font more scalable
+	//Add rain to more levels
 	//Change sign text
 	//Pile of skull prop
 	//Add Mecha Minister?
 	//Backgrounds?
 	//Sounds
 		//Boulder bounce
+		//Thunderstorm
 	//Add LODs
 		//Treegroup
 		//Treegroup_distorted

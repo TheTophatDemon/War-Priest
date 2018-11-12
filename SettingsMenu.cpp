@@ -48,24 +48,15 @@ void SettingsMenu::OnEnter()
 		butt->SetColor(unSelectedColor);
 		Text* text = (Text*)butt->CreateChild(Text::GetTypeStatic());
 		text->SetText(resLabels[i]);
-		text->SetFont("Fonts/Anonymous Pro.ttf", 12);
+		text->SetFont("Fonts/Anonymous Pro.ttf", 20);
 		text->SetHorizontalAlignment(HA_CENTER);
-		text->SetVerticalAlignment(VA_TOP);
+		text->SetVerticalAlignment(VA_CENTER);
 		text->SetColor(Color::WHITE);
 		resButtons[i].button = butt;
 		resButtons[i].label = resLabels[i];
 		resButtons[i].resX = pResX[i];
 		resButtons[i].resY = pResY[i];
 	}
-
-	//Assign rebind buttons to settings
-	rebindButtons[0] = RebindButton(controlsPanel->GetChildDynamicCast<Button>("forwardButton", false), &Settings::keyForward);
-	rebindButtons[1] = RebindButton(controlsPanel->GetChildDynamicCast<Button>("backwardButton", false), &Settings::keyBackward);
-	rebindButtons[2] = RebindButton(controlsPanel->GetChildDynamicCast<Button>("leftButton", false), &Settings::keyLeft);
-	rebindButtons[3] = RebindButton(controlsPanel->GetChildDynamicCast<Button>("rightButton", false), &Settings::keyRight);
-	rebindButtons[4] = RebindButton(controlsPanel->GetChildDynamicCast<Button>("slideButton", false), &Settings::keySlide);
-	rebindButtons[5] = RebindButton(controlsPanel->GetChildDynamicCast<Button>("reviveButton", false), &Settings::keyRevive);
-	rebindButtons[6] = RebindButton(controlsPanel->GetChildDynamicCast<Button>("jumpButton", false), &Settings::keyJump);
 
 	UpdateControls();
 }
@@ -95,12 +86,6 @@ void SettingsMenu::UpdateControls() //Syncs the ui controls to the actual settin
 			resButtons[i].button->SetColor(unSelectedColor);
 		}
 	}
-	
-	for (int i = 0; i < 7; ++i)
-	{
-		rebindButtons[i].value = *rebindButtons[i].setting;
-		UpdateButtonLabel(rebindButtons[i]);
-	}
 }
 
 void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
@@ -109,93 +94,52 @@ void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 	{
 		OnMouseClick(eventType, eventData);
 	}
-	else if (eventType == E_KEYDOWN)
-	{
-		OnKeyPress(eventType, eventData);
-	}
 }
 
 void SettingsMenu::OnMouseClick(StringHash eventType, VariantMap& eventData)
 {
 	int mouseButtonPressed = eventData["Button"].GetInt();
-
-	if (rebinding)
+	Button* source = dynamic_cast<Button*>(eventData["Element"].GetPtr());
+	if (source)
 	{
-		rebindButton->value = SharedPtr<UInput>(new MouseInput(mouseButtonPressed, input));
-		UpdateButtonLabel(*rebindButton);
-		rebinding = false;
-	}
-	else
-	{
-		Button* source = dynamic_cast<Button*>(eventData["Element"].GetPtr());
-		if (source)
+		if (source->GetParent() == resolutionList)
 		{
-			if (source->GetParent() == controlsPanel)
+			for (int i = 0; i < NUM_RESOLUTIONS; ++i)
 			{
-				rebinding = true;
-				for (int i = 0; i < Settings::numInputs; ++i)
+				if (resButtons[i].button == source) 
 				{
-					if (rebindButtons[i].button == source)
-						rebindButton = &rebindButtons[i];
+					resButtons[i].button->SetColor(selectedColor);
+					selectedRes = i;
 				}
-			}
-			else if (source->GetParent() == resolutionList)
-			{
-				for (int i = 0; i < NUM_RESOLUTIONS; ++i)
+				else 
 				{
-					if (resButtons[i].button == source) 
-					{
-						resButtons[i].button->SetColor(selectedColor);
-						selectedRes = i;
-					}
-					else 
-					{
-						resButtons[i].button->SetColor(unSelectedColor);
-					}
-				}
-			}
-			else
-			{
-				if (source->GetName() == "cancelButton")
-				{
-					titleScreen->SetMenu(titleScreen->titleMenu);
-				}
-				else if (source->GetName() == "confirmButton")
-				{
-					ApplySettings();
-					Settings::SaveSettings(titleScreen->GetContext());
-					titleScreen->SetMenu(titleScreen->titleMenu);
-				}
-				else if (source->GetName() == "revertButton")
-				{
-					Settings::RevertSettings(titleScreen->GetContext());
-					UpdateControls();
-					Settings::SaveSettings(titleScreen->GetContext());
-					titleScreen->gunPriest->VideoSetup();
-					ui->SetWidth(1280);
-					titleScreen->SetMenu(titleScreen->titleMenu);
+					resButtons[i].button->SetColor(unSelectedColor);
 				}
 			}
 		}
+		else
+		{
+			if (source->GetName() == "cancelButton")
+			{
+				titleScreen->SetMenu(titleScreen->titleMenu);
+			}
+			else if (source->GetName() == "confirmButton")
+			{
+				ApplySettings();
+				Settings::SaveSettings(titleScreen->GetContext());
+				titleScreen->SetMenu(titleScreen->titleMenu);
+			}
+			else if (source->GetName() == "revertButton")
+			{
+				Settings::RevertSettings(titleScreen->GetContext());
+				UpdateControls();
+				Settings::SaveSettings(titleScreen->GetContext());
+				titleScreen->gunPriest->VideoSetup();
+				ui->SetWidth(1280);
+				titleScreen->SetMenu(titleScreen->titleMenu);
+			}
+		}
 	}
-}
-
-void SettingsMenu::OnKeyPress(StringHash eventType, VariantMap& eventData)
-{
-	int keyPressed = eventData["Key"].GetInt();
-	if (rebinding)
-	{
-		rebindButton->value = SharedPtr<UInput>(new KeyInput(keyPressed, input));
-		UpdateButtonLabel(*rebindButton);
-		rebinding = false;
-	}
-}
-
-void SettingsMenu::UpdateButtonLabel(RebindButton& butt)
-{
-	Text* label = butt.button->GetChildDynamicCast<Text>("label", false);
-	assert(label);
-	label->SetText(butt.value->name);
 }
 
 void SettingsMenu::ApplySettings()
@@ -216,11 +160,6 @@ void SettingsMenu::ApplySettings()
 
 	titleScreen->gunPriest->VideoSetup();
 	ui->SetWidth(1280);
-
-	for (int i = 0; i < Settings::numInputs; ++i)
-	{
-		*rebindButtons[i].setting = SharedPtr<UInput>(rebindButtons[i].value);
-	}
 	
 	titleScreen->SendEvent(Settings::E_SETTINGSCHANGED, VariantMap());
 }

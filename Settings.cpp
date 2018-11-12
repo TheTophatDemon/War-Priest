@@ -33,6 +33,8 @@ float Settings::musicVolume = DF_MUSVOL;
 float Settings::soundVolume = DF_SNDVOL;
 float Settings::difficulty = DF_DIFF;
 
+const float Settings::UNHOLY_THRESHOLD = 1.4f;
+
 SharedPtr<UInput> Settings::keyBackward;
 SharedPtr<UInput> Settings::keyForward;
 SharedPtr<UInput> Settings::keyLeft;

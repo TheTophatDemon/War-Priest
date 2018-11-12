@@ -55,7 +55,7 @@ public:
 	static inline float GetMouseSensitivity() { return mouseSensitivity; }
 	static inline float GetMusicVolume() { return musicVolume; }
 	static inline float GetSoundVolume() { return soundVolume; }
-	static inline float GetDifficulty() { return difficulty; }
+	static inline float GetDifficulty() { return difficulty; } //0.5: Easy, 1.0: Hard, 1.5: Unholy
 	static inline bool IsMouseInverted() { return mouseInvert; }
 	static inline bool IsBloodEnabled() { return bloodEnabled; }
 	static inline bool IsFullScreen() { return fullScreen; }
@@ -82,6 +82,7 @@ public:
 	static const constexpr int numInputs = 7;
 	static StringHash E_SETTINGSCHANGED;
 	static String GAMESETTINGS_PATH;
+	static const float UNHOLY_THRESHOLD;
 protected:
 	static SharedPtr<UInput>* inputs[];
 	static SharedPtr<UInput> keyBackward;
