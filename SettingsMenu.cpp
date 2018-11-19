@@ -11,7 +11,8 @@ const Color SettingsMenu::unSelectedColor = Color(0.25f, 0.25f, 0.25f);
 
 #define UPDATE_REBIND_BUTTON_TEXT(t, a) t.Substring(0, t.FindLast(":") + 1) + " " + a
 
-SettingsMenu::SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : GP::Menu(ts, gm), selectedRes(0), rebinding(false), rebindButton(nullptr)
+SettingsMenu::SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : GP::Menu(ts, gm), 
+	selectedRes(0), rebinding(false), rebindButton(nullptr), videoSettingDirty(false)
 {
 	layoutPath = "UI/titlemenus/settingsScreen.xml";
 }
@@ -22,6 +23,8 @@ void SettingsMenu::OnEnter()
 	GP::Menu::OnEnter();
 	input = titleScreen->GetSubsystem<Input>();
 	audio = titleScreen->GetSubsystem<Audio>();
+
+	videoSettingDirty = false;
 	
 	controlsButton = titleScreen->ourUI->GetChildDynamicCast<Button>("controlsButton", true);
 
@@ -36,6 +39,7 @@ void SettingsMenu::OnEnter()
 	vsyncCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("vsyncCheck", true);
 	fullScreenCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("fullScreenCheck", true);
 
+	//Set up rebinding window
 	rebindWindow = dynamic_cast<Window*>(titleScreen->ourUI->LoadChildXML(cache->GetResource<XMLFile>("UI/titlemenus/rebindWindow.xml")->GetRoot()));
 	rebindWindow->SetVisible(false);
 	rebindWindow->SetPriority(100000);
@@ -152,6 +156,7 @@ void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 					if (resButtons[i].button == source)
 					{
 						resButtons[i].button->SetColor(selectedColor);
+						if (i != selectedRes) videoSettingDirty = true;
 						selectedRes = i;
 					}
 					else
@@ -185,6 +190,7 @@ void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 				}
 				else if (source->GetName() == "confirmButton")
 				{
+					if (videoSettingDirty) titleScreen->gunPriest->VideoSetup();
 					Settings::SaveSettings(titleScreen->GetContext());
 					titleScreen->SetMenu(titleScreen->titleMenu);
 				}
@@ -197,6 +203,15 @@ void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 				{
 					rebindWindow->SetVisible(true);
 				}
+			}
+		}
+		else if (eventType == E_TOGGLED)
+		{
+			CheckBox* source = dynamic_cast<CheckBox*>(eventData["Element"].GetPtr());
+			if (!source) return;
+			if (source == fullScreenCheck.Get() || source == vsyncCheck.Get())
+			{
+				videoSettingDirty = true;
 			}
 		}
 	}
@@ -226,8 +241,7 @@ void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 
 void SettingsMenu::OnLeave()
 {
-	titleScreen->gunPriest->VideoSetup();
-	ui->SetWidth(1280);
+	ui->SetWidth(1280.0f);
 	titleScreen->SendEvent(Settings::E_SETTINGSCHANGED, VariantMap());
 }
 

@@ -122,6 +122,7 @@ void GunPriest::VideoSetup()
 	Graphics* graphics = GetSubsystem<Graphics>();
 	graphics->SetShaderCacheDir("Shaders/HLSL/Cache");
 	const int refrate = graphics->GetRefreshRate();
+	//Note that the engine may assign fullscreen resolutions that aren't among those listed in the Settings menu
 	graphics->SetMode(Settings::GetResolutionX(), Settings::GetResolutionY(), Settings::IsFullScreen(), false, false, false, Settings::IsVsync(), false, 0, 0, refrate);
 	renderer->SetDrawShadows(false);
 	if (Settings::AreGraphicsFast())

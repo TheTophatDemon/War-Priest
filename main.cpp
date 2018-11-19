@@ -1,10 +1,11 @@
 //TODO:
-	//Fix Game HUD scaling
-		//Make missile indicators fit
 	//Make missile indicators ignore past missiles (those that have passed the camera plane)
 	//UNHOLY_THRESHOLD
 	//Make enemies avoid blocking lifts? (except for Danger Deacons)
 	//Palpan1
+		//Make launchpad more powerful
+		//Nerf the midsection
+		//Lower the island platform
 		//God Cutscene
 			//Voice line
 			//Subtitles
@@ -36,6 +37,7 @@
 		//Sacsand3 platforms going wrong way
 		//SS3 less enemies on side island
 		//SS4 intial launchpad comes up too short
+		//ENEMY IN WATER for SS4
 
 	//Optimize raycast distances (The more geometry that intersects it, the slower it gets)
 	//Send E_SETTINGSCHANGE to self

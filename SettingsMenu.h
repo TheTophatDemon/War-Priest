@@ -62,6 +62,8 @@ protected:
 	const static Color selectedColor;
 	const static Color unSelectedColor;
 
+	bool videoSettingDirty = false;
+
 	bool rebinding = false;
 	Button* rebindButton;
 };

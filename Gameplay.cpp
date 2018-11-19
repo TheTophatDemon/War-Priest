@@ -41,6 +41,7 @@
 #include <Urho3D/Graphics/Technique.h>
 #include <Urho3D/Graphics/Geometry.h>
 #include <Urho3D/Audio/Sound.h>
+#include <Urho3D/Graphics/Graphics.h>
 
 #include <iostream>
 
@@ -109,13 +110,13 @@ void Gameplay::Start()
 	input->SetMouseGrabbed(true);
 	ourUI->SetEnabledRecursive(true);
 	ourUI->SetVisible(true);
+	ourUI->SetHorizontalAlignment(HA_CENTER);
+	ourUI->SetPosition(0.0f, 0.0f);
 
-	ourUI->SetSize(Settings::GetResolutionX(), Settings::GetResolutionY());
-	if (Settings::GetResolutionY() <= 600)
-		GetSubsystem<UI>()->SetScale(0.75f);
-	else
-		GetSubsystem<UI>()->SetScale(1.0f);
-	ourUI->SetAlignment(HA_CENTER, VA_BOTTOM);
+	//By default the UI is scaled to 1280x720. It must be adjusted for different aspect ratios.
+	const float scaleFactor = GetSubsystem<Graphics>()->GetHeight() / 720.0f;
+	GetSubsystem<UI>()->SetScale(scaleFactor);
+	ourUI->SetWidth(GetSubsystem<Graphics>()->GetWidth() / scaleFactor);
 
 	input->SetMouseVisible(false);
 	scene_->SetUpdateEnabled(true);

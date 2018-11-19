@@ -33,6 +33,8 @@ void ProjectileWarner::Start()
 	game = scene->GetComponent<Gameplay>();
 	cache = GetSubsystem<ResourceCache>();
 	baseElement = game->ourUI->CreateChild<UIElement>();
+	baseElement->SetAlignment(HA_LEFT, VA_TOP);
+	baseElement->SetPosition(0.0f, 0.0f);
 }
 
 void ProjectileWarner::FixedUpdate(float timeStep)
@@ -100,8 +102,9 @@ void ProjectileWarner::FixedUpdate(float timeStep)
 			}
 			if (!game->camera->GetFrustum().IsInsideFast(boundingBox)) //We can't see it if it's outside the camera frustum
 			{
-				const float halfResX = Settings::GetResolutionX() / 2.0f;
-				const float halfResY = Settings::GetResolutionY() / 2.0f;
+				//UI is scaled from 1280x720 to fit the current resolution, but we must make corrections for different aspect ratios.
+				const float halfResX = game->ourUI->GetWidth() / 2.0f;
+				const float halfResY = game->ourUI->GetHeight() / 2.0f;
 				Vector3 screenCoords = game->camera->GetView() * missile->GetWorldPosition();
 				if (!indicator)
 				{
@@ -144,7 +147,7 @@ void ProjectileWarner::FixedUpdate(float timeStep)
 
 void ProjectileWarner::Stop() 
 {
-	std::cout << "LEAK COUNTER FOR INDICATORS: " << Indicator::leakCounter << std::endl;
+	//std::cout << "LEAK COUNTER FOR INDICATORS: " << Indicator::leakCounter << std::endl;
 	baseElement->RemoveAllChildren();
 	game->ourUI->RemoveChild(baseElement);
 }
