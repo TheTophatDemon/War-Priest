@@ -1,5 +1,4 @@
 //TODO:
-	//Reimplement key rebinding menu
 	//Fix Game HUD scaling
 		//Make missile indicators fit
 	//Make missile indicators ignore past missiles (those that have passed the camera plane)
@@ -15,8 +14,7 @@
 	//Add rain to more levels
 	//Change sign text
 	//Pile of skull prop
-	//Add Mecha Minister?
-	//Backgrounds?
+	//Add something else to Kube?
 	//Sounds
 		//Boulder bounce
 		//Thunderstorm

@@ -79,16 +79,19 @@ public:
 		}
 	}
 
-	static const constexpr int numInputs = 7;
+	static const constexpr int NUM_INPUTS = 7;
+	static const constexpr int NUM_RESOLUTIONS = 6;
+	static const int RES_X[];
+	static const int RES_Y[];
 	static StringHash E_SETTINGSCHANGED;
 	static String GAMESETTINGS_PATH;
 	static const float UNHOLY_THRESHOLD;
 protected:
 	static SharedPtr<UInput>* inputs[];
-	static SharedPtr<UInput> keyBackward;
 	static SharedPtr<UInput> keyForward;
-	static SharedPtr<UInput> keyRight;
+	static SharedPtr<UInput> keyBackward;
 	static SharedPtr<UInput> keyLeft;
+	static SharedPtr<UInput> keyRight;
 	static SharedPtr<UInput> keyJump;
 	static SharedPtr<UInput> keyRevive;
 	static SharedPtr<UInput> keySlide;

@@ -6,10 +6,12 @@
 #include <Urho3D/Audio/Audio.h>
 #include <iostream>
 
-Color SettingsMenu::selectedColor = Color(0.65f, 0.75f, 0.65f);
-Color SettingsMenu::unSelectedColor = Color(0.25f, 0.25f, 0.25f);
+const Color SettingsMenu::selectedColor = Color(0.65f, 0.75f, 0.65f);
+const Color SettingsMenu::unSelectedColor = Color(0.25f, 0.25f, 0.25f);
 
-SettingsMenu::SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : GP::Menu(ts, gm), selectedRes(0)
+#define UPDATE_REBIND_BUTTON_TEXT(t, a) t.Substring(0, t.FindLast(":") + 1) + " " + a
+
+SettingsMenu::SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : GP::Menu(ts, gm), selectedRes(0), rebinding(false), rebindButton(nullptr)
 {
 	layoutPath = "UI/titlemenus/settingsScreen.xml";
 }
@@ -19,8 +21,10 @@ void SettingsMenu::OnEnter()
 	Settings::LoadSettings(titleScreen->GetContext());
 	GP::Menu::OnEnter();
 	input = titleScreen->GetSubsystem<Input>();
+	audio = titleScreen->GetSubsystem<Audio>();
+	
+	controlsButton = titleScreen->ourUI->GetChildDynamicCast<Button>("controlsButton", true);
 
-	controlsPanel = titleScreen->ourUI->GetChild("controlsPanel", true);
 	musicVolumeSlider = titleScreen->ourUI->GetChildDynamicCast<Slider>("musicVolumeSlider", true);
 	soundVolumeSlider = titleScreen->ourUI->GetChildDynamicCast<Slider>("soundVolumeSlider", true);
 	sensitivitySlider = titleScreen->ourUI->GetChildDynamicCast<Slider>("sensitivitySlider", true);
@@ -32,36 +36,52 @@ void SettingsMenu::OnEnter()
 	vsyncCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("vsyncCheck", true);
 	fullScreenCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("fullScreenCheck", true);
 
+	rebindWindow = dynamic_cast<Window*>(titleScreen->ourUI->LoadChildXML(cache->GetResource<XMLFile>("UI/titlemenus/rebindWindow.xml")->GetRoot()));
+	rebindWindow->SetVisible(false);
+	rebindWindow->SetPriority(100000);
+	rebindPanel = rebindWindow->GetChildDynamicCast<BorderImage>("panel", true);
+	rebindLabel = rebindWindow->GetChildDynamicCast<Text>("windowTitle", true);
+	//Generate buttons for each input type
+	rebindButtons = Vector<SharedPtr<Button>>();
+	//Corresponding buttons must be in same order as Settings::inputs[]
+	String inputLabels[] = {"Move Forward: ", "Move Backwards: ", "Move Left: ", "Move Right: ", "Jump: ", "Revive: ", "Slide: "};
+	for (int i = 0; i < Settings::NUM_INPUTS; ++i)
+	{
+		Button* butt = dynamic_cast<Button*>(rebindPanel->LoadChildXML(cache->GetResource<XMLFile>("UI/titlemenus/rebindButton.xml")->GetRoot()));
+		butt->GetChildDynamicCast<Text>("label", true)->SetText(inputLabels[i]);
+		butt->SetPosition(butt->GetPosition().x_, butt->GetPosition().y_ + i * butt->GetHeight());
+		butt->SetVar("Input ID", i);
+		rebindButtons.Push(SharedPtr<Button>(butt));
+	}
+
 	//Add buttons for each resolution
 	resolutionList = titleScreen->ourUI->GetChild("resolutionList", true);
 	resolutionList->SetClipChildren(true);
 	resolutionList->SetClipBorder(IntRect(4, 4, 4, 4));
-	String resLabels[] = {"1920x1080", "1280x720", "800x600", "800x450", "640x480", "640x360"};
-	const int pResX[] = { 1920, 1280, 800, 800, 640, 640 };
-	const int pResY[] = { 1080, 720, 600, 450, 480, 360 };
-	const int buttHeight = resolutionList->GetSize().y_ / NUM_RESOLUTIONS;
-	for (int i = 0; i < NUM_RESOLUTIONS; ++i)
+	const int buttHeight = resolutionList->GetSize().y_ / Settings::NUM_RESOLUTIONS;
+	for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i)
 	{
 		Button* butt = (Button*)resolutionList->CreateChild(Button::GetTypeStatic());
 		butt->SetSize(resolutionList->GetSize().x_, buttHeight);
 		butt->SetPosition(0, buttHeight*i);
 		butt->SetColor(unSelectedColor);
+		String label = String(Settings::RES_X[i]) + "x" + String(Settings::RES_Y[i]);
 		Text* text = (Text*)butt->CreateChild(Text::GetTypeStatic());
-		text->SetText(resLabels[i]);
+		text->SetText(label);
 		text->SetFont("Fonts/Anonymous Pro.ttf", 20);
 		text->SetHorizontalAlignment(HA_CENTER);
 		text->SetVerticalAlignment(VA_CENTER);
 		text->SetColor(Color::WHITE);
 		resButtons[i].button = butt;
-		resButtons[i].label = resLabels[i];
-		resButtons[i].resX = pResX[i];
-		resButtons[i].resY = pResY[i];
+		resButtons[i].label = label;
+		resButtons[i].resX = Settings::RES_X[i];
+		resButtons[i].resY = Settings::RES_Y[i];
 	}
 
-	UpdateControls();
+	SyncControls();
 }
 
-void SettingsMenu::UpdateControls() //Syncs the ui controls to the actual settings
+void SettingsMenu::SyncControls() //Syncs the ui controls to the actual settings
 {
 	musicVolumeSlider->SetValue(Settings::GetMusicVolume() * musicVolumeSlider->GetRange());
 	soundVolumeSlider->SetValue(Settings::GetSoundVolume() * soundVolumeSlider->GetRange());
@@ -74,7 +94,13 @@ void SettingsMenu::UpdateControls() //Syncs the ui controls to the actual settin
 	vsyncCheck->SetChecked(Settings::IsVsync());
 	fullScreenCheck->SetChecked(Settings::IsFullScreen());
 	
-	for (int i = 0; i < NUM_RESOLUTIONS; ++i)
+	for (int i = 0; i < Settings::NUM_INPUTS; ++i)
+	{
+		Text* buttLabel = rebindButtons.At(i)->GetChildDynamicCast<Text>("label", true);
+		buttLabel->SetText(UPDATE_REBIND_BUTTON_TEXT(buttLabel->GetText(), (*Settings::inputs[i])->name));
+	}
+
+	for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i)
 	{
 		if (resButtons[i].resX == Settings::GetResolutionX() && resButtons[i].resY == Settings::GetResolutionY())
 		{
@@ -88,62 +114,9 @@ void SettingsMenu::UpdateControls() //Syncs the ui controls to the actual settin
 	}
 }
 
-void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
+void SettingsMenu::Update(float timeStep)
 {
-	if (eventType == E_UIMOUSECLICKEND) 
-	{
-		OnMouseClick(eventType, eventData);
-	}
-}
-
-void SettingsMenu::OnMouseClick(StringHash eventType, VariantMap& eventData)
-{
-	int mouseButtonPressed = eventData["Button"].GetInt();
-	Button* source = dynamic_cast<Button*>(eventData["Element"].GetPtr());
-	if (source)
-	{
-		if (source->GetParent() == resolutionList)
-		{
-			for (int i = 0; i < NUM_RESOLUTIONS; ++i)
-			{
-				if (resButtons[i].button == source) 
-				{
-					resButtons[i].button->SetColor(selectedColor);
-					selectedRes = i;
-				}
-				else 
-				{
-					resButtons[i].button->SetColor(unSelectedColor);
-				}
-			}
-		}
-		else
-		{
-			if (source->GetName() == "cancelButton")
-			{
-				titleScreen->SetMenu(titleScreen->titleMenu);
-			}
-			else if (source->GetName() == "confirmButton")
-			{
-				ApplySettings();
-				Settings::SaveSettings(titleScreen->GetContext());
-				titleScreen->SetMenu(titleScreen->titleMenu);
-			}
-			else if (source->GetName() == "revertButton")
-			{
-				Settings::RevertSettings(titleScreen->GetContext());
-				UpdateControls();
-				Settings::SaveSettings(titleScreen->GetContext());
-				titleScreen->gunPriest->VideoSetup();
-				ui->SetWidth(1280);
-				titleScreen->SetMenu(titleScreen->titleMenu);
-			}
-		}
-	}
-}
-
-void SettingsMenu::ApplySettings()
-{
+	//Sync settings to UI elements
 	Settings::musicVolume = musicVolumeSlider->GetValue() / musicVolumeSlider->GetRange();
 	Settings::soundVolume = soundVolumeSlider->GetValue() / soundVolumeSlider->GetRange();
 	Settings::mouseSensitivity = sensitivitySlider->GetValue() / sensitivitySlider->GetRange();
@@ -158,16 +131,104 @@ void SettingsMenu::ApplySettings()
 	Settings::xRes = resButtons[selectedRes].resX;
 	Settings::yRes = resButtons[selectedRes].resY;
 
-	titleScreen->gunPriest->VideoSetup();
-	ui->SetWidth(1280);
-	
-	titleScreen->SendEvent(Settings::E_SETTINGSCHANGED, VariantMap());
+	//Update volumes
+	audio->SetMasterGain("GAMEPLAY", Settings::GetSoundVolume());
+	audio->SetMasterGain("MUSIC", Settings::GetMusicVolume());
 }
+
+void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
+{
+	if (!rebinding)
+	{
+		if (eventType == E_UIMOUSECLICKEND)
+		{
+			int mouseButtonPressed = eventData["Button"].GetInt();
+			Button* source = dynamic_cast<Button*>(eventData["Element"].GetPtr());
+			if (!source) return;
+			if (source->GetParent() == resolutionList)
+			{
+				for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i)
+				{
+					if (resButtons[i].button == source)
+					{
+						resButtons[i].button->SetColor(selectedColor);
+						selectedRes = i;
+					}
+					else
+					{
+						resButtons[i].button->SetColor(unSelectedColor);
+					}
+				}
+			}
+			else if (source->GetParent() == rebindPanel)
+			{
+				if (source->GetName() == "rebindButton")
+				{
+					rebinding = true;
+					rebindButton = source;
+					rebindLabel->SetText("Press the button to be assigned");
+				}
+			}
+			else if (source->GetParent() == rebindWindow)
+			{
+				if (source->GetName() == "closeButton")
+				{
+					rebindWindow->SetVisible(false);
+				}
+			}
+			else
+			{
+				if (source->GetName() == "cancelButton")
+				{
+					Settings::LoadSettings(titleScreen->GetContext());
+					titleScreen->SetMenu(titleScreen->titleMenu);
+				}
+				else if (source->GetName() == "confirmButton")
+				{
+					Settings::SaveSettings(titleScreen->GetContext());
+					titleScreen->SetMenu(titleScreen->titleMenu);
+				}
+				else if (source->GetName() == "revertButton")
+				{
+					Settings::RevertSettings(titleScreen->GetContext());
+					SyncControls();
+				}
+				else if (source->GetName() == "controlsButton")
+				{
+					rebindWindow->SetVisible(true);
+				}
+			}
+		}
+	}
+	else
+	{
+		if (eventType == E_UIMOUSECLICKEND || eventType == E_KEYDOWN) 
+		{
+			const int id = rebindButton->GetVar("Input ID").GetInt();
+			if (eventType == E_UIMOUSECLICKEND)
+			{
+				const int button = eventData["Button"].GetInt();
+				(*Settings::inputs[id]) = SharedPtr<UInput>(new MouseInput(button, input));
+			}
+			else if (eventType == E_KEYDOWN)
+			{
+				const int key = eventData["Key"].GetInt();
+				(*Settings::inputs[id]) = SharedPtr<UInput>(new KeyInput(key, input));
+			}
+			rebinding = false;
+			rebindLabel->SetText("Click on an input to change it");
+			Text* buttLabel = rebindButton->GetChildDynamicCast<Text>("label", true);
+			buttLabel->SetText(UPDATE_REBIND_BUTTON_TEXT(buttLabel->GetText(), (*Settings::inputs[id])->name));
+			rebindButton = nullptr;
+		}
+	}
+}
+
 void SettingsMenu::OnLeave()
 {
-	Audio* audio = titleScreen->GetSubsystem<Audio>();
-	audio->SetMasterGain("TITLE", Settings::GetSoundVolume());
-	audio->SetMasterGain("MUSIC", Settings::GetMusicVolume());
+	titleScreen->gunPriest->VideoSetup();
+	ui->SetWidth(1280);
+	titleScreen->SendEvent(Settings::E_SETTINGSCHANGED, VariantMap());
 }
 
 SettingsMenu::~SettingsMenu()

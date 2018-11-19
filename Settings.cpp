@@ -44,6 +44,9 @@ SharedPtr<UInput> Settings::keyRevive;
 SharedPtr<UInput> Settings::keySlide;
 SharedPtr<UInput>* Settings::inputs[] = { &keyForward, &keyBackward, &keyLeft, &keyRight, &keyJump, &keyRevive, &keySlide };
 
+const int Settings::RES_X[] = { 1920, 1280, 800, 800, 640, 640 };
+const int Settings::RES_Y[] = { 1080, 720, 600, 450, 480, 360 };
+
 int Settings::xRes = DF_XRES;
 int Settings::yRes = DF_YRES;
 
@@ -118,7 +121,7 @@ void Settings::LoadSettings(Context* context)
 		musicVolume = file->ReadFloat();
 		soundVolume = file->ReadFloat();
 
-		for (int i = 0; i < numInputs; ++i)
+		for (int i = 0; i < NUM_INPUTS; ++i)
 		{
 			unsigned char type = file->ReadUByte();
 			switch (type)
@@ -166,7 +169,7 @@ void Settings::SaveSettings(Context* context)
 		file->WriteFloat(musicVolume);
 		file->WriteFloat(soundVolume);
 
-		for (int i = 0; i < numInputs; ++i)
+		for (int i = 0; i < NUM_INPUTS; ++i)
 		{
 			KeyInput* k = dynamic_cast<KeyInput*>(inputs[i]->Get());
 			if (k)

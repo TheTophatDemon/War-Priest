@@ -6,12 +6,13 @@
 #include <Urho3D/UI/Text.h>
 #include <Urho3D/UI/CheckBox.h>
 #include <Urho3D/UI/ListView.h>
+#include <Urho3D/UI/Window.h>
+#include <Urho3D/UI/ScrollView.h>
+#include <Urho3D/UI/ScrollBar.h>
 
 #include "Menu.h"
 #include "GunPriest.h"
 #include "Settings.h"
-
-#define NUM_RESOLUTIONS 6
 
 struct ResolutionButton
 {
@@ -27,15 +28,21 @@ public:
 	SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm);
 	virtual void OnEnter() override;
 	virtual void OnLeave() override;
+	virtual void Update(float timeStep) override;
 	virtual void OnEvent(StringHash eventType, VariantMap& eventData) override;
 	~SettingsMenu();
 protected:
-	void OnMouseClick(StringHash eventType, VariantMap& eventData);
-	void UpdateControls();
-	void ApplySettings();
+	void SyncControls();
 
+	SharedPtr<Audio> audio;
 	SharedPtr<Input> input;
-	SharedPtr<UIElement> controlsPanel;
+
+	SharedPtr<Button> controlsButton;
+
+	SharedPtr<Window> rebindWindow;
+	SharedPtr<BorderImage> rebindPanel;
+	SharedPtr<Text> rebindLabel;
+	Vector<SharedPtr<Button>> rebindButtons;
 
 	SharedPtr<Slider> musicVolumeSlider;
 	SharedPtr<Slider> soundVolumeSlider;
@@ -49,11 +56,13 @@ protected:
 	SharedPtr<CheckBox> fullScreenCheck;
 
 	SharedPtr<UIElement> resolutionList;
-	ResolutionButton resButtons[NUM_RESOLUTIONS];
+	ResolutionButton resButtons[Settings::NUM_RESOLUTIONS];
 	int selectedRes;
-	static Color selectedColor;
-	static Color unSelectedColor;
-	
+
+	const static Color selectedColor;
+	const static Color unSelectedColor;
+
 	bool rebinding = false;
+	Button* rebindButton;
 };
 
