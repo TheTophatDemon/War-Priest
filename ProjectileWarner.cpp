@@ -6,6 +6,7 @@
 #include <Urho3D/Core/CoreEvents.h>
 #include <Urho3D/Resource/XMLFile.h>
 #include <Urho3D/UI/UIElement.h>
+#include <Urho3D/UI/Text.h>
 #include "Gameplay.h"
 #include "Settings.h"
 #include <iostream>
@@ -106,6 +107,7 @@ void ProjectileWarner::FixedUpdate(float timeStep)
 				const float halfResX = game->ourUI->GetWidth() / 2.0f;
 				const float halfResY = game->ourUI->GetHeight() / 2.0f;
 				Vector3 screenCoords = game->camera->GetView() * missile->GetWorldPosition();
+				Vector3 screenDirection = game->camera->GetView().Rotation() * missile->GetWorldDirection();
 				if (!indicator)
 				{
 					Sprite* spr = baseElement->CreateChild<Sprite>();
@@ -132,6 +134,7 @@ void ProjectileWarner::FixedUpdate(float timeStep)
 				}
 				indicator->sprite->SetPosition(screenCoords.x_ * (halfResX - indicator->sprite->GetHotSpot().x_) + halfResX,
 					screenCoords.y_ * (halfResY - indicator->sprite->GetHotSpot().y_) + halfResY);
+				indicator->sprite->SetRotation(Atan2(screenDirection.x_, screenDirection.y_));
 			}
 			else if (indicator)
 			{
