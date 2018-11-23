@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="49.7946" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16778213" />
-	<attribute name="Next Local Component ID" value="16780268" />
+	<attribute name="Next Local Node ID" value="16778218" />
+	<attribute name="Next Local Component ID" value="16780295" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="riseofthewarpriest.ogg" />
 		<variant hash="3555864366" type="Bool" value="true" />
@@ -720,22 +720,6 @@
 			<attribute name="Material" value="Material;Materials/skins/sign_skin.xml" />
 		</component>
 	</node>
-	<node id="16778033">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="pyropastor" />
-		<attribute name="Tags">
-			<string value="enemy" />
-			<string value="pyropastor" />
-		</attribute>
-		<attribute name="Position" value="-343.442 -53.696 102.55" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16779994">
-			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
-			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
-		</component>
-	</node>
 	<node id="16778034">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="medkit" />
@@ -1299,7 +1283,7 @@
 		<attribute name="Tags">
 			<string value="lift" />
 		</attribute>
-		<attribute name="Position" value="-326.714 -34.8332 59.9282" />
+		<attribute name="Position" value="-326.714 -30.0029 59.9282" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="2 2 2" />
 		<attribute name="Variables">
@@ -1316,7 +1300,7 @@
 			<attribute name="Size" value="10 0.5 2" />
 		</component>
 		<component type="RigidBody" id="16780071">
-			<attribute name="Physics Position" value="-326.714 -34.8332 59.9282" />
+			<attribute name="Physics Position" value="-326.714 -30.0029 59.9282" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Linear Factor" value="0 0 0" />
 			<attribute name="Angular Factor" value="0 0 0" />
@@ -1328,7 +1312,7 @@
 			<attribute name="Is Enabled" value="true" />
 			<attribute name="Name" value="dest" />
 			<attribute name="Tags" />
-			<attribute name="Position" value="0 5.96422 0" />
+			<attribute name="Position" value="0 3.85032 0" />
 			<attribute name="Rotation" value="1 0 0 0" />
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
@@ -1340,13 +1324,13 @@
 		<attribute name="Tags">
 			<string value="lift" />
 		</attribute>
-		<attribute name="Position" value="-72.0686 -19.6996 161.973" />
+		<attribute name="Position" value="-72.0686 -18.9792 161.251" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="2 2 2" />
 		<attribute name="Variables">
 			<variant hash="1366131055" type="Vector3" value="0 0 0" />
 			<variant hash="588515681" type="Float" value="1" />
-			<variant hash="273365031" type="Float" value="1" />
+			<variant hash="273365031" type="Float" value="2" />
 			<variant hash="3779712780" type="Float" value="0" />
 		</attribute>
 		<component type="StaticModel" id="16780072">
@@ -1357,7 +1341,7 @@
 			<attribute name="Size" value="4 0.5 2" />
 		</component>
 		<component type="RigidBody" id="16780074">
-			<attribute name="Physics Position" value="-72.0686 -19.6996 161.973" />
+			<attribute name="Physics Position" value="-72.0686 -18.9792 161.251" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Linear Factor" value="0 0 0" />
 			<attribute name="Angular Factor" value="0 0 0" />
@@ -1369,7 +1353,7 @@
 			<attribute name="Is Enabled" value="true" />
 			<attribute name="Name" value="dest" />
 			<attribute name="Tags" />
-			<attribute name="Position" value="0 5.76454 -10.1065" />
+			<attribute name="Position" value="0 5.76454 -9.43388" />
 			<attribute name="Rotation" value="1 0 0 0" />
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
@@ -1472,7 +1456,7 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-78.871 -21.9121 60.6174" />
+		<attribute name="Position" value="-78.871 -23.3981 60.6174" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
 		<attribute name="Variables" />
@@ -1562,7 +1546,7 @@
 		<attribute name="Tags">
 			<string value="lift" />
 		</attribute>
-		<attribute name="Position" value="-328.245 -52.7269 80.5081" />
+		<attribute name="Position" value="-328.245 -52.8078 79.632" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="2 2 2" />
 		<attribute name="Variables">
@@ -1579,7 +1563,7 @@
 			<attribute name="Size" value="10 0.5 2" />
 		</component>
 		<component type="RigidBody" id="16780092">
-			<attribute name="Physics Position" value="-328.245 -52.7269 80.5081" />
+			<attribute name="Physics Position" value="-328.245 -52.8078 79.632" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Linear Factor" value="0 0 0" />
 			<attribute name="Angular Factor" value="0 0 0" />
@@ -1612,18 +1596,6 @@
 			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
 			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
 		</component>
-	</node>
-	<node id="16778091">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="pyropastor" />
-		<attribute name="Tags">
-			<string value="enemy" />
-			<string value="pyropastor" />
-		</attribute>
-		<attribute name="Position" value="-345.922 -53.4891 101.607" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
-		<attribute name="Variables" />
 	</node>
 	<node id="16778092">
 		<attribute name="Is Enabled" value="true" />
@@ -1819,29 +1791,13 @@
 			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
 		</component>
 	</node>
-	<node id="16778105">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="pyropastor" />
-		<attribute name="Tags">
-			<string value="enemy" />
-			<string value="pyropastor" />
-		</attribute>
-		<attribute name="Position" value="-147.071 -7.52332 162.05" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780108">
-			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
-			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
-		</component>
-	</node>
 	<node id="16778107">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="lift" />
 		<attribute name="Tags">
 			<string value="lift" />
 		</attribute>
-		<attribute name="Position" value="-328.245 -52.7269 120.14" />
+		<attribute name="Position" value="-328.245 -52.7269 121.48" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="2 2 2" />
 		<attribute name="Variables">
@@ -1858,7 +1814,7 @@
 			<attribute name="Size" value="10 0.5 2" />
 		</component>
 		<component type="RigidBody" id="16780112">
-			<attribute name="Physics Position" value="-328.245 -52.7269 120.14" />
+			<attribute name="Physics Position" value="-328.245 -52.7269 121.48" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Linear Factor" value="0 0 0" />
 			<attribute name="Angular Factor" value="0 0 0" />
@@ -1920,22 +1876,6 @@
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16780115">
-			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
-			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
-		</component>
-	</node>
-	<node id="16778112">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="pyropastor" />
-		<attribute name="Tags">
-			<string value="enemy" />
-			<string value="pyropastor" />
-		</attribute>
-		<attribute name="Position" value="-128.651 -1.41727 129.419" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780116">
 			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
 			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
 		</component>
@@ -2010,7 +1950,7 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-138.855 -28.5994 216.303" />
+		<attribute name="Position" value="-147.068 -8.39858 162.769" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
 		<attribute name="Variables" />
@@ -2044,7 +1984,7 @@
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="2 2 2" />
 		<attribute name="Variables">
-			<variant hash="1350475192" type="Float" value="58" />
+			<variant hash="1350475192" type="Float" value="75" />
 		</attribute>
 		<component type="CollisionShape" id="16780124">
 			<attribute name="Shape Type" value="Cylinder" />
@@ -3085,7 +3025,7 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-81.8532 -21.9121 57.6424" />
+		<attribute name="Position" value="-81.8532 -23.3981 57.6424" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
 		<attribute name="Variables" />
@@ -3368,6 +3308,51 @@
 		<component type="StaticModel" id="16780267">
 			<attribute name="Model" value="Model;Models/maps/cliff.mdl" />
 			<attribute name="Material" value="Material;Materials/palpan_cliff.xml;Materials/grass.xml" />
+		</component>
+	</node>
+	<node id="16778215">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="pyropastor" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="pyropastor" />
+		</attribute>
+		<attribute name="Position" value="-126.362 0.519004 130.151" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780292">
+			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
+		</component>
+	</node>
+	<node id="16778216">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="medkit" />
+		<attribute name="Tags">
+			<string value="medkit" />
+		</attribute>
+		<attribute name="Position" value="-138.855 -28.5994 216.303" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.6 0.6 0.6" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780293">
+			<attribute name="Model" value="Model;Models/medkit.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
+		</component>
+	</node>
+	<node id="16778217">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="surprise_cactus" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="-168.484 -25.1272 73.7105" />
+		<attribute name="Rotation" value="-4.37114e-08 0 1 -0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780294">
+			<attribute name="Model" value="Model;Models/props/surprise_cactus.mdl" />
+			<attribute name="Material" value="Material;Materials/roblox_brick.xml" />
+			<attribute name="Draw Distance" value="42" />
 		</component>
 	</node>
 </scene>

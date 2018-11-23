@@ -147,7 +147,7 @@ void ChaosCaliph::Execute()
 				shot = true;
 				for (int i = -1; i <= 1; ++i)
 				{
-					if (i == 0 && Settings::GetDifficulty() < 1.4f) continue;
+					if (i == 0 && Settings::GetDifficulty() < Settings::UNHOLY_THRESHOLD) continue;
 					Fireball::MakeBlueFireball(scene, 
 						node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f) + (node_->GetWorldDirection() * 2.0f),
 						Quaternion((i*30.0f) + node_->GetWorldRotation().EulerAngles().y_, Vector3::UP),

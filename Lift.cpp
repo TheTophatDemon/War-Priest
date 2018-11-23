@@ -32,6 +32,8 @@ void Lift::RegisterObject(Context* context)
 void Lift::Start()
 {
 	game = GetScene()->GetComponent<Gameplay>();
+
+	oldTransform = node_->GetWorldTransform();
 	
 	if (!node_->HasComponent<RigidBody>())
 	{

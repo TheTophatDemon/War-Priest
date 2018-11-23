@@ -85,7 +85,8 @@ Player::Player(Context* context) :
 	cameraPitch(-15.0f),
 	optimalCamPos(Vector3::ZERO),
 	splashNode(nullptr),
-	lastChance(false)
+	lastChance(false),
+	startingPosition(0,0,0)
 {
 }
 
@@ -105,13 +106,17 @@ void Player::Start()
 	scene = GetScene();
 	physworld = scene->GetComponent<PhysicsWorld>();
 	input = GetSubsystem<Input>();
+	
 	cameraNode = game->cameraNode;
 	camera = game->camera;
 	pivot = scene->CreateChild();
 	pivot->SetWorldRotation(node_->GetWorldRotation() * Quaternion(90.0f, Vector3::UP));
 	cameraNode->SetParent(pivot);
 	cameraNode->SetPosition(cameraOffset);
+	
 	newRotation = node_->GetWorldRotation();
+	
+	startingPosition = node_->GetWorldPosition();
 
 	//Actor setup
 	if (!node_->HasComponent<Actor>())
@@ -894,18 +899,21 @@ void Player::HandleNearestCorpse()
 		}
 	}
 	//Update the HUD compass
-	if (nearestCorpse) 
+	const Matrix3x4 invCamTrans = cameraNode->GetWorldTransform().Inverse();
+	Quaternion q = Quaternion();
+	Vector3 to;
+	if (nearestCorpse)
 	{
-		Quaternion q = Quaternion();
-		const Vector3 nyeh = cameraNode->GetWorldTransform().Inverse() * Vector3(nearestCorpse->GetNode()->GetWorldPosition().x_, 0.0f, nearestCorpse->GetNode()->GetWorldPosition().z_);
-		const Vector3 bleh = cameraNode->GetWorldTransform().Inverse() * Vector3(node_->GetWorldPosition().x_, 0.0f, node_->GetWorldPosition().z_);
-		q.FromLookRotation((bleh - nyeh).Normalized());
-		game->compassScene->compassRotation = q.EulerAngles().y_;
+		to = invCamTrans * Vector3(nearestCorpse->GetNode()->GetWorldPosition().x_, 0.0f, nearestCorpse->GetNode()->GetWorldPosition().z_);
 	}
 	else
 	{
-		game->compassScene->compassRotation += 25.0f;
+		to = invCamTrans * Vector3(startingPosition.x_, 0.0f, startingPosition.z_); //Point to start of level when no enemies are left
 	}
+	const Vector3 from = invCamTrans * Vector3(node_->GetWorldPosition().x_, 0.0f, node_->GetWorldPosition().z_);
+	q.FromLookRotation((from - to).Normalized());
+	game->compassScene->compassRotation = q.EulerAngles().y_;
+
 	//Handle revival and floating arrow
 	if (nearestCorpse)
 	{

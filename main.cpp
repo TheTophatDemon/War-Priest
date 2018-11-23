@@ -1,6 +1,7 @@
+//Commit: UNHOLY_THRESHOLD, Fixed scrolling in level select, Enemies spawning on platforms get displaced, Made compass point to start of level, modified wandering behavior, tweaked platform behavior in PP1
+
 //TODO:
-	//UNHOLY_THRESHOLD
-	//Make enemies avoid blocking lifts? (except for Danger Deacons)
+	//Add camera turn keys
 	//Palpan1
 		//God Cutscene
 			//Voice line

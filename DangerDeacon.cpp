@@ -169,7 +169,7 @@ void DangerDeacon::Execute()
 				}
 			}
 
-			if (Settings::GetDifficulty() > 1.4f && footCast.distance_ > 3.0f)
+			if (Settings::GetDifficulty() > Settings::UNHOLY_THRESHOLD && footCast.distance_ > 3.0f)
 			{
 				actor->Jump();
 				animController->Play(JUMP_ANIM, 128, false, 0.2f);

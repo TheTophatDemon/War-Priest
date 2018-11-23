@@ -67,7 +67,7 @@ Node* Fireball::MakeFireball(Scene* sc, Vector3 position, Quaternion rotation, N
 	n->LoadXML(p->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/projectile_fireball.xml")->GetRoot());
 	n->SetPosition(position);
 	n->SetRotation(rotation);
-	if (Settings::GetDifficulty() > 1.4f) 
+	if (Settings::GetDifficulty() > Settings::UNHOLY_THRESHOLD) 
 	{
 		p->radius = 0.75f; 
 		n->SetScale(1.5f); 

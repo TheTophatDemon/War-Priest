@@ -77,6 +77,7 @@ protected:
 	Quaternion newRotation;
 	Vector3 slideDirection;
 	Vector3 optimalCamPos;
+	Vector3 startingPosition;
 	static Vector3 cameraOffset;
 	
 	int state;

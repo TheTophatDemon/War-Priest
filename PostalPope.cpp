@@ -256,9 +256,9 @@ void PostalPope::SummonDebris()
 	}
 	int count = 5;
 	const float difficulty = Settings::GetDifficulty();
-	if (difficulty < 1.4f && difficulty >= 0.75f)
+	if (difficulty < Settings::UNHOLY_THRESHOLD && difficulty >= 0.75f)
 		count = 5;
-	if (difficulty >= 1.4f)
+	if (difficulty >= Settings::UNHOLY_THRESHOLD)
 		count = 7;
 	else if (difficulty >= 1.25f)
 		count = 6;

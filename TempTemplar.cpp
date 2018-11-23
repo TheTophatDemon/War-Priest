@@ -102,7 +102,7 @@ void TempTemplar::Execute()
 			actor->SetMovement(true, false, false, false);
 			actor->Move(deltaTime);
 		}
-		else if (targetDist < MELEE_RANGE * 3.0f && Settings::GetDifficulty() > 1.4f) //Chase after the player in Unholy Mode
+		else if (targetDist < MELEE_RANGE * 3.0f && Settings::GetDifficulty() > Settings::UNHOLY_THRESHOLD) //Chase after the player in Unholy Mode
 		{
 			walking = true;
 			newRotation.FromLookRotation(Vector3(targetDiff.x_, 0.0, targetDiff.z_) / targetDist, Vector3::UP);

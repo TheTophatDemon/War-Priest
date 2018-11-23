@@ -164,11 +164,25 @@ void Enemy::Wander(const bool avoidSlopes, const bool pause, const float wallMar
 		{
 			//Wall check
 			PhysicsRaycastResult result;
-			physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.1f, 0.0f), node_->GetDirection()), wallMargin, 2U);
+			physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.1f, 0.0f), node_->GetWorldDirection()), wallMargin, 2U);
 			if (result.body_)
 			{
-				if (fabs(result.normal_.y_) < 0.1f) walking = false;
+				if (fabs(result.normal_.y_) < 0.1f)
+				{
+					//walking = false;
+					//Reflect off of the wall
+					const Vector3 perpAxis = result.normal_.CrossProduct(Vector3::UP);
+					const float paraComponent = (-node_->GetWorldDirection()).DotProduct(result.normal_);
+					const float perpComponent = (-node_->GetWorldDirection()).DotProduct(perpAxis);
+					newRotation.FromLookRotation(perpAxis * -perpComponent + result.normal_ * paraComponent);
+				}
 			}
+			//Make sure not to stand underneath any platforms that might squish you
+			/*physworld->SphereCast(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 2.7f, 0.0f), Vector3::UP), 1.5f, 250.0f, 2U);
+			if (result.body_)
+			{
+				walking = true;
+			}*/
 		}
 	}
 
@@ -236,14 +250,16 @@ void Enemy::FaceTarget()
 	newRotation = face;
 }
 
-bool Enemy::CheckCliff(const bool avoidSlopes) //Two rays are cast downward from in front of the actor, one to the left and on to the right. 
+//Note that DangerDeacons do not use this function at all. That wouldn't be dangerous enough for them!
+//Returns true if the enemy is about to walk somewhere undesirable
+bool Enemy::CheckCliff(const bool avoidSlopes) 
 {
+	//Two rays are cast downward from in front of the actor, one to the left and on to the right. 
 	//Imagine it as an isosceles triangle with the base point being the enemy's position
 	PhysicsRaycastResult result, result2;
 	const Vector3 base = node_->GetWorldPosition() + Vector3(0.0f, 1.2f, 0.0f) + node_->GetWorldDirection() * 1.5f;
 	physworld->RaycastSingle(result, Ray(base + (node_->GetWorldRotation() * Vector3::RIGHT), Vector3::DOWN), 3.0f, 258); //2+256
 	physworld->RaycastSingle(result2, Ray(base + (node_->GetWorldRotation() * Vector3::LEFT), Vector3::DOWN), 3.0f, 258); //2+256
-	
 	if (actor->fall <= 0.0f)
 	{
 		const float ny1 = fabs(result.normal_.y_);

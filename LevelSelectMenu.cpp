@@ -176,7 +176,7 @@ void LevelSelectMenu::Update(float timeStep)
 	if (scrollBar)
 	{
 		float y = scrollBar->GetValue();
-		buttParent->SetPosition(0, -y * levelEntries.Size() * 36);
+		buttParent->SetPosition(0, -y * levelEntries.Size() * 64);
 	}
 
 	//Animates the spinning cross sprites
