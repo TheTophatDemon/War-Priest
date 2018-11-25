@@ -42,7 +42,7 @@ DangerDeacon::DangerDeacon(Context* context) : Enemy(context),
 
 void DangerDeacon::OnSettingsChange(StringHash eventType, VariantMap& eventData)
 {
-	actor->maxspeed = 17.4f + Settings::ScaleWithDifficulty(-0.5f, 0.0f, 0.6f);
+	actor->maxSpeed = 18.4f + Settings::ScaleWithDifficulty(-0.5f, 0.0f, 0.5f);
 }
 
 void DangerDeacon::DelayedStart()
@@ -56,7 +56,6 @@ void DangerDeacon::DelayedStart()
 	cache->GetResource<ParticleEffect>("Particles/explosion.xml");
 
 	Enemy::DelayedStart();
-	actor->maxspeed = 17.4f + Settings::ScaleWithDifficulty(-0.5f, 0.0f, 0.6f);
 
 	modelNode->SetParent(scene);
 	WeakChild::MakeWeakChild(modelNode, node_);
@@ -72,6 +71,9 @@ void DangerDeacon::DelayedStart()
 	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
 	animController->SetSpeed(REVIVE_ANIM, 0.0f);
 	animController->SetSpeed(WALK_ANIM, 10.0f);
+
+	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(DangerDeacon, OnSettingsChange));
+	SendEvent(Settings::E_SETTINGSCHANGED);
 }
 
 void DangerDeacon::RegisterObject(Context* context)
@@ -97,7 +99,9 @@ void DangerDeacon::Execute()
 	const float shrinkAmount = deltaTime * EXPLODERANGE * Settings::ScaleWithDifficulty(2.7f, 3.3f, 3.5f);
 
 	//Falling animation
-	if (!actor->onGround && actor->IsEnabled() && !animController->IsPlaying(JUMP_ANIM))
+	if (!actor->onGround && 
+		(!actor->downCast.body_ || (actor->downCast.body_ && actor->downCast.distance_ > 5.0f)) 
+		&& actor->IsEnabled() && !animController->IsPlaying(JUMP_ANIM))
 	{
 		fallTimer += deltaTime;
 		if (fallTimer > 0.25f)
@@ -191,7 +195,7 @@ void DangerDeacon::Execute()
 			if (animController->IsAtEnd(JUMP_ANIM)) animController->Stop(JUMP_ANIM, 0.2f);
 			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
 
-			actor->SetMovement(true, false, strafeAmt < 0.0f, strafeAmt > 0.0f);
+			actor->SetInputFPS(true, false, strafeAmt < 0.0f, strafeAmt > 0.0f);
 			actor->Move(deltaTime);
 
 			if (targetDist < 6.0f && canSeePlayer)
@@ -231,7 +235,7 @@ void DangerDeacon::Execute()
 			}
 		}
 
-		actor->SetMovement(false, false, false, false);
+		actor->SetInputFPS(false, false, false, false);
 		actor->Move(deltaTime);
 
 		if (stateTimer > STUNTIME)
@@ -247,7 +251,7 @@ void DangerDeacon::Execute()
 		{
 			ChangeState(STATE_WANDER);
 		}
-		actor->SetMovement(false, false, false, false);
+		actor->SetInputFPS(false, false, false, false);
 		actor->Move(deltaTime);
 		break;
 	}

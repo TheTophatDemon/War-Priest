@@ -30,6 +30,9 @@
 #include <Urho3D/Audio/Sound.h>
 #include <Urho3D/IO/FileSystem.h>
 #include <Urho3D/Scene/ObjectAnimation.h>
+#include <Urho3D/AngelScript/APITemplates.h>
+#include <Urho3D/AngelScript/Script.h>
+#include <Urho3D/AngelScript/ScriptAPI.h>
 #include "TempEffect.h"
 #include "WeakChild.h"
 #include "Projectile.h"
@@ -38,6 +41,14 @@
 
 Zeus::Zeus()
 {
+}
+
+void Zeus::RegisterZeus(Context* context)
+{
+	asIScriptEngine* scrEngine = context->GetSubsystem<Script>()->GetScriptEngine();
+	scrEngine->SetDefaultNamespace("Zeus");
+	scrEngine->RegisterGlobalFunction("Node@+ MakeLightBeam(Scene@ scene, Vector3 position, const float height, const int sound=1)", asFUNCTION(Zeus::MakeLightBeam), asCALL_CDECL);
+	scrEngine->SetDefaultNamespace("");
 }
 
 Node* Zeus::MakeLightBeam(Scene* scene, Vector3 position, const float height, const int sound)

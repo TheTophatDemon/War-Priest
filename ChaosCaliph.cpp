@@ -43,16 +43,14 @@ void ChaosCaliph::RegisterObject(Context* context)
 
 void ChaosCaliph::OnSettingsChange(StringHash eventType, VariantMap& eventData)
 {
-	actor->maxspeed = 15.5f + Settings::ScaleWithDifficulty(-1.0f, 0.0f, 1.5f);
+	actor->maxSpeed = 17.5f + Settings::ScaleWithDifficulty(-2.0f, 0.0f, 2.0f);
 }
 
 void ChaosCaliph::DelayedStart()
 {
 	Enemy::DelayedStart();
-	actor->maxspeed = 15.5f + Settings::ScaleWithDifficulty(-1.0f, 0.0f, 1.5f);
-	actor->acceleration = 50.0f;
-	actor->friction = 0.5f;
-	actor->maxfall = 15.0f;
+	actor->acceleration = 200.0f;
+	actor->friction = 70.0f;
 
 	sparkChild = node_->GetChild("spark");
 	sparkChild->SetParent(scene);
@@ -78,6 +76,7 @@ void ChaosCaliph::DelayedStart()
 	animController->SetSpeed(REVIVE_ANIM, 0.0f);
 
 	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(ChaosCaliph, OnSettingsChange));
+	SendEvent(Settings::E_SETTINGSCHANGED);
 }
 
 void ChaosCaliph::FixedUpdate(float timeStep)
@@ -161,7 +160,7 @@ void ChaosCaliph::Execute()
 			}
 		}
 		
-		actor->SetMovement(0.0f, 0.0f);
+		actor->SetInputVec(Vector3::ZERO);
 		actor->Move(deltaTime);
 		break;
 	case STATE_SPIN:
@@ -183,11 +182,11 @@ void ChaosCaliph::Execute()
 
 		if (!CheckCliff(false))
 		{
-			actor->SetMovement(true, false, false, false);
+			actor->SetInputFPS(true, false, false, false);
 		}
 		else 
 		{
-			actor->SetMovement(false, false, false, false);
+			actor->SetInputFPS(false, false, false, false);
 		}
 		actor->Move(deltaTime);
 		break;
@@ -208,9 +207,6 @@ void ChaosCaliph::EnterState(const int newState)
 	{
 		animModel->SetMaterial(glowyMaterial);
 		emitter->SetEmitting(true);
-		spinSpeed = 0.0f;
-		actor->forward = 0.0f;
-		actor->acceleration = 50.0f;
 		soundSource->Play(SOUND_SHOCK, true);
 	}
 }
@@ -222,7 +218,6 @@ void ChaosCaliph::LeaveState(const int oldState)
 	{
 		animModel->SetMaterial(boringMaterial);
 		emitter->SetEmitting(false);
-		actor->acceleration = 50.0f;
 		soundSource->StopPlaying();
 	}
 }

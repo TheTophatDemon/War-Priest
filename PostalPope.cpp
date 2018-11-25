@@ -54,7 +54,7 @@ void PostalPope::DelayedStart()
 	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
 	animController->SetSpeed(REVIVE_ANIM, 0.0f);
 
-	actor->maxspeed = 6.0f;
+	actor->maxSpeed = 6.0f;
 	spinner = scene->CreateChild();
 	WeakChild::MakeWeakChild(spinner, node_);
 	
@@ -91,14 +91,6 @@ void PostalPope::Execute()
 		if (stateTimer > 2.0f)
 		{
 			ChangeState(STATE_SUMMON);
-			/*if (CanSummon()) 
-			{
-				ChangeState(STATE_SUMMON);
-			}
-			else
-			{
-				stateTimer = 0.0f;
-			}*/
 		}
 		if (walking)
 			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
@@ -115,7 +107,7 @@ void PostalPope::Execute()
 		if (CanSummon()) 
 		{
 			if (!summoned) SummonDebris();
-			actor->SetMovement(Vector3::ZERO);
+			actor->SetInputVec(Vector3::ZERO);
 			actor->Move(deltaTime);
 			if (stateTimer > 1.0f)
 			{
@@ -128,7 +120,7 @@ void PostalPope::Execute()
 		}
 		else
 		{
-			actor->SetMovement(Vector3::ZERO);
+			actor->SetInputVec(Vector3::ZERO);
 			actor->Move(deltaTime);
 			node_->Translate(Vector3::UP * deltaTime * 3.0f, TS_LOCAL);
 			if (stateTimer > 5.0f)
@@ -172,7 +164,7 @@ void PostalPope::Execute()
 				}
 			}
 		}
-		actor->SetMovement(Vector3::ZERO);
+		actor->SetInputVec(Vector3::ZERO);
 		actor->Move(deltaTime);
 		if (debris.Size() <= 0)
 		{

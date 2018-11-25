@@ -17,36 +17,29 @@ class Actor : public LogicComponent
 public:
 	Actor(Context* context);
 	static void RegisterObject(Context* context);
-	virtual void ApplyAttributes();
 	
 	virtual void Start();
-	virtual void FixedUpdate(float timeStep);
-	void SetMovement(bool fw, bool bk, bool lf, bool rg);
-	void SetMovement(float xm, float zm);
-	void SetMovement(Vector3 mv);
+	void SetInputFPS(bool fw, bool bk, bool lf, bool rg);
+	void SetInputVec(const Vector3 mov);
 	void Move(float timeStep);
 	void Jump();
 	void KnockBack(float amount, Quaternion direction);
 	~Actor();
 
-	Vector3 rawMovement = Vector3::ZERO;
-	Vector3 finalMovement = Vector3::ZERO;
-	float acceleration = 0.0f;
-	float maxspeed = 0.0f;
-	float friction = 0.0f;
-	float fallspeed = 0.0f;
-	float maxfall = 0.0f;
-	float jumpStrength = 0.0f;
-	float forward = 0.0f;
-	float strafe = 0.0f;
-	float fall = 0.0f;
-	float slopeSteepness = 0.0f;
-	bool onGround = false;
-	bool sloping = false;
-	bool gravity = true;
-	
+	PhysicsRaycastResult downCast;
+	Vector3 input;
+
+	float acceleration;
+	float maxSpeed;
+	float friction;
+	float fallSpeed;
+	float maxFall;
+	float jumpStrength;
+	float fall;
+	bool onGround;
+	bool sloping;
+	bool gravity;
 protected:
-	void GetSlope();
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 
 	SharedPtr<PhysicsWorld> physworld;
@@ -54,9 +47,9 @@ protected:
 	WeakPtr<RigidBody> body;
 	SharedPtr<CollisionShape> shape;
 	
-	PhysicsRaycastResult downCast;
-	Quaternion knockBackDirection;
-	float knockBack = 0.0f;
-	float deltaTime = 0.0f;
+	Vector3 rawMovement;
+	Vector3 knockBackMovement;
+	float deltaTime;
+	float slopeSteepness;
 };
 

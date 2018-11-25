@@ -1,11 +1,15 @@
-//Commit: UNHOLY_THRESHOLD, Fixed scrolling in level select, Enemies spawning on platforms get displaced, Made compass point to start of level, modified wandering behavior, tweaked platform behavior in PP1
-
+//Commit: AngelScript API, Cutscene, Player & Actor refactoring, Physcical property adjustment
 //TODO:
+	//Verbosity in control signs
+	//Use new cutscene script system on win animation?
+	//Refactor player class
+		//Hurt-timer and hail-timer should be floats
+		//Statetimer weirdness
 	//Add camera turn keys
 	//Palpan1
 		//God Cutscene
-			//Voice line
-			//Subtitles
+			//Voice lines?
+			//Skip it after first viewing
 	//Crossroads
 	//Credits
 		//Have player drop down from above
@@ -22,19 +26,32 @@
 	//Bonus Crosses for: SS1, FF4, PP4, PP1. 
 	//Do final test through every level.
 		//Make fog match the skybox color
-		//Make platform in PP3 double-edged (and faster).
-		//PP3 make that slope less steep
-		//Danger Deacon gets stuck in floor on PP3
-		//Fallrhine 1 ledge is too high
-		//Fallrhine 2 barrel platform unreachable
-		//Exaggerate movement of spinning platform in FF3
-		//Expand ridge in FF4
-		//FF4 Enemy in the water?
-		//Remove health from sacsand2
-		//Sacsand3 platforms going wrong way
-		//SS3 less enemies on side island
-		//SS4 intial launchpad comes up too short
-		//ENEMY IN WATER for SS4
+		//PP3
+			//Make platform in PP3 double-edged (and faster).
+			//PP3 make that slope less steep
+			//Danger Deacon gets stuck in floor on PP3
+		//FF1
+			//FF1 is too ugly
+			//Fallrhine 1 ledge is too high
+		//FF2
+			//Fallrhine 2 barrel platform unreachable
+		//FF3
+			//Exaggerate movement of spinning platform in FF3
+			//FF3 health platform unreachable
+		//FF4
+			//Expand ridge in FF4
+			//FF4 Enemy in the water?
+		//SS2
+			//Make beginning platforms easier to cross
+			//Can't get on platforms to return
+			//Put checkpoint back at start
+			//Lower that one PP platform
+		//SS3
+			//Sacsand3 platforms going wrong way
+			//SS3 less enemies on side island
+		//SS4
+			//SS4 intial launchpad comes up too short
+			//ENEMY IN WATER for SS4
 
 	//Optimize raycast distances (The more geometry that intersects it, the slower it gets)
 	//Send E_SETTINGSCHANGE to self

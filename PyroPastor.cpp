@@ -36,7 +36,7 @@ void PyroPastor::DelayedStart()
 	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
 	animController->SetSpeed(REVIVE_ANIM, 0.0f);
 
-	actor->maxspeed = 10.0f;
+	actor->maxSpeed = 10.0f;
 }
 
 void PyroPastor::RegisterObject(Context* context)
@@ -101,7 +101,7 @@ void PyroPastor::Execute()
 			ChangeState(STATE_WANDER);
 		}
 
-		actor->SetMovement(false, false, false, false);
+		actor->SetInputFPS(false, false, false, false);
 		actor->Move(deltaTime);
 		break;
 	}

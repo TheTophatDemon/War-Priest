@@ -99,7 +99,7 @@ void Enemy::FixedUpdate(float timeStep)
 	if (state == STATE_DROWN)
 	{
 		stateTimer += timeStep;
-		actor->SetMovement(false, false, false, false);
+		actor->SetInputFPS(false, false, false, false);
 		actor->Move(timeStep);
 		if (stateTimer > 0.75f)
 		{
@@ -178,15 +178,15 @@ void Enemy::Wander(const bool avoidSlopes, const bool pause, const float wallMar
 				}
 			}
 			//Make sure not to stand underneath any platforms that might squish you
-			/*physworld->SphereCast(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 2.7f, 0.0f), Vector3::UP), 1.5f, 250.0f, 2U);
+			physworld->SphereCast(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 2.7f, 0.0f), Vector3::UP), 1.5f, 250.0f, 2U);
 			if (result.body_)
 			{
 				walking = true;
-			}*/
+			}
 		}
 	}
 
-	actor->SetMovement(walking, false, false, false);
+	actor->SetInputFPS(walking, false, false, false);
 	actor->Move(deltaTime);
 }
 

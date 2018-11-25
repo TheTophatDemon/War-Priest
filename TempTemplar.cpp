@@ -61,7 +61,7 @@ void TempTemplar::DelayedStart()
 
 void TempTemplar::OnSettingsChange(StringHash eventType, VariantMap& eventData)
 {
-	actor->maxspeed = Settings::ScaleWithDifficulty(2.5f, 5.0f, 10.0f);
+	actor->maxSpeed = Settings::ScaleWithDifficulty(2.5f, 5.0f, 10.0f);
 }
 
 void TempTemplar::RegisterObject(Context* context)
@@ -99,14 +99,14 @@ void TempTemplar::Execute()
 			walking = true;
 			turnTimer = 3.0f;
 			newRotation.FromLookRotation(Vector3(-shieldDiff.x_, 0.0f, -shieldDiff.z_), Vector3::UP);
-			actor->SetMovement(true, false, false, false);
+			actor->SetInputFPS(true, false, false, false);
 			actor->Move(deltaTime);
 		}
 		else if (targetDist < MELEE_RANGE * 3.0f && Settings::GetDifficulty() > Settings::UNHOLY_THRESHOLD) //Chase after the player in Unholy Mode
 		{
 			walking = true;
 			newRotation.FromLookRotation(Vector3(targetDiff.x_, 0.0, targetDiff.z_) / targetDist, Vector3::UP);
-			actor->SetMovement(true, false, false, false);
+			actor->SetInputFPS(true, false, false, false);
 			actor->Move(deltaTime);
 		}
 		else
@@ -138,7 +138,7 @@ void TempTemplar::Execute()
 			ChangeState(STATE_WANDER);
 		}
 
-		actor->SetMovement(0.0f, 0.0f);
+		actor->SetInputVec(Vector3::ZERO);
 		actor->Move(deltaTime);
 		break;
 	}

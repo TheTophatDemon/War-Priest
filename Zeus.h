@@ -23,6 +23,7 @@ class Zeus //He does all the special effects
 {
 public:
 	Zeus();
+	static void RegisterZeus(Context* context);
 	static Node* MakeLightBeam(Scene* scene, Vector3 position, const float height=64.0f, const int sound = 1);
 	static Node* MakeShield(Scene* scene, Vector3 position, float radius);
 	static Node* PuffOfSmoke(Scene* scene, Vector3 position, float length);

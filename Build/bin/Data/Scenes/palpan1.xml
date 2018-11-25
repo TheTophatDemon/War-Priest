@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="49.7946" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16778218" />
-	<attribute name="Next Local Component ID" value="16780295" />
+	<attribute name="Next Local Node ID" value="16778226" />
+	<attribute name="Next Local Component ID" value="16780361" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="riseofthewarpriest.ogg" />
 		<variant hash="3555864366" type="Bool" value="true" />
@@ -3354,5 +3354,51 @@
 			<attribute name="Material" value="Material;Materials/roblox_brick.xml" />
 			<attribute name="Draw Distance" value="42" />
 		</component>
+	</node>
+	<node id="16778219">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="cutscene_trigger" />
+		<attribute name="Tags">
+			<string value="cutscene_trigger" />
+		</attribute>
+		<attribute name="Position" value="-177.154 6.97523 -37.6848" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="CollisionShape" id="16780307">
+			<attribute name="Shape Type" value="Sphere" />
+			<attribute name="Size" value="64 1 1" />
+		</component>
+		<component type="RigidBody" id="16780308">
+			<attribute name="Physics Position" value="-177.154 6.97523 -37.6848" />
+			<attribute name="Use Gravity" value="false" />
+			<attribute name="Is Trigger" value="true" />
+		</component>
+		<component type="ScriptInstance" id="16780309">
+			<attribute name="Delayed Method Calls" value="0" />
+			<attribute name="Script File" value="ScriptFile;Scripts/god_cutscene.as" />
+			<attribute name="Class Name" value="GodCutscene" />
+		</component>
+		<node id="16778222">
+			<attribute name="Is Enabled" value="true" />
+			<attribute name="Name" value="camera_ref" />
+			<attribute name="Tags" />
+			<attribute name="Position" value="26.4439 12.2768 0.573952" />
+			<attribute name="Rotation" value="0.672659 0.218063 -0.67263 0.218056" />
+			<attribute name="Scale" value="1 1 1" />
+			<attribute name="Variables" />
+			<component type="Camera" id="16780360">
+				<attribute name="Aspect Ratio" value="1.77778" />
+			</component>
+		</node>
+		<node id="16778223">
+			<attribute name="Is Enabled" value="true" />
+			<attribute name="Name" value="god_ref" />
+			<attribute name="Tags" />
+			<attribute name="Position" value="0.261841 0.528759 0.139954" />
+			<attribute name="Rotation" value="1 0 0 0" />
+			<attribute name="Scale" value="1 1 1" />
+			<attribute name="Variables" />
+		</node>
 	</node>
 </scene>

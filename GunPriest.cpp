@@ -5,6 +5,7 @@
 #include <Urho3D/Graphics/Texture2D.h>
 #include <Urho3D/Graphics/ParticleEffect.h>
 #include <Urho3D/Resource/XMLFile.h>
+#include <Urho3D/Engine/EngineDefs.h>
 #include <iostream>
 
 #include "Player.h"
@@ -34,6 +35,7 @@
 #include "TempShield.h"
 #include "GravityPlate.h"
 #include "Sign.h"
+#include "Zeus.h"
 
 int GunPriest::STATE_GAME = 0;
 int GunPriest::STATE_TITLE = 1;
@@ -42,6 +44,8 @@ using namespace std;
 
 GunPriest::GunPriest(Context* context) : Application(context)
 {
+	context_->RegisterSubsystem(new Script(context_));
+
 	Gameplay::RegisterObject(context);
 	Actor::RegisterObject(context);
 	Player::RegisterObject(context);
@@ -70,6 +74,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	TempShield::RegisterObject(context);
 	GravityPlate::RegisterObject(context);
 	GP::Sign::RegisterObject(context);
+	Zeus::RegisterZeus(context);
 
 	pause = false;
 	state = STATE_TITLE;
@@ -114,7 +119,7 @@ void GunPriest::Setup()
 	engineParameters_["WindowResizable"] = false;
 	engineParameters_["WindowTitle"] = "War Priest";
 	engineParameters_["Multisample"] = 0;
-	context_->RegisterSubsystem(new Script(context_));
+	engineParameters_["LogLevel"] = LOG_INFO | LOG_ERROR | LOG_WARNING;
 }
 
 void GunPriest::VideoSetup()

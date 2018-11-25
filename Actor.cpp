@@ -9,6 +9,9 @@
 #include <Urho3D/Physics/PhysicsEvents.h>
 #include <Urho3D/Physics/PhysicsUtils.h>
 #include <Urho3D/Math/Ray.h>
+#include <Urho3D/AngelScript/Script.h>
+#include <Urho3D/AngelScript/ScriptAPI.h>
+#include <Urho3D/AngelScript/APITemplates.h>
 #include <iostream>
 #include "WeakChild.h"
 #include "TempShield.h"
@@ -16,52 +19,48 @@
 using namespace Urho3D;
 
 #define LEVELMASK 2
-#define GROUNDMARGIN 0.51f
 
-Actor::Actor(Context* context) : LogicComponent(context)
+Actor::Actor(Context* context) : LogicComponent(context),
+	acceleration(175.0f),
+	maxSpeed(15.0f),
+	friction(60.0f),
+	fallSpeed(50.0f),
+	maxFall(30.0f),
+	jumpStrength(18.0f),
+	onGround(false),
+	slopeSteepness(0.0f),
+	deltaTime(0.0f),
+	gravity(true),
+	knockBackMovement(Vector3::ZERO),
+	input(Vector3::ZERO),
+	rawMovement(Vector3::ZERO)
 {
-	acceleration = 150.0f;
-	maxspeed = 15.0f;
-	friction = 0.85f;
-	fallspeed = 50.0f;
-	maxfall = 30.0f;
-	jumpStrength = 18.0f;
-
-	onGround = false;
-	slopeSteepness = 0.0f;
-	knockBack = 0.0f;
-	deltaTime = 0.0f;
-	gravity = true;
-
-	forward = 0.0f;
-	strafe = 0.0f;
-
-	rawMovement = Vector3::ZERO;
-	finalMovement = Vector3::ZERO;
 }
 
 void Actor::RegisterObject(Context* context)
 {
-	context->RegisterFactory<Actor>();
-	URHO3D_ATTRIBUTE("Acceleration", float, acceleration, 150.0f, AM_DEFAULT);
-	URHO3D_ATTRIBUTE("Max Speed", float, maxspeed, 15.0f, AM_DEFAULT);
-	URHO3D_ATTRIBUTE("Friction", float, friction, 0.85f, AM_DEFAULT);
-	URHO3D_ATTRIBUTE("Fall Speed", float, fallspeed, 50.0f, AM_DEFAULT);
-	URHO3D_ATTRIBUTE("Max Fall", float, maxfall, 30.0f, AM_DEFAULT);
-	URHO3D_ATTRIBUTE("Jump Strength", float, jumpStrength, 18.0f, AM_DEFAULT);
-	URHO3D_ATTRIBUTE("On Ground", bool, onGround, false, AM_DEFAULT);
-	URHO3D_ATTRIBUTE("Gravity Enabled", bool, gravity, true, AM_DEFAULT);
-}
+	context->RegisterFactory<Actor>("War Priest");
 
-void Actor::ApplyAttributes()
-{
-	acceleration = node_->GetAttribute("Acceleration").GetFloat();
-	maxspeed = node_->GetAttribute("Max Speed").GetFloat();
-	friction = node_->GetAttribute("Friction").GetFloat();
-	fallspeed = node_->GetAttribute("Fall Speed").GetFloat();
-	maxfall = node_->GetAttribute("Max Fall").GetFloat();
-	jumpStrength = node_->GetAttribute("Jump Strength").GetFloat();
-	gravity = node_->GetAttribute("Gravity Enabled").GetBool();
+	//Make it accessible to scripting api
+	asIScriptEngine* scrEngine = context->GetSubsystem<Script>()->GetScriptEngine();
+	RegisterComponent<Actor>(scrEngine, "Actor");
+	scrEngine->RegisterObjectMethod("Actor", "void Move(float timeStep)", asMETHOD(Actor, Move), asCALL_THISCALL);
+	scrEngine->RegisterObjectMethod("Actor", "void SetInputFPS(bool fw, bool bk, bool lf, bool rg)", asMETHOD(Actor, SetInputFPS), asCALL_THISCALL);
+	scrEngine->RegisterObjectMethod("Actor", "void SetInputVec(const Vector3 mov)", asMETHOD(Actor, SetInputVec), asCALL_THISCALL);
+	scrEngine->RegisterObjectMethod("Actor", "void Jump()", asMETHOD(Actor, Jump), asCALL_THISCALL);
+	scrEngine->RegisterObjectMethod("Actor", "void KnockBack(float amount, Quaternion direction)", asMETHOD(Actor, KnockBack), asCALL_THISCALL);
+	scrEngine->RegisterObjectProperty("Actor", "Vector3 input", offsetof(Actor, input));
+	scrEngine->RegisterObjectProperty("Actor", "PhysicsRaycastResult downCast", offsetof(Actor, downCast));
+	scrEngine->RegisterObjectProperty("Actor", "float acceleration", offsetof(Actor, acceleration));
+	scrEngine->RegisterObjectProperty("Actor", "float maxSpeed", offsetof(Actor, maxSpeed));
+	scrEngine->RegisterObjectProperty("Actor", "float friction", offsetof(Actor, friction));
+	scrEngine->RegisterObjectProperty("Actor", "float fallSpeed", offsetof(Actor, fallSpeed));
+	scrEngine->RegisterObjectProperty("Actor", "float maxFall", offsetof(Actor, maxFall));
+	scrEngine->RegisterObjectProperty("Actor", "float jumpStrength", offsetof(Actor, jumpStrength));
+	scrEngine->RegisterObjectProperty("Actor", "float fall", offsetof(Actor, fall));
+	scrEngine->RegisterObjectProperty("Actor", "bool onGround", offsetof(Actor, onGround));
+	scrEngine->RegisterObjectProperty("Actor", "bool sloping", offsetof(Actor, sloping));
+	scrEngine->RegisterObjectProperty("Actor", "bool gravity", offsetof(Actor, gravity));
 }
 
 void Actor::Start()
@@ -71,56 +70,46 @@ void Actor::Start()
 	physworld = scene->GetComponent<PhysicsWorld>();
 	shape = node_->GetComponent<CollisionShape>();
 
-	//SubscribeToEvent(GetNode(), E_NODECOLLISIONSTART, URHO3D_HANDLER(Actor, OnCollisionStart));
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Actor, OnCollision));
-	//SubscribeToEvent(GetNode(), E_NODECOLLISIONEND, URHO3D_HANDLER(Actor, OnCollisionEnd));
 }
 
-void Actor::SetMovement(bool fw, bool bk, bool lf, bool rg)
+void Actor::SetInputFPS(bool fw, bool bk, bool lf, bool rg)
 {
-	if (fabs(deltaTime) > 10.0f) deltaTime = 0.0f;
-	if (fw)
+	if (fw) 
 	{
-		forward += acceleration * deltaTime;
-		if (forward > maxspeed) forward = maxspeed;
+		input.z_ = 1.0f;
 	}
-	else if (bk)
+	else if (bk) 
 	{
-		forward -= acceleration * deltaTime;
-		if (forward < -maxspeed) forward = -maxspeed;
+		input.z_ = -1.0f;
 	}
 	else
 	{
-		forward *= friction;
-		if (fabs(forward) < 0.1f) forward = 0.0f;
+		input.z_ = 0.0f;
 	}
 	if (rg)
 	{
-		strafe += acceleration * deltaTime;
-		if (strafe > maxspeed) strafe = maxspeed;
+		input.x_ = 1.0f;
 	}
 	else if (lf)
 	{
-		strafe -= acceleration * deltaTime;
-		if (strafe < -maxspeed) strafe = -maxspeed;
+		input.x_ = -1.0f;
 	}
 	else
 	{
-		strafe *= friction;
-		if (fabs(strafe) < 0.1f) strafe = 0.0f;
+		input.x_ = 0.0f;
 	}
-	rawMovement = node_->GetWorldRotation() * Vector3(strafe, 0.0f, forward);
+	input.y_ = 0.0f;
+	input = node_->GetWorldRotation() * input;
+	input.Normalize();
 }
 
-void Actor::SetMovement(float xm, float zm)
+void Actor::SetInputVec(const Vector3 mov)
 {
-	strafe = 0.0f; forward = 0.0f;
-	rawMovement = Vector3(xm, 0.0f, zm);
-}
-void Actor::SetMovement(Vector3 mv)
-{
-	strafe = 0.0f; forward = 0.0f;
-	rawMovement = mv;
+	input.x_ = mov.x_;
+	input.y_ = mov.y_;
+	input.z_ = mov.z_;
+	input.Normalize();
 }
 
 void Actor::Jump()
@@ -135,7 +124,24 @@ void Actor::Jump()
 void Actor::Move(float timeStep)
 {
 	deltaTime = timeStep;
-	if (fabs(deltaTime) > 10.0f) deltaTime = 0.0f;
+
+	//Horizontal plane movement
+	rawMovement += input * acceleration * deltaTime;
+	const float rawMagnitude = rawMovement.Length();
+	//Friction
+	if (input == Vector3::ZERO)
+	{
+		rawMovement = (rawMovement / rawMagnitude) * Max(0.0f, rawMagnitude - friction * deltaTime);
+	}
+	//Clamping
+	if (rawMagnitude > maxSpeed)
+	{
+		rawMovement = (rawMovement / rawMagnitude) * maxSpeed;
+	}
+	else if (rawMagnitude < 0.1f)
+	{
+		rawMovement = Vector3::ZERO;
+	}
 
 	//Falling logic
 	sloping = false;
@@ -147,9 +153,10 @@ void Actor::Move(float timeStep)
 			fall = -0.1f;
 			if (slopeSteepness != 1.0f && slopeSteepness >= 0.42f)
 			{
-				slopeFall = (-1 / (slopeSteepness * 0.64f) + 1) * rawMovement.Length();
+				const Vector3 rawMovementXZ = Vector3(rawMovement.x_, 0.0f, rawMovement.z_);
 				const Vector3 slopeNormalXZ = Vector3(downCast.normal_.x_, 0.0f, downCast.normal_.z_);
-				const float dot = slopeNormalXZ.DotProduct(rawMovement);
+				slopeFall = (-1 / (slopeSteepness * 0.64f) + 1) * rawMovementXZ.Length();
+				const float dot = slopeNormalXZ.DotProduct(rawMovementXZ);
 				if (dot < -0.75f && slopeSteepness >= 0.75f)
 				{
 					slopeFall = fabs(slopeFall) * 0.34f;
@@ -160,8 +167,8 @@ void Actor::Move(float timeStep)
 	}
 	else if (gravity)
 	{
-		fall -= fallspeed * deltaTime;
-		if (fall < -maxfall) fall = -maxfall;
+		fall -= fallSpeed * deltaTime;
+		if (fall < -maxFall) fall = -maxFall;
 	}
 	else
 	{
@@ -183,29 +190,34 @@ void Actor::Move(float timeStep)
 	}
 
 	//Apply movements
-	if (knockBack > 0.1f)
+	const float knockBackMagnitude = knockBackMovement.Length();
+	if (knockBackMagnitude > 0.01f)
 	{
-		knockBack *= 0.9f;
+		knockBackMovement = (knockBackMovement / knockBackMagnitude) * Max(0.0f, knockBackMagnitude - friction * deltaTime);
 	}
 	else
 	{
-		knockBack = 0.0f;
+		knockBackMovement = Vector3::ZERO;
+	}
+	const Vector3 combinedMovement = Vector3(rawMovement.x_, rawMovement.y_ + fall + slopeFall, rawMovement.z_);
+	body->SetLinearVelocity((combinedMovement + knockBackMovement) * deltaTime * 50.0f);
+
+	//Raycast downward to get slope normal
+	physworld->RaycastSingle(downCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 500.0f, LEVELMASK);
+	if (downCast.body_)
+	{
+		slopeSteepness = downCast.normal_.y_;
+	}
+	else
+	{
+		slopeSteepness = 1.0f;
 	}
 
-	Vector3 transformedMovement = Vector3(rawMovement.x_, fall + slopeFall, rawMovement.z_);
-
-	finalMovement = ((transformedMovement + (knockBackDirection * Vector3::FORWARD * knockBack)) * deltaTime * 50.0f);
-	body->SetLinearVelocity(finalMovement);
-	rawMovement = Vector3::ZERO;
-
-	slopeSteepness = 1.0f;
-	GetSlope();
-
+	//Sending a fake collision event to fix a weird bug where lifts occasionally forget that things are standing on them
 	if (downCast.body_)
 	{
 		if (downCast.distance_ <= 0.6f && downCast.body_->GetNode()->HasTag("lift"))
-		{
-			//Sending a fake collision event to fix a weird bug where lifts occasionally forget that things are standing on them
+		{	
 			VariantMap eventData = VariantMap();
 			eventData.Insert(Pair<StringHash, Variant>(NodeCollision::P_OTHERBODY, Variant(body)));
 			eventData.Insert(Pair<StringHash, Variant>(NodeCollision::P_OTHERNODE, Variant(node_)));
@@ -228,23 +240,7 @@ void Actor::Move(float timeStep)
 
 void Actor::KnockBack(float amount, Quaternion direction)
 {
-	knockBack = amount;
-	knockBackDirection = direction;
-}
-
-void Actor::FixedUpdate(float timeStep)
-{
-
-}
-
-void Actor::GetSlope()
-{
-	//Raycast downward to get slope normal
-	physworld->RaycastSingle(downCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 500.0f, LEVELMASK);
-	if (downCast.body_)
-	{
-		slopeSteepness = downCast.normal_.y_;
-	}
+	knockBackMovement = (direction * Vector3::FORWARD) * amount;
 }
 
 void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
@@ -252,7 +248,7 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
 
-	if (otherBody->GetCollisionLayer() & LEVELMASK)
+	if (otherBody->GetCollisionLayer() & LEVELMASK) //Get ground information
 	{
 		VectorBuffer contacts = eventData["Contacts"].GetBuffer();
 		while (!contacts.IsEof())
@@ -274,7 +270,7 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 			}
 		}
 	}
-	else if (otherBody->GetCollisionLayer() & 16)
+	else if (otherBody->GetCollisionLayer() & 16) //React to shields and black holes
 	{
 		if (other->HasTag("tempshield"))
 		{

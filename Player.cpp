@@ -59,14 +59,7 @@ using namespace Urho3D;
 #define STATE_DEAD 3
 #define STATE_WIN 4
 #define STATE_DROWN 5
-
-#define ACCELERATION 150.0f
-#define FRICTION 0.85f
-#define FALLSPEED 50.0f
-#define MAXFALL 30.0f
-#define JUMPSTRENGTH 18.0f
-#define WALKSPEED 15.0f
-#define SLIDESPEED 20.0f
+#define STATE_PUPPET 6
 
 #define MAXHEALTH 100
 
@@ -86,13 +79,20 @@ Player::Player(Context* context) :
 	optimalCamPos(Vector3::ZERO),
 	splashNode(nullptr),
 	lastChance(false),
-	startingPosition(0,0,0)
+	startingPosition(0,0,0),
+	walkSpeed(17.0f),
+	slideSpeed(22.0f)
 {
 }
 
 void Player::RegisterObject(Context* context)
 {
 	context->RegisterFactory<Player>();
+	asIScriptEngine* scrEngine = context->GetSubsystem<Script>()->GetScriptEngine();
+	RegisterComponent<Player>(scrEngine, "Player");
+	scrEngine->RegisterObjectProperty("Player", "Node@ modelNode", offsetof(Player, modelNode));
+	scrEngine->RegisterObjectProperty("Player", "float walkSpeed", offsetof(Player, walkSpeed));
+	scrEngine->RegisterObjectProperty("Player", "float slideSpeed", offsetof(Player, slideSpeed));
 }
 
 void Player::Start()
@@ -114,56 +114,33 @@ void Player::Start()
 	cameraNode->SetParent(pivot);
 	cameraNode->SetPosition(cameraOffset);
 	
-	newRotation = node_->GetWorldRotation();
-	
 	startingPosition = node_->GetWorldPosition();
 
-	//Actor setup
-	if (!node_->HasComponent<Actor>())
-	{
-		actor = node_->CreateComponent<Actor>();
-	}
-	else
-	{
-		actor = node_->GetComponent<Actor>();
-	}
-	actor->acceleration = ACCELERATION;
-	actor->friction = FRICTION;
-	actor->fallspeed = FALLSPEED;
-	actor->maxfall = MAXFALL;
-	actor->jumpStrength = JUMPSTRENGTH;
-	actor->maxspeed = WALKSPEED;
+	actor = node_->GetOrCreateComponent<Actor>();
+	actor->maxSpeed = walkSpeed;
 
-	//Ground detector
 	groundDetector = node_->GetChild("groundDetector")->GetComponent<RigidBody>();
 	if (!groundDetector)
 		std::cout << "GROUND DETECTOR MISSING" << std::endl;
 
-	//Get Model
 	modelNode = node_->GetChild("model");
 	if (!modelNode)
 		std::cout << "PLAYER HAS NO MODEL!" << std::endl;
-	//newRotation = modelNode->GetRotation();
-	node_->RemoveChild(modelNode);
-	scene->AddChild(modelNode);
+	modelNode->SetParent(scene); //Detach from player node so that it can rotate smoothly while the player node turns instantaneously
+	WeakChild::MakeWeakChild(modelNode, node_);
 
-	if (modelNode->HasComponent<AnimationController>())
-		animController = modelNode->GetComponent<AnimationController>();
-	else
-		animController = modelNode->CreateComponent<AnimationController>();
+	animController = modelNode->GetOrCreateComponent<AnimationController>();
+	animController->StopAll();
 
-	//Drop shadow
 	dropShadow = scene->CreateChild();
 	StaticModel* shadModel = dropShadow->CreateComponent<StaticModel>();
 	shadModel->SetModel(cache->GetResource<Model>("Models/shadow.mdl"));
 	shadModel->SetMaterial(cache->GetResource<Material>("Materials/shadow_simple.xml"));
 	dropShadow->SetRotation(Quaternion::IDENTITY);
 
-	//Blood
 	bloodEmitter = node_->GetChild("blood")->GetComponent<ParticleEmitter>();
 	bloodEmitter->SetEmitting(false);
 
-	//Sound source
 	soundSource = node_->CreateComponent<SoundSounder>();
 	currentCheckpoint = scene->GetChild("exit");
 	if (!currentCheckpoint.Get())
@@ -173,20 +150,19 @@ void Player::Start()
 	}
 
 	//Arrow
-	arrowNode = scene->CreateChild();
-	arrowNode->SetScale(0.5f);
-	StaticModel* sm = arrowNode->CreateComponent<StaticModel>();
-	sm->SetModel(cache->GetResource<Model>("Models/arrow.mdl"));
-	sm->SetMaterial(cache->GetResource<Material>("Materials/arrow.xml"));
-
 	SharedPtr<ValueAnimation> spinAnim(new ValueAnimation(context_));
 	spinAnim->SetKeyFrame(0.0f, Quaternion::IDENTITY);
 	spinAnim->SetKeyFrame(0.5f, Quaternion(90.0f, Vector3::UP));
 	spinAnim->SetKeyFrame(1.0f, Quaternion(180.0f, Vector3::UP));
 	spinAnim->SetKeyFrame(1.5f, Quaternion(270.0f, Vector3::UP));
 	spinAnim->SetKeyFrame(2.0f, Quaternion(360.0f, Vector3::UP));
-	arrowNode->SetAttributeAnimation("Rotation", spinAnim, WM_LOOP, 1.0f);
 
+	arrowNode = scene->CreateChild();
+	arrowNode->SetScale(0.5f);
+	StaticModel* sm = arrowNode->CreateComponent<StaticModel>();
+	sm->SetModel(cache->GetResource<Model>("Models/arrow.mdl"));
+	sm->SetMaterial(cache->GetResource<Material>("Materials/arrow.xml"));
+	arrowNode->SetAttributeAnimation("Rotation", spinAnim, WM_LOOP, 1.0f);
 	arrowNode->SetEnabled(false);
 	WeakChild::MakeWeakChild(arrowNode, node_);
 
@@ -194,21 +170,31 @@ void Player::Start()
 	
 	lastChance = false;
 
-	cache->GetResource<ParticleEffect>("Particles/splash.xml");
-
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
 	SubscribeToEvent(Projectile::E_PROJECTILEHIT, URHO3D_HANDLER(Player, OnProjectileHit));
 	SubscribeToEvent(God::E_BEAMED, URHO3D_HANDLER(Player, OnBeamed));
 	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(Player, OnSettingsChange));
+	SubscribeToEvent(Gameplay::E_CUTSCENE_START, URHO3D_HANDLER(Player, OnCutsceneEvent));
+	SubscribeToEvent(Gameplay::E_CUTSCENE_END, URHO3D_HANDLER(Player, OnCutsceneEvent));
 
 	SendEvent(Settings::E_SETTINGSCHANGED); //We fake a settings change
 	//This is so that we only have to initialize the settings-dependent values in one piece of code
-
-	animController->StopAll();
 }
 
 void Player::OnSettingsChange(StringHash eventType, VariantMap& eventData)
 {
+}
+
+void Player::OnCutsceneEvent(StringHash eventType, VariantMap& eventData)
+{
+	if (eventType == Gameplay::E_CUTSCENE_START)
+	{
+		ChangeState(STATE_PUPPET);
+	}
+	else if (eventType == Gameplay::E_CUTSCENE_END)
+	{
+		ChangeState(STATE_DEFAULT);
+	}
 }
 
 void Player::Cheats()
@@ -225,7 +211,7 @@ void Player::Cheats()
 		actor->onGround = true;
 	speedy = input->GetKeyDown(KEY_KP_PERIOD);
 	if (input->GetKeyPress(KEY_KP_9))
-		Missile::MakeMissile(scene, node_->GetWorldPosition() + Vector3(0.0f, 4.0f, 0.0f), newRotation, node_, node_);
+		Missile::MakeMissile(scene, node_->GetWorldPosition() + Vector3(0.0f, 4.0f, 0.0f), node_->GetWorldRotation(), node_, node_);
 	if (input->GetKeyPress(KEY_KP_3)) //Query
 	{
 		PhysicsRaycastResult query;
@@ -265,8 +251,8 @@ void Player::FixedUpdate(float timeStep)
 {	
 	if (state != STATE_WIN && state != STATE_DEAD)
 	{
-		modelNode->SetPosition(node_->GetWorldPosition());
-		modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
+		modelNode->SetWorldPosition(node_->GetWorldPosition());
+		modelNode->SetWorldRotation(modelNode->GetWorldRotation().Slerp(node_->GetWorldRotation() * Quaternion(-90.0f, Vector3::UP), 0.25f));
 	}
 
 	Cheats();
@@ -319,10 +305,8 @@ void Player::FixedUpdate(float timeStep)
 		break;
 	}
 
-	if (state != STATE_WIN && state != STATE_DEAD) 
+	if (state != STATE_WIN && state != STATE_DEAD && state != STATE_PUPPET) 
 	{
-		//modelNode->SetPosition(body->GetPosition());
-		//modelNode->SetRotation(modelNode->GetRotation().Slerp(newRotation, 0.25f));
 		HandleCamera();
 	}
 }
@@ -427,49 +411,6 @@ void Player::OnBeamed(StringHash eventType, VariantMap& eventData)
  	}
 }
 
-/*void Player::HandleCamera()
-{
-	const Vector3 worldPos = body->GetPosition();
-	const Vector3 headPos = worldPos + Vector3(0.0f, 2.5f, 0.0f);
-
-	//Yaw rotation
-	if (state != STATE_DROWN) pivot->SetWorldPosition(body->GetPosition());
-	pivot->Rotate(Quaternion(input->GetMouseMoveX() * Settings::GetMouseSensitivity(), Vector3::UP));
-	
-	const Vector3 defaultCameraPosition = (pivot->GetWorldTransform() * Matrix3x4(cameraOffset, Quaternion::IDENTITY, 1.0f)).Translation();
-	Vector3 playerToCam = defaultCameraPosition - headPos;
-	const float camDist = playerToCam.Length();
-	playerToCam /= camDist; //Normalizing it
-
-	PhysicsRaycastResult result;
-	physworld->SphereCast(result, Ray(headPos, playerToCam), 0.5f, camDist, 512U);
-	
-	optimalCamPos = defaultCameraPosition;
-	if (result.body_)
-	{
-		optimalCamPos = result.position_ - (playerToCam * 0.5f);
-	}
-
-	float transitionSpeed = Min(0.15f + (1.0f / result.distance_), 0.9f);
-	if (input->GetMouseMoveX() > 8)
-	{
-		transitionSpeed = 1.0f;
-	}
-	cameraNode->Translate((optimalCamPos - cameraNode->GetWorldPosition()) * transitionSpeed, TS_WORLD);
-	//cameraNode->SetWorldPosition(optimalCamPos);
-
-	//Rotate it to look at the player's feet
-	Quaternion newAngle = Quaternion();
-	newAngle.FromLookRotation((worldPos - cameraNode->GetWorldPosition()).Normalized());
-	cameraNode->SetWorldRotation(newAngle);
-
-	//Pitch rotation
-	float mvy = input->GetMouseMoveY();
-	if (Settings::IsMouseInverted()) mvy = -mvy;
-	cameraPitch = Clamp(cameraPitch + (mvy * Settings::GetMouseSensitivity() * 0.25f), -15.0f, 15.0f);
-	cameraNode->Rotate(Quaternion(cameraPitch, Vector3::RIGHT), TS_LOCAL);
-}*/
-
 void Player::HandleCamera()
 {
 	const Vector3 worldPos = body->GetPosition();
@@ -533,20 +474,17 @@ void Player::HandleCamera()
 
 void Player::HandleShadow()
 {
-	Vector3 doot = Vector3(0.0f, 0.2f, 0.0f);
-	PhysicsRaycastResult shadowRaycast;
-	physworld->RaycastSingle(shadowRaycast, Ray(node_->GetWorldPosition() + doot, Vector3::DOWN), 500.0f, 2);
-	if (shadowRaycast.body_)
+	if (actor->downCast.body_)
 	{
-		if (!actor->onGround && shadowRaycast.distance_ > 0.5f)
+		if (!actor->onGround && actor->downCast.distance_ > 0.8f)
 		{
 			dropShadow->SetEnabled(true);
-			dropShadow->SetWorldPosition(shadowRaycast.position_ + Vector3(0.0f, 0.1f, 0.0f));
+			dropShadow->SetWorldPosition(actor->downCast.position_ + Vector3(0.0f, 0.1f, 0.0f));
 			Quaternion q = Quaternion();
-			q.FromLookRotation(shadowRaycast.normal_);
+			q.FromLookRotation(actor->downCast.normal_);
 			dropShadow->SetRotation(q);
 			StaticModel* sm = dropShadow->GetComponent<StaticModel>();
-			sm->GetMaterial(0)->SetShaderParameter("MatDiffColor", Vector4(1.0f, 1.0f, 1.0f, Min(1.0f, shadowRaycast.distance_ * 0.5f)));
+			sm->GetMaterial(0)->SetShaderParameter("MatDiffColor", Vector4(1.0f, 1.0f, 1.0f, Min(1.0f, actor->downCast.distance_ * 0.8f)));
 		}
 		else
 		{
@@ -578,9 +516,8 @@ void Player::EnterState(int newState)
 	switch (newState) 
 	{
 		case STATE_SLIDE:
-			actor->maxspeed = SLIDESPEED;
-			node_->SetRotation(Quaternion(0.0f, newRotation.EulerAngles().y_ + 90.0f, 0.0f));
-			slideDirection = node_->GetDirection() * SLIDESPEED;
+			actor->maxSpeed = slideSpeed;
+			slideDirection = node_->GetWorldDirection();
 			if (body->GetCollisionLayer() & 128)
 			{
 				body->SetCollisionLayer(body->GetCollisionLayer() - 128);
@@ -645,7 +582,7 @@ void Player::LeaveState(int oldState)
 {
 	if (oldState == STATE_SLIDE)
 	{
-		actor->maxspeed = WALKSPEED;
+		actor->maxSpeed = walkSpeed;
 		if (!(body->GetCollisionLayer() & 128))
 		{
 			body->SetCollisionLayer(body->GetCollisionLayer() + 128);
@@ -662,83 +599,55 @@ void Player::ST_Default(float timeStep)
 {
 	stateTimer += timeStep;
 
-
-	bool walking = false;
-	if (Settings::GetRightKey()->isDown())
-	{
-		moveX += ACCELERATION * timeStep;
-		walking = true;
-	}
-	else if (Settings::GetLeftKey()->isDown())
-	{
-		moveX -= ACCELERATION * timeStep;
-		walking = true;
-	}
+	if (speedy)
+		actor->maxSpeed = 413.0f;
 	else
-	{
-		moveX *= FRICTION;
-		if (fabs(moveX) < 0.1f) moveX = 0.0f;
-	}
-	if (!speedy) moveX = Clamp(moveX, -WALKSPEED, WALKSPEED);
+		actor->maxSpeed = walkSpeed;
 
+	Vector3 keyVec = Vector3::ZERO;
 	if (Settings::GetForwardKey()->isDown())
-	{
-		moveZ += ACCELERATION * timeStep;
-		walking = true;
-	}
+		keyVec.z_ = 1.0f;
 	else if (Settings::GetBackwardKey()->isDown())
-	{
-		moveZ -= ACCELERATION * timeStep;
-		walking = true;
-	}
-	else
-	{
-		moveZ *= FRICTION;
-		if (fabs(moveZ) < 0.1f) moveZ = 0.0f;
-	}
-	if (!speedy) moveZ = Clamp(moveZ, -WALKSPEED, WALKSPEED);
-
-	if (Settings::GetJumpKey()->isDown())
-	{
+		keyVec.z_ = -1.0f;
+	if (Settings::GetRightKey()->isDown())
+		keyVec.x_ = 1.0f;
+	else if (Settings::GetLeftKey()->isDown())
+		keyVec.x_ = -1.0f;
+	
+	actor->SetInputVec(pivot->GetWorldRotation() * keyVec);
+	
+	if (Settings::GetJumpKey()->isDown()) 
 		actor->Jump();
-	}
-	actor->SetMovement(pivot->GetWorldRotation() * Vector3(moveX, 0.0f, moveZ));
 
-	//Decide what angle the model will be facing
-	if (walking)
+	//Decide angle
+	if (actor->input != Vector3::ZERO)
 	{
-		Quaternion dir = Quaternion();
-		dir.FromLookRotation(actor->rawMovement.Normalized().CrossProduct(Vector3::UP));
-		node_->SetRotation(dir);
-		newRotation = dir;
+		Quaternion newRotation;
+		newRotation.FromLookRotation(actor->input);
+		node_->SetWorldRotation(newRotation);
 	}
 
-	//Ground detection
-	if (!groundDetector->IsActive())
-		groundDetector->Activate();
+	//Ground detection is done manually for animations because the physics engine is retarded.
+	if (!groundDetector->IsActive()) groundDetector->Activate();
 	groundDetector->SetPosition(body->GetPosition());
 
 	PODVector<RigidBody*> grounds;
-	bool diddly = false;
+	bool detectedGround = false;
 	physworld->GetRigidBodies(grounds, groundDetector);
-	for (PODVector<RigidBody*>::Iterator i = grounds.Begin(); i != grounds.End(); ++i)
+	for (RigidBody* body : grounds)
 	{
-		RigidBody* b = (RigidBody*)*i;
-		if (b)
+		if (body->GetCollisionLayer() & 2)
 		{
-			if (b->GetCollisionLayer() & 2)
-			{
-				diddly = true;
-				break;
-			}
+			detectedGround = true;
+			break;
 		}
 	}	
 
 	//Select Animation
-	if (!diddly)
+	if (!detectedGround)
 	{
 		if ((lastState == STATE_DROWN && stateTimer < 0.5f)
-			|| Settings::GetDifficulty() > 1.4f)
+			|| Settings::GetDifficulty() > Settings::UNHOLY_THRESHOLD)
 		{
 			animController->PlayExclusive(DROWN_ANIM, 0, true, 0.2f);
 		}
@@ -749,7 +658,7 @@ void Player::ST_Default(float timeStep)
 	}
 	else
 	{
-		if (walking)
+		if (actor->input != Vector3::ZERO)
 		{
 			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
 			hailTimer = 0;
@@ -798,7 +707,7 @@ void Player::ST_Slide(float timeStep)
 	stateTimer += timeStep;
 	animController->PlayExclusive(SLIDE_ANIM, 0, false, 0.2f);
 
-	actor->SetMovement(slideDirection);
+	actor->SetInputVec(slideDirection);
 	actor->Move(timeStep);
 
 	if (stateTimer > 0.5f)
@@ -818,7 +727,7 @@ void Player::ST_Slide(float timeStep)
 
 void Player::ST_Win(float timeStep)
 {
-	actor->SetMovement(0.0f, 0.0f);
+	actor->SetInputVec(Vector3::ZERO);
 	actor->Move(timeStep);
 	animController->PlayExclusive(IDLE_ANIM, 0, true, 0.2f);
 }
@@ -862,7 +771,7 @@ void Player::ST_Drown(float timeStep)
 	}
 	if (drownPhase <= 4) 
 	{
-		actor->SetMovement(0.0f, 0.0f);
+		actor->SetInputVec(Vector3::ZERO);
 		actor->Move(timeStep);
 	}
 	else

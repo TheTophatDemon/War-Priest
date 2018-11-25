@@ -27,6 +27,9 @@ class Gameplay : public LogicComponent
 	URHO3D_OBJECT(Gameplay, LogicComponent);
 public:
 	static StringHash E_BONUSCOLLECTED;
+	static StringHash E_CUTSCENE_START;
+	static StringHash E_CUTSCENE_END;
+
 	GunPriest* gunPriest;
 	
 	SharedPtr<CompassScene> compassScene;

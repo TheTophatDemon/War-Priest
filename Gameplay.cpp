@@ -42,6 +42,9 @@
 #include <Urho3D/Graphics/Geometry.h>
 #include <Urho3D/Audio/Sound.h>
 #include <Urho3D/Graphics/Graphics.h>
+#include <Urho3D/AngelScript/Script.h>
+#include <Urho3D/AngelScript/APITemplates.h>
+#include <Urho3D/AngelScript/ScriptAPI.h>
 
 #include <iostream>
 
@@ -70,6 +73,8 @@
 using namespace Urho3D;
 
 StringHash Gameplay::E_BONUSCOLLECTED = StringHash("BonusCollected");
+StringHash Gameplay::E_CUTSCENE_START = StringHash("CutsceneStart");
+StringHash Gameplay::E_CUTSCENE_END = StringHash("CutsceneEnd");
 
 Gameplay::Gameplay(Context* context) : LogicComponent(context), 
 	flashSpeed(0.0f), 
@@ -96,6 +101,14 @@ Gameplay::Gameplay(Context* context) : LogicComponent(context),
 void Gameplay::RegisterObject(Context* context)
 {
 	context->RegisterFactory<Gameplay>();
+	asIScriptEngine* scrEngine = context->GetSubsystem<Script>()->GetScriptEngine();
+	RegisterComponent<Gameplay>(scrEngine, "Gameplay");
+	scrEngine->RegisterObjectMethod("Gameplay", "void DisplayMessage(const String msg, const Color col, const float time, const int priority)", asMETHOD(Gameplay, DisplayMessage), asCALL_THISCALL);
+	scrEngine->RegisterObjectMethod("Gameplay", "void FlashScreen(const Color c, const float spd)", asMETHOD(Gameplay, FlashScreen), asCALL_THISCALL);
+	scrEngine->RegisterObjectMethod("Gameplay", "void Lose()", asMETHOD(Gameplay, Lose), asCALL_THISCALL);
+	scrEngine->RegisterObjectMethod("Gameplay", "void Win()", asMETHOD(Gameplay, Win), asCALL_THISCALL);
+	//scrEngine->RegisterGlobalProperty("const StringHash E_CUTSCENE_START", (void*)&E_CUTSCENE_START);
+	//scrEngine->RegisterGlobalProperty("const StringHash E_CUTSCENE_END", (void*)&E_CUTSCENE_END);
 }
 
 void Gameplay::Start()
@@ -198,6 +211,7 @@ void Gameplay::SetupGame()
 	{
 		weatherNode = cameraNode->CreateChild();
 		weatherNode->SetPosition(Vector3::FORWARD);
+		//weatherNode->SetParent(scene_);
 		ParticleEmitter* emitter = weatherNode->CreateComponent<ParticleEmitter>();
 		emitter->SetEffect(cache->GetResource<ParticleEffect>("Particles/rain.xml"));
 		emitter->SetEmitting(true);
@@ -406,9 +420,10 @@ void Gameplay::FixedUpdate(float timeStep)
 		{
 			if (scene_->GetElapsedTime() > 0.1f) //Particles won't turn on unless they're on camera for a bit
 			{
-				Vector3 xzOfs = (cameraNode->GetParent()->GetWorldPosition() - cameraNode->GetWorldPosition()).Normalized() * 8.0f;
+				Node* currentCamera = viewport->GetCamera()->GetNode();
+				Vector3 xzOfs = (currentCamera->GetParent()->GetWorldPosition() - currentCamera->GetWorldPosition()).Normalized() * 8.0f;
 				xzOfs.y_ = 1.0f;
-				weatherNode->SetWorldPosition(cameraNode->GetWorldPosition() + xzOfs);
+				weatherNode->SetWorldPosition(currentCamera->GetWorldPosition() + xzOfs);
 				weatherNode->SetWorldRotation(Quaternion::IDENTITY);
 			}
 		}

@@ -38,6 +38,7 @@ protected:
 	void OnProjectileHit(StringHash eventType, VariantMap& eventData);
 	void OnBeamed(StringHash eventType, VariantMap& eventData);
 	void OnSettingsChange(StringHash eventType, VariantMap& eventData);
+	void OnCutsceneEvent(StringHash eventType, VariantMap& eventData);
 	void Hurt(Node* source, int damage);
 	void HandleCamera();
 	void HandleShadow();
@@ -73,8 +74,7 @@ protected:
 	WeakPtr<Node> splashNode;
 	WeakPtr<Node> beamNode;
 	WeakPtr<Node> arrowNode;
-
-	Quaternion newRotation;
+	
 	Vector3 slideDirection;
 	Vector3 optimalCamPos;
 	Vector3 startingPosition;
@@ -91,9 +91,9 @@ protected:
 	float reviveCooldown;
 	float cameraPitch;
 	float cameraYaw;
-	float moveX = 0.0f;
-	float moveZ = 0.0f;
-	//bool drowning = false;
+
+	float walkSpeed;
+	float slideSpeed;
 
 	bool speedy = false;
 	bool lastChance = false;
