@@ -26,6 +26,13 @@ class GodCutscene : ScriptObject
 	}
 	void Trigger()
 	{
+		//Don't play this one more than once
+		if (game.levelVisits > 1)
+		{
+			triggered = false;
+			return;
+		}
+	
 		SendEvent("CutsceneStart");
 		triggered = true;
 		
@@ -106,13 +113,13 @@ class GodCutscene : ScriptObject
 				animController.PlayExclusive("Models/grungle_idle.ani", 0, true, 0.2f);
 				break;
 			case 2:
-				game.DisplayMessage("MY LOYAL SERVANT...IT IS TIME FOR THE FIGHTING TO END.", Color(1.0f, 0.0f, 0.0f), 6.0f, 50);
+				game.DisplayMessage("MY LOYAL SERVANT...IT IS TIME FOR THE FIGHTING TO END.", Color(1.0f, 0.5f, 0.5f), 6.0f, 50);
 				break;
 			case 3:
-				game.DisplayMessage("MY EARTH HAS BEEN DESTROYED. YOU ARE AT FAULT AS MUCH AS THE OTHERS.", Color(1.0f, 0.0f, 0.0f), 6.0f, 50);
+				game.DisplayMessage("MY EARTH HAS BEEN DESTROYED. YOU ARE AT FAULT AS MUCH AS THE OTHERS.", Color(1.0f, 0.5f, 0.5f), 6.0f, 50);
 				break;
 			case 4:
-				game.DisplayMessage("I WILL GRANT YOU NEW POWERS. FIX THIS MESS, AND I WILL CONSIDER MERCY.", Color(1.0f, 0.0f, 0.0f), 6.0f, 50);
+				game.DisplayMessage("I WILL GRANT YOU NEW POWERS. FIX THIS MESS, AND I WILL CONSIDER MERCY.", Color(1.0f, 0.5f, 0.5f), 6.0f, 50);
 				break;
 			case 5:
 			{
@@ -123,6 +130,7 @@ class GodCutscene : ScriptObject
 				SendEvent("CutsceneEnd");
 				triggered = false;
 				viewport.camera = oldCamera;
+				audio.listener = oldCameraNode.GetComponent("SoundListener");
 				newCameraNode.Remove();
 				god.Remove(); //Wait, what!?
 				break;

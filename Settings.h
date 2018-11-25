@@ -13,6 +13,7 @@ public:
 	UInput();
 	UInput(String name, Input* input);
 	String name;
+	String verboseName;
 	virtual bool isDown() = 0;
 	virtual bool isPressed() = 0;
 protected:

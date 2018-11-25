@@ -107,6 +107,8 @@ void Gameplay::RegisterObject(Context* context)
 	scrEngine->RegisterObjectMethod("Gameplay", "void FlashScreen(const Color c, const float spd)", asMETHOD(Gameplay, FlashScreen), asCALL_THISCALL);
 	scrEngine->RegisterObjectMethod("Gameplay", "void Lose()", asMETHOD(Gameplay, Lose), asCALL_THISCALL);
 	scrEngine->RegisterObjectMethod("Gameplay", "void Win()", asMETHOD(Gameplay, Win), asCALL_THISCALL);
+	scrEngine->RegisterObjectProperty("Gameplay", "String levelPath", offsetof(Gameplay, levelPath));
+	scrEngine->RegisterObjectProperty("Gameplay", "int levelVisits", offsetof(Gameplay, levelVisits));
 	//scrEngine->RegisterGlobalProperty("const StringHash E_CUTSCENE_START", (void*)&E_CUTSCENE_START);
 	//scrEngine->RegisterGlobalProperty("const StringHash E_CUTSCENE_END", (void*)&E_CUTSCENE_END);
 }
@@ -162,6 +164,7 @@ void Gameplay::SetupGame()
 {
 	PreloadSounds();
 	
+	levelVisits = ((LevelSelectMenu*)gunPriest->titleScreen->levelSelectMenu.Get())->GetNumberOfVisits(levelPath);
 	winState = 0;
 	restartTimer = 0;
 	bonusFlag = false;

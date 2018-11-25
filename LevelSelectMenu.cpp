@@ -13,16 +13,16 @@
 
 #define LEVEL_INFO_FILE "levelinfo.xml"
 
-int LevelSelectMenu::LCF_UNLOCKED = 1;
-int LevelSelectMenu::LCF_BEATEN = 2;
-int LevelSelectMenu::LCF_CROSSGOTTEN = 4;
+const int LevelSelectMenu::LCF_UNLOCKED = 1;
+const int LevelSelectMenu::LCF_BEATEN = 2;
+const int LevelSelectMenu::LCF_CROSSGOTTEN = 4;
 
 LevelSelectMenu::LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(ts, gm),
 	animTimer(0.0f)
 {
 	layoutPath = "UI/titlemenus/levelselect.xml";
 	//Find all possible level
-	levelEntries = Vector<LevelEntry*>();
+	levelEntries = Vector<LevelEntry>();
 	levelInfo = SharedPtr<XMLFile>(cache->GetResource<XMLFile>(LEVEL_INFO_FILE));
 
 	assert(levelInfo.Get() != nullptr);
@@ -31,10 +31,10 @@ LevelSelectMenu::LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu
 	XPathResultSet results = query.Evaluate(levelInfo->GetRoot().GetChild("level"));
 	for (int i = 0; i < results.Size(); i++)
 	{
-		LevelEntry* fe = new LevelEntry();
-		fe->filePath = results[i].GetAttribute("path");
-		fe->levelName = results[i].GetAttribute("name");
-		fe->completion = atoi(results[i].GetAttribute("completion").CString());
+		LevelEntry fe;
+		fe.filePath = results[i].GetAttribute("path");
+		fe.levelName = results[i].GetAttribute("name");
+		fe.completion = atoi(results[i].GetAttribute("completion").CString());
 		levelEntries.Push(fe);
 	}
 
@@ -43,29 +43,28 @@ LevelSelectMenu::LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu
 
 void LevelSelectMenu::SetLevelCompletionFlag(const String levelPath, const int flag, const bool val) 
 {
-	for (Vector<LevelEntry*>::Iterator i = levelEntries.Begin(); i != levelEntries.End(); ++i)
+	for (LevelEntry& le : levelEntries)
 	{
-		LevelEntry* le = (LevelEntry*)*i;
-		if (le->filePath == levelPath)
+		if (le.filePath == levelPath)
 		{
 			//Change flag
 			if (val)
 			{
-				le->completion = le->completion | flag;
+				le.completion = le.completion | flag;
 			}
 			else 
 			{
-				if ((le->completion & flag) == flag) //This hasn't been tested yet, because nobody is likely to need it.
-					le->completion -= flag;
+				if ((le.completion & flag) == flag) //This hasn't been tested yet, but nobody is likely to need it.
+					le.completion -= flag;
 			}
 			//Update levelinfo xml structure
 			levelInfo->GetRoot().RemoveChildren("level");
-			for (LevelEntry* le : levelEntries)
+			for (LevelEntry& le : levelEntries)
 			{
 				XMLElement& elle = levelInfo->GetRoot().CreateChild("level");
-				elle.SetString("name", le->levelName);
-				elle.SetString("path", le->filePath);
-				elle.SetInt("completion", le->completion);
+				elle.SetString("name", le.levelName);
+				elle.SetString("path", le.filePath);
+				elle.SetInt("completion", le.completion);
 			}
 			//Save to levelinfo.xml
 			const FileSystem* const fileSystem = titleScreen->GetContext()->GetSubsystem<FileSystem>();
@@ -106,34 +105,33 @@ void LevelSelectMenu::OnEnter()
 
 	int numBeaten = 0;
 	int counter = 0;
-	for (LevelEntry* le : levelEntries)
+	for (LevelEntry& le : levelEntries)
 	{
-		if (le->completion & LCF_BEATEN)
+		if (le.completion & LCF_BEATEN)
 			numBeaten += 1;
 	}
 	LevelEntry* lastEntry = nullptr;
-	for (Vector<LevelEntry*>::Iterator i = levelEntries.Begin(); i != levelEntries.End(); ++i)
+	for (LevelEntry& le : levelEntries)
 	{
 		//Unlock next level in sequence if not done already
-		LevelEntry* le = (LevelEntry*)*i;
 		if (lastEntry) 
 		{
-			if (lastEntry->completion & LCF_BEATEN && !(le->completion & LCF_UNLOCKED))
+			if (lastEntry->completion & LCF_BEATEN && !(le.completion & LCF_UNLOCKED))
 			{
-				SetLevelCompletionFlag(le->filePath, LCF_UNLOCKED, true);
+				SetLevelCompletionFlag(le.filePath, LCF_UNLOCKED, true);
 			}
 		}
 
 		//Generate button for each level
-		if (le->completion & LCF_UNLOCKED) 
+		if (le.completion & LCF_UNLOCKED) 
 		{
 			Button* button = buttParent->CreateChild<Button>();
 			button->LoadXML(cache->GetResource<XMLFile>("UI/titlemenus/levelbutton.xml")->GetRoot());
 			button->SetTexture((Texture*)cache->GetResource<Texture2D>("Textures/UI.png"));
 			button->SetPosition(0, 4 + (counter * 52));
-			button->SetVar("filePath", le->filePath);
+			button->SetVar("filePath", le.filePath);
 
-			if (le->completion & LCF_BEATEN)
+			if (le.completion & LCF_BEATEN)
 			{
 				button->SetColor(Color(0.5f, 1.0f, 0.5f));
 			}
@@ -141,11 +139,11 @@ void LevelSelectMenu::OnEnter()
 			Text* text = button->CreateChild<Text>();
 			text->SetAlignment(HA_CENTER, VA_CENTER);
 			text->SetFont("Fonts/Anonymous Pro.ttf", 20);
-			text->SetText(le->levelName);
+			text->SetText(le.levelName);
 			text->SetEnabled(false);
 
 			//Make spinning cross sprites
-			if (le->completion & LCF_CROSSGOTTEN)
+			if (le.completion & LCF_CROSSGOTTEN)
 			{
 				Sprite* sprite = button->CreateChild<Sprite>();
 				sprite->SetSize(48, 48);
@@ -163,10 +161,10 @@ void LevelSelectMenu::OnEnter()
 				sprites.Push(sprite2);
 			}
 
-			le->listItem = (UIElement*)button;
+			le.listItem = (UIElement*)button;
 		}
 
-		lastEntry = le;
+		lastEntry = &le;
 		counter += 1;
 	}
 }
@@ -226,6 +224,15 @@ void LevelSelectMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 			else if (source->GetName() == "levelButton")
 			{
 				const String path = source->GetVar("filePath").GetString();
+				//Mark that this level is being visited
+				for (LevelEntry& le : levelEntries)
+				{
+					if (le.filePath == path)
+					{
+						le.visits++;
+						break;
+					}
+				}
 				titleScreen->gunPriest->ChangeState(GunPriest::STATE_GAME);
 				titleScreen->gunPriest->StartGame(path);
 			}
@@ -238,10 +245,19 @@ void LevelSelectMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 	}
 }
 
+int LevelSelectMenu::GetNumberOfVisits(const String filePath)
+{
+	for (LevelEntry& le : levelEntries)
+	{
+		if (le.filePath == filePath)
+		{
+			return le.visits;
+		}
+	}
+	std::cout << "LEVEL NOT FOUND IN GetNumberOfVisits()" << std::endl;
+	return -1;
+}
+
 LevelSelectMenu::~LevelSelectMenu()
 {
-	for (LevelEntry* le : levelEntries)
-	{
-		delete le;
-	}
 }

@@ -62,6 +62,7 @@ public:
 	int winState = 0;
 	bool initialized = false;
 	String levelPath;
+	int levelVisits;
 	SharedPtr<UIElement> ourUI;
 
 protected:

@@ -83,14 +83,14 @@ protected:
 	int state;
 	int health;
 	int reviveCount = 0;
-	int hailTimer;
-	int hurtTimer;
 	int lastState;
 	int drownPhase;
 	float stateTimer;
 	float reviveCooldown;
 	float cameraPitch;
 	float cameraYaw;
+	float hailTimer;
+	float hurtTimer;
 
 	float walkSpeed;
 	float slideSpeed;

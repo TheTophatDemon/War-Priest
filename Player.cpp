@@ -262,10 +262,10 @@ void Player::FixedUpdate(float timeStep)
 		ChangeState(STATE_WIN);
 	}
 	bloodEmitter->ApplyEffect();
-	if (hurtTimer > 0)
+	if (hurtTimer > 0.0f)
 	{
-		hurtTimer -= 1;
-		if (hurtTimer <= 0)
+		hurtTimer -= timeStep;
+		if (hurtTimer <= 0.0f)
 		{
 			bloodEmitter->SetEmitting(false);
 		}
@@ -287,6 +287,7 @@ void Player::FixedUpdate(float timeStep)
 
 	if (reviveCooldown > 0) reviveCooldown = Max(0.0f, reviveCooldown - timeStep);
 
+	stateTimer += timeStep;
 	switch (state) 
 	{
 	case STATE_DEFAULT:
@@ -370,11 +371,11 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 
 void Player::Hurt(Node* source, int amount)
 {
-	if (state != STATE_WIN && hurtTimer <= 0 && state != STATE_SLIDE && (lastState != STATE_DROWN || stateTimer > 3.5f) && state != STATE_DROWN) 
+	if (state != STATE_WIN && hurtTimer <= 0.0f && state != STATE_SLIDE && (lastState != STATE_DROWN || stateTimer > 3.5f) && state != STATE_DROWN) 
 	{
 		health -= amount * Settings::GetDifficulty();
 		bloodEmitter->SetEmitting(true);
-		hurtTimer = 25;
+		hurtTimer = 0.5f;
 		if (source)
 		{
 			actor->KnockBack(12.0f, source->GetWorldRotation());
@@ -597,8 +598,6 @@ void Player::LeaveState(int oldState)
 
 void Player::ST_Default(float timeStep)
 {
-	stateTimer += timeStep;
-
 	if (speedy)
 		actor->maxSpeed = 413.0f;
 	else
@@ -661,22 +660,19 @@ void Player::ST_Default(float timeStep)
 		if (actor->input != Vector3::ZERO)
 		{
 			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
-			hailTimer = 0;
+			hailTimer = 0.0f;
 		}
 		else
 		{
-			hailTimer += 1;
-			if (hailTimer == 500)
+			hailTimer += timeStep;
+			if (hailTimer >= 10.0f)
 			{
+				hailTimer = 0.0f;
 				animController->PlayExclusive(HAIL_ANIM, 0, false, 0.2f);
 			}
-			else if (hailTimer < 500)
+			if (!animController->IsPlaying(HAIL_ANIM) || animController->IsAtEnd(HAIL_ANIM))
 			{
 				animController->PlayExclusive(IDLE_ANIM, 0, true, 0.2f);
-			}
-			else if (animController->IsAtEnd(HAIL_ANIM))
-			{
-				hailTimer = 0;
 			}
 		}
 	}
@@ -704,7 +700,6 @@ void Player::ST_Default(float timeStep)
 
 void Player::ST_Slide(float timeStep)
 {
-	stateTimer += timeStep;
 	animController->PlayExclusive(SLIDE_ANIM, 0, false, 0.2f);
 
 	actor->SetInputVec(slideDirection);
@@ -735,7 +730,6 @@ void Player::ST_Win(float timeStep)
 void Player::ST_Drown(float timeStep)
 {
 	animController->PlayExclusive(DROWN_ANIM, 0, true, 0.2f);
-	stateTimer += timeStep;
 	if (stateTimer > 0.25f)
 	{
 		switch (drownPhase) 

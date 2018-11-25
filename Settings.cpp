@@ -55,6 +55,7 @@ UInput::UInput(String name, Input* input)
 {
 	this->name = name;
 	this->input = input;
+	this->verboseName = name;
 }
 
 KeyInput::KeyInput(const int keyCode, Input* input) : UInput(input->GetKeyName(keyCode), input), keyCode(keyCode) {}
@@ -67,12 +68,15 @@ MouseInput::MouseInput(const int button, Input* input) : UInput("", input), butt
 	{
 	case MOUSEB_LEFT:
 		name = "LMB";
+		verboseName = "the Left Mouse Button";
 		break;
 	case MOUSEB_RIGHT:
 		name = "RMB";
+		verboseName = "the Right Mouse Button";
 		break;
 	case MOUSEB_MIDDLE:
 		name = "MMB";
+		verboseName = "the Middle Mouse Button";
 		break;
 	}
 }

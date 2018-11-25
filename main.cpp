@@ -1,19 +1,15 @@
-//Commit: AngelScript API, Cutscene, Player & Actor refactoring, Physcical property adjustment
+////Verbosity in control signs, Fixed audio bug after cutscene, Player timers standardized. //Skip it after first viewing
 //TODO:
-	//Verbosity in control signs
 	//Use new cutscene script system on win animation?
-	//Refactor player class
-		//Hurt-timer and hail-timer should be floats
-		//Statetimer weirdness
 	//Add camera turn keys
 	//Palpan1
 		//God Cutscene
 			//Voice lines?
-			//Skip it after first viewing
 	//Crossroads
 	//Credits
 		//Have player drop down from above
 	//Add rain to more levels
+	//Make spinning cross sprite bigger res
 	//Change sign text
 	//Pile of skull prop
 	//Add something else to Kube?

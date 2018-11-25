@@ -15,27 +15,29 @@ struct LevelEntry
 	String levelName;
 	SharedPtr<UIElement> listItem;
 	int completion;
+	int visits = 0; //Number of time this level has been played this session
 };
 
 class LevelSelectMenu : public GP::Menu
 {
 public:
-	static int LCF_UNLOCKED;
-	static int LCF_BEATEN;
-	static int LCF_CROSSGOTTEN;
+	static const int LCF_UNLOCKED;
+	static const int LCF_BEATEN;
+	static const int LCF_CROSSGOTTEN;
 
 	LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm);
 	virtual void OnEnter();
 	virtual void Update(float timeStep);
 	virtual void OnEvent(StringHash eventType, VariantMap& eventData);
 	void SetLevelCompletionFlag(const String levelPath, const int flag, const bool val);
+	int GetNumberOfVisits(const String levelpath);
 	~LevelSelectMenu();
 protected:
 	SharedPtr<XMLFile> levelInfo;
 	SharedPtr<UIElement> levelList;
 	SharedPtr<UIElement> buttParent;
 	SharedPtr<ScrollBar> scrollBar;
-	Vector<LevelEntry*> levelEntries;
+	Vector<LevelEntry> levelEntries;
 	Vector<Sprite*> sprites;
 	float animTimer;
 };
