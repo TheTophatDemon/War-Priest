@@ -1,16 +1,20 @@
-////Verbosity in control signs, Fixed audio bug after cutscene, Player timers standardized. //Skip it after first viewing
+//DONE: 
+	//Change sign text
+	//Switch signs around
+	//Voice lines?
+	//Change music?
+	//Remove "The Lord Frowns upon you?"
 //TODO:
 	//Use new cutscene script system on win animation?
 	//Add camera turn keys
 	//Palpan1
 		//God Cutscene
-			//Voice lines?
+			//Give cheat codes after several tries
 	//Crossroads
 	//Credits
 		//Have player drop down from above
 	//Add rain to more levels
 	//Make spinning cross sprite bigger res
-	//Change sign text
 	//Pile of skull prop
 	//Add something else to Kube?
 	//Sounds

@@ -107,6 +107,8 @@ void Gameplay::RegisterObject(Context* context)
 	scrEngine->RegisterObjectMethod("Gameplay", "void FlashScreen(const Color c, const float spd)", asMETHOD(Gameplay, FlashScreen), asCALL_THISCALL);
 	scrEngine->RegisterObjectMethod("Gameplay", "void Lose()", asMETHOD(Gameplay, Lose), asCALL_THISCALL);
 	scrEngine->RegisterObjectMethod("Gameplay", "void Win()", asMETHOD(Gameplay, Win), asCALL_THISCALL);
+	scrEngine->RegisterObjectProperty("Gameplay", "Node@ musicNode", offsetof(Gameplay, musicNode));
+	scrEngine->RegisterObjectProperty("Gameplay", "SoundSource@ musicSource", offsetof(Gameplay, musicSource));
 	scrEngine->RegisterObjectProperty("Gameplay", "String levelPath", offsetof(Gameplay, levelPath));
 	scrEngine->RegisterObjectProperty("Gameplay", "int levelVisits", offsetof(Gameplay, levelVisits));
 	//scrEngine->RegisterGlobalProperty("const StringHash E_CUTSCENE_START", (void*)&E_CUTSCENE_START);
@@ -573,7 +575,7 @@ void Gameplay::Lose()
 {
 	if (restartTimer == 0)
 	{
-		DisplayMessage("Mission Failed.\nThe Lord frowns upon you!", Color::WHITE, 250.0f, 10);
+		DisplayMessage("Mission Failed.", Color::WHITE, 250.0f, 10);
 		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
 		musicSource->Play(cache->GetResource<Sound>("Music/frownofthelord.ogg"));
 		//std::cout << viewport->GetRenderPath()->GetCommand(viewport->GetRenderPath()->GetNumCommands() - 1)->GetShaderParameter("State").GetFloat() << std::endl;

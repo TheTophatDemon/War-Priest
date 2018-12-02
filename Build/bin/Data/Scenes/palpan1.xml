@@ -7,10 +7,10 @@
 	<attribute name="Elapsed Time" value="49.7946" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16778226" />
-	<attribute name="Next Local Component ID" value="16780361" />
+	<attribute name="Next Local Node ID" value="16778227" />
+	<attribute name="Next Local Component ID" value="16780373" />
 	<attribute name="Variables">
-		<variant hash="1749806053" type="String" value="riseofthewarpriest.ogg" />
+		<variant hash="1749806053" type="String" value="prelude.ogg" />
 		<variant hash="3555864366" type="Bool" value="true" />
 	</attribute>
 	<attribute name="Variable Names" value="spawnertype;spawnerdistance;movement;restTime;speed;rotateSpeed;health;launchForce;music;waitForPlayer;noCollision;message;raining" />
@@ -508,8 +508,8 @@
 			<string value="prop" />
 			<string value="sign" />
 		</attribute>
-		<attribute name="Position" value="-328.918 -21.6276 8.24938" />
-		<attribute name="Rotation" value="0.707107 0 0.707107 0" />
+		<attribute name="Position" value="-298.98 -28.052 164.574" />
+		<attribute name="Rotation" value="-4.37114e-08 0 1 -0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
 			<variant hash="2310231975" type="String" value="You will forget to take damage when sliding." />
@@ -998,8 +998,8 @@
 			<string value="prop" />
 			<string value="sign" />
 		</attribute>
-		<attribute name="Position" value="-301.94 -28.7609 165.533" />
-		<attribute name="Rotation" value="-4.37114e-08 0 1 -0" />
+		<attribute name="Position" value="-329.276 -21.4691 4.64222" />
+		<attribute name="Rotation" value="0.707107 0 0.707107 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
 			<variant hash="2310231975" type="String" value="You must revive all enemies to win. The compass will guide you." />
@@ -1652,7 +1652,7 @@
 			<string value="prop" />
 			<string value="sign" />
 		</attribute>
-		<attribute name="Position" value="-328.918 -21.6276 -5.84568" />
+		<attribute name="Position" value="-328.918 -27.974 163.556" />
 		<attribute name="Rotation" value="0.707107 0 0.707107 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">

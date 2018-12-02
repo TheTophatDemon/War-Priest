@@ -2,6 +2,8 @@ class GodCutscene : ScriptObject
 {
 	Gameplay@ game;
 	Node@ god;
+	SoundSource@ godVoice;
+	Sound@ postCutsceneMusic;
 	Viewport@ viewport;
 	Node@ oldCameraNode;
 	Node@ newCameraNode;
@@ -21,6 +23,17 @@ class GodCutscene : ScriptObject
 		animController = modelNode.GetComponent("AnimationController");
 		actor = playerNode.GetComponent("Actor");
 		game = scene.GetComponent("Gameplay");
+		godVoice = node.CreateComponent("SoundSource");
+		
+		//Try to preload voice lines
+		cache.GetResource("Sound", "Sounds/god_talk0.wav");
+		cache.GetResource("Sound", "Sounds/god_talk1.wav");
+		cache.GetResource("Sound", "Sounds/god_talk2.wav");
+		
+		postCutsceneMusic = cache.GetResource("Sound", "Music/riseofthewarpriest.ogg");
+		postCutsceneMusic.looped = true;
+		
+		if (game.levelVisits > 1) game.musicSource.Play(postCutsceneMusic);
 		
 		SubscribeToEvent(node, "NodeCollision", "OnCollision");
 	}
@@ -47,16 +60,17 @@ class GodCutscene : ScriptObject
 		
 		//Put it in its rightful place
 		Node@ ref = node.GetChild("camera_ref");
-		newCameraNode.SetWorldTransform(ref.worldTransform.Translation(), ref.worldTransform.Rotation());
+		Vector3 newCameraPosition = ref.worldTransform.Translation();
+		Quaternion newCameraRotation = ref.worldTransform.Rotation();
 		ref.Remove();
 		
 		//Make the transition smooth
 		ValueAnimation@ camPosAnim = ValueAnimation();
 		camPosAnim.SetKeyFrame(0.0f, Variant(oldCameraNode.worldPosition));
-		camPosAnim.SetKeyFrame(1.0f, Variant(newCameraNode.worldPosition));
+		camPosAnim.SetKeyFrame(1.0f, Variant(newCameraPosition));
 		ValueAnimation@ camRotAnim = ValueAnimation();
 		camRotAnim.SetKeyFrame(0.0f, Variant(oldCameraNode.worldRotation));
-		camRotAnim.SetKeyFrame(1.0f, Variant(newCameraNode.worldRotation));
+		camRotAnim.SetKeyFrame(1.0f, Variant(newCameraRotation));
 		
 		newCameraNode.SetAttributeAnimation("Position", camPosAnim, WM_CLAMP, 1.0f);
 		newCameraNode.SetAttributeAnimation("Rotation", camRotAnim, WM_CLAMP, 1.0f);
@@ -89,10 +103,10 @@ class GodCutscene : ScriptObject
 		
 		ScheduleEvent(4.0f, 2);
 		ScheduleEvent(10.5f, 3);
-		ScheduleEvent(17.0f, 4);
+		ScheduleEvent(18.0f, 4);
 		
-		ScheduleEvent(23.5f, 5);
-		ScheduleEvent(24.5f, 999);
+		ScheduleEvent(25.5f, 5);
+		ScheduleEvent(26.5f, 999);
 	}
 	void ScheduleEvent(float secs, int eventNo)
 	{
@@ -114,12 +128,15 @@ class GodCutscene : ScriptObject
 				break;
 			case 2:
 				game.DisplayMessage("MY LOYAL SERVANT...IT IS TIME FOR THE FIGHTING TO END.", Color(1.0f, 0.5f, 0.5f), 6.0f, 50);
+				godVoice.Play(cache.GetResource("Sound", "Sounds/god_talk0.wav"));
 				break;
 			case 3:
-				game.DisplayMessage("MY EARTH HAS BEEN DESTROYED. YOU ARE AT FAULT AS MUCH AS THE OTHERS.", Color(1.0f, 0.5f, 0.5f), 6.0f, 50);
+				game.DisplayMessage("MY EARTH HAS BEEN DESTROYED. YOU ARE AT FAULT AS MUCH AS THE OTHERS.", Color(1.0f, 0.5f, 0.5f), 7.0f, 50);
+				godVoice.Play(cache.GetResource("Sound", "Sounds/god_talk1.wav"));
 				break;
 			case 4:
-				game.DisplayMessage("I WILL GRANT YOU NEW POWERS. FIX THIS MESS, AND I WILL CONSIDER MERCY.", Color(1.0f, 0.5f, 0.5f), 6.0f, 50);
+				game.DisplayMessage("I WILL GRANT YOU NEW POWERS. FIX THIS MESS, AND I WILL CONSIDER MERCY.", Color(1.0f, 0.5f, 0.5f), 8.5f, 50);
+				godVoice.Play(cache.GetResource("Sound", "Sounds/god_talk2.wav"));
 				break;
 			case 5:
 			{
@@ -128,6 +145,9 @@ class GodCutscene : ScriptObject
 			}
 			case 999:
 				SendEvent("CutsceneEnd");
+				//Change music
+				game.musicSource.Play(postCutsceneMusic);
+				//Reset everything
 				triggered = false;
 				viewport.camera = oldCamera;
 				audio.listener = oldCameraNode.GetComponent("SoundListener");
