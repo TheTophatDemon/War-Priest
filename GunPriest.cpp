@@ -231,11 +231,13 @@ void GunPriest::Update(StringHash eventType, VariantMap& eventData)
 	{
 		if (input->GetKeyDown(KEY_KP_MULTIPLY))
 		{
+#if _DEBUG
 			pause = true;
 			if (input->GetKeyPress(KEY_KP_MINUS))
 			{
 				pause = false;
 			}
+#endif
 		}
 		else
 		{
@@ -253,7 +255,9 @@ void GunPriest::AfterRenderUpdate(StringHash eventType, VariantMap& eventData)
 {
 	if (state == STATE_GAME && game->initialized)
 	{
+#if _DEBUG
 		if (input->GetKeyDown(KEY_KP_DIVIDE)) scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
+#endif
 	}
 }
 

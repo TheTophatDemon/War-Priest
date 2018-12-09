@@ -1,0 +1,436 @@
+<?xml version="1.0"?>
+<element type="Window">
+	<attribute name="Name" value="cheatWindow" />
+	<attribute name="Position" value="-32 32" />
+	<attribute name="Size" value="480 480" />
+	<attribute name="Min Anchor" value="1 0" />
+	<attribute name="Max Anchor" value="1 0" />
+	<attribute name="Pivot" value="1 0" />
+	<element type="Button">
+		<attribute name="Name" value="closeButton" />
+		<attribute name="Position" value="-16 12" />
+		<attribute name="Size" value="32 32" />
+		<attribute name="Min Anchor" value="1 0" />
+		<attribute name="Max Anchor" value="1 0" />
+		<attribute name="Pivot" value="1 0" />
+		<attribute name="Tags">
+			<string value="cheatWindowButton" />
+		</attribute>
+		<attribute name="Image Rect" value="80 0 96 16" />
+		<attribute name="Border" value="2 2 2 2" />
+	</element>
+	<element type="BorderImage">
+		<attribute name="Name" value="panel" />
+		<attribute name="Position" value="0 48" />
+		<attribute name="Size" value="448 416" />
+		<attribute name="Min Anchor" value="0.5 0" />
+		<attribute name="Max Anchor" value="0.5 0" />
+		<attribute name="Pivot" value="0.5 0" />
+		<attribute name="Layout Mode" value="Horizontal" />
+		<attribute name="Layout Spacing" value="4" />
+		<attribute name="Layout Border" value="6 6 6 6" />
+		<attribute name="Image Rect" value="16 0 32 16" />
+		<attribute name="Border" value="6 6 6 6" />
+		<element>
+			<attribute name="Name" value="column_0" />
+			<attribute name="Pivot" value="0 0" />
+			<attribute name="Layout Mode" value="Vertical" />
+			<attribute name="Layout Spacing" value="2" />
+			<element type="Button">
+				<attribute name="Name" value="winButton" />
+				<attribute name="Pivot" value="0 0" />
+				<attribute name="Tags">
+					<string value="cheatWindowButton" />
+				</attribute>
+				<element type="Text">
+					<attribute name="Position" value="0 8" />
+					<attribute name="Min Anchor" value="0.5 0" />
+					<attribute name="Max Anchor" value="0.5 0" />
+					<attribute name="Pivot" value="0.5 0" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Is Editable" value="false" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Win Level" />
+					<attribute name="Text Alignment" value="Center" />
+				</element>
+				<element type="Text">
+					<attribute name="Position" value="0 -8" />
+					<attribute name="Min Anchor" value="0.5 1" />
+					<attribute name="Max Anchor" value="0.5 1" />
+					<attribute name="Pivot" value="0.5 1" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Numpad 5" />
+					<attribute name="Text Alignment" value="Center" />
+				</element>
+			</element>
+			<element type="Button">
+				<attribute name="Name" value="healButton" />
+				<attribute name="Pivot" value="0 0" />
+				<attribute name="Tags">
+					<string value="cheatWindowButton" />
+				</attribute>
+				<element type="Text">
+					<attribute name="Position" value="0 8" />
+					<attribute name="Min Anchor" value="0.5 0" />
+					<attribute name="Max Anchor" value="0.5 0" />
+					<attribute name="Pivot" value="0.5 0" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Text" value="Heal" />
+				</element>
+				<element type="Text">
+					<attribute name="Position" value="0 -8" />
+					<attribute name="Min Anchor" value="0.5 1" />
+					<attribute name="Max Anchor" value="0.5 1" />
+					<attribute name="Pivot" value="0.5 1" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Text" value="Numpad +" />
+				</element>
+			</element>
+			<element type="Button">
+				<attribute name="Name" value="hoverButton" />
+				<attribute name="Pivot" value="0 0" />
+				<attribute name="Tags">
+					<string value="cheatWindowButton" />
+				</attribute>
+				<element type="Text">
+					<attribute name="Position" value="0 8" />
+					<attribute name="Min Anchor" value="0.5 0" />
+					<attribute name="Max Anchor" value="0.5 0" />
+					<attribute name="Pivot" value="0.5 0" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Toggle Hover" />
+					<attribute name="Text Alignment" value="Center" />
+				</element>
+				<element type="Text">
+					<attribute name="Position" value="0 -8" />
+					<attribute name="Min Anchor" value="0.5 1" />
+					<attribute name="Max Anchor" value="0.5 1" />
+					<attribute name="Pivot" value="0.5 1" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Numpad 0" />
+					<attribute name="Text Alignment" value="Center" />
+				</element>
+			</element>
+			<element type="Button">
+				<attribute name="Name" value="dieButton" />
+				<attribute name="Pivot" value="0 0" />
+				<attribute name="Tags">
+					<string value="cheatWindowButton" />
+				</attribute>
+				<element type="Text">
+					<attribute name="Position" value="0 8" />
+					<attribute name="Min Anchor" value="0.5 0" />
+					<attribute name="Max Anchor" value="0.5 0" />
+					<attribute name="Pivot" value="0.5 0" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Die" />
+					<attribute name="Text Alignment" value="Center" />
+				</element>
+				<element type="Text">
+					<attribute name="Position" value="0 -8" />
+					<attribute name="Min Anchor" value="0.5 1" />
+					<attribute name="Max Anchor" value="0.5 1" />
+					<attribute name="Pivot" value="0.5 1" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Text" value="Numpad 6" />
+				</element>
+			</element>
+		</element>
+		<element>
+			<attribute name="Name" value="column_1" />
+			<attribute name="Pivot" value="0 0" />
+			<attribute name="Layout Mode" value="Vertical" />
+			<attribute name="Layout Spacing" value="2" />
+			<element type="Button">
+				<attribute name="Name" value="fastButton" />
+				<attribute name="Pivot" value="0 0" />
+				<attribute name="Tags">
+					<string value="cheatWindowButton" />
+				</attribute>
+				<element type="Text">
+					<attribute name="Position" value="0 8" />
+					<attribute name="Min Anchor" value="0.5 0" />
+					<attribute name="Max Anchor" value="0.5 0" />
+					<attribute name="Pivot" value="0.5 0" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Toggle Fast" />
+					<attribute name="Text Alignment" value="Center" />
+				</element>
+				<element type="Text">
+					<attribute name="Position" value="0 -8" />
+					<attribute name="Min Anchor" value="0.5 1" />
+					<attribute name="Max Anchor" value="0.5 1" />
+					<attribute name="Pivot" value="0.5 1" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Numpad ." />
+				</element>
+			</element>
+			<element type="Button">
+				<attribute name="Name" value="firstPersonButton" />
+				<attribute name="Pivot" value="0 0" />
+				<attribute name="Tags">
+					<string value="cheatWindowButton" />
+				</attribute>
+				<element type="Text">
+					<attribute name="Position" value="0 8" />
+					<attribute name="Min Anchor" value="0.5 0" />
+					<attribute name="Max Anchor" value="0.5 0" />
+					<attribute name="Pivot" value="0.5 0" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Toggle First Person" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Word Wrap" value="true" />
+				</element>
+				<element type="Text">
+					<attribute name="Position" value="0 -8" />
+					<attribute name="Min Anchor" value="0.5 1" />
+					<attribute name="Max Anchor" value="0.5 1" />
+					<attribute name="Pivot" value="0.5 1" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Numpad Enter" />
+				</element>
+			</element>
+			<element type="Button">
+				<attribute name="Name" value="missileButton" />
+				<attribute name="Pivot" value="0 0" />
+				<attribute name="Tags">
+					<string value="cheatWindowButton" />
+				</attribute>
+				<element type="Text">
+					<attribute name="Position" value="0 8" />
+					<attribute name="Min Anchor" value="0.5 0" />
+					<attribute name="Max Anchor" value="0.5 0" />
+					<attribute name="Pivot" value="0.5 0" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Missile" />
+				</element>
+				<element type="Text">
+					<attribute name="Position" value="0 -8" />
+					<attribute name="Min Anchor" value="0.5 1" />
+					<attribute name="Max Anchor" value="0.5 1" />
+					<attribute name="Pivot" value="0.5 1" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Numpad 9" />
+				</element>
+			</element>
+			<element type="Button">
+				<attribute name="Name" value="shieldButton" />
+				<attribute name="Pivot" value="0 0" />
+				<attribute name="Tags">
+					<string value="cheatWindowButton" />
+				</attribute>
+				<element type="Text">
+					<attribute name="Position" value="0 8" />
+					<attribute name="Min Anchor" value="0.5 0" />
+					<attribute name="Max Anchor" value="0.5 0" />
+					<attribute name="Pivot" value="0.5 0" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Create Shield" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Word Wrap" value="true" />
+				</element>
+				<element type="Text">
+					<attribute name="Position" value="0 -8" />
+					<attribute name="Min Anchor" value="0.5 1" />
+					<attribute name="Max Anchor" value="0.5 1" />
+					<attribute name="Pivot" value="0.5 1" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Text" value="Numpad 4" />
+				</element>
+			</element>
+		</element>
+		<element>
+			<attribute name="Name" value="column_2" />
+			<attribute name="Pivot" value="0 0" />
+			<attribute name="Layout Mode" value="Vertical" />
+			<attribute name="Layout Spacing" value="2" />
+			<element type="Button">
+				<attribute name="Name" value="skipCutsceneButton" />
+				<attribute name="Pivot" value="0 0" />
+				<attribute name="Tags">
+					<string value="cheatWindowButton" />
+				</attribute>
+				<element type="Text">
+					<attribute name="Position" value="0 8" />
+					<attribute name="Min Anchor" value="0.5 0" />
+					<attribute name="Max Anchor" value="0.5 0" />
+					<attribute name="Pivot" value="0.5 0" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Skip Cutscene" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Word Wrap" value="true" />
+				</element>
+				<element type="Text">
+					<attribute name="Position" value="0 -8" />
+					<attribute name="Min Anchor" value="0.5 1" />
+					<attribute name="Max Anchor" value="0.5 1" />
+					<attribute name="Pivot" value="0.5 1" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Numpad 1" />
+				</element>
+			</element>
+			<element type="Button">
+				<attribute name="Name" value="kubeMissileButton" />
+				<attribute name="Min Size" value="35 0" />
+				<attribute name="Pivot" value="0 0" />
+				<attribute name="Tags">
+					<string value="cheatWindowButton" />
+				</attribute>
+				<element type="Text">
+					<attribute name="Name" value="label" />
+					<attribute name="Position" value="0 8" />
+					<attribute name="Min Anchor" value="0.5 0" />
+					<attribute name="Max Anchor" value="0.5 0" />
+					<attribute name="Pivot" value="0.5 0" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Kube: Missile Attack" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Word Wrap" value="true" />
+				</element>
+				<element type="Text">
+					<attribute name="Name" value="shortcut" />
+					<attribute name="Position" value="0 -8" />
+					<attribute name="Min Anchor" value="0.5 1" />
+					<attribute name="Max Anchor" value="0.5 1" />
+					<attribute name="Pivot" value="0.5 1" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Text" value="Numpad 8" />
+				</element>
+			</element>
+			<element type="Button">
+				<attribute name="Name" value="kubeBlackHoleButton" />
+				<attribute name="Pivot" value="0 0" />
+				<attribute name="Tags">
+					<string value="cheatWindowButton" />
+				</attribute>
+				<element type="Text">
+					<attribute name="Position" value="0 8" />
+					<attribute name="Min Anchor" value="0.5 0" />
+					<attribute name="Max Anchor" value="0.5 0" />
+					<attribute name="Pivot" value="0.5 0" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text" value="Kube: Black Hole" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Word Wrap" value="true" />
+				</element>
+				<element type="Text">
+					<attribute name="Position" value="0 -8" />
+					<attribute name="Min Anchor" value="0.5 1" />
+					<attribute name="Max Anchor" value="0.5 1" />
+					<attribute name="Pivot" value="0.5 1" />
+					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+					<attribute name="Font Size" value="16" />
+					<attribute name="Text Alignment" value="Center" />
+					<attribute name="Text" value="Numpad 7" />
+				</element>
+			</element>
+		</element>
+	</element>
+	<element type="Text">
+		<attribute name="Name" value="title" />
+		<attribute name="Position" value="24 8" />
+		<attribute name="Pivot" value="0 0" />
+		<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+		<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+		<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+		<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+		<attribute name="Font Size" value="24" />
+		<attribute name="Text" value="Hold ALT to free the Cursor" />
+	</element>
+</element>

@@ -31,6 +31,7 @@ protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnAreaCollision(StringHash eventType, VariantMap& eventData);
 	void OnBlackHoleCollision(StringHash eventType, VariantMap& eventData);
+	void OnCheatWindowEvent(StringHash eventType, VariantMap& eventData);
 	void ChangeState(const int newState);
 	void EnterState(const int newState);
 	void LeaveState(const int oldState);

@@ -1,14 +1,11 @@
-//DONE:
-	//Added tree LODs
-	//Make spinning cross sprite bigger res
-	//UI Retexture
-	//Made rebind window use listview
-	//Add camera turn keys
-//TODO:
+//Done:
 	//Change the prelude music
-	//Palpan1
-		//God Cutscene
-			//Give cheat codes after several tries
+	//Made cutscene keep track of its trigger count instead of level visits
+	//TDURINAL, Cheat Menu
+	//God cutscene secret
+	//Fixed text blocking buttons
+	//Added skip cutscene button
+//TODO:
 	//Crossroads
 	//Credits
 		//Have player drop down from above
@@ -80,9 +77,9 @@
 	//Can't unparent selections that are selected using "shift"
 	//Custom components can't have parameters other than context
 	//Trouble with Text3D custom materials
-	//Bad documentation
 	//Freezes on "SDL_Delay" (Called by DirectSound, I think) sometimes when re-focusing the window after an alt-tab.
 	//HLSL's TEXCOORD(n) semantics are misleading
+	//Text UI not saving size?
 	//No documentation for:
 		//CreateTemporaryChild
 	//Particle effects don't turn on until you see them, despite being set to emit

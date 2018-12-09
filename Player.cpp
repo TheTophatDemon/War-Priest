@@ -83,6 +83,9 @@ Player::Player(Context* context) :
 	walkSpeed(17.0f),
 	slideSpeed(22.0f)
 {
+#if _DEBUG
+	cheating = true;
+#endif
 }
 
 void Player::RegisterObject(Context* context)
@@ -170,6 +173,9 @@ void Player::Start()
 	
 	lastChance = false;
 
+	cheatWindow = static_cast<Window*>(game->ourUI->GetChild("cheatWindow", true));
+	cheatWindow->SetVisible(false);
+
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Player, OnCollision));
 	SubscribeToEvent(Projectile::E_PROJECTILEHIT, URHO3D_HANDLER(Player, OnProjectileHit));
 	SubscribeToEvent(God::E_BEAMED, URHO3D_HANDLER(Player, OnBeamed));
@@ -177,8 +183,144 @@ void Player::Start()
 	SubscribeToEvent(Gameplay::E_CUTSCENE_START, URHO3D_HANDLER(Player, OnCutsceneEvent));
 	SubscribeToEvent(Gameplay::E_CUTSCENE_END, URHO3D_HANDLER(Player, OnCutsceneEvent));
 
+	SubscribeToEvent(E_KEYUP, URHO3D_HANDLER(Player, OnKeyPress));
+	SubscribeToEvent(E_UIMOUSECLICKEND, URHO3D_HANDLER(Player, OnCheatWindowEvent));
+
 	SendEvent(Settings::E_SETTINGSCHANGED); //We fake a settings change
 	//This is so that we only have to initialize the settings-dependent values in one piece of code
+}
+
+void Player::OnKeyPress(StringHash eventType, VariantMap& eventData)
+{
+	cheatString += input->GetScancodeName(eventData["Scancode"].GetInt()) + ";";
+	if (cheatString.Contains("T;D;U;R;I;N;A;L;", true))
+	{
+		cheatString = "";
+		cheating = true;
+		cheatWindow->SetVisible(true);
+		std::cout << "CHEAT MODE ACTIVATED" << std::endl;
+	}
+	const int keyCode = eventData["Key"].GetInt();
+	if (cheating) 
+	{
+		switch (keyCode)
+		{
+		case KEY_KP_3: //Get the node pointed to by the cursor and print its properties to the console
+		{
+			PhysicsRaycastResult query;
+			IntVector2 mousePos = input->GetMousePosition();
+			Ray mouseRay = camera->GetScreenRay((float)mousePos.x_ / (float)Settings::GetResolutionX(), (float)mousePos.y_ / (float)Settings::GetResolutionY());
+			//mouseRay.origin_ = cameraNode->GetWorldPosition();
+			physworld->RaycastSingle(query, mouseRay, 500.0f);
+			if (query.body_)
+			{
+				Node* mark = scene->CreateChild();
+				mark->LoadXML(cache->GetResource<XMLFile>("Objects/god.xml")->GetRoot());
+				mark->SetWorldPosition(query.position_);
+				Node* node = query.body_->GetNode();
+				UniquePtr<XMLFile> file;
+				file.Reset(new XMLFile(context_));
+				file->GetOrCreateRoot("rooty");
+				if (node->SaveXML(file->GetRoot()))
+				{
+					std::cout << file->ToString().CString() << std::endl;
+				}
+				else
+				{
+					std::cout << "COULD NOT SAVE QUERIED NODE INTO XML" << std::endl;
+				}
+			}
+			break;
+		}
+		case KEY_KP_9:
+			Missile::MakeMissile(scene, node_->GetWorldPosition() + Vector3(0.0f, 4.0f, 0.0f), node_->GetWorldRotation(), node_, node_);
+			break;
+		case KEY_KP_4:
+		{
+			Node* shield = scene->CreateChild("shield");
+			shield->SetWorldPosition(node_->GetWorldPosition());
+			TempShield* shieldComponent = shield->CreateComponent<TempShield>();
+			shieldComponent->owner = node_;
+			break;
+		}
+		case KEY_KP_5:
+			reviveCount = 666;
+			break;
+		case KEY_KP_6:
+			health = -10000.0f; lastChance = true;
+			break;
+		case KEY_KP_PLUS:
+			health = MAXHEALTH;
+			break;
+		case KEY_KP_PERIOD:
+			speedy = !speedy;
+			break;
+		case KEY_KP_ENTER:
+			firstPerson = !firstPerson;
+			break;
+		case KEY_KP_1:
+			SendEvent(Gameplay::E_CUTSCENE_END);
+			break;
+		}
+	}
+}
+
+void Player::OnCheatWindowEvent(StringHash eventType, VariantMap& eventData)
+{
+	UIElement* source = dynamic_cast<UIElement*>(eventData["Element"].GetPtr());
+	if (source) 
+	{
+		if (source->GetTypeName() == "Text")
+		{
+			source->SetEnabled(false);
+		}
+		if (source->HasTag("cheatWindowButton")) 
+		{
+			if (source->GetName() == "closeButton")
+			{
+				cheatWindow->SetVisible(false);
+			}
+			else if (source->GetName() == "winButton")
+			{
+				reviveCount = 666;
+			}
+			else if (source->GetName() == "dieButton")
+			{
+				health = -10000.0f; lastChance = true;
+			}
+			else if (source->GetName() == "healButton")
+			{
+				health = MAXHEALTH;
+			}
+			else if (source->GetName() == "hoverButton")
+			{
+				hovering = !hovering;
+			}
+			else if (source->GetName() == "fastButton")
+			{
+				speedy = !speedy;
+			}
+			else if (source->GetName() == "missileButton")
+			{
+				Missile::MakeMissile(scene, node_->GetWorldPosition() + Vector3(0.0f, 4.0f, 0.0f), node_->GetWorldRotation(), node_, node_);
+			}
+			else if (source->GetName() == "shieldButton")
+			{
+				Node* shield = scene->CreateChild("shield");
+				shield->SetWorldPosition(node_->GetWorldPosition());
+				TempShield* shieldComponent = shield->CreateComponent<TempShield>();
+				shieldComponent->owner = node_;
+			}
+			else if (source->GetName() == "firstPersonButton")
+			{
+				firstPerson = !firstPerson;
+			}
+			else if (source->GetName() == "skipCutsceneButton")
+			{
+				SendEvent(Gameplay::E_CUTSCENE_END);
+			}
+		}
+	}
 }
 
 void Player::OnSettingsChange(StringHash eventType, VariantMap& eventData)
@@ -197,56 +339,6 @@ void Player::OnCutsceneEvent(StringHash eventType, VariantMap& eventData)
 	}
 }
 
-void Player::Cheats()
-{
-	//Cheats
-	if (input->GetKeyDown(KEY_L)) reviveCount = 666;
-	if (input->GetKeyDown(KEY_K))
-	{
-		health = -10000.0f; lastChance = true;
-	}
-	if (input->GetKeyDown(KEY_KP_PLUS))
-		health = 100.0f;
-	if (input->GetKeyDown(KEY_KP_0))
-		actor->onGround = true;
-	speedy = input->GetKeyDown(KEY_KP_PERIOD);
-	if (input->GetKeyPress(KEY_KP_9))
-		Missile::MakeMissile(scene, node_->GetWorldPosition() + Vector3(0.0f, 4.0f, 0.0f), node_->GetWorldRotation(), node_, node_);
-	if (input->GetKeyPress(KEY_KP_3)) //Query
-	{
-		PhysicsRaycastResult query;
-		IntVector2 mousePos = input->GetMousePosition();
-		Ray mouseRay = camera->GetScreenRay((float)mousePos.x_ / (float)Settings::GetResolutionX(), (float)mousePos.y_ / (float)Settings::GetResolutionY());
-		//mouseRay.origin_ = cameraNode->GetWorldPosition();
-		physworld->RaycastSingle(query, mouseRay, 500.0f);
-		if (query.body_)
-		{
-			Node* mark = scene->CreateChild();
-			mark->LoadXML(cache->GetResource<XMLFile>("Objects/god.xml")->GetRoot());
-			mark->SetWorldPosition(query.position_);
-			Node* node = query.body_->GetNode();
-			UniquePtr<XMLFile> file;
-			file.Reset(new XMLFile(context_));
-			file->GetOrCreateRoot("rooty");
-			if (node->SaveXML(file->GetRoot()))
-			{
-				std::cout << file->ToString().CString() << std::endl;
-			}
-			else
-			{
-				std::cout << "COULD NOT SAVE QUERIED NODE INTO XML" << std::endl;
-			}
-		}
-	}
-	if (input->GetKeyPress(KEY_KP_4))
-	{
-		Node* shield = scene->CreateChild("shield");
-		shield->SetWorldPosition(node_->GetWorldPosition());
-		TempShield* shieldComponent = shield->CreateComponent<TempShield>();
-		shieldComponent->owner = node_;
-	}
-}
-
 void Player::FixedUpdate(float timeStep)
 {	
 	if (state != STATE_WIN && state != STATE_DEAD)
@@ -254,8 +346,16 @@ void Player::FixedUpdate(float timeStep)
 		modelNode->SetWorldPosition(node_->GetWorldPosition());
 		modelNode->SetWorldRotation(modelNode->GetWorldRotation().Slerp(node_->GetWorldRotation() * Quaternion(-90.0f, Vector3::UP), 0.25f));
 	}
-
-	Cheats();
+	
+	if ((input->GetKeyDown(KEY_KP_0) || hovering) && cheating)
+	{
+		actor->onGround = true;
+		actor->gravity = false;
+	}
+	else
+	{
+		actor->gravity = true;
+	}
 	
 	if (game->winState == 1)
 	{
@@ -424,14 +524,14 @@ void Player::HandleCamera(const float timeStep)
 	pivot->Rotate(Quaternion(theta, Vector3::UP));
 
 	//Cheaty first person mode for fun
-	if (input->GetKeyDown(KEY_KP_ENTER))
+	if (firstPerson)
 	{
 		modelNode->SetEnabled(false);
 		cameraNode->SetWorldPosition(node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f));
 		cameraNode->SetWorldRotation(pivot->GetWorldRotation());
 		return;
 	}
-	else if (state != STATE_DROWN && !input->GetKeyDown(KEY_KP_DIVIDE))
+	else if (state != STATE_DROWN)
 	{
 		modelNode->SetEnabled(true);
 	}

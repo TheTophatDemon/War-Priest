@@ -14,6 +14,9 @@
 #include <Urho3D/Graphics/AnimatedModel.h>
 #include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Audio/SoundSource.h>
+#include <Urho3D/UI/Window.h>
+#include <Urho3D/UI/UIElement.h>
+#include <Urho3D/UI/UIEvents.h>
 #include "SoundSounder.h"
 #include "Enemy.h"
 
@@ -32,6 +35,7 @@ public:
 	virtual void FixedUpdate(float timeStep);
 	~Player();
 	
+	bool cheating = false;
 	static const float reviveCooldownMax;
 protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
@@ -39,6 +43,8 @@ protected:
 	void OnBeamed(StringHash eventType, VariantMap& eventData);
 	void OnSettingsChange(StringHash eventType, VariantMap& eventData);
 	void OnCutsceneEvent(StringHash eventType, VariantMap& eventData);
+	void OnKeyPress(StringHash eventType, VariantMap& eventData);
+	void OnCheatWindowEvent(StringHash eventType, VariantMap& eventData);
 	void Hurt(Node* source, int damage);
 	void HandleCamera(const float timeStep);
 	void HandleShadow();
@@ -50,7 +56,6 @@ protected:
 	void ST_Win(float timeStep);
 	void ST_Drown(float timeStep);
 	void HandleNearestCorpse();
-	void Cheats();
 
 	SharedPtr<Scene> scene;
 	SharedPtr<ResourceCache> cache;
@@ -69,6 +74,7 @@ protected:
 	SharedPtr<Input> input;
 	SharedPtr<Node> pivot;
 	SharedPtr<SoundSounder> soundSource;
+	SharedPtr<Window> cheatWindow;
 	WeakPtr<Enemy> nearestCorpse; //Weakptr instead of Sharedptr avoids big-ass memory leak.
 	WeakPtr<Node> currentCheckpoint;
 	WeakPtr<Node> splashNode;
@@ -79,6 +85,8 @@ protected:
 	Vector3 optimalCamPos;
 	Vector3 startingPosition;
 	static Vector3 cameraOffset;
+
+	String cheatString;
 	
 	int state;
 	int health;
@@ -98,5 +106,7 @@ protected:
 	bool speedy = false;
 	bool lastChance = false;
 	bool revived = false;
+	bool hovering = false;
+	bool firstPerson = false;
 };
 

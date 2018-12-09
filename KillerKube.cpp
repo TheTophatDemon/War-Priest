@@ -6,12 +6,16 @@
 #include <Urho3D/Scene/ValueAnimation.h>
 #include <Urho3D/Physics/PhysicsEvents.h>
 #include <Urho3D/Graphics/Technique.h>
+#include <Urho3D/UI/UIElement.h>
+#include <Urho3D/UI/UIEvents.h>
+
 #include "Settings.h"
 #include "Blackstone.h"
 #include "Missile.h"
 #include "Actor.h"
 #include "WeakChild.h"
 #include "Zeus.h"
+#include "Player.h"
 
 #define STATE_DORMANT 0
 #define STATE_RISE 1
@@ -108,6 +112,7 @@ void KillerKube::Start()
 	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(KillerKube, OnSettingsChange));
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(KillerKube, OnCollision));
 	SubscribeToEvent(blackHoleNode, E_NODECOLLISION, URHO3D_HANDLER(KillerKube, OnBlackHoleCollision));
+	SubscribeToEvent(E_UIMOUSECLICKEND, URHO3D_HANDLER(KillerKube, OnCheatWindowEvent));
 
 	SendEvent(Settings::E_SETTINGSCHANGED); //To initialize
 
@@ -125,6 +130,14 @@ void KillerKube::FixedUpdate(float timeStep)
 	distanceFromPlayer = targetDiff.Length();
 
 	const float hDiff = targetHeight - node_->GetWorldPosition().y_;
+
+	if (game->player->cheating) 
+	{
+		if (GetSubsystem<Input>()->GetKeyPress(KEY_KP_7))
+			ChangeState(STATE_BLACKHOLE);
+		if (GetSubsystem<Input>()->GetKeyPress(KEY_KP_8))
+			ChangeState(STATE_MISSILE);
+	}
 
 	stateTimer += timeStep;
 	switch (state)
@@ -172,15 +185,6 @@ void KillerKube::FixedUpdate(float timeStep)
 
 		moveSpeed = Clamp(moveSpeed + 0.5f, -maxMoveSpeed, maxMoveSpeed);
 
-		if (GetSubsystem<Input>()->GetKeyDown(KEY_KP_6))
-		{
-			direction.y_ = 1.0f;
-		}
-		else if (GetSubsystem<Input>()->GetKeyDown(KEY_KP_5))
-		{
-			direction.y_ = -1.0f;
-		}
-
 		//Running into walls shifts it up, but it must return to ground level
 		if (fabs(hDiff) > 0.1f)
 		{
@@ -207,11 +211,6 @@ void KillerKube::FixedUpdate(float timeStep)
 				ChangeState(STATE_MISSILE);
 			}
 		}
-
-		if (GetSubsystem<Input>()->GetKeyPress(KEY_KP_7))
-			ChangeState(STATE_BLACKHOLE);
-		if (GetSubsystem<Input>()->GetKeyPress(KEY_KP_8))
-			ChangeState(STATE_MISSILE);
 
 		//Check for collisions 
 		PhysicsRaycastResult result;
@@ -332,6 +331,25 @@ void KillerKube::OnBlackHoleCollision(StringHash eventType, VariantMap& eventDat
 		//All rigid bodies that aren't likely to have code for this interaction are pushed towards the center
 		const Vector3 diff = node_->GetWorldPosition() - other->GetWorldPosition();
 		otherBody->ApplyImpulse(diff.Normalized() * 2.0f * otherBody->GetMass());
+	}
+}
+
+void KillerKube::OnCheatWindowEvent(StringHash eventType, VariantMap& eventData)
+{
+	UIElement* source = dynamic_cast<UIElement*>(eventData["Element"].GetPtr());
+	if (source)
+	{
+		if (source->HasTag("cheatWindowButton"))
+		{
+			if (source->GetName() == "kubeMissileButton")
+			{
+				ChangeState(STATE_MISSILE);
+			}
+			else if (source->GetName() == "kubeBlackHoleButton")
+			{
+				ChangeState(STATE_BLACKHOLE);
+			}
+		}
 	}
 }
 

@@ -114,10 +114,17 @@ void Actor::SetInputVec(const Vector3 mov)
 
 void Actor::Jump()
 {
-	if (onGround)
+	if (gravity) 
 	{
-		fall = jumpStrength;
-		onGround = false;
+		if (onGround)
+		{
+			fall = jumpStrength;
+			onGround = false;
+		}
+	}
+	else
+	{
+		rawMovement.y_ += jumpStrength;
 	}
 }
 
@@ -146,29 +153,33 @@ void Actor::Move(float timeStep)
 	//Falling logic
 	sloping = false;
 	float slopeFall = 0.0f;
-	if (onGround)
+
+	if (gravity) 
 	{
-		if (fall <= 0.0f)
+		if (onGround)
 		{
-			fall = -0.1f;
-			if (slopeSteepness != 1.0f && slopeSteepness >= 0.42f)
+			if (fall <= 0.0f)
 			{
-				const Vector3 rawMovementXZ = Vector3(rawMovement.x_, 0.0f, rawMovement.z_);
-				const Vector3 slopeNormalXZ = Vector3(downCast.normal_.x_, 0.0f, downCast.normal_.z_);
-				slopeFall = (-1 / (slopeSteepness * 0.64f) + 1) * rawMovementXZ.Length();
-				const float dot = slopeNormalXZ.DotProduct(rawMovementXZ);
-				if (dot < -0.75f && slopeSteepness >= 0.75f)
+				fall = -0.1f;
+				if (slopeSteepness != 1.0f && slopeSteepness >= 0.42f)
 				{
-					slopeFall = fabs(slopeFall) * 0.34f;
+					const Vector3 rawMovementXZ = Vector3(rawMovement.x_, 0.0f, rawMovement.z_);
+					const Vector3 slopeNormalXZ = Vector3(downCast.normal_.x_, 0.0f, downCast.normal_.z_);
+					slopeFall = (-1 / (slopeSteepness * 0.64f) + 1) * rawMovementXZ.Length();
+					const float dot = slopeNormalXZ.DotProduct(rawMovementXZ);
+					if (dot < -0.75f && slopeSteepness >= 0.75f)
+					{
+						slopeFall = fabs(slopeFall) * 0.34f;
+					}
+					sloping = true;
 				}
-				sloping = true;
 			}
 		}
-	}
-	else if (gravity)
-	{
-		fall -= fallSpeed * deltaTime;
-		if (fall < -maxFall) fall = -maxFall;
+		else
+		{
+			fall -= fallSpeed * deltaTime;
+			if (fall < -maxFall) fall = -maxFall;
+		}
 	}
 	else
 	{

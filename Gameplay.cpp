@@ -125,7 +125,7 @@ void Gameplay::Start()
 	scene_ = SharedPtr<Scene>(GetScene());
 
 	input->SetMouseGrabbed(true);
-	ourUI->SetEnabledRecursive(true);
+	ourUI->SetEnabled(true);
 	ourUI->SetVisible(true);
 	ourUI->SetHorizontalAlignment(HA_CENTER);
 	ourUI->SetPosition(0.0f, 0.0f);
@@ -547,6 +547,20 @@ void Gameplay::MakeHUD()
 	compass1 = (Sprite*)ourUI->GetChild("compass1", true);
 	compass1->SetTexture(compassScene->renderedTexture);
 	compass1->SetFullImageRect();
+
+	UIElement* cheatWindow = ourUI->LoadChildXML(cache->GetResource<XMLFile>("UI/titlemenus/cheatWindow.xml")->GetRoot(), cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
+	PODVector<UIElement*> children;
+	cheatWindow->GetChildren(children, true);
+	for (UIElement* child : children)
+	{
+		if (child->GetTypeName() == "Text")
+		{
+			child->SetEnabled(false);
+			child->SetInternal(true);
+			child->SetFocusMode(FM_NOTFOCUSABLE);
+			child->SetSize(child->GetParent()->GetSize());
+		}
+	}
 
 	ourUI->SetEnabled(false);
 	ourUI->SetVisible(false);
