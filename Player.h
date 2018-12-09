@@ -40,7 +40,7 @@ protected:
 	void OnSettingsChange(StringHash eventType, VariantMap& eventData);
 	void OnCutsceneEvent(StringHash eventType, VariantMap& eventData);
 	void Hurt(Node* source, int damage);
-	void HandleCamera();
+	void HandleCamera(const float timeStep);
 	void HandleShadow();
 	void ChangeState(int newState);
 	void EnterState(int newState);

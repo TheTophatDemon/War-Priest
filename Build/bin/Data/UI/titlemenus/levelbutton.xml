@@ -3,14 +3,17 @@
 	<attribute name="Name" value="levelButton" />
 	<attribute name="Position" value="0 190" />
 	<attribute name="Size" value="480 48" />
-	<attribute name="Horiz Alignment" value="Center" />
+	<attribute name="Min Anchor" value="0.5 0" />
+	<attribute name="Max Anchor" value="0.5 0" />
+	<attribute name="Pivot" value="0.5 0" />
 	<attribute name="Color" value="0.5 0.5 0.5 1" />
 	<attribute name="Top Left Color" value="0.5 0.5 0.5 1" />
 	<attribute name="Top Right Color" value="0.5 0.5 0.5 1" />
 	<attribute name="Bottom Left Color" value="0.5 0.5 0.5 1" />
 	<attribute name="Bottom Right Color" value="0.5 0.5 0.5 1" />
-	<attribute name="Texture" value="Textures/UI2.png"/>
-	<attribute name="Image Rect" value="16 0 32 16"/>
-	<attribute name="Border" value="4 4 4 4"/>
-	<attribute name="Hover Image Offset" value = "0 16"/>
+	<attribute name="Texture" value="Texture2D;UI/ui.png" />
+	<attribute name="Image Rect" value="0 16 16 32" />
+	<attribute name="Border" value="6 6 6 6" />
+	<attribute name="Pressed Image Offset" value="16 0" />
+    <attribute name="Hover Image Offset" value="0 16" />
 </element>

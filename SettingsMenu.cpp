@@ -43,31 +43,49 @@ void SettingsMenu::OnEnter()
 	rebindWindow = dynamic_cast<Window*>(titleScreen->ourUI->LoadChildXML(cache->GetResource<XMLFile>("UI/titlemenus/rebindWindow.xml")->GetRoot()));
 	rebindWindow->SetVisible(false);
 	rebindWindow->SetPriority(100000);
-	rebindPanel = rebindWindow->GetChildDynamicCast<BorderImage>("panel", true);
 	rebindLabel = rebindWindow->GetChildDynamicCast<Text>("windowTitle", true);
+	rebindPanel = rebindWindow->GetChildDynamicCast<ListView>("panel", true);
+	//Hacking the UI Style so that the ListView items don't show over the panel borders reveals the horizontal scroll bar
+	//Other code messes with its visibility state, so it must be hidden indirectly
+	rebindPanel->GetHorizontalScrollBar()->SetClipChildren(true);
+	rebindPanel->GetHorizontalScrollBar()->SetClipBorder(IntRect(6000, 6000, 6000, 6000));
+	
 	//Generate buttons for each input type
 	rebindButtons = Vector<SharedPtr<Button>>();
 	//Corresponding buttons must be in same order as Settings::inputs[]
-	String inputLabels[] = {"Move Forward: ", "Move Backwards: ", "Move Left: ", "Move Right: ", "Jump: ", "Revive: ", "Slide: "};
+	String inputLabels[] = {"Move Forward: ", "Move Backwards: ", "Move Left: ", "Move Right: ", "Jump: ", "Revive: ", "Slide: ", 
+		"Turn Camera Right: ", "Turn Camera Left: ", "Turn Camera Up: ", "Turn Camera Down: "};
 	for (int i = 0; i < Settings::NUM_INPUTS; ++i)
 	{
-		Button* butt = dynamic_cast<Button*>(rebindPanel->LoadChildXML(cache->GetResource<XMLFile>("UI/titlemenus/rebindButton.xml")->GetRoot()));
+		//Have to add a proxy UIElement for each button or the ListView will not work right
+		SharedPtr<UIElement> buttParent = SharedPtr<UIElement>(new UIElement(titleScreen->GetContext()));
+		buttParent->SetStyleAuto(ui->GetRoot()->GetDefaultStyle());
+		
+		Button* butt = dynamic_cast<Button*>(buttParent->LoadChildXML(cache->GetResource<XMLFile>("UI/titlemenus/rebindButton.xml")->GetRoot()));
 		butt->GetChildDynamicCast<Text>("label", true)->SetText(inputLabels[i]);
-		butt->SetPosition(butt->GetPosition().x_, butt->GetPosition().y_ + i * butt->GetHeight());
 		butt->SetVar("Input ID", i);
+		butt->SetFocusMode(FM_FOCUSABLE);
 		rebindButtons.Push(SharedPtr<Button>(butt));
+
+		buttParent->SetAlignment(HA_CENTER, VA_TOP);
+		buttParent->SetSize(butt->GetSize());
+		buttParent->SetMinSize(butt->GetSize());
+		buttParent->SetMaxSize(butt->GetSize());
+		rebindPanel->AddItem(buttParent);
 	}
 
 	//Add buttons for each resolution
 	resolutionList = titleScreen->ourUI->GetChild("resolutionList", true);
 	resolutionList->SetClipChildren(true);
-	resolutionList->SetClipBorder(IntRect(4, 4, 4, 4));
-	const int buttHeight = resolutionList->GetSize().y_ / Settings::NUM_RESOLUTIONS;
+	//resolutionList->SetClipBorder(IntRect(6, 6, 6, 6));
+	const int buttHeight = (resolutionList->GetSize().y_ - 12) / Settings::NUM_RESOLUTIONS;
 	for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i)
 	{
 		Button* butt = (Button*)resolutionList->CreateChild(Button::GetTypeStatic());
-		butt->SetSize(resolutionList->GetSize().x_, buttHeight);
-		butt->SetPosition(0, buttHeight*i);
+		butt->SetStyleAuto(ui->GetRoot()->GetDefaultStyle());
+		butt->SetSize(resolutionList->GetSize().x_ - 12, buttHeight);
+		butt->SetHorizontalAlignment(HA_CENTER);
+		butt->SetPosition(0, buttHeight*i + 6);
 		butt->SetColor(unSelectedColor);
 		String label = String(Settings::RES_X[i]) + "x" + String(Settings::RES_Y[i]);
 		Text* text = (Text*)butt->CreateChild(Text::GetTypeStatic());
@@ -165,14 +183,12 @@ void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 					}
 				}
 			}
-			else if (source->GetParent() == rebindPanel)
+			else if (source->GetName() == "rebindButton")
 			{
-				if (source->GetName() == "rebindButton")
-				{
-					rebinding = true;
-					rebindButton = source;
-					rebindLabel->SetText("Press the button to be assigned");
-				}
+				rebinding = true;
+				rebindButton = source;
+				rebindLabel->SetText("Press the button to be assigned");
+				rebindButton->SetFocus(true);
 			}
 			else if (source->GetParent() == rebindWindow)
 			{
@@ -202,6 +218,7 @@ void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 				else if (source->GetName() == "controlsButton")
 				{
 					rebindWindow->SetVisible(true);
+					rebindPanel->SetFocus(true);
 				}
 			}
 		}
@@ -235,6 +252,12 @@ void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 			Text* buttLabel = rebindButton->GetChildDynamicCast<Text>("label", true);
 			buttLabel->SetText(UPDATE_REBIND_BUTTON_TEXT(buttLabel->GetText(), (*Settings::inputs[id])->name));
 			rebindButton = nullptr;
+			rebindPanel->SetFocus(true);
+		}
+		else if (eventType == E_MOUSEWHEEL)
+		{
+			const int wheelValue = eventData["Wheel"].GetInt();
+			//rebindScroll->SetValue(rebindScroll->GetValue() - wheelValue * 2.0f);
 		}
 	}
 }

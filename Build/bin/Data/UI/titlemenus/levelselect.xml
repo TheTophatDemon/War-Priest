@@ -53,8 +53,8 @@
 		<attribute name="Clip Border" value="4 4 4 4" />
 		<attribute name="Clip Children" value="true" />
 		<attribute name="Layout Border" value="4 4 4 4" />
-		<attribute name="Image Rect" value="16 0 32 16" />
-		<attribute name="Border" value="4 4 4 4" />
+		<attribute name="Image Rect" value="0 0 16 16" />
+		<attribute name="Border" value="6 6 6 6" />
 		<attribute name="Blend Mode" value="replace" />
 		<element type="ScrollBar">
 			<attribute name="Name" value="levelScroll" />
@@ -66,6 +66,8 @@
 			<attribute name="Top Right Color" value="0 0 0 0" />
 			<attribute name="Bottom Left Color" value="0 0 0 0" />
 			<attribute name="Bottom Right Color" value="0 0 0 0" />
+			<attribute name="Texture" value="Texture2D;UI/ui.png" />
+			<attribute name="Image Rect" value="0 0 256 128" />
 			<attribute name="Orientation" value="Vertical" />
 			<element type="Button" internal="true" style="none">
 				<attribute name="Pivot" value="0 0" />

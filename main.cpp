@@ -1,12 +1,11 @@
-//DONE: 
-	//Change sign text
-	//Switch signs around
-	//Voice lines?
-	//Change music?
-	//Remove "The Lord Frowns upon you?"
-//TODO:
-	//Use new cutscene script system on win animation?
+//DONE:
+	//Added tree LODs
+	//Make spinning cross sprite bigger res
+	//UI Retexture
+	//Made rebind window use listview
 	//Add camera turn keys
+//TODO:
+	//Change the prelude music
 	//Palpan1
 		//God Cutscene
 			//Give cheat codes after several tries
@@ -14,22 +13,19 @@
 	//Credits
 		//Have player drop down from above
 	//Add rain to more levels
-	//Make spinning cross sprite bigger res
 	//Pile of skull prop
 	//Add something else to Kube?
 	//Sounds
 		//Boulder bounce
 		//Thunderstorm
-	//Add LODs
-		//Treegroup
-		//Treegroup_distorted
-	//Bonus Crosses for: SS1, FF4, PP4, PP1. 
 	//Do final test through every level.
 		//Make fog match the skybox color
 		//PP3
 			//Make platform in PP3 double-edged (and faster).
 			//PP3 make that slope less steep
 			//Danger Deacon gets stuck in floor on PP3
+		//PP4
+			//Add bonus cross
 		//FF1
 			//FF1 is too ugly
 			//Fallrhine 1 ledge is too high
@@ -41,6 +37,10 @@
 		//FF4
 			//Expand ridge in FF4
 			//FF4 Enemy in the water?
+			//Add bonus cross
+		//SS1
+			//Reduce DD count
+			//Add Bonus cross
 		//SS2
 			//Make beginning platforms easier to cross
 			//Can't get on platforms to return
@@ -51,10 +51,9 @@
 			//SS3 less enemies on side island
 		//SS4
 			//SS4 intial launchpad comes up too short
-			//ENEMY IN WATER for SS4
+			//Fix those tiny-ass platforms
 
 	//Optimize raycast distances (The more geometry that intersects it, the slower it gets)
-	//Send E_SETTINGSCHANGE to self
 	//Package assets
 	
 	//Send to Somecallmejohnny?
@@ -80,8 +79,8 @@
 	//The controls near the top of the Hierarchy window in the Editor are confusing
 	//Can't unparent selections that are selected using "shift"
 	//Custom components can't have parameters other than context
-	//GetWorldTransform scaling bug?
 	//Trouble with Text3D custom materials
+	//Bad documentation
 	//Freezes on "SDL_Delay" (Called by DirectSound, I think) sometimes when re-focusing the window after an alt-tab.
 	//HLSL's TEXCOORD(n) semantics are misleading
 	//No documentation for:

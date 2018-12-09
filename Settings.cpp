@@ -42,7 +42,12 @@ SharedPtr<UInput> Settings::keyRight;
 SharedPtr<UInput> Settings::keyJump;
 SharedPtr<UInput> Settings::keyRevive;
 SharedPtr<UInput> Settings::keySlide;
-SharedPtr<UInput>* Settings::inputs[] = { &keyForward, &keyBackward, &keyLeft, &keyRight, &keyJump, &keyRevive, &keySlide };
+SharedPtr<UInput> Settings::keyTurnRight;
+SharedPtr<UInput> Settings::keyTurnLeft;
+SharedPtr<UInput> Settings::keyTurnUp;
+SharedPtr<UInput> Settings::keyTurnDown;
+SharedPtr<UInput>* Settings::inputs[] = { &keyForward, &keyBackward, &keyLeft, &keyRight, 
+	&keyJump, &keyRevive, &keySlide, &keyTurnRight, &keyTurnLeft, &keyTurnUp, &keyTurnDown };
 
 const int Settings::RES_X[] = { 1920, 1280, 800, 800, 640, 640 };
 const int Settings::RES_Y[] = { 1080, 720, 600, 450, 480, 360 };
@@ -100,6 +105,10 @@ void Settings::RevertSettings(Context* context)
 	keyJump = SharedPtr<UInput>(new KeyInput(KEY_SPACE, input));
 	keyRevive = SharedPtr<UInput>(new MouseInput(MOUSEB_LEFT, input));
 	keySlide = SharedPtr<UInput>(new MouseInput(MOUSEB_RIGHT, input));
+	keyTurnRight = SharedPtr<UInput>(new KeyInput(KEY_RIGHT, input));
+	keyTurnLeft = SharedPtr<UInput>(new KeyInput(KEY_LEFT, input));
+	keyTurnUp = SharedPtr<UInput>(new KeyInput(KEY_UP, input));
+	keyTurnDown = SharedPtr<UInput>(new KeyInput(KEY_DOWN, input));
 	xRes = DF_XRES;
 	yRes = DF_YRES;
 	fastGraphics = DF_FASTGRAPHICS;

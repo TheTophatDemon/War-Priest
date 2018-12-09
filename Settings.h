@@ -51,6 +51,10 @@ public:
 	static inline UInput* GetJumpKey() { return keyJump; }
 	static inline UInput* GetReviveKey() { return keyRevive; }
 	static inline UInput* GetSlideKey() { return keySlide; }
+	static inline UInput* GetTurnRightKey() { return keyTurnRight; }
+	static inline UInput* GetTurnLeftKey() { return keyTurnLeft; }
+	static inline UInput* GetTurnUpKey() { return keyTurnUp; }
+	static inline UInput* GetTurnDownKey() { return keyTurnDown; }
 	static inline int GetResolutionX() { return xRes; };
 	static inline int GetResolutionY() { return yRes; };
 	static inline float GetMouseSensitivity() { return mouseSensitivity; }
@@ -80,7 +84,7 @@ public:
 		}
 	}
 
-	static const constexpr int NUM_INPUTS = 7;
+	static const constexpr int NUM_INPUTS = 11;
 	static const constexpr int NUM_RESOLUTIONS = 6;
 	static const int RES_X[];
 	static const int RES_Y[];
@@ -96,6 +100,10 @@ protected:
 	static SharedPtr<UInput> keyJump;
 	static SharedPtr<UInput> keyRevive;
 	static SharedPtr<UInput> keySlide;
+	static SharedPtr<UInput> keyTurnRight;
+	static SharedPtr<UInput> keyTurnLeft;
+	static SharedPtr<UInput> keyTurnUp;
+	static SharedPtr<UInput> keyTurnDown;
 	static int xRes;
 	static int yRes;
 	static float mouseSensitivity;

@@ -40,8 +40,9 @@ protected:
 	SharedPtr<Button> controlsButton;
 
 	SharedPtr<Window> rebindWindow;
-	SharedPtr<BorderImage> rebindPanel;
+	SharedPtr<ListView> rebindPanel;
 	SharedPtr<Text> rebindLabel;
+	//SharedPtr<ScrollBar> rebindScroll;
 	Vector<SharedPtr<Button>> rebindButtons;
 
 	SharedPtr<Slider> musicVolumeSlider;

@@ -93,6 +93,7 @@ void LevelSelectMenu::OnEnter()
 	GP::Menu::OnEnter();
 	levelList = titleScreen->ourUI->GetChild("levelList", true);
 	buttParent = levelList->GetChild("levelButtonParent", true);
+	buttParent->SetStyleAuto(ui->GetRoot()->GetDefaultStyle());
 	scrollBar = (ScrollBar*)levelList->GetChild("levelScroll", true);
 	if (levelEntries.Size() > 10) 
 	{
@@ -127,7 +128,7 @@ void LevelSelectMenu::OnEnter()
 		{
 			Button* button = buttParent->CreateChild<Button>();
 			button->LoadXML(cache->GetResource<XMLFile>("UI/titlemenus/levelbutton.xml")->GetRoot());
-			button->SetTexture((Texture*)cache->GetResource<Texture2D>("Textures/UI.png"));
+			button->SetTexture((Texture*)cache->GetResource<Texture2D>("UI/ui.png"));
 			button->SetPosition(0, 4 + (counter * 52));
 			button->SetVar("filePath", le.filePath);
 
@@ -149,15 +150,15 @@ void LevelSelectMenu::OnEnter()
 				sprite->SetSize(48, 48);
 				sprite->SetAlignment(HA_LEFT, VA_TOP);
 				sprite->SetPosition(0.0f, 0.0f);
-				sprite->SetTexture(cache->GetResource<Texture2D>("Textures/cross_ui_small.png"));
-				sprite->SetImageRect(IntRect(0, 0, 32, 32));
+				sprite->SetTexture(cache->GetResource<Texture2D>("UI/cross_icon.png"));
+				sprite->SetImageRect(IntRect(0, 0, 48, 48));
 				sprites.Push(sprite);
 				Sprite* sprite2 = button->CreateChild<Sprite>();
 				sprite2->SetSize(48, 48);
 				sprite2->SetAlignment(HA_RIGHT, VA_TOP);
 				sprite2->SetPosition(-48.0f, 0.0f);
-				sprite2->SetTexture(cache->GetResource<Texture2D>("Textures/cross_ui_small.png"));
-				sprite2->SetImageRect(IntRect(0, 0, 32, 32));
+				sprite2->SetTexture(cache->GetResource<Texture2D>("UI/cross_icon.png"));
+				sprite2->SetImageRect(IntRect(0, 0, 48, 48));
 				sprites.Push(sprite2);
 			}
 

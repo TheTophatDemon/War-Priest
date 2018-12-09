@@ -11,8 +11,8 @@
 		<attribute name="Max Anchor" value="0.5 0" />
 		<attribute name="Pivot" value="0.5 0" />
 		<attribute name="Is Editable" value="false" />
-		<attribute name="Image Rect" value="16 0 32 16" />
-		<attribute name="Border" value="4 4 4 4" />
+		<attribute name="Image Rect" value="0 0 16 16" />
+		<attribute name="Border" value="6 6 6 6" />
 		<element type="Text">
 			<attribute name="Position" value="0 8" />
 			<attribute name="Min Anchor" value="0.5 0" />
@@ -38,7 +38,7 @@
 			<attribute name="Layout Spacing" value="16" />
 			<attribute name="Layout Border" value="16 16 288 16" />
 			<attribute name="Image Rect" value="16 0 32 16" />
-			<attribute name="Border" value="4 4 4 4" />
+			<attribute name="Border" value="6 6 6 6" />
 			<element type="Slider">
 				<attribute name="Name" value="musicVolumeSlider" />
 				<attribute name="Pivot" value="0 0" />
@@ -48,10 +48,10 @@
 					<attribute name="Pivot" value="0 0" />
 				</element>
 				<element type="Text">
-					<attribute name="Position" value="192 0" />
-					<attribute name="Min Anchor" value="1 0.5" />
-					<attribute name="Max Anchor" value="1 0.5" />
-					<attribute name="Pivot" value="1 0.5" />
+					<attribute name="Position" value="360 0" />
+					<attribute name="Min Anchor" value="0 0.5" />
+					<attribute name="Max Anchor" value="0 0.5" />
+					<attribute name="Pivot" value="0 0.5" />
 					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
@@ -70,10 +70,10 @@
 					<attribute name="Pivot" value="0 0" />
 				</element>
 				<element type="Text">
-					<attribute name="Position" value="192 0" />
-					<attribute name="Min Anchor" value="1 0.5" />
-					<attribute name="Max Anchor" value="1 0.5" />
-					<attribute name="Pivot" value="1 0.5" />
+					<attribute name="Position" value="360 0" />
+					<attribute name="Min Anchor" value="0 0.5" />
+					<attribute name="Max Anchor" value="0 0.5" />
+					<attribute name="Pivot" value="0 0.5" />
 					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
@@ -91,16 +91,16 @@
 					<attribute name="Pivot" value="0 0" />
 				</element>
 				<element type="Text">
-					<attribute name="Position" value="216 0" />
-					<attribute name="Min Anchor" value="1 0.5" />
-					<attribute name="Max Anchor" value="1 0.5" />
-					<attribute name="Pivot" value="1 0.5" />
+					<attribute name="Position" value="360 0" />
+					<attribute name="Min Anchor" value="0 0.5" />
+					<attribute name="Max Anchor" value="0 0.5" />
+					<attribute name="Pivot" value="0 0.5" />
 					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Font Size" value="20" />
-					<attribute name="Text" value="Mouse Sensitivity" />
+					<attribute name="Text" value="Camera Sensitivity" />
 				</element>
 			</element>
 			<element type="CheckBox">
@@ -263,10 +263,8 @@
 		</element>
 		<element type="Text">
 			<attribute name="Name" value="resText" />
-			<attribute name="Position" value="-48 64" />
-			<attribute name="Min Anchor" value="1 0" />
-			<attribute name="Max Anchor" value="1 0" />
-			<attribute name="Pivot" value="1 0" />
+			<attribute name="Position" value="720 64" />
+			<attribute name="Pivot" value="0 0" />
 			<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
 			<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
 			<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
@@ -302,7 +300,7 @@
 			<attribute name="Max Anchor" value="0 1" />
 			<attribute name="Pivot" value="0 1" />
 			<attribute name="Image Rect" value="16 0 32 16" />
-			<attribute name="Border" value="4 4 4 4" />
+			<attribute name="Border" value="6 6 6 6" />
 			<element type="Slider">
 				<attribute name="Name" value="difficultySlider" />
 				<attribute name="Position" value="240 16" />
@@ -357,9 +355,9 @@
 			<element type="Text">
 				<attribute name="Name" value="diffText" />
 				<attribute name="Position" value="8 0" />
-				<attribute name="Size" value="208 66" />
-				<attribute name="Min Size" value="208 66" />
-				<attribute name="Max Size" value="208 66" />
+				<attribute name="Size" value="208 78" />
+				<attribute name="Min Size" value="208 78" />
+				<attribute name="Max Size" value="208 78" />
 				<attribute name="Min Anchor" value="0 0.5" />
 				<attribute name="Max Anchor" value="0 0.5" />
 				<attribute name="Pivot" value="0 0.5" />

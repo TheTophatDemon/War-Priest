@@ -431,7 +431,7 @@
 		<attribute name="Rotation" value="0.96653 0 -0.256553 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
-			<variant hash="2310231975" type="String" value="Use the mouse to look around." />
+			<variant hash="2310231975" type="String" value="Use the mouse (or the keys assigned in the Options menu) to look around." />
 		</attribute>
 		<component type="StaticModel" id="16779950">
 			<attribute name="Model" value="Model;Models/props/sign.mdl" />

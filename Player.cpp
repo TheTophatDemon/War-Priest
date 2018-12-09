@@ -308,7 +308,7 @@ void Player::FixedUpdate(float timeStep)
 
 	if (state != STATE_WIN && state != STATE_DEAD && state != STATE_PUPPET) 
 	{
-		HandleCamera();
+		HandleCamera(timeStep);
 	}
 }
 
@@ -412,13 +412,16 @@ void Player::OnBeamed(StringHash eventType, VariantMap& eventData)
  	}
 }
 
-void Player::HandleCamera()
+void Player::HandleCamera(const float timeStep)
 {
 	const Vector3 worldPos = body->GetPosition();
 
 	//Yaw rotation via pivot
 	if (state != STATE_DROWN) pivot->SetWorldPosition(body->GetPosition());
-	pivot->Rotate(Quaternion(input->GetMouseMoveX() * Settings::GetMouseSensitivity(), Vector3::UP));
+	float theta = input->GetMouseMoveX() * Settings::GetMouseSensitivity();
+	if (Settings::GetTurnRightKey()->isDown()) theta += timeStep * 1440.0f * Settings::GetMouseSensitivity();
+	if (Settings::GetTurnLeftKey()->isDown()) theta -= timeStep * 1440.0f * Settings::GetMouseSensitivity();
+	pivot->Rotate(Quaternion(theta, Vector3::UP));
 
 	//Cheaty first person mode for fun
 	if (input->GetKeyDown(KEY_KP_ENTER))
@@ -467,8 +470,9 @@ void Player::HandleCamera()
 
 	//Pitch rotation
 	float mvy = input->GetMouseMoveY();
-	if (Settings::IsMouseInverted())
-		mvy = -mvy;
+	if (Settings::GetTurnUpKey()->isDown()) mvy -= timeStep * 1440.0f;
+	if (Settings::GetTurnDownKey()->isDown()) mvy += timeStep * 1440.0f;
+	if (Settings::IsMouseInverted()) mvy = -mvy;
 	cameraPitch = Clamp(cameraPitch + (mvy * Settings::GetMouseSensitivity() * 0.25f), -15.0f, 15.0f);
 	cameraNode->Rotate(Quaternion(cameraPitch, Vector3::RIGHT), TS_LOCAL);
 }
@@ -553,7 +557,7 @@ void Player::EnterState(int newState)
 				}
 			}
 			//Remove everything
-			HandleCamera();
+			HandleCamera(0.0f);
 			node_->Remove();
 			modelNode->Remove();
 			dropShadow->Remove();
