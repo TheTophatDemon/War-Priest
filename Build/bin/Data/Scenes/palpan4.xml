@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 <scene id="1">
-	<attribute name="Name" value="Beta Map01" />
+	<attribute name="Name" value="Palisade Pantheon Act 4" />
 	<attribute name="Time Scale" value="1" />
 	<attribute name="Smoothing Constant" value="50" />
 	<attribute name="Snap Threshold" value="5" />
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16777684" />
-	<attribute name="Next Local Component ID" value="16778925" />
+	<attribute name="Next Local Node ID" value="16777686" />
+	<attribute name="Next Local Component ID" value="16778949" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="palisadepantheon.ogg" />
+		<variant hash="3555864366" type="Bool" value="true" />
 	</attribute>
-	<attribute name="Variable Names" value="spawnertype;spawnerdistance;simpleHitbox;movement;restTime;speed;rotateSpeed;music;noCollision" />
+	<attribute name="Variable Names" value="spawnertype;spawnerdistance;simpleHitbox;movement;restTime;speed;rotateSpeed;music;noCollision;raining" />
 	<component type="Octree" id="1" />
 	<component type="DebugRenderer" id="2" />
 	<component type="PhysicsWorld" id="3">
@@ -65,7 +66,8 @@
 		<component type="Zone" id="16777245">
 			<attribute name="Bounding Box Min" value="-1000 -1000 -1000" />
 			<attribute name="Bounding Box Max" value="1000 1000 1000" />
-			<attribute name="Ambient Color" value="0.6 0.6 0.6 1" />
+			<attribute name="Ambient Color" value="0.2 0.2 0.6 1" />
+			<attribute name="Fog Color" value="0.02 0.6 0.76 1" />
 			<attribute name="Fog End" value="550" />
 			<attribute name="Fog Height" value="-4.43" />
 			<attribute name="Fog Height Scale" value="0.52" />

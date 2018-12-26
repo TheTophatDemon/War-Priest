@@ -19,15 +19,15 @@ class DangerDeacon : public Enemy //He's dangerous. He's out of control!
 public:
 	DangerDeacon(Context* context);
 	static void RegisterObject(Context* context);
-	virtual void DelayedStart();
-	virtual void Revive();
+	virtual void DelayedStart() override;
+	virtual void Revive() override;
 	~DangerDeacon();
 protected:
 	void OnSettingsChange(StringHash eventType, VariantMap& eventData);
-	virtual void Execute();
-	virtual void Dead();
-	virtual void EnterState(const int newState);
-	virtual void LeaveState(const int oldState);
+	virtual void Execute() override;
+	virtual void Dead() override;
+	virtual void EnterState(const int newState) override;
+	virtual void LeaveState(const int oldState) override;
 	SharedPtr<Node> orbThing;
 	SharedPtr<StaticModel> orbModel;
 	float strafeAmt;

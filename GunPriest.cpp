@@ -36,6 +36,7 @@
 #include "GravityPlate.h"
 #include "Sign.h"
 #include "Zeus.h"
+#include "RobeLocksMan.h"
 
 int GunPriest::STATE_GAME = 0;
 int GunPriest::STATE_TITLE = 1;
@@ -75,6 +76,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	GravityPlate::RegisterObject(context);
 	GP::Sign::RegisterObject(context);
 	Zeus::RegisterZeus(context);
+	RobeLocksMan::RegisterObject(context);
 
 	pause = false;
 	state = STATE_TITLE;

@@ -42,7 +42,7 @@ void PostalPope::DelayedStart()
 	cache->GetResource<Animation>(THROW_ANIM);
 	cache->GetResource<Animation>(REVIVE_ANIM);
 	cache->GetResource<Material>("Materials/telekinesis.xml");
-	cache->GetResource<XMLFile>("Objects/rock.xml");
+	cache->GetResource<XMLFile>("Objects/debris.xml");
 	cache->GetResource<Model>("Models/props/rock.mdl");
 	cache->GetResource<Material>("Materials/palpan_cliff.xml");
 
@@ -149,6 +149,8 @@ void PostalPope::Execute()
 					if (pDiff.DotProduct(node_->GetWorldDirection()) >= 0.5f)
 					{
 						n->SetParent(scene);
+						Debris* debs = n->CreateComponent<Debris>();
+						debs->damage = Settings::ScaleWithDifficulty(10.0f, 15.0f, 20.0f);
 						
 						RigidBody* rb = n->GetComponent<RigidBody>();
 						rb->SetLinearFactor(Vector3::ONE);
@@ -264,11 +266,8 @@ void PostalPope::SummonDebris()
 	{
 		const float angle = (M_PI / (count / 2.0f)) * i;
 		Node* n = spinner->CreateChild();
-		n->LoadXML(cache->GetResource<XMLFile>("Objects/rock.xml")->GetRoot());
+		n->LoadXML(cache->GetResource<XMLFile>("Objects/debris.xml")->GetRoot());
 		n->SetPosition(Vector3(cosf(angle) * 4.0f, 0.0f, sinf(angle) * 4.0f));
-		Debris* debs = new Debris(context_);
-		debs->damage = 15;
-		n->AddComponent(debs, 666, LOCAL);
 		n->GetComponent<RigidBody>()->SetLinearFactor(Vector3::ZERO);
 
 		Zeus::PuffOfSmoke(scene, n->GetWorldPosition(), 2.0f);

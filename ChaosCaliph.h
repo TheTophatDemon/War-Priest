@@ -21,15 +21,15 @@ class ChaosCaliph : public Enemy
 public:
 	ChaosCaliph(Context* context);
 	static void RegisterObject(Context* context);
-	virtual void DelayedStart();
-	virtual void Revive();
-	virtual void FixedUpdate(float timeStep);
+	virtual void DelayedStart() override;
+	virtual void Revive() override;
+	virtual void FixedUpdate(float timeStep) override;
 	~ChaosCaliph();
 protected:
-	virtual void Execute();
-	virtual void Dead();
-	virtual void EnterState(const int newState);
-	virtual void LeaveState(const int oldState);
+	virtual void Execute() override;
+	virtual void Dead() override;
+	virtual void EnterState(const int newState) override;
+	virtual void LeaveState(const int oldState) override;
 	virtual void OnCollision(StringHash eventType, VariantMap& eventData) override;
 	void OnSettingsChange(StringHash eventType, VariantMap& eventData);
 

@@ -11,6 +11,7 @@
 
 using namespace Urho3D;
 
+//Represents a Postal Pope's THROWN boulder
 class Debris : public LogicComponent
 {
 	URHO3D_OBJECT(Debris, LogicComponent);
@@ -22,14 +23,17 @@ public:
 	int damage;
 	~Debris();
 protected:
-	void OnCollision(StringHash eventType, VariantMap& eventData);
+	void OnCollisionStart(StringHash eventType, VariantMap& eventData);
 	void Die();
+
 	SharedPtr<Scene> scene;
 	SharedPtr<RigidBody> body;
 	SharedPtr<PhysicsWorld> physworld;
 	SharedPtr<ResourceCache> cache;
-	SharedPtr<Node> glowNode;
+	SharedPtr<SoundSource3D> crashSource;
 	WeakPtr<Node> smokeNode;
+
+	float linearVelocity = 0.0f;
 	float dieTimer = 0.0f;
 };
 

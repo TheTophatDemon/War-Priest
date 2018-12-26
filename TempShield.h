@@ -20,8 +20,8 @@ class TempShield : public LogicComponent
 public:
 	TempShield(Context* context);
 	static void RegisterObject(Context* context);
-	virtual void Start();
-	virtual void FixedUpdate(float timeStep);
+	virtual void Start() override;
+	virtual void FixedUpdate(float timeStep) override;
 	~TempShield();
 	WeakPtr<Node> owner;
 protected:

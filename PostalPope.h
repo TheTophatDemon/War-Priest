@@ -23,14 +23,14 @@ class PostalPope : Enemy
 public:
 	PostalPope(Context* context);
 	static void RegisterObject(Context* context);
-	virtual void Revive();
-	virtual void DelayedStart();
+	virtual void Revive() override;
+	virtual void DelayedStart() override;
 	~PostalPope();
 protected:
-	virtual void Execute();
-	virtual void Dead();
-	virtual void EnterState(const int newState);
-	virtual void LeaveState(const int oldState);
+	virtual void Execute() override;
+	virtual void Dead() override;
+	virtual void EnterState(const int newState) override;
+	virtual void LeaveState(const int oldState) override;
 	void SummonDebris();
 	bool CanSummon();
 	Vector<Node*> debris;

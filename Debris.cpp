@@ -14,6 +14,7 @@ Debris::Debris(Context* context) : LogicComponent(context)
 {
 	damage = 15;
 	dieTimer = 0.0f;
+	linearVelocity = 0.0f;
 }
 
 void Debris::RegisterObject(Context* context)
@@ -28,42 +29,39 @@ void Debris::Start()
 	body = node_->GetComponent<RigidBody>();
 	physworld = scene->GetComponent<PhysicsWorld>();
 	cache = GetSubsystem<ResourceCache>();
-	//Make glowy stuff here
-	StaticModel* sm = node_->GetComponent<StaticModel>();
-	if (sm)
-	{
-		glowNode = node_->CreateChild();
-		StaticModel* gm = glowNode->CreateComponent<StaticModel>();
-		gm->SetModel(sm->GetModel());
-		gm->SetMaterial(cache->GetResource<Material>("Materials/telekinesis.xml"));
-		glowNode->SetScale(1.1f);
-	}
-	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Debris, OnCollision));
+
+	crashSource = node_->GetOrCreateComponent<SoundSource3D>();
+	crashSource->SetSoundType("GAMEPLAY");
+
+	SubscribeToEvent(GetNode(), E_NODECOLLISIONSTART, URHO3D_HANDLER(Debris, OnCollisionStart));
 }
 
 void Debris::FixedUpdate(float timeStep)
 {
-	if (body->GetLinearVelocity().Length() < 4.0f && node_->GetParent() == scene) //If it isn't parented to the scene, it must be being held by a PostalPope
+	linearVelocity = body->GetLinearVelocity().Length();
+	if (linearVelocity < 4.0f)
 	{
 		Die();
 	}
 	if (dieTimer > 0.0f) 
 	{
-		if (smokeNode) { smokeNode->SetWorldPosition(node_->GetWorldPosition() ); }
+		if (smokeNode) 
+		{ 
+			smokeNode->SetWorldPosition(node_->GetWorldPosition() ); 
+		}
 		dieTimer -= timeStep;
 		if (dieTimer <= 0.0f)
 		{
-			glowNode->Remove();
 			node_->Remove();
 		}
 	}
 }
 
-void Debris::OnCollision(StringHash eventType, VariantMap& eventData)
+void Debris::OnCollisionStart(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (otherBody->GetCollisionLayer() & 128 && node_->GetParent() == scene)
+	if (other->GetName() == "player")
 	{
 		VariantMap map = VariantMap();
 		map.Insert(Pair<StringHash, Variant>(Projectile::P_PERPETRATOR, node_));
@@ -75,6 +73,11 @@ void Debris::OnCollision(StringHash eventType, VariantMap& eventData)
 	else if (otherBody->GetCollisionLayer() & 256) 
 	{
 		node_->RemoveTag("projectile");
+	}
+
+	if ( (otherBody->GetCollisionLayer() & 198 || other->HasTag("debris")) && linearVelocity > 10.0f) //64+128+2+4
+	{
+		crashSource->Play(cache->GetResource<Sound>("Sounds/env_rock.wav"), 44100.0f + Random(-1500.0f, 1500.0f));
 	}
 }
 

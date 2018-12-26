@@ -1,28 +1,32 @@
-//Done:
-	//Change the prelude music
-	//Made cutscene keep track of its trigger count instead of level visits
-	//TDURINAL, Cheat Menu
-	//God cutscene secret
-	//Fixed text blocking buttons
-	//Added skip cutscene button
+//DONE:
+	//Add rain to more levels
+	//Boulder bounce sound.
+	//Refactored Debris Code
+	//Thunderstorm sound.
+	//Fixed stutter when winning/losing by preloading
+	//Make all map nodes occluders
+	//Add override to all enemies
 //TODO:
+	//Final Flood Level?
+	//Extra Killer Kube Attack?
 	//Crossroads
+		//Optimize map
+		//Robelocksman
+			//Add flocking behavior?
 	//Credits
 		//Have player drop down from above
-	//Add rain to more levels
-	//Pile of skull prop
-	//Add something else to Kube?
-	//Sounds
-		//Boulder bounce
-		//Thunderstorm
 	//Do final test through every level.
 		//Make fog match the skybox color
+		//PP1
+			//Make inital ramp shorter
+			//Make the giant cross a little less glitchy
 		//PP3
 			//Make platform in PP3 double-edged (and faster).
 			//PP3 make that slope less steep
 			//Danger Deacon gets stuck in floor on PP3
 		//PP4
 			//Add bonus cross
+			//Nerf that spinning platform bit
 		//FF1
 			//FF1 is too ugly
 			//Fallrhine 1 ledge is too high
@@ -31,6 +35,10 @@
 		//FF3
 			//Exaggerate movement of spinning platform in FF3
 			//FF3 health platform unreachable
+			//Pillar unreachable
+			//Faster platforms
+			//Make broken bridge part less risky
+			//More health
 		//FF4
 			//Expand ridge in FF4
 			//FF4 Enemy in the water?
@@ -72,6 +80,7 @@
 	//The editor crashes sometimes when loading scenes for a second time
 	//When the editor first opens, I am unable to edit any text until I alt-tab out and refocus the window.
 	//When running fullscreen sometimes, after alt-tabbing the device gets lost over and over again, and the window flashes several times.
+	//Can't stop the terrain editor
 	//The editor keeps thinking "gamesettings.bin" is an XML file.
 	//The controls near the top of the Hierarchy window in the Editor are confusing
 	//Can't unparent selections that are selected using "shift"
@@ -83,6 +92,8 @@
 	//No documentation for:
 		//CreateTemporaryChild
 	//Particle effects don't turn on until you see them, despite being set to emit
+	//Editor doesn't duplicate hierarchies correctly when multiple items selected
+	//Raycasts can be extremely slow in debug mode when going through lots of geometry
 
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP

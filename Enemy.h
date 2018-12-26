@@ -25,9 +25,9 @@ class Enemy : public LogicComponent
 	//URHO3D_OBJECT(Enemy, LogicComponent);
 public:
 	Enemy(Context* context);
-	virtual void Start();
-	virtual void DelayedStart();
-	virtual void FixedUpdate(float timeStep);
+	virtual void Start() override;
+	virtual void DelayedStart() override;
+	virtual void FixedUpdate(float timeStep) override;
 	virtual void Revive();
 	inline int GetState() { return state; }
 	virtual ~Enemy();
@@ -50,7 +50,7 @@ protected:
 	void EndFrameCheck(StringHash eventType, VariantMap& eventData);
 	virtual void Execute();
 	void Wander(const bool avoidSlopes = false, const bool pause = false, const float wallMargin = 2.0f);
-	void Dead();
+	virtual void Dead();
 	bool CheckCliff(const bool avoidSlopes = false);
 	void ChangeState(const int newState);
 	virtual void EnterState(const int newState);

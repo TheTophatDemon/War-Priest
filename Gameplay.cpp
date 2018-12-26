@@ -69,6 +69,7 @@
 #include "Lift.h"
 #include "GravityPlate.h"
 #include "Sign.h"
+#include "RobeLocksMan.h"
 
 using namespace Urho3D;
 
@@ -178,6 +179,9 @@ void Gameplay::SetupGame()
 	physworld->SetInternalEdge(true);
 
 	mapNode = scene_->GetChild("map");
+	StaticModel* mapModel = mapNode->GetComponent<StaticModel>();
+	mapModel->SetOccluder(true);
+	mapModel->SetOccludee(false);
 	RigidBody* mapBody = mapNode->GetComponent<RigidBody>();
 	mapBody->SetCollisionLayer(mapBody->GetCollisionLayer() + 512);
 	ExtractLiquidsFromMap();
@@ -229,6 +233,13 @@ void Gameplay::SetupGame()
 			sphere->SetScale(50.0f + 25.0f * i);
 			sphere->SetRotation(Quaternion(Random(0.0f, 360.0f), Vector3::UP));
 		}
+		SoundSource* rainSource = weatherNode->CreateComponent<SoundSource>();
+		rainSource->SetSoundType("GAMEPLAY");
+		rainSource->Play(cache->GetResource<Sound>("Sounds/env_rain.wav"));
+	}
+	else
+	{
+		audio->StopSound(cache->GetResource<Sound>("Sounds/env_rain.wav"));
 	}
 
 	//Load "liquids"
@@ -640,6 +651,7 @@ void Gameplay::SetupEnemy()
 		else if (enemyType == "dangerdeacon"){n->CreateComponent<DangerDeacon>();}
 		else if (enemyType == "temptemplar"){n->CreateComponent<TempTemplar>();}
 		else if (enemyType == "chaoscaliph") { n->CreateComponent<ChaosCaliph>(); }
+		else if (enemyType == "robelocksman") { n->CreateComponent<RobeLocksMan>(); }
 
 		enemyCount += 1;
 	}
@@ -790,6 +802,9 @@ void Gameplay::PreloadSounds()
 			}
 		}
 	}
+
+	cache->BackgroundLoadResource<Sound>("Music/theyfeeltherain.ogg");
+	cache->BackgroundLoadResource<Sound>("Music/frownofthelord.ogg");
 }
 
 void Gameplay::HandleEvent(StringHash eventType, VariantMap& eventData)

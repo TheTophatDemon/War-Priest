@@ -2,6 +2,10 @@ env_splash.wav = "Splash, Jumping, D.wav" by InspectorJ of Freesound.org under C
 env_explode.wav && enm_fuse.wav = "Massive explosion.wav" by djfroyd of Freesound.org under CC-BY-3.0
 env_damage.wav = "Impact_1_full.wav" by Deganoth of Freesound.org under CC-BY-3.0
 env_destruction.wav = "Rumbling Rocky sound" by Opsaaaaa of Freesound.org under CC-BY-3.0
+env_beam.wav & env_beam2.wav = "Small poofs of flux.ogg" by jobro of Freesound.org under CC-BY-3.0
+	combined with "Futuristic Beam.wav" by PRIM_ORDial of Freesound.org under CC0
+env_rock.wav = "RockFall1b.wav" by AlanCat of Freesound.org under CC0
+env_rain.wav = "Thunderstorm" by konkreteruser of Freesound.org under CC0
 enm_fire.wav = "JM_FX_Fireball 01.wav" by Julien Matthey of Freesound.org under CC0
 enm_telekinesis.wav = "Speaker Buzz" by Ev-Dawg of Freesound.org under CC0 (Heavily edited)
 enm_telethrow.wav = "heavy beam weapon" by roper1911 of Freesound.org under CC0
@@ -20,9 +24,9 @@ itm_launchpad.wav = "Voxy Synth Pop" by ani_music of Freesound.org under CC0 (He
 ply_revive.wav = "Small poofs of flux.ogg" by jobro of Freesound.org under CC-BY-3.0
 ply_slide.wav = "sand.mp3" by Taira Komori of Freesound.org under CC-BY-3.0
 
-The rest of the sounds were custom made using mostly synths, old instrument samples, and my own voice.
+Most sounds were modified from their source material.
 
-Some sounds were modified.
+The rest of the sounds were custom made using mostly synths, old instrument samples, and my own voice.
 
 CC-BY-3.0 License:
 http://creativecommons.org/licenses/by/3.0/
