@@ -46,9 +46,9 @@ void TempTemplar::DelayedStart()
 
 	Enemy::DelayedStart();
 
-	shieldNode = scene->CreateChild("shield");
-	shieldComponent = SharedPtr<TempShield>(new TempShield(context_));
-	shieldComponent->owner = node_;
+	shieldNode = TempShield::MakeTempShield(scene, node_->GetWorldPosition(), node_);
+	shieldNode->SetEnabled(false);
+	shieldComponent = shieldNode->GetComponent<TempShield>();
 
 	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(TempTemplar, OnSettingsChange));
 
@@ -174,10 +174,10 @@ void TempTemplar::EnterState(const int newState)
 	}
 	else if (newState == STATE_WANDER)
 	{
-		if (!shieldNode->HasComponent<TempShield>())
+		if (!shieldNode->IsEnabled()) 
 		{
-			shieldNode->AddComponent(shieldComponent, 255, LOCAL);
 			shieldNode->SetWorldPosition(node_->GetWorldPosition());
+			shieldNode->SetEnabled(true);
 		}
 	}
 	else if (newState == STATE_ATTACK)

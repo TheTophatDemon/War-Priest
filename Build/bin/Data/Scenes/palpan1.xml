@@ -3351,7 +3351,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16780294">
 			<attribute name="Model" value="Model;Models/props/surprise_cactus.mdl" />
-			<attribute name="Material" value="Material;Materials/roblox_brick.xml" />
+			<attribute name="Material" value="Material;Materials/robelocks_brick.xml" />
 			<attribute name="Draw Distance" value="42" />
 		</component>
 	</node>

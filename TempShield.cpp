@@ -8,6 +8,8 @@
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/Audio/SoundSource3D.h>
 
+#include <Urho3D/Resource/XMLFile.h>
+
 TempShield::TempShield(Context* context) : LogicComponent(context),
 	maxSize(18.0f),
 	formed(false)
@@ -18,23 +20,6 @@ void TempShield::Start()
 {
 	ResourceCache* cache = GetSubsystem<ResourceCache>();
 
-	node_->AddTag("tempshield");
-	CollisionShape* cs = node_->CreateComponent<CollisionShape>();
-	cs->SetSphere(1.0f);
-	RigidBody* rb = node_->CreateComponent<RigidBody>();
-	rb->SetCollisionLayer(17);//1+16
-	rb->SetTrigger(true);
-	rb->SetLinearFactor(Vector3::ZERO);
-	rb->SetAngularFactor(Vector3::ZERO);
-
-	model = node_->CreateComponent<StaticModel>();
-	model->SetModel(cache->GetResource<Model>("Models/Sphere.mdl"));
-	model->SetMaterial(cache->GetResource<Material>("Materials/shield.xml"));
-	node_->SetScale(0.5f);
-	subShield = node_->CreateChild("subshield");
-	StaticModel* subModel = (StaticModel*)subShield->CloneComponent(model);
-	subShield->SetScale(0.95f);
-
 	//Spin those shields
 	SharedPtr<ValueAnimation> spinAnim(new ValueAnimation(context_));
 	spinAnim->SetKeyFrame(0.0f, Quaternion::IDENTITY);
@@ -43,7 +28,7 @@ void TempShield::Start()
 	spinAnim->SetKeyFrame(1.5f, Quaternion(270.0f, Vector3::UP));
 	spinAnim->SetKeyFrame(2.0f, Quaternion::IDENTITY);
 	node_->SetAttributeAnimation("Rotation", spinAnim, WM_LOOP, 1.0f);
-	subShield->SetAttributeAnimation("Rotation", spinAnim, WM_LOOP, 2.0f);
+	node_->GetChild("subshield")->SetAttributeAnimation("Rotation", spinAnim, WM_LOOP, 2.0f);
 
 	SharedPtr<ValueAnimation> fadeIn(new ValueAnimation(context_));
 	fadeIn->SetKeyFrame(0.0f, 0.0f);
@@ -75,13 +60,26 @@ void TempShield::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (other != node_ && otherBody->GetCollisionLayer() <= 1 && otherBody->GetMass() > 0)
+	if (other != owner.Get() && !other->HasTag("handles_forcefields_manually") && otherBody->GetMass() > 0)
 	{
 		//All rigidbodies that are unlikely to have code to handle this interaction are pushed away
 		const Vector3 diff = other->GetWorldPosition() - node_->GetWorldPosition();
-		const float push = 3.0f + (12.0f / diff.LengthSquared());
-		otherBody->ApplyImpulse(diff.Normalized() * Vector3(push, push, push) * otherBody->GetMass());
+		float push = 0.0f;
+		if (diff != Vector3::ZERO)
+		{
+			push = 1.0f + (8.0f / diff.LengthSquared());
+		}
+		otherBody->ApplyImpulse(diff.Normalized() * push * otherBody->GetMass());
 	}
+}
+
+Node* TempShield::MakeTempShield(Scene* scene, const Vector3 position, Node* owner)
+{
+	Node* n = scene->InstantiateXML(scene->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/tempshield.xml")->GetRoot(), position, Quaternion::IDENTITY, LOCAL);
+	TempShield* sh = new TempShield(scene->GetContext());
+	sh->owner = owner;
+	n->AddComponent(sh, 123, LOCAL);
+	return n;
 }
 
 void TempShield::RegisterObject(Context* context)

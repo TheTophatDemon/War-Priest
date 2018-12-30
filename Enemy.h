@@ -48,7 +48,7 @@ protected:
 	SharedPtr<AnimationController> animController;
 
 	void EndFrameCheck(StringHash eventType, VariantMap& eventData);
-	virtual void Execute();
+	virtual void Execute() = 0;
 	void Wander(const bool avoidSlopes = false, const bool pause = false, const float wallMargin = 2.0f);
 	virtual void Dead();
 	bool CheckCliff(const bool avoidSlopes = false);

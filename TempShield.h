@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Urho3D/Scene/LogicComponent.h>
-#include <Urho3D\Scene\Scene.h>
+#include <Urho3D/Scene/Scene.h>
 #include <Urho3D/Scene/Node.h>
 #include <Urho3D/Physics/RigidBody.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
@@ -22,13 +22,13 @@ public:
 	static void RegisterObject(Context* context);
 	virtual void Start() override;
 	virtual void FixedUpdate(float timeStep) override;
+	static Node* MakeTempShield(Scene* scene, const Vector3 position, Node* owner);
 	~TempShield();
+
 	WeakPtr<Node> owner;
 protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
-	WeakPtr<RigidBody> body;
 	WeakPtr<StaticModel> model;
-	WeakPtr<Node> subShield;
 	float maxSize;
 	bool formed;
 };

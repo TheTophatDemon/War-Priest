@@ -18,22 +18,23 @@ class Missile : public Projectile
 public:
 	Missile(Context* context);
 	static void RegisterObject(Context* context);
-	virtual void Start();
-	virtual void FixedUpdate(float timeStep);
+	virtual void Start() override;
+	virtual void FixedUpdate(float timeStep) override;
 	~Missile();
 
-	static Node* MakeMissile(Scene* sc, Vector3 position, Quaternion rotation, Node* owner, Node* target);
+	static Node* MakeMissile(Scene* sc, const Vector3 position, const Quaternion rotation, Node* owner, Node* target);
 protected:
-	
-	virtual void OnCollision(StringHash eventType, VariantMap& eventData);
-	virtual void OnHit(PhysicsRaycastResult result);
-	virtual void Move(const float timeStep);
+	virtual void Die() override;
+	void OnCollision(StringHash eventType, VariantMap& eventData);
 	
 	SharedPtr<Node> emitterNode;
 	SharedPtr<ParticleEmitter> emitter;
 	WeakPtr<Node> target;
 	Vector3 targetOffset; //Not neccessarily directly on the target. That's too boring.
+	
+	//Original speed
+	float orgSpeed;
+	float speed;
 	int state;
-	float deltaTime;
 };
 

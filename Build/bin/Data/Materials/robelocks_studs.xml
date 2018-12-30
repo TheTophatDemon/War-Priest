@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
 <material>
-	<technique name="Techniques/DiffVCol.xml" quality="0" loddistance="0" />
-	<texture unit="diffuse" name="Textures/roblox_brick.png" />
-	<texture unit="normal" name="Textures/roblox_brick_nm.png" />
-	<texture unit="specular" name="Textures/roblox_brick.png" />
+	<technique name="Techniques/DiffNormalVCol.xml" quality="0" loddistance="0" />
+	<texture unit="diffuse" name="Textures/robelocks_studs.png" />
+	<texture unit="normal" name="Textures/robelocks_studs_nm.png" />
 	<parameter name="UOffset" value="1 0 0 0" />
 	<parameter name="VOffset" value="0 1 0 0" />
 	<parameter name="MatDiffColor" value="1 1 1 1" />

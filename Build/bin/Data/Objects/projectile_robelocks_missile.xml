@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<node id="16777219">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="robelocks_missile" />
+	<attribute name="Tags">
+		<string value="projectile" />
+		<string value="handles_forcefields_manually" />
+	</attribute>
+	<attribute name="Position" value="1.53712 -0.46701 8.87159" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="1 1 1" />
+	<attribute name="Variables" />
+	<component type="StaticModel" id="16777234">
+		<attribute name="Model" value="Model;Models/robelocks_missile.mdl" />
+		<attribute name="Material" value="Material;Materials/robelocks_brick.xml;Materials/robelocks_inlet.xml;Materials/robelocks_studs.xml" />
+	</component>
+	<component type="RigidBody" id="16777235">
+		<attribute name="Mass" value="10"/>
+		<attribute name="Physics Position" value="1.53712 -0.46701 8.87159" />
+		<attribute name="Collision Layer" value="1" />
+		<attribute name="Collision Mask" value="214" />
+		<attribute name="Collision Event Mode" value="Always" />
+		<attribute name="Use Gravity" value="false" />
+		<attribute name="Is Kinematic" value="true" />
+		<attribute name="Is Trigger" value="true" />
+	</component>
+	<component type="CollisionShape" id="16777236">
+		<attribute name="Size" value="0.75 0.75 2" />
+	</component>
+</node>

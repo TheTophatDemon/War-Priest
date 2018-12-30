@@ -13,6 +13,7 @@
 
 #include "Enemy.h"
 #include "SoundSounder.h"
+#include "BlackHole.h"
 
 using namespace Urho3D;
 
@@ -30,7 +31,6 @@ protected:
 	void OnSettingsChange(StringHash eventType, VariantMap& eventData);
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	void OnAreaCollision(StringHash eventType, VariantMap& eventData);
-	void OnBlackHoleCollision(StringHash eventType, VariantMap& eventData);
 	void OnCheatWindowEvent(StringHash eventType, VariantMap& eventData);
 	void ChangeState(const int newState);
 	void EnterState(const int newState);
@@ -45,7 +45,6 @@ protected:
 	SharedPtr<Node> blackHoleNode;
 	SharedPtr<ValueAnimation> blackHoleAnimation;
 	SharedPtr<ValueAnimation> spinSpeedAnimation;
-	WeakPtr<StaticModel> blackHoleModel;
 	WeakPtr<SoundSounder> soundSource;
 	WeakPtr<SoundSource> soundSource2D;
 	WeakPtr<Node> soundNode;

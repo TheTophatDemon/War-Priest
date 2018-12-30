@@ -6,6 +6,7 @@
 		<string value="enemy" />
 		<string value="chaoscaliph" />
 		<string value="shootable" />
+		<string value="handles_forcefields_manually" />
 	</attribute>
 	<attribute name="Position" value="-0.0986301 -3.9488 7.88854" />
 	<attribute name="Rotation" value="1 0 0 0" />

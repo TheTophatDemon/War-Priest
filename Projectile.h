@@ -14,34 +14,32 @@ class Projectile : public LogicComponent
 {
 public:
 	Projectile(Context* context);
-	virtual void Start();
-	virtual void FixedUpdate(float timeStep);
+	virtual void Start() override;
 	~Projectile();
 
 	WeakPtr<Node> owner;
-	float radius;
-	float speed;
-	int damage;
-	bool limitRange;
 
 	static StringHash E_PROJECTILEHIT;
 	static StringHash P_PERPETRATOR;
 	static StringHash P_VICTIM;
 	static StringHash P_DAMAGE;
 protected:
-	virtual void OnHit(PhysicsRaycastResult result);
-	virtual void Move(const float timeStep) = 0;
+	virtual void Die() = 0;
+	void PreUpdate(float timeStep);
+	void PostUpdate(float timeStep);
+	void DoDamage(Node* victim, const int damage);
+	void ForceFieldResponse(Node* otherNode, const float turnSpeed);
 
 	SharedPtr<Gameplay> game;
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<PhysicsWorld> physworld;
 	SharedPtr<Scene> scene;
+	SharedPtr<RigidBody> body;
 
-	Vector3 movement;
-	float deathTimer;
 	float lifeTimer;
-	float orgSpeed = 0.0f;
+	float deltaTime;
 	bool hit;
-	bool checkCollisionsManually = true;
+	//The node shouldn't be removed in the middle of an update; use this instead.
+	bool killMe;
 };
 

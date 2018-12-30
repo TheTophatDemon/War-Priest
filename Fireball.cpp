@@ -3,19 +3,28 @@
 #include <Urho3D/Core/Context.h>
 #include <Urho3D/Resource/XMLFile.h>
 #include <Urho3D/Graphics/Material.h>
+#include <Urho3D/Physics/PhysicsEvents.h>
+#include <Urho3D/Physics/CollisionShape.h>
 #include <iostream>
 #include "Settings.h"
+#include "Gameplay.h"
 
 Fireball::Fireball(Context* context) : Projectile(context),
-	lifeTime(2.0f)
+	deathTime(0.0f),
+	speed(30.0f),
+	damage(10)
 {
 }
 
 void Fireball::Start()
 {
+	SetUpdateEventMask(USE_FIXEDUPDATE);
+
 	Projectile::Start();
 	if (node_->HasComponent<ParticleEmitter>())
 		emitter = node_->GetComponent<ParticleEmitter>();
+
+	SubscribeToEvent(node_, E_NODECOLLISION, URHO3D_HANDLER(Fireball, OnCollision));
 }
 
 void Fireball::RegisterObject(Context* context)
@@ -25,34 +34,62 @@ void Fireball::RegisterObject(Context* context)
 
 void Fireball::FixedUpdate(float timeStep)
 {
+	PreUpdate(timeStep);
+
 	if (hit)
 	{
-		if (emitter->GetNumParticles() <= 1 || deathTimer > 1.0f)
+		if (emitter->GetNumParticles() <= 1 || lifeTimer - deathTime > 1.0f)
 		{
-			node_->Remove();
-			//std::cout << "IM DEAD" << std::endl;
+			killMe = true;
 		}
 	}
 	else
 	{
-		if (lifeTimer > lifeTime) OnHit(PhysicsRaycastResult());
+		node_->Translate(Vector3::FORWARD * speed * timeStep, TS_LOCAL);
+
+		const float distFromPlayerSquared = (node_->GetWorldPosition() - game->playerNode->GetWorldPosition()).LengthSquared();
+		if (lifeTimer > 2.0f || distFromPlayerSquared > 40000.0f)
+		{
+			Die();
+		}
 	}
-	Projectile::FixedUpdate(timeStep);
+
+	PostUpdate(timeStep);
 }
 
-void Fireball::Move(const float timeStep)
+void Fireball::OnCollision(StringHash eventType, VariantMap& eventData)
 {
-	movement = node_->GetWorldRotation() * (Vector3::FORWARD * speed * timeStep);
-}
+	Node* otherNode = dynamic_cast<Node*>(eventData["OtherNode"].GetPtr());
+	RigidBody* otherBody = dynamic_cast<RigidBody*>(eventData["OtherBody"].GetPtr());
 
-void Fireball::OnHit(PhysicsRaycastResult result)
-{
-	Projectile::OnHit(result);
-	if (emitter)
+	if (otherNode == owner) return;
+	if (otherBody->GetCollisionLayer() & 4)
 	{
-		emitter->SetEmitting(false);
+		DoDamage(otherNode, damage);
 	}
-	//deathTimer = 1000.0f;
+	if (otherBody->GetCollisionLayer() & 16)
+	{
+		ForceFieldResponse(otherNode, 5.0f);
+		return;
+	}
+
+	Die();
+}
+
+void Fireball::Die()
+{
+	if (!hit)
+	{
+		deathTime = lifeTimer;
+		hit = true;
+		node_->RemoveTag("projectile");
+		if (emitter)
+		{
+			emitter->SetEmitting(false);
+		}
+		node_->RemoveComponents<RigidBody>();
+		node_->RemoveComponents<CollisionShape>();
+	}
 }
 
 Node* Fireball::MakeFireball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner)
@@ -61,7 +98,6 @@ Node* Fireball::MakeFireball(Scene* sc, Vector3 position, Quaternion rotation, N
 	p->owner = owner;
 	p->speed = 30.0f;
 	p->damage = 10;
-	p->radius = 0.5f;
 
 	Node* n = sc->CreateChild();
 	n->LoadXML(p->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/projectile_fireball.xml")->GetRoot());
@@ -69,7 +105,6 @@ Node* Fireball::MakeFireball(Scene* sc, Vector3 position, Quaternion rotation, N
 	n->SetRotation(rotation);
 	if (Settings::GetDifficulty() > Settings::UNHOLY_THRESHOLD) 
 	{
-		p->radius = 0.75f; 
 		n->SetScale(1.5f); 
 	}
 	n->AddComponent(p, 333, LOCAL);
@@ -82,7 +117,6 @@ Node* Fireball::MakeBlueFireball(Scene* sc, Vector3 position, Quaternion rotatio
 	p->owner = owner;
 	p->speed = 20.0f;
 	p->damage = 10;
-	p->radius = 0.5f;
 
 	Node* n = sc->CreateChild();
 	n->LoadXML(p->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/projectile_fireball_blue.xml")->GetRoot());
@@ -92,8 +126,6 @@ Node* Fireball::MakeBlueFireball(Scene* sc, Vector3 position, Quaternion rotatio
 
 	return n;
 }
-
-
 
 Fireball::~Fireball()
 {

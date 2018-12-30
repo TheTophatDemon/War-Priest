@@ -49,7 +49,6 @@ void Statue::Start()
 
 	soundSource = node_->CreateComponent<SoundSounder>();
 
-	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Statue, OnCollision));
 	SubscribeToEvent(Projectile::E_PROJECTILEHIT, URHO3D_HANDLER(Statue, OnProjectileHit));
 }
 
@@ -100,17 +99,6 @@ void Statue::FixedUpdate(float timeStep)
 		{
 			node_->Remove();
 		}
-	}
-}
-
-void Statue::OnCollision(StringHash eventType, VariantMap& eventData)
-{
-	Node* other = (Node*)eventData["OtherNode"].GetPtr();
-	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (other->HasTag("debris"))
-	{
-		Debris* deb = other->GetComponent<Debris>();
-		Damage(deb->damage);
 	}
 }
 

@@ -1,20 +1,22 @@
 //DONE:
-	//Add rain to more levels
-	//Boulder bounce sound.
-	//Refactored Debris Code
-	//Thunderstorm sound.
-	//Fixed stutter when winning/losing by preloading
-	//Make all map nodes occluders
-	//Add override to all enemies
+	//Removed BouncyFireball and Blackstone
+	//Fixed black hole shader instancing glitch
+	//Refactor Projectile Code
+	//Make sure shield-rigidbody reaction ignores projectiles
+	//Separate black hole code from Killer Kube
+	//Surprise Cactus is white?
+	//Make sure every shader supports #INSTANCING
+	//Robelocksmissile
 //TODO:
-	//Final Flood Level?
-	//Extra Killer Kube Attack?
+	//Better robelocksmissile sound
 	//Crossroads
-		//Optimize map
 		//Robelocksman
-			//Add flocking behavior?
+			//Jumping
+		//Optimize map?
 	//Credits
 		//Have player drop down from above
+	//Final Flood Level?
+	//Extra Killer Kube Attack?
 	//Do final test through every level.
 		//Make fog match the skybox color
 		//PP1
@@ -46,6 +48,7 @@
 		//SS1
 			//Reduce DD count
 			//Add Bonus cross
+			//Bad jump when returning from giant platform
 		//SS2
 			//Make beginning platforms easier to cross
 			//Can't get on platforms to return
@@ -94,11 +97,12 @@
 	//Particle effects don't turn on until you see them, despite being set to emit
 	//Editor doesn't duplicate hierarchies correctly when multiple items selected
 	//Raycasts can be extremely slow in debug mode when going through lots of geometry
+	//Extreme lag when scaling kinematic rigidbody
 
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP
 	//2 = CAN BE JUMPED ON/SLOPED
-	//4 = SHOOTABLE (STATUES)
+	//4 = SHOOTABLE (STATUES AND PLAYERS)
 	//8 = GROUND DETECTOR / TRIGGER
 	//16 = SHIELD/BLACK HOLE
 	//32 = ITEM

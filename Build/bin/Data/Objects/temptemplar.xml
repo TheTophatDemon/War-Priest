@@ -6,6 +6,7 @@
 		<string value="enemy" />
 		<string value="temptemplar" />
 		<string value="shootable" />
+		<string value="handles_forcefields_manually" />
 	</attribute>
 	<attribute name="Position" value="-5.67521 -4.1961 7.9181" />
 	<attribute name="Rotation" value="1 0 0 0" />

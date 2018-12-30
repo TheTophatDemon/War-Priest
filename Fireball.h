@@ -18,16 +18,20 @@ class Fireball : public Projectile
 public:
 	Fireball(Context* context);
 	static void RegisterObject(Context* context);
-	virtual void Start();
-	virtual void FixedUpdate(float timeStep);
+	virtual void Start() override;
+	virtual void FixedUpdate(float timeStep) override;
 	~Fireball();
 
 	static Node* MakeFireball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner);
 	static Node* MakeBlueFireball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner);
 protected:
-	virtual void OnHit(PhysicsRaycastResult result);
-	virtual void Move(const float timeStep);
+	virtual void Die() override;
+	void OnCollision(StringHash eventType, VariantMap& eventData);
+
 	SharedPtr<ParticleEmitter> emitter;
-	float lifeTime;
+	
+	float deathTime;
+	float speed;
+	int damage;
 };
 

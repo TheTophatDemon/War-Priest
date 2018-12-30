@@ -5,7 +5,6 @@
 #include <Urho3D/Core/Context.h>
 #include <Urho3D/Scene/ValueAnimation.h>
 #include <Urho3D/Physics/PhysicsEvents.h>
-#include <Urho3D/Graphics/Technique.h>
 #include <Urho3D/UI/UIElement.h>
 #include <Urho3D/UI/UIEvents.h>
 
@@ -85,20 +84,8 @@ void KillerKube::Start()
 	sm->SetMaterial(cache->GetResource<Material>("Materials/fireglow.xml"));
 
 	//Black hole
-	blackHoleNode = node_->CreateChild();
-	blackHoleNode->AddTag("blackhole");
-	blackHoleModel = blackHoleNode->CreateComponent<StaticModel>();
-	blackHoleModel->SetModel(cache->GetResource<Model>("Models/Sphere.mdl"));
-	blackHoleModel->SetMaterial(cache->GetResource<Material>("Materials/blackhole.xml"));
-
-	RigidBody* bhrb = blackHoleNode->CreateComponent<RigidBody>();
-	bhrb->SetCollisionLayer(17); //1+16
-	bhrb->SetTrigger(true);
-	bhrb->SetLinearFactor(Vector3::ZERO);
-	bhrb->SetAngularFactor(Vector3::ZERO);
-
-	CollisionShape* bhcol = blackHoleNode->CreateComponent<CollisionShape>();
-	bhcol->SetSphere(1.0f, Vector3::ZERO, Quaternion::IDENTITY);
+	blackHoleNode = BlackHole::MakeBlackHole(scene, node_->GetWorldPosition(), node_);
+	blackHoleNode->SetParent(node_);
 	blackHoleNode->SetScale(0.1f);
 	blackHoleNode->SetEnabled(false);
 
@@ -111,7 +98,6 @@ void KillerKube::Start()
 
 	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(KillerKube, OnSettingsChange));
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(KillerKube, OnCollision));
-	SubscribeToEvent(blackHoleNode, E_NODECOLLISION, URHO3D_HANDLER(KillerKube, OnBlackHoleCollision));
 	SubscribeToEvent(E_UIMOUSECLICKEND, URHO3D_HANDLER(KillerKube, OnCheatWindowEvent));
 
 	SendEvent(Settings::E_SETTINGSCHANGED); //To initialize
@@ -278,17 +264,6 @@ void KillerKube::FixedUpdate(float timeStep)
 			body->SetAngularVelocity(Vector3::ZERO);
 			ChangeState(STATE_FLY);
 		}
-
-		//Hack to make it so that it still looks black-holey when the camera is inside of the black hole model
-		const float camDist = (blackHoleNode->GetWorldPosition() - game->cameraNode->GetWorldPosition()).Length();
-		if (camDist < blackHoleNode->GetScale().x_ * 0.75f)
-		{
-			blackHoleModel->GetMaterial(0)->GetTechnique(0)->GetPass("postalpha")->SetDepthTestMode(CompareMode::CMP_ALWAYS);
-		}
-		else
-		{
-			blackHoleModel->GetMaterial(0)->GetTechnique(0)->GetPass("postalpha")->SetDepthTestMode(CompareMode::CMP_LESSEQUAL);
-		}
 		break;
 	}
 	deltaTime = timeStep;
@@ -319,18 +294,6 @@ void KillerKube::OnCollision(StringHash eventType, VariantMap& eventData)
 			direction.FromLookRotation(-normal, Vector3::UP);
 			actor->KnockBack(100.0f, direction);
 		}
-	}
-}
-
-void KillerKube::OnBlackHoleCollision(StringHash eventType, VariantMap& eventData)
-{
-	Node* other = (Node*)eventData["OtherNode"].GetPtr();
-	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (other != node_ && otherBody->GetCollisionLayer() <= 1 && otherBody->GetMass() > 0)
-	{ 
-		//All rigid bodies that aren't likely to have code for this interaction are pushed towards the center
-		const Vector3 diff = node_->GetWorldPosition() - other->GetWorldPosition();
-		otherBody->ApplyImpulse(diff.Normalized() * 2.0f * otherBody->GetMass());
 	}
 }
 

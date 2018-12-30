@@ -19,106 +19,89 @@ StringHash Projectile::P_PERPETRATOR = StringHash("perpetrator");
 StringHash Projectile::P_VICTIM = StringHash("victim");
 StringHash Projectile::P_DAMAGE = StringHash("damage");
 
-Projectile::Projectile(Context* context) : LogicComponent(context), 
-	radius(0.5f), 
-	damage(10), 
-	speed(30.0f), 
+Projectile::Projectile(Context* context) : LogicComponent(context),
+	lifeTimer(0.0f),
+	deltaTime(0.0f),
 	hit(false),
-	orgSpeed(0.0f),
-	lifeTimer(0),
-	deathTimer(0.0f),
-	movement(Vector3::ZERO),
-	checkCollisionsManually(true),
-	limitRange(true)
+	killMe(false)
 {
 }
 
 void Projectile::Start()
 {
-	SetUpdateEventMask(USE_FIXEDUPDATE);
 	game = GetScene()->GetComponent<Gameplay>();
 	cache = GetSubsystem<ResourceCache>();
 	scene = GetScene();
 	physworld = scene->GetComponent<PhysicsWorld>();
-	orgSpeed = speed;
+	body = node_->GetComponent<RigidBody>();
 }
 
-void Projectile::FixedUpdate(float timeStep)
+void Projectile::PreUpdate(float timeStep)
 {
 	lifeTimer += timeStep;
-	if (hit)
-	{
-		deathTimer += timeStep;
-	}
-	else
-	{
-		const float dist2p = (game->playerNode->GetWorldPosition() - node_->GetWorldPosition()).Length();
-		if (dist2p > 250.0f && limitRange) { OnHit(PhysicsRaycastResult()); deathTimer = 9000.0f; }
+	deltaTime = timeStep;
+}
 
-		Move(timeStep);
-		if (checkCollisionsManually && movement != Vector3::ZERO) //Check collisions
-		{
-			PhysicsRaycastResult result;
-			const float movLength = movement.Length();
-			physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement / movLength), radius, movLength, 214);//128+64+2+16+4
-			if (result.body_)
-			{
-				if (result.body_->GetNode() != owner)
-				{
-					int colLayer = result.body_->GetCollisionLayer();
-					if (colLayer & 4)
-					{
-						VariantMap map = VariantMap();
-						map.Insert(Pair<StringHash, Variant>(P_PERPETRATOR, node_));
-						map.Insert(Pair<StringHash, Variant>(P_VICTIM, result.body_->GetNode()));
-						map.Insert(Pair<StringHash, Variant>(P_DAMAGE, damage));
-						SendEvent(E_PROJECTILEHIT, map);
-						OnHit(result);
-					}
-					else if (colLayer & 16) //Reflect yerself inside of the shield
-					{
-						if (result.body_->GetNode()->HasTag("tempshield"))
-						{
-							speed -= 3.5f;
-							if (speed == 0.0f) speed = -orgSpeed;
-						}
-						else if (result.body_->GetNode()->HasTag("blackhole"))
-						{
-							speed = Min(speed * 2.0f, speed + 3.5f);
-							movement = movement.Lerp(result.body_->GetNode()->GetWorldPosition() - node_->GetWorldPosition(), 2.0f * timeStep);
-						}
-					}
-					else
-					{
-						OnHit(result);
-					}
-				}
-			}
-			else
-			{
-				if (fabs(speed) < orgSpeed) //Reset speed after going through shield
-				{
-					if (speed < 0) speed = -orgSpeed;
-					if (speed > 0) speed = orgSpeed;
-				}
-			}
-		}
-		node_->Translate(movement, TS_WORLD);
+void Projectile::PostUpdate(float timeStep)
+{
+	if (killMe)
+	{
+		node_->Remove();
 	}
 }
 
-void Projectile::OnHit(PhysicsRaycastResult result)
+void Projectile::ForceFieldResponse(Node* otherNode, const float turnSpeed)
 {
-	node_->RemoveTag("projectile");
-	if (hit) return;
-	if (result.body_) 
+	Quaternion facingRotation;
+	if (otherNode->HasTag("tempshield"))
 	{
-		if (result.body_->GetNode() == owner.Get()) return;
+		facingRotation.FromLookRotation((node_->GetWorldPosition() - otherNode->GetWorldPosition()).Normalized(), Vector3::UP);
 	}
-	hit = true;
-	deathTimer = 0.0f;
+	else if (otherNode->HasTag("blackhole"))
+	{
+		facingRotation.FromLookRotation((otherNode->GetWorldPosition() - node_->GetWorldPosition()).Normalized(), Vector3::UP);
+	}
+	node_->SetWorldRotation(node_->GetWorldRotation().Slerp(facingRotation, turnSpeed * deltaTime));
+}
+
+void Projectile::DoDamage(Node* victim, const int damage)
+{
+	VariantMap map = VariantMap();
+	map.Insert(Pair<StringHash, Variant>(P_PERPETRATOR, node_));
+	map.Insert(Pair<StringHash, Variant>(P_VICTIM, victim));
+	map.Insert(Pair<StringHash, Variant>(P_DAMAGE, damage));
+	SendEvent(E_PROJECTILEHIT, map);
 }
 
 Projectile::~Projectile()
 {
 }
+
+/*
+void Projectile::MoveSphereCast(const float timeStep, const Vector3 movement, const float speed, const float radius, const float length, const unsigned int collisionMask)
+{
+	PhysicsRaycastResult result;
+	float movLength = movement.Length();
+	if (movLength == 0.0f) movLength = 1.0f;
+	physworld->SphereCast(result, Ray(node_->GetWorldPosition(), movement / movLength), radius, movLength + length, collisionMask);
+	if (result.body_)
+	{
+		if (result.body_->GetNode() != owner)
+		{
+			OnHit(result);
+		}
+	}
+	else 
+	{
+		physworld->RaycastSingle(result, Ray(node_->GetWorldPosition(), movement / movLength), movLength + length, collisionMask);
+		if (result.body_)
+		{
+			if (result.body_->GetNode() != owner)
+			{
+				OnHit(result);
+			}
+		}
+	}
+	node_->Translate(movement, TS_WORLD);
+}
+*/

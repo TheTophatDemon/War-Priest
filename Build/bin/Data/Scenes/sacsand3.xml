@@ -2251,7 +2251,7 @@
 		</attribute>
 		<component type="StaticModel" id="16782701">
 			<attribute name="Model" value="Model;Models/props/surprise_cactus.mdl" />
-			<attribute name="Material" value="Material;Materials/roblox_brick.xml" />
+			<attribute name="Material" value="Material;Materials/robelocks_brick.xml" />
 			<attribute name="Draw Distance" value="45" />
 		</component>
 	</node>

@@ -27,16 +27,18 @@
 #include "TempTemplar.h"
 #include "Statue.h"
 #include "ChaosCaliph.h"
-#include "Blackstone.h"
+//#include "Blackstone.h"
 #include "Bonus.h"
 #include "KillerKube.h"
-#include "BouncyFireball.h"
+//#include "BouncyFireball.h"
 #include "ProjectileWarner.h"
 #include "TempShield.h"
 #include "GravityPlate.h"
 #include "Sign.h"
 #include "Zeus.h"
 #include "RobeLocksMan.h"
+#include "RobeLocksMissile.h"
+#include "BlackHole.h"
 
 int GunPriest::STATE_GAME = 0;
 int GunPriest::STATE_TITLE = 1;
@@ -67,16 +69,18 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	TempTemplar::RegisterObject(context);
 	Statue::RegisterObject(context);
 	ChaosCaliph::RegisterObject(context);
-	Blackstone::RegisterObject(context);
+	//Blackstone::RegisterObject(context);
 	Bonus::RegisterObject(context);
 	KillerKube::RegisterObject(context);
-	BouncyFireball::RegisterObject(context);
+	//BouncyFireball::RegisterObject(context);
 	ProjectileWarner::RegisterObject(context);
 	TempShield::RegisterObject(context);
 	GravityPlate::RegisterObject(context);
 	GP::Sign::RegisterObject(context);
 	Zeus::RegisterZeus(context);
 	RobeLocksMan::RegisterObject(context);
+	RobeLocksMissile::RegisterObject(context);
+	BlackHole::RegisterObject(context);
 
 	pause = false;
 	state = STATE_TITLE;

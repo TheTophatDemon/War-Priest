@@ -4,6 +4,7 @@
 	<attribute name="Name" value="player" />
 	<attribute name="Tags">
 		<string value="shootable" />
+		<string value="handles_forcefields_manually" />
 	</attribute>
 	<attribute name="Position" value="123.07 -1.79211 22.4643" />
 	<attribute name="Rotation" value="1 0 0 0" />

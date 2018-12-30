@@ -66,8 +66,7 @@ using namespace Urho3D;
 const float Player::reviveCooldownMax = 1.25f;
 Vector3 Player::cameraOffset = Vector3(0.0f, 18.0f, -15.0f);
 
-Player::Player(Context* context) : 
-	LogicComponent(context),
+Player::Player(Context* context) : LogicComponent(context),
 	reviveCount(0),
 	hailTimer(0),
 	stateTimer(0),
@@ -237,10 +236,7 @@ void Player::OnKeyPress(StringHash eventType, VariantMap& eventData)
 			break;
 		case KEY_KP_4:
 		{
-			Node* shield = scene->CreateChild("shield");
-			shield->SetWorldPosition(node_->GetWorldPosition());
-			TempShield* shieldComponent = shield->CreateComponent<TempShield>();
-			shieldComponent->owner = node_;
+			TempShield::MakeTempShield(scene, node_->GetWorldPosition(), node_);
 			break;
 		}
 		case KEY_KP_5:

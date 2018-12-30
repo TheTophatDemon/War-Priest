@@ -13,6 +13,7 @@
 #include <Urho3D/Audio/Sound.h>
 
 #include "Enemy.h"
+#include "SoundSounder.h"
 
 class RobeLocksMan : public Enemy
 {
@@ -28,5 +29,8 @@ protected:
 	virtual void Dead() override;
 	virtual void EnterState(const int newState) override;
 	virtual void LeaveState(const int oldState) override;
+
+	SharedPtr<SoundSounder> soundSource;
+	float shootTimer;
 };
 

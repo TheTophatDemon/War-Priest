@@ -68,10 +68,6 @@ void Enemy::DelayedStart()
 	newRotation = node_->GetWorldRotation();
 }
 
-void Enemy::Execute()
-{
-}
-
 void Enemy::FixedUpdate(float timeStep)
 {
 	deltaTime = timeStep;

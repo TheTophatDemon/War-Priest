@@ -4,6 +4,7 @@
 	<attribute name="Name" value="gravityplate" />
 	<attribute name="Tags">
 		<string value="gravityplate" />
+		<string value="handles_forcefields_manually" />
 	</attribute>
 	<attribute name="Position" value="0.411803 2.2615 1.89126" />
 	<attribute name="Rotation" value="1 0 0 0" />

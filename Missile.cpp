@@ -5,20 +5,20 @@
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/Physics/PhysicsEvents.h>
 #include <Urho3D/Audio/SoundSource3D.h>
+#include <Urho3D/Audio/Sound.h>
 #include <Urho3D/Physics/CollisionShape.h>
 #include <Urho3D/Graphics/StaticModel.h>
 #include <iostream>
 #include "Settings.h"
 #include "TempEffect.h"
 #include "Zeus.h"
-#include "WeakChild.h"
 
 Missile::Missile(Context* context) : Projectile(context),
-	deltaTime(0.0f),
 	state(0),
-	targetOffset(0.0f,0.0f,0.0f)
+	targetOffset(0.0f,0.0f,0.0f),
+	speed(1.0f),
+	orgSpeed(1.0f)
 {
-	checkCollisionsManually = false;
 }
 
 void Missile::Start()
@@ -26,11 +26,12 @@ void Missile::Start()
 	SetUpdateEventMask(USE_FIXEDUPDATE);
 
 	Projectile::Start();
+
 	emitterNode = node_->GetChild("smoke");
 	emitter = emitterNode->GetComponent<ParticleEmitter>();
-	emitterNode->SetParent(GetScene());
 	emitter->SetEmitting(true);
-	WeakChild::MakeWeakChild(emitterNode, node_);
+
+	orgSpeed = speed;
 
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Missile, OnCollision));
 }
@@ -42,22 +43,14 @@ void Missile::RegisterObject(Context* context)
 
 void Missile::FixedUpdate(float timeStep)
 {
-	deltaTime = timeStep;
-	if (!hit)
-	{
-		emitterNode->SetWorldPosition(node_->GetWorldPosition());
-		if (lifeTimer > 25.0f)
-		{
-			OnHit(PhysicsRaycastResult());
-			return;
-		}
-	}
+	PreUpdate(timeStep);
 	
-	Projectile::FixedUpdate(timeStep);
-}
+	if (lifeTimer > 25.0f)
+	{
+		Die();
+		return;
+	}
 
-void Missile::Move(const float timeStep)
-{
 	switch (state)
 	{
 	case 0:
@@ -96,13 +89,13 @@ void Missile::Move(const float timeStep)
 		if (fabs(speed - orgSpeed) <= 0.0f) speed = orgSpeed;
 		break;
 	}
-	movement = node_->GetWorldRotation() * (Vector3::FORWARD * speed * timeStep);
+	node_->Translate(node_->GetWorldRotation() * (Vector3::FORWARD * speed * timeStep), TS_WORLD);
+
+	PostUpdate(timeStep);
 }
 
-void Missile::OnHit(PhysicsRaycastResult result)
+void Missile::Die()
 {
-	Projectile::OnHit(result);
-
 	emitter->SetEmitting(false);
 
 	Node* explosion = Zeus::MakeExplosion(scene, node_->GetWorldPosition(), 2.0f, 3.5f);
@@ -112,64 +105,42 @@ void Missile::OnHit(PhysicsRaycastResult result)
 	s->SetSoundType("GAMEPLAY");
 	s->Play(cache->GetResource<Sound>("Sounds/env_explode.wav"));
 
-	node_->RemoveComponent<StaticModel>(); //The smoke trail is WeakParented to it, so instead of removing it we make it empty.
-	node_->RemoveComponent<RigidBody>();
-	node_->RemoveComponent<CollisionShape>();
-
+	killMe = true;
+	
+	emitterNode->SetParent(scene);
 	TempEffect* t = new TempEffect(context_);
 	t->life = 2.0f;
-	node_->AddComponent(t, 1212, LOCAL);
+	emitterNode->AddComponent(t, 1212, LOCAL);
 }
 
 void Missile::OnCollision(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
+
 	if (other != owner || state > 0) //Will collide with owner, but not while it's still being launched
 	{
-		if (otherBody->GetCollisionLayer() & 2 || otherBody->GetCollisionLayer() & 128
-			|| otherBody->GetCollisionLayer() & 64 || otherBody->GetCollisionLayer() & 4
-			|| other == owner)
+		if (otherBody->GetCollisionLayer() & 198 || other == owner) //2 + 128 + 64 + 4
 		{
-			if (!hit)
-			{
-				OnHit(PhysicsRaycastResult());
-			}
+			Die();
 		}
 		else if (otherBody->GetCollisionLayer() & 16)
 		{
-			if (other->HasTag("tempshield")) 
-			{
-				Vector3 diff = (node_->GetWorldPosition() - other->GetWorldPosition()).Normalized();
-				Quaternion quatty = node_->GetWorldRotation();
-				quatty.FromLookRotation(diff, Vector3::UP);
-				node_->SetWorldRotation(node_->GetWorldRotation().Slerp(quatty, 2.0f * deltaTime));
-				state = 3;
-			}
-			else if (other->HasTag("blackhole"))
-			{
-				Vector3 diff = (other->GetWorldPosition() - node_->GetWorldPosition()).Normalized();
-				Quaternion quatty = node_->GetWorldRotation();
-				quatty.FromLookRotation(diff, Vector3::UP);
-				node_->SetWorldRotation(node_->GetWorldRotation().Slerp(quatty, 2.0f * deltaTime));
-				state = 3;
-			}
+			ForceFieldResponse(other, 2.0f);
+			state = 3;
 		}
 	}
 }
 
-Node* Missile::MakeMissile(Scene* sc, Vector3 position, Quaternion rotation, Node* owner, Node* target)
+Node* Missile::MakeMissile(Scene* sc, const Vector3 position, const Quaternion rotation, Node* owner, Node* target)
 {
 	Missile* m = new Missile(sc->GetContext());
 	m->owner = owner;
 	m->speed = 55.0f + Settings::ScaleWithDifficulty(-20.0f, 0.0f, 20.0f);
-	m->damage = 0;
-	m->radius = 0.5f;
-	m->limitRange = false;
 	m->target = WeakPtr<Node>(target);
 
 	Node* n = sc->CreateChild();
-	n->LoadXML(m->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/missile.xml")->GetRoot());
+	n->LoadXML(m->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/projectile_missile.xml")->GetRoot());
 	n->SetPosition(position);
 	n->SetRotation(Quaternion(90.0f, Vector3::UP) * rotation);
 	n->AddComponent(m, 333, LOCAL);

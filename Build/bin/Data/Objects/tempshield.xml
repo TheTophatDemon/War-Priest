@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<node id="16780043">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="tempshield" />
+	<attribute name="Tags">
+		<string value="tempshield" />
+		<string value="handles_forcefields_manually" />
+	</attribute>
+	<attribute name="Position" value="0 0 0" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="0.5 0.5 0.5" />
+	<attribute name="Variables" />
+	<component type="RigidBody" id="16784096">
+		<attribute name="Linear Factor" value="0 0 0" />
+		<attribute name="Angular Factor" value="0 0 0" />
+		<attribute name="Collision Layer" value="17" />
+		<attribute name="Use Gravity" value="false" />
+		<attribute name="Is Trigger" value="true" />
+	</component>
+	<component type="CollisionShape" id="16784097">
+		<attribute name="Shape Type" value="Sphere" />
+	</component>
+	<component type="StaticModel" id="16784098">
+		<attribute name="Model" value="Model;Models/Sphere.mdl" />
+		<attribute name="Material" value="Material;Materials/shield.xml" />
+	</component>
+	<node id="16780044">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="subshield" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="0 0 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.95 0.95 0.95" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16784099">
+			<attribute name="Model" value="Model;Models/Sphere.mdl" />
+			<attribute name="Material" value="Material;Materials/shield.xml" />
+		</component>
+	</node>
+</node>

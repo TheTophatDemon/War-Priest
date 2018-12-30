@@ -5,6 +5,7 @@
 	<attribute name="Tags">
 		<string value="debris" />
 		<string value="projectile" />
+		<string value="handles_forcefields_manually" />
 	</attribute>
 	<attribute name="Position" value="-0.995493 0.385248 9.08559" />
 	<attribute name="Rotation" value="1 0 0 0" />

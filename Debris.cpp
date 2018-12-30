@@ -6,15 +6,15 @@
 #include <Urho3D/Graphics/StaticModel.h>
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/Graphics/Model.h>
+#include <Urho3D/Audio/Sound.h>
 #include <iostream>
 #include "Zeus.h"
-#include "Projectile.h"
 
-Debris::Debris(Context* context) : LogicComponent(context)
+Debris::Debris(Context* context) : Projectile(context),
+	damage(15),
+	dieTime(-1.0f),
+	linearVelocity(0.0f)
 {
-	damage = 15;
-	dieTimer = 0.0f;
-	linearVelocity = 0.0f;
 }
 
 void Debris::RegisterObject(Context* context)
@@ -25,69 +25,97 @@ void Debris::RegisterObject(Context* context)
 void Debris::Start()
 {
 	SetUpdateEventMask(USE_FIXEDUPDATE);
-	scene = GetScene();
-	body = node_->GetComponent<RigidBody>();
-	physworld = scene->GetComponent<PhysicsWorld>();
-	cache = GetSubsystem<ResourceCache>();
+
+	Projectile::Start();
 
 	crashSource = node_->GetOrCreateComponent<SoundSource3D>();
 	crashSource->SetSoundType("GAMEPLAY");
 
 	SubscribeToEvent(GetNode(), E_NODECOLLISIONSTART, URHO3D_HANDLER(Debris, OnCollisionStart));
+	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(Debris, OnCollision));
 }
 
 void Debris::FixedUpdate(float timeStep)
 {
+	PreUpdate(timeStep);
+
 	linearVelocity = body->GetLinearVelocity().Length();
 	if (linearVelocity < 4.0f)
 	{
 		Die();
 	}
-	if (dieTimer > 0.0f) 
+	if (hit) 
 	{
 		if (smokeNode) 
 		{ 
-			smokeNode->SetWorldPosition(node_->GetWorldPosition() ); 
+			smokeNode->SetWorldPosition(node_->GetWorldPosition()); 
 		}
-		dieTimer -= timeStep;
-		if (dieTimer <= 0.0f)
+		if (lifeTimer - dieTime > 0.5f)
 		{
-			node_->Remove();
+			killMe = true;
 		}
 	}
+
+	PostUpdate(timeStep);
 }
 
 void Debris::OnCollisionStart(StringHash eventType, VariantMap& eventData)
 {
 	Node* other = (Node*)eventData["OtherNode"].GetPtr();
 	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
-	if (other->GetName() == "player")
+	if (other != owner) 
 	{
-		VariantMap map = VariantMap();
-		map.Insert(Pair<StringHash, Variant>(Projectile::P_PERPETRATOR, node_));
-		map.Insert(Pair<StringHash, Variant>(Projectile::P_VICTIM, other));
-		map.Insert(Pair<StringHash, Variant>(Projectile::P_DAMAGE, damage));
-		SendEvent(Projectile::E_PROJECTILEHIT, map);
-		Die();
+		if (otherBody->GetCollisionLayer() & 4)
+		{
+			DoDamage(other, damage);
+			Die();
+		}
+		else if (otherBody->GetCollisionLayer() & 256)
+		{
+			node_->RemoveTag("projectile");
+		}
+		if ((otherBody->GetCollisionLayer() & 198 || other->HasTag("debris")) && linearVelocity > 10.0f) //64+128+2+4
+		{
+			crashSource->Play(cache->GetResource<Sound>("Sounds/env_rock.wav"), 44100.0f + Random(-1500.0f, 1500.0f));
+		}
 	}
-	else if (otherBody->GetCollisionLayer() & 256) 
-	{
-		node_->RemoveTag("projectile");
-	}
+}
 
-	if ( (otherBody->GetCollisionLayer() & 198 || other->HasTag("debris")) && linearVelocity > 10.0f) //64+128+2+4
+void Debris::OnCollision(StringHash eventType, VariantMap& eventData)
+{
+	Node* other = (Node*)eventData["OtherNode"].GetPtr();
+	RigidBody* otherBody = (RigidBody*)eventData["OtherBody"].GetPtr();
+	if (other != owner)
 	{
-		crashSource->Play(cache->GetResource<Sound>("Sounds/env_rock.wav"), 44100.0f + Random(-1500.0f, 1500.0f));
+		//Handle forcefield interactions with more FORCE than usual
+		if (otherBody->GetCollisionLayer() & 16) 
+		{
+			const Vector3 diff = other->GetWorldPosition() - node_->GetWorldPosition();
+			float push = 0.0f;
+			if (diff != Vector3::ZERO)
+			{
+				push = 8.0f + (12.0f / diff.LengthSquared());
+			}
+			if (other->HasTag("tempshield"))
+			{
+				otherBody->ApplyImpulse(diff.Normalized() * push * otherBody->GetMass());
+			}
+			else if (other->HasTag("blackhole"))
+			{
+				otherBody->ApplyImpulse(-diff.Normalized() * push * otherBody->GetMass());
+			}
+		}
 	}
 }
 
 void Debris::Die()
 {
-	if (dieTimer == 0.0f) 
+	if (!hit) 
 	{
+		hit = true;
 		node_->RemoveTag("projectile");
 		smokeNode = Zeus::PuffOfSmoke(GetScene(), node_->GetWorldPosition(), 2.0f);
-		dieTimer = 0.5f;
+		dieTime = lifeTimer;
 	}
 }
 

@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="3" />
 	<attribute name="Next Replicated Component ID" value="6" />
-	<attribute name="Next Local Node ID" value="16777407" />
-	<attribute name="Next Local Component ID" value="16777877" />
+	<attribute name="Next Local Node ID" value="16777409" />
+	<attribute name="Next Local Component ID" value="16777892" />
 	<attribute name="Variables" />
 	<attribute name="Variable Names" value="spawnertype" />
 	<component type="Octree" id="1" />
@@ -24,7 +24,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16777228">
 			<attribute name="Model" value="Model;Models/maps/crossroads.mdl" />
-			<attribute name="Material" value="Material;Materials/roblox_brick.xml;Materials/roblox_spawn.xml" />
+			<attribute name="Material" value="Material;;;;;;;;;;;;;;;;;;;;" />
 			<attribute name="Can Be Occluded" value="false" />
 			<attribute name="View Mask" value="2" />
 		</component>
@@ -382,22 +382,6 @@
 				<attribute name="Offset Position" value="0 0.25 0" />
 			</component>
 		</node>
-	</node>
-	<node id="16777399">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="pyropastor" />
-		<attribute name="Tags">
-			<string value="enemy" />
-			<string value="pyropastor" />
-		</attribute>
-		<attribute name="Position" value="-27.7812 -0.298345 0.631499" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16777846">
-			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
-			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
-		</component>
 	</node>
 	<node id="16777401">
 		<attribute name="Is Enabled" value="true" />
