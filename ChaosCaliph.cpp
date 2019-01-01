@@ -43,7 +43,7 @@ void ChaosCaliph::RegisterObject(Context* context)
 
 void ChaosCaliph::OnSettingsChange(StringHash eventType, VariantMap& eventData)
 {
-	actor->maxSpeed = 17.5f + Settings::ScaleWithDifficulty(-2.0f, 0.0f, 2.0f);
+	actor->maxSpeed = 17.2f + Settings::ScaleWithDifficulty(-2.0f, 0.0f, 2.0f);
 }
 
 void ChaosCaliph::DelayedStart()

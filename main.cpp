@@ -1,14 +1,9 @@
 //DONE:
-	//Removed BouncyFireball and Blackstone
-	//Fixed black hole shader instancing glitch
-	//Refactor Projectile Code
-	//Make sure shield-rigidbody reaction ignores projectiles
-	//Separate black hole code from Killer Kube
-	//Surprise Cactus is white?
-	//Make sure every shader supports #INSTANCING
-	//Robelocksmissile
+//Better robelocksmissile sound
+//Robelocks bomb
+//Robelocksman weapon switching
+
 //TODO:
-	//Better robelocksmissile sound
 	//Crossroads
 		//Robelocksman
 			//Jumping

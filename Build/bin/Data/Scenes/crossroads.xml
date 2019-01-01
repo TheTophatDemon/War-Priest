@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="3" />
 	<attribute name="Next Replicated Component ID" value="6" />
-	<attribute name="Next Local Node ID" value="16777409" />
-	<attribute name="Next Local Component ID" value="16777892" />
+	<attribute name="Next Local Node ID" value="16777464" />
+	<attribute name="Next Local Component ID" value="16778045" />
 	<attribute name="Variables" />
 	<attribute name="Variable Names" value="spawnertype" />
 	<component type="Octree" id="1" />
@@ -24,7 +24,7 @@
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16777228">
 			<attribute name="Model" value="Model;Models/maps/crossroads.mdl" />
-			<attribute name="Material" value="Material;;;;;;;;;;;;;;;;;;;;" />
+			<attribute name="Material" value="Material;Materials/darkbrick.xml;Materials/concrete.xml;Materials/cobblestone.xml;Materials/dirt.xml;Materials/fallrhine_bark.xml;Materials/fallrhine_castlebridge.xml;Materials/metalsheet.xml;Materials/metal.xml;Materials/metal_darker.xml;Materials/lightstrip.xml;Materials/palpan_marble.xml;Materials/palpan_romebrick3_mossy.xml;Materials/palpan_romebrick5.xml;Materials/palpan_romebrick4.xml;Materials/purplebrick2.xml;Materials/purplefloor.xml;Materials/sacsand_floor.xml;Materials/sacsand_grating.xml;Materials/sacsand_limestone.xml;Materials/sacsand_pattern2.xml" />
 			<attribute name="Can Be Occluded" value="false" />
 			<attribute name="View Mask" value="2" />
 		</component>
@@ -36,7 +36,6 @@
 		<component type="RigidBody" id="16777232">
 			<attribute name="Physics Rotation" value="0.707107 0 0 -0.707107" />
 			<attribute name="Physics Position" value="0 -1.571 0.149339" />
-			<attribute name="Friction" value="0" />
 			<attribute name="Collision Layer" value="2" />
 			<attribute name="Use Gravity" value="false" />
 		</component>
@@ -422,7 +421,7 @@
 			<string value="enemy" />
 			<string value="robelocksman" />
 		</attribute>
-		<attribute name="Position" value="-27.271 -0.802249 8.9932" />
+		<attribute name="Position" value="-27.7982 9.46255 84.9064" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -462,5 +461,497 @@
 			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
 			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
 		</component>
+	</node>
+	<node id="16777420">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-27.271 -0.802249 8.9932" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777920">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777421">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-27.271 0.62651 27.4793" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777921">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777422">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-52.1842 6.88155 34.4874" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777922">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777423">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-40.0032 6.88155 34.4874" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777923">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777424">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-65.015 29.8065 87.6836" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777924">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777425">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-40.0032 9.46255 91.3874" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777925">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777426">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-35.0399 9.46255 75.0174" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777926">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777427">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-27.7982 9.46255 64.0807" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777927">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777428">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-40.0032 9.46255 58.0441" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777928">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777429">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="83.6513 6.8872 31.2046" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777929">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777430">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-94.1517 13.9109 53.4753" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777930">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777431">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-74.6314 13.9109 53.4753" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777931">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777432">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-60.1872 29.8065 59.1685" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777932">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777433">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-68.7859 29.8065 67.1721" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777933">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777434">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-75.8844 29.8065 87.6836" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777934">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777435">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="-53.7615 13.9109 53.4753" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777935">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777436">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="36.0997 4.76783 56.3916" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777936">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777437">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="36.0997 4.76783 85.0518" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777937">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777438">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="29.3423 4.76783 73.4275" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777938">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777439">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="54.1487 19.5165 71.8748" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777939">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777440">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="54.1487 12.8235 87.6825" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777940">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777441">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="67.3574 12.8235 87.6825" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777941">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777442">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="73.2263 12.8235 74.3878" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777942">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777443">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="62.8649 12.8235 74.3878" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777943">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777444">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="81.0637 12.8235 74.3878" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777944">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777445">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="91.9626 13.7837 79.9564" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777945">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777446">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="robelocksman" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="robelocksman" />
+		</attribute>
+		<attribute name="Position" value="83.6513 6.49993 44.0756" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16777946">
+			<attribute name="Model" value="Model;Models/enemy/robelocksman.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/robelocksman_skin.xml" />
+		</component>
+	</node>
+	<node id="16777451">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="launchpad" />
+		<attribute name="Tags">
+			<string value="launchpad" />
+		</attribute>
+		<attribute name="Position" value="-68.5088 14.0437 53.2129" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="2 2 2" />
+		<attribute name="Variables" />
+		<component type="CollisionShape" id="16777952">
+			<attribute name="Shape Type" value="Cylinder" />
+			<attribute name="Size" value="1.8 0.75 1" />
+			<attribute name="Offset Position" value="0 0.18 0" />
+		</component>
+		<component type="RigidBody" id="16777953">
+			<attribute name="Physics Position" value="-68.5088 14.0437 53.2129" />
+			<attribute name="Use Gravity" value="false" />
+			<attribute name="Is Trigger" value="true" />
+		</component>
+		<node id="16777452">
+			<attribute name="Is Enabled" value="true" />
+			<attribute name="Name" value="top" />
+			<attribute name="Tags" />
+			<attribute name="Position" value="0 0 0" />
+			<attribute name="Rotation" value="1 0 0 0" />
+			<attribute name="Scale" value="1 1 1" />
+			<attribute name="Variables" />
+			<component type="StaticModel" id="16777954">
+				<attribute name="Model" value="Model;Models/launchpad_top.mdl" />
+				<attribute name="Material" value="Material;Materials/skins/launchpad_skin.xml" />
+			</component>
+		</node>
+		<node id="16777453">
+			<attribute name="Is Enabled" value="true" />
+			<attribute name="Name" value="mid" />
+			<attribute name="Tags" />
+			<attribute name="Position" value="0 0 0" />
+			<attribute name="Rotation" value="1 0 0 0" />
+			<attribute name="Scale" value="1 1 1" />
+			<attribute name="Variables" />
+			<component type="StaticModel" id="16777955">
+				<attribute name="Model" value="Model;Models/launchpad_mid.mdl" />
+				<attribute name="Material" value="Material;Materials/skins/launchpad_skin.xml" />
+			</component>
+		</node>
+		<node id="16777454">
+			<attribute name="Is Enabled" value="true" />
+			<attribute name="Name" value="base" />
+			<attribute name="Tags" />
+			<attribute name="Position" value="0 0 0" />
+			<attribute name="Rotation" value="1 0 0 0" />
+			<attribute name="Scale" value="1 1 1" />
+			<attribute name="Variables" />
+			<component type="StaticModel" id="16777956">
+				<attribute name="Model" value="Model;Models/launchpad_base.mdl" />
+				<attribute name="Material" value="Material;Materials/skins/launchpad_skin.xml" />
+			</component>
+		</node>
 	</node>
 </scene>

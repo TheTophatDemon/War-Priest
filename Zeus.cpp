@@ -171,7 +171,7 @@ Node* Zeus::MakeExplosion(Scene* scene, Vector3 position, const float life, cons
 	emitter->SetEffect(cache->GetResource<ParticleEffect>("Particles/explosion.xml"));
 
 	TempEffect* te = explosion->CreateComponent<TempEffect>();
-	te->life = 2.0f;
+	te->life = life;
 
 	return explosion;
 }

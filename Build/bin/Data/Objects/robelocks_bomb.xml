@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<node id="16777457">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="robelocks_bomb" />
+	<attribute name="Tags">
+		<string value="projectile" />
+	</attribute>
+	<attribute name="Position" value="19.6955 12.8995 30.1568" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="0.525 0.525 0.525" />
+	<attribute name="Variables" />
+	<component type="StaticModel" id="16777981">
+		<attribute name="Model" value="Model;Models/robelocks_bomb.mdl" />
+		<attribute name="Material" value="Material;Materials/skins/robelocks_bomb_skin.xml" />
+	</component>
+	<component type="CollisionShape" id="16777982">
+		<attribute name="Shape Type" value="Sphere" />
+		<attribute name="Size" value="2.5 1 1" />
+	</component>
+	<component type="RigidBody" id="16777983">
+		<attribute name="Physics Position" value="19.6955 12.8995 30.1568" />
+		<attribute name="Mass" value="50" />
+		<attribute name="Friction" value="0.5" />
+		<attribute name="Rolling Friction" value="0.8" />
+		<attribute name="Restitution" value="1" />
+		<attribute name="Angular Rest Threshold" value="0.1" />
+	</component>
+	<node id="16777458">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="spark" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="0 1.5576 0" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.5 0.5 0.5" />
+		<attribute name="Variables" />
+		<component type="ParticleEmitter" id="16777984">
+			<attribute name="Effect" value="ParticleEffect;Particles/spark.xml" />
+			<attribute name="Animation LOD Bias" value="0" />
+		</component>
+	</node>
+</node>

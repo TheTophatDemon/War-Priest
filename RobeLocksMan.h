@@ -9,11 +9,18 @@
 #include <Urho3D/Physics/PhysicsWorld.h>
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D\Graphics/ParticleEmitter.h>
+#include <Urho3D/Graphics/StaticModel.h>
 #include <Urho3D/Audio/SoundSource3D.h>
 #include <Urho3D/Audio/Sound.h>
 
 #include "Enemy.h"
 #include "SoundSounder.h"
+
+enum class Weapon
+{
+	Launcher,
+	Bomb
+};
 
 class RobeLocksMan : public Enemy
 {
@@ -31,6 +38,9 @@ protected:
 	virtual void LeaveState(const int oldState) override;
 
 	SharedPtr<SoundSounder> soundSource;
+	SharedPtr<Node> weaponNode;
+	SharedPtr<StaticModel> weaponModel;
+	Weapon currentWeapon;
 	float shootTimer;
 };
 
