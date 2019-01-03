@@ -151,6 +151,7 @@ void PostalPope::Execute()
 						n->SetParent(scene);
 						Debris* debs = n->CreateComponent<Debris>();
 						debs->damage = Settings::ScaleWithDifficulty(10.0f, 15.0f, 20.0f);
+						debs->owner = node_;
 						
 						RigidBody* rb = n->GetComponent<RigidBody>();
 						rb->SetLinearFactor(Vector3::ONE);

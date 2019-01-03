@@ -19,7 +19,8 @@
 enum class Weapon
 {
 	Launcher,
-	Bomb
+	Bomb,
+	PaintGun
 };
 
 class RobeLocksMan : public Enemy

@@ -1,13 +1,13 @@
-//DONE:
-//Better robelocksmissile sound
-//Robelocks bomb
-//Robelocksman weapon switching
-
 //TODO:
 	//Crossroads
 		//Robelocksman
+			//Paintball gun
+				//Finish texture
+				//Sound
+			//Bomb
+				//Sound
 			//Jumping
-		//Optimize map?
+		//Finish map
 	//Credits
 		//Have player drop down from above
 	//Final Flood Level?

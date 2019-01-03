@@ -3,11 +3,13 @@
 #include <Urho3D/Graphics/Animation.h>
 #include <Urho3D/Graphics/Model.h>
 #include <Urho3D/Graphics/Material.h>
+#include <Urho3D/Resource/XMLFile.h>
 #include <iostream>
 
 #include "RobeLocksMissile.h"
 #include "RobeLocksBomb.h"
 #include "Actor.h"
+#include "Fireball.h"
 
 #define STATE_DEAD 0 
 #define STATE_WANDER 1
@@ -21,6 +23,8 @@
 #define IDLE_ANIM_HOLDING "Models/enemy/robelocksman_idle_holding.ani"
 #define WALK_ANIM_HOLDING "Models/enemy/robelocksman_walk_holding.ani"
 #define JUMP_ANIM_HOLDING "Models/enemy/robelocksman_jump_holding.ani"
+
+#define ATTACK_THRESHOLD 30
 
 RobeLocksMan::RobeLocksMan(Context* context) : Enemy(context),
 	currentWeapon(Weapon::Launcher)
@@ -83,8 +87,14 @@ void RobeLocksMan::Execute()
 
 		if (stateTimer > 1.0f)
 		{
-			currentWeapon = (Weapon) Random(0, 2);
-			//currentWeapon = Weapon::Bomb;
+			if (distanceFromPlayer < ATTACK_THRESHOLD)
+			{
+				currentWeapon = (Weapon)Random(0, 3);
+			}
+			else
+			{
+				currentWeapon = Weapon::Launcher;
+			}
 			ChangeState(STATE_ATTACK);
 		}
 
@@ -97,11 +107,25 @@ void RobeLocksMan::Execute()
 		switch (currentWeapon)
 		{
 		case Weapon::Launcher:
-			Wander(false, true);
-			if (walking)
-				animController->PlayExclusive(WALK_ANIM_HOLDING, 0, true, 0.2f);
+			if (shootTimer > 0.5f || distanceFromPlayer > ATTACK_THRESHOLD)
+			{
+				Wander(false, true);
+				if (walking)
+				{
+					animController->PlayExclusive(WALK_ANIM_HOLDING, 0, true, 0.2f);
+				}
+				else
+				{
+					animController->PlayExclusive(IDLE_ANIM_HOLDING, 0, true, 0.2f);
+				}
+			}
 			else
+			{
+				FaceTarget();
 				animController->PlayExclusive(IDLE_ANIM_HOLDING, 0, true, 0.2f);
+				actor->SetInputFPS(false, false, false, false);
+				actor->Move(deltaTime);
+			}
 			break;
 		case Weapon::Bomb:
 			FaceTarget();
@@ -113,30 +137,82 @@ void RobeLocksMan::Execute()
 			actor->SetInputFPS(false, false, false, false);
 			actor->Move(deltaTime);
 			break;
+		case Weapon::PaintGun:
+			FaceTarget();
+			if (distanceFromPlayer > 15.0f)
+			{
+				actor->SetInputFPS(true, false, false, false);
+				animController->PlayExclusive(WALK_ANIM_HOLDING, 0, true, 0.2f);
+			}
+			else
+			{
+				actor->SetInputFPS(false, false, false, false);
+				animController->PlayExclusive(IDLE_ANIM_HOLDING, 0, true, 0.2f);
+			}
+			actor->Move(deltaTime);
+			break;
 		}
 
 		shootTimer -= deltaTime;
 		if (shootTimer < 0.0f)
 		{
-			if (Random(1.0f) > 0.5f) ChangeState(STATE_SWITCH);
 			switch (currentWeapon)
 			{
 			case Weapon::Launcher:
-				shootTimer = Random(1.0f, 5.0f);
+				if (distanceFromPlayer < ATTACK_THRESHOLD)
+				{ 
+					shootTimer = Random(0.5f, 1.0f); 
+				}
+				else
+				{
+					shootTimer = Random(1.0f, 5.0f);
+				}
 				RobeLocksMissile::MakeRobeLocksMissile(scene, weaponNode->GetWorldPosition() + node_->GetWorldRotation() * Vector3::FORWARD * 0.4f, node_->GetWorldRotation(), node_);
 				soundSource->Play("Sounds/enm_robelocksmissile.wav", true);
+				if (Random(1.0f) > 0.5f) ChangeState(STATE_SWITCH);
 				break;
 			case Weapon::Bomb:
 			{
-				shootTimer = Random(1.0f, 5.0f);
+				shootTimer = Random(0.5f, 1.0f);
 				const Vector3 aim = (target->GetWorldPosition() - node_->GetWorldPosition()).Normalized();
 				Node* bomb = RobeLocksBomb::MakeRobeLocksBomb(scene, weaponNode->GetWorldPosition());
 				RigidBody* bBody = bomb->GetComponent<RigidBody>();
 				bBody->ApplyImpulse(aim * bBody->GetMass() * 10.0f);
 				bBody->ApplyImpulse(Vector3::UP * bBody->GetMass() * 10.0f);
 				weaponNode->SetEnabled(false);
+				if (Random(1.0f) > 0.5f) ChangeState(STATE_SWITCH);
 				break;
 			}
+			case Weapon::PaintGun:
+				shootTimer = 0.25f;
+				
+				const Vector3 aim = (target->GetWorldPosition() + Vector3::UP * 2.0f - weaponNode->GetWorldPosition()).Normalized();
+
+				//Raycast to determine whether the player is in sight
+				PhysicsRaycastResult result;
+				Ray aimRay = Ray(weaponNode->GetWorldPosition(), aim);
+				physworld->RaycastSingle(result, aimRay, 100.0f, 130U); //2+128
+				if (result.body_)
+				{
+					if (result.body_->GetCollisionLayer() & 128)
+					{
+						//Raycast to determine where the bullet is supposed to hit the map
+						physworld->RaycastSingle(result, aimRay, 100.0f, 2U);
+						//Tie the distance traveled to the bullet's life-span to ensure that it does not phase through walls
+						float lifeSpan = 2.0f;
+						if (result.body_)
+						{
+							lifeSpan = (result.distance_ / 50.0f) - 0.1f;
+						}
+
+						Quaternion aimQuat;
+						aimQuat.FromLookRotation(aim);
+						Fireball::MakePaintball(scene, weaponNode->GetWorldPosition() + node_->GetWorldRotation() * Vector3::FORWARD, aimQuat, node_, lifeSpan);
+					}
+				}
+				
+				if (Random(1.0f) > 0.9f) ChangeState(STATE_SWITCH);
+				break;
 			}
 		}
 		
@@ -166,17 +242,23 @@ void RobeLocksMan::EnterState(const int newState)
 		weaponNode->SetEnabled(false);
 		break;
 	case STATE_ATTACK:
-		shootTimer = Random(1.0f, 5.0f);
 		weaponNode->SetEnabled(true);
 		switch (currentWeapon)
 		{
 		case Weapon::Launcher:
 			weaponModel->SetModel(cache->GetResource<Model>("Models/robelocks_launcher.mdl"));
 			weaponModel->SetMaterial(cache->GetResource<Material>("Materials/skins/robelocks_launcher_skin.xml"));
+			shootTimer = Random(0.5f, 1.0f);
 			break;
 		case Weapon::Bomb:
 			weaponModel->SetModel(cache->GetResource<Model>("Models/robelocks_bomb.mdl"));
 			weaponModel->SetMaterial(cache->GetResource<Material>("Materials/skins/robelocks_bomb_skin.xml"));
+			shootTimer = Random(0.5f, 1.0f);
+			break;
+		case Weapon::PaintGun:
+			weaponModel->SetModel(cache->GetResource<Model>("Models/robelocks_paint_gun.mdl"));
+			weaponModel->SetMaterial(cache->GetResource<Material>("Materials/skins/robelocks_paint_gun_skin.xml"));
+			shootTimer = 0.25f;
 			break;
 		}
 		break;

@@ -12,7 +12,8 @@
 Fireball::Fireball(Context* context) : Projectile(context),
 	deathTime(0.0f),
 	speed(30.0f),
-	damage(10)
+	damage(10),
+	lifeSpan(2.0f)
 {
 }
 
@@ -38,7 +39,14 @@ void Fireball::FixedUpdate(float timeStep)
 
 	if (hit)
 	{
-		if (emitter->GetNumParticles() <= 1 || lifeTimer - deathTime > 1.0f)
+		if (emitter)
+		{
+			if (emitter->GetNumParticles() <= 1 || lifeTimer - deathTime > 1.0f)
+			{
+				killMe = true;
+			}
+		}
+		else
 		{
 			killMe = true;
 		}
@@ -48,7 +56,7 @@ void Fireball::FixedUpdate(float timeStep)
 		node_->Translate(Vector3::FORWARD * speed * timeStep, TS_LOCAL);
 
 		const float distFromPlayerSquared = (node_->GetWorldPosition() - game->playerNode->GetWorldPosition()).LengthSquared();
-		if (lifeTimer > 2.0f || distFromPlayerSquared > 40000.0f)
+		if (lifeTimer > lifeSpan || distFromPlayerSquared > 40000.0f)
 		{
 			Die();
 		}
@@ -123,6 +131,21 @@ Node* Fireball::MakeBlueFireball(Scene* sc, Vector3 position, Quaternion rotatio
 	n->SetPosition(position);
 	n->SetRotation(rotation);
 	n->AddComponent(p, 333, LOCAL);
+
+	return n;
+}
+
+Node* Fireball::MakePaintball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner, const float lifeSpan)
+{
+	Fireball* p = new Fireball(sc->GetContext());
+	p->owner = owner;
+	p->speed = 50.0f;
+	p->damage = 3;
+	p->lifeSpan = lifeSpan;
+
+	Node* n = sc->InstantiateXML(sc->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/projectile_paintball.xml")->GetRoot(),
+		position, rotation, LOCAL);
+	n->AddComponent(p, 12, LOCAL);
 
 	return n;
 }
