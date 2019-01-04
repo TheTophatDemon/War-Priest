@@ -33,6 +33,8 @@ public:
 	virtual void Revive() override;
 	~RobeLocksMan();
 protected:
+	void OnProjectileHit(StringHash eventType, VariantMap& eventData);
+	virtual void Wander(bool pause = false, float slopeIntolerance = 0.5f, float wallMargin = 2.0f) override;
 	virtual void Execute() override;
 	virtual void Dead() override;
 	virtual void EnterState(const int newState) override;

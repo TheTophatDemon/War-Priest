@@ -22,9 +22,12 @@
 Enemy::Enemy(Context* context) : LogicComponent(context), 
 	distanceFromPlayer(10000.0f), 
 	deltaTime(0.0f), 
-	turnAmount(0.0f), 
 	revived(false),
-	active(false)
+	active(false),
+	walking(false),
+	turnTimer(0.0f),
+	stateTimer(0.0f),
+	state(0)
 {}
 
 void Enemy::Start()
@@ -131,59 +134,116 @@ void Enemy::EndFrameCheck(StringHash eventType, VariantMap& eventData)
 	}
 }
 
-void Enemy::Wander(const bool avoidSlopes, const bool pause, const float wallMargin)
+//Defines behavior for walking and turning haphazardly. Does not actually move the actor, but it modifies the "walking" variable and "newRotation".
+void Enemy::Wander(bool pause, float slopeIntolerance, float wallMargin)
 {
 	turnTimer += deltaTime;
 	if (turnTimer > 0.6f)
 	{
 		turnTimer = 0.0f;
-		turnAmount = (float)Random(-180, 180);
-		if (turnAmount != 0.0f)
-			newRotation = Quaternion(node_->GetWorldRotation().y_ + turnAmount, Vector3::UP);
-		if (!pause)
+		TurnRandomly();
+		if (pause)
 		{
-			walking = true;
+			walking = Random(1.0f) > 0.5f;
 		}
 		else
 		{
-			walking = Random(0.0f, 1.0f) > 0.5f ? true : false;
+			walking = true;
 		}
+	}
+	if (CheckLift())
+	{
+		walking = true;
 	}
 	if (walking)
 	{
-		if (CheckCliff(avoidSlopes))
+		if (CheckCliff(slopeIntolerance))
 		{
 			walking = false;
 			turnTimer = 0.5f;
 		}
-		else
+		PhysicsRaycastResult result;
+		if (CheckWall(result, wallMargin))
 		{
-			//Wall check
-			PhysicsRaycastResult result;
-			physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.1f, 0.0f), node_->GetWorldDirection()), wallMargin, 2U);
-			if (result.body_)
-			{
-				if (fabs(result.normal_.y_) < 0.1f)
-				{
-					//walking = false;
-					//Reflect off of the wall
-					const Vector3 perpAxis = result.normal_.CrossProduct(Vector3::UP);
-					const float paraComponent = (-node_->GetWorldDirection()).DotProduct(result.normal_);
-					const float perpComponent = (-node_->GetWorldDirection()).DotProduct(perpAxis);
-					newRotation.FromLookRotation(perpAxis * -perpComponent + result.normal_ * paraComponent);
-				}
-			}
-			//Make sure not to stand underneath any platforms that might squish you
-			physworld->SphereCast(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 2.7f, 0.0f), Vector3::UP), 1.5f, 250.0f, 2U);
-			if (result.body_)
-			{
-				walking = true;
-			}
+			ReflectOffNormal(result.normal_);
 		}
 	}
+}
 
-	actor->SetInputFPS(walking, false, false, false);
-	actor->Move(deltaTime);
+//Turn by an angle within a certain range in either direction
+void Enemy::TurnRandomly(const float min, const float max)
+{
+	float turnAmt = Random(30.0f, 180.0f);
+	if (Random(1.0f) > 0.5f) turnAmt = -turnAmt;
+	newRotation = Quaternion(node_->GetWorldRotation().y_ + turnAmt, Vector3::UP);
+}
+
+//Changes direction based off a normal vector. Used for a sort of "bouncing" movement.
+void Enemy::ReflectOffNormal(const Vector3 normal)
+{
+	const Vector3 perpAxis = normal.CrossProduct(Vector3::UP);
+	const float paraComponent = (-node_->GetWorldDirection()).DotProduct(normal);
+	const float perpComponent = (-node_->GetWorldDirection()).DotProduct(perpAxis);
+	newRotation.FromLookRotation(perpAxis * -perpComponent + normal * paraComponent);
+}
+
+//Returns true if enemy is about to run into a wall
+bool Enemy::CheckWall(PhysicsRaycastResult& result, const float wallMargin)
+{
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.1f, 0.0f), node_->GetWorldDirection()), wallMargin, 2U);
+	if (result.body_)
+	{
+		if (fabs(result.normal_.y_) < 0.1f)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+//Returns true if there's a moving platform above you
+bool Enemy::CheckLift()
+{
+	PhysicsRaycastResult result;
+	physworld->SphereCast(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 2.7f, 0.0f), Vector3::UP), 1.5f, 250.0f, 2U);
+	if (result.body_)
+	{
+		return true;
+	}
+	return false;
+}
+
+//Returns true if the enemy is about to walk somewhere undesirable
+bool Enemy::CheckCliff(const float slopeIntolerance)
+{
+	//Two rays are cast downward from in front of the actor, one to the left and on to the right. 
+	//Imagine it as an isosceles triangle with the tip being the enemy's position
+	PhysicsRaycastResult result, result2;
+	const Vector3 base = node_->GetWorldPosition() + Vector3(0.0f, 1.2f, 0.0f) + node_->GetWorldDirection() * 1.5f;
+	physworld->RaycastSingle(result, Ray(base + (node_->GetWorldRotation() * Vector3::RIGHT), Vector3::DOWN), 3.0f, 258); //2+256
+	physworld->RaycastSingle(result2, Ray(base + (node_->GetWorldRotation() * Vector3::LEFT), Vector3::DOWN), 3.0f, 258); //2+256
+	if (actor->fall <= 0.1f)
+	{
+		const float ny1 = fabs(result.normal_.y_);
+		const float ny2 = fabs(result2.normal_.y_);
+		if (!result.body_
+			|| ny1 < slopeIntolerance
+			|| !result2.body_
+			|| ny2 < slopeIntolerance)
+		{
+			return true;
+		}
+		//Avoid liquid, too!
+		if (result.body_)
+		{
+			if (result.body_->GetCollisionLayer() & 256) return true;
+		}
+		if (result2.body_)
+		{
+			if (result2.body_->GetCollisionLayer() & 256) return true;
+		}
+	}
+	return false;
 }
 
 void Enemy::Dead() //This function defines the defualt behavior for being dead
@@ -244,42 +304,6 @@ void Enemy::FaceTarget()
 	diff.y_ = 0.0f;
 	face.FromLookRotation(diff, Vector3::UP);
 	newRotation = face;
-}
-
-//Note that DangerDeacons do not use this function at all. That wouldn't be dangerous enough for them!
-//Returns true if the enemy is about to walk somewhere undesirable
-bool Enemy::CheckCliff(const bool avoidSlopes) 
-{
-	//Two rays are cast downward from in front of the actor, one to the left and on to the right. 
-	//Imagine it as an isosceles triangle with the base point being the enemy's position
-	PhysicsRaycastResult result, result2;
-	const Vector3 base = node_->GetWorldPosition() + Vector3(0.0f, 1.2f, 0.0f) + node_->GetWorldDirection() * 1.5f;
-	physworld->RaycastSingle(result, Ray(base + (node_->GetWorldRotation() * Vector3::RIGHT), Vector3::DOWN), 3.0f, 258); //2+256
-	physworld->RaycastSingle(result2, Ray(base + (node_->GetWorldRotation() * Vector3::LEFT), Vector3::DOWN), 3.0f, 258); //2+256
-	if (actor->fall <= 0.0f)
-	{
-		const float ny1 = fabs(result.normal_.y_);
-		const float ny2 = fabs(result2.normal_.y_);
-		if (!result.body_ 
-			|| (ny1 < 0.9f && avoidSlopes)
-			|| (ny1 < 0.5f && !avoidSlopes)
-			|| !result2.body_ 
-			|| (ny2 < 0.9f && avoidSlopes)
-			|| (ny2 < 0.5f && !avoidSlopes))
-		{
-			return true;
-		}
-		//Avoid liquid, too!
-		if (result.body_)
-		{
-			if (result.body_->GetCollisionLayer() & 256) return true;
-		}
-		if (result2.body_)
-		{
-			if (result2.body_->GetCollisionLayer() & 256) return true;
-		}
-	}
-	return false;
 }
 
 void Enemy::KeepOnGround()

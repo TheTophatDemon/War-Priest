@@ -61,6 +61,8 @@ void PyroPastor::Execute()
 		break;
 	case STATE_WANDER:
 		Wander();
+		actor->SetInputFPS(walking, false, false, false);
+		actor->Move(deltaTime);
 
 		stateTimer += deltaTime;
 		if (stateTimer > Settings::ScaleWithDifficulty(1.5f, 1.0f, 0.5f))

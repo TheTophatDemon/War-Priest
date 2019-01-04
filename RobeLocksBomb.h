@@ -4,6 +4,7 @@
 #include <Urho3D/Scene/Scene.h>
 #include <Urho3D/Scene/Node.h>
 #include <Urho3D/Resource/ResourceCache.h>
+#include <Urho3D/Audio/SoundSource3D.h>
 
 using namespace Urho3D;
 
@@ -18,6 +19,10 @@ public:
 	virtual void FixedUpdate(float timeStep) override;
 	~RobeLocksBomb();
 protected:
+	SharedPtr<ResourceCache> cache;
+	SharedPtr<SoundSource3D> tickSource;
+	float tickTimer;
+	float tickSpeed;
 	float lifeTimer;
 };
 

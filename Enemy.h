@@ -31,8 +31,8 @@ public:
 	virtual void Revive();
 	inline int GetState() { return state; }
 	virtual ~Enemy();
-	bool revived = false;
-	bool active = false;
+	bool revived;
+	bool active;
 protected:
 	SharedPtr<Gameplay> game;
 	SharedPtr<ResourceCache> cache;
@@ -48,26 +48,29 @@ protected:
 	SharedPtr<AnimationController> animController;
 
 	void EndFrameCheck(StringHash eventType, VariantMap& eventData);
-	virtual void Execute() = 0;
-	void Wander(const bool avoidSlopes = false, const bool pause = false, const float wallMargin = 2.0f);
-	virtual void Dead();
-	bool CheckCliff(const bool avoidSlopes = false);
 	void ChangeState(const int newState);
-	virtual void EnterState(const int newState);
-	virtual void LeaveState(const int oldState);
 	void FaceTarget();
 	void KeepOnGround();
+	virtual void Execute() = 0;
+	virtual void Dead();
+	virtual void EnterState(const int newState);
+	virtual void LeaveState(const int oldState);
 	virtual void OnCollision(StringHash eventType, VariantMap& eventData);
 
-	Quaternion newRotation;
+	virtual void Wander(bool pause = false, float slopeIntolerance = 0.5f, float wallMargin = 2.0f);
+	bool CheckWall(PhysicsRaycastResult& result, const float wallMargin = 2.0f);
+	bool CheckCliff(const float slopeIntolerance = 0.5f);
+	bool CheckLift();
+	void TurnRandomly(const float min = 30.0f, const float max = 180.0f);
+	void ReflectOffNormal(const Vector3 normal);
 
+	Quaternion newRotation;
+	
+	int state;
 	float distanceFromPlayer;
 	float stateTimer;
-	int state;
 	float deltaTime;
-	float turnAmount = 0.0f;
-	float turnTimer = 0.0f;
-	float talkTimer = 0.0f;
-	bool walking = false;
+	float turnTimer;
+	bool walking;
 };
 

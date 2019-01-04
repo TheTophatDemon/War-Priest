@@ -111,7 +111,9 @@ void TempTemplar::Execute()
 		}
 		else
 		{
-			Wander(false, true);
+			Wander(true);
+			actor->SetInputFPS(walking, false, false, false);
+			actor->Move(deltaTime);
 		}
 
 		if (walking)

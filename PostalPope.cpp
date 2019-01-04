@@ -27,9 +27,9 @@
 #define THROW_ANIM "Models/enemy/postalpope_throw.ani"
 #define REVIVE_ANIM "Models/enemy/postalpope_revive.ani"
 
-PostalPope::PostalPope(Context* context) : Enemy(context), summoned(false)
+PostalPope::PostalPope(Context* context) : Enemy(context), 
+	summoned(false)
 {
-	deltaTime = 0.0f;
 	debris = Vector<Node*>();
 }
 
@@ -86,12 +86,17 @@ void PostalPope::Execute()
 
 	case STATE_WANDER:
 		actor->gravity = true;
-		Wander(false, false, 8.0f);
+
+		Wander(false, 0.9f, 8.0f);
+		actor->SetInputFPS(walking, false, false, false);
+		actor->Move(deltaTime);
+
 		stateTimer += deltaTime;
 		if (stateTimer > 2.0f)
 		{
 			ChangeState(STATE_SUMMON);
 		}
+
 		if (walking)
 			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
 		else

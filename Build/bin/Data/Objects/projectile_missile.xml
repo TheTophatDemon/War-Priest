@@ -22,6 +22,7 @@
 		<attribute name="Collision Mask" value="215" />
 		<attribute name="Use Gravity" value="false" />
 		<attribute name="Is Kinematic" value="true" />
+		<attribute name="Is Trigger" value="true" />
 	</component>
 	<component type="CollisionShape" id="16777230">
 		<attribute name="Shape Type" value="Capsule" />

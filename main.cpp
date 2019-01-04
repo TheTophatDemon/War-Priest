@@ -1,12 +1,13 @@
+//Done: 
+	//Uncommented map occlusion
+	//Paintball gun texture and sound
+	//Bomb sound
+	//Oof
+	//Finish refactoring enemy wander code
+	//Super physics lag w/ missile
+	//Robelocksman jumping
 //TODO:
 	//Crossroads
-		//Robelocksman
-			//Paintball gun
-				//Finish texture
-				//Sound
-			//Bomb
-				//Sound
-			//Jumping
 		//Finish map
 	//Credits
 		//Have player drop down from above
@@ -55,8 +56,11 @@
 		//SS4
 			//SS4 intial launchpad comes up too short
 			//Fix those tiny-ass platforms
-
-	//Optimize raycast distances (The more geometry that intersects it, the slower it gets)
+	//Optimizations:
+		//Optimize raycast distances (The more geometry that intersects it, the slower it gets)
+		//Optimize physicsbodyquery?
+		//Reduce rain particles on low graphics mode
+		//Pause upon all enemies revive
 	//Package assets
 	
 	//Send to Somecallmejohnny?

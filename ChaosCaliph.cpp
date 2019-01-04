@@ -107,7 +107,9 @@ void ChaosCaliph::Execute()
 	case STATE_WANDER:
 		stateTimer += deltaTime;
 
-		Wander(false, false);
+		Wander();
+		actor->SetInputFPS(walking, false, false, false);
+		actor->Move(deltaTime);
 		
 		if (targetDistance < SPIN_RANGE && lastState != STATE_DEAD)
 			ChangeState(STATE_SPIN);

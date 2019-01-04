@@ -180,7 +180,7 @@ void Gameplay::SetupGame()
 
 	mapNode = scene_->GetChild("map");
 	StaticModel* mapModel = mapNode->GetComponent<StaticModel>();
-	//mapModel->SetOccluder(true);
+	mapModel->SetOccluder(true);
 	mapModel->SetOccludee(false);
 	RigidBody* mapBody = mapNode->GetComponent<RigidBody>();
 	mapBody->SetCollisionLayer(mapBody->GetCollisionLayer() + 512);

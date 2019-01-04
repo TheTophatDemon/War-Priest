@@ -48,7 +48,6 @@ void Missile::FixedUpdate(float timeStep)
 	if (lifeTimer > 25.0f)
 	{
 		Die();
-		return;
 	}
 
 	switch (state)
@@ -140,7 +139,7 @@ Node* Missile::MakeMissile(Scene* sc, const Vector3 position, const Quaternion r
 	m->target = WeakPtr<Node>(target);
 
 	Node* n = sc->CreateChild();
-	n->LoadXML(m->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/projectile_missile.xml")->GetRoot());
+	n->LoadXML(sc->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/projectile_missile.xml")->GetRoot());
 	n->SetPosition(position);
 	n->SetRotation(Quaternion(90.0f, Vector3::UP) * rotation);
 	n->AddComponent(m, 333, LOCAL);

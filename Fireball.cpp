@@ -140,7 +140,7 @@ Node* Fireball::MakePaintball(Scene* sc, Vector3 position, Quaternion rotation, 
 	Fireball* p = new Fireball(sc->GetContext());
 	p->owner = owner;
 	p->speed = 50.0f;
-	p->damage = 3;
+	p->damage = Settings::ScaleWithDifficulty(5.0f, 10.0f, 15.0f);
 	p->lifeSpan = lifeSpan;
 
 	Node* n = sc->InstantiateXML(sc->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/projectile_paintball.xml")->GetRoot(),

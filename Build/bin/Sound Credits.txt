@@ -12,12 +12,16 @@ enm_telethrow.wav = "heavy beam weapon" by roper1911 of Freesound.org under CC0
 enm_summon.wav = "Poof.wav" by ryansitz of Freesound.org under CC0
 enm_missile.wav = "rlaunch.wav" from "4 Projectile Launches" by Michel Baradari (Submitted by qubodup of opengameart.org) 
 	under CC-BY-3.0
+enm_robelocksmissile.wav = "Huge rocket launcher.wav" by CGEffex of freesound.org under CC-BY-3.0
 enm_kubeintro.wav = "Magic Click" by FlechaBr of Freesound.org under CC-BY-3.0 (Heavily edited)
 enm_blackhole.wav = "black hole shower drain" by slowmountain of freesound.org under CC-BY-3.0
 enm_fly.wav = "Wind on Beach" by BrandonNyte of freesound.org under CC0 (Heavily edited)
 enm_sword.wav = "swing1" by Taira Komori of freesound.org under CC-BY-3.0
 enm_laser.wav = "laser phaser" by IanStarGem of freesound.org under CC0
 enm_shock.wav = "Electricity 3" by PureAudioNinja of freesound.org under CC0
+enm_paintball.wav = "Nerf Shots.wav" by Mrthenoronha of freesound.org under CC0
+enm_bomb.wav = "Wall clock [loop]" by cabled_mess of freesound.org under CC0
+enm_oof.wav = I have no stinking clue. It was made in 1999.
 itm_medkit.wav = "cloth_ripping.wav" by reg7783 of Freesound.org under CC0
 itm_launchpad.wav = "Voxy Synth Pop" by ani_music of Freesound.org under CC0 (Heavily edited) 
 	combined with "hit_002" by leviclaassen of Freesound.org under CC-BY-3.0

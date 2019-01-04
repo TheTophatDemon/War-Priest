@@ -122,6 +122,9 @@ void DangerDeacon::Execute()
 		break;
 	case STATE_WANDER:
 		Wander();
+		actor->SetInputFPS(walking, false, false, false);
+		actor->Move(deltaTime);
+
 		if (target)
 		{
 			if (targetDist < 34.0f)
@@ -129,6 +132,7 @@ void DangerDeacon::Execute()
 				ChangeState(STATE_CHASE);
 			}
 		}
+		
 		if (walking)
 			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
 		else
