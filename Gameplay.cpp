@@ -775,7 +775,7 @@ void Gameplay::SetupLighting()
 		if (n)
 		{
 			Light* l = n->GetComponent<Light>();
-			if (Settings::AreGraphicsFast())
+			if (Settings::AreGraphicsFast() || scene_->GetVar("vertexLightingOnly").GetBool())
 				l->SetPerVertex(true);
 			else
 				l->SetPerVertex(false);

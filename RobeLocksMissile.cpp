@@ -9,8 +9,11 @@
 #include "Zeus.h"
 #include "Gameplay.h"
 
+#define LOCK_ON_FREQUENCY 1.0f
+
 RobeLocksMissile::RobeLocksMissile(Context* context) : Projectile(context),
-	speed(20.0f)
+	speed(20.0f),
+	lockOnTimer(0.0f)
 {
 }
 
@@ -26,6 +29,21 @@ void RobeLocksMissile::Start()
 void RobeLocksMissile::FixedUpdate(float timeStep)
 {
 	PreUpdate(timeStep);
+
+	if (lockOnTimer > 0.0f)
+	{
+		lockOnTimer -= timeStep;
+		if (lockOnTimer <= 0.0f)
+		{
+			lockOnTimer = LOCK_ON_FREQUENCY;
+			if (target.Get())
+			{
+				Quaternion newRot;
+				newRot.FromLookRotation((target->GetWorldPosition() - node_->GetWorldPosition()).Normalized());
+				node_->SetWorldRotation(newRot);
+			}
+		}
+	}
 
 	node_->Translate(Vector3::FORWARD * speed * timeStep, TS_LOCAL);
 
@@ -67,11 +85,16 @@ void RobeLocksMissile::Die()
 	}
 }
 
-Node* RobeLocksMissile::MakeRobeLocksMissile(Scene* scene, const Vector3 position, const Quaternion rotation, Node* owner)
+Node* RobeLocksMissile::MakeRobeLocksMissile(Scene* scene, const Vector3 position, const Quaternion rotation, Node* owner, Node* target)
 {
 	RobeLocksMissile* r = new RobeLocksMissile(scene->GetContext());
 	r->owner = owner;
 	r->speed = 20.0f + Settings::ScaleWithDifficulty(-10.0f, 0.0f, 10.0f);
+	if (Settings::GetDifficulty() > Settings::UNHOLY_THRESHOLD)
+	{
+		r->lockOnTimer = LOCK_ON_FREQUENCY;
+	}
+	r->target = target;
 	
 	Node* n = scene->InstantiateXML(scene->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/projectile_robelocks_missile.xml")->GetRoot(),
 		position, rotation, LOCAL);

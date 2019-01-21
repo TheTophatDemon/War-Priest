@@ -26,7 +26,7 @@ protected:
 	SharedPtr<StaticModel> staticModel;
 	SharedPtr<Material> material;
 	float tickTimer;
-	float tickSpeed;
+	float lifeSpan;
 	float lifeTimer;
 };
 

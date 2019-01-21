@@ -113,12 +113,12 @@ void RobeLocksMan::Execute()
 				}
 				else
 				{
-					currentWeapon = (Weapon) Random(0, 3);
+					currentWeapon = (Weapon) Random(0, 3); //Any of the three
 				}
 			}
 			else
 			{
-				currentWeapon = (Weapon)Random(0, 2);
+				currentWeapon = (Weapon)Random(0, 2); //Bomb or Rocket
 			}
 			if (distanceFromPlayer < ATTACK_THRESHOLD)
 			{
@@ -237,7 +237,7 @@ void RobeLocksMan::Execute()
 				{
 					shootTimer = Random(1.0f, 5.0f);
 				}
-				RobeLocksMissile::MakeRobeLocksMissile(scene, weaponNode->GetWorldPosition() + node_->GetWorldRotation() * Vector3::FORWARD * 0.4f, node_->GetWorldRotation(), node_);
+				RobeLocksMissile::MakeRobeLocksMissile(scene, weaponNode->GetWorldPosition() + node_->GetWorldRotation() * Vector3::FORWARD * 0.4f, node_->GetWorldRotation(), node_, game->playerNode);
 				soundSource->Play("Sounds/enm_robelocksmissile.wav", true);
 				if (Random(1.0f) > 0.5f) ChangeState(STATE_SWITCH);
 				break;

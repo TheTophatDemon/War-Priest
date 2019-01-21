@@ -19,11 +19,14 @@ public:
 	virtual void Start() override;
 	virtual void FixedUpdate(float timeStep) override;
 
-	static Node* MakeRobeLocksMissile(Scene* scene, const Vector3 position, const Quaternion rotation, Node* owner);
+	static Node* MakeRobeLocksMissile(Scene* scene, const Vector3 position, const Quaternion rotation, Node* owner, Node* target);
 protected:
 	virtual void Die() override;
 	void OnCollision(StringHash eventType, VariantMap& eventData);
-	
+
+	WeakPtr<Node> target;
+
+	float lockOnTimer;
 	float speed;
 };
 

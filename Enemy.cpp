@@ -120,6 +120,25 @@ void Enemy::OnCollision(StringHash eventType, VariantMap& eventData)
 	{
 		ChangeState(STATE_DROWN);
 	}
+	else if (otherBody->GetCollisionLayer() & 2)
+	{
+		if (state == STATE_WANDER) 
+		{
+			VectorBuffer contacts = eventData["Contacts"].GetBuffer();
+			while (!contacts.IsEof())
+			{
+				Vector3 position = contacts.ReadVector3();
+				Vector3 normal = contacts.ReadVector3();
+				float distance = contacts.ReadFloat();
+				float impulse = contacts.ReadFloat();
+				if (fabs(normal.y_) < 0.1f)
+				{
+					ReflectOffNormal(normal);
+					break;
+				}
+			}
+		}
+	}
 }
 
 void Enemy::EndFrameCheck(StringHash eventType, VariantMap& eventData)
@@ -162,11 +181,11 @@ void Enemy::Wander(bool pause, float slopeIntolerance, float wallMargin)
 			walking = false;
 			turnTimer = 0.5f;
 		}
-		PhysicsRaycastResult result;
+		/*PhysicsRaycastResult result;
 		if (CheckWall(result, wallMargin))
 		{
 			ReflectOffNormal(result.normal_);
-		}
+		}*/
 	}
 }
 
@@ -208,7 +227,7 @@ bool Enemy::CheckLift()
 	physworld->SphereCast(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 2.7f, 0.0f), Vector3::UP), 1.5f, 250.0f, 2U);
 	if (result.body_)
 	{
-		return true;
+		return result.body_->GetNode()->HasTag("lift");
 	}
 	return false;
 }
@@ -309,7 +328,7 @@ void Enemy::FaceTarget()
 void Enemy::KeepOnGround()
 {
 	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 500.0f, 2);
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 50.0f, 2);
 	if (result.body_)
 	{
 		node_->SetWorldPosition(result.position_);

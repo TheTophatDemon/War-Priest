@@ -1,23 +1,14 @@
 //DONE:
-	//Add checkcliff to paintball state	
-	//Nerfed paintball gun. Multicolor.
-	//Quieted bomb
-	//Paintball walk animation stutter
-	//Running off cliffs in paintball
-	//Modified crossroads map
-	//Disabled jumping while wandering
-	//Props (Trees, hatches, etc)
-	//Make bombs flash
+	//LODs for robelocksmen
+	//Optimized actor raycasts
+	//Optimized enemy raycasts
+	//Clarified bomb ticking
+	//Unholy Mode features for robelocks missile
+	//vertex_lighting_only
+	//Removed light from god
 //TODO:
 	//Crossroads
 		//Music
-		//Robelocksmen
-			//Tweak
-			//Optimize
-			//Unholy Mode features
-		//Finish map
-			//Reliable way back to spawn
-			//Fix colors, textures, etc.
 	//Levelselect scrolling glitch
 	//Credits
 		//Have player drop down from above
@@ -70,7 +61,7 @@
 		//Optimize raycast distances (The more geometry that intersects it, the slower it gets)
 		//Optimize physicsbodyquery?
 		//Reduce rain particles on low graphics mode
-		//Pause upon all enemies revive
+		//Fix pause upon all enemies revive
 	//Package assets
 	
 	//Send to Somecallmejohnny?

@@ -11,9 +11,4 @@
 		<attribute name="Model" value="Model;Models/god.mdl" />
 		<attribute name="Material" value="Material;Materials/skins/god_skin.xml" />
 	</component>
-	<component type="Light" id="16778046">
-		<attribute name="Brightness Multiplier" value="1.71" />
-		<attribute name="Range" value="12" />
-		<attribute name="Light Shape Texture" value="TextureCube;" />
-	</component>
 </node>

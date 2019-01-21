@@ -65,6 +65,8 @@ void Actor::RegisterObject(Context* context)
 
 void Actor::Start()
 {
+	SetUpdateEventMask(0);
+
 	body = node_->GetComponent<RigidBody>();
 	scene = node_->GetScene();
 	physworld = scene->GetComponent<PhysicsWorld>();
@@ -186,6 +188,7 @@ void Actor::Move(float timeStep)
 		fall = 0.0f;
 	}
 
+	/*
 	//Manual ceiling collision check: Because physics are RETARDED!
 	if (fall > 0.1f)
 	{
@@ -198,7 +201,7 @@ void Actor::Move(float timeStep)
 				fall = 0.0f;
 			}
 		}
-	}
+	}*/
 
 	//Apply movements
 	const float knockBackMagnitude = knockBackMovement.Length();
@@ -214,7 +217,7 @@ void Actor::Move(float timeStep)
 	body->SetLinearVelocity((combinedMovement + knockBackMovement) * deltaTime * 50.0f);
 
 	//Raycast downward to get slope normal
-	physworld->RaycastSingle(downCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 500.0f, LEVELMASK);
+	physworld->RaycastSingle(downCast, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 10.0f, LEVELMASK);
 	if (downCast.body_)
 	{
 		slopeSteepness = downCast.normal_.y_;
@@ -274,9 +277,10 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 				{
 					onGround = true;
 				}
-				else if (position.y_ >= node_->GetWorldPosition().y_ + 3.0f)
+				const float yDiff = position.y_ - body->GetPosition().y_;
+				if (fall > 0.0f && yDiff > shape->GetSize().y_ / 2.0f)
 				{
-					if (fall > 0.0f) fall = 0.0f;
+					fall = 0.0f;
 				}
 			}
 		}
