@@ -13,7 +13,7 @@
 	<attribute name="Variables" />
 	<component type="StaticModel" id="16777228">
 		<attribute name="Model" value="Model;Models/Box.mdl" />
-		<attribute name="Material" value="Material;Materials/asphalt.xml" />
+		<attribute name="Material" value="Material;Materials/white.xml" />
 	</component>
 	<component type="CollisionShape" id="16777229">
 		<attribute name="Shape Type" value="Sphere" />

@@ -29,6 +29,15 @@ void RobeLocksBomb::Start()
 	SetUpdateEventMask(USE_FIXEDUPDATE);
 
 	cache = GetSubsystem<ResourceCache>();
+	staticModel = node_->GetComponent<StaticModel>();
+	material = staticModel->GetMaterial(0)->Clone();
+	staticModel->SetMaterial(0, material);
+	
+	SharedPtr<ValueAnimation> blinkAnim = SharedPtr<ValueAnimation>(new ValueAnimation(context_));
+	blinkAnim->SetKeyFrame(0.0f, Color::BLACK);
+	blinkAnim->SetKeyFrame(0.5f, Color::GRAY);
+	blinkAnim->SetKeyFrame(1.0f, Color::BLACK);
+	material->SetShaderParameterAnimation("MatEmissiveColor", blinkAnim, WM_LOOP, 1.0f);
 
 	tickSource = node_->GetOrCreateComponent<SoundSource3D>();
 	tickSource->SetSoundType("GAMEPLAY");
@@ -43,6 +52,8 @@ void RobeLocksBomb::FixedUpdate(float timeStep)
 		tickTimer = 0.0f;
 		tickSource->Play(cache->GetResource<Sound>("Sounds/enm_bomb.wav"), 44100.0f + Random(-500.0f, 500.0f), 0.75f);
 	}
+	//Control blinking
+	material->SetShaderParameterAnimationSpeed("MatEmissiveColor", Min(1.0f / tickSpeed, 4.0f));
 
 	lifeTimer += timeStep;
 	if (lifeTimer > 4.0f)

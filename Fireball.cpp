@@ -5,6 +5,7 @@
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/Physics/PhysicsEvents.h>
 #include <Urho3D/Physics/CollisionShape.h>
+#include <Urho3D/Graphics/Material.h>
 #include <iostream>
 #include "Settings.h"
 #include "Gameplay.h"
@@ -135,17 +136,22 @@ Node* Fireball::MakeBlueFireball(Scene* sc, Vector3 position, Quaternion rotatio
 	return n;
 }
 
-Node* Fireball::MakePaintball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner, const float lifeSpan)
+Node* Fireball::MakePaintball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner, const float lifeSpan, const float speed)
 {
 	Fireball* p = new Fireball(sc->GetContext());
 	p->owner = owner;
-	p->speed = 50.0f;
+	p->speed = speed;
 	p->damage = Settings::ScaleWithDifficulty(5.0f, 10.0f, 15.0f);
 	p->lifeSpan = lifeSpan;
 
 	Node* n = sc->InstantiateXML(sc->GetSubsystem<ResourceCache>()->GetResource<XMLFile>("Objects/projectile_paintball.xml")->GetRoot(),
 		position, rotation, LOCAL);
 	n->AddComponent(p, 12, LOCAL);
+
+	StaticModel* sm = n->GetComponent<StaticModel>();
+	SharedPtr<Material> newColor = sm->GetMaterial(0)->Clone(); 
+	newColor->SetShaderParameter("MatDiffColor", Color(Round(Random(1.0f)), Round(Random(1.0f)), 1.0f));
+	sm->SetMaterial(0, newColor);
 
 	return n;
 }

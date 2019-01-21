@@ -24,7 +24,7 @@ public:
 
 	static Node* MakeFireball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner);
 	static Node* MakeBlueFireball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner);
-	static Node* MakePaintball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner, const float lifeSpan);
+	static Node* MakePaintball(Scene* sc, Vector3 position, Quaternion rotation, Node* owner, const float lifeSpan, const float speed);
 protected:
 	virtual void Die() override;
 	void OnCollision(StringHash eventType, VariantMap& eventData);

@@ -19,6 +19,7 @@
 Water::Water(Context* context) : LogicComponent(context)
 {
 	elapsed = 0.0f;
+	bobFactor = 1.0f;
 }
 
 void Water::RegisterObject(Context* context)
@@ -33,6 +34,9 @@ void Water::Start()
 	cache = GetSubsystem<ResourceCache>();
 	audio = GetSubsystem<Audio>();
 	splashSound = cache->GetResource<Sound>("Sounds/env_splash.wav");
+
+	bobFactor = node_->GetVar("bobFactor").GetFloat();
+	if (bobFactor == 0.0f) bobFactor = 1.0f;
 
 	if (node_->HasComponent<RigidBody>()) 
 	{
@@ -68,7 +72,7 @@ void Water::Start()
 void Water::FixedUpdate(float timeStep)
 {
 	elapsed += timeStep;
-	node_->Translate(Vector3(0.0f, sinf(elapsed) * 0.005f, 0.0f), TS_LOCAL);
+	node_->Translate(Vector3(0.0f, sinf(elapsed) * 0.005f * bobFactor, 0.0f), TS_LOCAL);
 }
 
 void Water::OnCollisionEnter(StringHash eventType, VariantMap& eventData)

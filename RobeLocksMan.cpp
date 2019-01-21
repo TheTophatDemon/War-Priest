@@ -11,6 +11,7 @@
 #include "Actor.h"
 #include "Fireball.h"
 #include "Projectile.h"
+#include "Settings.h"
 
 #define STATE_DEAD 0 
 #define STATE_WANDER 1
@@ -27,9 +28,12 @@
 #define JUMP_ANIM_HOLDING "Models/enemy/robelocksman_jump_holding.ani"
 
 #define ATTACK_THRESHOLD 30
+#define PAINTBALL_THRESHOLD 20
 
 RobeLocksMan::RobeLocksMan(Context* context) : Enemy(context),
-	currentWeapon(Weapon::Launcher)
+	currentWeapon(Weapon::Launcher),
+	chaseTimer(0.0f),
+	shootTimer(0.0f)
 {
 }
 
@@ -94,7 +98,28 @@ void RobeLocksMan::Execute()
 
 		if (stateTimer > 1.0f)
 		{
-			currentWeapon = (Weapon)Random(0, 3);
+			if (distanceFromPlayer < PAINTBALL_THRESHOLD)
+			{
+				if (distanceFromPlayer < 15.0f)
+				{
+					if (Random(1.0f) > 0.5f)
+					{
+						currentWeapon = Weapon::Launcher;
+					}
+					else
+					{
+						currentWeapon = Weapon::PaintGun;
+					}
+				}
+				else
+				{
+					currentWeapon = (Weapon) Random(0, 3);
+				}
+			}
+			else
+			{
+				currentWeapon = (Weapon)Random(0, 2);
+			}
 			if (distanceFromPlayer < ATTACK_THRESHOLD)
 			{
 				ChangeState(STATE_ATTACK);
@@ -150,23 +175,49 @@ void RobeLocksMan::Execute()
 			break;
 		case Weapon::PaintGun:
 			FaceTarget();
-			if (distanceFromPlayer > 15.0f)
+			if (distanceFromPlayer > PAINTBALL_THRESHOLD)
 			{
+				walking = true;
+			}
+			else
+			{
+				chaseTimer -= deltaTime;
+				if (chaseTimer < 0.0f)
+				{
+					if (walking)
+					{
+						walking = false;
+						chaseTimer = Random(0.5f, 2.0f);
+					}
+					else
+					{
+						walking = true;
+						chaseTimer = Random(0.5f, 1.0f);
+					}
+				}
+			}
+			if (walking)
+			{
+				if (CheckCliff())
+				{
+					walking = false;
+				}
+				else
+				{
+					PhysicsRaycastResult result;
+					if (CheckWall(result))
+					{
+						actor->Jump();
+						ChangeState(STATE_JUMP);
+					}
+				}
 				actor->SetInputFPS(true, false, false, false);
 				animController->PlayExclusive(WALK_ANIM_HOLDING, 0, true, 0.2f);
-				walking = true;
-				PhysicsRaycastResult result;
-				if (CheckWall(result))
-				{
-					actor->Jump();
-					ChangeState(STATE_JUMP);
-				}
 			}
 			else
 			{
 				actor->SetInputFPS(false, false, false, false);
 				animController->PlayExclusive(IDLE_ANIM_HOLDING, 0, true, 0.2f);
-				walking = false;
 			}
 			actor->Move(deltaTime);
 			break;
@@ -204,30 +255,31 @@ void RobeLocksMan::Execute()
 			}
 			case Weapon::PaintGun:
 			{
-				shootTimer = 0.25f;
+				shootTimer = Settings::ScaleWithDifficulty(1.0f, 0.5f, 0.25f);
 
 				const Vector3 aim = (target->GetWorldPosition() + Vector3::UP * 2.0f - weaponNode->GetWorldPosition()).Normalized();
 
 				//Raycast to determine whether the player is in sight
 				PhysicsRaycastResult result;
 				Ray aimRay = Ray(weaponNode->GetWorldPosition(), aim);
-				physworld->RaycastSingle(result, aimRay, 100.0f, 130U); //2+128
+				physworld->RaycastSingle(result, aimRay, PAINTBALL_THRESHOLD, 130U); //2+128
 				if (result.body_)
 				{
 					if (result.body_->GetCollisionLayer() & 128)
 					{
 						//Raycast to determine where the bullet is supposed to hit the map
-						physworld->RaycastSingle(result, aimRay, 100.0f, 2U);
+						physworld->RaycastSingle(result, aimRay, PAINTBALL_THRESHOLD, 2U);
 						//Tie the distance traveled to the bullet's life-span to ensure that it does not phase through walls
+						const float projectileSpeed = Settings::ScaleWithDifficulty(20.0f, 30.0f, 40.0f);
 						float lifeSpan = 2.0f;
 						if (result.body_)
 						{
-							lifeSpan = (result.distance_ / 50.0f) - 0.1f;
+							lifeSpan = (result.distance_ / projectileSpeed) - 0.1f;
 						}
 
 						Quaternion aimQuat;
 						aimQuat.FromLookRotation(aim);
-						Fireball::MakePaintball(scene, weaponNode->GetWorldPosition() + node_->GetWorldRotation() * Vector3::FORWARD, aimQuat, node_, lifeSpan);
+						Fireball::MakePaintball(scene, weaponNode->GetWorldPosition() + node_->GetWorldRotation() * Vector3::FORWARD, aimQuat, node_, lifeSpan, projectileSpeed);
 						soundSource->Play("Sounds/enm_paintball.wav", true);
 					}
 				}
@@ -285,12 +337,13 @@ void RobeLocksMan::EnterState(const int newState)
 		case Weapon::Bomb:
 			weaponModel->SetModel(cache->GetResource<Model>("Models/robelocks_bomb.mdl"));
 			weaponModel->SetMaterial(cache->GetResource<Material>("Materials/skins/robelocks_bomb_skin.xml"));
-			shootTimer = Random(2.0f, 3.0f);
+			shootTimer = Random(0.5f, 1.0f);
 			break;
 		case Weapon::PaintGun:
 			weaponModel->SetModel(cache->GetResource<Model>("Models/robelocks_paint_gun.mdl"));
 			weaponModel->SetMaterial(cache->GetResource<Material>("Materials/skins/robelocks_paint_gun_skin.xml"));
-			shootTimer = 0.25f;
+			shootTimer = 0.5f;
+			chaseTimer = 0.5f;
 			break;
 		}
 		break;
@@ -317,12 +370,12 @@ void RobeLocksMan::Wander(bool pause, float slopeIntolerance, float wallMargin)
 			walking = false;
 			turnTimer = 0.5f;
 		}
-		PhysicsRaycastResult result;
+		/*PhysicsRaycastResult result;
 		if (CheckWall(result, wallMargin) && walking)
 		{
 			actor->Jump();
 			ChangeState(STATE_JUMP);
-		}
+		}*/
 	}
 }
 

@@ -182,7 +182,8 @@ void Gameplay::SetupGame()
 	StaticModel* mapModel = mapNode->GetComponent<StaticModel>();
 	mapModel->SetOccluder(true);
 	mapModel->SetOccludee(false);
-	RigidBody* mapBody = mapNode->GetComponent<RigidBody>();
+	RigidBody* mapBody = mapNode->GetOrCreateComponent<RigidBody>();
+	mapBody->SetCollisionLayer(2U);
 	mapBody->SetCollisionLayer(mapBody->GetCollisionLayer() + 512);
 	ExtractLiquidsFromMap();
 	
@@ -294,7 +295,7 @@ void Gameplay::SetupGame()
 	scene_->GetChildrenWithTag(results, "medkit", true);
 	for (Node* n : results)
 	{
-		RigidBody* rb = n->CreateComponent<RigidBody>();
+		RigidBody* rb = n->GetOrCreateComponent<RigidBody>();
 		rb->SetCollisionLayer(32);
 		rb->SetCollisionMask(129); //128+1
 		rb->SetTrigger(true);

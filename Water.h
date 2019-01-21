@@ -31,5 +31,6 @@ protected:
 	SharedPtr<Audio> audio;
 	SharedPtr<Sound> splashSound;
 	float elapsed;
+	float bobFactor;
 };
 

@@ -1,14 +1,24 @@
-//Done: 
-	//Uncommented map occlusion
-	//Paintball gun texture and sound
-	//Bomb sound
-	//Oof
-	//Finish refactoring enemy wander code
-	//Super physics lag w/ missile
-	//Robelocksman jumping
+//DONE:
+	//Add checkcliff to paintball state	
+	//Nerfed paintball gun. Multicolor.
+	//Quieted bomb
+	//Paintball walk animation stutter
+	//Running off cliffs in paintball
+	//Modified crossroads map
+	//Disabled jumping while wandering
+	//Props (Trees, hatches, etc)
+	//Make bombs flash
 //TODO:
 	//Crossroads
+		//Music
+		//Robelocksmen
+			//Tweak
+			//Optimize
+			//Unholy Mode features
 		//Finish map
+			//Reliable way back to spawn
+			//Fix colors, textures, etc.
+	//Levelselect scrolling glitch
 	//Credits
 		//Have player drop down from above
 	//Final Flood Level?
@@ -97,6 +107,7 @@
 	//Editor doesn't duplicate hierarchies correctly when multiple items selected
 	//Raycasts can be extremely slow in debug mode when going through lots of geometry
 	//Extreme lag when scaling kinematic rigidbody
+	//Blender export blurs vertex colors together
 
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP

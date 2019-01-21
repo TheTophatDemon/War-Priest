@@ -5,6 +5,8 @@
 #include <Urho3D/Scene/Node.h>
 #include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/Audio/SoundSource3D.h>
+#include <Urho3D/Graphics/StaticModel.h>
+#include <Urho3D/Graphics/Material.h>
 
 using namespace Urho3D;
 
@@ -21,6 +23,8 @@ public:
 protected:
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<SoundSource3D> tickSource;
+	SharedPtr<StaticModel> staticModel;
+	SharedPtr<Material> material;
 	float tickTimer;
 	float tickSpeed;
 	float lifeTimer;

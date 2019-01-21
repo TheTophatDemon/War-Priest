@@ -45,5 +45,6 @@ protected:
 	SharedPtr<StaticModel> weaponModel;
 	Weapon currentWeapon;
 	float shootTimer;
+	float chaseTimer;
 };
 
