@@ -1,19 +1,18 @@
 //DONE:
-	//LODs for robelocksmen
-	//Optimized actor raycasts
-	//Optimized enemy raycasts
-	//Clarified bomb ticking
-	//Unholy Mode features for robelocks missile
-	//vertex_lighting_only
-	//Removed light from god
+//Levelselect scrolling glitch
+//Bonus Cross->Relic
+//Redid level unlock system
+
 //TODO:
 	//Crossroads
 		//Music
-	//Levelselect scrolling glitch
+		//Bonus cross
 	//Credits
 		//Have player drop down from above
+	//Spiff up loading screen?
 	//Final Flood Level?
 	//Extra Killer Kube Attack?
+	//More posters?
 	//Do final test through every level.
 		//Make fog match the skybox color
 		//PP1

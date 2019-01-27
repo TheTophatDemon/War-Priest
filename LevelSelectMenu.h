@@ -16,6 +16,8 @@ struct LevelEntry
 	SharedPtr<UIElement> listItem;
 	int completion;
 	int visits = 0; //Number of time this level has been played this session
+	int completionToll = 0; //Number of beaten levels required to unlock this level
+	int crossToll = 0; //Number of crosses required to unlock this level
 };
 
 class LevelSelectMenu : public GP::Menu
@@ -31,14 +33,22 @@ public:
 	virtual void OnEvent(StringHash eventType, VariantMap& eventData);
 	void SetLevelCompletionFlag(const String levelPath, const int flag, const bool val);
 	int GetNumberOfVisits(const String levelpath);
+	inline int GetCrossCount() const 
+	{
+		return crossCount;
+	};
+	inline int GetNumLevelsBeaten() const
+	{
+		return beatenCount;
+	};
 	~LevelSelectMenu();
 protected:
 	SharedPtr<XMLFile> levelInfo;
-	SharedPtr<UIElement> levelList;
-	SharedPtr<UIElement> buttParent;
-	SharedPtr<ScrollBar> scrollBar;
+	SharedPtr<ListView> levelList;
 	Vector<LevelEntry> levelEntries;
 	Vector<Sprite*> sprites;
+	int crossCount;
+	int beatenCount;
 	float animTimer;
 };
 

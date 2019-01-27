@@ -44,52 +44,80 @@
 			<attribute name="Text Effect" value="Stroke" />
 		</element>
 	</element>
-	<element type="BorderImage">
+	<element type="ListView">
 		<attribute name="Name" value="levelList" />
 		<attribute name="Size" value="1024 512" />
 		<attribute name="Min Anchor" value="0.5 0.5" />
 		<attribute name="Max Anchor" value="0.5 0.5" />
 		<attribute name="Pivot" value="0.5 0.5" />
-		<attribute name="Clip Border" value="4 4 4 4" />
-		<attribute name="Clip Children" value="true" />
-		<attribute name="Layout Border" value="4 4 4 4" />
-		<attribute name="Image Rect" value="0 0 16 16" />
-		<attribute name="Border" value="6 6 6 6" />
-		<attribute name="Blend Mode" value="replace" />
-		<element type="ScrollBar">
-			<attribute name="Name" value="levelScroll" />
-			<attribute name="Position" value="4 4" />
-			<attribute name="Size" value="16 500" />
-			<attribute name="Pivot" value="0 0" />
+		<attribute name="Is Editable" value="false" />
+		<element type="ScrollBar" internal="true" style="none">
+			<attribute name="Size" value="1024 16" />
+			<attribute name="Min Anchor" value="0 1" />
+			<attribute name="Max Anchor" value="0 1" />
+			<attribute name="Pivot" value="0 1" />
 			<attribute name="Color" value="0 0 0 0" />
 			<attribute name="Top Left Color" value="0 0 0 0" />
 			<attribute name="Top Right Color" value="0 0 0 0" />
 			<attribute name="Bottom Left Color" value="0 0 0 0" />
 			<attribute name="Bottom Right Color" value="0 0 0 0" />
-			<attribute name="Texture" value="Texture2D;UI/ui.png" />
-			<attribute name="Image Rect" value="0 0 256 128" />
-			<attribute name="Orientation" value="Vertical" />
 			<element type="Button" internal="true" style="none">
 				<attribute name="Pivot" value="0 0" />
 			</element>
 			<element type="Slider" internal="true" style="none">
-				<attribute name="Position" value="0 16" />
-				<attribute name="Size" value="16 468" />
+				<attribute name="Position" value="16 0" />
+				<attribute name="Size" value="992 16" />
 				<attribute name="Pivot" value="0 0" />
 				<element type="BorderImage" internal="true" style="none">
 					<attribute name="Pivot" value="0 0" />
 				</element>
 			</element>
 			<element type="Button" internal="true" style="none">
-				<attribute name="Position" value="0 484" />
+				<attribute name="Position" value="1008 0" />
 				<attribute name="Pivot" value="0 0" />
 			</element>
 		</element>
-		<element>
-			<attribute name="Name" value="levelButtonParent" />
-			<attribute name="Min Anchor" value="0.5 0" />
-			<attribute name="Max Anchor" value="0.5 0" />
-			<attribute name="Pivot" value="0.5 0" />
+		<element type="ScrollBar" internal="true" style="none">
+			<attribute name="Size" value="16 512" />
+			<attribute name="Min Anchor" value="1 0" />
+			<attribute name="Max Anchor" value="1 0" />
+			<attribute name="Pivot" value="1 0" />
+			<attribute name="Color" value="0 0 0 0" />
+			<attribute name="Top Left Color" value="0 0 0 0" />
+			<attribute name="Top Right Color" value="0 0 0 0" />
+			<attribute name="Bottom Left Color" value="0 0 0 0" />
+			<attribute name="Bottom Right Color" value="0 0 0 0" />
+			<element type="Button" internal="true" style="none">
+				<attribute name="Pivot" value="0 0" />
+			</element>
+			<element type="Slider" internal="true" style="none">
+				<attribute name="Position" value="0 16" />
+				<attribute name="Size" value="16 480" />
+				<attribute name="Pivot" value="0 0" />
+				<element type="BorderImage" internal="true" style="none">
+					<attribute name="Pivot" value="0 0" />
+				</element>
+			</element>
+			<element type="Button" internal="true" style="none">
+				<attribute name="Position" value="0 496" />
+				<attribute name="Pivot" value="0 0" />
+			</element>
 		</element>
+		<element type="BorderImage" internal="true" style="none">
+			<attribute name="Pivot" value="0 0" />
+			<element internal="true" style="none">
+				<attribute name="Pivot" value="0 0" />
+			</element>
+		</element>
+	</element>
+	<element type="BorderImage">
+		<attribute name="Name" value="levelListBackground" />
+		<attribute name="Size" value="1040 528" />
+		<attribute name="Min Anchor" value="0.5 0.5" />
+		<attribute name="Max Anchor" value="0.5 0.5" />
+		<attribute name="Pivot" value="0.5 0.5" />
+		<attribute name="Texture" value="Texture2D;UI/ui.png" />
+		<attribute name="Image Rect" value="0 0 16 16" />
+		<attribute name="Border" value="6 6 6 6" />
 	</element>
 </element>

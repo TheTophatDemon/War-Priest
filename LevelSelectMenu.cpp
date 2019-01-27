@@ -18,7 +18,9 @@ const int LevelSelectMenu::LCF_BEATEN = 2;
 const int LevelSelectMenu::LCF_CROSSGOTTEN = 4;
 
 LevelSelectMenu::LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(ts, gm),
-	animTimer(0.0f)
+	animTimer(0.0f),
+	crossCount(0),
+	beatenCount(0)
 {
 	layoutPath = "UI/titlemenus/levelselect.xml";
 	//Find all possible level
@@ -35,6 +37,8 @@ LevelSelectMenu::LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu
 		fe.filePath = results[i].GetAttribute("path");
 		fe.levelName = results[i].GetAttribute("name");
 		fe.completion = atoi(results[i].GetAttribute("completion").CString());
+		fe.completionToll = atoi(results[i].GetAttribute("completiontoll").CString());
+		fe.crossToll = atoi(results[i].GetAttribute("crosstoll").CString());
 		levelEntries.Push(fe);
 	}
 
@@ -65,6 +69,8 @@ void LevelSelectMenu::SetLevelCompletionFlag(const String levelPath, const int f
 				elle.SetString("name", le.levelName);
 				elle.SetString("path", le.filePath);
 				elle.SetInt("completion", le.completion);
+				elle.SetInt("crosstoll", le.crossToll);
+				elle.SetInt("completiontoll", le.completionToll);
 			}
 			//Save to levelinfo.xml
 			const FileSystem* const fileSystem = titleScreen->GetContext()->GetSubsystem<FileSystem>();
@@ -91,46 +97,38 @@ void LevelSelectMenu::OnEnter()
 {
 	sprites.Clear();
 	GP::Menu::OnEnter();
-	levelList = titleScreen->ourUI->GetChild("levelList", true);
-	buttParent = levelList->GetChild("levelButtonParent", true);
-	buttParent->SetStyleAuto(ui->GetRoot()->GetDefaultStyle());
-	scrollBar = (ScrollBar*)levelList->GetChild("levelScroll", true);
-	if (levelEntries.Size() > 10) 
-	{
-		scrollBar->SetRange((levelEntries.Size() - 10) / 20.0f);
-	}
-	else
-	{
-		scrollBar->SetRange(0.0f);
-	}
+	levelList = titleScreen->ourUI->GetChildDynamicCast<ListView>("levelList", true);
 
-	int numBeaten = 0;
+	crossCount = 0;
+	beatenCount = 0;
 	int counter = 0;
 	for (LevelEntry& le : levelEntries)
 	{
 		if (le.completion & LCF_BEATEN)
-			numBeaten += 1;
+			beatenCount++;
+		if (le.completion & LCF_CROSSGOTTEN)
+			crossCount++;
 	}
-	LevelEntry* lastEntry = nullptr;
+	
 	for (LevelEntry& le : levelEntries)
 	{
-		//Unlock next level in sequence if not done already
-		if (lastEntry) 
+		//Unlock level if not done already
+		if (!(le.completion & LCF_UNLOCKED) && beatenCount >= le.completionToll && crossCount >= le.crossToll)
 		{
-			if (lastEntry->completion & LCF_BEATEN && !(le.completion & LCF_UNLOCKED))
-			{
-				SetLevelCompletionFlag(le.filePath, LCF_UNLOCKED, true);
-			}
+			SetLevelCompletionFlag(le.filePath, LCF_UNLOCKED, true);
 		}
 
 		//Generate button for each level
 		if (le.completion & LCF_UNLOCKED) 
 		{
+			SharedPtr<UIElement> buttParent = SharedPtr<UIElement>(new UIElement(titleScreen->GetContext()));
+			buttParent->SetStyleAuto(ui->GetRoot()->GetDefaultStyle());
+
 			Button* button = buttParent->CreateChild<Button>();
 			button->LoadXML(cache->GetResource<XMLFile>("UI/titlemenus/levelbutton.xml")->GetRoot());
 			button->SetTexture((Texture*)cache->GetResource<Texture2D>("UI/ui.png"));
-			button->SetPosition(0, 4 + (counter * 52));
 			button->SetVar("filePath", le.filePath);
+			button->SetFocusMode(FM_NOTFOCUSABLE);
 
 			if (le.completion & LCF_BEATEN)
 			{
@@ -162,51 +160,51 @@ void LevelSelectMenu::OnEnter()
 				sprites.Push(sprite2);
 			}
 
+			buttParent->SetAlignment(HA_CENTER, VA_TOP);
+			buttParent->SetSize(button->GetSize());
+			buttParent->SetMinSize(button->GetSize());
+			buttParent->SetMaxSize(button->GetSize());
+			levelList->AddItem(buttParent);
+
 			le.listItem = (UIElement*)button;
 		}
-
-		lastEntry = &le;
-		counter += 1;
 	}
 }
 
 void LevelSelectMenu::Update(float timeStep)
 {
-	if (scrollBar)
+	if (sprites.Size() > 0) 
 	{
-		float y = scrollBar->GetValue();
-		buttParent->SetPosition(0, -y * levelEntries.Size() * 64);
-	}
-
-	//Animates the spinning cross sprites
-	animTimer += timeStep;
-	if (animTimer > 0.1f)
-	{
-		animTimer = 0.0f;
-		Sprite* const baseSpr = sprites.At(0);
-		Texture2D* tex = (Texture2D*)baseSpr->GetTexture();
-		IntRect sourceRect = baseSpr->GetImageRect();
-		const int width = sourceRect.Width();
-		const int height = sourceRect.Height();
-		sourceRect.right_ += width;
-		sourceRect.left_ += width;
-		if (sourceRect.right_ > tex->GetWidth())
+		//Animates the spinning cross sprites
+		animTimer += timeStep;
+		if (animTimer > 0.1f)
 		{
-			sourceRect.right_ = width;
-			sourceRect.left_ = 0;
-			sourceRect.top_ += height;
-			sourceRect.bottom_ += height;
-		}
-		if (sourceRect.bottom_ > tex->GetHeight())
-		{
-			sourceRect.bottom_ = height;
-			sourceRect.top_ = 0;
-			sourceRect.right_ = width;
-			sourceRect.left_ = 0;
-		}
-		for (Sprite* spr : sprites)
-		{
-			spr->SetImageRect(sourceRect);
+			animTimer = 0.0f;
+			Sprite* const baseSpr = sprites.At(0);
+			Texture2D* tex = (Texture2D*)baseSpr->GetTexture();
+			IntRect sourceRect = baseSpr->GetImageRect();
+			const int width = sourceRect.Width();
+			const int height = sourceRect.Height();
+			sourceRect.right_ += width;
+			sourceRect.left_ += width;
+			if (sourceRect.right_ > tex->GetWidth())
+			{
+				sourceRect.right_ = width;
+				sourceRect.left_ = 0;
+				sourceRect.top_ += height;
+				sourceRect.bottom_ += height;
+			}
+			if (sourceRect.bottom_ > tex->GetHeight())
+			{
+				sourceRect.bottom_ = height;
+				sourceRect.top_ = 0;
+				sourceRect.right_ = width;
+				sourceRect.left_ = 0;
+			}
+			for (Sprite* spr : sprites)
+			{
+				spr->SetImageRect(sourceRect);
+			}
 		}
 	}
 }
@@ -238,11 +236,6 @@ void LevelSelectMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 				titleScreen->gunPriest->StartGame(path);
 			}
 		}
-	}
-	else if (eventType == E_MOUSEWHEEL)
-	{
-		const int wheelValue = eventData["Wheel"].GetInt();
-		scrollBar->SetValue(scrollBar->GetValue() + (scrollBar->GetRange() / buttParent->GetNumChildren() * -wheelValue * 2.0f));
 	}
 }
 

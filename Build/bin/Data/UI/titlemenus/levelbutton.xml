@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <element type="Button">
 	<attribute name="Name" value="levelButton" />
-	<attribute name="Position" value="0 190" />
+	<attribute name="Position" value="0 0" />
 	<attribute name="Size" value="480 48" />
 	<attribute name="Min Anchor" value="0.5 0" />
 	<attribute name="Max Anchor" value="0.5 0" />

@@ -36,6 +36,8 @@ TitleScreen::TitleScreen(Context* context) : LogicComponent(context)
 	soundNode = new Node(context_);
 	soundSource = soundNode->CreateComponent<SoundSource>();
 	soundSource->SetSoundType("TITLE");
+	scrollSource = soundNode->CreateComponent<SoundSource>();
+	scrollSource->SetSoundType("TITLE");
 
 	time = 0.0f;
 
@@ -106,7 +108,7 @@ void TitleScreen::OnEvent(StringHash eventType, VariantMap& eventData)
 	}
 	else if (eventType == E_SLIDERCHANGED && time > 0.1f)
 	{
-		soundSource->Play(cache->GetResource<Sound>("Sounds/gui_scroll.wav"));
+		scrollSource->Play(cache->GetResource<Sound>("Sounds/gui_scroll.wav"));
 	}
 	else 
 	{

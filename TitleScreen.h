@@ -55,6 +55,7 @@ protected:
 
 	SharedPtr<GP::Menu> currentMenu;
 	SharedPtr<Node> soundNode;
+	SharedPtr<SoundSource> scrollSource;
 
 	float time;
 };
