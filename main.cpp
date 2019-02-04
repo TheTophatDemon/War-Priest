@@ -1,16 +1,12 @@
-//DONE:
-//Levelselect scrolling glitch
-//Bonus Cross->Relic
-//Redid level unlock system
-
+/**
+	Bonus cross for CC
+	Fixed Bug for robelocks cliff falling
+	Made Level select menu auto-focus
+	//Spiff up loading screen?
+*/
 //TODO:
-	//Crossroads
-		//Music
-		//Bonus cross
 	//Credits
 		//Have player drop down from above
-	//Spiff up loading screen?
-	//Final Flood Level?
 	//Extra Killer Kube Attack?
 	//More posters?
 	//Do final test through every level.
@@ -57,7 +53,7 @@
 			//SS4 intial launchpad comes up too short
 			//Fix those tiny-ass platforms
 	//Optimizations:
-		//Optimize raycast distances (The more geometry that intersects it, the slower it gets)
+		//Optimize raycast distances for player (The more geometry that intersects it, the slower it gets)
 		//Optimize physicsbodyquery?
 		//Reduce rain particles on low graphics mode
 		//Fix pause upon all enemies revive

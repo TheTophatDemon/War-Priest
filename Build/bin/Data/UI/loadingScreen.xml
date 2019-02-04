@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<element type="BorderImage">
+	<attribute name="Position" value="0 -24" />
+	<attribute name="Size" value="400 96" />
+	<attribute name="Min Anchor" value="0.5 0.5" />
+	<attribute name="Max Anchor" value="0.5 0.5" />
+	<attribute name="Pivot" value="0.5 0.5" />
+	<attribute name="Texture" value="Texture2D;UI/ui.png" />
+	<attribute name="Image Rect" value="0 0 16 16" />
+	<attribute name="Border" value="6 6 6 6" />
+	<element type="Text">
+		<attribute name="Min Anchor" value="0.5 0.5" />
+		<attribute name="Max Anchor" value="0.5 0.5" />
+		<attribute name="Pivot" value="0.5 0.5" />
+		<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+		<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+		<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+		<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+		<attribute name="Font Size" value="48" />
+		<attribute name="Text" value="LOADING..." />
+		<attribute name="Text Alignment" value="Center" />
+		<attribute name="Text Effect" value="Shadow" />
+		<attribute name="Shadow Offset" value="3 3" />
+		<attribute name="Effect Color" value="1 0 0 1" />
+	</element>
+</element>

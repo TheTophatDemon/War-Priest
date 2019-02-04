@@ -211,14 +211,17 @@ void RobeLocksMan::Execute()
 						ChangeState(STATE_JUMP);
 					}
 				}
-				actor->SetInputFPS(true, false, false, false);
+				
+			}
+			if (walking)
+			{
 				animController->PlayExclusive(WALK_ANIM_HOLDING, 0, true, 0.2f);
 			}
 			else
 			{
-				actor->SetInputFPS(false, false, false, false);
 				animController->PlayExclusive(IDLE_ANIM_HOLDING, 0, true, 0.2f);
 			}
+			actor->SetInputFPS(walking, false, false, false);
 			actor->Move(deltaTime);
 			break;
 		}

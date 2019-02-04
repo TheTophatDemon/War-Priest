@@ -64,7 +64,7 @@ public:
 protected:
 	void AfterRenderUpdate(StringHash eventType, VariantMap& eventData);
 
-	SharedPtr<Text> loadingText;
+	SharedPtr<UIElement> loadingScreen;
 	SharedPtr<Gameplay> game;
 	SharedPtr<TitleScreen> titleScreen;
 	SharedPtr<Viewport> viewport;

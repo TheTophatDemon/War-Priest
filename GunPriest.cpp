@@ -92,7 +92,7 @@ void GunPriest::StartGame(String path)
 {
 	scene_->SetUpdateEnabled(false);
 	game->ourUI->SetVisible(false);
-	loadingText->SetVisible(true);
+	loadingScreen->SetVisible(true);
 	cache->ReleaseResources(Model::GetTypeStatic(), true);
 	cache->ReleaseResources(Material::GetTypeStatic(), true);
 	cache->ReleaseResources(Texture2D::GetTypeStatic(), true);
@@ -112,7 +112,7 @@ void GunPriest::StartGame(String path)
 
 	scene_->SetElapsedTime(0.0f);
 
-	loadingText->SetVisible(false);
+	loadingScreen->SetVisible(false);
 	game->ourUI->SetVisible(true);
 
 	debugRenderer = scene_->GetComponent<DebugRenderer>();
@@ -174,14 +174,9 @@ void GunPriest::Start()
 	debugHud->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DebugStyle.xml"));
 	debugHud->SetMode(DEBUGHUD_SHOW_ALL);
 #endif
-	loadingText = new Text(context_);
-	loadingText->SetText("LOADING...");
-	loadingText->SetFont("Fonts/Anonymous Pro.ttf", 48);
-	loadingText->SetHorizontalAlignment(HA_CENTER);
-	loadingText->SetVerticalAlignment(VA_CENTER);
-	loadingText->SetPosition(0, -24);
-	ui->GetRoot()->AddChild(loadingText);
-	loadingText->SetVisible(false);
+	
+	loadingScreen = ui->GetRoot()->LoadChildXML(cache->GetResource<XMLFile>("UI/loadingScreen.xml")->GetRoot());
+	loadingScreen->SetVisible(false);
 
 	SharedPtr<Text> text = SharedPtr<Text>(new Text(context_));
 	text->SetText("WAR PRIEST ALPHA : WWW.BITENDOSOFTWARE.COM");

@@ -98,6 +98,7 @@ void LevelSelectMenu::OnEnter()
 	sprites.Clear();
 	GP::Menu::OnEnter();
 	levelList = titleScreen->ourUI->GetChildDynamicCast<ListView>("levelList", true);
+	levelList->SetFocus(true);
 
 	crossCount = 0;
 	beatenCount = 0;
