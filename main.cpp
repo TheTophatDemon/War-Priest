@@ -1,12 +1,12 @@
 //TODO:
-	//Templar shields visible above head?
-	//Fix camera jitter
 	//Beam is not high enough
 	//Decal in FF2 not showing?
 	//Player disappears?
+	//Indicator for "waiting" platforms?
 	//Credits
 		//Golden frames for concept art?
 		//Rising "water"
+		//Invisible dealies in the background
 		//Texturing
 		//Optimizing
 	//Extra Killer Kube Attack?

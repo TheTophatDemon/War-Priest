@@ -64,7 +64,7 @@ using namespace Urho3D;
 #define MAXHEALTH 100
 
 const float Player::reviveCooldownMax = 1.25f;
-Vector3 Player::cameraOffset = Vector3(0.0f, 18.0f, -15.0f);
+const Matrix3x4 Player::cameraOffset = Matrix3x4(Vector3(0.0f, 18.0f, -15.0f), Quaternion::IDENTITY, 1.0f);
 
 Player::Player(Context* context) : LogicComponent(context),
 	reviveCount(0),
@@ -75,7 +75,6 @@ Player::Player(Context* context) : LogicComponent(context),
 	state(STATE_DEFAULT),
 	health(MAXHEALTH),
 	cameraPitch(-15.0f),
-	optimalCamPos(Vector3::ZERO),
 	splashNode(nullptr),
 	lastChance(false),
 	startingPosition(0,0,0),
@@ -114,7 +113,7 @@ void Player::Start()
 	pivot = scene->CreateChild();
 	pivot->SetWorldRotation(node_->GetWorldRotation() * Quaternion(90.0f, Vector3::UP));
 	cameraNode->SetParent(pivot);
-	cameraNode->SetPosition(cameraOffset);
+	cameraNode->SetPosition(cameraOffset.Translation());
 	
 	startingPosition = node_->GetWorldPosition();
 
@@ -533,31 +532,33 @@ void Player::HandleCamera(const float timeStep)
 	}
 
 	//Move camera above obstacles
-	const Vector3 defaultCameraPosition = (pivot->GetWorldTransform() * Matrix3x4(cameraOffset, Quaternion::IDENTITY, 1.0f)).Translation();
-	const Vector3 maxCameraHeight = Vector3(cameraNode->GetWorldPosition().x_, MAX_CAMERA_HEIGHT, cameraNode->GetWorldPosition().z_);
-	const float diff = maxCameraHeight.y_ - cameraNode->GetWorldPosition().y_;
-	float peekOffset = 5.0f;
-	optimalCamPos = defaultCameraPosition;
+	const Vector3 desiredPosition = (pivot->GetWorldTransform() * cameraOffset).Translation();
+	Vector3 optimalPosition = desiredPosition;
 
 	PhysicsRaycastResult cameraDownCast;
-	physworld->SphereCast(cameraDownCast, Ray(maxCameraHeight, Vector3::DOWN), 0.5f, fabs(maxCameraHeight.y_ - worldPos.y_), 2U);
-	if (cameraDownCast.body_)
+	const Ray ray = Ray(Vector3(cameraNode->GetWorldPosition().x_, MAX_CAMERA_HEIGHT, cameraNode->GetWorldPosition().z_), Vector3::DOWN);
+	//When the camera is below the map geometry, a ray cast down from the heavens will strike at a point above the camera
+	physworld->SphereCast(cameraDownCast, ray, 0.5f, fabs(MAX_CAMERA_HEIGHT - worldPos.y_) + 5.0f, 2U);
+	//The further up the obstacle is, the higher the camera must go above it to see the player
+	const float peekOffset = 5.0f + (0.1 * fabs(cameraDownCast.position_.y_ - pivot->GetPosition().y_));
+	if (cameraDownCast.body_ && cameraDownCast.position_.y_ > desiredPosition.y_ - peekOffset)
 	{
-		peekOffset = 5.0f + fabs(cameraDownCast.distance_ - diff) * 0.1f;
-		if (cameraDownCast.distance_ - peekOffset < diff)
-		{
-			optimalCamPos.y_ = cameraDownCast.position_.y_ + peekOffset;
-		}
+		optimalPosition.y_ = cameraDownCast.position_.y_ + peekOffset;
 	}
-	optimalCamPos.y_ = Min(optimalCamPos.y_, MAX_CAMERA_HEIGHT);
+	optimalPosition.y_ = Min(optimalPosition.y_, MAX_CAMERA_HEIGHT);
 	
 	//Smooth movement
-	float transitionSpeed = Min(0.15f + (1.0f / cameraDownCast.distance_), 0.9f);
-	if (input->GetMouseMoveX() > 8)
+	const Vector3 toOptimal = (optimalPosition - cameraNode->GetWorldPosition());
+	if (toOptimal.x_ != 0.0f || toOptimal.y_ != 0.0f || toOptimal.z_ != 0.0f)
 	{
-		transitionSpeed = 1.0f;
+		float transitionSpeed = Min(0.15f + toOptimal.Length() * 0.01, 0.9f);
+		if (input->GetMouseMoveX() > 8)
+		{
+			transitionSpeed = 1.0f;
+		}
+		cameraNode->Translate(toOptimal * transitionSpeed, TS_WORLD);
+		//cameraNode->SetWorldPosition(optimalPosition);
 	}
-	cameraNode->Translate((optimalCamPos - cameraNode->GetWorldPosition()) * transitionSpeed, TS_WORLD);
 
 	//Make camera look at player's feet
 	Quaternion newAngle = Quaternion();

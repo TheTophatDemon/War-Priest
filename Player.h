@@ -82,9 +82,9 @@ protected:
 	WeakPtr<Node> arrowNode;
 	
 	Vector3 slideDirection;
-	Vector3 optimalCamPos;
 	Vector3 startingPosition;
-	static Vector3 cameraOffset;
+
+	static const Matrix3x4 cameraOffset;
 
 	String cheatString;
 	
