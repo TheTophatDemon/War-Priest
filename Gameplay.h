@@ -52,11 +52,12 @@ public:
 	void MakeHUD();
 	void FlashScreen(const Color c, const float spd);
 	void DisplayMessage(const String msg, const Color col, const float time, const int priority);
+	void DisplayDebugMessage(const String msg, const Color col, const float time);
 	void Lose();
 	void Win();
 
 	~Gameplay();
-	int restartTimer = 0;
+	
 	int projectileCount = 0;
 	int enemyCount = 0;
 	int winState = 0;
@@ -81,7 +82,12 @@ protected:
 	WeakPtr<SoundSource> musicSource;
 	
 	SharedPtr<Text> messageText;
+	float messageTimer = 0.0f;
+	int messagePriority = 0;
+
 	SharedPtr<Text> debugText;
+	float debugMsgTimer;
+
 	SharedPtr<Sprite> healthMeter;
 	SharedPtr<Sprite> reviveMeter;
 	SharedPtr<Sprite> compass1;
@@ -98,8 +104,9 @@ protected:
 	Color flashColor;
 	float flashSpeed;
 	float oldHealth;
-	float messageTimer = 0.0f;
-	int messagePriority = 0;
+
+	float restartTimer;
+
 	bool bonusFlag;
 };
 

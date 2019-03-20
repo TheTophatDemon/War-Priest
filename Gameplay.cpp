@@ -81,10 +81,12 @@ Gameplay::Gameplay(Context* context) : LogicComponent(context),
 	flashSpeed(0.0f), 
 	oldHealth(100.0f), 
 	initialized(false),
-	restartTimer(0),
+	restartTimer(0.0f),
 	flashColor(Color(0.0f,0.0f,0.0f,0.0f)),
 	bonusFlag(false),
-	weatherNode(nullptr)
+	weatherNode(nullptr),
+	debugMsgTimer(0.0f),
+	messageTimer(0.0f)
 {
 	SetUpdateEventMask(USE_FIXEDUPDATE);
 	
@@ -169,7 +171,7 @@ void Gameplay::SetupGame()
 	
 	levelVisits = ((LevelSelectMenu*)gunPriest->titleScreen->levelSelectMenu.Get())->GetNumberOfVisits(levelPath);
 	winState = 0;
-	restartTimer = 0;
+	restartTimer = 0.0f;
 	bonusFlag = false;
 
 	physworld = scene_->GetComponent<PhysicsWorld>();
@@ -475,10 +477,10 @@ void Gameplay::FixedUpdate(float timeStep)
 				Win();
 			}
 		}
-		if (restartTimer > 0)
+		if (restartTimer > 0.0f)
 		{
-			restartTimer -= 1;
-			if (restartTimer <= 0)
+			restartTimer -= timeStep;
+			if (restartTimer <= 0.0f)
 			{
 				initialized = false;
 				gunPriest->ChangeState(GunPriest::STATE_TITLE);
@@ -498,6 +500,15 @@ void Gameplay::UpdateHUD(float timeStep)
 		{
 			messageTimer = 0.0f;
 			messageText->SetVisible(false);
+		}
+	}
+	if (debugMsgTimer > 0.0f)
+	{
+		debugMsgTimer -= timeStep;
+		if (debugMsgTimer <= 0.0f)
+		{
+			debugMsgTimer = 0.0f;
+			debugText->SetVisible(false);
 		}
 	}
 
@@ -597,26 +608,34 @@ void Gameplay::DisplayMessage(const String msg, const Color col, const float tim
 	}
 }
 
+void Gameplay::DisplayDebugMessage(const String msg, const Color col, const float time)
+{
+	debugText->SetText(msg);
+	debugText->SetColor(col);
+	debugText->SetVisible(true);
+	debugMsgTimer = time;
+}
+
 void Gameplay::Lose()
 {
-	if (restartTimer == 0)
+	if (restartTimer <= 0.0f)
 	{
 		DisplayMessage("Mission Failed.", Color::WHITE, 250.0f, 10);
 		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
 		musicSource->Play(cache->GetResource<Sound>("Music/frownofthelord.ogg"));
 		//std::cout << viewport->GetRenderPath()->GetCommand(viewport->GetRenderPath()->GetNumCommands() - 1)->GetShaderParameter("State").GetFloat() << std::endl;
-		restartTimer = 250;
+		restartTimer = 4.0f;
 	}
 	winState = -1;
 }
 
 void Gameplay::Win()
 {
-	if (restartTimer == 0)
+	if (restartTimer <= 0.0f)
 	{
 		DisplayMessage("Mission Complete!", Color::WHITE, 250.0f, 10);
 		viewport->GetRenderPath()->SetShaderParameter("State", 0.0f);
-		restartTimer = 250;
+		restartTimer = 4.0f;
 
 		Node* godNode = scene_->CreateChild();
 		godNode->LoadXML(cache->GetResource<XMLFile>("Objects/god.xml")->GetRoot(), false);
