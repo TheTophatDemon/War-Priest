@@ -178,13 +178,13 @@ void GunPriest::Start()
 	loadingScreen = ui->GetRoot()->LoadChildXML(cache->GetResource<XMLFile>("UI/loadingScreen.xml")->GetRoot());
 	loadingScreen->SetVisible(false);
 
-	SharedPtr<Text> text = SharedPtr<Text>(new Text(context_));
+	/*SharedPtr<Text> text = SharedPtr<Text>(new Text(context_));
 	text->SetText("WAR PRIEST ALPHA : WWW.BITENDOSOFTWARE.COM");
 	text->SetFont("Fonts/Anonymous Pro.ttf", 24);
 	text->SetHorizontalAlignment(HA_CENTER);
 	text->SetVerticalAlignment(VA_TOP);
 	text->SetPosition(0, 0);
-	ui->GetRoot()->AddChild(text);
+	ui->GetRoot()->AddChild(text);*/
 
 	viewport = new Viewport(context_);
 	renderer->SetViewport(0, viewport);

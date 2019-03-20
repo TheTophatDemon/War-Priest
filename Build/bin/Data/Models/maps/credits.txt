@@ -1,0 +1,8 @@
+Materials/sinsyn_block.xml
+Materials/darkbrick.xml
+Materials/cobblestone_darker.xml
+Materials/sinsyn_mosaic2.xml
+Materials/sinsyn_mosaic.xml
+Materials/asphalt.xml
+Materials/glass.xml
+Materials/cobblestone.xml

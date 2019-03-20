@@ -1,15 +1,18 @@
-/**
-	Bonus cross for CC
-	Fixed Bug for robelocks cliff falling
-	Made Level select menu auto-focus
-	//Spiff up loading screen?
-*/
 //TODO:
+	//Templar shields visible above head?
+	//Fix camera jitter
+	//Beam is not high enough
+	//Decal in FF2 not showing?
+	//Player disappears?
 	//Credits
-		//Have player drop down from above
+		//Golden frames for concept art?
+		//Rising "water"
+		//Texturing
+		//Optimizing
 	//Extra Killer Kube Attack?
 	//More posters?
 	//Do final test through every level.
+		//Make geometry shading flat
 		//Make fog match the skybox color
 		//PP1
 			//Make inital ramp shorter
@@ -57,6 +60,7 @@
 		//Optimize physicsbodyquery?
 		//Reduce rain particles on low graphics mode
 		//Fix pause upon all enemies revive
+		//Make explosions more efficient
 	//Package assets
 	
 	//Send to Somecallmejohnny?

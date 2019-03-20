@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="3" />
 	<attribute name="Next Replicated Component ID" value="5" />
-	<attribute name="Next Local Node ID" value="16778776" />
-	<attribute name="Next Local Component ID" value="16782243" />
+	<attribute name="Next Local Node ID" value="16778777" />
+	<attribute name="Next Local Component ID" value="16782255" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="sacredsands.ogg" />
 	</attribute>
@@ -58,7 +58,7 @@
 		<attribute name="Tags">
 			<string value="shootable" />
 		</attribute>
-		<attribute name="Position" value="-51.3324 -74.9928 121.476" />
+		<attribute name="Position" value="-51.8759 -74.9928 121.536" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
@@ -69,7 +69,7 @@
 			<attribute name="Model" value="Model;Models/playerCollider.mdl" />
 		</component>
 		<component type="RigidBody" id="16778046">
-			<attribute name="Physics Position" value="-51.3324 -74.9928 121.476" />
+			<attribute name="Physics Position" value="-51.8759 -74.9928 121.536" />
 			<attribute name="Mass" value="120" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Anisotropic Friction" value="0 0 0" />
@@ -333,7 +333,7 @@
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
 			<component type="RigidBody" id="16778051">
-				<attribute name="Physics Position" value="-51.3324 -74.9928 121.476" />
+				<attribute name="Physics Position" value="-51.8759 -74.9928 121.536" />
 				<attribute name="Friction" value="0" />
 				<attribute name="Linear Factor" value="0 0 0" />
 				<attribute name="Angular Factor" value="0 0 0" />

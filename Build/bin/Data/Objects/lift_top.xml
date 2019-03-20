@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<node id="16778318">
+	<attribute name="Is Enabled" value="true" />
+	<attribute name="Name" value="lift" />
+	<attribute name="Tags">
+		<string value="lift" />
+	</attribute>
+	<attribute name="Position" value="-3.03882 -60.8802 56.5367" />
+	<attribute name="Rotation" value="1 0 0 0" />
+	<attribute name="Scale" value="1.4 1.4 1.4" />
+	<attribute name="Variables">
+		<variant hash="1366131055" type="Vector3" value="0 10 0" />
+		<variant hash="588515681" type="Float" value="2" />
+		<variant hash="273365031" type="Float" value="2" />
+		<variant hash="3779712780" type="Float" value="0" />
+	</attribute>
+	<component type="StaticModel" id="16780756">
+		<attribute name="Model" value="Model;Models/lift_top.mdl" />
+		<attribute name="Material" value="Material;Materials/skins/lift_top_skin.xml" />
+	</component>
+	<component type="CollisionShape" id="16780757">
+		<attribute name="Shape Type" value="Cylinder" />
+		<attribute name="Size" value="4.75 1 2" />
+		<attribute name="Offset Position" value="0 -0.5 0" />
+	</component>
+	<component type="RigidBody" id="16780758">
+		<attribute name="Physics Position" value="-3.03882 -60.8802 56.5367" />
+		<attribute name="Friction" value="0" />
+		<attribute name="Linear Factor" value="0 0 0" />
+		<attribute name="Angular Factor" value="0 0 0" />
+		<attribute name="Collision Layer" value="3" />
+		<attribute name="Collision Event Mode" value="Always" />
+		<attribute name="Use Gravity" value="false" />
+	</component>
+	<node id="16778319">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="dest" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="0 0 -12.2748" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+	</node>
+</node>
