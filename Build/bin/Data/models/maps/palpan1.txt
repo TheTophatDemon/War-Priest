@@ -12,3 +12,12 @@ Materials/concrete.xml
 Materials/sheet_metal.xml
 Materials/pillar.xml
 Materials/lightstrip.xml
+Materials/palpan_romebrick5.xml
+Materials/grass_coarse.xml
+Materials/palpan_romebrick2.xml
+Materials/palpan_romebrick.xml
+Materials/greenbrick.xml
+Materials/asphalt.xml
+Materials/metal.xml
+Materials/invisible.xml
+Materials/door.xml

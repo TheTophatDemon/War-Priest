@@ -2,18 +2,19 @@
 <levelinfo>
 	<level name="Palisade Pantheon Act 1" path="Scenes/palpan1.xml" completion="7" crosstoll="0" completiontoll="0" />
 	<level name="Palisade Pantheon Act 2" path="Scenes/palpan2.xml" completion="7" crosstoll="0" completiontoll="1" />
-	<level name="Palisade Pantheon Act 3" path="Scenes/palpan3.xml" completion="7" crosstoll="0" completiontoll="1" />
-	<level name="Palisade Pantheon Act 4" path="Scenes/palpan4.xml" completion="7" crosstoll="0" completiontoll="1" />
+	<level name="Palisade Pantheon Act 3" path="Scenes/palpan3.xml" completion="7" crosstoll="0" completiontoll="2" />
+	<level name="Palisade Pantheon Act 4" path="Scenes/palpan4.xml" completion="7" crosstoll="0" completiontoll="3" />
 	<level name="Fallen Fatherland Act 1" path="Scenes/fallrhine1.xml" completion="7" crosstoll="0" completiontoll="4" />
-	<level name="Fallen Fatherland Act 2" path="Scenes/fallrhine2.xml" completion="7" crosstoll="0" completiontoll="4" />
-	<level name="Fallen Fatherland Act 3" path="Scenes/fallrhine3.xml" completion="7" crosstoll="0" completiontoll="4" />
-	<level name="Fallen Fatherland Act 4" path="Scenes/fallrhine4.xml" completion="7" crosstoll="0" completiontoll="4" />
+	<level name="Fallen Fatherland Act 2" path="Scenes/fallrhine2.xml" completion="7" crosstoll="0" completiontoll="5" />
+	<level name="Fallen Fatherland Act 3" path="Scenes/fallrhine3.xml" completion="7" crosstoll="0" completiontoll="6" />
+	<level name="Fallen Fatherland Act 4" path="Scenes/fallrhine4.xml" completion="7" crosstoll="0" completiontoll="7" />
 	<level name="Sacred Sands Act 1" path="Scenes/sacsand1.xml" completion="7" crosstoll="0" completiontoll="8" />
-	<level name="Sacred Sands Act 2" path="Scenes/sacsand2.xml" completion="7" crosstoll="0" completiontoll="8" />
-	<level name="Sacred Sands Act 3" path="Scenes/sacsand3.xml" completion="7" crosstoll="0" completiontoll="8" />
-	<level name="Sacred Sands Act 4" path="Scenes/sacsand4.xml" completion="7" crosstoll="0" completiontoll="8" />
+	<level name="Sacred Sands Act 2" path="Scenes/sacsand2.xml" completion="7" crosstoll="0" completiontoll="9" />
+	<level name="Sacred Sands Act 3" path="Scenes/sacsand3.xml" completion="7" crosstoll="0" completiontoll="10" />
+	<level name="Sacred Sands Act 4" path="Scenes/sacsand4.xml" completion="7" crosstoll="0" completiontoll="11" />
+	<level name="Credits" path="Scenes/credits.xml" completion="3" crosstoll="0" completiontoll="12" />
 	<level name="Sinister Synagogue" path="Scenes/sinistersynagogue.xml" completion="1" crosstoll="0" completiontoll="12" />
-	<level name="Crazy Crossroads" path="Scenes/crossroads.xml" completion="3" crosstoll="12" completiontoll="12" />
+	<level name="Crazy Crossroads" path="Scenes/crossroads.xml" completion="7" crosstoll="12" completiontoll="12" />
 	<level name="Lifts Test" path="Scenes/liftstest.xml" completion="1" crosstoll="13" completiontoll="13" />
 	<level name="The Stupid Room" path="Scenes/thestupidroom.xml" completion="1" crosstoll="13" completiontoll="13" />
 	<level name="Kube Test" path="Scenes/kubetest.xml" completion="1" crosstoll="13" completiontoll="13" />

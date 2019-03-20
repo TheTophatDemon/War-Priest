@@ -5,7 +5,7 @@
     <command type="scenepass" pass="postopaque" />
     <command type="scenepass" pass="alpha" vertexlights="true" sort="backtofront" metadata="alpha" />
 	<command type="scenepass" pass="liquid"/>
-    <command type="scenepass" pass="postalpha" sort="backtofront" />
+    <command type="scenepass" pass="postalpha"/>
 	<command type="quad" tag="Screenflash" vs="screenflash" ps="screenflash" output="viewport">
         <parameter name="FlashColor" value="0.0 0.0 0.0 0.0"/>
 		<parameter name="State" value="0.0"/>
