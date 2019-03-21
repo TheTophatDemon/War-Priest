@@ -1,5 +1,4 @@
 //TODO:
-	//Beam is not high enough
 	//Decal in FF2 not showing?
 	//Player disappears?
 	//Indicator for "waiting" platforms?

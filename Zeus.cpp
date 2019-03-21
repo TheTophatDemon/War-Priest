@@ -51,17 +51,14 @@ void Zeus::RegisterZeus(Context* context)
 	scrEngine->SetDefaultNamespace("");
 }
 
-Node* Zeus::MakeLightBeam(Scene* scene, Vector3 position, const float height, const int sound)
+Node* Zeus::MakeLightBeam(Scene* scene, Vector3 position, const int sound)
 {
-	Vector3 beamSize = Vector3(3.5f, height, 3.5f);
-	Vector3 closed = Vector3(0.0f, beamSize.y_, 0.0f);
-
 	Node* lightColumn = scene->CreateChild();
 	lightColumn->SetPosition(position);
 
 	TempEffect* t = lightColumn->CreateComponent<TempEffect>();
 	t->life = 0.75f;
-
+	
 	Node* smoker = scene->CreateChild();
 	smoker->SetPosition(position);
 	TempEffect* t2 = smoker->CreateComponent<TempEffect>();
@@ -89,6 +86,9 @@ Node* Zeus::MakeLightBeam(Scene* scene, Vector3 position, const float height, co
 	diffAnim->SetKeyFrame(0.25f, Color::WHITE);
 	diffAnim->SetKeyFrame(0.75f, Color(0.0f, 0.0f, 0.0f, 0.0f));
 	model->GetMaterial()->SetShaderParameterAnimation("MatDiffColor", diffAnim, WM_CLAMP, 1.0f);
+
+	Vector3 beamSize = Vector3(3.5f, 1024.0f, 3.5f);
+	Vector3 closed = Vector3(0.0f, beamSize.y_, 0.0f);
 
 	SharedPtr<ValueAnimation> scaleAnim(new ValueAnimation(scene->GetContext()));
 	scaleAnim->SetKeyFrame(0.0f, closed);
