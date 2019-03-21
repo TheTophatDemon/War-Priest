@@ -318,7 +318,7 @@ void PS(
         #endif
 		//oColor = (float4(1.0, 0.0, 1.0, 1.0));
 		#ifdef HEIGHTFOG
-			diffColor.a = fogFactor;
+			//diffColor.a = fogFactor;
 		#endif
 		oColor = (float4(GetFog(finalColor, fogFactor), diffColor.a));
     #endif
