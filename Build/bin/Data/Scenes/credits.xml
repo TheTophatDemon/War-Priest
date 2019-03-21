@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="49.7946" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16778588" />
-	<attribute name="Next Local Component ID" value="16780663" />
+	<attribute name="Next Local Node ID" value="16778600" />
+	<attribute name="Next Local Component ID" value="16780686" />
 	<attribute name="Variables" />
 	<attribute name="Variable Names" value="spawnertype;spawnerdistance;movement;restTime;speed;rotateSpeed;health;launchForce;waitForPlayer;noCollision;message" />
 	<component type="Octree" id="1" />
@@ -2003,7 +2003,7 @@
 		<attribute name="Tags">
 			<string value="lift" />
 		</attribute>
-		<attribute name="Position" value="255.086 31.0023 341.96" />
+		<attribute name="Position" value="255.086 32.0577 341.96" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="3 3 3" />
 		<attribute name="Variables">
@@ -2017,7 +2017,7 @@
 			<attribute name="Size" value="12 0.5 2" />
 		</component>
 		<component type="RigidBody" id="16780109">
-			<attribute name="Physics Position" value="255.086 31.0023 341.96" />
+			<attribute name="Physics Position" value="255.086 32.0577 341.96" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Linear Factor" value="0 0 0" />
 			<attribute name="Angular Factor" value="0 0 0" />
@@ -6880,5 +6880,148 @@
 				<attribute name="Material" value="Material;Materials/skins/launchpad_skin.xml" />
 			</component>
 		</node>
+	</node>
+	<node id="16778589">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="841.775 -14.7381 537.704" />
+		<attribute name="Rotation" value="-0.411796 0 -0.911276 0" />
+		<attribute name="Scale" value="4 4 4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780675">
+			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
+		</component>
+	</node>
+	<node id="16778590">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="360.674 -14.7381 676.963" />
+		<attribute name="Rotation" value="0.707127 0 0.707086 0" />
+		<attribute name="Scale" value="4 4 4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780676">
+			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
+		</component>
+	</node>
+	<node id="16778591">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="-241.841 -14.7381 224.747" />
+		<attribute name="Rotation" value="0.912044 0 0.410092 0" />
+		<attribute name="Scale" value="4 4 4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780677">
+			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
+		</component>
+	</node>
+	<node id="16778592">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="864.91 -14.7381 -520.705" />
+		<attribute name="Rotation" value="0.263599 0 -0.964633 0" />
+		<attribute name="Scale" value="4 4 4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780678">
+			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
+		</component>
+	</node>
+	<node id="16778593">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="681.971 -14.7381 -308.713" />
+		<attribute name="Rotation" value="0.433962 0 -0.900932 0" />
+		<attribute name="Scale" value="4 4 4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780679">
+			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
+		</component>
+	</node>
+	<node id="16778594">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="958.398 -14.7381 -159.196" />
+		<attribute name="Rotation" value="-0.075821 0 -0.997122 0" />
+		<attribute name="Scale" value="4 4 4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780680">
+			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
+		</component>
+	</node>
+	<node id="16778595">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="709.716 -14.7381 295.445" />
+		<attribute name="Rotation" value="-0.411796 0 -0.911276 0" />
+		<attribute name="Scale" value="4 4 4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780681">
+			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
+		</component>
+	</node>
+	<node id="16778596">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="108.241 -14.7381 245.425" />
+		<attribute name="Rotation" value="0.912048 0 0.410084 0" />
+		<attribute name="Scale" value="4 4 4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780682">
+			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
+		</component>
+	</node>
+	<node id="16778597">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="39.5654 -14.7381 534.718" />
+		<attribute name="Rotation" value="0.912048 0 0.410084 0" />
+		<attribute name="Scale" value="4 4 4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780683">
+			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
+		</component>
+	</node>
+	<node id="16778598">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="108.241 -14.7381 -247.784" />
+		<attribute name="Rotation" value="0.926893 0 -0.375326 0" />
+		<attribute name="Scale" value="4 4 4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780684">
+			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
+		</component>
+	</node>
+	<node id="16778599">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="-362.952 -14.7381 -216.923" />
+		<attribute name="Rotation" value="0.991507 0 -0.130058 0" />
+		<attribute name="Scale" value="4 4 4" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780685">
+			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
+		</component>
 	</node>
 </scene>
