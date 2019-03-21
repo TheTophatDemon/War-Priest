@@ -196,6 +196,7 @@ void Gameplay::SetupGame()
 	Matrix3x4 trans = playerNode->GetWorldTransform();
 	playerNode->LoadXML(cache->GetResource<XMLFile>("Objects/player.xml")->GetRoot());
 	playerNode->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
+	playerNode->Rotate(Quaternion(90.0f, Vector3::UP)); //The model is facing a different way in the editor.
 	player = new Player(context_);
 	
 	//Setup Camera

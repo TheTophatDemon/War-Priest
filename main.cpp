@@ -1,11 +1,11 @@
 //TODO:
-	//Decal in FF2 not showing?
 	//Player disappears?
+		//PP also disappears on SS1
+	//Enemies out of range hang in midair
 	//Indicator for "waiting" platforms?
 	//Credits
 		//Golden frames for concept art?
 		//Rising "water"
-		//Invisible dealies in the background
 		//Texturing
 		//Optimizing
 	//Extra Killer Kube Attack?

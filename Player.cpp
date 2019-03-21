@@ -107,11 +107,11 @@ void Player::Start()
 	scene = GetScene();
 	physworld = scene->GetComponent<PhysicsWorld>();
 	input = GetSubsystem<Input>();
-	
+
 	cameraNode = game->cameraNode;
 	camera = game->camera;
 	pivot = scene->CreateChild();
-	pivot->SetWorldRotation(node_->GetWorldRotation() * Quaternion(90.0f, Vector3::UP));
+	pivot->SetWorldRotation(node_->GetWorldRotation());
 	cameraNode->SetParent(pivot);
 	cameraNode->SetPosition(cameraOffset.Translation());
 	
@@ -129,6 +129,8 @@ void Player::Start()
 		std::cout << "PLAYER HAS NO MODEL!" << std::endl;
 	modelNode->SetParent(scene); //Detach from player node so that it can rotate smoothly while the player node turns instantaneously
 	WeakChild::MakeWeakChild(modelNode, node_);
+	modelNode->Rotate(Quaternion(-90.0f, Vector3::UP));
+	
 
 	animController = modelNode->GetOrCreateComponent<AnimationController>();
 	animController->StopAll();
