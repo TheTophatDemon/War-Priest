@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="49.7946" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16778600" />
-	<attribute name="Next Local Component ID" value="16780686" />
+	<attribute name="Next Local Node ID" value="16778605" />
+	<attribute name="Next Local Component ID" value="16780702" />
 	<attribute name="Variables" />
 	<attribute name="Variable Names" value="spawnertype;spawnerdistance;movement;restTime;speed;rotateSpeed;health;launchForce;waitForPlayer;noCollision;message" />
 	<component type="Octree" id="1" />
@@ -1670,7 +1670,7 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="27.1617 -27.4811 -6.60278" />
+		<attribute name="Position" value="41.8905 -43.8763 -19.1114" />
 		<attribute name="Rotation" value="0.5 -0.5 0.5 -0.5" />
 		<attribute name="Scale" value="5.98556 1 8.47212" />
 		<attribute name="Variables" />
@@ -5829,8 +5829,8 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="326.464 -32.6964 -1.43527" />
-		<attribute name="Rotation" value="-3.6177e-08 -0.707107 0.707107 2.56403e-08" />
+		<attribute name="Position" value="339.214 -32.6964 11.2804" />
+		<attribute name="Rotation" value="0.5 0.5 -0.5 -0.5" />
 		<attribute name="Scale" value="7.51159 1.6681 8.47212" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16780518">
@@ -5844,7 +5844,7 @@
 		<attribute name="Tags" />
 		<attribute name="Position" value="348.444 33.6617 278.783" />
 		<attribute name="Rotation" value="0.5 -0.5 0.5 -0.5" />
-		<attribute name="Scale" value="8.13586 1.6681 10.3961" />
+		<attribute name="Scale" value="8.13586 1.6681 8.98652" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16780519">
 			<attribute name="Model" value="Model;Models/plane.mdl" />
@@ -6366,7 +6366,7 @@
 		<attribute name="Tags" />
 		<attribute name="Position" value="380.57 -15.9203 -261.047" />
 		<attribute name="Rotation" value="0.5 0.5 -0.5 -0.5" />
-		<attribute name="Scale" value="7.51159 1.6681 8.47212" />
+		<attribute name="Scale" value="7.51159 1.6681 4.71217" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16780575">
 			<attribute name="Model" value="Model;Models/plane.mdl" />
@@ -7022,6 +7022,58 @@
 		<component type="StaticModel" id="16780685">
 			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
 			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
+		</component>
+	</node>
+	<node id="16778601">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="326.464 -32.6964 -1.43527" />
+		<attribute name="Rotation" value="-3.6177e-08 -0.707107 0.707107 2.56403e-08" />
+		<attribute name="Scale" value="7.51159 1.6681 8.47212" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780698">
+			<attribute name="Model" value="Model;Models/plane.mdl" />
+			<attribute name="Material" value="Material;Materials/concepts/postalpope_concept.xml" />
+		</component>
+	</node>
+	<node id="16778602">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="326.464 -32.6964 -1.43527" />
+		<attribute name="Rotation" value="-3.6177e-08 -0.707107 0.707107 2.56403e-08" />
+		<attribute name="Scale" value="7.51159 1.6681 8.47212" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780699">
+			<attribute name="Model" value="Model;Models/plane.mdl" />
+			<attribute name="Material" value="Material;Materials/concepts/postalpope_concept.xml" />
+		</component>
+	</node>
+	<node id="16778603">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="351.466 -32.6964 -1.43527" />
+		<attribute name="Rotation" value="0.707107 5.26835e-09 5.26835e-09 -0.707107" />
+		<attribute name="Scale" value="7.51159 1.6681 8.47212" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780700">
+			<attribute name="Model" value="Model;Models/plane.mdl" />
+			<attribute name="Material" value="Material;Materials/concepts/postalpope_concept.xml" />
+		</component>
+	</node>
+	<node id="16778604">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="339.214 -32.6964 -13.0705" />
+		<attribute name="Rotation" value="0.5 -0.5 0.5 -0.5" />
+		<attribute name="Scale" value="7.51159 1.6681 8.47212" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780701">
+			<attribute name="Model" value="Model;Models/plane.mdl" />
+			<attribute name="Material" value="Material;Materials/concepts/postalpope_concept.xml" />
 		</component>
 	</node>
 </scene>
