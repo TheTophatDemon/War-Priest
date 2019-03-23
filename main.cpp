@@ -2,9 +2,9 @@
 	//Player disappears?
 		//PP also disappears on SS1
 	//Enemies out of range hang in midair
-	//Indicator for "waiting" platforms?
+	//Gamepad support
+	//Projectile warning for debris?
 	//Credits
-		//Golden frames for concept art?
 		//Rising "water"
 		//Texturing
 		//Optimizing
@@ -53,6 +53,7 @@
 			//SS3 less enemies on side island
 		//SS4
 			//SS4 intial launchpad comes up too short
+			//Add a way back from that same launchpad target
 			//Fix those tiny-ass platforms
 	//Optimizations:
 		//Optimize raycast distances for player (The more geometry that intersects it, the slower it gets)
@@ -97,6 +98,7 @@
 	//Raycasts can be extremely slow in debug mode when going through lots of geometry
 	//Extreme lag when scaling kinematic rigidbody
 	//Blender export blurs vertex colors together
+	//Value animations reset when wrapping mode is changed.
 
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP

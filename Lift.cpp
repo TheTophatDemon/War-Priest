@@ -6,6 +6,10 @@
 #include <Urho3D/Physics/RigidBody.h>
 #include <Urho3D/Physics/PhysicsWorld.h>
 #include <Urho3D/Physics/PhysicsUtils.h>
+#include <Urho3D/Graphics/Material.h>
+#include <Urho3D/Graphics/StaticModel.h>
+#include <Urho3D/Graphics/Model.h>
+#include <Urho3D/Scene/ValueAnimation.h>
 #include <Bullet\BulletDynamics\Dynamics\btRigidBody.h>
 #include <iostream>
 
@@ -13,6 +17,8 @@
 
 #define STATE_REST 0
 #define STATE_MOVE 1
+
+SharedPtr<ValueAnimation> Lift::blinkAnimation;
 
 Lift::Lift(Context* context) : LogicComponent(context), 
 	restTime(1.0f), speed(1.0f), activeRadius(0.0f),
@@ -27,6 +33,13 @@ Lift::Lift(Context* context) : LogicComponent(context),
 void Lift::RegisterObject(Context* context)
 {
 	context->RegisterFactory<Lift>();
+	blinkAnimation = SharedPtr<ValueAnimation>(new ValueAnimation(context));
+	const Color col0 = Color(0.0f, 0.5f, 0.9f, 0.3f);
+	const Color col1 = Color(0.0f, 0.5f, 0.9f, 0.0f);
+	blinkAnimation->SetKeyFrame(0.0f, col1);
+	blinkAnimation->SetKeyFrame(0.5f, col1);
+	blinkAnimation->SetKeyFrame(0.75f, col0);
+	blinkAnimation->SetKeyFrame(1.0f, col1);
 }
 
 void Lift::Start()
@@ -53,6 +66,20 @@ void Lift::Start()
 	body->SetKinematic(true);
 
 	PhysicsWorld* physworld = body->GetPhysicsWorld();
+
+	if (wait)
+	{
+		glowNode = node_->CreateChild();
+		StaticModel* model = node_->GetComponent<StaticModel>();
+		StaticModel* glowModel = dynamic_cast<StaticModel*>(glowNode->CloneComponent(model));
+		assert(glowModel);
+		glowMat = GetSubsystem<ResourceCache>()->GetResource<Material>("Materials/waiting_haze.xml")->Clone();
+		for (int i = 0; i < glowModel->GetNumGeometries(); ++i)
+		{
+			glowModel->SetMaterial(i, glowMat);
+		}
+		glowMat->SetShaderParameterAnimation("MatDiffColor", blinkAnimation, WM_LOOP, 1.0f);
+	}
 
 	SetTarget(pointA);
 
@@ -103,23 +130,35 @@ void Lift::FixedUpdate(float timeStep)
 
 	//All bodies standing on the lift get moved
 	const Matrix3x4 deltaTransform = node_->GetWorldTransform() * oldTransform.Inverse();
-	//if (state == STATE_MOVE || rotateSpeed != 0.0f)
-	//{
-		for (Pair<WeakPtr<Node>, float>& pair : childCache)
+	bool foundPlayer = false;
+	for (Pair<WeakPtr<Node>, float>& pair : childCache)
+	{
+		if (pair.first_.Get())
 		{
-			if (pair.first_.Get())
-			{
-				const Matrix3x4 diddly = deltaTransform * pair.first_->GetWorldTransform();
-				pair.first_->SetWorldTransform(diddly.Translation(), diddly.Rotation());
-				pair.first_->GetComponent<RigidBody>()->SetTransform(diddly.Translation(), diddly.Rotation());
-			}
-			pair.second_ -= timeStep;
-			if (pair.second_ <= 0.0f)
-			{
-				childCache.Remove(pair);
-			}
+			if (pair.first_->GetName() == "player") foundPlayer = true;
+
+			const Matrix3x4 diddly = deltaTransform * pair.first_->GetWorldTransform();
+			pair.first_->SetWorldTransform(diddly.Translation(), diddly.Rotation());
+			pair.first_->GetComponent<RigidBody>()->SetTransform(diddly.Translation(), diddly.Rotation());
 		}
-	//}
+		pair.second_ -= timeStep;
+		if (pair.second_ <= 0.0f)
+		{
+			childCache.Remove(pair);
+		}
+	}
+	if (wait)
+	{
+		//The glow blinks only when nobody stands upon it
+		if (foundPlayer)
+		{
+			glowMat->SetShaderParameterAnimationSpeed("MatDiffColor", 0.0f);
+		}
+		else
+		{
+			glowMat->SetShaderParameterAnimationSpeed("MatDiffColor", 1.0f);
+		}
+	}
 
 	body->SetTransform(node_->GetWorldTransform().Translation(), node_->GetWorldTransform().Rotation());
 	oldTransform = node_->GetWorldTransform();
