@@ -16,16 +16,10 @@
 #include "Settings.h"
 #include "Zeus.h"
 
-#define STATE_DEAD 0
-#define STATE_WANDER 1
-#define STATE_CHASE 32
-#define STATE_EXPLODE 33
-#define STATE_POSE 34
-
-#define EXPLODERANGE 16.0f
-#define BLASTRANGE 5.5f
-#define STUNTIME 1.3f
-#define DAMAGE 12.0f
+float DangerDeacon::EXPLODE_RANGE = 16.0f;
+float DangerDeacon::BLAST_RANGE = 5.5f;
+float DangerDeacon::STUN_TIME = 1.3f;
+float DangerDeacon::DAMAGE = 12.0f;
 
 #define IDLE_ANIM "Models/enemy/dangerdeacon_idle.ani"
 #define REVIVE_ANIM "Models/enemy/dangerdeacon_revive.ani"
@@ -65,7 +59,7 @@ void DangerDeacon::DelayedStart()
 	orbModel->SetModel(cache->GetResource<Model>("Models/Sphere.mdl"));
 	orbModel->SetMaterial(cache->GetResource<Material>("Materials/fireglow.xml"));
 	orbModel->SetViewMask(0);
-	orbThing->SetScale(EXPLODERANGE);
+	orbThing->SetScale(EXPLODE_RANGE);
 	orbThing->SetPosition(Vector3(0.0f, 1.5f, 0.0f));
 
 	animController->PlayExclusive(REVIVE_ANIM, 0, true, 0.0f);
@@ -96,7 +90,7 @@ void DangerDeacon::Execute()
 		modelNode->Rotate(Quaternion(strafeAmt * 45.0f, Vector3::UP));
 	}
 
-	const float shrinkAmount = deltaTime * EXPLODERANGE * Settings::ScaleWithDifficulty(2.7f, 3.3f, 3.5f);
+	const float shrinkAmount = deltaTime * EXPLODE_RANGE * Settings::ScaleWithDifficulty(2.7f, 3.3f, 3.5f);
 
 	//Falling animation
 	if (!actor->onGround && 
@@ -233,16 +227,16 @@ void DangerDeacon::Execute()
 				soundSource->Play("Sounds/env_explode.wav");
 			}
 			//Apply damage to entities
-			if (stateTimer < STUNTIME - 0.5f)
+			if (stateTimer < STUN_TIME - 0.5f)
 			{
-				Zeus::ApplyRadialDamage(scene, node_, BLASTRANGE, DAMAGE, 132); //128 + 4
+				Zeus::ApplyRadialDamage(scene, node_, BLAST_RANGE, DAMAGE, 132); //128 + 4
 			}
 		}
 
 		actor->SetInputFPS(false, false, false, false);
 		actor->Move(deltaTime);
 
-		if (stateTimer > STUNTIME)
+		if (stateTimer > STUN_TIME)
 		{
 			ChangeState(STATE_WANDER);
 		}
@@ -277,13 +271,18 @@ void DangerDeacon::EnterState(const int newState)
 	if (newState == STATE_EXPLODE)
 	{
 		orbModel->SetViewMask(-1);
-		orbThing->SetScale(EXPLODERANGE);
+		orbThing->SetScale(EXPLODE_RANGE);
 		animController->StopAll();
 		soundSource->Play("Sounds/enm_fuse.wav");
 	}
 	else if (newState == STATE_CHASE)
 	{
 		animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
+	}
+	else if (newState == STATE_IDLE)
+	{
+		animController->StopAll();
+		animController->PlayExclusive(IDLE_ANIM, 0, false, 0.2f);
 	}
 }
 

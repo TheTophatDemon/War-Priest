@@ -26,6 +26,10 @@ public:
 	virtual void FixedUpdate(float timeStep) override;
 	~ChaosCaliph();
 protected:
+	static const int STATE_SHOOT = 32;
+	static const int STATE_SPIN = 33;
+	static float SPIN_RANGE;
+
 	virtual void Execute() override;
 	virtual void Dead() override;
 	virtual void EnterState(const int newState) override;
@@ -39,6 +43,7 @@ protected:
 	SharedPtr<ParticleEmitter> emitter;
 	WeakPtr<Node> projectile;
 	WeakPtr<Node> sparkChild;
+	float originalMaxSpeed;
 	int lastState;
 	bool shot;
 };

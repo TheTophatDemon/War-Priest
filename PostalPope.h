@@ -27,6 +27,9 @@ public:
 	virtual void DelayedStart() override;
 	~PostalPope();
 protected:
+	static const int STATE_SUMMON = 32;
+	static const int STATE_THROW = 33;
+
 	virtual void Execute() override;
 	virtual void Dead() override;
 	virtual void EnterState(const int newState) override;

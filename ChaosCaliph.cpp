@@ -14,12 +14,7 @@
 #include "WeakChild.h"
 #include "Settings.h"
 
-#define SPIN_RANGE 7.0f
-
-#define STATE_DEAD 0
-#define STATE_WANDER 1
-#define STATE_SHOOT 32
-#define STATE_SPIN 33
+float ChaosCaliph::SPIN_RANGE = 7.0f;
 
 #define IDLE_ANIM "Models/enemy/chaoscaliph_idle.ani"
 #define REVIVE_ANIM "Models/enemy/chaoscaliph_revive.ani"
@@ -32,7 +27,8 @@
 
 ChaosCaliph::ChaosCaliph(Context* context) : Enemy(context), 
 	shot(false),
-	lastState(STATE_DEAD)
+	lastState(STATE_DEAD),
+	originalMaxSpeed(0.0f)
 {
 }
 
@@ -44,6 +40,7 @@ void ChaosCaliph::RegisterObject(Context* context)
 void ChaosCaliph::OnSettingsChange(StringHash eventType, VariantMap& eventData)
 {
 	actor->maxSpeed = 17.2f + Settings::ScaleWithDifficulty(-2.0f, 0.0f, 2.0f);
+	originalMaxSpeed = actor->maxSpeed;
 }
 
 void ChaosCaliph::DelayedStart()
@@ -180,6 +177,8 @@ void ChaosCaliph::Execute()
 		
 		modelNode->SetWorldRotation(Quaternion(stateTimer * 1080.0f, Vector3::UP));
 		newRotation.FromLookRotation(Vector3(aimVec.x_, 0.0f, aimVec.z_), Vector3::UP);
+		actor->maxSpeed = Min(originalMaxSpeed, targetDistance * 8.0f);
+		
 		//FaceTarget();
 
 		if (!CheckCliff(false))
@@ -210,6 +209,12 @@ void ChaosCaliph::EnterState(const int newState)
 		animModel->SetMaterial(glowyMaterial);
 		emitter->SetEmitting(true);
 		soundSource->Play(SOUND_SHOCK, true);
+		turnFactor = 0.25f;
+	}
+	else if (newState == STATE_IDLE)
+	{
+		animController->StopAll();
+		animController->PlayExclusive(IDLE_ANIM, 0, false, 0.2f);
 	}
 }
 
@@ -221,6 +226,8 @@ void ChaosCaliph::LeaveState(const int oldState)
 		animModel->SetMaterial(boringMaterial);
 		emitter->SetEmitting(false);
 		soundSource->StopPlaying();
+		turnFactor = 0.25f;
+		actor->maxSpeed = originalMaxSpeed;
 	}
 }
 

@@ -23,6 +23,15 @@ public:
 	virtual void Revive() override;
 	~DangerDeacon();
 protected:
+	static const int STATE_CHASE = 32;
+	static const int STATE_EXPLODE = 33;
+	static const int STATE_POSE = 34;
+
+	static float EXPLODE_RANGE;
+	static float BLAST_RANGE;
+	static float STUN_TIME;
+	static float DAMAGE;
+
 	void OnSettingsChange(StringHash eventType, VariantMap& eventData);
 	virtual void Execute() override;
 	virtual void Dead() override;

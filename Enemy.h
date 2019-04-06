@@ -20,6 +20,8 @@ using namespace Urho3D;
 class Gameplay;
 class Actor;
 class Projectile;
+
+//TODO: Remove redundant "Dead State" polymorphism
 class Enemy : public LogicComponent
 {
 	//URHO3D_OBJECT(Enemy, LogicComponent);
@@ -34,6 +36,11 @@ public:
 	bool revived;
 	bool active;
 protected:
+	static const int STATE_DEAD = 0;
+	static const int STATE_WANDER = 1;
+	static const int STATE_DROWN = 2;
+	static const int STATE_IDLE = 3;
+
 	SharedPtr<Gameplay> game;
 	SharedPtr<ResourceCache> cache;
 	SharedPtr<PhysicsWorld> physworld;
@@ -70,7 +77,9 @@ protected:
 	float distanceFromPlayer;
 	float stateTimer;
 	float deltaTime;
+	float restTimer;
 	float turnTimer;
+	float turnFactor;
 	bool walking;
 };
 

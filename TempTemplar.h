@@ -27,6 +27,10 @@ public:
 	virtual void DelayedStart() override;
 	~TempTemplar();
 protected:
+	static const int STATE_ATTACK = 32;
+	static float MELEE_RANGE;
+	static float MELEE_DAMAGE;
+
 	void OnSettingsChange(StringHash eventType, VariantMap& eventData);
 	void OnAnimTrigger(StringHash eventType, VariantMap& eventData);
 	virtual void Execute() override;

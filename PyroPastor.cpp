@@ -8,10 +8,6 @@
 #include "Settings.h"
 #include <iostream>
 
-#define STATE_DEAD 0
-#define STATE_WANDER 1
-#define STATE_ATTACK 32
-
 #define IDLE_ANIM "Models/enemy/pyropastor_idle.ani"
 #define REVIVE_ANIM "Models/enemy/pyropastor_revive.ani"
 #define WALK_ANIM "Models/enemy/pyropastor_walk.ani"
@@ -126,6 +122,11 @@ void PyroPastor::EnterState(const int newState)
 	{
 		shot = false;
 		soundSource->Play("Sounds/enm_fireball.wav");
+	}
+	else if (newState == STATE_IDLE)
+	{
+		animController->StopAll();
+		animController->PlayExclusive(IDLE_ANIM, 0, false, 0.2f);
 	}
 }
 

@@ -34,7 +34,7 @@ protected:
 	void ChangeState(const int newState);
 	void SetTarget(Vector3& targ);
 	
-	static SharedPtr<ValueAnimation> blinkAnimation;
+	SharedPtr<ValueAnimation> blinkAnimation;
 
 	Vector<Pair<WeakPtr<Node>, float>> childCache; //Keeps track of all actors on top of the platform so they can be moved with it each frame.
 	//The float in each pair keeps track of how much time it has been since the actor stopped colliding with the platform.

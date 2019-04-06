@@ -18,12 +18,8 @@
 #include "TempShield.h"
 #include <iostream>
 
-#define STATE_DEAD 0
-#define STATE_WANDER 1
-#define STATE_ATTACK 32
-
-#define MELEE_RANGE 3.0f
-#define MELEE_DAMAGE 10.0f
+float TempTemplar::MELEE_RANGE = 3.0f;
+float TempTemplar::MELEE_DAMAGE = 10.0f;
 
 #define IDLE_ANIM "Models/enemy/temptemplar_idle.ani"
 #define REVIVE_ANIM "Models/enemy/temptemplar_revive.ani"
@@ -188,6 +184,11 @@ void TempTemplar::EnterState(const int newState)
 		animController->PlayExclusive(SWING_ANIM, 128, false, 0.2f);
 		animController->SetTime(SWING_ANIM, 0.0f);
 		SubscribeToEvent(modelNode, E_ANIMATIONTRIGGER, URHO3D_HANDLER(TempTemplar, OnAnimTrigger));
+	}
+	else if (newState == STATE_IDLE)
+	{
+		animController->StopAll();
+		animController->PlayExclusive(IDLE_ANIM, 0, false, 0.2f);
 	}
 }
 

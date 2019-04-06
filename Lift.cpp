@@ -18,8 +18,6 @@
 #define STATE_REST 0
 #define STATE_MOVE 1
 
-SharedPtr<ValueAnimation> Lift::blinkAnimation;
-
 Lift::Lift(Context* context) : LogicComponent(context), 
 	restTime(1.0f), speed(1.0f), activeRadius(0.0f),
 	rotateSpeed(0.0f), wait(false), state(STATE_REST),
@@ -28,11 +26,6 @@ Lift::Lift(Context* context) : LogicComponent(context),
 	childCache(Vector<Pair<WeakPtr<Node>,float>>()),
 	oldTransform(Matrix3x4::IDENTITY)
 {
-}
-
-void Lift::RegisterObject(Context* context)
-{
-	context->RegisterFactory<Lift>();
 	blinkAnimation = SharedPtr<ValueAnimation>(new ValueAnimation(context));
 	const Color col0 = Color(0.0f, 0.5f, 0.9f, 0.3f);
 	const Color col1 = Color(0.0f, 0.5f, 0.9f, 0.0f);
@@ -40,6 +33,11 @@ void Lift::RegisterObject(Context* context)
 	blinkAnimation->SetKeyFrame(0.5f, col1);
 	blinkAnimation->SetKeyFrame(0.75f, col0);
 	blinkAnimation->SetKeyFrame(1.0f, col1);
+}
+
+void Lift::RegisterObject(Context* context)
+{
+	context->RegisterFactory<Lift>();
 }
 
 void Lift::Start()

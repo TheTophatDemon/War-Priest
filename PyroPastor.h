@@ -28,6 +28,8 @@ public:
 	virtual void DelayedStart() override;
 	~PyroPastor();
 protected:
+	static const int STATE_ATTACK = 32;
+
 	virtual void Execute() override;
 	virtual void Dead() override;
 	virtual void EnterState(const int newState) override;

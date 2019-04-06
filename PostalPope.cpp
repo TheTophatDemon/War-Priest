@@ -16,11 +16,6 @@
 #include "Settings.h"
 #include <iostream>
 
-#define STATE_DEAD 0
-#define STATE_WANDER 1
-#define STATE_SUMMON 32
-#define STATE_THROW 33
-
 #define IDLE_ANIM "Models/enemy/postalpope_idle.ani"
 #define WALK_ANIM "Models/enemy/postalpope_walk.ani"
 #define SUMMON_ANIM "Models/enemy/postalpope_summon.ani"
@@ -205,6 +200,11 @@ void PostalPope::EnterState(const int newState)
 	{
 		animController->PlayExclusive(THROW_ANIM, 0, false, 0.2f);
 		FaceTarget();
+	}
+	else if (newState == STATE_IDLE)
+	{
+		animController->StopAll();
+		animController->PlayExclusive(IDLE_ANIM, 0, false, 0.2f);
 	}
 }
 

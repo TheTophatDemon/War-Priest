@@ -14,11 +14,6 @@
 #include "Settings.h"
 #include "Zeus.h"
 
-#define STATE_DEAD 0
-#define STATE_WANDER 1
-#define STATE_DROWN 2
-
-
 Enemy::Enemy(Context* context) : LogicComponent(context), 
 	distanceFromPlayer(10000.0f), 
 	deltaTime(0.0f), 
@@ -27,7 +22,9 @@ Enemy::Enemy(Context* context) : LogicComponent(context),
 	walking(false),
 	turnTimer(0.0f),
 	stateTimer(0.0f),
-	state(0)
+	state(0),
+	restTimer(0.0f),
+	turnFactor(0.25f)
 {}
 
 void Enemy::Start()
@@ -86,15 +83,30 @@ void Enemy::FixedUpdate(float timeStep)
 
 	if (distanceFromPlayer < visdist)
 	{
+		if (state == STATE_IDLE) ChangeState(STATE_WANDER);
 		active = true;
 		Execute();
-		if (state != STATE_DEAD) node_->SetWorldRotation(node_->GetWorldRotation().Slerp(newRotation, 0.25f));
+		if (state != STATE_DEAD) node_->SetWorldRotation(node_->GetWorldRotation().Slerp(newRotation, turnFactor));
 	}
 	else
 	{
-		active = false;
-		body->SetLinearVelocity(Vector3::ZERO);
+		if (state != STATE_DEAD) ChangeState(STATE_IDLE);
+		if (body->IsEnabled())
+		{
+			actor->SetInputVec(Vector3::ZERO);
+			actor->Move(timeStep);
+			if (body->GetLinearVelocity().LengthSquared() < 0.1f)
+			{
+				restTimer += timeStep;
+				if (restTimer > 1.0f)
+				{
+					restTimer = 0.0f;
+					body->SetEnabled(false);
+				}
+			}
+		}
 	}
+
 	if (state == STATE_DROWN)
 	{
 		stateTimer += timeStep;
@@ -303,6 +315,10 @@ void Enemy::EnterState(const int newState)
 		ParticleEmitter* splashEmit = node_->CreateComponent<ParticleEmitter>();
 		splashEmit->SetEffect(cache->GetResource<ParticleEffect>("Particles/splash.xml"));
 	}
+	else if (newState == STATE_IDLE)
+	{
+		restTimer = 0.0f;
+	}
 }
 
 void Enemy::LeaveState(const int oldState)
@@ -313,6 +329,10 @@ void Enemy::LeaveState(const int oldState)
 		shape->SetSize(oldShape->GetSize());
 		shape->SetPosition(oldShape->GetPosition());
 		body->SetMass(120.0f);
+	}
+	else if (oldState == STATE_IDLE)
+	{
+		body->SetEnabled(true);
 	}
 }
 
