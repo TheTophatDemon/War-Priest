@@ -258,9 +258,9 @@ void GunPriest::AfterRenderUpdate(StringHash eventType, VariantMap& eventData)
 {
 	if (state == STATE_GAME && game->initialized)
 	{
-#if _DEBUG
+
 		if (input->GetKeyDown(KEY_KP_DIVIDE)) scene_->GetComponent<PhysicsWorld>()->DrawDebugGeometry(debugRenderer, true);
-#endif
+
 	}
 }
 

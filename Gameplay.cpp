@@ -191,6 +191,12 @@ void Gameplay::SetupGame()
 	
 	compassScene->Start();
 
+	//Setup Camera
+	cameraNode = scene_->CreateChild();
+	camera = cameraNode->CreateComponent<Camera>();
+	camera->SetFov(70.0f);
+	audio->SetListener(cameraNode->CreateComponent<SoundListener>());
+
 	//Setup Player
 	playerNode = scene_->GetChild("player");
 	Matrix3x4 trans = playerNode->GetWorldTransform();
@@ -198,14 +204,6 @@ void Gameplay::SetupGame()
 	playerNode->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());
 	playerNode->Rotate(Quaternion(90.0f, Vector3::UP)); //The model is facing a different way in the editor.
 	player = new Player(context_);
-	
-	//Setup Camera
-	cameraNode = scene_->CreateChild();
-	camera = cameraNode->CreateComponent<Camera>();
-	camera->SetFov(70.0f);
-	audio->SetListener(cameraNode->CreateComponent<SoundListener>());
-
-	//Initialize player now that camera is ready
 	playerNode->AddComponent(player, 666, LOCAL);
 
 	viewport->SetScene(scene_);

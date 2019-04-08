@@ -150,11 +150,23 @@ void Lift::FixedUpdate(float timeStep)
 		//The glow blinks only when nobody stands upon it
 		if (foundPlayer)
 		{
-			glowMat->SetShaderParameterAnimationSpeed("MatDiffColor", 0.0f);
+			if (glowMat->GetShaderParameterAnimation("MatDiffColor") == blinkAnimation)
+			{
+				SharedPtr<ValueAnimation> fadeAnim(new ValueAnimation(context_));
+				fadeAnim->SetKeyFrame(0.0f, glowMat->GetShaderParameter("MatDiffColor").GetColor());
+				fadeAnim->SetKeyFrame(0.5f, Color(0.0f, 0.0f, 0.0f, 0.0f));
+				glowMat->SetShaderParameterAnimation("MatDiffColor", fadeAnim, WM_CLAMP, 1.0f);
+			}
+			//glowMat->SetShaderParameterAnimationSpeed("MatDiffColor", 0.0f);
 		}
 		else
 		{
-			glowMat->SetShaderParameterAnimationSpeed("MatDiffColor", 1.0f);
+			if (glowMat->GetShaderParameterAnimation("MatDiffColor") != blinkAnimation)
+			{
+				glowMat->SetShaderParameterAnimation("MatDiffColor", blinkAnimation, WM_LOOP, 1.0f);
+			}
+			//glowMat->SetShaderParameterAnimationWrapMode("MatDiffColor", WM_LOOP);
+			//glowMat->SetShaderParameterAnimationSpeed("MatDiffColor", 1.0f);
 		}
 	}
 

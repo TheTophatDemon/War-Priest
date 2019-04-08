@@ -3,13 +3,12 @@
 		//PP also disappears on SS1
 		//First person mode makes the model pop out, but it's stuck in position
 	//Gamepad support
+	//Make Black Hole attack super fast
 	//Projectile warning for debris?
 	//Chaos Caliph slips off ledges in unholy mode
 	//Credits
 		//Rising "water"
-		//Texturing
-		//Optimizing
-	//Extra Killer Kube Attack?
+	
 	//More posters?
 	//Do final test through every level.
 		//Make geometry shading flat

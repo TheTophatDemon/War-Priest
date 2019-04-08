@@ -131,7 +131,6 @@ void Player::Start()
 	WeakChild::MakeWeakChild(modelNode, node_);
 	modelNode->Rotate(Quaternion(-90.0f, Vector3::UP));
 	
-
 	animController = modelNode->GetOrCreateComponent<AnimationController>();
 	animController->StopAll();
 
@@ -199,6 +198,37 @@ void Player::OnKeyPress(StringHash eventType, VariantMap& eventData)
 		cheating = true;
 		cheatWindow->SetVisible(true);
 		std::cout << "CHEAT MODE ACTIVATED" << std::endl;
+	}
+	else if (cheatString.Contains("T;D;B;L;E;H", true))
+	{
+		//Print player's node structure to console
+		cheatString = "";
+		UniquePtr<XMLFile> file;
+		file.Reset(new XMLFile(context_));
+		file->GetOrCreateRoot("player");
+		using namespace std;
+		cout << "==========PLAYER INFO============" << endl << endl;
+		cout << "STATE: " << state << endl;
+		if (node_->SaveXML(file->GetRoot()))
+		{
+			std::cout << file->ToString().CString() << std::endl;
+		}
+		else
+		{
+			std::cout << "COULD NOT SAVE PLAYER NODE INTO XML" << std::endl;
+		}
+		file->CreateRoot("pivot");
+		cout << "============PIVOT INFO============" << endl << endl;
+		if (pivot->SaveXML(file->GetRoot()))
+		{
+			cout << file->ToString().CString() << endl;
+		}
+		file->CreateRoot("model");
+		cout << "==============MODEL INFO=============" << endl << endl;
+		if (modelNode->SaveXML(file->GetRoot()))
+		{
+			cout << file->ToString().CString() << endl;
+		}
 	}
 	const int keyCode = eventData["Key"].GetInt();
 	if (cheating) 
