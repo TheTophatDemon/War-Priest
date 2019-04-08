@@ -3,7 +3,6 @@
 		//PP also disappears on SS1
 		//First person mode makes the model pop out, but it's stuck in position
 	//Gamepad support
-	//Make Black Hole attack super fast
 	//Projectile warning for debris?
 	//Chaos Caliph slips off ledges in unholy mode
 	//Credits

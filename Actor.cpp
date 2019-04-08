@@ -310,7 +310,7 @@ void Actor::OnCollision(StringHash eventType, VariantMap& eventData)
 			{
 				Quaternion direction = Quaternion();
 				direction.FromLookRotation(diff.Normalized(), Vector3::UP);
-				KnockBack(15.0f + (35.0f / lensq), direction);
+				KnockBack(25.0f + (35.0f / lensq), direction);
 			}
 		}
 	}
