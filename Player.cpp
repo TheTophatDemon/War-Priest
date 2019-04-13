@@ -458,7 +458,15 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 	{
 		if (state != STATE_DROWN)
 		{
-			health -= floor(22 * Settings::GetDifficulty());
+			if (other->HasTag("instant_kill"))
+			{
+				health = -1000;
+				lastChance = true;
+			}
+			else
+			{
+				health -= floor(22 * Settings::GetDifficulty());
+			}
 			ChangeState(STATE_DROWN);
 		}
 	}

@@ -1,4 +1,5 @@
 //TODO:
+	//Revive flash appears over eyes in Credits
 	//Player disappears?
 		//PP also disappears on SS1
 		//First person mode makes the model pop out, but it's stuck in position
@@ -6,8 +7,8 @@
 	//Projectile warning for debris?
 	//Chaos Caliph slips off ledges in unholy mode
 	//Credits
-		//Rising "water"
-	
+		//Music for level
+		//Music for flood
 	//More posters?
 	//Do final test through every level.
 		//Make geometry shading flat

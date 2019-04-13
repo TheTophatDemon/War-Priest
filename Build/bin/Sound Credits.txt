@@ -6,6 +6,7 @@ env_beam.wav & env_beam2.wav = "Small poofs of flux.ogg" by jobro of Freesound.o
 	combined with "Futuristic Beam.wav" by PRIM_ORDial of Freesound.org under CC0
 env_rock.wav = "RockFall1b.wav" by AlanCat of Freesound.org under CC0
 env_rain.wav = "Thunderstorm" by konkreteruser of Freesound.org under CC0
+env_quake.wav = "Earthquake 1 - Big.wav" by OGsoundFX under CC-BY-3.0
 enm_fire.wav = "JM_FX_Fireball 01.wav" by Julien Matthey of Freesound.org under CC0
 enm_telekinesis.wav = "Speaker Buzz" by Ev-Dawg of Freesound.org under CC0 (Heavily edited)
 enm_telethrow.wav = "heavy beam weapon" by roper1911 of Freesound.org under CC0
@@ -25,7 +26,7 @@ enm_oof.wav = I have no stinking clue. It was made in 1999.
 itm_medkit.wav = "cloth_ripping.wav" by reg7783 of Freesound.org under CC0
 itm_launchpad.wav = "Voxy Synth Pop" by ani_music of Freesound.org under CC0 (Heavily edited) 
 	combined with "hit_002" by leviclaassen of Freesound.org under CC-BY-3.0
-ply_revive.wav = "Small poofs of flux.ogg" by jobro of Freesound.org under CC-BY-3.0
+ply_revive.wav/ply_revive_big.wav = "Small poofs of flux.ogg" by jobro of Freesound.org under CC-BY-3.0
 ply_slide.wav = "sand.mp3" by Taira Komori of Freesound.org under CC-BY-3.0
 
 Most sounds were modified from their source material.

@@ -110,6 +110,7 @@ void Gameplay::RegisterObject(Context* context)
 	scrEngine->RegisterObjectMethod("Gameplay", "void FlashScreen(const Color c, const float spd)", asMETHOD(Gameplay, FlashScreen), asCALL_THISCALL);
 	scrEngine->RegisterObjectMethod("Gameplay", "void Lose()", asMETHOD(Gameplay, Lose), asCALL_THISCALL);
 	scrEngine->RegisterObjectMethod("Gameplay", "void Win()", asMETHOD(Gameplay, Win), asCALL_THISCALL);
+	scrEngine->RegisterObjectMethod("Gameplay", "void ShakeScreen(const float intensity)", asMETHOD(Gameplay, ShakeScreen), asCALL_THISCALL);
 	scrEngine->RegisterObjectProperty("Gameplay", "Node@ musicNode", offsetof(Gameplay, musicNode));
 	scrEngine->RegisterObjectProperty("Gameplay", "SoundSource@ musicSource", offsetof(Gameplay, musicSource));
 	scrEngine->RegisterObjectProperty("Gameplay", "String levelPath", offsetof(Gameplay, levelPath));
@@ -167,6 +168,7 @@ void Gameplay::Start()
 
 void Gameplay::SetupGame()
 {
+	elapsedTime = 0.0f;
 	PreloadSounds();
 	
 	levelVisits = ((LevelSelectMenu*)gunPriest->titleScreen->levelSelectMenu.Get())->GetNumberOfVisits(levelPath);
@@ -424,6 +426,7 @@ void Gameplay::FixedUpdate(float timeStep)
 {
 	if (IsEnabled()) 
 	{
+		elapsedTime += timeStep;
 		if (input->GetKeyDown(KEY_ALT))
 		{
 			input->SetMouseGrabbed(false);
@@ -453,7 +456,22 @@ void Gameplay::FixedUpdate(float timeStep)
 			scene_->SaveXML(file->GetRoot());
 			file->SaveFile("scene_capture.xml");
 		}
+
+		//Screen shake
+		if (screenShake > 0.001f)
+		{
+			screenShake -= timeStep;
+			camera->SetZoom(1.0f + sinf(elapsedTime * 80.0f) * screenShake * 0.0025f);
+		}
+		else
+		{
+			screenShake = 0.0f;
+			camera->SetZoom(1.0f);
+		}
+
 		UpdateHUD(timeStep);
+
+		//Winning, losing, restarting
 		if (player->reviveCount >= enemyCount && enemyCount > 0)
 		{
 			if (exitNode) 
@@ -593,6 +611,11 @@ void Gameplay::FlashScreen(const Color c, const float spd)
 	flashColor = c;
 	flashSpeed = spd;
 	viewport->GetRenderPath()->SetShaderParameter("FlashColor", c);
+}
+
+void Gameplay::ShakeScreen(const float intensity)
+{
+	screenShake = intensity;
 }
 
 void Gameplay::DisplayMessage(const String msg, const Color col, const float time, const int priority)

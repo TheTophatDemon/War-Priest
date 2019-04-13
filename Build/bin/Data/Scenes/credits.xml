@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="49.7946" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16778610" />
-	<attribute name="Next Local Component ID" value="16780741" />
+	<attribute name="Next Local Node ID" value="16778614" />
+	<attribute name="Next Local Component ID" value="16780780" />
 	<attribute name="Variables" />
 	<attribute name="Variable Names" value="spawnertype;spawnerdistance;movement;restTime;speed;rotateSpeed;health;launchForce;waitForPlayer;noCollision;message" />
 	<component type="Octree" id="1" />
@@ -642,7 +642,7 @@
 			<string value="prop" />
 			<string value="sign" />
 		</attribute>
-		<attribute name="Position" value="678.264 45.7466 -4.96096" />
+		<attribute name="Position" value="680.805 45.7466 -4.96096" />
 		<attribute name="Rotation" value="-4.37114e-08 0 1 -0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
@@ -5207,7 +5207,7 @@
 		</attribute>
 		<attribute name="Position" value="697.586 41.9489 24.6186" />
 		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
 		<component type="CollisionShape" id="16780465">
 			<attribute name="Shape Type" value="Capsule" />
@@ -5520,7 +5520,7 @@
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables">
 			<variant hash="1366131055" type="Vector3" value="0 10 0" />
-			<variant hash="588515681" type="Float" value="1" />
+			<variant hash="588515681" type="Float" value="4" />
 			<variant hash="273365031" type="Float" value="4" />
 			<variant hash="3779712780" type="Float" value="100" />
 		</attribute>
@@ -5923,7 +5923,7 @@
 		</attribute>
 		<attribute name="Position" value="613.65 20.521 -31.8607" />
 		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
 		<component type="CollisionShape" id="16780563">
 			<attribute name="Shape Type" value="Capsule" />
@@ -6044,7 +6044,7 @@
 		</attribute>
 		<attribute name="Position" value="613.65 20.521 18.6299" />
 		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
 		<component type="CollisionShape" id="16780567">
 			<attribute name="Shape Type" value="Capsule" />
@@ -6165,7 +6165,7 @@
 		</attribute>
 		<attribute name="Position" value="697.586 41.9489 -33.2699" />
 		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
 		<component type="CollisionShape" id="16780571">
 			<attribute name="Shape Type" value="Capsule" />
@@ -6290,7 +6290,7 @@
 	</node>
 	<node id="16778540">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="water" />
+		<attribute name="Name" value="sea" />
 		<attribute name="Tags">
 			<string value="water" />
 		</attribute>
@@ -6459,7 +6459,7 @@
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="2 2 2" />
 		<attribute name="Variables">
-			<variant hash="1350475192" type="Float" value="120" />
+			<variant hash="1350475192" type="Float" value="135" />
 		</attribute>
 		<component type="CollisionShape" id="16780590">
 			<attribute name="Shape Type" value="Cylinder" />
@@ -7033,5 +7033,27 @@
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
 		</node>
+	</node>
+	<node id="16778611">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="flood_manager" />
+		<attribute name="Tags" />
+		<attribute name="Position" value="697.382 75.1913 -4.61351" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="RigidBody" id="16780753">
+			<attribute name="Physics Position" value="697.382 75.1913 -4.61351" />
+			<attribute name="Use Gravity" value="false" />
+			<attribute name="Is Trigger" value="true" />
+		</component>
+		<component type="CollisionShape" id="16780754">
+			<attribute name="Size" value="16.75 15.76 19.42" />
+		</component>
+		<component type="ScriptInstance" id="16780755">
+			<attribute name="Delayed Method Calls" value="0" />
+			<attribute name="Script File" value="ScriptFile;Scripts/flood_manager.as" />
+			<attribute name="Class Name" value="FloodManager" />
+		</component>
 	</node>
 </scene>

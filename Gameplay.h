@@ -53,18 +53,20 @@ public:
 	void FlashScreen(const Color c, const float spd);
 	void DisplayMessage(const String msg, const Color col, const float time, const int priority);
 	void DisplayDebugMessage(const String msg, const Color col, const float time);
+	void ShakeScreen(const float intensity);
 	void Lose();
 	void Win();
 
 	~Gameplay();
 	
+	SharedPtr<UIElement> ourUI;
+	String levelPath;
+	float elapsedTime = 0;
 	int projectileCount = 0;
 	int enemyCount = 0;
 	int winState = 0;
-	bool initialized = false;
-	String levelPath;
 	int levelVisits;
-	SharedPtr<UIElement> ourUI;
+	bool initialized = false;
 
 protected:
 	void HandleEvent(StringHash eventType, VariantMap& eventData);
@@ -105,6 +107,7 @@ protected:
 	float flashSpeed;
 	float oldHealth;
 
+	float screenShake;
 	float restartTimer;
 
 	bool bonusFlag;
