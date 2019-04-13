@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="49.7946" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16778614" />
-	<attribute name="Next Local Component ID" value="16780780" />
+	<attribute name="Next Local Node ID" value="16778615" />
+	<attribute name="Next Local Component ID" value="16780792" />
 	<attribute name="Variables" />
 	<attribute name="Variable Names" value="spawnertype;spawnerdistance;movement;restTime;speed;rotateSpeed;health;launchForce;waitForPlayer;noCollision;message" />
 	<component type="Octree" id="1" />
@@ -5329,7 +5329,7 @@
 		<attribute name="Variables">
 			<variant hash="1366131055" type="Vector3" value="0 10 0" />
 			<variant hash="588515681" type="Float" value="1" />
-			<variant hash="273365031" type="Float" value="12" />
+			<variant hash="273365031" type="Float" value="16" />
 			<variant hash="3779712780" type="Float" value="0" />
 			<variant hash="3807544725" type="Bool" value="true" />
 		</attribute>

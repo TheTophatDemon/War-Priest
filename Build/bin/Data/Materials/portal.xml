@@ -1,13 +1,14 @@
 <?xml version="1.0"?>
 <material>
-	<technique name="Techniques/LightBeam.xml" quality="0" loddistance="0" />
+	<technique name="Techniques/Diff.xml" quality="0" loddistance="0" />
+	<texture unit="diffuse" name="Textures/portal.png" />
 	<parameter name="UOffset" value="1 0 0 0" />
 	<parameter name="VOffset" value="0 1 0 0" />
-	<parameter name="MatDiffColor" value="1 1 1 0" />
+	<parameter name="MatDiffColor" value="1 1 1 1" />
 	<parameter name="MatEmissiveColor" value="0 0 0" />
 	<parameter name="MatEnvMapColor" value="1 1 1" />
-	<parameter name="MatSpecColor" value="0 0 0 0" />
-	<parameter name="Roughness" value="0.5" />
+	<parameter name="MatSpecColor" value="0.75 0.75 0.75 64" />
+	<parameter name="Roughness" value="0" />
 	<parameter name="Metallic" value="0" />
 	<cull value="ccw" />
 	<shadowcull value="ccw" />
@@ -15,6 +16,6 @@
 	<depthbias constant="0" slopescaled="0" />
 	<alphatocoverage enable="false" />
 	<lineantialias enable="false" />
-	<renderorder value="2" />
+	<renderorder value="128" />
 	<occlusion enable="true" />
 </material>

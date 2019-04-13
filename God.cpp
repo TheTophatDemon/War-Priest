@@ -68,7 +68,9 @@ void God::FixedUpdate(float timeStep)
 			stateTimer += timeStep;
 			if (!beamed && stateTimer > 0.5f)
 			{
-				Zeus::MakeLightBeam(scene, Vector3(targetPos.x_, node_->GetWorldPosition().y_ - 33.0f, targetPos.z_));
+				Node* beam = Zeus::MakeLightBeam(scene, Vector3(targetPos.x_, node_->GetWorldPosition().y_ - 513.0f, targetPos.z_));
+				//Max out the beam's volume so you can hear it from all the way down there.
+				beam->GetComponent<SoundSource3D>()->SetDistanceAttenuation(1.0f, 1000.0f, 0.5f);
 				beamed = true;
 				VariantMap map = VariantMap();
 				map.Insert(Pair<StringHash, Variant>(StringHash("target"), target.Get()));

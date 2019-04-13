@@ -1,0 +1,8 @@
+<material>
+	<technique name="Techniques/Diff.xml" quality="0" loddistance="1" />
+	<technique name="Techniques/DiffNormal.xml" quality="1" loddistance="0" />
+	<texture name="Textures/sinsyn_vine.png" unit="diffuse"/>
+	<texture unit="normal" name="Textures/sinsyn_vine_nm.png" />
+	<parameter name="MatDiffColor" value="1.0 1.0 1.0 1"/>
+	<parameter name="MatSpecColor" value="0 0 0 50"/>
+</material>

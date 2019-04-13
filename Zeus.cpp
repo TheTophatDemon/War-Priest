@@ -57,7 +57,7 @@ Node* Zeus::MakeLightBeam(Scene* scene, Vector3 position, const int sound)
 	lightColumn->SetPosition(position);
 
 	TempEffect* t = lightColumn->CreateComponent<TempEffect>();
-	t->life = 0.75f;
+	t->life = 1.5f;
 	
 	Node* smoker = scene->CreateChild();
 	smoker->SetPosition(position);
@@ -98,7 +98,7 @@ Node* Zeus::MakeLightBeam(Scene* scene, Vector3 position, const int sound)
 
 	if (sound > 0)
 	{
-		SoundSource3D* soundSource = smoker->CreateComponent<SoundSource3D>();
+		SoundSource3D* soundSource = lightColumn->CreateComponent<SoundSource3D>();
 		soundSource->SetSoundType("GAMEPLAY");
 		if (sound == 1)
 		{

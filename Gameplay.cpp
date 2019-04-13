@@ -201,6 +201,9 @@ void Gameplay::SetupGame()
 
 	//Setup Player
 	playerNode = scene_->GetChild("player");
+	//Existing structure inside of the node might be interfering with player spawning
+	playerNode->RemoveAllChildren();
+	playerNode->RemoveAllComponents();
 	Matrix3x4 trans = playerNode->GetWorldTransform();
 	playerNode->LoadXML(cache->GetResource<XMLFile>("Objects/player.xml")->GetRoot());
 	playerNode->SetWorldTransform(trans.Translation(), trans.Rotation(), trans.Scale());

@@ -91,8 +91,8 @@ void KillerKube::Start()
 
 	blackHoleAnimation = SharedPtr<ValueAnimation>(new ValueAnimation(context_));
 	blackHoleAnimation->SetKeyFrame(0.0f, Vector3(0.1f, 0.1f, 0.1f));
-	blackHoleAnimation->SetKeyFrame(2.5f, Vector3(256.0f, 256.0f, 256.0f));
-	blackHoleAnimation->SetKeyFrame(5.0f, Vector3(0.1f, 0.1f, 0.1f));
+	blackHoleAnimation->SetKeyFrame(5.0f, Vector3(256.0f, 256.0f, 256.0f));
+	blackHoleAnimation->SetKeyFrame(7.5f, Vector3(0.1f, 0.1f, 0.1f));
 	blackHoleAnimation->SetInterpolationMethod(IM_SPLINE);
 	blackHoleAnimation->SetSplineTension(0.1f);
 
