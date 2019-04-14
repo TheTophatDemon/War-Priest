@@ -1,9 +1,5 @@
-//Revive flash appears over eyes in Credits
-//Increase black hole length a little bit
-//Make god beam come out of the bottom
 //TODO:
 	//Remove frame glitch during god cutscene
-
 	//Player disappears?
 		//PP also disappears on SS1
 		//First person mode makes the model pop out, but it's stuck in position

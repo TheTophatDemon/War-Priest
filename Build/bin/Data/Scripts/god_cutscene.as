@@ -75,8 +75,8 @@ class GodCutscene : ScriptObject
 		camRotAnim.SetKeyFrame(0.0f, Variant(oldCameraNode.worldRotation));
 		camRotAnim.SetKeyFrame(1.0f, Variant(newCameraRotation));
 		
-		newCameraNode.SetAttributeAnimation("Position", camPosAnim, WM_CLAMP, 1.0f);
-		newCameraNode.SetAttributeAnimation("Rotation", camRotAnim, WM_CLAMP, 1.0f);
+		newCameraNode.SetAttributeAnimation("Position", camPosAnim, WM_ONCE, 1.0f);
+		newCameraNode.SetAttributeAnimation("Rotation", camRotAnim, WM_ONCE, 1.0f);
 		
 		//Spawn the lord
 		god = scene.CreateChild("god");
