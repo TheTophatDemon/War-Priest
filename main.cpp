@@ -4,7 +4,6 @@
 		//First person mode makes the model pop out, but it's stuck in position
 	//Camera goes apeshit?
 	//Gamepad support
-	//Projectile warning for debris?
 	//Credits
 		//Music for level
 		//Music for flood

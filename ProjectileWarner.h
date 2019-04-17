@@ -21,15 +21,15 @@ class Indicator : public RefCounted
 {
 public:
 	static int leakCounter;
-	Indicator() : sprite(nullptr), missile(nullptr), deleteMe(false) { leakCounter++; }
-	Indicator(Sprite* spr, Node* miss) : sprite(spr), missile(miss), deleteMe(false) { leakCounter++; }
+	Indicator() : sprite(nullptr), projectile(nullptr), deleteMe(false) { leakCounter++; }
+	Indicator(Sprite* spr, Node* miss) : sprite(spr), projectile(miss), deleteMe(false) { leakCounter++; }
 	~Indicator() 
 	{
 		if (sprite.Get()) sprite->Remove();
 		leakCounter--;
 	}
 	WeakPtr<Sprite> sprite;
-	WeakPtr<Node> missile;
+	WeakPtr<Node> projectile;
 	bool deleteMe;
 };
 

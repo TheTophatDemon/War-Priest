@@ -40,7 +40,9 @@ void ProjectileWarner::Start()
 
 void ProjectileWarner::FixedUpdate(float timeStep)
 {
-	PODVector<Node*> missiles = scene->GetChildrenWithTag("missile", true);
+	PODVector<Node*> projectiles = scene->GetChildrenWithTag("missile", false);
+	PODVector<Node*> debris = scene->GetChildrenWithTag("debris", false);
+	projectiles.Insert(projectiles.End(), debris);
 	//Update indicators
 	for (Vector<SharedPtr<Indicator>>::Iterator i = indicators.Begin(); i != indicators.End(); i++)
 	{	
@@ -51,10 +53,10 @@ void ProjectileWarner::FixedUpdate(float timeStep)
 			{
 				ind->deleteMe = true;
 			}
-			if (ind->missile.Get())
+			if (ind->projectile.Get())
 			{
 				//Projectiles remove their "projectile" tag once they've hit something and are no longer a threat.
-				if (!ind->missile->HasTag("projectile")) ind->deleteMe = true;
+				if (!ind->projectile->HasTag("projectile")) ind->deleteMe = true;
 			}
 			else
 			{
@@ -79,24 +81,24 @@ void ProjectileWarner::FixedUpdate(float timeStep)
 			}
 		}
 	}
-	for (Node* missile : missiles)
+	for (Node* projectile : projectiles)
 	{
 		//Find indicator for current missile
 		Indicator* indicator = nullptr;
 		for (SharedPtr<Indicator>& ind : indicators)
 		{
-			if (ind->missile.Get() == missile)
+			if (ind->projectile.Get() == projectile)
 			{
 				indicator = ind.Get();
 				break;
 			}
 		}
-		const float distance = (missile->GetWorldPosition() - node_->GetWorldPosition()).Length();
+		const float distance = (projectile->GetWorldPosition() - node_->GetWorldPosition()).Length();
 		if (distance < 120.0f) 
 		{
-			StaticModel* sm = missile->GetComponent<StaticModel>();
+			StaticModel* sm = projectile->GetComponent<StaticModel>();
 			//Automatically generates a small bounding box for projectiles without models
-			BoundingBox boundingBox = BoundingBox(missile->GetWorldPosition() - Vector3::ONE, missile->GetWorldPosition() + Vector3::ONE);
+			BoundingBox boundingBox = BoundingBox(projectile->GetWorldPosition() - Vector3::ONE, projectile->GetWorldPosition() + Vector3::ONE);
 			if (sm) 
 			{
 				boundingBox = sm->GetWorldBoundingBox();
@@ -106,18 +108,27 @@ void ProjectileWarner::FixedUpdate(float timeStep)
 				//UI is scaled from 1280x720 to fit the current resolution, but we must make corrections for different aspect ratios.
 				const float halfResX = game->ourUI->GetWidth() / 2.0f;
 				const float halfResY = game->ourUI->GetHeight() / 2.0f;
-				Vector3 screenCoords = game->camera->GetView() * missile->GetWorldPosition();
-				Vector3 screenDirection = game->camera->GetView().Rotation() * missile->GetWorldDirection();
+				Vector3 screenCoords = game->camera->GetView() * projectile->GetWorldPosition();
+				Vector3 screenDirection = game->camera->GetView().Rotation() * projectile->GetWorldDirection();
 				if (!indicator)
 				{
 					Sprite* spr = baseElement->CreateChild<Sprite>();
 					spr->SetFullImageRect();
-					spr->SetSize(64, 64);
-					spr->SetHotSpot(32, 32);
-					spr->SetTexture(cache->GetResource<Texture2D>("UI/missile_indicator.png"));
+					if (projectile->HasTag("missile"))
+					{
+						spr->SetSize(64, 64);
+						spr->SetHotSpot(32, 32);
+						spr->SetTexture(cache->GetResource<Texture2D>("UI/missile_indicator.png"));
+					}
+					else
+					{
+						spr->SetSize(32, 32);
+						spr->SetHotSpot(16, 16);
+						spr->SetTexture(cache->GetResource<Texture2D>("UI/projectile_indicator.png"));
+					}
 					spr->SetPosition(halfResX, halfResY);
-					spr->SetAttributeAnimation("Color", fadeInAnimation, WM_CLAMP, 1.0f);
-					indicator = new Indicator(spr, missile);
+					spr->SetAttributeAnimation("Color", fadeInAnimation, WM_CLAMP, 4.0f);
+					indicator = new Indicator(spr, projectile);
 					indicators.Push(SharedPtr<Indicator>(indicator));
 				}
 				screenCoords.Normalize();
@@ -134,7 +145,7 @@ void ProjectileWarner::FixedUpdate(float timeStep)
 				}
 				indicator->sprite->SetPosition(screenCoords.x_ * (halfResX - indicator->sprite->GetHotSpot().x_) + halfResX,
 					screenCoords.y_ * (halfResY - indicator->sprite->GetHotSpot().y_) + halfResY);
-				indicator->sprite->SetRotation(Atan2(screenDirection.x_, screenDirection.y_));
+				if (indicator->projectile->HasTag("missile")) indicator->sprite->SetRotation(Atan2(screenDirection.x_, screenDirection.y_));
 			}
 			else if (indicator)
 			{
