@@ -13,9 +13,9 @@
 #define WALK_ANIM "Models/enemy/pyropastor_walk.ani"
 #define ATTACK_ANIM "Models/enemy/pyropastor_attack.ani"
 
-PyroPastor::PyroPastor(Context* context) : Enemy(context)
+PyroPastor::PyroPastor(Context* context) : Enemy(context),
+	shotCount(0)
 {
-	deltaTime = 0.0f;
 }
 
 void PyroPastor::DelayedStart()
@@ -89,10 +89,15 @@ void PyroPastor::Execute()
 		FaceTarget();
 
 		stateTimer += deltaTime;
-		if (stateTimer > 0.26f && !shot)
+		if (stateTimer > 0.26f && shotCount == 0)
 		{
-			shot = true;
+			++shotCount;
 			Fireball::MakeFireball(scene, node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aim, node_); //Aim for the head or sliding is useless
+		}
+		else if (stateTimer > 0.46f && shotCount == 1 && Settings::GetDifficulty() > Settings::UNHOLY_THRESHOLD)
+		{
+			++shotCount;
+			Fireball::MakeFireball(scene, node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aim, node_);
 		}
 		if (stateTimer > 0.66f)
 		{
@@ -120,7 +125,7 @@ void PyroPastor::EnterState(const int newState)
 	Enemy::EnterState(newState);
 	if (newState == STATE_ATTACK)
 	{
-		shot = false;
+		shotCount = 0;
 		soundSource->Play("Sounds/enm_fireball.wav");
 	}
 	else if (newState == STATE_IDLE)

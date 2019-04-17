@@ -35,6 +35,6 @@ protected:
 	virtual void EnterState(const int newState) override;
 	virtual void LeaveState(const int oldState) override;
 	
-	bool shot = false;
+	int shotCount;
 };
 

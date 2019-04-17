@@ -47,7 +47,7 @@ void ChaosCaliph::DelayedStart()
 {
 	Enemy::DelayedStart();
 	actor->acceleration = 200.0f;
-	actor->friction = 70.0f;
+	actor->friction = 200.0f;
 
 	sparkChild = node_->GetChild("spark");
 	sparkChild->SetParent(scene);

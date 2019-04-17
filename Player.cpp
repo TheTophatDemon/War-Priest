@@ -67,19 +67,51 @@ const float Player::reviveCooldownMax = 1.25f;
 const Matrix3x4 Player::cameraOffset = Matrix3x4(Vector3(0.0f, 18.0f, -15.0f), Quaternion::IDENTITY, 1.0f);
 
 Player::Player(Context* context) : LogicComponent(context),
-	reviveCount(0),
-	hailTimer(0),
-	stateTimer(0),
-	hurtTimer(0),
-	reviveCooldown(0.0f),
+	cheating(false),
+	scene(nullptr),
+	cache(nullptr),
+	game(nullptr),
+	physworld(nullptr),
+	cameraNode(nullptr),
+	camera(nullptr),
+	actor(nullptr),
+	body(nullptr),
+	modelNode(nullptr),
+	animController(nullptr),
+	dropShadow(nullptr),
+	groundDetector(nullptr),
+	bloodEmitter(nullptr),
+	shape(nullptr),
+	input(nullptr),
+	pivot(nullptr),
+	soundSource(nullptr),
+	cheatWindow(nullptr),
+	nearestCorpse(nullptr),
+	currentCheckpoint(nullptr),
+	splashNode(nullptr),
+	beamNode(nullptr),
+	arrowNode(nullptr),
+	slideDirection(0,0,0),
+	startingPosition(0,0,0),
+	cheatString(""),
 	state(STATE_DEFAULT),
 	health(MAXHEALTH),
+	reviveCount(0),
+	lastState(STATE_DEFAULT),
+	drownPhase(0),
+	stateTimer(0),
+	reviveCooldown(0.0f),
 	cameraPitch(-15.0f),
-	splashNode(nullptr),
-	lastChance(false),
-	startingPosition(0,0,0),
+	cameraYaw(0.0f),
+	hailTimer(0),
+	hurtTimer(0),
 	walkSpeed(17.0f),
-	slideSpeed(22.0f)
+	slideSpeed(22.0f),
+	speedy(false),
+	lastChance(false),
+	revived(false),
+	hovering(false),
+	firstPerson(false)
 {
 #if _DEBUG
 	cheating = true;
@@ -111,6 +143,7 @@ void Player::Start()
 	cameraNode = game->cameraNode;
 	camera = game->camera;
 	pivot = scene->CreateChild();
+	pivot->SetWorldPosition(node_->GetWorldPosition());
 	pivot->SetWorldRotation(node_->GetWorldRotation());
 	cameraNode->SetParent(pivot);
 	cameraNode->SetPosition(cameraOffset.Translation());
@@ -479,7 +512,7 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 	{
 		if (other->HasTag("medkit") && health != MAXHEALTH)
 		{
-			game->FlashScreen(Color(1.0f, 1.0f, 1.0f, 0.5f), 0.01f);
+			game->FlashScreen(Color(1.0f, 1.0f, 1.0f, 0.4f), 0.005f);
 			health += other->GetVar("health").GetInt();
 			if (health > MAXHEALTH) health = MAXHEALTH;
 			lastChance = false;
