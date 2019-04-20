@@ -40,9 +40,7 @@ void ProjectileWarner::Start()
 
 void ProjectileWarner::FixedUpdate(float timeStep)
 {
-	PODVector<Node*> projectiles = scene->GetChildrenWithTag("missile", false);
-	PODVector<Node*> debris = scene->GetChildrenWithTag("debris", false);
-	projectiles.Insert(projectiles.End(), debris);
+	PODVector<Node*> projectiles = scene->GetChildrenWithTag("trackable_projectile", false);
 	//Update indicators
 	for (Vector<SharedPtr<Indicator>>::Iterator i = indicators.Begin(); i != indicators.End(); i++)
 	{	
@@ -55,8 +53,8 @@ void ProjectileWarner::FixedUpdate(float timeStep)
 			}
 			if (ind->projectile.Get())
 			{
-				//Projectiles remove their "projectile" tag once they've hit something and are no longer a threat.
-				if (!ind->projectile->HasTag("projectile")) ind->deleteMe = true;
+				//Projectiles remove their tracking tag when they're no longer an immediate threat
+				if (!ind->projectile->HasTag("trackable_projectile")) ind->deleteMe = true;
 			}
 			else
 			{
@@ -98,10 +96,14 @@ void ProjectileWarner::FixedUpdate(float timeStep)
 		{
 			StaticModel* sm = projectile->GetComponent<StaticModel>();
 			//Automatically generates a small bounding box for projectiles without models
-			BoundingBox boundingBox = BoundingBox(projectile->GetWorldPosition() - Vector3::ONE, projectile->GetWorldPosition() + Vector3::ONE);
+			BoundingBox boundingBox;
 			if (sm) 
 			{
 				boundingBox = sm->GetWorldBoundingBox();
+			}
+			else
+			{
+				boundingBox = BoundingBox(projectile->GetWorldPosition() - Vector3::ONE, projectile->GetWorldPosition() + Vector3::ONE);
 			}
 			if (!game->camera->GetFrustum().IsInsideFast(boundingBox)) //We can't see it if it's outside the camera frustum
 			{
@@ -119,6 +121,12 @@ void ProjectileWarner::FixedUpdate(float timeStep)
 						spr->SetSize(64, 64);
 						spr->SetHotSpot(32, 32);
 						spr->SetTexture(cache->GetResource<Texture2D>("UI/missile_indicator.png"));
+					}
+					else if (projectile->HasTag("debris"))
+					{
+						spr->SetSize(64, 64);
+						spr->SetHotSpot(32, 32);
+						spr->SetTexture(cache->GetResource<Texture2D>("UI/debris_indicator.png"));
 					}
 					else
 					{

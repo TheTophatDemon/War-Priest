@@ -44,6 +44,15 @@ void Debris::FixedUpdate(float timeStep)
 	{
 		Die();
 	}
+	else if (linearVelocity < 10.0f)
+	{
+		//Don't show screen warnings for slow ones.
+		node_->RemoveTag("trackable_projectile");
+	}
+	else
+	{
+		if (!node_->HasTag("trackable_projectile")) node_->AddTag("trackable_projectile");
+	}
 	if (hit) 
 	{
 		if (smokeNode) 
@@ -72,7 +81,7 @@ void Debris::OnCollisionStart(StringHash eventType, VariantMap& eventData)
 		}
 		else if (otherBody->GetCollisionLayer() & 256)
 		{
-			node_->RemoveTag("projectile");
+			node_->RemoveTag("trackable_projectile");
 		}
 		if ((otherBody->GetCollisionLayer() & 198 || other->HasTag("debris")) && linearVelocity > 10.0f) //64+128+2+4
 		{
@@ -113,7 +122,7 @@ void Debris::Die()
 	if (!hit) 
 	{
 		hit = true;
-		node_->RemoveTag("projectile");
+		node_->RemoveTag("trackable_projectile");
 		smokeNode = Zeus::PuffOfSmoke(GetScene(), node_->GetWorldPosition(), 2.0f);
 		dieTime = lifeTimer;
 	}

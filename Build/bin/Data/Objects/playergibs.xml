@@ -36,6 +36,7 @@
 		<attribute name="Name" value="player" />
 		<attribute name="Tags">
 			<string value="nodrowning" />
+			<string value="gore"/>
 		</attribute>
 		<attribute name="Position" value="0.336225 1.12204 0.372451" />
 		<attribute name="Rotation" value="1 0 0 0" />
@@ -156,6 +157,7 @@
 		<attribute name="Name" value="player" />
 		<attribute name="Tags">
 			<string value="nodrowning" />
+			<string value="gore" />
 		</attribute>
 		<attribute name="Position" value="0.336225 0.76449 -0.597084" />
 		<attribute name="Rotation" value="1 0 0 0" />
