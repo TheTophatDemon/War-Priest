@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="49.7946" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16778626" />
-	<attribute name="Next Local Component ID" value="16780833" />
+	<attribute name="Next Local Node ID" value="16778632" />
+	<attribute name="Next Local Component ID" value="16780850" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="credits.ogg" />
 	</attribute>
@@ -37,7 +37,7 @@
 		</component>
 		<component type="StaticModel" id="16778905">
 			<attribute name="Model" value="Model;Models/maps/credits.mdl" />
-			<attribute name="Material" value="Material;Materials/sinsyn_block.xml;Materials/darkbrick.xml;Materials/sinsyn_mosaic2.xml;Materials/cobblestone.xml;Materials/sacsand_stripes.xml;Materials/cobblestone_darker.xml;Materials/sinsyn_vine.xml;Materials/sinsyn_mosaic.xml;Materials/dirt.xml;Materials/sinsyn_mural.xml;Materials/asphalt.xml;Materials/glass.xml;Materials/sinsyn_eye.xml" />
+			<attribute name="Material" value="Material;Materials/sinsyn_block.xml;Materials/darkbrick.xml;Materials/sinsyn_mosaic2.xml;Materials/cobblestone.xml;Materials/sacsand_stripes.xml;Materials/cobblestone_darker.xml;Materials/sinsyn_vine.xml;Materials/sinsyn_mosaic.xml;Materials/concepts/pyropastor_concept.xml;Materials/concepts/postalpope_concept.xml;Materials/dirt.xml;Materials/sinsyn_mural.xml;Materials/concepts/dangerdeacon_concept.xml;Materials/asphalt.xml;Materials/glass.xml;Materials/sinsyn_eye.xml;Materials/concepts/temptemplar_concept.xml;Materials/concepts/chaoscaliph_concept.xml" />
 		</component>
 	</node>
 	<node id="16777218">
@@ -464,11 +464,11 @@
 			<string value="prop" />
 			<string value="sign" />
 		</attribute>
-		<attribute name="Position" value="166.183 -51.2062 -0.980742" />
-		<attribute name="Rotation" value="-4.37114e-08 0 1 -0" />
+		<attribute name="Position" value="380.97 -31.9997 -262.403" />
+		<attribute name="Rotation" value="0.707107 0 -0.707107 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
-			<variant hash="2310231975" type="String" value="Made in C++ using the Urho3D game engine." />
+			<variant hash="2310231975" type="String" value="Starring the Chaos Caliph" />
 		</attribute>
 		<component type="StaticModel" id="16779974">
 			<attribute name="Model" value="Model;Models/props/sign.mdl" />
@@ -500,7 +500,7 @@
 			<string value="prop" />
 			<string value="sign" />
 		</attribute>
-		<attribute name="Position" value="330.508 -10.9218 -4.53202" />
+		<attribute name="Position" value="407.16 -42.4198 -55.5733" />
 		<attribute name="Rotation" value="-0.289524 0 0.957172 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
@@ -554,11 +554,11 @@
 			<string value="prop" />
 			<string value="sign" />
 		</attribute>
-		<attribute name="Position" value="432.815 -42.1 -0.216038" />
-		<attribute name="Rotation" value="-4.37114e-08 0 1 -0" />
+		<attribute name="Position" value="347.959 34.8955 345.897" />
+		<attribute name="Rotation" value="0.707107 0 0.707107 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
-			<variant hash="2310231975" type="String" value="Using Blender3D" />
+			<variant hash="2310231975" type="String" value="Starring the Danger Deacon" />
 		</attribute>
 		<component type="StaticModel" id="16779979">
 			<attribute name="Model" value="Model;Models/props/sign.mdl" />
@@ -1676,19 +1676,6 @@
 		<component type="StaticModel" id="16780069">
 			<attribute name="Model" value="Model;Models/medkit.mdl" />
 			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
-		</component>
-	</node>
-	<node id="16778114">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="41.8905 -43.8763 -19.1114" />
-		<attribute name="Rotation" value="0.5 -0.5 0.5 -0.5" />
-		<attribute name="Scale" value="5.98556 1 8.47212" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780075">
-			<attribute name="Model" value="Model;Models/plane.mdl" />
-			<attribute name="Material" value="Material;Materials/concepts/pyropastor_concept.xml" />
 		</component>
 	</node>
 	<node id="16778115">
@@ -2926,19 +2913,6 @@
 		<component type="StaticModel" id="16780191">
 			<attribute name="Model" value="Model;Models/medkit.mdl" />
 			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
-		</component>
-	</node>
-	<node id="16778214">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="382.147 -15.9203 -263.856" />
-		<attribute name="Rotation" value="0.5 0.5 -0.5 -0.5" />
-		<attribute name="Scale" value="7.51159 1.6681 8.47212" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780195">
-			<attribute name="Model" value="Model;Models/plane.mdl" />
-			<attribute name="Material" value="Material;Materials/concepts/chaoscaliph_concept.xml" />
 		</component>
 	</node>
 	<node id="16778220">
@@ -5752,32 +5726,6 @@
 			<attribute name="Material" value="Material;Materials/enemy/chaoscaliph_skin.xml" />
 		</component>
 	</node>
-	<node id="16778475">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="339.214 -32.6964 11.2804" />
-		<attribute name="Rotation" value="0.5 0.5 -0.5 -0.5" />
-		<attribute name="Scale" value="7.51159 1.6681 8.47212" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780518">
-			<attribute name="Model" value="Model;Models/plane.mdl" />
-			<attribute name="Material" value="Material;Materials/concepts/postalpope_concept.xml" />
-		</component>
-	</node>
-	<node id="16778476">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="348.444 33.6617 278.783" />
-		<attribute name="Rotation" value="0.5 -0.5 0.5 -0.5" />
-		<attribute name="Scale" value="8.13586 1.6681 8.98652" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780519">
-			<attribute name="Model" value="Model;Models/plane.mdl" />
-			<attribute name="Material" value="Material;Materials/concepts/dangerdeacon_concept.xml" />
-		</component>
-	</node>
 	<node id="16778478">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="sign" />
@@ -6286,19 +6234,6 @@
 				</node>
 			</node>
 		</node>
-	</node>
-	<node id="16778538">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="289.139 -15.9203 -240.802" />
-		<attribute name="Rotation" value="0.5 0.5 -0.5 -0.5" />
-		<attribute name="Scale" value="7.51159 1.6681 4.71217" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780575">
-			<attribute name="Model" value="Model;Models/plane.mdl" />
-			<attribute name="Material" value="Material;Materials/concepts/temptemplar_concept.xml" />
-		</component>
 	</node>
 	<node id="16778540">
 		<attribute name="Is Enabled" value="true" />
@@ -6951,58 +6886,6 @@
 			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
 		</component>
 	</node>
-	<node id="16778601">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="326.464 -32.6964 -1.43527" />
-		<attribute name="Rotation" value="-3.6177e-08 -0.707107 0.707107 2.56403e-08" />
-		<attribute name="Scale" value="7.51159 1.6681 8.47212" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780698">
-			<attribute name="Model" value="Model;Models/plane.mdl" />
-			<attribute name="Material" value="Material;Materials/concepts/postalpope_concept.xml" />
-		</component>
-	</node>
-	<node id="16778602">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="326.464 -32.6964 -1.43527" />
-		<attribute name="Rotation" value="-3.6177e-08 -0.707107 0.707107 2.56403e-08" />
-		<attribute name="Scale" value="7.51159 1.6681 8.47212" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780699">
-			<attribute name="Model" value="Model;Models/plane.mdl" />
-			<attribute name="Material" value="Material;Materials/concepts/postalpope_concept.xml" />
-		</component>
-	</node>
-	<node id="16778603">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="351.466 -32.6964 -1.43527" />
-		<attribute name="Rotation" value="0.707107 5.26835e-09 5.26835e-09 -0.707107" />
-		<attribute name="Scale" value="7.51159 1.6681 8.47212" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780700">
-			<attribute name="Model" value="Model;Models/plane.mdl" />
-			<attribute name="Material" value="Material;Materials/concepts/postalpope_concept.xml" />
-		</component>
-	</node>
-	<node id="16778604">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="" />
-		<attribute name="Tags" />
-		<attribute name="Position" value="339.214 -32.6964 -13.8605" />
-		<attribute name="Rotation" value="0.5 -0.5 0.5 -0.5" />
-		<attribute name="Scale" value="7.51159 1.6681 8.47212" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780701">
-			<attribute name="Model" value="Model;Models/plane.mdl" />
-			<attribute name="Material" value="Material;Materials/concepts/postalpope_concept.xml" />
-		</component>
-	</node>
 	<node id="16778608">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="lift" />
@@ -7234,5 +7117,95 @@
 				<attribute name="Material" value="Material;Materials/skins/launchpad_skin.xml" />
 			</component>
 		</node>
+	</node>
+	<node id="16778627">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="sign" />
+		<attribute name="Tags">
+			<string value="prop" />
+			<string value="sign" />
+		</attribute>
+		<attribute name="Position" value="166.183 -51.2062 -0.980742" />
+		<attribute name="Rotation" value="-4.37114e-08 0 1 -0" />
+		<attribute name="Scale" value="1.5 1.5 1.5" />
+		<attribute name="Variables">
+			<variant hash="2310231975" type="String" value="Made in C++ using the Urho3D game engine." />
+		</attribute>
+		<component type="StaticModel" id="16780845">
+			<attribute name="Model" value="Model;Models/props/sign.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/sign_skin.xml" />
+		</component>
+	</node>
+	<node id="16778628">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="sign" />
+		<attribute name="Tags">
+			<string value="prop" />
+			<string value="sign" />
+		</attribute>
+		<attribute name="Position" value="40.0357 -51.2062 -22.1853" />
+		<attribute name="Rotation" value="0.707107 0 0.707107 0" />
+		<attribute name="Scale" value="1.5 1.5 1.5" />
+		<attribute name="Variables">
+			<variant hash="2310231975" type="String" value="Starring the Pyro Pastor" />
+		</attribute>
+		<component type="StaticModel" id="16780846">
+			<attribute name="Model" value="Model;Models/props/sign.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/sign_skin.xml" />
+		</component>
+	</node>
+	<node id="16778629">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="sign" />
+		<attribute name="Tags">
+			<string value="prop" />
+			<string value="sign" />
+		</attribute>
+		<attribute name="Position" value="288.204 -31.9997 -238.181" />
+		<attribute name="Rotation" value="0.707107 0 -0.707107 0" />
+		<attribute name="Scale" value="1.5 1.5 1.5" />
+		<attribute name="Variables">
+			<variant hash="2310231975" type="String" value="Starring the Tempest Templar" />
+		</attribute>
+		<component type="StaticModel" id="16780847">
+			<attribute name="Model" value="Model;Models/props/sign.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/sign_skin.xml" />
+		</component>
+	</node>
+	<node id="16778630">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="sign" />
+		<attribute name="Tags">
+			<string value="prop" />
+			<string value="sign" />
+		</attribute>
+		<attribute name="Position" value="432.815 -42.1 -0.216038" />
+		<attribute name="Rotation" value="-4.37114e-08 0 1 -0" />
+		<attribute name="Scale" value="1.5 1.5 1.5" />
+		<attribute name="Variables">
+			<variant hash="2310231975" type="String" value="Using Blender3D" />
+		</attribute>
+		<component type="StaticModel" id="16780848">
+			<attribute name="Model" value="Model;Models/props/sign.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/sign_skin.xml" />
+		</component>
+	</node>
+	<node id="16778631">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="sign" />
+		<attribute name="Tags">
+			<string value="prop" />
+			<string value="sign" />
+		</attribute>
+		<attribute name="Position" value="345.84 -11.0127 -1.9224" />
+		<attribute name="Rotation" value="-4.37114e-08 0 1 -0" />
+		<attribute name="Scale" value="1.5 1.5 1.5" />
+		<attribute name="Variables">
+			<variant hash="2310231975" type="String" value="Starring the Postal Pope" />
+		</attribute>
+		<component type="StaticModel" id="16780849">
+			<attribute name="Model" value="Model;Models/props/sign.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/sign_skin.xml" />
+		</component>
 	</node>
 </scene>
