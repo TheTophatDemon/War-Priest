@@ -5,9 +5,10 @@
 #include "TitleScreen.h"
 #include "GunPriest.h"
 
-TitleMenu::TitleMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(ts, gm)
+TitleMenu::TitleMenu(Context* context, TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(context, ts, gm)
 {
 	layoutPath = "UI/titlemenus/titlescreen.xml";
+	SubscribeToEvent(E_UIMOUSECLICKEND, URHO3D_HANDLER(TitleMenu, OnEvent));
 }
 
 void TitleMenu::OnEnter()

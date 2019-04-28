@@ -46,9 +46,9 @@ TitleScreen::TitleScreen(Context* context) : LogicComponent(context)
 
 void TitleScreen::MakeMenus()
 {
-	titleMenu = new TitleMenu(this, game);
-	levelSelectMenu = new LevelSelectMenu(this, game);
-	settingsMenu = new SettingsMenu(this, game);
+	titleMenu = new TitleMenu(context_, this, game);
+	levelSelectMenu = new LevelSelectMenu(context_, this, game);
+	settingsMenu = new SettingsMenu(context_, this, game);
 	SetMenu(titleMenu);
 }
 
@@ -74,17 +74,12 @@ void TitleScreen::Start()
 	renderer->GetViewport(0)->SetRenderPath(cache->GetResource<XMLFile>("RenderPaths/Forward_Blur.xml"));
 	input->SetMouseVisible(true);
 	input->SetMouseGrabbed(false);
-	
-	SubscribeToEvent(E_UIMOUSECLICKEND, URHO3D_HANDLER(TitleScreen, OnEvent));
+
 	SubscribeToEvent(E_UIMOUSECLICK, URHO3D_HANDLER(TitleScreen, OnEvent));
 	SubscribeToEvent(E_HOVERBEGIN, URHO3D_HANDLER(TitleScreen, OnEvent));
-	SubscribeToEvent(E_KEYDOWN, URHO3D_HANDLER(TitleScreen, OnEvent));
 	SubscribeToEvent(E_SLIDERCHANGED, URHO3D_HANDLER(TitleScreen, OnEvent));
 	SubscribeToEvent(E_TOGGLED, URHO3D_HANDLER(TitleScreen, OnEvent));
-	SubscribeToEvent(E_MOUSEWHEEL, URHO3D_HANDLER(TitleScreen, OnEvent));
-
 	SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(TitleScreen, OnUpdate));
-
 }
 
 void TitleScreen::OnUpdate(StringHash eventType, VariantMap& eventData)
@@ -100,7 +95,6 @@ void TitleScreen::OnUpdate(StringHash eventType, VariantMap& eventData)
 
 void TitleScreen::OnEvent(StringHash eventType, VariantMap& eventData)
 {
-	currentMenu->OnEvent(eventType, eventData);
 	//Play those sounds, dude.
 	if (eventType == E_TOGGLED && time > 0.1f)
 	{

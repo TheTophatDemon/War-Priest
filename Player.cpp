@@ -587,8 +587,8 @@ void Player::HandleCamera(const float timeStep)
 	//Yaw rotation via pivot
 	if (state != STATE_DROWN) pivot->SetWorldPosition(body->GetPosition());
 	float theta = input->GetMouseMoveX() * Settings::GetMouseSensitivity();
-	if (Settings::GetTurnRightKey()->isDown()) theta += timeStep * 1440.0f * Settings::GetMouseSensitivity();
-	if (Settings::GetTurnLeftKey()->isDown()) theta -= timeStep * 1440.0f * Settings::GetMouseSensitivity();
+	theta += timeStep * 1000.0f * Settings::GetMouseSensitivity()
+		* (Settings::GetActionValue(ActionType::CAM_RIGHT) - Settings::GetActionValue(ActionType::CAM_LEFT));
 	pivot->Rotate(Quaternion(theta, Vector3::UP));
 
 	//Cheaty first person mode for fun
@@ -640,8 +640,8 @@ void Player::HandleCamera(const float timeStep)
 
 	//Pitch rotation
 	float mvy = input->GetMouseMoveY();
-	if (Settings::GetTurnUpKey()->isDown()) mvy -= timeStep * 1440.0f;
-	if (Settings::GetTurnDownKey()->isDown()) mvy += timeStep * 1440.0f;
+	if (Settings::IsActionDown(ActionType::CAM_UP)) mvy -= timeStep * 1440.0f;
+	if (Settings::IsActionDown(ActionType::CAM_DOWN)) mvy += timeStep * 1440.0f;
 	if (Settings::IsMouseInverted()) mvy = -mvy;
 	cameraPitch = Clamp(cameraPitch + (mvy * Settings::GetMouseSensitivity() * 0.25f), -15.0f, 15.0f);
 	cameraNode->Rotate(Quaternion(cameraPitch, Vector3::RIGHT), TS_LOCAL);
@@ -777,19 +777,14 @@ void Player::ST_Default(float timeStep)
 	else
 		actor->maxSpeed = walkSpeed;
 
-	Vector3 keyVec = Vector3::ZERO;
-	if (Settings::GetForwardKey()->isDown())
-		keyVec.z_ = 1.0f;
-	else if (Settings::GetBackwardKey()->isDown())
-		keyVec.z_ = -1.0f;
-	if (Settings::GetRightKey()->isDown())
-		keyVec.x_ = 1.0f;
-	else if (Settings::GetLeftKey()->isDown())
-		keyVec.x_ = -1.0f;
-	
+	Vector3 keyVec = Vector3(
+		keyVec.x_ = Settings::GetActionValue(ActionType::RIGHT) - Settings::GetActionValue(ActionType::LEFT),
+		0.0f,
+		keyVec.z_ = Settings::GetActionValue(ActionType::FORWARD) - Settings::GetActionValue(ActionType::BACK)
+	);
 	actor->SetInputVec(pivot->GetWorldRotation() * keyVec);
 	
-	if (Settings::GetJumpKey()->isDown()) 
+	if (Settings::IsActionDown(ActionType::JUMP))
 		actor->Jump();
 
 	//Decide angle
@@ -852,7 +847,7 @@ void Player::ST_Default(float timeStep)
 	}
 
 	//Reviving
-	if (Settings::GetReviveKey()->isDown() && reviveCooldown <= 0.0f)
+	if (Settings::IsActionDown(ActionType::REVIVE) && reviveCooldown <= 0.0f)
 	{
 		animController->Play(REVIVE_ANIM, 128, false, 0.2f);
 		animController->SetStartBone(REVIVE_ANIM, "torso");
@@ -863,7 +858,7 @@ void Player::ST_Default(float timeStep)
 	}
 
 	//Sliding
-	if (Settings::GetSlideKey()->isDown() && actor->onGround && stateTimer > 0.5f)
+	if (Settings::IsActionDown(ActionType::SLIDE) && actor->onGround && stateTimer > 0.5f)
 	{
 		animController->Stop(REVIVE_ANIM, 0.2f);
 		ChangeState(STATE_SLIDE);

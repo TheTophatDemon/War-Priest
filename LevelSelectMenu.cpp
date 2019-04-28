@@ -17,7 +17,7 @@ const int LevelSelectMenu::LCF_UNLOCKED = 1;
 const int LevelSelectMenu::LCF_BEATEN = 2;
 const int LevelSelectMenu::LCF_CROSSGOTTEN = 4;
 
-LevelSelectMenu::LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(ts, gm),
+LevelSelectMenu::LevelSelectMenu(Context* context, TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu(context, ts, gm),
 	animTimer(0.0f),
 	crossCount(0),
 	beatenCount(0)
@@ -43,6 +43,8 @@ LevelSelectMenu::LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : Menu
 	}
 
 	sprites = Vector<Sprite*>();
+
+	SubscribeToEvent(E_UIMOUSECLICKEND, URHO3D_HANDLER(LevelSelectMenu, OnEvent));
 }
 
 void LevelSelectMenu::SetLevelCompletionFlag(const String levelPath, const int flag, const bool val) 

@@ -27,10 +27,9 @@ public:
 	static const int LCF_BEATEN;
 	static const int LCF_CROSSGOTTEN;
 
-	LevelSelectMenu(TitleScreen* ts, SharedPtr<Gameplay> gm);
-	virtual void OnEnter();
-	virtual void Update(float timeStep);
-	virtual void OnEvent(StringHash eventType, VariantMap& eventData);
+	LevelSelectMenu(Context* context, TitleScreen* ts, SharedPtr<Gameplay> gm);
+	virtual void OnEnter() override;
+	virtual void Update(float timeStep) override;
 	void SetLevelCompletionFlag(const String levelPath, const int flag, const bool val);
 	int GetNumberOfVisits(const String levelpath);
 	inline int GetCrossCount() const 
@@ -43,6 +42,8 @@ public:
 	};
 	~LevelSelectMenu();
 protected:
+	void OnEvent(StringHash eventType, VariantMap& eventData);
+	
 	SharedPtr<XMLFile> levelInfo;
 	SharedPtr<ListView> levelList;
 	Vector<LevelEntry> levelEntries;

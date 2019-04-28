@@ -40,19 +40,19 @@ String Sign::ParseMessage(const String& message)
 		if (token.StartsWith("%"))
 		{
 			if (token == "%FKEY")
-				newMessage += Settings::GetForwardKey()->verboseName;
+				newMessage += Settings::GetAction(ActionType::FORWARD).binding->verboseName;
 			else if (token == "%BKEY")
-				newMessage += Settings::GetBackwardKey()->verboseName;
+				newMessage += Settings::GetAction(ActionType::BACK).binding->verboseName;
 			else if (token == "%LKEY")
-				newMessage += Settings::GetLeftKey()->verboseName;
+				newMessage += Settings::GetAction(ActionType::LEFT).binding->verboseName;
 			else if (token == "%RKEY")
-				newMessage += Settings::GetRightKey()->verboseName;
+				newMessage += Settings::GetAction(ActionType::RIGHT).binding->verboseName;
 			else if (token == "%JKEY")
-				newMessage += Settings::GetJumpKey()->verboseName;
+				newMessage += Settings::GetAction(ActionType::JUMP).binding->verboseName;
 			else if (token == "%RVKEY")
-				newMessage += Settings::GetReviveKey()->verboseName;
+				newMessage += Settings::GetAction(ActionType::REVIVE).binding->verboseName;
 			else if (token == "%SKEY")
-				newMessage += Settings::GetSlideKey()->verboseName;
+				newMessage += Settings::GetAction(ActionType::SLIDE).binding->verboseName;
 		}
 		else
 		{

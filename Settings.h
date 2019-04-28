@@ -7,54 +7,110 @@ using namespace Urho3D;
 
 class SettingsMenu;
 
-class UInput : public RefCounted //Universal Input type. Can be a keyboard key or a mouse button
+enum class BindingType : unsigned char
+{
+	KEY,
+	MOUSE,
+	JOYBUTT,
+	JOYAXIS,
+	JOYHAT,
+	NONE
+};
+
+class Binding : public RefCounted //Universal Input type. Can be a keyboard key or a mouse button
 {
 public:
-	UInput();
-	UInput(String name, Input* input);
+	Binding();
+	Binding(String name, Input* input, BindingType type);
 	String name;
 	String verboseName;
-	virtual bool isDown() = 0;
-	virtual bool isPressed() = 0;
+	BindingType type;
+	virtual float getValue() = 0;
+	virtual bool valueChanged() = 0;
 protected:
 	Input* input;
 };
-class KeyInput : public UInput
+
+class KeyBinding : public Binding
 {
 public:
-	KeyInput(const int keyCode, Input* input);
-	virtual bool isDown() override;
-	virtual bool isPressed() override;
+	KeyBinding(const int keyCode, Input* input);
+	virtual float getValue() override;
+	virtual bool valueChanged() override;
 	int keyCode;
 };
-class MouseInput : public UInput
+
+class MouseBinding : public Binding
 {
 public:
-	MouseInput(const int button, Input* input);
-	virtual bool isDown() override;
-	virtual bool isPressed() override;
+	MouseBinding(const int button, Input* input);
+	virtual float getValue() override;
+	virtual bool valueChanged() override;
 	int button;
+};
+
+class JoyButtBinding : public Binding
+{
+public:
+	JoyButtBinding(const int joyIndex, const int button, Input* input);
+	virtual float getValue() override;
+	virtual bool valueChanged() override;
+	int joyIndex;
+	int button;
+};
+
+class JoyAxisBinding : public Binding
+{
+public:
+	JoyAxisBinding(const int joyIndex, const int axis, const int sign, Input* input);
+	virtual float getValue() override;
+	virtual bool valueChanged() override;
+	int joyIndex;
+	int axis;
+	int sign;
+};
+
+enum class ActionType
+{
+	FORWARD,
+	BACK,
+	LEFT,
+	RIGHT,
+	JUMP,
+	REVIVE,
+	SLIDE,
+	CAM_RIGHT,
+	CAM_LEFT,
+	CAM_UP,
+	CAM_DOWN,
+	MENU,
+	COUNT
+};
+
+class Action
+{
+public:
+	Action(String name);
+	String name;
+	//Binding for keyboard or mouse
+	SharedPtr<Binding> binding;
+	//Binding for joystick
+	SharedPtr<Binding> joyBinding;
 };
 
 class Settings //Not to be confused with SettingsMenu.h
 {
 	friend class SettingsMenu;
+	friend class RebindScreen;
 public:
 	static void LoadSettings(Context* context);
 	static void SaveSettings(Context* context);
 	static void RevertSettings(Context* context);
 	
-	static inline UInput* GetBackwardKey() { return keyBackward; }
-	static inline UInput* GetForwardKey() { return keyForward; }
-	static inline UInput* GetRightKey() { return keyRight;  }
-	static inline UInput* GetLeftKey() { return keyLeft; }
-	static inline UInput* GetJumpKey() { return keyJump; }
-	static inline UInput* GetReviveKey() { return keyRevive; }
-	static inline UInput* GetSlideKey() { return keySlide; }
-	static inline UInput* GetTurnRightKey() { return keyTurnRight; }
-	static inline UInput* GetTurnLeftKey() { return keyTurnLeft; }
-	static inline UInput* GetTurnUpKey() { return keyTurnUp; }
-	static inline UInput* GetTurnDownKey() { return keyTurnDown; }
+	static inline Action& GetAction(ActionType type) { return actions[static_cast<int>(type)]; }
+	static inline bool IsActionDown(ActionType type) { return actions[static_cast<int>(type)].binding->getValue() > DEADZONE; }
+	static inline float GetActionValue(ActionType type) { return actions[static_cast<int>(type)].binding->getValue(); };
+	static inline bool IsActionPressed(ActionType type) { return actions[static_cast<int>(type)].binding->valueChanged(); };
 	static inline int GetResolutionX() { return xRes; };
 	static inline int GetResolutionY() { return yRes; };
 	static inline float GetMouseSensitivity() { return mouseSensitivity; }
@@ -84,26 +140,15 @@ public:
 		}
 	}
 
-	static const constexpr int NUM_INPUTS = 11;
+	static const constexpr float DEADZONE = 0.25f;
 	static const constexpr int NUM_RESOLUTIONS = 6;
 	static const int RES_X[];
 	static const int RES_Y[];
-	static StringHash E_SETTINGSCHANGED;
-	static String GAMESETTINGS_PATH;
+	static const StringHash E_SETTINGSCHANGED;
+	static const String GAMESETTINGS_PATH;
 	static const float UNHOLY_THRESHOLD;
 protected:
-	static SharedPtr<UInput>* inputs[];
-	static SharedPtr<UInput> keyForward;
-	static SharedPtr<UInput> keyBackward;
-	static SharedPtr<UInput> keyLeft;
-	static SharedPtr<UInput> keyRight;
-	static SharedPtr<UInput> keyJump;
-	static SharedPtr<UInput> keyRevive;
-	static SharedPtr<UInput> keySlide;
-	static SharedPtr<UInput> keyTurnRight;
-	static SharedPtr<UInput> keyTurnLeft;
-	static SharedPtr<UInput> keyTurnUp;
-	static SharedPtr<UInput> keyTurnDown;
+	static Action actions[];
 	static int xRes;
 	static int yRes;
 	static float mouseSensitivity;

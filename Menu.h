@@ -13,16 +13,15 @@
 class TitleScreen;
 namespace GP 
 {
-	class Menu : public RefCounted
+	class Menu : public Object
 	{
+		URHO3D_OBJECT(Menu, Object);
 	public:
-		Menu(TitleScreen* ts, SharedPtr<Gameplay> gm);
+		Menu(Context* context, TitleScreen* ts, SharedPtr<Gameplay> gm);
 		virtual void OnEnter();
 		virtual void OnLeave();
 		virtual void Update(float timeStep);
-		virtual void OnEvent(StringHash eventType, VariantMap& eventData) = 0;
-		virtual
-			~Menu();
+		virtual ~Menu();
 		String layoutPath;
 	protected:
 		SharedPtr<TitleScreen> titleScreen;

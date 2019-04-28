@@ -4,7 +4,7 @@
 
 using namespace GP;
 
-Menu::Menu(TitleScreen* ts, SharedPtr<Gameplay> gm)
+Menu::Menu(Context* context, TitleScreen* ts, SharedPtr<Gameplay> gm) : Object(context)
 {
 	titleScreen = SharedPtr<TitleScreen>(ts);
 	gameplay = gm;

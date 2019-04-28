@@ -247,7 +247,7 @@ void GunPriest::Update(StringHash eventType, VariantMap& eventData)
 			pause = false;
 		}
 		scene_->SetUpdateEnabled(!pause);
-		if (input->GetKeyPress(KEY_ESCAPE))
+		if (Settings::IsActionPressed(ActionType::MENU))
 		{
 			ChangeState(STATE_TITLE);
 		}

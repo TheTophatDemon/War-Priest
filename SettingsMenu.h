@@ -24,26 +24,23 @@ struct ResolutionButton
 
 class SettingsMenu : public GP::Menu
 {
+	URHO3D_OBJECT(SettingsMenu, GP::Menu);
 public:
-	SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm);
+	SettingsMenu(Context* context, TitleScreen* ts, SharedPtr<Gameplay> gm);
 	virtual void OnEnter() override;
 	virtual void OnLeave() override;
 	virtual void Update(float timeStep) override;
-	virtual void OnEvent(StringHash eventType, VariantMap& eventData) override;
 	~SettingsMenu();
 protected:
+	void GenerateUI();
+	void OnEvent(StringHash eventType, VariantMap& eventData);
 	void SyncControls();
 
 	SharedPtr<Audio> audio;
 	SharedPtr<Input> input;
 
+	SharedPtr<RebindScreen> rebindScreen;
 	SharedPtr<Button> controlsButton;
-
-	SharedPtr<Window> rebindWindow;
-	SharedPtr<ListView> rebindPanel;
-	SharedPtr<Text> rebindLabel;
-	//SharedPtr<ScrollBar> rebindScroll;
-	Vector<SharedPtr<Button>> rebindButtons;
 
 	SharedPtr<Slider> musicVolumeSlider;
 	SharedPtr<Slider> soundVolumeSlider;
@@ -64,8 +61,5 @@ protected:
 	const static Color unSelectedColor;
 
 	bool videoSettingDirty = false;
-
-	bool rebinding = false;
-	Button* rebindButton;
 };
 

@@ -1,9 +1,18 @@
+//DONE:
+	//Add customizable menu button
+	//Spiffy up the handling of the input array
+	//Make axis input more smooth
+	//Add separate menu & bindings for joysticks
+	//Fix axis intrusiveness
 //TODO:
 	//Player disappears?
 		//PP also disappears on SS1
 		//First person mode makes the model pop out, but it's stuck in position
 	//Camera goes apeshit?
+	//Postal Pope's boulders are clipping the walls in FF1
 	//Gamepad support
+		//Make controls respond to joystick bindings as well
+		//Joystick hats
 	//Option to disable projectile warnings
 	//Credits
 		//Music for level
@@ -35,6 +44,7 @@
 			//Make broken bridge part less risky
 			//More health
 		//FF4
+			//Nerf the first section
 			//Expand ridge in FF4
 			//FF4 Enemy in the water?
 			//Add bonus cross
@@ -52,7 +62,7 @@
 			//SS3 less enemies on side island
 		//SS4
 			//SS4 intial launchpad comes up too short
-			//Add a way back from that same launchpad target
+			//Add a way back from that initial launchpad
 			//Fix those tiny-ass platforms
 	//Optimizations:
 		//Optimize raycast distances for player (The more geometry that intersects it, the slower it gets)

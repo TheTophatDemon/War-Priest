@@ -6,26 +6,34 @@
 #include <Urho3D/Audio/Audio.h>
 #include <iostream>
 
+#include "RebindScreen.h"
+
 const Color SettingsMenu::selectedColor = Color(0.65f, 0.75f, 0.65f);
 const Color SettingsMenu::unSelectedColor = Color(0.25f, 0.25f, 0.25f);
 
-#define UPDATE_REBIND_BUTTON_TEXT(t, a) t.Substring(0, t.FindLast(":") + 1) + " " + a
-
-SettingsMenu::SettingsMenu(TitleScreen* ts, SharedPtr<Gameplay> gm) : GP::Menu(ts, gm), 
-	selectedRes(0), rebinding(false), rebindButton(nullptr), videoSettingDirty(false)
+SettingsMenu::SettingsMenu(Context* context, TitleScreen* ts, SharedPtr<Gameplay> gm) : GP::Menu(context, ts, gm), 
+	selectedRes(0), videoSettingDirty(false)
 {
 	layoutPath = "UI/titlemenus/settingsScreen.xml";
+
+	input = titleScreen->GetSubsystem<Input>();
+	audio = titleScreen->GetSubsystem<Audio>();
+
+	SubscribeToEvent(E_UIMOUSECLICKEND, URHO3D_HANDLER(SettingsMenu, OnEvent));
+	SubscribeToEvent(E_TOGGLED, URHO3D_HANDLER(SettingsMenu, OnEvent));
 }
 
 void SettingsMenu::OnEnter()
 {
 	Settings::LoadSettings(titleScreen->GetContext());
-	GP::Menu::OnEnter();
-	input = titleScreen->GetSubsystem<Input>();
-	audio = titleScreen->GetSubsystem<Audio>();
-
 	videoSettingDirty = false;
-	
+	GenerateUI();
+}
+
+void SettingsMenu::GenerateUI()
+{
+	GP::Menu::OnEnter();
+
 	controlsButton = titleScreen->ourUI->GetChildDynamicCast<Button>("controlsButton", true);
 
 	musicVolumeSlider = titleScreen->ourUI->GetChildDynamicCast<Slider>("musicVolumeSlider", true);
@@ -38,41 +46,6 @@ void SettingsMenu::OnEnter()
 	invertMouseCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("invertMouseCheck", true);
 	vsyncCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("vsyncCheck", true);
 	fullScreenCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("fullScreenCheck", true);
-
-	//Set up rebinding window
-	rebindWindow = dynamic_cast<Window*>(titleScreen->ourUI->LoadChildXML(cache->GetResource<XMLFile>("UI/titlemenus/rebindWindow.xml")->GetRoot()));
-	rebindWindow->SetVisible(false);
-	rebindWindow->SetPriority(100000);
-	rebindLabel = rebindWindow->GetChildDynamicCast<Text>("windowTitle", true);
-	rebindPanel = rebindWindow->GetChildDynamicCast<ListView>("panel", true);
-	//Hacking the UI Style so that the ListView items don't show over the panel borders reveals the horizontal scroll bar
-	//Other code messes with its visibility state, so it must be hidden indirectly
-	rebindPanel->GetHorizontalScrollBar()->SetClipChildren(true);
-	rebindPanel->GetHorizontalScrollBar()->SetClipBorder(IntRect(6000, 6000, 6000, 6000));
-	
-	//Generate buttons for each input type
-	rebindButtons = Vector<SharedPtr<Button>>();
-	//Corresponding buttons must be in same order as Settings::inputs[]
-	String inputLabels[] = {"Move Forward: ", "Move Backwards: ", "Move Left: ", "Move Right: ", "Jump: ", "Revive: ", "Slide: ", 
-		"Turn Camera Right: ", "Turn Camera Left: ", "Turn Camera Up: ", "Turn Camera Down: "};
-	for (int i = 0; i < Settings::NUM_INPUTS; ++i)
-	{
-		//Have to add a proxy UIElement for each button or the ListView will not work right
-		SharedPtr<UIElement> buttParent = SharedPtr<UIElement>(new UIElement(titleScreen->GetContext()));
-		buttParent->SetStyleAuto(ui->GetRoot()->GetDefaultStyle());
-		
-		Button* butt = dynamic_cast<Button*>(buttParent->LoadChildXML(cache->GetResource<XMLFile>("UI/titlemenus/rebindButton.xml")->GetRoot()));
-		butt->GetChildDynamicCast<Text>("label", true)->SetText(inputLabels[i]);
-		butt->SetVar("Input ID", i);
-		butt->SetFocusMode(FM_FOCUSABLE);
-		rebindButtons.Push(SharedPtr<Button>(butt));
-
-		buttParent->SetAlignment(HA_CENTER, VA_TOP);
-		buttParent->SetSize(butt->GetSize());
-		buttParent->SetMinSize(butt->GetSize());
-		buttParent->SetMaxSize(butt->GetSize());
-		rebindPanel->AddItem(buttParent);
-	}
 
 	//Add buttons for each resolution
 	resolutionList = titleScreen->ourUI->GetChild("resolutionList", true);
@@ -103,7 +76,8 @@ void SettingsMenu::OnEnter()
 	SyncControls();
 }
 
-void SettingsMenu::SyncControls() //Syncs the ui controls to the actual settings
+//Syncs the ui controls to the actual settings
+void SettingsMenu::SyncControls()
 {
 	musicVolumeSlider->SetValue(Settings::GetMusicVolume() * musicVolumeSlider->GetRange());
 	soundVolumeSlider->SetValue(Settings::GetSoundVolume() * soundVolumeSlider->GetRange());
@@ -115,12 +89,6 @@ void SettingsMenu::SyncControls() //Syncs the ui controls to the actual settings
 	invertMouseCheck->SetChecked(Settings::IsMouseInverted());
 	vsyncCheck->SetChecked(Settings::IsVsync());
 	fullScreenCheck->SetChecked(Settings::IsFullScreen());
-	
-	for (int i = 0; i < Settings::NUM_INPUTS; ++i)
-	{
-		Text* buttLabel = rebindButtons.At(i)->GetChildDynamicCast<Text>("label", true);
-		buttLabel->SetText(UPDATE_REBIND_BUTTON_TEXT(buttLabel->GetText(), (*Settings::inputs[i])->name));
-	}
 
 	for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i)
 	{
@@ -136,9 +104,11 @@ void SettingsMenu::SyncControls() //Syncs the ui controls to the actual settings
 	}
 }
 
+//Syncs current settings to UI elements
 void SettingsMenu::Update(float timeStep)
 {
-	//Sync settings to UI elements
+	if (rebindScreen.NotNull()) rebindScreen->Update(timeStep);
+
 	Settings::musicVolume = musicVolumeSlider->GetValue() / musicVolumeSlider->GetRange();
 	Settings::soundVolume = soundVolumeSlider->GetValue() / soundVolumeSlider->GetRange();
 	Settings::mouseSensitivity = sensitivitySlider->GetValue() / sensitivitySlider->GetRange();
@@ -160,104 +130,68 @@ void SettingsMenu::Update(float timeStep)
 
 void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 {
-	if (!rebinding)
+	if (eventType == E_UIMOUSECLICKEND)
 	{
-		if (eventType == E_UIMOUSECLICKEND)
+		int mouseButtonPressed = eventData["Button"].GetInt();
+		Button* source = dynamic_cast<Button*>(eventData["Element"].GetPtr());
+		if (!source) return;
+		if (source->GetParent() == resolutionList)
 		{
-			int mouseButtonPressed = eventData["Button"].GetInt();
-			Button* source = dynamic_cast<Button*>(eventData["Element"].GetPtr());
-			if (!source) return;
-			if (source->GetParent() == resolutionList)
+			for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i)
 			{
-				for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i)
+				if (resButtons[i].button == source)
 				{
-					if (resButtons[i].button == source)
-					{
-						resButtons[i].button->SetColor(selectedColor);
-						if (i != selectedRes) videoSettingDirty = true;
-						selectedRes = i;
-					}
-					else
-					{
-						resButtons[i].button->SetColor(unSelectedColor);
-					}
+					resButtons[i].button->SetColor(selectedColor);
+					if (i != selectedRes) videoSettingDirty = true;
+					selectedRes = i;
 				}
-			}
-			else if (source->GetName() == "rebindButton")
-			{
-				rebinding = true;
-				rebindButton = source;
-				rebindLabel->SetText("Press the button to be assigned");
-				rebindButton->SetFocus(true);
-			}
-			else if (source->GetParent() == rebindWindow)
-			{
-				if (source->GetName() == "closeButton")
+				else
 				{
-					rebindWindow->SetVisible(false);
-				}
-			}
-			else
-			{
-				if (source->GetName() == "cancelButton")
-				{
-					Settings::LoadSettings(titleScreen->GetContext());
-					titleScreen->SetMenu(titleScreen->titleMenu);
-				}
-				else if (source->GetName() == "confirmButton")
-				{
-					if (videoSettingDirty) titleScreen->gunPriest->VideoSetup();
-					Settings::SaveSettings(titleScreen->GetContext());
-					titleScreen->SetMenu(titleScreen->titleMenu);
-				}
-				else if (source->GetName() == "revertButton")
-				{
-					Settings::RevertSettings(titleScreen->GetContext());
-					SyncControls();
-				}
-				else if (source->GetName() == "controlsButton")
-				{
-					rebindWindow->SetVisible(true);
-					rebindPanel->SetFocus(true);
+					resButtons[i].button->SetColor(unSelectedColor);
 				}
 			}
 		}
-		else if (eventType == E_TOGGLED)
+		else
 		{
-			CheckBox* source = dynamic_cast<CheckBox*>(eventData["Element"].GetPtr());
-			if (!source) return;
-			if (source == fullScreenCheck.Get() || source == vsyncCheck.Get())
+			if (source->GetName() == "cancelButton")
 			{
-				videoSettingDirty = true;
+				Settings::LoadSettings(titleScreen->GetContext());
+				titleScreen->SetMenu(titleScreen->titleMenu);
+			}
+			else if (source->GetName() == "confirmButton")
+			{
+				if (videoSettingDirty) titleScreen->gunPriest->VideoSetup();
+				Settings::SaveSettings(titleScreen->GetContext());
+				titleScreen->SetMenu(titleScreen->titleMenu);
+			}
+			else if (source->GetName() == "revertButton")
+			{
+				Settings::RevertSettings(titleScreen->GetContext());
+				SyncControls();
+			}
+			else if (source->GetName() == "controlsButton")
+			{
+				rebindScreen = new RebindScreen(context_, titleScreen, gameplay);
+				rebindScreen->OnEnter();
+			}
+			else if (rebindScreen.NotNull() && source->GetName() == "closeButton")
+			{
+				if (source->GetParent()->GetName() == "rebindScreen")
+				{
+					rebindScreen->OnLeave();
+					rebindScreen = nullptr;
+					GenerateUI();
+				}
 			}
 		}
 	}
-	else
+	else if (eventType == E_TOGGLED)
 	{
-		if (eventType == E_UIMOUSECLICKEND || eventType == E_KEYDOWN) 
+		CheckBox* source = dynamic_cast<CheckBox*>(eventData["Element"].GetPtr());
+		if (!source) return;
+		if (source == fullScreenCheck.Get() || source == vsyncCheck.Get())
 		{
-			const int id = rebindButton->GetVar("Input ID").GetInt();
-			if (eventType == E_UIMOUSECLICKEND)
-			{
-				const int button = eventData["Button"].GetInt();
-				(*Settings::inputs[id]) = SharedPtr<UInput>(new MouseInput(button, input));
-			}
-			else if (eventType == E_KEYDOWN)
-			{
-				const int key = eventData["Key"].GetInt();
-				(*Settings::inputs[id]) = SharedPtr<UInput>(new KeyInput(key, input));
-			}
-			rebinding = false;
-			rebindLabel->SetText("Click on an input to change it");
-			Text* buttLabel = rebindButton->GetChildDynamicCast<Text>("label", true);
-			buttLabel->SetText(UPDATE_REBIND_BUTTON_TEXT(buttLabel->GetText(), (*Settings::inputs[id])->name));
-			rebindButton = nullptr;
-			rebindPanel->SetFocus(true);
-		}
-		else if (eventType == E_MOUSEWHEEL)
-		{
-			const int wheelValue = eventData["Wheel"].GetInt();
-			//rebindScroll->SetValue(rebindScroll->GetValue() - wheelValue * 2.0f);
+			videoSettingDirty = true;
 		}
 	}
 }

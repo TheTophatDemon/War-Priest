@@ -4,13 +4,14 @@
 
 class TitleMenu : public GP::Menu
 {
+	URHO3D_OBJECT(TitleMenu, GP::Menu);
 public:
-	TitleMenu(TitleScreen* ts, SharedPtr<Gameplay> gm);
-	virtual void OnEnter();
-	virtual void Update(float timeStep);
-	virtual void OnEvent(StringHash eventType, VariantMap& eventData);
+	TitleMenu(Context* context, TitleScreen* ts, SharedPtr<Gameplay> gm);
+	virtual void OnEnter() override;
+	virtual void Update(float timeStep) override;
 	~TitleMenu();
 protected:
+	void OnEvent(StringHash eventType, VariantMap& eventData);
 	SharedPtr<Button> resumeButton;
 };
 

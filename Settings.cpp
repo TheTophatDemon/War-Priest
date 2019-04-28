@@ -5,69 +5,61 @@
 #include <Urho3D/IO/File.h>
 #include "SettingsMenu.h"
 
-String Settings::GAMESETTINGS_PATH = "/Data/gamesettings.bin";
-StringHash Settings::E_SETTINGSCHANGED = StringHash("SettingsChanged");
+const String Settings::GAMESETTINGS_PATH = "/Data/gamesettings.bin";
+const StringHash Settings::E_SETTINGSCHANGED = StringHash("SettingsChanged");
 
-#define DF_FASTGRAPHICS false
-#define DF_MOUSEINVERT false
-#define DF_BLOOD true
-#define DF_FULLSCREEN false
-#define DF_VSYNC false
-
-#define DF_MOUSESENS 0.25f
-#define DF_MUSVOL 0.5f
-#define DF_SNDVOL 1.0f
-#define DF_DIFF 1.0f
-
-#define DF_XRES 1280
-#define DF_YRES 720
-
-bool Settings::fastGraphics = DF_FASTGRAPHICS;
-bool Settings::mouseInvert = DF_MOUSEINVERT;
-bool Settings::bloodEnabled = DF_BLOOD;
-bool Settings::fullScreen = DF_FULLSCREEN;
-bool Settings::vSync = DF_VSYNC;
-
-float Settings::mouseSensitivity = DF_MOUSESENS;
-float Settings::musicVolume = DF_MUSVOL;
-float Settings::soundVolume = DF_SNDVOL;
-float Settings::difficulty = DF_DIFF;
-
-const float Settings::UNHOLY_THRESHOLD = 1.4f;
-
-SharedPtr<UInput> Settings::keyBackward;
-SharedPtr<UInput> Settings::keyForward;
-SharedPtr<UInput> Settings::keyLeft;
-SharedPtr<UInput> Settings::keyRight;
-SharedPtr<UInput> Settings::keyJump;
-SharedPtr<UInput> Settings::keyRevive;
-SharedPtr<UInput> Settings::keySlide;
-SharedPtr<UInput> Settings::keyTurnRight;
-SharedPtr<UInput> Settings::keyTurnLeft;
-SharedPtr<UInput> Settings::keyTurnUp;
-SharedPtr<UInput> Settings::keyTurnDown;
-SharedPtr<UInput>* Settings::inputs[] = { &keyForward, &keyBackward, &keyLeft, &keyRight, 
-	&keyJump, &keyRevive, &keySlide, &keyTurnRight, &keyTurnLeft, &keyTurnUp, &keyTurnDown };
+int Settings::xRes = 0;
+int Settings::yRes = 0;
+float Settings::mouseSensitivity = 0.0f;
+float Settings::musicVolume = 0.0f;
+float Settings::soundVolume = 0.0f;
+float Settings::difficulty = 0.0f;
+bool Settings::mouseInvert = false;
+bool Settings::bloodEnabled = false;
+bool Settings::fullScreen = false;
+bool Settings::vSync = false;
+bool Settings::fastGraphics = false;
 
 const int Settings::RES_X[] = { 1920, 1280, 800, 800, 640, 640 };
 const int Settings::RES_Y[] = { 1080, 720, 600, 450, 480, 360 };
 
-int Settings::xRes = DF_XRES;
-int Settings::yRes = DF_YRES;
+const float Settings::UNHOLY_THRESHOLD = 1.4f;
 
-UInput::UInput() { name = "ERROR"; input = nullptr; }
-UInput::UInput(String name, Input* input)
+Action::Action(String name) : name(name) {}
+
+Action Settings::actions[] = {
+	Action("Move Forward"),
+	Action("Move Backward"),
+	Action("Move Left"),
+	Action("Move Right"),
+	Action("Jump"),
+	Action("Revive"),
+	Action("Slide"),
+	Action("Turn Camera Right"),
+	Action("Turn Camera Left"),
+	Action("Turn Camera Up"),
+	Action("Turn Camera Down"),
+	Action("Open Menu")
+};
+
+Binding::Binding() { name = "ERROR"; input = nullptr; }
+Binding::Binding(String name, Input* input, BindingType type)
 {
 	this->name = name;
 	this->input = input;
 	this->verboseName = name;
+	this->type = type;
 }
 
-KeyInput::KeyInput(const int keyCode, Input* input) : UInput(input->GetKeyName(keyCode), input), keyCode(keyCode) {}
-bool KeyInput::isDown() { return input->GetKeyDown(keyCode); }
-bool KeyInput::isPressed() { return input->GetKeyPress(keyCode); }
+//KEY BINDING
+KeyBinding::KeyBinding(const int keyCode, Input* input) : Binding(input->GetKeyName(keyCode), input, BindingType::KEY), keyCode(keyCode) {}
+float KeyBinding::getValue() { return input->GetKeyDown(keyCode) ? 1.0f : 0.0f; }
+bool KeyBinding::valueChanged() { return input->GetKeyPress(keyCode); }
 
-MouseInput::MouseInput(const int button, Input* input) : UInput("", input), button(button) 
+//MOUSE BINDING
+MouseBinding::MouseBinding(const int button, Input* input) 
+	: Binding("", input, BindingType::MOUSE), 
+	button(button) 
 {
 	switch (button)
 	{
@@ -85,34 +77,72 @@ MouseInput::MouseInput(const int button, Input* input) : UInput("", input), butt
 		break;
 	}
 }
-bool MouseInput::isDown() { return input->GetMouseButtonDown(button); }
-bool MouseInput::isPressed() { return input->GetMouseButtonPress(button); }
+float MouseBinding::getValue() { return input->GetMouseButtonDown(button) ? 1.0f : 0.0f; }
+bool MouseBinding::valueChanged() { return input->GetMouseButtonPress(button); }
+
+//JOYSTICK BUTTON BINDING
+JoyButtBinding::JoyButtBinding(const int joyIndex, const int button, Input* input)
+	: Binding("Joystick " + String(joyIndex) + " Button " + String(button), input, BindingType::JOYBUTT),
+	joyIndex(joyIndex),
+	button(button) {}
+float JoyButtBinding::getValue() 
+{ 
+	if (input->GetNumJoysticks() <= joyIndex) return 0.0f; //Cancel if no joystick
+	return input->GetJoystickByIndex(joyIndex)->GetButtonDown(button) ? 1.0f : 0.0f; 
+};
+bool JoyButtBinding::valueChanged() 
+{ 
+	if (input->GetNumJoysticks() <= joyIndex) return false; //Cancel if no joystick
+	return input->GetJoystickByIndex(joyIndex)->GetButtonPress(button); 
+};
+
+//JOYSTICK AXIS BINDING
+JoyAxisBinding::JoyAxisBinding(const int joyIndex, const int axis, const int sign, Input* input)
+	: Binding("Joystick " + String(joyIndex) + " Axis " + String(axis) + (sign > 0 ? " (+)" : " (-)"), input, BindingType::JOYAXIS),
+	joyIndex(joyIndex),
+	axis(axis),
+	sign(sign) {}
+float JoyAxisBinding::getValue() 
+{ 
+	if (input->GetNumJoysticks() <= joyIndex) return false; //Cancel if no joystick
+	return Max(0, input->GetJoystickByIndex(joyIndex)->GetAxisPosition(axis) * sign);
+};
+//The value is always changing; we can't keep track of that here.
+bool JoyAxisBinding::valueChanged()
+{
+	return false;
+};
 
 void Settings::RevertSettings(Context* context)
 {
 	Input* input = context->GetSubsystem<Input>();
-	mouseInvert = DF_MOUSEINVERT;
-	bloodEnabled = DF_BLOOD;
-	fullScreen = DF_FULLSCREEN;
-	vSync = DF_VSYNC;
-	mouseSensitivity = DF_MOUSESENS;
-	musicVolume = DF_MUSVOL;
-	soundVolume = DF_SNDVOL;
-	keyBackward = SharedPtr<UInput>(new KeyInput(KEY_S, input));
-	keyForward = SharedPtr<UInput>(new KeyInput(KEY_W, input));
-	keyLeft = SharedPtr<UInput>(new KeyInput(KEY_A, input));
-	keyRight = SharedPtr<UInput>(new KeyInput(KEY_D, input));
-	keyJump = SharedPtr<UInput>(new KeyInput(KEY_SPACE, input));
-	keyRevive = SharedPtr<UInput>(new MouseInput(MOUSEB_LEFT, input));
-	keySlide = SharedPtr<UInput>(new MouseInput(MOUSEB_RIGHT, input));
-	keyTurnRight = SharedPtr<UInput>(new KeyInput(KEY_RIGHT, input));
-	keyTurnLeft = SharedPtr<UInput>(new KeyInput(KEY_LEFT, input));
-	keyTurnUp = SharedPtr<UInput>(new KeyInput(KEY_UP, input));
-	keyTurnDown = SharedPtr<UInput>(new KeyInput(KEY_DOWN, input));
-	xRes = DF_XRES;
-	yRes = DF_YRES;
-	fastGraphics = DF_FASTGRAPHICS;
-	difficulty = DF_DIFF;
+
+	mouseInvert = false;
+	bloodEnabled = true;
+	fullScreen = false;
+	vSync = false;
+	mouseSensitivity = 0.25f;
+	musicVolume = 1.0f;
+	soundVolume = 1.0f;
+	xRes = 1280;
+	yRes = 720;
+	fastGraphics = false;
+	difficulty = 1.0f;
+
+	GetAction(ActionType::BACK).binding = new KeyBinding(KEY_S, input);
+	GetAction(ActionType::FORWARD).binding = new KeyBinding(KEY_W, input);
+	GetAction(ActionType::LEFT).binding = new KeyBinding(KEY_A, input);
+	GetAction(ActionType::RIGHT).binding = new KeyBinding(KEY_D, input);
+	GetAction(ActionType::JUMP).binding = new KeyBinding(KEY_SPACE, input);
+	GetAction(ActionType::REVIVE).binding = new MouseBinding(MOUSEB_LEFT, input);
+	GetAction(ActionType::SLIDE).binding = new MouseBinding(MOUSEB_RIGHT, input);
+	GetAction(ActionType::CAM_RIGHT).binding = new KeyBinding(KEY_RIGHT, input);
+	GetAction(ActionType::CAM_LEFT).binding = new KeyBinding(KEY_LEFT, input);
+	GetAction(ActionType::CAM_UP).binding = new KeyBinding(KEY_UP, input);
+	GetAction(ActionType::CAM_DOWN).binding = new KeyBinding(KEY_DOWN, input);
+	GetAction(ActionType::MENU).binding = new KeyBinding(KEY_ESCAPE, input);
+	for (int i = 0; i < static_cast<int>(ActionType::COUNT); ++i)
+		actions[i].joyBinding = nullptr;
 }
 
 void Settings::LoadSettings(Context* context)
@@ -134,17 +164,44 @@ void Settings::LoadSettings(Context* context)
 		musicVolume = file->ReadFloat();
 		soundVolume = file->ReadFloat();
 
-		for (int i = 0; i < NUM_INPUTS; ++i)
+		for (int i = 0; i < static_cast<int>(ActionType::COUNT); ++i)
 		{
-			unsigned char type = file->ReadUByte();
+			//Read Keyboard/Mouse Binding
+			BindingType type = static_cast<BindingType>(file->ReadUByte());
 			switch (type)
 			{
-			case 0: //KEY
-				*inputs[i] = SharedPtr<UInput>(new KeyInput(file->ReadInt(), input));
-				break;
-			case 1: //MOUSE
-				*inputs[i] = SharedPtr<UInput>(new MouseInput(file->ReadInt(), input));
-				break;
+				case BindingType::KEY: //KEY
+					actions[i].binding = new KeyBinding(file->ReadInt(), input);
+					break;
+				case BindingType::MOUSE: //MOUSE
+					actions[i].binding = new MouseBinding(file->ReadInt(), input);
+					break;
+				case BindingType::NONE:
+					actions[i].binding = nullptr;
+					break;
+			}
+			//Read Joystick Binding
+			type = static_cast<BindingType>(file->ReadUByte());
+			switch (type)
+			{
+				case BindingType::JOYBUTT: //JOY BUTTON
+				{
+					const int index = file->ReadInt();
+					const int button = file->ReadInt();
+					actions[i].joyBinding = new JoyButtBinding(index, button, input);
+					break;
+				}
+				case BindingType::JOYAXIS:
+				{
+					const int index = file->ReadInt();
+					const int axis = file->ReadInt();
+					const bool positive = file->ReadBool();
+					actions[i].joyBinding = new JoyAxisBinding(index, axis, positive ? 1 : -1, input);
+					break;
+				}
+				case BindingType::NONE:
+					actions[i].joyBinding = nullptr;
+					break;
 			}
 		}
 
@@ -182,22 +239,56 @@ void Settings::SaveSettings(Context* context)
 		file->WriteFloat(musicVolume);
 		file->WriteFloat(soundVolume);
 
-		for (int i = 0; i < NUM_INPUTS; ++i)
+		for (int i = 0; i < static_cast<int>(ActionType::COUNT); ++i)
 		{
-			KeyInput* k = dynamic_cast<KeyInput*>(inputs[i]->Get());
-			if (k)
+			if (actions[i].binding.NotNull())
 			{
-				file->WriteUByte(0U);
-				file->WriteInt(k->keyCode);
+				file->WriteUByte(static_cast<unsigned char>(actions[i].binding->type));
+				switch (actions[i].binding->type)
+				{
+					case BindingType::KEY:
+					{
+						KeyBinding* key = dynamic_cast<KeyBinding*>(actions[i].binding.Get());
+						file->WriteInt(key->keyCode);
+						break;
+					}
+					case BindingType::MOUSE:
+					{
+						MouseBinding* mouse = dynamic_cast<MouseBinding*>(actions[i].binding.Get());
+						file->WriteInt(mouse->button);
+						break;
+					}
+				}
 			}
 			else
 			{
-				MouseInput* m = dynamic_cast<MouseInput*>(inputs[i]->Get());
-				if (m)
+				file->WriteUByte(static_cast<unsigned char>(BindingType::NONE));
+			}
+			if (actions[i].joyBinding.NotNull())
+			{
+				file->WriteUByte(static_cast<unsigned char>(actions[i].joyBinding->type));
+				switch (actions[i].joyBinding->type)
 				{
-					file->WriteUByte(1U);
-					file->WriteInt(m->button);
+					case BindingType::JOYBUTT:
+					{
+						JoyButtBinding* joyButt = dynamic_cast<JoyButtBinding*>(actions[i].joyBinding.Get());
+						file->WriteInt(joyButt->joyIndex);
+						file->WriteInt(joyButt->button);
+						break;
+					}
+					case BindingType::JOYAXIS:
+					{
+						JoyAxisBinding* joy = dynamic_cast<JoyAxisBinding*>(actions[i].joyBinding.Get());
+						file->WriteInt(joy->joyIndex);
+						file->WriteInt(joy->axis);
+						file->WriteBool(joy->sign > 0);
+						break;
+					}
 				}
+			}
+			else
+			{
+				file->WriteUByte(static_cast<unsigned char>(BindingType::NONE));
 			}
 		}
 

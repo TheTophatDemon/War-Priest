@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<element>
+	<attribute name="Name" value="rebindScreen" />
+	<attribute name="Size" value="1280 720" />
+	<attribute name="Pivot" value="0 0" />
+	<element type="Window">
+		<attribute name="Name" value="rebindWindow" />
+		<attribute name="Position" value="0 80" />
+		<attribute name="Size" value="1024 528" />
+		<attribute name="Min Anchor" value="0.5 0" />
+		<attribute name="Max Anchor" value="0.5 0" />
+		<attribute name="Pivot" value="0.5 0" />
+		<attribute name="Border" value="10 10 10 10" />
+		<attribute name="Modal Shade Color" value="0.5 0.5 0.5 1" />
+		<attribute name="Modal Frame Color" value="1 1 1 1" />
+		<attribute name="Modal Frame Size" value="4 4" />
+		<element type="Text">
+			<attribute name="Name" value="windowTitle" />
+			<attribute name="Position" value="12 18" />
+			<attribute name="Min Anchor" value="0.5 0" />
+			<attribute name="Max Anchor" value="0.5 0" />
+			<attribute name="Pivot" value="0.5 0" />
+			<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Font Size" value="24" />
+			<attribute name="Text" value="Click on an input to change it" />
+		</element>
+		<element type="ListView">
+			<attribute name="Name" value="panel" />
+			<attribute name="Position" value="0 122" />
+			<attribute name="Size" value="1004 396" />
+			<attribute name="Min Anchor" value="0.5 0" />
+			<attribute name="Max Anchor" value="0.5 0" />
+			<attribute name="Pivot" value="0.5 0" />
+			<attribute name="Clip Children" value="false" />
+			<attribute name="Layout Border" value="6 6 6 6" />
+			<element type="ScrollBar" internal="true" style="none">
+				<attribute name="Size" value="1004 16" />
+				<attribute name="Min Anchor" value="0 1" />
+				<attribute name="Max Anchor" value="0 1" />
+				<attribute name="Pivot" value="0 0" />
+				<attribute name="Color" value="0 0 0 0" />
+				<attribute name="Top Left Color" value="0 0 0 0" />
+				<attribute name="Top Right Color" value="0 0 0 0" />
+				<attribute name="Bottom Left Color" value="0 0 0 0" />
+				<attribute name="Bottom Right Color" value="0 0 0 0" />
+				<element type="Button" internal="true" style="none">
+					<attribute name="Pivot" value="0 0" />
+				</element>
+				<element type="Slider" internal="true" style="none">
+					<attribute name="Position" value="16 0" />
+					<attribute name="Size" value="972 16" />
+					<attribute name="Pivot" value="0 0" />
+					<element type="BorderImage" internal="true" style="none">
+						<attribute name="Pivot" value="0 0" />
+					</element>
+				</element>
+				<element type="Button" internal="true" style="none">
+					<attribute name="Position" value="988 0" />
+					<attribute name="Pivot" value="0 0" />
+				</element>
+			</element>
+			<element type="ScrollBar" internal="true" style="none">
+				<attribute name="Size" value="16 396" />
+				<attribute name="Min Anchor" value="1 0" />
+				<attribute name="Max Anchor" value="1 0" />
+				<attribute name="Pivot" value="1 0" />
+				<attribute name="Color" value="0 0 0 0" />
+				<attribute name="Top Left Color" value="0 0 0 0" />
+				<attribute name="Top Right Color" value="0 0 0 0" />
+				<attribute name="Bottom Left Color" value="0 0 0 0" />
+				<attribute name="Bottom Right Color" value="0 0 0 0" />
+				<element type="Button" internal="true" style="none">
+					<attribute name="Pivot" value="0 0" />
+				</element>
+				<element type="Slider" internal="true" style="none">
+					<attribute name="Position" value="0 16" />
+					<attribute name="Size" value="16 364" />
+					<attribute name="Pivot" value="0 0" />
+					<element type="BorderImage" internal="true" style="none">
+						<attribute name="Pivot" value="0 0" />
+					</element>
+				</element>
+				<element type="Button" internal="true" style="none">
+					<attribute name="Position" value="0 380" />
+					<attribute name="Pivot" value="0 0" />
+				</element>
+			</element>
+			<element type="BorderImage" internal="true" style="none">
+				<attribute name="Pivot" value="0 0" />
+				<element internal="true" style="none">
+					<attribute name="Pivot" value="0 0" />
+				</element>
+			</element>
+		</element>
+		<element type="Button">
+			<attribute name="Name" value="bindKeyboardButton" />
+			<attribute name="Position" value="-164 72" />
+			<attribute name="Size" value="312 48" />
+			<attribute name="Min Anchor" value="0.5 0" />
+			<attribute name="Max Anchor" value="0.5 0" />
+			<attribute name="Pivot" value="0.5 0" />
+			<element type="Text">
+				<attribute name="Min Anchor" value="0.5 0.5" />
+				<attribute name="Max Anchor" value="0.5 0.5" />
+				<attribute name="Pivot" value="0.5 0.5" />
+				<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Font Size" value="18" />
+				<attribute name="Text" value="Keyboard/Mouse Bindings" />
+			</element>
+		</element>
+		<element type="Button">
+			<attribute name="Name" value="bindJoystickButton" />
+			<attribute name="Position" value="164 72" />
+			<attribute name="Size" value="312 48" />
+			<attribute name="Min Anchor" value="0.5 0" />
+			<attribute name="Max Anchor" value="0.5 0" />
+			<attribute name="Pivot" value="0.5 0" />
+			<element type="Text">
+				<attribute name="Min Anchor" value="0.5 0.5" />
+				<attribute name="Max Anchor" value="0.5 0.5" />
+				<attribute name="Pivot" value="0.5 0.5" />
+				<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+				<attribute name="Font Size" value="18" />
+				<attribute name="Text" value="Joystick/Gamepad Bindings" />
+			</element>
+		</element>
+	</element>
+	<element type="Button">
+		<attribute name="Name" value="closeButton" />
+		<attribute name="Position" value="-16 -32" />
+		<attribute name="Size" value="256 64" />
+		<attribute name="Min Anchor" value="0.5 1" />
+		<attribute name="Max Anchor" value="0.5 1" />
+		<attribute name="Pivot" value="0.5 1" />
+		<element type="Text">
+			<attribute name="Min Anchor" value="0.5 0.5" />
+			<attribute name="Max Anchor" value="0.5 0.5" />
+			<attribute name="Pivot" value="0.5 0.5" />
+			<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+			<attribute name="Font Size" value="24" />
+			<attribute name="Text" value="BACK" />
+		</element>
+	</element>
+</element>
