@@ -1,9 +1,3 @@
-//DONE:
-	//Add customizable menu button
-	//Spiffy up the handling of the input array
-	//Make axis input more smooth
-	//Add separate menu & bindings for joysticks
-	//Fix axis intrusiveness
 //TODO:
 	//Player disappears?
 		//PP also disappears on SS1
@@ -11,8 +5,8 @@
 	//Camera goes apeshit?
 	//Postal Pope's boulders are clipping the walls in FF1
 	//Gamepad support
-		//Make controls respond to joystick bindings as well
 		//Joystick hats
+		//Make triggers less finnicky
 	//Option to disable projectile warnings
 	//Credits
 		//Music for level
@@ -42,6 +36,7 @@
 			//Pillar unreachable
 			//Faster platforms
 			//Make broken bridge part less risky
+			//Big jump from blue-tipped tower is too larges
 			//More health
 		//FF4
 			//Nerf the first section
@@ -52,6 +47,7 @@
 			//Reduce DD count
 			//Add Bonus cross
 			//Bad jump when returning from giant platform
+			//Health pack under statue is too big
 		//SS2
 			//Make beginning platforms easier to cross
 			//Can't get on platforms to return

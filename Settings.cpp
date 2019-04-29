@@ -27,6 +27,34 @@ const float Settings::UNHOLY_THRESHOLD = 1.4f;
 
 Action::Action(String name) : name(name) {}
 
+float Action::getValue()
+{
+	if (joyBinding.NotNull())
+	{
+		const float val = joyBinding->getValue();
+		if (fabs(val) > Settings::DEADZONE) 
+			return val;
+	}
+	if (binding.NotNull())
+	{
+		return binding->getValue();
+	}
+	return 0.0f;
+}
+
+bool Action::valueChanged()
+{
+	if (joyBinding.NotNull())
+	{
+		if (joyBinding->valueChanged()) return true;
+	}
+	if (binding.NotNull())
+	{
+		if (binding->valueChanged()) return true;
+	}
+	return false;
+}
+
 Action Settings::actions[] = {
 	Action("Move Forward"),
 	Action("Move Backward"),
@@ -105,7 +133,7 @@ JoyAxisBinding::JoyAxisBinding(const int joyIndex, const int axis, const int sig
 float JoyAxisBinding::getValue() 
 { 
 	if (input->GetNumJoysticks() <= joyIndex) return false; //Cancel if no joystick
-	return Max(0, input->GetJoystickByIndex(joyIndex)->GetAxisPosition(axis) * sign);
+	return Max(0.0f, input->GetJoystickByIndex(joyIndex)->GetAxisPosition(axis) * (float)sign);
 };
 //The value is always changing; we can't keep track of that here.
 bool JoyAxisBinding::valueChanged()

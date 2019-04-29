@@ -91,6 +91,9 @@ class Action
 {
 public:
 	Action(String name);
+	float getValue();
+	bool valueChanged();
+
 	String name;
 	//Binding for keyboard or mouse
 	SharedPtr<Binding> binding;
@@ -108,9 +111,11 @@ public:
 	static void RevertSettings(Context* context);
 	
 	static inline Action& GetAction(ActionType type) { return actions[static_cast<int>(type)]; }
-	static inline bool IsActionDown(ActionType type) { return actions[static_cast<int>(type)].binding->getValue() > DEADZONE; }
-	static inline float GetActionValue(ActionType type) { return actions[static_cast<int>(type)].binding->getValue(); };
-	static inline bool IsActionPressed(ActionType type) { return actions[static_cast<int>(type)].binding->valueChanged(); };
+	//These are declared in this class instead of Action in order to save typing when other classes are accessing this information
+	static inline bool IsActionDown(ActionType type) { return actions[static_cast<int>(type)].getValue() > DEADZONE; }
+	static inline float GetActionValue(ActionType type) { return actions[static_cast<int>(type)].getValue(); };
+	static inline bool IsActionPressed(ActionType type) { return actions[static_cast<int>(type)].valueChanged(); };
+
 	static inline int GetResolutionX() { return xRes; };
 	static inline int GetResolutionY() { return yRes; };
 	static inline float GetMouseSensitivity() { return mouseSensitivity; }

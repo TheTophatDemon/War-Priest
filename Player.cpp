@@ -778,10 +778,11 @@ void Player::ST_Default(float timeStep)
 		actor->maxSpeed = walkSpeed;
 
 	Vector3 keyVec = Vector3(
-		keyVec.x_ = Settings::GetActionValue(ActionType::RIGHT) - Settings::GetActionValue(ActionType::LEFT),
+		Settings::GetActionValue(ActionType::RIGHT) - Settings::GetActionValue(ActionType::LEFT),
 		0.0f,
-		keyVec.z_ = Settings::GetActionValue(ActionType::FORWARD) - Settings::GetActionValue(ActionType::BACK)
+		Settings::GetActionValue(ActionType::FORWARD) - Settings::GetActionValue(ActionType::BACK)
 	);
+	game->gunPriest->debugRenderer->AddLine(node_->GetWorldPosition() + Vector3::UP, node_->GetWorldPosition() + Vector3::UP + keyVec * Settings::GetAction(ActionType::FORWARD).joyBinding->getValue(), 0xFF00FF, false);
 	actor->SetInputVec(pivot->GetWorldRotation() * keyVec);
 	
 	if (Settings::IsActionDown(ActionType::JUMP))
