@@ -4,7 +4,7 @@
 
 RebindScreen::RebindScreen(Context* context, TitleScreen* titleScreen, SharedPtr<Gameplay> gm) : Menu(context, titleScreen, gm),
 	rebinding(false), rebindButton(nullptr), 
-	bindingMode(BindingMode::KEYB_MOUSE), rebindTimer(0.0f)
+	bindingMode(BindingMode::KEYB_MOUSE), rebindTimer(0.0f), lastJoyIndex(0)
 {
 	layoutPath = "UI/titlemenus/rebindScreen.xml";
 
@@ -164,6 +164,7 @@ void RebindScreen::OnEvent(StringHash eventType, VariantMap& eventData)
 			if (eventType == E_JOYSTICKBUTTONDOWN)
 			{
 				const int index = eventData["JoystickID"].GetInt();
+				lastJoyIndex = index;
 				const int button = eventData["Button"].GetInt();
 				Settings::actions[id].joyBinding = new JoyButtBinding(index, button, input);
 				SetRebinding(false);
@@ -173,12 +174,22 @@ void RebindScreen::OnEvent(StringHash eventType, VariantMap& eventData)
 				const int index = eventData["JoystickID"].GetInt();
 				const int axis = eventData["Button"].GetInt();
 				const float value = eventData["Position"].GetFloat();
-				if (Abs(value) > Settings::DEADZONE && Abs(value - prevJoyState.GetAxisPosition(axis)) > 0.2f)
+				const float delta = value - prevJoyState.GetAxisPosition(axis);
+				if (fabs(delta) > 0.2f)
 				{
-					Settings::actions[id].joyBinding = new JoyAxisBinding(index, axis, Sign(value), input);
+					lastJoyIndex = index;
+					Settings::actions[id].joyBinding = new JoyAxisBinding(index, axis, Sign(delta), input);
 					SetRebinding(false);
 				}
-				prevJoyState = *input->GetJoystickByIndex(index);
+			}
+			else if (eventType == E_JOYSTICKHATMOVE)
+			{
+				const int index = eventData["JoystickID"].GetInt();
+				lastJoyIndex = index;
+				const int hat = eventData["Button"].GetInt();
+				const int position = eventData["Position"].GetInt();
+				Settings::actions[id].joyBinding = new JoyHatBinding(index, hat, position, input);
+				SetRebinding(false);
 			}
 		}
 	}
@@ -191,6 +202,7 @@ void RebindScreen::SetRebinding(const bool mode)
 	rebindTimer = 0.0f;
 	if (mode)
 	{
+		prevJoyState = *input->GetJoystickByIndex(lastJoyIndex);
 		rebindButton->SetFocus(true);
 		SyncControls();
 	}

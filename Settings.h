@@ -70,6 +70,17 @@ public:
 	int sign;
 };
 
+class JoyHatBinding : public Binding
+{
+public:
+	JoyHatBinding(const int joyIndex, const int hat, const int direction, Input* input);
+	virtual float getValue() override;
+	virtual bool valueChanged() override;
+	int joyIndex;
+	int hat;
+	int direction;
+};
+
 enum class ActionType
 {
 	FORWARD,

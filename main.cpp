@@ -5,8 +5,7 @@
 	//Camera goes apeshit?
 	//Postal Pope's boulders are clipping the walls in FF1
 	//Gamepad support
-		//Joystick hats
-		//Make triggers less finnicky
+		//Test Joystick hats
 	//Option to disable projectile warnings
 	//Credits
 		//Music for level

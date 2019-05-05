@@ -46,6 +46,7 @@ protected:
 	Vector<SharedPtr<Button>> rebindButtons;
 	Button* rebindButton;
 	JoystickState prevJoyState;
+	int lastJoyIndex;
 	BindingMode bindingMode;
 	//Timeout timer
 	float rebindTimer = 0.0f;

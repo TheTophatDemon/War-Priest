@@ -132,7 +132,7 @@ JoyAxisBinding::JoyAxisBinding(const int joyIndex, const int axis, const int sig
 	sign(sign) {}
 float JoyAxisBinding::getValue() 
 { 
-	if (input->GetNumJoysticks() <= joyIndex) return false; //Cancel if no joystick
+	if (input->GetNumJoysticks() <= joyIndex) return 0.0f; //Cancel if no joystick
 	return Max(0.0f, input->GetJoystickByIndex(joyIndex)->GetAxisPosition(axis) * (float)sign);
 };
 //The value is always changing; we can't keep track of that here.
@@ -140,6 +140,22 @@ bool JoyAxisBinding::valueChanged()
 {
 	return false;
 };
+
+//JOYSTICK HAT BINDING
+JoyHatBinding::JoyHatBinding(const int joyIndex, const int hat, const int direction, Input* input)
+	: Binding("Joystick " + String(joyIndex) + " Hat " + String(hat) + " Direction " + String(direction), input, BindingType::JOYHAT),
+	joyIndex(joyIndex),
+	hat(hat),
+	direction(direction) {}
+float JoyHatBinding::getValue()
+{
+	if (input->GetNumJoysticks() <= joyIndex) return 0.0f;
+	return input->GetJoystickByIndex(joyIndex)->GetHatPosition(hat) == direction;
+}
+bool JoyHatBinding::valueChanged()
+{
+	return false;
+}
 
 void Settings::RevertSettings(Context* context)
 {
