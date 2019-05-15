@@ -782,7 +782,7 @@ void Player::ST_Default(float timeStep)
 		0.0f,
 		Settings::GetActionValue(ActionType::FORWARD) - Settings::GetActionValue(ActionType::BACK)
 	);
-	game->gunPriest->debugRenderer->AddLine(node_->GetWorldPosition() + Vector3::UP, node_->GetWorldPosition() + Vector3::UP + keyVec * Settings::GetAction(ActionType::FORWARD).joyBinding->getValue(), 0xFF00FF, false);
+	//game->gunPriest->debugRenderer->AddLine(node_->GetWorldPosition() + Vector3::UP, node_->GetWorldPosition() + Vector3::UP + keyVec * Settings::GetAction(ActionType::FORWARD).joyBinding->getValue(), 0xFF00FF, false);
 	actor->SetInputVec(pivot->GetWorldRotation() * keyVec);
 	
 	if (Settings::IsActionDown(ActionType::JUMP))

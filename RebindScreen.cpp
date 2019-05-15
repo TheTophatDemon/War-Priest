@@ -117,6 +117,43 @@ void RebindScreen::Update(float timeStep)
 	{
 		rebindTimer = 0.0f;
 	}
+	
+	//Check axes for binding here
+	if (rebinding && bindingMode == BindingMode::JOYSTICK)
+	{
+		const int inputId = rebindButton->GetVar("Input ID").GetInt();
+		
+		for (int joyNum = 0; joyNum < input->GetNumJoysticks(); ++joyNum)
+		{
+			JoystickState* joy = input->GetJoystickByIndex(joyNum);
+			assert(joy);
+
+			//Axis Movements
+			float maxDelta = -FLT_MAX;
+			int probableAxis = -1;
+			for (int axis = 0; axis < joy->GetNumAxes(); ++axis)
+			{
+				const float value = joy->GetAxisPosition(axis);
+				const float delta = value - prevJoyState.GetAxisPosition(axis);
+				if (fabs(delta) > 0.2f && delta > maxDelta)
+				{
+					maxDelta = delta;
+					probableAxis = axis;
+				}
+			}
+			//The axis that moves the most is bound
+			if (probableAxis >= 0)
+			{
+				Settings::actions[inputId].joyBinding = new JoyAxisBinding(joyNum, probableAxis, Sign(maxDelta), input);
+				SetRebinding(false);
+				prevJoyState = *joy;
+			}
+		}
+	}
+
+	JoystickState* joy = input->GetJoystick(prevJoyState.joystickID_);
+	if (joy) prevJoyState = *joy;
+	else prevJoyState = JoystickState();
 }
 
 void RebindScreen::OnEvent(StringHash eventType, VariantMap& eventData)
@@ -161,26 +198,15 @@ void RebindScreen::OnEvent(StringHash eventType, VariantMap& eventData)
 		}
 		else if (bindingMode == BindingMode::JOYSTICK)
 		{
+			//Axes are tested in RebindScreen::Update() for expediency.
+			JoystickState* joy = nullptr;
 			if (eventType == E_JOYSTICKBUTTONDOWN)
 			{
 				const int index = eventData["JoystickID"].GetInt();
-				lastJoyIndex = index;
 				const int button = eventData["Button"].GetInt();
 				Settings::actions[id].joyBinding = new JoyButtBinding(index, button, input);
 				SetRebinding(false);
-			}
-			else if (eventType == E_JOYSTICKAXISMOVE)
-			{
-				const int index = eventData["JoystickID"].GetInt();
-				const int axis = eventData["Button"].GetInt();
-				const float value = eventData["Position"].GetFloat();
-				const float delta = value - prevJoyState.GetAxisPosition(axis);
-				if (fabs(delta) > 0.2f)
-				{
-					lastJoyIndex = index;
-					Settings::actions[id].joyBinding = new JoyAxisBinding(index, axis, Sign(delta), input);
-					SetRebinding(false);
-				}
+				joy = input->GetJoystickByIndex(index);
 			}
 			else if (eventType == E_JOYSTICKHATMOVE)
 			{
@@ -190,6 +216,12 @@ void RebindScreen::OnEvent(StringHash eventType, VariantMap& eventData)
 				const int position = eventData["Position"].GetInt();
 				Settings::actions[id].joyBinding = new JoyHatBinding(index, hat, position, input);
 				SetRebinding(false);
+				joy = input->GetJoystickByIndex(index);
+			}
+			//When a joystick event has occurred, save its state in case a comparison must be made...
+			if (!rebinding && joy)
+			{
+				prevJoyState = *joy;
 			}
 		}
 	}
@@ -202,7 +234,6 @@ void RebindScreen::SetRebinding(const bool mode)
 	rebindTimer = 0.0f;
 	if (mode)
 	{
-		prevJoyState = *input->GetJoystickByIndex(lastJoyIndex);
 		rebindButton->SetFocus(true);
 		SyncControls();
 	}

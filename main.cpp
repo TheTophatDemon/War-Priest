@@ -3,10 +3,11 @@
 		//PP also disappears on SS1
 		//First person mode makes the model pop out, but it's stuck in position
 	//Camera goes apeshit?
-	//Postal Pope's boulders are clipping the walls in FF1
+		//Happened after prematurely exiting credits map during flood
+	//Warn that unholy mode is not even remotely fair
+	//Option to disable projectile warnings
 	//Gamepad support
 		//Test Joystick hats
-	//Option to disable projectile warnings
 	//Credits
 		//Music for level
 		//Music for flood
@@ -27,6 +28,7 @@
 		//FF1
 			//FF1 is too ugly
 			//Fallrhine 1 ledge is too high
+			//Postal Pope glitch with small indents
 		//FF2
 			//Fallrhine 2 barrel platform unreachable
 		//FF3
