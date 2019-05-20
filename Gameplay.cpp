@@ -86,7 +86,8 @@ Gameplay::Gameplay(Context* context) : LogicComponent(context),
 	bonusFlag(false),
 	weatherNode(nullptr),
 	debugMsgTimer(0.0f),
-	messageTimer(0.0f)
+	messageTimer(0.0f),
+	screenShake(0.0f)
 {
 	SetUpdateEventMask(USE_FIXEDUPDATE);
 	

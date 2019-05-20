@@ -53,6 +53,8 @@ protected:
 	SharedPtr<CheckBox> vsyncCheck;
 	SharedPtr<CheckBox> fullScreenCheck;
 
+	SharedPtr<Text> difficultyWarning;
+
 	SharedPtr<UIElement> resolutionList;
 	ResolutionButton resButtons[Settings::NUM_RESOLUTIONS];
 	int selectedRes;

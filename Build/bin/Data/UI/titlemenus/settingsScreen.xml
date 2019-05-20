@@ -303,7 +303,7 @@
 			<attribute name="Border" value="6 6 6 6" />
 			<element type="Slider">
 				<attribute name="Name" value="difficultySlider" />
-				<attribute name="Position" value="240 16" />
+				<attribute name="Position" value="240 0" />
 				<attribute name="Size" value="720 24" />
 				<attribute name="Min Anchor" value="0 0.5" />
 				<attribute name="Max Anchor" value="0 0.5" />
@@ -316,7 +316,7 @@
 				</element>
 				<element type="Text">
 					<attribute name="Name" value="diffText3" />
-					<attribute name="Position" value="0 -40" />
+					<attribute name="Position" value="0 -32" />
 					<attribute name="Min Anchor" value="1 0" />
 					<attribute name="Max Anchor" value="1 0" />
 					<attribute name="Pivot" value="1 0" />
@@ -324,23 +324,23 @@
 					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
-					<attribute name="Font Size" value="20" />
+					<attribute name="Font Size" value="16" />
 					<attribute name="Text" value="Unholy" />
 				</element>
 				<element type="Text">
 					<attribute name="Name" value="diffText4" />
-					<attribute name="Position" value="0 -40" />
+					<attribute name="Position" value="0 -32" />
 					<attribute name="Pivot" value="0 0" />
 					<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
-					<attribute name="Font Size" value="20" />
+					<attribute name="Font Size" value="16" />
 					<attribute name="Text" value="Easy" />
 				</element>
 				<element type="Text">
 					<attribute name="Name" value="diffText5" />
-					<attribute name="Position" value="64 -40" />
+					<attribute name="Position" value="64 -32" />
 					<attribute name="Min Anchor" value="0.5 0" />
 					<attribute name="Max Anchor" value="0.5 0" />
 					<attribute name="Pivot" value="0.5 0" />
@@ -348,7 +348,7 @@
 					<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
 					<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
-					<attribute name="Font Size" value="20" />
+					<attribute name="Font Size" value="16" />
 					<attribute name="Text" value="Hard" />
 				</element>
 			</element>
@@ -369,6 +369,20 @@
 				<attribute name="Text" value="Game Difficulty" />
 				<attribute name="Text Alignment" value="Center" />
 				<attribute name="Word Wrap" value="true" />
+			</element>
+			<element type="Text">
+				<attribute name="Name" value="warnText" />
+				<attribute name="Position" value="108 -8" />
+				<attribute name="Min Anchor" value="0.5 1" />
+				<attribute name="Max Anchor" value="0.5 1" />
+				<attribute name="Pivot" value="0.5 1" />
+				<attribute name="Color" value="1 0.25 0.5 1" />
+				<attribute name="Top Left Color" value="1 0.25 0.5 1" />
+				<attribute name="Top Right Color" value="1 0.25 0.5 1" />
+				<attribute name="Bottom Left Color" value="1 0.25 0.5 1" />
+				<attribute name="Bottom Right Color" value="1 0.25 0.5 1" />
+				<attribute name="Font Size" value="16" />
+				<attribute name="Text" value="WARNING: Unholy mode makes the game nearly impossible." />
 			</element>
 		</element>
 	</element>

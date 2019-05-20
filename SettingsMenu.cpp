@@ -47,6 +47,9 @@ void SettingsMenu::GenerateUI()
 	vsyncCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("vsyncCheck", true);
 	fullScreenCheck = titleScreen->ourUI->GetChildDynamicCast<CheckBox>("fullScreenCheck", true);
 
+	difficultyWarning = titleScreen->ourUI->GetChildDynamicCast<Text>("warnText", true);
+	difficultyWarning->SetVisible(false);
+
 	//Add buttons for each resolution
 	resolutionList = titleScreen->ourUI->GetChild("resolutionList", true);
 	resolutionList->SetClipChildren(true);
@@ -122,6 +125,8 @@ void SettingsMenu::Update(float timeStep)
 
 	Settings::xRes = resButtons[selectedRes].resX;
 	Settings::yRes = resButtons[selectedRes].resY;
+
+	difficultyWarning->SetVisible(Settings::difficulty >= Settings::UNHOLY_THRESHOLD);
 
 	//Update volumes
 	audio->SetMasterGain("GAMEPLAY", Settings::GetSoundVolume());
