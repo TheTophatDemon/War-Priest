@@ -26,6 +26,7 @@ class GodCutscene : ScriptObject
 		actor = playerNode.GetComponent("Actor");
 		game = scene.GetComponent("Gameplay");
 		godVoice = node.CreateComponent("SoundSource");
+		godVoice.soundType = "GAMEPLAY";
 		
 		//Try to preload voice lines
 		cache.GetResource("Sound", "Sounds/god_talk0.wav");

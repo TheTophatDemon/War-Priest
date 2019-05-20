@@ -6,9 +6,10 @@
 	//Gamepad support
 		//Test Joystick hats
 	//Credits
-		//Music for level
 		//Music for flood
+	//Reduce rain particles on low graphics mode
 	//More posters?
+	//Make explosions more efficient
 	//Do final test through every level.
 		//Make geometry shading flat
 		//Make fog match the skybox color
@@ -61,21 +62,10 @@
 	//Optimizations:
 		//Optimize raycast distances for player (The more geometry that intersects it, the slower it gets)
 		//Optimize physicsbodyquery?
-		//Reduce rain particles on low graphics mode
 		//Fix pause upon all enemies revive
-		//Make explosions more efficient
 	//Package assets
 	
 	//Send to Somecallmejohnny?
-//Level Ideas
-	//Giant cross platform rising up and down
-	//Lifts sticking out of walls
-	//Gigantic open area in center w/ bunch of lifts on edge heading towards small islands surrounding the center.
-	//Make use of the beam material so that something's invisible until you revive.
-	//Ninja Nun?
-		//Like danger deacon, but jumps alot and doesn't explode. Can maneuver around pits.
-	//Radical Rabi?
-		//Rides skateboard.
 
 //Complaints:
 	//PrePhysicsUpdate problems?

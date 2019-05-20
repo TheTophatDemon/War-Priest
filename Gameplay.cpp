@@ -243,7 +243,7 @@ void Gameplay::SetupGame()
 		}
 		SoundSource* rainSource = weatherNode->CreateComponent<SoundSource>();
 		rainSource->SetSoundType("GAMEPLAY");
-		rainSource->Play(cache->GetResource<Sound>("Sounds/env_rain.wav"));
+		rainSource->Play(cache->GetResource<Sound>("Sounds/env_rain.wav"), 44100.0f, 0.9f);
 	}
 	else
 	{
