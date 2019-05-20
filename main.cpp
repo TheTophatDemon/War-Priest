@@ -1,10 +1,8 @@
-////Warn that unholy mode is not even remotely fair
 //TODO:
 	//Player disappears?
 		//PP also disappears on SS1
 		//First person mode makes the model pop out, but it's stuck in position
 	//Make sure apeshit camera glitch is done for.
-	//Option to disable projectile warnings
 	//Gamepad support
 		//Test Joystick hats
 	//Credits

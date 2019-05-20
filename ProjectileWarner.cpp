@@ -105,7 +105,7 @@ void ProjectileWarner::FixedUpdate(float timeStep)
 			{
 				boundingBox = BoundingBox(projectile->GetWorldPosition() - Vector3::ONE, projectile->GetWorldPosition() + Vector3::ONE);
 			}
-			if (!game->camera->GetFrustum().IsInsideFast(boundingBox)) //We can't see it if it's outside the camera frustum
+			if (!game->camera->GetFrustum().IsInsideFast(boundingBox)) //Work only with projectiles we can't see
 			{
 				//UI is scaled from 1280x720 to fit the current resolution, but we must make corrections for different aspect ratios.
 				const float halfResX = game->ourUI->GetWidth() / 2.0f;

@@ -9,6 +9,7 @@
 #include <Urho3D/Audio/Sound.h>
 #include <iostream>
 #include "Zeus.h"
+#include "Gameplay.h"
 
 Debris::Debris(Context* context) : Projectile(context),
 	damage(15),
@@ -25,7 +26,7 @@ void Debris::RegisterObject(Context* context)
 void Debris::Start()
 {
 	SetUpdateEventMask(USE_FIXEDUPDATE);
-
+	
 	Projectile::Start();
 
 	crashSource = node_->GetOrCreateComponent<SoundSource3D>();
@@ -51,7 +52,17 @@ void Debris::FixedUpdate(float timeStep)
 	}
 	else
 	{
-		if (!node_->HasTag("trackable_projectile")) node_->AddTag("trackable_projectile");
+		const Vector3 plyDiff = (game->playerNode->GetWorldPosition() - node_->GetWorldPosition());
+		if (plyDiff.DotProduct(body->GetLinearVelocity()) < 0.0f)
+		{
+			//Remove screen warnings for debris flying away from the player
+			node_->RemoveTag("trackable_projectile");
+		}
+		else if (!node_->HasTag("trackable_projectile"))
+		{
+			//Otherwise, keep tracking
+			node_->AddTag("trackable_projectile");
+		}
 	}
 	if (hit) 
 	{

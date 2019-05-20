@@ -13,6 +13,7 @@
 
 using namespace Urho3D;
 
+class Gameplay;
 //Represents a Postal Pope's THROWN boulder
 class Debris : public Projectile
 {
@@ -31,7 +32,7 @@ protected:
 	void OnCollision(StringHash eventType, VariantMap& eventData);
 	SharedPtr<SoundSource3D> crashSource;
 	WeakPtr<Node> smokeNode;
-	
+
 	float linearVelocity;
 	float dieTime;
 };

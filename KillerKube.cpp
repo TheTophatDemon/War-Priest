@@ -9,7 +9,6 @@
 #include <Urho3D/UI/UIEvents.h>
 
 #include "Settings.h"
-#include "Blackstone.h"
 #include "Missile.h"
 #include "Actor.h"
 #include "WeakChild.h"
