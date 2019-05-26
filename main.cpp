@@ -1,3 +1,4 @@
+//Reduce rain particles on low graphics mode
 //TODO:
 	//Player disappears?
 		//PP also disappears on SS1
@@ -7,7 +8,6 @@
 		//Test Joystick hats
 	//Credits
 		//Music for flood
-	//Reduce rain particles on low graphics mode
 	//More posters?
 	//Make explosions more efficient
 	//Do final test through every level.

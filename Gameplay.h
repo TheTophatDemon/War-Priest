@@ -78,6 +78,9 @@ protected:
 	void SetupProps();
 	void ExtractLiquidsFromMap();
 
+	static const int RAIN_NPARTICLES_FANCY;
+	static const int RAIN_NPARTICLES_FAST;
+
 	SharedPtr<Node> skybox;
 	SharedPtr<Node> exitNode;
 	WeakPtr<Node> musicNode;

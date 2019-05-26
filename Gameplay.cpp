@@ -161,12 +161,29 @@ void Gameplay::Start()
 		cache->GetResource<Material>("Materials/blood.xml")->SetShaderParameter("MatDiffColor", Color(0.1f, 0.1f, 0.1f, 1.0f));
 		cache->GetResource<Material>("Materials/decal_death.xml")->SetShaderParameter("MatDiffColor", Color(0.1f, 0.1f, 0.1f, 1.0f));
 	}
+	if (weatherNode.Get())
+	{
+		ParticleEmitter* emitter = weatherNode->GetComponent<ParticleEmitter>();
+		if (emitter)
+		{
+			if (Settings::AreGraphicsFast())
+			{
+				emitter->SetNumParticles(RAIN_NPARTICLES_FAST);
+			}
+			else
+			{
+				emitter->SetNumParticles(RAIN_NPARTICLES_FANCY);
+			}
+		}
+	}
 	SetupLighting();
 
 	SubscribeToEvent(E_BONUSCOLLECTED, URHO3D_HANDLER(Gameplay, HandleEvent));
 	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(Gameplay, HandleEvent));
 }
 
+const int Gameplay::RAIN_NPARTICLES_FANCY = 300;
+const int Gameplay::RAIN_NPARTICLES_FAST = 100;
 void Gameplay::SetupGame()
 {
 	elapsedTime = 0.0f;
@@ -232,7 +249,17 @@ void Gameplay::SetupGame()
 		ParticleEmitter* emitter = weatherNode->CreateComponent<ParticleEmitter>();
 		emitter->SetEffect(cache->GetResource<ParticleEffect>("Particles/rain.xml"));
 		emitter->SetEmitting(true);
-		for (int i = 0; i < 3; ++i)
+		if (Settings::AreGraphicsFast())
+		{
+			emitter->SetNumParticles(RAIN_NPARTICLES_FAST);
+		}
+		else
+		{
+			emitter->SetNumParticles(RAIN_NPARTICLES_FANCY);
+		}
+		int numSpheres = 3;
+		if (Settings::AreGraphicsFast()) numSpheres = 2;
+		for (int i = 0; i < numSpheres; ++i)
 		{
 			Node* sphere = weatherNode->CreateChild();
 			StaticModel* sm = sphere->CreateComponent<StaticModel>();
