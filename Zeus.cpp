@@ -169,6 +169,8 @@ Node* Zeus::MakeExplosion(Scene* scene, Vector3 position, const float life, cons
 
 	ParticleEmitter* emitter = explosion->CreateComponent<ParticleEmitter>();
 	emitter->SetEffect(cache->GetResource<ParticleEffect>("Particles/explosion.xml"));
+	ParticleEmitter* flash = explosion->CreateComponent<ParticleEmitter>();
+	flash->SetEffect(cache->GetResource<ParticleEffect>("Particles/flash.xml"));
 
 	TempEffect* te = explosion->CreateComponent<TempEffect>();
 	te->life = life;

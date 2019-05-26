@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <particleeffect>
 	<material name="Materials/particle_explosion.xml" />
-	<numparticles value="50" />
+	<numparticles value="10" />
 	<updateinvisible enable="false" />
 	<relative enable="false" />
 	<scaled enable="true" />

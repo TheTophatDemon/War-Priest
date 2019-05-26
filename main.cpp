@@ -1,4 +1,5 @@
 //Reduce rain particles on low graphics mode
+//Make explosions more efficient
 //TODO:
 	//Player disappears?
 		//PP also disappears on SS1
@@ -9,7 +10,6 @@
 	//Credits
 		//Music for flood
 	//More posters?
-	//Make explosions more efficient
 	//Do final test through every level.
 		//Make geometry shading flat
 		//Make fog match the skybox color
