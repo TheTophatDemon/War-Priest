@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="49.7946" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16778227" />
-	<attribute name="Next Local Component ID" value="16780373" />
+	<attribute name="Next Local Node ID" value="16778232" />
+	<attribute name="Next Local Component ID" value="16780390" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="prelude.ogg" />
 		<variant hash="3555864366" type="Bool" value="true" />
@@ -38,7 +38,7 @@
 		</component>
 		<component type="StaticModel" id="16778905">
 			<attribute name="Model" value="Model;Models/maps/palpan1.mdl" />
-			<attribute name="Material" value="Material;Materials/palpan_cliff.xml;Materials/grass.xml;Materials/cobblestone.xml;Materials/palpan_romebrick4.xml;Materials/palpan_romebrick3.xml;Materials/pillar_bottom.xml;Materials/palpan_marble.xml;Materials/palpan_marble_block.xml;Materials/metal_darker.xml;Materials/cobblestone_darker.xml;Materials/concrete.xml;Materials/sheet_metal.xml;Materials/pillar.xml;Materials/lightstrip.xml;Materials/palpan_romebrick5.xml;Materials/grass_coarse.xml;Materials/palpan_romebrick2.xml;Materials/palpan_romebrick.xml;Materials/greenbrick.xml;Materials/asphalt.xml;Materials/metal.xml;Materials/invisible.xml;Materials/door.xml" />
+			<attribute name="Material" value="Material;Materials/palpan_cliff.xml;Materials/grass.xml;Materials/cobblestone.xml;Materials/palpan_romebrick4.xml;Materials/palpan_marble.xml;Materials/palpan_marble_block.xml;Materials/palpan_romebrick3.xml;Materials/pillar_bottom.xml;Materials/metal_darker.xml;Materials/cobblestone_darker.xml;Materials/concrete.xml;Materials/sheet_metal.xml;Materials/pillar.xml;Materials/lightstrip.xml;Materials/palpan_romebrick5.xml;Materials/grass_coarse.xml;Materials/palpan_romebrick2.xml;Materials/palpan_romebrick.xml;Materials/greenbrick.xml;Materials/asphalt.xml;Materials/metal.xml;Materials/invisible.xml;Materials/door.xml" />
 		</component>
 	</node>
 	<node id="16777218">
@@ -80,7 +80,7 @@
 		<attribute name="Tags">
 			<string value="shootable" />
 		</attribute>
-		<attribute name="Position" value="22.9073 -55.9854 1.3535" />
+		<attribute name="Position" value="-36.6431 -32.7642 11.2341" />
 		<attribute name="Rotation" value="0.00191209 0 0.999998 0" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
@@ -92,7 +92,7 @@
 		</component>
 		<component type="RigidBody" id="16778046">
 			<attribute name="Physics Rotation" value="0.00191209 0 0.999998 0" />
-			<attribute name="Physics Position" value="22.9073 -55.9854 1.3535" />
+			<attribute name="Physics Position" value="-36.6431 -32.7642 11.2341" />
 			<attribute name="Mass" value="120" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Anisotropic Friction" value="0 0 0" />
@@ -359,7 +359,7 @@
 			<attribute name="Variables" />
 			<component type="RigidBody" id="16778051">
 				<attribute name="Physics Rotation" value="0.00191209 0 0.999998 0" />
-				<attribute name="Physics Position" value="22.9073 -55.9854 1.3535" />
+				<attribute name="Physics Position" value="-36.6431 -32.7642 11.2341" />
 				<attribute name="Friction" value="0" />
 				<attribute name="Linear Factor" value="0 0 0" />
 				<attribute name="Angular Factor" value="0 0 0" />
@@ -409,7 +409,7 @@
 			<string value="prop" />
 			<string value="sign" />
 		</attribute>
-		<attribute name="Position" value="19.6847 -56.0429 3.32356" />
+		<attribute name="Position" value="-39.8657 -32.8217 13.2041" />
 		<attribute name="Rotation" value="0.979028 0 0.203725 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
@@ -427,7 +427,7 @@
 			<string value="prop" />
 			<string value="sign" />
 		</attribute>
-		<attribute name="Position" value="8.14724 -56.0429 -8.07581" />
+		<attribute name="Position" value="-51.4032 -32.8217 1.80474" />
 		<attribute name="Rotation" value="0.96653 0 -0.256553 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
@@ -445,7 +445,7 @@
 			<string value="prop" />
 			<string value="sign" />
 		</attribute>
-		<attribute name="Position" value="-18.7181 -49.6774 -20.9191" />
+		<attribute name="Position" value="-78.2685 -26.4562 -11.0385" />
 		<attribute name="Rotation" value="0.706858 0 -0.707355 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
@@ -462,7 +462,7 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-22.5886 -52.2408 -53.693" />
+		<attribute name="Position" value="-82.139 -29.0196 -43.8125" />
 		<attribute name="Rotation" value="0.99635 -0.0853639 0 0" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
 		<attribute name="Variables" />
@@ -492,7 +492,7 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-16.1885 -52.0692 -53.4622" />
+		<attribute name="Position" value="-75.7389 -28.848 -43.5817" />
 		<attribute name="Rotation" value="0.996092 -0.0883211 0 0" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
 		<attribute name="Variables" />
@@ -691,7 +691,7 @@
 			<string value="prop" />
 			<string value="sign" />
 		</attribute>
-		<attribute name="Position" value="-19.4998 -52.0246 -55.8374" />
+		<attribute name="Position" value="-79.0502 -28.8034 -45.9569" />
 		<attribute name="Rotation" value="0.621874 0 -0.783118 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
@@ -1271,7 +1271,7 @@
 			<attribute name="Is Enabled" value="true" />
 			<attribute name="Name" value="dest" />
 			<attribute name="Tags" />
-			<attribute name="Position" value="0 13.9112 0" />
+			<attribute name="Position" value="0 14.4089 0" />
 			<attribute name="Rotation" value="1 0 0 0" />
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
@@ -1318,47 +1318,6 @@
 			<attribute name="Variables" />
 		</node>
 	</node>
-	<node id="16778075">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="lift" />
-		<attribute name="Tags">
-			<string value="lift" />
-		</attribute>
-		<attribute name="Position" value="-72.0686 -18.9792 161.251" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="2 2 2" />
-		<attribute name="Variables">
-			<variant hash="1366131055" type="Vector3" value="0 0 0" />
-			<variant hash="588515681" type="Float" value="1" />
-			<variant hash="273365031" type="Float" value="2" />
-			<variant hash="3779712780" type="Float" value="0" />
-		</attribute>
-		<component type="StaticModel" id="16780072">
-			<attribute name="Model" value="Model;Models/lift.mdl" />
-			<attribute name="Material" value="Material;Materials/metal_darker.xml" />
-		</component>
-		<component type="CollisionShape" id="16780073">
-			<attribute name="Size" value="4 0.5 2" />
-		</component>
-		<component type="RigidBody" id="16780074">
-			<attribute name="Physics Position" value="-72.0686 -18.9792 161.251" />
-			<attribute name="Friction" value="0" />
-			<attribute name="Linear Factor" value="0 0 0" />
-			<attribute name="Angular Factor" value="0 0 0" />
-			<attribute name="Collision Layer" value="3" />
-			<attribute name="Collision Event Mode" value="Always" />
-			<attribute name="Use Gravity" value="false" />
-		</component>
-		<node id="16778076">
-			<attribute name="Is Enabled" value="true" />
-			<attribute name="Name" value="dest" />
-			<attribute name="Tags" />
-			<attribute name="Position" value="0 5.76454 -9.43388" />
-			<attribute name="Rotation" value="1 0 0 0" />
-			<attribute name="Scale" value="1 1 1" />
-			<attribute name="Variables" />
-		</node>
-	</node>
 	<node id="16778077">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="checkpoint" />
@@ -1375,7 +1334,7 @@
 		</component>
 		<component type="CollisionShape" id="16780076">
 			<attribute name="Shape Type" value="Sphere" />
-			<attribute name="Size" value="76.27 1 1" />
+			<attribute name="Size" value="49.58 1 1" />
 		</component>
 	</node>
 	<node id="16778078">
@@ -1575,7 +1534,7 @@
 			<attribute name="Is Enabled" value="true" />
 			<attribute name="Name" value="dest" />
 			<attribute name="Tags" />
-			<attribute name="Position" value="0 8.09044 0" />
+			<attribute name="Position" value="0 11.2046 0" />
 			<attribute name="Rotation" value="1 0 0 0" />
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
@@ -1604,7 +1563,7 @@
 			<string value="enemy" />
 			<string value="pyropastor" />
 		</attribute>
-		<attribute name="Position" value="-290.434 -53.4891 83.6978" />
+		<attribute name="Position" value="-304.048 -53.4891 90.0836" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -1620,7 +1579,7 @@
 			<string value="enemy" />
 			<string value="pyropastor" />
 		</attribute>
-		<attribute name="Position" value="-291.322 -53.4891 119.08" />
+		<attribute name="Position" value="-304.936 -53.4891 112.762" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -1950,7 +1909,7 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-147.068 -8.39858 162.769" />
+		<attribute name="Position" value="-70.5489 -8.4044 146.324" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
 		<attribute name="Variables" />
@@ -2725,28 +2684,13 @@
 			<attribute name="Material" value="Material;;" />
 		</component>
 	</node>
-	<node id="16778170">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="treegroup" />
-		<attribute name="Tags">
-			<string value="prop" />
-		</attribute>
-		<attribute name="Position" value="-60.0989 -50.3548 -29.9087" />
-		<attribute name="Rotation" value="0.95498 0 0.296668 0" />
-		<attribute name="Scale" value="1 1 1" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780202">
-			<attribute name="Model" value="Model;Models/props/treegroup.mdl" />
-			<attribute name="Material" value="Material;;" />
-		</component>
-	</node>
 	<node id="16778171">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="medkit" />
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-19.3879 -51.8001 -51.2921" />
+		<attribute name="Position" value="-78.9383 -28.5789 -41.4116" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
 		<attribute name="Variables" />
@@ -2821,7 +2765,7 @@
 		<attribute name="Tags">
 			<string value="prop" />
 		</attribute>
-		<attribute name="Position" value="-46.9286 -51.5357 -48.3796" />
+		<attribute name="Position" value="-83.7178 -25.2677 -28.1794" />
 		<attribute name="Rotation" value="0.699128 0 -0.714997 0" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
@@ -2836,7 +2780,7 @@
 		<attribute name="Tags">
 			<string value="prop" />
 		</attribute>
-		<attribute name="Position" value="-22.8326 -46.0631 -7.93381" />
+		<attribute name="Position" value="-82.383 -22.8419 1.94674" />
 		<attribute name="Rotation" value="-0.779375 0 -0.626557 0" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
@@ -2888,22 +2832,6 @@
 		<component type="StaticModel" id="16780212">
 			<attribute name="Model" value="Model;Models/props/treegroup.mdl" />
 			<attribute name="Material" value="Material;;" />
-		</component>
-	</node>
-	<node id="16778181">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="pyropastor" />
-		<attribute name="Tags">
-			<string value="enemy" />
-			<string value="pyropastor" />
-		</attribute>
-		<attribute name="Position" value="-312.861 -53.696 102.55" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780213">
-			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
-			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
 		</component>
 	</node>
 	<node id="16778183">
@@ -2976,7 +2904,7 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-83.6125 -21.186 159.452" />
+		<attribute name="Position" value="-72.1806 -19.6518 162.344" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
 		<attribute name="Variables" />
@@ -3400,5 +3328,65 @@
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
 		</node>
+	</node>
+	<node id="16778228">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="lift" />
+		<attribute name="Tags">
+			<string value="lift" />
+		</attribute>
+		<attribute name="Position" value="-84.2418 -20.5157 159.871" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="2 2 2" />
+		<attribute name="Variables">
+			<variant hash="1366131055" type="Vector3" value="0 0 0" />
+			<variant hash="588515681" type="Float" value="1" />
+			<variant hash="273365031" type="Float" value="3" />
+			<variant hash="3779712780" type="Float" value="0" />
+		</attribute>
+		<component type="StaticModel" id="16780385">
+			<attribute name="Model" value="Model;Models/lift.mdl" />
+			<attribute name="Material" value="Material;Materials/metal_darker.xml" />
+		</component>
+		<component type="CollisionShape" id="16780386">
+			<attribute name="Size" value="4 0.5 2" />
+		</component>
+		<component type="RigidBody" id="16780387">
+			<attribute name="Physics Position" value="-84.2418 -20.5157 159.871" />
+			<attribute name="Friction" value="0" />
+			<attribute name="Linear Factor" value="0 0 0" />
+			<attribute name="Angular Factor" value="0 0 0" />
+			<attribute name="Collision Layer" value="3" />
+			<attribute name="Collision Event Mode" value="Always" />
+			<attribute name="Use Gravity" value="false" />
+		</component>
+		<node id="16778229">
+			<attribute name="Is Enabled" value="true" />
+			<attribute name="Name" value="dest" />
+			<attribute name="Tags" />
+			<attribute name="Position" value="0 11 0" />
+			<attribute name="Rotation" value="1 0 0 0" />
+			<attribute name="Scale" value="1 1 1" />
+			<attribute name="Variables" />
+			<component type="StaticModel" id="16780388">
+				<attribute name="Model" value="Model;Models/lift.mdl" />
+				<attribute name="Material" value="Material;" />
+			</component>
+		</node>
+	</node>
+	<node id="16778231">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="medkit" />
+		<attribute name="Tags">
+			<string value="medkit" />
+		</attribute>
+		<attribute name="Position" value="-147.068 -8.39858 162.769" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.6 0.6 0.6" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780389">
+			<attribute name="Model" value="Model;Models/medkit.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
+		</component>
 	</node>
 </scene>
