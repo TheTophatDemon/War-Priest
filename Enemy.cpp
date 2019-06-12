@@ -114,7 +114,7 @@ void Enemy::FixedUpdate(float timeStep)
 		actor->Move(timeStep);
 		if (stateTimer > 0.75f)
 		{
-			Zeus::MakeLightBeam(scene, node_->GetWorldPosition(), 2048.0f);
+			Zeus::MakeLightBeam(scene, node_->GetWorldPosition(), 1);
 			node_->Remove();
 		}
 	}

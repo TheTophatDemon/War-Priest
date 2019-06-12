@@ -1,10 +1,7 @@
-//Reduce rain particles on low graphics mode
-//Make explosions more efficient
 //TODO:
 	//Player disappears?
 		//PP also disappears on SS1
 		//First person mode makes the model pop out, but it's stuck in position
-	//Make sure apeshit camera glitch is done for.
 	//Gamepad support
 		//Test Joystick hats
 	//Credits
@@ -13,13 +10,8 @@
 	//Do final test through every level.
 		//Make geometry shading flat
 		//Make fog match the skybox color
-		//PP1
-			//Make inital ramp shorter
-			//Make the giant cross a little less glitchy
 		//PP3
-			//Make platform in PP3 double-edged (and faster).
-			//PP3 make that slope less steep
-			//Danger Deacon gets stuck in floor on PP3
+			//Replace spinny platform?
 		//PP4
 			//Add bonus cross
 			//Nerf that spinning platform bit

@@ -100,13 +100,13 @@ Node* Zeus::MakeLightBeam(Scene* scene, Vector3 position, const int sound)
 	{
 		SoundSource3D* soundSource = lightColumn->CreateComponent<SoundSource3D>();
 		soundSource->SetSoundType("GAMEPLAY");
-		if (sound == 1)
+		if (sound == 2)
 		{
-			soundSource->Play(cache->GetResource<Sound>("Sounds/env_beam.wav"));
+			soundSource->Play(cache->GetResource<Sound>("Sounds/env_beam2.wav"));
 		}
 		else
 		{
-			soundSource->Play(cache->GetResource<Sound>("Sounds/env_beam2.wav"));
+			soundSource->Play(cache->GetResource<Sound>("Sounds/env_beam.wav"));
 		}
 	}
 
