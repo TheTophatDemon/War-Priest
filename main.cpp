@@ -10,8 +10,6 @@
 	//Do final test through every level.
 		//Make geometry shading flat
 		//Make fog match the skybox color
-		//PP3
-			//Replace spinny platform?
 		//PP4
 			//Add bonus cross
 			//Nerf that spinning platform bit
