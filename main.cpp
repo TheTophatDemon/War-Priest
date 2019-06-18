@@ -10,9 +10,6 @@
 	//Do final test through every level.
 		//Make geometry shading flat
 		//Make fog match the skybox color
-		//PP4
-			//Add bonus cross
-			//Nerf that spinning platform bit
 		//FF1
 			//FF1 is too ugly
 			//Fallrhine 1 ledge is too high
