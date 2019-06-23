@@ -10,10 +10,6 @@
 	//Do final test through every level.
 		//Make geometry shading flat
 		//Make fog match the skybox color
-		//FF1
-			//FF1 is too ugly
-			//Fallrhine 1 ledge is too high
-			//Postal Pope glitch with small indents
 		//FF2
 			//Fallrhine 2 barrel platform unreachable
 		//FF3
