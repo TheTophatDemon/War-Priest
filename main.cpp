@@ -1,17 +1,23 @@
 //TODO:
-	//Player disappears?
-		//PP also disappears on SS1
-		//First person mode makes the model pop out, but it's stuck in position
 	//Gamepad support
 		//Test Joystick hats
 	//Credits
 		//Music for flood
+	//Change default sound & music volumes
+	//Glitch where invisible material affects depth buffer
+	//Mysterious temporary disappearances on FF2
+		//Might be a glitch common to all actors
+		//Physics shape stays locked in place
+		//Actually, no, sometimes it turns
+		//Sometimes when you touch a glitched enemy you get sucked into the void.
+		//Might have something to do with collision shape changes and NaN parameters
+		//The node is moving, but the body is not.
+		//The model is shoved off somewhere far far away at first.
+		//Has happened to: Player, Pyro Pastor, Postal Pope, Danger Deacon
 	//More posters?
 	//Do final test through every level.
 		//Make geometry shading flat
 		//Make fog match the skybox color
-		//FF2
-			//Fallrhine 2 barrel platform unreachable
 		//FF3
 			//Exaggerate movement of spinning platform in FF3
 			//FF3 health platform unreachable
@@ -34,7 +40,7 @@
 			//Make beginning platforms easier to cross
 			//Can't get on platforms to return
 			//Put checkpoint back at start
-			//Lower that one PP platform
+			//Lower that one PyP platform
 		//SS3
 			//Sacsand3 platforms going wrong way
 			//SS3 less enemies on side island

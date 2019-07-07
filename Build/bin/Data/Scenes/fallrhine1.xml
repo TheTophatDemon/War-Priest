@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16777822" />
-	<attribute name="Next Local Component ID" value="16779379" />
+	<attribute name="Next Local Node ID" value="16777825" />
+	<attribute name="Next Local Component ID" value="16779404" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="fallenfatherland.ogg" />
 	</attribute>
@@ -66,6 +66,7 @@
 			<attribute name="Bounding Box Min" value="-1000 -1000 -1000" />
 			<attribute name="Bounding Box Max" value="1000 1000 1000" />
 			<attribute name="Ambient Color" value="0.6 0.6 0.6 1" />
+			<attribute name="Fog Color" value="0 0.26 0.34 1" />
 			<attribute name="Fog Start" value="50" />
 			<attribute name="Fog End" value="350" />
 			<attribute name="Fog Height" value="-4.88" />
@@ -714,7 +715,7 @@
 			<string value="shootable" />
 			<string value="pyropastor" />
 		</attribute>
-		<attribute name="Position" value="-115.254 -26.6494 50.7821" />
+		<attribute name="Position" value="-93.6986 -26.6494 55.7098" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -2074,6 +2075,23 @@
 		<component type="CollisionShape" id="16779378">
 			<attribute name="Shape Type" value="TriangleMesh" />
 			<attribute name="Model" value="Model;Models/props/treegroup_distorted.mdl" />
+		</component>
+	</node>
+	<node id="16777824">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="pyropastor" />
+		<attribute name="Tags">
+			<string value="enemy" />
+			<string value="shootable" />
+			<string value="pyropastor" />
+		</attribute>
+		<attribute name="Position" value="-115.254 -26.6494 50.7821" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16779403">
+			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
 		</component>
 	</node>
 </scene>

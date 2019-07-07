@@ -18,13 +18,12 @@ Materials/purplebrick_ridge.xml
 Materials/purplebrick_window.xml
 Materials/redbrick.xml
 Materials/concrete.xml
-Materials/asphalt.xml
 Materials/purplefloor.xml
-Materials/bluecarpet.xml
 Materials/purplebrick_window_cracked.xml
 Materials/fallrhine_light.xml
 Materials/door.xml
 Materials/brick_window.xml
 Materials/sheet_metal.xml
+Materials/asphalt.xml
 Materials/dirt.xml
 Materials/slime.xml

@@ -41,16 +41,9 @@ void Enemy::Start()
 	oldShape->SetSize(shape->GetSize());
 	oldShape->SetPosition(shape->GetPosition());
 
-	if (!node_->HasComponent<Actor>())
-		actor = node_->CreateComponent<Actor>();
-	else
-		actor = node_->GetComponent<Actor>();
-	actor->SetEnabled(false);
+	actor = node_->GetOrCreateComponent<Actor>();
 
-	if (modelNode->HasComponent<AnimationController>())
-		animController = modelNode->GetComponent<AnimationController>();
-	else
-		animController = modelNode->CreateComponent<AnimationController>();
+	animController = modelNode->GetOrCreateComponent<AnimationController>();
 	soundSource = node_->CreateComponent<SoundSounder>();
 
 	SubscribeToEvent(node_, E_NODECOLLISION, URHO3D_HANDLER(Enemy, OnCollision));
@@ -279,7 +272,6 @@ bool Enemy::CheckCliff(const float slopeIntolerance)
 
 void Enemy::Dead() //This function defines the defualt behavior for being dead
 {
-	actor->SetEnabled(false);
 	body->SetLinearVelocity(Vector3::ZERO);
 	body->SetAngularVelocity(Vector3::ZERO);
 }
@@ -325,7 +317,6 @@ void Enemy::LeaveState(const int oldState)
 {
 	if (oldState == STATE_DEAD)
 	{
-		actor->SetEnabled(true);
 		shape->SetSize(oldShape->GetSize());
 		shape->SetPosition(oldShape->GetPosition());
 		body->SetMass(120.0f);

@@ -60,6 +60,7 @@ void PostalPope::DelayedStart()
 	spinAnim->SetKeyFrame(1.5f, Quaternion(270.0f, Vector3::UP));
 	spinAnim->SetKeyFrame(2.0f, Quaternion::IDENTITY);
 	spinner->SetAttributeAnimation("Rotation", spinAnim, WM_LOOP, 1.0f);
+	
 }
 
 void PostalPope::RegisterObject(Context* context)
@@ -81,7 +82,7 @@ void PostalPope::Execute()
 
 	case STATE_WANDER:
 		actor->gravity = true;
-
+		
 		Wander(false, 0.9f, 8.0f);
 		actor->SetInputFPS(walking, false, false, false);
 		actor->Move(deltaTime);

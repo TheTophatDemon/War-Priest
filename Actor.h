@@ -44,7 +44,7 @@ protected:
 
 	SharedPtr<PhysicsWorld> physworld;
 	SharedPtr<Scene> scene;
-	WeakPtr<RigidBody> body;
+	SharedPtr<RigidBody> body;
 	SharedPtr<CollisionShape> shape;
 	
 	Vector3 rawMovement;
