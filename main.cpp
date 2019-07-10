@@ -5,7 +5,7 @@
 		//Music for flood
 	//Change default sound & music volumes
 	//Glitch where invisible material affects depth buffer
-	//Mysterious temporary disappearances on FF2
+	//Mysterious temporary disappearances
 		//Might be a glitch common to all actors
 		//Physics shape stays locked in place
 		//Actually, no, sometimes it turns
@@ -13,19 +13,14 @@
 		//Might have something to do with collision shape changes and NaN parameters
 		//The node is moving, but the body is not.
 		//The model is shoved off somewhere far far away at first.
-		//Has happened to: Player, Pyro Pastor, Postal Pope, Danger Deacon
+		//Has happened to: Player, Pyro Pastor, Postal Pope, Danger Deacon, Temp Templar
+		//For Temp Templar, the ghost collision shape spins rapidly
+		//Could be WeakChild issue?
+	//Enemies getting stuck in slopes
 	//More posters?
 	//Do final test through every level.
 		//Make geometry shading flat
 		//Make fog match the skybox color
-		//FF3
-			//Exaggerate movement of spinning platform in FF3
-			//FF3 health platform unreachable
-			//Pillar unreachable
-			//Faster platforms
-			//Make broken bridge part less risky
-			//Big jump from blue-tipped tower is too larges
-			//More health
 		//FF4
 			//Nerf the first section
 			//Expand ridge in FF4
