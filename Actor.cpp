@@ -21,19 +21,22 @@ using namespace Urho3D;
 #define LEVELMASK 2
 
 Actor::Actor(Context* context) : LogicComponent(context),
+	downCast(),
+	input(Vector3::ZERO),
 	acceleration(175.0f),
 	maxSpeed(15.0f),
 	friction(60.0f),
 	fallSpeed(50.0f),
 	maxFall(30.0f),
 	jumpStrength(18.0f),
+	fall(0.0f),
 	onGround(false),
-	slopeSteepness(0.0f),
-	deltaTime(0.0f),
+	sloping(false),
 	gravity(true),
+	rawMovement(Vector3::ZERO),
 	knockBackMovement(Vector3::ZERO),
-	input(Vector3::ZERO),
-	rawMovement(Vector3::ZERO)
+	deltaTime(0.0f),
+	slopeSteepness(0.0f)
 {
 }
 
@@ -138,7 +141,7 @@ void Actor::Move(float timeStep)
 	rawMovement += input * acceleration * deltaTime;
 	const float rawMagnitude = rawMovement.Length();
 	//Friction
-	if (input == Vector3::ZERO)
+	if (input == Vector3::ZERO && rawMagnitude != 0.0f)
 	{
 		rawMovement = (rawMovement / rawMagnitude) * Max(0.0f, rawMagnitude - friction * deltaTime);
 	}
@@ -155,7 +158,7 @@ void Actor::Move(float timeStep)
 	//Falling logic
 	sloping = false;
 	float slopeFall = 0.0f;
-
+	
 	if (gravity) 
 	{
 		if (onGround)

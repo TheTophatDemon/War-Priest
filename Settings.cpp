@@ -166,7 +166,7 @@ void Settings::RevertSettings(Context* context)
 	fullScreen = false;
 	vSync = false;
 	mouseSensitivity = 0.25f;
-	musicVolume = 1.0f;
+	musicVolume = 0.4f;
 	soundVolume = 1.0f;
 	xRes = 1280;
 	yRes = 720;

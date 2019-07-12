@@ -4,7 +4,6 @@
 	//Credits
 		//Music for flood
 	//Change default sound & music volumes
-	//Glitch where invisible material affects depth buffer
 	//Mysterious temporary disappearances
 		//Might be a glitch common to all actors
 		//Physics shape stays locked in place
@@ -16,6 +15,8 @@
 		//Has happened to: Player, Pyro Pastor, Postal Pope, Danger Deacon, Temp Templar
 		//For Temp Templar, the ghost collision shape spins rapidly
 		//Could be WeakChild issue?
+		//For Pyro Pastor, root node is high in the sky while Rigidbody is on ground w/ very high upward velocity
+	//Go through and make sure every class member is initialized
 	//Enemies getting stuck in slopes
 	//More posters?
 	//Do final test through every level.
@@ -26,6 +27,8 @@
 			//Expand ridge in FF4
 			//FF4 Enemy in the water?
 			//Add bonus cross
+			//Smoothen the gear interior
+			//Bigger lifts to templar island
 		//SS1
 			//Reduce DD count
 			//Add Bonus cross
