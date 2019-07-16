@@ -1257,15 +1257,15 @@
 	</node>
 	<node id="16777946">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="bigcross" />
+		<attribute name="Name" value="bigrelic" />
 		<attribute name="Tags" />
 		<attribute name="Position" value="-62.614 9.49068 201.808" />
 		<attribute name="Rotation" value="0.891352 0.0504981 0.412482 0.181103" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16779667">
-			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
-			<attribute name="Material" value="Material;Materials/skins/bigcross_skin.xml" />
+			<attribute name="Model" value="Model;Models/props/bigrelic.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/bigrelic_skin.xml" />
 		</component>
 	</node>
 	<node id="16777947">

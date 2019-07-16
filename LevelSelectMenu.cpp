@@ -38,7 +38,7 @@ LevelSelectMenu::LevelSelectMenu(Context* context, TitleScreen* ts, SharedPtr<Ga
 		fe.levelName = results[i].GetAttribute("name");
 		fe.completion = atoi(results[i].GetAttribute("completion").CString());
 		fe.completionToll = atoi(results[i].GetAttribute("completiontoll").CString());
-		fe.crossToll = atoi(results[i].GetAttribute("crosstoll").CString());
+		fe.crossToll = atoi(results[i].GetAttribute("relictoll").CString());
 		levelEntries.Push(fe);
 	}
 
@@ -71,7 +71,7 @@ void LevelSelectMenu::SetLevelCompletionFlag(const String levelPath, const int f
 				elle.SetString("name", le.levelName);
 				elle.SetString("path", le.filePath);
 				elle.SetInt("completion", le.completion);
-				elle.SetInt("crosstoll", le.crossToll);
+				elle.SetInt("relictoll", le.crossToll);
 				elle.SetInt("completiontoll", le.completionToll);
 			}
 			//Save to levelinfo.xml
@@ -151,14 +151,14 @@ void LevelSelectMenu::OnEnter()
 				sprite->SetSize(48, 48);
 				sprite->SetAlignment(HA_LEFT, VA_TOP);
 				sprite->SetPosition(0.0f, 0.0f);
-				sprite->SetTexture(cache->GetResource<Texture2D>("UI/cross_icon.png"));
+				sprite->SetTexture(cache->GetResource<Texture2D>("UI/relic_icon.png"));
 				sprite->SetImageRect(IntRect(0, 0, 48, 48));
 				sprites.Push(sprite);
 				Sprite* sprite2 = button->CreateChild<Sprite>();
 				sprite2->SetSize(48, 48);
 				sprite2->SetAlignment(HA_RIGHT, VA_TOP);
 				sprite2->SetPosition(-48.0f, 0.0f);
-				sprite2->SetTexture(cache->GetResource<Texture2D>("UI/cross_icon.png"));
+				sprite2->SetTexture(cache->GetResource<Texture2D>("UI/relic_icon.png"));
 				sprite2->SetImageRect(IntRect(0, 0, 48, 48));
 				sprites.Push(sprite2);
 			}

@@ -47,7 +47,7 @@ using namespace Urho3D;
 #define WALK_ANIM "Models/grungle_walk.ani"
 #define JUMP_ANIM "Models/grungle_jump.ani"
 #define SLIDE_ANIM "Models/grungle_slide.ani"
-#define HAIL_ANIM "Models/grungle_hailmary.ani"
+#define FLEX_ANIM "Models/grungle_flex.ani"
 #define REVIVE_ANIM "Models/grungle_revive.ani"
 #define DROWN_ANIM "Models/grungle_drown.ani"
 
@@ -103,7 +103,7 @@ Player::Player(Context* context) : LogicComponent(context),
 	reviveCooldown(0.0f),
 	cameraPitch(-15.0f),
 	cameraYaw(0.0f),
-	hailTimer(0),
+	flexTimer(0),
 	hurtTimer(0),
 	walkSpeed(17.0f),
 	slideSpeed(22.0f),
@@ -830,19 +830,21 @@ void Player::ST_Default(float timeStep)
 		if (actor->input != Vector3::ZERO)
 		{
 			animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);
-			hailTimer = 0.0f;
+			flexTimer = 0.0f;
 		}
 		else
 		{
-			hailTimer += timeStep;
-			if (hailTimer >= 10.0f)
+			flexTimer += timeStep;
+			if (flexTimer >= 10.0f)
 			{
-				hailTimer = 0.0f;
-				animController->PlayExclusive(HAIL_ANIM, 0, false, 0.2f);
+				flexTimer = 0.0f;
+				animController->PlayExclusive(FLEX_ANIM, 0, false, 0.2f);
+				animController->SetBlendMode(FLEX_ANIM, AnimationBlendMode::ABM_ADDITIVE);
 			}
-			if (!animController->IsPlaying(HAIL_ANIM) || animController->IsAtEnd(HAIL_ANIM))
+			else if (!animController->IsPlaying(FLEX_ANIM) || animController->IsAtEnd(FLEX_ANIM))
 			{
 				animController->PlayExclusive(IDLE_ANIM, 0, true, 0.2f);
+				animController->SetBlendMode(IDLE_ANIM, AnimationBlendMode::ABM_ADDITIVE);
 			}
 		}
 	}

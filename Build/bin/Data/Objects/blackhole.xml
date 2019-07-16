@@ -11,7 +11,7 @@
 	<attribute name="Variables" />
 	<component type="StaticModel" id="16784061">
 		<attribute name="Model" value="Model;Models/Sphere.mdl" />
-		<attribute name="Material" value="Material;Materials/BlackHole.xml" />
+		<attribute name="Material" value="Material;Materials/blackhole.xml" />
 		<attribute name="Can Be Occluded" value="false" />
 	</component>
 	<component type="RigidBody" id="16784062">

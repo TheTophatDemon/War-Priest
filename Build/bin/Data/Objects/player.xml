@@ -14,7 +14,6 @@
 		<attribute name="Shape Type" value="Capsule" />
 		<attribute name="Size" value="1 3 1" />
 		<attribute name="Offset Position" value="0 1.5 0" />
-		<attribute name="Model" value="Model;Models/playerCollider.mdl" />
 	</component>
 	<component type="RigidBody" id="16778046">
 		<attribute name="Physics Position" value="123.07 -1.79211 22.4643" />

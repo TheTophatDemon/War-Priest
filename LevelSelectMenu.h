@@ -32,7 +32,7 @@ public:
 	virtual void Update(float timeStep) override;
 	void SetLevelCompletionFlag(const String levelPath, const int flag, const bool val);
 	int GetNumberOfVisits(const String levelpath);
-	inline int GetCrossCount() const 
+	inline int GetRelicCount() const 
 	{
 		return crossCount;
 	};

@@ -885,7 +885,7 @@ void Gameplay::HandleEvent(StringHash eventType, VariantMap& eventData)
 	if (eventType == E_BONUSCOLLECTED)
 	{
 		FlashScreen(Color(1.0f, 0.0f, 1.0f, 1.0f), 0.01f);
-		DisplayMessage(bonusFlag ? "YOU FOUND THE BONUS CROSS...AGAIN!" : "YOU FOUND THE BONUS CROSS!", Color::MAGENTA, 2.0f, 0);
+		DisplayMessage(bonusFlag ? "YOU FOUND THE BONUS RELIC...AGAIN!" : "YOU FOUND THE BONUS RELIC!", Color::MAGENTA, 2.0f, 0);
 		bonusFlag = true;
 	}
 	else if (eventType == Settings::E_SETTINGSCHANGED)

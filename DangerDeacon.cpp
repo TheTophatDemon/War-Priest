@@ -93,9 +93,9 @@ void DangerDeacon::Execute()
 	const float shrinkAmount = deltaTime * EXPLODE_RANGE * Settings::ScaleWithDifficulty(2.7f, 3.3f, 3.5f);
 
 	//Falling animation
-	if (!actor->onGround && 
-		(!actor->downCast.body_ || (actor->downCast.body_ && actor->downCast.distance_ > 5.0f)) 
-		&& actor->IsEnabled() && !animController->IsPlaying(JUMP_ANIM))
+	if (!actor->onGround && !animController->IsPlaying(JUMP_ANIM)
+		&& (!actor->downCast.body_ || (actor->downCast.body_ && actor->downCast.distance_ > 5.0f))
+		&& state != STATE_DEAD)
 	{
 		fallTimer += deltaTime;
 		if (fallTimer > 0.25f)

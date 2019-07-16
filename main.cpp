@@ -3,19 +3,6 @@
 		//Test Joystick hats
 	//Credits
 		//Music for flood
-	//Change default sound & music volumes
-	//Mysterious temporary disappearances
-		//Might be a glitch common to all actors
-		//Physics shape stays locked in place
-		//Actually, no, sometimes it turns
-		//Sometimes when you touch a glitched enemy you get sucked into the void.
-		//Might have something to do with collision shape changes and NaN parameters
-		//The node is moving, but the body is not.
-		//The model is shoved off somewhere far far away at first.
-		//Has happened to: Player, Pyro Pastor, Postal Pope, Danger Deacon, Temp Templar
-		//For Temp Templar, the ghost collision shape spins rapidly
-		//Could be WeakChild issue?
-		//For Pyro Pastor, root node is high in the sky while Rigidbody is on ground w/ very high upward velocity
 	//Go through and make sure every class member is initialized
 	//Enemies getting stuck in slopes
 	//More posters?

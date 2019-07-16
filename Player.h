@@ -97,7 +97,7 @@ protected:
 	float reviveCooldown;
 	float cameraPitch;
 	float cameraYaw;
-	float hailTimer;
+	float flexTimer;
 	float hurtTimer;
 
 	float walkSpeed;
