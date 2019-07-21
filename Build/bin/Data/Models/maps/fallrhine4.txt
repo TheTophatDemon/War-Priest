@@ -1,11 +1,11 @@
 Materials/purplefloor.xml
-Materials/purplebrick_ridge.xml
+Materials/purplebrick2.xml
 Materials/fallrhine_triroof.xml
+Materials/purplebrick_ridge.xml
 Materials/rock.xml
 Materials/fallrhine_pipe.xml
 Materials/metal.xml
 Materials/fallrhine_light.xml
-Materials/purplebrick2.xml
 Materials/ship_ridge.xml
 Materials/asphalt.xml
 Materials/metal_darker.xml
@@ -17,4 +17,6 @@ Materials/concrete.xml
 Materials/sheet_metal.xml
 Materials/cobblestone.xml
 Materials/grass_coarse.xml
+Materials/purplebrick_window.xml
 Materials/purplebrick_window_cracked.xml
+Materials/glass.xml

@@ -1,7 +1,7 @@
 //TODO:
 	//Gamepad support
 		//Test Joystick hats
-	//Credits
+	//Credits Cathedral
 		//Music for flood
 	//Go through and make sure every class member is initialized
 	//Enemies getting stuck in slopes
@@ -9,13 +9,6 @@
 	//Do final test through every level.
 		//Make geometry shading flat
 		//Make fog match the skybox color
-		//FF4
-			//Nerf the first section
-			//Expand ridge in FF4
-			//FF4 Enemy in the water?
-			//Add bonus cross
-			//Smoothen the gear interior
-			//Bigger lifts to templar island
 		//SS1
 			//Reduce DD count
 			//Add Bonus cross
@@ -33,6 +26,7 @@
 			//SS4 intial launchpad comes up too short
 			//Add a way back from that initial launchpad
 			//Fix those tiny-ass platforms
+		//Crazy Crossroads
 	//Optimizations:
 		//Optimize raycast distances for player (The more geometry that intersects it, the slower it gets)
 		//Optimize physicsbodyquery?
