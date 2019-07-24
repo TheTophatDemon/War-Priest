@@ -13,11 +13,6 @@
 	//Do final test through every level.
 		//Make geometry shading flat
 		//Make fog match the skybox color
-		//SS2
-			//Make beginning platforms easier to cross
-			//Can't get on platforms to return
-			//Put checkpoint back at start
-			//Lower that one PyP platform
 		//SS3
 			//Sacsand3 platforms going wrong way
 			//SS3 less enemies on side island
@@ -30,6 +25,7 @@
 		//Optimize raycast distances for player (The more geometry that intersects it, the slower it gets)
 		//Optimize physicsbodyquery?
 		//Fix pause upon all enemies revive
+			//Doesn't happen on SS2??
 	//Package assets
 	
 	//Send to Somecallmejohnny?

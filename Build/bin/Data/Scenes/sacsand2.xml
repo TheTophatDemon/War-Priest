@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="3" />
 	<attribute name="Next Replicated Component ID" value="5" />
-	<attribute name="Next Local Node ID" value="16778777" />
-	<attribute name="Next Local Component ID" value="16782255" />
+	<attribute name="Next Local Node ID" value="16778784" />
+	<attribute name="Next Local Component ID" value="16782287" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="sacredsands.ogg" />
 	</attribute>
@@ -44,7 +44,7 @@
 			<attribute name="Bounding Box Min" value="-1000 -1000 -1000" />
 			<attribute name="Bounding Box Max" value="1000 1000 1000" />
 			<attribute name="Ambient Color" value="0.6 0.6 0.6 1" />
-			<attribute name="Fog Color" value="0.5 0.25 0.25 1" />
+			<attribute name="Fog Color" value="0.31 0.21 0.18 1" />
 			<attribute name="Fog Start" value="50" />
 			<attribute name="Fog End" value="500" />
 			<attribute name="Fog Height" value="-9.44" />
@@ -58,7 +58,7 @@
 		<attribute name="Tags">
 			<string value="shootable" />
 		</attribute>
-		<attribute name="Position" value="-51.8759 -74.9928 121.536" />
+		<attribute name="Position" value="-58.073 -74.9928 123.007" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
@@ -69,7 +69,7 @@
 			<attribute name="Model" value="Model;Models/playerCollider.mdl" />
 		</component>
 		<component type="RigidBody" id="16778046">
-			<attribute name="Physics Position" value="-51.8759 -74.9928 121.536" />
+			<attribute name="Physics Position" value="-58.073 -74.9928 123.007" />
 			<attribute name="Mass" value="120" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Anisotropic Friction" value="0 0 0" />
@@ -333,7 +333,7 @@
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
 			<component type="RigidBody" id="16778051">
-				<attribute name="Physics Position" value="-51.8759 -74.9928 121.536" />
+				<attribute name="Physics Position" value="-58.073 -74.9928 123.007" />
 				<attribute name="Friction" value="0" />
 				<attribute name="Linear Factor" value="0 0 0" />
 				<attribute name="Angular Factor" value="0 0 0" />
@@ -352,7 +352,7 @@
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="exit" />
 		<attribute name="Tags" />
-		<attribute name="Position" value="-52.087 -76.0464 121.537" />
+		<attribute name="Position" value="-58.2841 -76.0464 123.008" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="1.4 1.4 1.4" />
 		<attribute name="Variables" />
@@ -365,7 +365,7 @@
 			<attribute name="Model" value="Model;Models/exit.mdl" />
 		</component>
 		<component type="RigidBody" id="16778565">
-			<attribute name="Physics Position" value="-52.087 -76.0464 121.537" />
+			<attribute name="Physics Position" value="-58.2841 -76.0464 123.008" />
 			<attribute name="Collision Layer" value="2" />
 			<attribute name="Collision Event Mode" value="Always" />
 			<attribute name="Use Gravity" value="false" />
@@ -432,7 +432,7 @@
 		<attribute name="Rotation" value="-0.951661 0 0.307153 0" />
 		<attribute name="Scale" value="1.75 1.75 1.75" />
 		<attribute name="Variables">
-			<variant hash="2768288956" type="Int" value="100" />
+			<variant hash="2768288956" type="Int" value="75" />
 		</attribute>
 		<component type="StaticModel" id="16781522">
 			<attribute name="Model" value="Model;Models/props/statue.mdl" />
@@ -446,7 +446,7 @@
 			<string value="enemy" />
 			<string value="chaoscaliph" />
 		</attribute>
-		<attribute name="Position" value="21.0575 -67.7214 55.6892" />
+		<attribute name="Position" value="15.2517 -67.7214 50.0151" />
 		<attribute name="Rotation" value="0.660698 0 -0.750652 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -557,7 +557,7 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-53.7913 -77.6234 105.133" />
+		<attribute name="Position" value="-70.8304 -77.6234 106.604" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -572,7 +572,7 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-35.8753 -77.6234 123.038" />
+		<attribute name="Position" value="-42.0724 -77.6234 133.7" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -665,7 +665,7 @@
 			<string value="enemy" />
 			<string value="chaoscaliph" />
 		</attribute>
-		<attribute name="Position" value="-38.6817 -76.9866 108.698" />
+		<attribute name="Position" value="-44.8788 -76.9866 110.169" />
 		<attribute name="Rotation" value="0.660698 0 -0.750652 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -752,22 +752,6 @@
 		<component type="StaticModel" id="16781637">
 			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
 			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
-		</component>
-	</node>
-	<node id="16778595">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="chaoscaliph" />
-		<attribute name="Tags">
-			<string value="enemy" />
-			<string value="chaoscaliph" />
-		</attribute>
-		<attribute name="Position" value="7.30702 -67.4461 40.9889" />
-		<attribute name="Rotation" value="0.660698 0 -0.750652 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16781640">
-			<attribute name="Model" value="Model;Models/enemy/chaoscaliph.mdl" />
-			<attribute name="Material" value="Material;Materials/enemy/chaoscaliph_skin.xml" />
 		</component>
 	</node>
 	<node id="16778596">
@@ -889,7 +873,7 @@
 		<attribute name="Tags">
 			<string value="lift" />
 		</attribute>
-		<attribute name="Position" value="56.2083 -70.4275 -93.4568" />
+		<attribute name="Position" value="53.8592 -70.4275 -93.4568" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="5 4 5" />
 		<attribute name="Variables">
@@ -907,7 +891,7 @@
 			<attribute name="Model" value="Model;Models/lift_pyramid.mdl" />
 		</component>
 		<component type="RigidBody" id="16781713">
-			<attribute name="Physics Position" value="56.2083 -70.4275 -93.4568" />
+			<attribute name="Physics Position" value="53.8592 -70.4275 -93.4568" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Linear Factor" value="0 0 0" />
 			<attribute name="Angular Factor" value="0 0 0" />
@@ -1094,7 +1078,7 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-8.9927 -77.1392 -252.857" />
+		<attribute name="Position" value="116.801 -69.6126 -232.331" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -1489,7 +1473,7 @@
 		<attribute name="Tags">
 			<string value="lift" />
 		</attribute>
-		<attribute name="Position" value="63.5096 -71.2945 -18.2337" />
+		<attribute name="Position" value="60.5764 -74.3883 -10.6061" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
@@ -1508,7 +1492,7 @@
 			<attribute name="Offset Position" value="0 -0.5 0" />
 		</component>
 		<component type="RigidBody" id="16781798">
-			<attribute name="Physics Position" value="63.5096 -71.2945 -18.2337" />
+			<attribute name="Physics Position" value="60.5764 -74.3883 -10.6061" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Linear Factor" value="0 0 0" />
 			<attribute name="Angular Factor" value="0 0 0" />
@@ -1520,7 +1504,7 @@
 			<attribute name="Is Enabled" value="true" />
 			<attribute name="Name" value="dest" />
 			<attribute name="Tags" />
-			<attribute name="Position" value="-22.9754 1.28224 42.034" />
+			<attribute name="Position" value="-19.9398 3.73257 39.7019" />
 			<attribute name="Rotation" value="1 0 0 0" />
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
@@ -1551,7 +1535,7 @@
 		<attribute name="Tags">
 			<string value="lift" />
 		</attribute>
-		<attribute name="Position" value="-69.7214 -70.8222 -185.383" />
+		<attribute name="Position" value="-70.3269 -70.8222 -185.383" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
@@ -1570,7 +1554,7 @@
 			<attribute name="Offset Position" value="0 -0.5 0" />
 		</component>
 		<component type="RigidBody" id="16781827">
-			<attribute name="Physics Position" value="-69.7214 -70.8222 -185.383" />
+			<attribute name="Physics Position" value="-70.3269 -70.8222 -185.383" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Linear Factor" value="0 0 0" />
 			<attribute name="Angular Factor" value="0 0 0" />
@@ -1641,21 +1625,6 @@
 			<attribute name="Material" value="Material;Materials/skins/statue_skin.xml" />
 		</component>
 	</node>
-	<node id="16778680">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="medkit" />
-		<attribute name="Tags">
-			<string value="medkit" />
-		</attribute>
-		<attribute name="Position" value="188.451 -19.0766 -139.029" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16781832">
-			<attribute name="Model" value="Model;Models/medkit.mdl" />
-			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
-		</component>
-	</node>
 	<node id="16778681">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="medkit" />
@@ -1687,28 +1656,13 @@
 			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
 		</component>
 	</node>
-	<node id="16778684">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="medkit" />
-		<attribute name="Tags">
-			<string value="medkit" />
-		</attribute>
-		<attribute name="Position" value="185.345 -19.0766 -82.0901" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16781847">
-			<attribute name="Model" value="Model;Models/medkit.mdl" />
-			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
-		</component>
-	</node>
 	<node id="16778686">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="medkit" />
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="189.926 -19.0766 -82.0901" />
+		<attribute name="Position" value="189.467 -19.0766 -82.0901" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -1755,7 +1709,7 @@
 		<attribute name="Tags">
 			<string value="lift" />
 		</attribute>
-		<attribute name="Position" value="16.8642 -69.8687 33.2545" />
+		<attribute name="Position" value="16.8642 -68.682 33.2545" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
@@ -1774,7 +1728,7 @@
 			<attribute name="Offset Position" value="0 -0.5 0" />
 		</component>
 		<component type="RigidBody" id="16781901">
-			<attribute name="Physics Position" value="16.8642 -69.8687 33.2545" />
+			<attribute name="Physics Position" value="16.8642 -68.682 33.2545" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Linear Factor" value="0 0 0" />
 			<attribute name="Angular Factor" value="0 0 0" />
@@ -1786,12 +1740,12 @@
 			<attribute name="Is Enabled" value="true" />
 			<attribute name="Name" value="dest" />
 			<attribute name="Tags" />
-			<attribute name="Position" value="26.1278 -1.28224 -42.034" />
+			<attribute name="Position" value="18.5917 -4.13733 -33.851" />
 			<attribute name="Rotation" value="1 0 0 0" />
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
 			<component type="StaticModel" id="16781902">
-				<attribute name="Model" value="Model;Models/lift_top.mdl" />
+				<attribute name="Model" value="Model;Models/lift_top_bigger.mdl" />
 				<attribute name="Material" value="Material;" />
 			</component>
 		</node>
@@ -2057,7 +2011,7 @@
 		<attribute name="Tags">
 			<string value="checkpoint" />
 		</attribute>
-		<attribute name="Position" value="53.0496 -69.214 -36.2839" />
+		<attribute name="Position" value="24.4591 -65.417 103.162" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
@@ -2095,7 +2049,7 @@
 		<attribute name="Tags">
 			<string value="checkpoint" />
 		</attribute>
-		<attribute name="Position" value="-39.9993 -66.1885 -218.041" />
+		<attribute name="Position" value="-69.4333 -64.4664 -155.152" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="1 1 1" />
 		<attribute name="Variables" />
@@ -2178,7 +2132,7 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="57.6084 -62.5898 -166.309" />
+		<attribute name="Position" value="-109.383 -70.0516 -219.841" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -2444,7 +2398,7 @@
 	</node>
 	<node id="16778749">
 		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="bigcross" />
+		<attribute name="Name" value="bigrelic" />
 		<attribute name="Tags">
 			<string value="prop" />
 		</attribute>
@@ -2455,8 +2409,8 @@
 			<variant hash="4251118801" type="Bool" value="true" />
 		</attribute>
 		<component type="StaticModel" id="16782111">
-			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
-			<attribute name="Material" value="Material;Materials/skins/bigcross_skin.xml" />
+			<attribute name="Model" value="Model;Models/props/bigrelic.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/bigrelic_skin.xml" />
 		</component>
 	</node>
 	<node id="16778752">
@@ -2647,6 +2601,93 @@
 		<component type="StaticModel" id="16782230">
 			<attribute name="Model" value="Model;Models/medkit.mdl" />
 			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
+		</component>
+	</node>
+	<node id="16778778">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="checkpoint" />
+		<attribute name="Tags">
+			<string value="checkpoint" />
+		</attribute>
+		<attribute name="Position" value="53.0496 -69.214 -36.2839" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16782267">
+			<attribute name="Model" value="Model;Models/god.mdl" />
+			<attribute name="Material" value="Material;" />
+		</component>
+		<component type="CollisionShape" id="16782268">
+			<attribute name="Shape Type" value="Sphere" />
+			<attribute name="Size" value="37.84 1 1" />
+		</component>
+	</node>
+	<node id="16778779">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="checkpoint" />
+		<attribute name="Tags">
+			<string value="checkpoint" />
+		</attribute>
+		<attribute name="Position" value="-27.4262 -65.417 51.9453" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16782269">
+			<attribute name="Model" value="Model;Models/god.mdl" />
+			<attribute name="Material" value="Material;" />
+		</component>
+		<component type="CollisionShape" id="16782270">
+			<attribute name="Shape Type" value="Sphere" />
+			<attribute name="Size" value="37.84 1 1" />
+		</component>
+	</node>
+	<node id="16778780">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="medkit" />
+		<attribute name="Tags">
+			<string value="medkit" />
+		</attribute>
+		<attribute name="Position" value="57.6084 -62.5898 -166.309" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16782271">
+			<attribute name="Model" value="Model;Models/medkit.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
+		</component>
+	</node>
+	<node id="16778782">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="medkit" />
+		<attribute name="Tags">
+			<string value="medkit" />
+		</attribute>
+		<attribute name="Position" value="-31.9291 -70.0516 -219.841" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16782284">
+			<attribute name="Model" value="Model;Models/medkit.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
+		</component>
+	</node>
+	<node id="16778783">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="checkpoint" />
+		<attribute name="Tags">
+			<string value="checkpoint" />
+		</attribute>
+		<attribute name="Position" value="-39.9993 -66.1885 -218.041" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="1 1 1" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16782285">
+			<attribute name="Model" value="Model;Models/god.mdl" />
+			<attribute name="Material" value="Material;" />
+		</component>
+		<component type="CollisionShape" id="16782286">
+			<attribute name="Shape Type" value="Sphere" />
+			<attribute name="Size" value="31.86 1 1" />
 		</component>
 	</node>
 </scene>
