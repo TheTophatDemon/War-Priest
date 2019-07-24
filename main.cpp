@@ -1,19 +1,18 @@
 //TODO:
+	//Beams displaced for drowning enemies
 	//Gamepad support
 		//Test Joystick hats
 	//Credits Cathedral
 		//Music for flood
-	//Go through and make sure every class member is initialized
-	//Enemies getting stuck in slopes
+	//Loud fireballs?
+	//Make sure every class member is initialized?
+	//Tiny glitches
+		//Enemies getting stuck in slopes
+		//Postal Pope boulders being shot into walls
 	//More posters?
 	//Do final test through every level.
 		//Make geometry shading flat
 		//Make fog match the skybox color
-		//SS1
-			//Reduce DD count
-			//Add Bonus cross
-			//Bad jump when returning from giant platform
-			//Health pack under statue is too big
 		//SS2
 			//Make beginning platforms easier to cross
 			//Can't get on platforms to return
