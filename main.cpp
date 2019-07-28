@@ -1,35 +1,30 @@
 //TODO:
-	//Beams displaced for drowning enemies
-	//Gamepad support
-		//Test Joystick hats
-	//Credits Cathedral
-		//Music for flood
-	//Loud fireballs?
-	//Make sure every class member is initialized?
-	//Tiny glitches
-		//Enemies getting stuck in slopes
-		//Postal Pope boulders being shot into walls
-	//More posters?
 	//Do final test through every level.
 		//Make geometry shading flat
 		//Make fog match the skybox color
-		//SS3
-			//Sacsand3 platforms going wrong way
-			//SS3 less enemies on side island
 		//SS4
 			//SS4 intial launchpad comes up too short
 			//Add a way back from that initial launchpad
 			//Fix those tiny-ass platforms
 		//Crazy Crossroads
-	//Optimizations:
-		//Optimize raycast distances for player (The more geometry that intersects it, the slower it gets)
-		//Optimize physicsbodyquery?
-		//Fix pause upon all enemies revive
+	//Gamepad support
+		//Test Joystick hats
+	//Loud fireballs?
+	//Beams displaced for drowning enemies
+	//Credits Cathedral
+		//Music for flood
+	//More posters?
+	//Fix pause upon all enemies revive
 			//Doesn't happen on SS2??
+	//Make sure every class member is initialized?
+	//Tiny glitches
+		//Enemies getting stuck in slopes
+			//Always seems to be the pyro pastors
+		//Postal Pope boulders being shot into walls
+	//Optimize raycast distances for player (The more geometry that intersects it, the slower it gets)
+	//Optimize physicsbodyquery?
 	//Package assets
-	
 	//Send to Somecallmejohnny?
-
 //Complaints:
 	//PrePhysicsUpdate problems?
 	//Interpolation causes physics objects to jitter
