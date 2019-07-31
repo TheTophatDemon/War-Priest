@@ -92,7 +92,7 @@ void PyroPastor::Execute()
 		if (stateTimer > 0.26f && shotCount == 0)
 		{
 			++shotCount;
-			Fireball::MakeFireball(scene, node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aim, node_); //Aim for the head or sliding is useless
+			Fireball::MakeFireball(scene, node_->GetWorldPosition() + Vector3(0.0f, 2.0f, 0.0f), aim, node_);
 		}
 		else if (stateTimer > 0.46f && shotCount == 1 && Settings::GetDifficulty() > Settings::UNHOLY_THRESHOLD)
 		{

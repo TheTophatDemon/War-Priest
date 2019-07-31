@@ -1,7 +1,6 @@
 Materials/sandstone.xml
 Materials/sacsand_limestone.xml
 Materials/sacsand_stripes.xml
-Materials/sacsand_window.xml
 Materials/sand.xml
 Materials/sacsand_ridge.xml
 Materials/cobblestone.xml
@@ -22,6 +21,7 @@ Materials/invisible.xml
 Materials/bark.xml
 Materials/cobblestone_darker.xml
 Materials/door.xml
+Materials/sacsand_window.xml
 Materials/sacsand_window_large.xml
 Materials/sheet_metal.xml
 Materials/grass.xml

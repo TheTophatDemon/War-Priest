@@ -1,26 +1,25 @@
+//COMMIT:
+//Black hole cap
 //TODO:
 	//Do final test through every level.
-		//Make geometry shading flat
-		//Make fog match the skybox color
-		//SS4
-			//SS4 intial launchpad comes up too short
-			//Add a way back from that initial launchpad
-			//Fix those tiny-ass platforms
 		//Crazy Crossroads
+	//Fix loud fireballs
+	//Beams displaced for drowning enemies
 	//Gamepad support
 		//Test Joystick hats
-	//Loud fireballs?
-	//Beams displaced for drowning enemies
-	//Credits Cathedral
-		//Music for flood
+	//Postal pilot?
 	//More posters?
-	//Fix pause upon all enemies revive
-			//Doesn't happen on SS2??
 	//Make sure every class member is initialized?
 	//Tiny glitches
 		//Enemies getting stuck in slopes
 			//Always seems to be the pyro pastors
 		//Postal Pope boulders being shot into walls
+		//Chaoscaliph not drowning in SS4?
+			//Splash particles are going
+		//Postal pope rising into ceilings
+		//Player disappeared in win sequence?
+		//Fix pause upon all enemies revive
+			//Doesn't happen on SS2??
 	//Optimize raycast distances for player (The more geometry that intersects it, the slower it gets)
 	//Optimize physicsbodyquery?
 	//Package assets
