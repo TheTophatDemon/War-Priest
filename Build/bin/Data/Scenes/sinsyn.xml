@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="49.7946" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16778644" />
-	<attribute name="Next Local Component ID" value="16780913" />
+	<attribute name="Next Local Node ID" value="16778647" />
+	<attribute name="Next Local Component ID" value="16780948" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="credits.ogg" />
 	</attribute>
@@ -612,7 +612,7 @@
 		<attribute name="Rotation" value="-4.37114e-08 0 1 -0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
-			<variant hash="2310231975" type="String" value="Music by The Tophat Demon with collaboration from..." />
+			<variant hash="2310231975" type="String" value="Music mainly by The Tophat Demon" />
 		</attribute>
 		<component type="StaticModel" id="16779983">
 			<attribute name="Model" value="Model;Models/props/sign.mdl" />
@@ -1236,7 +1236,7 @@
 			<string value="enemy" />
 			<string value="postalpope" />
 		</attribute>
-		<attribute name="Position" value="416.342 -41.4389 -25.1822" />
+		<attribute name="Position" value="400.089 -41.4389 -45.7556" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -1252,7 +1252,7 @@
 			<string value="enemy" />
 			<string value="postalpope" />
 		</attribute>
-		<attribute name="Position" value="416.342 -41.4389 18.0475" />
+		<attribute name="Position" value="405.338 -41.4389 41.0371" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
@@ -4966,22 +4966,6 @@
 			<attribute name="Material" value="Material;Materials/enemy/chaoscaliph_skin.xml" />
 		</component>
 	</node>
-	<node id="16778431">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="temptemplar" />
-		<attribute name="Tags">
-			<string value="temptemplar" />
-			<string value="enemy" />
-		</attribute>
-		<attribute name="Position" value="373.748 -31.6424 -231.48" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780459">
-			<attribute name="Model" value="Model;Models/enemy/temptemplar.mdl" />
-			<attribute name="Material" value="Material;Materials/enemy/temptemplar_skin.xml" />
-		</component>
-	</node>
 	<node id="16778432">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="medkit" />
@@ -5494,7 +5478,7 @@
 		<attribute name="Rotation" value="-4.37114e-08 0 1 -0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
-			<variant hash="2310231975" type="String" value="Michael Bowden for the credits song." />
+			<variant hash="2310231975" type="String" value="With collaboration from Michael Bowden for the credits song." />
 		</attribute>
 		<component type="StaticModel" id="16780532">
 			<attribute name="Model" value="Model;Models/props/sign.mdl" />
@@ -6388,7 +6372,7 @@
 		<attribute name="Scale" value="4 4 4" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16780675">
-			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+			<attribute name="Model" value="Model;Models/props/bigrelic.mdl" />
 			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
 		</component>
 	</node>
@@ -6400,8 +6384,8 @@
 		<attribute name="Rotation" value="0.707127 0 0.707086 0" />
 		<attribute name="Scale" value="4 4 4" />
 		<attribute name="Variables" />
-		<component type="StaticModel" id="16780676">
-			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+		<component type="StaticModel" id="16780925">
+			<attribute name="Model" value="Model;Models/props/bigrelic.mdl" />
 			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
 		</component>
 	</node>
@@ -6413,8 +6397,8 @@
 		<attribute name="Rotation" value="0.912044 0 0.410092 0" />
 		<attribute name="Scale" value="4 4 4" />
 		<attribute name="Variables" />
-		<component type="StaticModel" id="16780677">
-			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+		<component type="StaticModel" id="16780926">
+			<attribute name="Model" value="Model;Models/props/bigrelic.mdl" />
 			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
 		</component>
 	</node>
@@ -6426,8 +6410,8 @@
 		<attribute name="Rotation" value="0.263599 0 -0.964633 0" />
 		<attribute name="Scale" value="4 4 4" />
 		<attribute name="Variables" />
-		<component type="StaticModel" id="16780678">
-			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+		<component type="StaticModel" id="16780927">
+			<attribute name="Model" value="Model;Models/props/bigrelic.mdl" />
 			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
 		</component>
 	</node>
@@ -6439,8 +6423,8 @@
 		<attribute name="Rotation" value="0.433962 0 -0.900932 0" />
 		<attribute name="Scale" value="4 4 4" />
 		<attribute name="Variables" />
-		<component type="StaticModel" id="16780679">
-			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+		<component type="StaticModel" id="16780928">
+			<attribute name="Model" value="Model;Models/props/bigrelic.mdl" />
 			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
 		</component>
 	</node>
@@ -6452,8 +6436,8 @@
 		<attribute name="Rotation" value="-0.075821 0 -0.997122 0" />
 		<attribute name="Scale" value="4 4 4" />
 		<attribute name="Variables" />
-		<component type="StaticModel" id="16780680">
-			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+		<component type="StaticModel" id="16780929">
+			<attribute name="Model" value="Model;Models/props/bigrelic.mdl" />
 			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
 		</component>
 	</node>
@@ -6465,8 +6449,8 @@
 		<attribute name="Rotation" value="-0.411796 0 -0.911276 0" />
 		<attribute name="Scale" value="4 4 4" />
 		<attribute name="Variables" />
-		<component type="StaticModel" id="16780681">
-			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+		<component type="StaticModel" id="16780930">
+			<attribute name="Model" value="Model;Models/props/bigrelic.mdl" />
 			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
 		</component>
 	</node>
@@ -6478,8 +6462,8 @@
 		<attribute name="Rotation" value="0.912048 0 0.410084 0" />
 		<attribute name="Scale" value="4 4 4" />
 		<attribute name="Variables" />
-		<component type="StaticModel" id="16780682">
-			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+		<component type="StaticModel" id="16780931">
+			<attribute name="Model" value="Model;Models/props/bigrelic.mdl" />
 			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
 		</component>
 	</node>
@@ -6491,8 +6475,8 @@
 		<attribute name="Rotation" value="0.912048 0 0.410084 0" />
 		<attribute name="Scale" value="4 4 4" />
 		<attribute name="Variables" />
-		<component type="StaticModel" id="16780683">
-			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+		<component type="StaticModel" id="16780932">
+			<attribute name="Model" value="Model;Models/props/bigrelic.mdl" />
 			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
 		</component>
 	</node>
@@ -6504,8 +6488,8 @@
 		<attribute name="Rotation" value="0.926893 0 -0.375326 0" />
 		<attribute name="Scale" value="4 4 4" />
 		<attribute name="Variables" />
-		<component type="StaticModel" id="16780684">
-			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+		<component type="StaticModel" id="16780933">
+			<attribute name="Model" value="Model;Models/props/bigrelic.mdl" />
 			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
 		</component>
 	</node>
@@ -6517,8 +6501,8 @@
 		<attribute name="Rotation" value="0.991507 0 -0.130058 0" />
 		<attribute name="Scale" value="4 4 4" />
 		<attribute name="Variables" />
-		<component type="StaticModel" id="16780685">
-			<attribute name="Model" value="Model;Models/props/bigcross.mdl" />
+		<component type="StaticModel" id="16780934">
+			<attribute name="Model" value="Model;Models/props/bigrelic.mdl" />
 			<attribute name="Material" value="Material;Materials/lightbeam.xml" />
 		</component>
 	</node>
@@ -7016,6 +7000,22 @@
 		<component type="StaticModel" id="16780912">
 			<attribute name="Model" value="Model;Models/props/sign.mdl" />
 			<attribute name="Material" value="Material;Materials/skins/sign_skin.xml" />
+		</component>
+	</node>
+	<node id="16778646">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="temptemplar" />
+		<attribute name="Tags">
+			<string value="temptemplar" />
+			<string value="enemy" />
+		</attribute>
+		<attribute name="Position" value="373.748 -31.6424 -231.48" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.7 0.7 0.7" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16780947">
+			<attribute name="Model" value="Model;Models/enemy/temptemplar.mdl" />
+			<attribute name="Material" value="Material;Materials/enemy/temptemplar_skin.xml" />
 		</component>
 	</node>
 </scene>

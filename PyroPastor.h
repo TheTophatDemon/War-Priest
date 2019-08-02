@@ -36,5 +36,6 @@ protected:
 	virtual void LeaveState(const int oldState) override;
 	
 	int shotCount;
+	float shotOffset; //Shift the timing randomly to avoid extreme loudness from several fireballs going at once.
 };
 

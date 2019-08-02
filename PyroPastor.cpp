@@ -14,7 +14,8 @@
 #define ATTACK_ANIM "Models/enemy/pyropastor_attack.ani"
 
 PyroPastor::PyroPastor(Context* context) : Enemy(context),
-	shotCount(0)
+	shotCount(0),
+	shotOffset(Random(-0.2f, 0.2f))
 {
 }
 
@@ -61,7 +62,7 @@ void PyroPastor::Execute()
 		actor->Move(deltaTime);
 
 		stateTimer += deltaTime;
-		if (stateTimer > Settings::ScaleWithDifficulty(1.5f, 1.0f, 0.5f))
+		if (stateTimer > Settings::ScaleWithDifficulty(1.5f, 1.0f, 0.5f) + shotOffset)
 		{
 			//Check if player is in range
 			PhysicsRaycastResult result;

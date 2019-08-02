@@ -1,10 +1,4 @@
-//COMMIT:
-//Black hole cap
 //TODO:
-	//Do final test through every level.
-		//Crazy Crossroads
-	//Fix loud fireballs
-	//Beams displaced for drowning enemies
 	//Gamepad support
 		//Test Joystick hats
 	//Postal pilot?

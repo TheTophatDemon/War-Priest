@@ -3,6 +3,7 @@ class PhysicsTest : ScriptObject
 {
 	float speed = 1.0f;
 	float timer = 0.0f;
+	RigidBody@ reference = null;
 	PhysicsTest()
 	{
 		
@@ -22,7 +23,15 @@ class PhysicsTest : ScriptObject
 			n.scale = Vector3(3.0f, 3.0f, 3.0f);
 			StaticModel@ sm = n.CreateComponent("StaticModel");
 			sm.model = cache.GetResource("Model", "Models/Box.mdl");
-			RigidBody@ rb = n.CreateComponent("RigidBody");
+			RigidBody@ rb = null;
+			if (reference != null)
+			{
+				rb = n.CloneComponent(reference);
+			}
+			else
+			{
+				rb = n.CreateComponent("RigidBody");
+			}
 			rb.mass = 100.0f;
 			CollisionShape@ cs = n.CreateComponent("CollisionShape");
 			cs.SetBox(Vector3(1.0f, 1.0f, 1.0));
