@@ -47,4 +47,22 @@
 		<attribute name="Horiz Alignment" value="Center" />
 		<attribute name="Vert Alignment" value="Bottom" />
 	</element>
+	<element type="Text">
+		<attribute name="Name" value="reviveCounter" />
+		<attribute name="Position" value="0 16" />
+		<attribute name="Min Anchor" value="0.5 0" />
+		<attribute name="Max Anchor" value="0.5 0" />
+		<attribute name="Pivot" value="0.5 0" />
+		<attribute name="Top Left Color" value="0.85 0.85 0.85 1" />
+		<attribute name="Top Right Color" value="0.85 0.85 0.85 1" />
+		<attribute name="Bottom Left Color" value="0.85 0.85 0.85 1" />
+		<attribute name="Bottom Right Color" value="0.85 0.85 0.85 1" />
+		<attribute name="Font" value="Font;Fonts/MTCORSVA.ttf" />
+		<attribute name="Font Size" value="32" />
+		<attribute name="Text" value="RESURRECTIONS: 0/0" />
+		<attribute name="Text Alignment" value="Center" />
+		<attribute name="Text Effect" value="Shadow" />
+		<attribute name="Shadow Offset" value="2 2" />
+		<attribute name="Stroke Thickness" value="4" />
+	</element>
 </element>

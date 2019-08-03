@@ -1,6 +1,7 @@
 //TODO:
 	//Gamepad support
 		//Test Joystick hats
+	//Extend Fallen Fatherland song?
 	//Postal pilot?
 	//More posters?
 	//Make sure every class member is initialized?
@@ -16,7 +17,7 @@
 			//Doesn't happen on SS2??
 	//Optimize raycast distances for player (The more geometry that intersects it, the slower it gets)
 	//Optimize physicsbodyquery?
-	//Package assets
+	//Package assets?
 	//Send to Somecallmejohnny?
 //Complaints:
 	//PrePhysicsUpdate problems?

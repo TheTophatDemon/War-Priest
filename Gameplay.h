@@ -96,6 +96,7 @@ protected:
 	SharedPtr<Sprite> healthMeter;
 	SharedPtr<Sprite> reviveMeter;
 	SharedPtr<Sprite> compass1;
+	SharedPtr<Text> reviveCounter;
 
 	SharedPtr<ResourceCache> cache;
 	Engine* engine_;

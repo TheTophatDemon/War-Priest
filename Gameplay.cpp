@@ -570,6 +570,8 @@ void Gameplay::UpdateHUD(float timeStep)
 		}
 		healthMeter->SetSize(floor((oldHealth / 100.0f) * 628.0f), healthMeter->GetHeight());
 		reviveMeter->SetSize(floor(((player->reviveCooldownMax - player->reviveCooldown) / player->reviveCooldownMax) * 628.0f), reviveMeter->GetHeight());
+		String counter = player->reviveCount < 10 ? "0" + String(player->reviveCount) : String(player->reviveCount);
+		reviveCounter->SetText("RESURRECTIONS: " + counter + "/" + String(enemyCount));
 	}
 
 	if (flashColor.a_ > 0.0f)
@@ -618,6 +620,7 @@ void Gameplay::MakeHUD()
 	compass1 = (Sprite*)ourUI->GetChild("compass1", true);
 	compass1->SetTexture(compassScene->renderedTexture);
 	compass1->SetFullImageRect();
+	reviveCounter = (Text*)ourUI->GetChild("reviveCounter", true);
 
 	UIElement* cheatWindow = ourUI->LoadChildXML(cache->GetResource<XMLFile>("UI/titlemenus/cheatWindow.xml")->GetRoot(), cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
 	PODVector<UIElement*> children;
