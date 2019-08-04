@@ -321,6 +321,9 @@ void Player::OnKeyPress(StringHash eventType, VariantMap& eventData)
 		case KEY_KP_1:
 			SendEvent(Gameplay::E_CUTSCENE_END);
 			break;
+		case KEY_KP_2:
+			game->ourUI->SetVisible(!game->ourUI->IsVisible());
+			break;
 		}
 	}
 }
@@ -378,6 +381,10 @@ void Player::OnCheatWindowEvent(StringHash eventType, VariantMap& eventData)
 			else if (source->GetName() == "skipCutsceneButton")
 			{
 				SendEvent(Gameplay::E_CUTSCENE_END);
+			}
+			else if (source->GetName() == "toggleHUDButton")
+			{
+				game->ourUI->SetVisible(!game->ourUI->IsVisible());
 			}
 		}
 	}
