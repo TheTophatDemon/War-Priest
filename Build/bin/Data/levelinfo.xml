@@ -12,11 +12,11 @@
 	<level name="Sacred Sands Act 2" path="Scenes/sacsand2.xml" completion="7" relictoll="0" completiontoll="9" />
 	<level name="Sacred Sands Act 3" path="Scenes/sacsand3.xml" completion="7" relictoll="0" completiontoll="10" />
 	<level name="Sacred Sands Act 4" path="Scenes/sacsand4.xml" completion="7" relictoll="0" completiontoll="11" />
-	<level name="Credits Cathedral" path="Scenes/sinsyn.xml" completion="3" relictoll="0" completiontoll="12" />
-	<level name="Crazy Crossroads" path="Scenes/crossroads.xml" completion="7" relictoll="12" completiontoll="12" />
-	<level name="Sinister Synagogue Beta" path="Scenes/sinistersynagogue.xml" completion="1" relictoll="13" completiontoll="13" />
-	<level name="Lifts Test" path="Scenes/liftstest.xml" completion="1" relictoll="13" completiontoll="13" />
-	<level name="The Stupid Room" path="Scenes/thestupidroom.xml" completion="1" relictoll="13" completiontoll="13" />
-	<level name="Kube Test" path="Scenes/kubetest.xml" completion="1" relictoll="13" completiontoll="13" />
-	<level name="Beta Map 01" path="Scenes/palisadepantheon.xml" completion="1" relictoll="13" completiontoll="13" />
+	<level name="Credits Cathedral" path="Scenes/sinsyn.xml" completion="7" relictoll="0" completiontoll="12" />
+	<level name="Crazy Crossroads" path="Scenes/crossroads.xml" completion="7" relictoll="13" completiontoll="12" />
+	<level name="Sinister Synagogue Beta" path="Scenes/sinistersynagogue.xml" completion="1" relictoll="14" completiontoll="13" />
+	<level name="Lifts Test" path="Scenes/liftstest.xml" completion="1" relictoll="14" completiontoll="13" />
+	<level name="The Stupid Room" path="Scenes/thestupidroom.xml" completion="1" relictoll="14" completiontoll="13" />
+	<level name="Kube Test" path="Scenes/kubetest.xml" completion="1" relictoll="14" completiontoll="13" />
+	<level name="Beta Map 01" path="Scenes/palisadepantheon.xml" completion="1" relictoll="14" completiontoll="13" />
 </levelinfo>
