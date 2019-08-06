@@ -40,6 +40,7 @@
 #include "God.h"
 #include "WeakChild.h"
 #include "ProjectileWarner.h"
+#include "FlyCam.h"
 
 using namespace Urho3D;
 
@@ -262,6 +263,14 @@ void Player::OnKeyPress(StringHash eventType, VariantMap& eventData)
 		{
 			cout << file->ToString().CString() << endl;
 		}
+	}
+	else if (cheatString.Contains("T;D;A;S;C;E;N;D", true))
+	{
+		cheatString = "";
+		Node* flyCam = scene->CreateChild();
+		flyCam->SetWorldPosition(cameraNode->GetWorldPosition());
+		flyCam->SetWorldRotation(cameraNode->GetWorldRotation());
+		flyCam->CreateComponent<FlyCam>();
 	}
 	const int keyCode = eventData["Key"].GetInt();
 	if (cheating) 
@@ -594,6 +603,7 @@ void Player::HandleCamera(const float timeStep)
 	//Yaw rotation via pivot
 	if (state != STATE_DROWN) pivot->SetWorldPosition(body->GetPosition());
 	float theta = input->GetMouseMoveX() * Settings::GetMouseSensitivity();
+	if (GetSubsystem<Renderer>()->GetViewport(0)->GetCamera() != camera) theta = 0.0f; //No mouse movement if flycam is active
 	theta += timeStep * 1000.0f * Settings::GetMouseSensitivity()
 		* (Settings::GetActionValue(ActionType::CAM_RIGHT) - Settings::GetActionValue(ActionType::CAM_LEFT));
 	pivot->Rotate(Quaternion(theta, Vector3::UP));

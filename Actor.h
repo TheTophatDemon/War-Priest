@@ -18,7 +18,7 @@ public:
 	Actor(Context* context);
 	static void RegisterObject(Context* context);
 	
-	virtual void Start();
+	virtual void Start() override;
 	void SetInputFPS(bool fw, bool bk, bool lf, bool rg);
 	void SetInputVec(const Vector3 mov);
 	void Move(float timeStep);

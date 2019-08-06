@@ -40,6 +40,7 @@
 #include "RobeLocksMissile.h"
 #include "BlackHole.h"
 #include "RobeLocksBomb.h"
+#include "FlyCam.h"
 
 int GunPriest::STATE_GAME = 0;
 int GunPriest::STATE_TITLE = 1;
@@ -83,6 +84,7 @@ GunPriest::GunPriest(Context* context) : Application(context)
 	RobeLocksMissile::RegisterObject(context);
 	BlackHole::RegisterObject(context);
 	RobeLocksBomb::RegisterObject(context);
+	FlyCam::RegisterObject(context);
 
 	pause = false;
 	state = STATE_TITLE;

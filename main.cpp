@@ -1,7 +1,11 @@
+//COMMIT:
+//Fix returning step in PP1
+//Flycam
+//Make arrow visible again
+
 //TODO:
 	//Gamepad support
 		//Test Joystick hats
-	//Extend Fallen Fatherland song?
 	//Postal pilot?
 	//More posters?
 	//Make sure every class member is initialized?
