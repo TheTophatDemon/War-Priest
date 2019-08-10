@@ -27,7 +27,7 @@ void RebindScreen::OnEnter()
 	panel->GetHorizontalScrollBar()->SetClipChildren(true);
 	panel->GetHorizontalScrollBar()->SetClipBorder(IntRect(6000, 6000, 6000, 6000));
 	panel->SetFocus(true);
-
+	
 	//Generate buttons for each input type
 	rebindButtons = Vector<SharedPtr<Button>>();
 	for (int i = 0; i < static_cast<int>(ActionType::COUNT); ++i)
@@ -93,6 +93,8 @@ void RebindScreen::SyncControls()
 			caption->SetText("Press a button or move an axis");
 		else
 			caption->SetText("Click an action to assign to joystick axes/buttons.");
+		if (input->GetNumJoysticks() == 0)
+			caption->SetText("No joystick connected. Try restarting the game.");
 		break;
 	default:
 		caption->SetText("Invalid binding mode!?");
