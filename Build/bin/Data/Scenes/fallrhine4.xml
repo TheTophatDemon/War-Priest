@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="0" />
 	<attribute name="Next Replicated Node ID" value="3" />
 	<attribute name="Next Replicated Component ID" value="5" />
-	<attribute name="Next Local Node ID" value="16778370" />
-	<attribute name="Next Local Component ID" value="16781049" />
+	<attribute name="Next Local Node ID" value="16778373" />
+	<attribute name="Next Local Component ID" value="16781063" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="fallenfatherland.ogg" />
 	</attribute>
@@ -1911,7 +1911,7 @@
 			<string value="prop" />
 		</attribute>
 		<attribute name="Position" value="-36.9517 -89.0533 153.319" />
-		<attribute name="Rotation" value="0.997469 0 0.0710868 0" />
+		<attribute name="Rotation" value="-0.0513885 0 0.998677 0" />
 		<attribute name="Scale" value="2 2 2" />
 		<attribute name="Variables">
 			<variant hash="2807635575" type="Bool" value="true" />
@@ -2282,11 +2282,41 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="2.20168 -64.7079 140.36" />
+		<attribute name="Position" value="7.86221 -56.2417 175.551" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16781048">
+			<attribute name="Model" value="Model;Models/medkit.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
+		</component>
+	</node>
+	<node id="16778371">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="medkit" />
+		<attribute name="Tags">
+			<string value="medkit" />
+		</attribute>
+		<attribute name="Position" value="2.20168 -64.7079 140.36" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.6 0.6 0.6" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16781061">
+			<attribute name="Model" value="Model;Models/medkit.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
+		</component>
+	</node>
+	<node id="16778372">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="medkit" />
+		<attribute name="Tags">
+			<string value="medkit" />
+		</attribute>
+		<attribute name="Position" value="7.86221 -56.2417 178.89" />
+		<attribute name="Rotation" value="1 0 0 0" />
+		<attribute name="Scale" value="0.6 0.6 0.6" />
+		<attribute name="Variables" />
+		<component type="StaticModel" id="16781062">
 			<attribute name="Model" value="Model;Models/medkit.mdl" />
 			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
 		</component>
