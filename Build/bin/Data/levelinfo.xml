@@ -16,7 +16,8 @@
 	<level name="Crazy Crossroads" path="Scenes/crossroads.xml" completion="7" relictoll="13" completiontoll="12" />
 	<level name="Sinister Synagogue Beta" path="Scenes/sinistersynagogue.xml" completion="1" relictoll="14" completiontoll="13" />
 	<level name="Lifts Test" path="Scenes/liftstest.xml" completion="1" relictoll="14" completiontoll="13" />
-	<level name="The Stupid Room" path="Scenes/thestupidroom.xml" completion="1" relictoll="14" completiontoll="13" />
+	<level name="The Stupid Room" path="Scenes/thestupidroom.xml" completion="3" relictoll="14" completiontoll="13" />
 	<level name="Kube Test" path="Scenes/kubetest.xml" completion="1" relictoll="14" completiontoll="13" />
 	<level name="Beta Map 01" path="Scenes/palisadepantheon.xml" completion="1" relictoll="14" completiontoll="13" />
+	<level name="Purgatory" path="Scenes/purgatory.xml" completion="1" relictoll="14" completiontoll="13" />
 </levelinfo>
