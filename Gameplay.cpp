@@ -147,19 +147,25 @@ void Gameplay::Start()
 	viewport->GetRenderPath()->SetShaderParameter("State", 0.0f); //Always use decimal
 
 	//Apply certain settings on resume
+	SharedPtr<ParticleEffect> bloodParticles(cache->GetResource<ParticleEffect>("Particles/blood.xml"));
+	SharedPtr<Material> stakeSkin(cache->GetResource<Material>("Materials/skins/stake_skin.xml"));
+	SharedPtr<Material> bloodMaterial(cache->GetResource<Material>("Materials/blood.xml"));
+	SharedPtr<Material> deathDecal(cache->GetResource<Material>("Materials/decal_death.xml"));
 	if (Settings::IsBloodEnabled())
 	{
-		cache->GetResource<ParticleEffect>("Particles/blood.xml")->SetMaterial(cache->GetResource<Material>("Materials/particle_blood.xml"));
-		cache->GetResource<Material>("Materials/skins/stake_skin.xml")->SetShaderParameter("MatDiffColor", Color::WHITE);
-		cache->GetResource<Material>("Materials/blood.xml")->SetShaderParameter("MatDiffColor", Color::WHITE);
-		cache->GetResource<Material>("Materials/decal_death.xml")->SetShaderParameter("MatDiffColor", Color::WHITE);
+		bloodParticles->SetMaterial(cache->GetResource<Material>("Materials/particle_blood.xml"));
+		bloodParticles->SetMinParticleSize(Vector2(0.1f, 0.1f));
+		stakeSkin->SetShaderParameter("MatDiffColor", Color::WHITE);
+		bloodMaterial->SetShaderParameter("MatDiffColor", Color::WHITE);
+		deathDecal->SetShaderParameter("MatDiffColor", Color::WHITE);
 	}
 	else
 	{
-		cache->GetResource<ParticleEffect>("Particles/blood.xml")->SetMaterial(cache->GetResource<Material>("Materials/particle_heart.xml"));
-		cache->GetResource<Material>("Materials/skins/stake_skin.xml")->SetShaderParameter("MatDiffColor", Color::BLUE);
-		cache->GetResource<Material>("Materials/blood.xml")->SetShaderParameter("MatDiffColor", Color(0.1f, 0.1f, 0.1f, 1.0f));
-		cache->GetResource<Material>("Materials/decal_death.xml")->SetShaderParameter("MatDiffColor", Color(0.1f, 0.1f, 0.1f, 1.0f));
+		bloodParticles->SetMaterial(cache->GetResource<Material>("Materials/particle_heart.xml"));
+		bloodParticles->SetMinParticleSize(Vector2(1.0f, 1.0f));
+		stakeSkin->SetShaderParameter("MatDiffColor", Color::BLUE);
+		bloodMaterial->SetShaderParameter("MatDiffColor", Color(0.1f, 0.1f, 0.1f, 1.0f));
+		deathDecal->SetShaderParameter("MatDiffColor", Color(0.1f, 0.1f, 0.1f, 1.0f));
 	}
 	if (weatherNode.Get())
 	{
@@ -581,7 +587,7 @@ void Gameplay::UpdateHUD(float timeStep)
 	}
 	viewport->GetRenderPath()->SetShaderParameter("FlashColor", flashColor);
 	if (winState == -1)
-		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
+		viewport->GetRenderPath()->SetShaderParameter("State", Settings::IsBloodEnabled() ? 1.0f : 2.0f);
 }
 
 Gameplay::~Gameplay()
@@ -677,7 +683,7 @@ void Gameplay::Lose()
 	if (restartTimer <= 0.0f)
 	{
 		DisplayMessage("Mission Failed.", Color::WHITE, 250.0f, 10);
-		viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
+		//viewport->GetRenderPath()->SetShaderParameter("State", 1.0f);
 		musicSource->Play(cache->GetResource<Sound>("Music/frownofthelord.ogg"));
 		//std::cout << viewport->GetRenderPath()->GetCommand(viewport->GetRenderPath()->GetNumCommands() - 1)->GetShaderParameter("State").GetFloat() << std::endl;
 		restartTimer = 4.0f;

@@ -717,7 +717,7 @@ void Player::EnterState(int newState)
 			soundSource->Play("Sounds/ply_slide.wav", true);
 			break;
 		case STATE_DEAD:
-			bloodEmitter->SetEmitting(true);
+			bloodEmitter->SetEmitting(Settings::IsBloodEnabled());
 			//Make gibs
 			gibs = scene->CreateChild();
 			gibs->LoadXML(cache->GetResource<XMLFile>("Objects/playergibs.xml")->GetRoot());

@@ -28,14 +28,15 @@ void PS(float2 iTexCoord : TEXCOORD0,
 {
 	float timeVal = sin((iElapsedTime.x + (iScreenPos.y * 5.0)) * 2.0);
 	float2 tc = iTexCoord;
-	if (cState == 1.0)
+	if (cState > 0.0)
 	{
 		tc.x += timeVal * 0.01;
 	}
 	float4 col = Sample2D(DiffMap, tc);
-	if (cState == 1.0)
+	if (cState > 0.0)
 	{
-		col.r += ((iScreenPos.x + iScreenPos.y) * 0.5);
+		if (cState == 1.0) col.r += ((iScreenPos.x + iScreenPos.y) * 0.5);
+		if (cState == 2.0) col.b += ((iScreenPos.x + iScreenPos.y) * 0.5);
 		col.rgb -= Sample2D(NormalMap, float2(timeVal * 0.01, iScreenPos.y)).rgb * 0.5;
 	}
 	col += (cFlashColor * cFlashColor.a);
