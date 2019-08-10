@@ -2276,21 +2276,6 @@
 			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
 		</component>
 	</node>
-	<node id="16778369">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="medkit" />
-		<attribute name="Tags">
-			<string value="medkit" />
-		</attribute>
-		<attribute name="Position" value="7.86221 -56.2417 175.551" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.6 0.6 0.6" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16781048">
-			<attribute name="Model" value="Model;Models/medkit.mdl" />
-			<attribute name="Material" value="Material;Materials/skins/medkit_skin.xml" />
-		</component>
-	</node>
 	<node id="16778371">
 		<attribute name="Is Enabled" value="true" />
 		<attribute name="Name" value="medkit" />
@@ -2312,7 +2297,7 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="7.86221 -56.2417 178.89" />
+		<attribute name="Position" value="7.86221 -56.2417 177.003" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
 		<attribute name="Variables" />
