@@ -29,7 +29,7 @@ class FloodManager : ScriptObject
 		{
 			float lastTime = timer;
 			timer += timeStep;
-			if (timer > 4.0f && timer < 14.0f)
+			if (timer > 4.0f && timer < 17.0f)
 			{
 				float diff = timer - lastBlinkTime;
 				if (diff > 1.0f)
@@ -42,9 +42,9 @@ class FloodManager : ScriptObject
 					game.DisplayMessage(" ", Color(1.0f, 1.0f, 0.0f), 0.5f, 1000000);
 				}
 			}
-			else if (timer > 14.0f)
+			else if (timer > 17.0f)
 			{
-				if (lastTime < 14.0f) 
+				if (lastTime < 17.0f) 
 				{
 					seaNode.AddTag("instant_kill");
 					sounder.Play(quakeSound, 44100.0f, 0.5f);
