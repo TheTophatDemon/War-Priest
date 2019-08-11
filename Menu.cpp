@@ -19,7 +19,12 @@ void Menu::OnEnter()
 	DisableTexts();
 }
 
-void Menu::OnLeave(){}
+void Menu::OnLeave()
+{
+	titleScreen->ourUI->SetEnabledRecursive(false); //Makes sure unparented children don't fire events
+	titleScreen->ourUI->SetEnabled(true);
+	titleScreen->ourUI->RemoveAllChildren();
+}
 
 void Menu::Update(float timeStep){}
 

@@ -1,4 +1,7 @@
 //TODO:
+	//Dead Danger Deacons float?
+	//Danger Deacons floating when out of range
+	//Disable console?
 	//Postal pilot?
 	//More posters?
 	//Make sure every class member is initialized?
@@ -6,6 +9,7 @@
 	//Tiny glitches
 		//Enemies getting stuck in slopes
 			//Always seems to be the pyro pastors
+		//Boulders can roll out of water and disappear suddenly
 		//Postal Pope boulders being shot into walls
 		//Chaoscaliph not drowning in SS4?
 			//Splash particles are going
@@ -42,7 +46,7 @@
 	//Extreme lag when scaling kinematic rigidbody
 	//Blender export blurs vertex colors together
 	//Value animations reset when wrapping mode is changed.
-
+	//UI elements send events even when they are removed or their parent is disabled?
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP
 	//2 = CAN BE JUMPED ON/SLOPED

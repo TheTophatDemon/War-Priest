@@ -96,26 +96,31 @@ void TitleScreen::OnUpdate(StringHash eventType, VariantMap& eventData)
 void TitleScreen::OnEvent(StringHash eventType, VariantMap& eventData)
 {
 	//Play those sounds, dude.
-	if (eventType == E_TOGGLED && time > 0.1f)
+	UIElement* elem = (UIElement*)eventData["Element"].GetPtr();
+	assert(elem);
+	if (elem->IsEnabled()) //Sometimes elements that are not visible still send events for some dang reason
 	{
-		soundSource->Play(cache->GetResource<Sound>("Sounds/gui_check.wav"));
-	}
-	else if (eventType == E_SLIDERCHANGED && time > 0.1f)
-	{
-		scrollSource->Play(cache->GetResource<Sound>("Sounds/gui_scroll.wav"));
-	}
-	else 
-	{
-		Button* button = dynamic_cast<Button*>(eventData["Element"].GetPtr());
-		if (button)
+		if (eventType == E_TOGGLED && time > 0.1f)
 		{
-			if (eventType == E_UIMOUSECLICK)
+			soundSource->Play(cache->GetResource<Sound>("Sounds/gui_check.wav"));
+		}
+		else if (eventType == E_SLIDERCHANGED && time > 0.1f)
+		{
+			scrollSource->Play(cache->GetResource<Sound>("Sounds/gui_scroll.wav"));
+		}
+		else
+		{
+			Button* button = dynamic_cast<Button*>(eventData["Element"].GetPtr());
+			if (button)
 			{
-				soundSource->Play(cache->GetResource<Sound>("Sounds/gui_select.wav"));
-			}
-			else if (eventType == E_HOVERBEGIN)
-			{
-				soundSource->Play(cache->GetResource<Sound>("Sounds/gui_hover.wav"), 44100.0f + Random(-1000.0f, 1000.0f));
+				if (eventType == E_UIMOUSECLICK)
+				{
+					soundSource->Play(cache->GetResource<Sound>("Sounds/gui_select.wav"));
+				}
+				else if (eventType == E_HOVERBEGIN)
+				{
+					soundSource->Play(cache->GetResource<Sound>("Sounds/gui_hover.wav"), 44100.0f + Random(-1000.0f, 1000.0f));
+				}
 			}
 		}
 	}
