@@ -272,6 +272,7 @@ bool Enemy::CheckCliff(const float slopeIntolerance)
 
 void Enemy::Dead() //This function defines the defualt behavior for being dead
 {
+	//node_->Rotate(Quaternion(deltaTime * 360.0f, Vector3::UP), TS_LOCAL);
 	body->SetLinearVelocity(Vector3::ZERO);
 	body->SetAngularVelocity(Vector3::ZERO);
 }
@@ -339,7 +340,7 @@ void Enemy::FaceTarget()
 void Enemy::KeepOnGround()
 {
 	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 50.0f, 2);
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 50.0f, 2U);
 	if (result.body_)
 	{
 		node_->SetWorldPosition(result.position_);

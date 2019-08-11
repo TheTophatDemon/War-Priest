@@ -14,7 +14,7 @@
 	<attribute name="Variables" />
 	<component type="CollisionShape" id="16777228">
 		<attribute name="Shape Type" value="Capsule" />
-		<attribute name="Size" value="1 3.5 1" />
+		<attribute name="Size" value="1.5 3.5 1.5" />
 		<attribute name="Offset Position" value="0 1.75 0" />
 	</component>
 	<component type="RigidBody" id="16777229">

@@ -1,5 +1,4 @@
 //TODO:
-	//Dead Danger Deacons float?
 	//Danger Deacons floating when out of range
 	//Disable console?
 	//Postal pilot?

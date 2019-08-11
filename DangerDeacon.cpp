@@ -275,6 +275,12 @@ void DangerDeacon::EnterState(const int newState)
 		animController->StopAll();
 		soundSource->Play("Sounds/enm_fuse.wav");
 	}
+	else if (newState == STATE_DEAD)
+	{
+		shape->SetSize(Vector3(oldShape->GetSize().y_, oldShape->GetSize().x_ * 0.5f, oldShape->GetSize().y_));
+		shape->SetPosition(Vector3(0.0f, -0.5f, 0.0f));
+		body->SetMass(0.0f);
+	}
 	else if (newState == STATE_CHASE)
 	{
 		animController->PlayExclusive(WALK_ANIM, 0, true, 0.2f);

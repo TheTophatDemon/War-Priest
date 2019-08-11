@@ -57,6 +57,7 @@ void FlyCam::FixedUpdate(float timeStep)
 	{
 		renderer->GetViewport(0)->SetCamera(oldCamera);
 		node_->Remove();
+		return;
 	}
 
 	//Go to next waypoint
