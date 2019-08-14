@@ -90,10 +90,11 @@ void KillerKube::Start()
 
 	blackHoleAnimation = SharedPtr<ValueAnimation>(new ValueAnimation(context_));
 	blackHoleAnimation->SetKeyFrame(0.0f, Vector3(0.1f, 0.1f, 0.1f));
-	blackHoleAnimation->SetKeyFrame(5.0f, Vector3(256.0f, 256.0f, 256.0f));
-	blackHoleAnimation->SetKeyFrame(7.5f, Vector3(0.1f, 0.1f, 0.1f));
-	blackHoleAnimation->SetInterpolationMethod(IM_SPLINE);
-	blackHoleAnimation->SetSplineTension(0.1f);
+	blackHoleAnimation->SetKeyFrame(2.5f, Vector3(32.0f, 32.0f, 32.0f));
+	blackHoleAnimation->SetKeyFrame(5.0f, Vector3(128.0f, 128.0f, 128.0f));
+	blackHoleAnimation->SetKeyFrame(10.0f, Vector3(0.1f, 0.1f, 0.1f));
+	blackHoleAnimation->SetInterpolationMethod(IM_LINEAR);
+	blackHoleAnimation->SetSplineTension(0.25f);
 
 	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(KillerKube, OnSettingsChange));
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(KillerKube, OnCollision));

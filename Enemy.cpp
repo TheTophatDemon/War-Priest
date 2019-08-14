@@ -76,6 +76,7 @@ void Enemy::FixedUpdate(float timeStep)
 
 	if (distanceFromPlayer < visdist)
 	{
+		body->SetEnabled(true);
 		if (state == STATE_IDLE) ChangeState(STATE_WANDER);
 		active = true;
 		Execute();
@@ -83,7 +84,8 @@ void Enemy::FixedUpdate(float timeStep)
 	}
 	else
 	{
-		if (state != STATE_DEAD) ChangeState(STATE_IDLE);
+		//if (state != STATE_DEAD) ChangeState(STATE_IDLE);
+		body->SetEnabled(false);
 	}
 
 	if (state == STATE_DROWN)
@@ -133,14 +135,6 @@ void Enemy::OnCollision(StringHash eventType, VariantMap& eventData)
 				}
 			}
 		}
-	}
-}
-
-void Enemy::EndFrameCheck(StringHash eventType, VariantMap& eventData)
-{
-	if (distanceFromPlayer > 80.0f)
-	{
-		body->SetEnabled(false);
 	}
 }
 
@@ -326,9 +320,10 @@ void Enemy::FaceTarget()
 bool Enemy::KeepOnGround()
 {
 	PhysicsRaycastResult result;
-	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 50.0f, 2U);
+	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 50.0f, 258U); //2+256
 	if (result.body_)
 	{
+		if (result.body_->GetCollisionLayer() & 256) return false;
 		node_->SetWorldPosition(result.position_);
 		if (result.body_->GetNode()->HasTag("lift"))
 		{

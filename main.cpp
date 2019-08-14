@@ -1,8 +1,6 @@
 //TODO:
 	//Postal pilot?
 	//More posters?
-	//Make sure every class member is initialized?
-	//Test settings more rigorously?
 	//Tiny glitches
 		//Enemies getting stuck in slopes
 			//Always seems to be the pyro pastors
