@@ -134,6 +134,8 @@ void Lift::FixedUpdate(float timeStep)
 		if (pair.first_.Get())
 		{
 			if (pair.first_->GetName() == "player") foundPlayer = true;
+			RigidBody* rb = pair.first_->GetComponent<RigidBody>();
+			if (rb) rb->Activate();
 
 			const Matrix3x4 diddly = deltaTransform * pair.first_->GetWorldTransform();
 			pair.first_->SetWorldTransform(diddly.Translation(), diddly.Rotation());

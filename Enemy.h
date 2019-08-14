@@ -57,7 +57,7 @@ protected:
 	void EndFrameCheck(StringHash eventType, VariantMap& eventData);
 	void ChangeState(const int newState);
 	void FaceTarget();
-	void KeepOnGround();
+	bool KeepOnGround();
 	virtual void Execute() = 0;
 	virtual void Dead();
 	virtual void EnterState(const int newState);

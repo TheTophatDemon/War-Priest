@@ -84,20 +84,6 @@ void Enemy::FixedUpdate(float timeStep)
 	else
 	{
 		if (state != STATE_DEAD) ChangeState(STATE_IDLE);
-		if (body->IsEnabled())
-		{
-			actor->SetInputVec(Vector3::ZERO);
-			actor->Move(timeStep);
-			if (body->GetLinearVelocity().LengthSquared() < 0.1f)
-			{
-				restTimer += timeStep;
-				if (restTimer > 1.0f)
-				{
-					restTimer = 0.0f;
-					body->SetEnabled(false);
-				}
-			}
-		}
 	}
 
 	if (state == STATE_DROWN)
@@ -113,7 +99,11 @@ void Enemy::FixedUpdate(float timeStep)
 	}
 	else if (state == STATE_DEAD) 
 	{
-		KeepOnGround();
+		if (!KeepOnGround()) std::cout << "MISPLACED ENEMY IN THE WATER" << std::endl;
+	}
+	else if (distanceFromPlayer >= visdist)
+	{
+		if (!KeepOnGround()) node_->Remove();
 	}
 }
 
@@ -148,11 +138,7 @@ void Enemy::OnCollision(StringHash eventType, VariantMap& eventData)
 
 void Enemy::EndFrameCheck(StringHash eventType, VariantMap& eventData)
 {
-	if (distanceFromPlayer < 80.0f)
-	{
-		body->SetEnabled(true);
-	}
-	else
+	if (distanceFromPlayer > 80.0f)
 	{
 		body->SetEnabled(false);
 	}
@@ -337,7 +323,7 @@ void Enemy::FaceTarget()
 	newRotation = face;
 }
 
-void Enemy::KeepOnGround()
+bool Enemy::KeepOnGround()
 {
 	PhysicsRaycastResult result;
 	physworld->RaycastSingle(result, Ray(node_->GetWorldPosition() + Vector3(0.0f, 0.5f, 0.0f), Vector3::DOWN), 50.0f, 2U);
@@ -363,11 +349,9 @@ void Enemy::KeepOnGround()
 			map.Insert(Pair<StringHash, Variant>(NodeCollision::P_CONTACTS, Variant(contacts)));
 			result.body_->GetNode()->SendEvent(E_NODECOLLISION, map);
 		}
+		return true;
 	}
-	else
-	{
-		std::cout << "ENEMY IN THE WATER" << std::endl;
-	}
+	return false;
 }
 
 Enemy::~Enemy()

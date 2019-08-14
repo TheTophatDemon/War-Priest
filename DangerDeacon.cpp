@@ -52,7 +52,7 @@ void DangerDeacon::DelayedStart()
 	Enemy::DelayedStart();
 
 	modelNode->SetParent(scene);
-	WeakChild::MakeWeakChild(modelNode, node_);
+	WeakChild::MakeWeakChild(modelNode, node_, true, false);
 
 	orbThing = node_->CreateChild();
 	orbModel = orbThing->CreateComponent<StaticModel>();
@@ -82,7 +82,6 @@ void DangerDeacon::Execute()
 	{
 		targetDist = (target->GetWorldPosition() - node_->GetWorldPosition()).Length();
 	}
-	modelNode->SetWorldPosition(node_->GetWorldPosition());
 	modelNode->SetWorldRotation(node_->GetWorldRotation());
 	modelNode->Rotate(Quaternion(-90.0f, Vector3::UP));
 	if (strafeAmt != 0.0f)

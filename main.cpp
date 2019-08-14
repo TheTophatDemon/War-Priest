@@ -1,6 +1,4 @@
 //TODO:
-	//Danger Deacons floating when out of range
-	//Disable console?
 	//Postal pilot?
 	//More posters?
 	//Make sure every class member is initialized?

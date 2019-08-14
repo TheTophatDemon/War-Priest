@@ -26,10 +26,7 @@ protected:
 	SharedPtr<Renderer> renderer;
 	SharedPtr<Camera> camera;
 	SharedPtr<Camera> oldCamera;
-	PODVector<Node*> waypoints;
 	Vector3 velocity;
 	Vector2 angularVelocity;
-	WeakPtr<Node> nextWaypoint;
-	int waypointIndex;
 };
 

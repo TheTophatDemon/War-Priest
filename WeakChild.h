@@ -17,9 +17,12 @@ class WeakChild : public LogicComponent //This class is for nodes created for ot
 public:
 	WeakChild(Context* context);
 	static void RegisterObject(Context* context);
-	static void MakeWeakChild(Node* child, Node* parent);
+	static void MakeWeakChild(Node* child, Node* parent, bool autoPos = false, bool autoRot = false);
 	virtual void FixedUpdate(float timeStep);
 	~WeakChild();
 	WeakPtr<Node> parent;
+protected:
+	bool matchPosition;
+	bool matchRotation;
 };
 

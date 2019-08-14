@@ -13,8 +13,7 @@
 
 using namespace Urho3D;
 
-FlyCam::FlyCam(Context* context) : LogicComponent(context),
-	waypointIndex(0)
+FlyCam::FlyCam(Context* context) : LogicComponent(context)
 {
 }
 
@@ -32,8 +31,6 @@ void FlyCam::Start()
 	camera->SetFov(70.0f);
 	oldCamera = renderer->GetViewport(0)->GetCamera();
 	renderer->GetViewport(0)->SetCamera(camera);
-
-	waypoints = GetScene()->GetChildrenWithTag("camera_waypoint", true);
 
 	SubscribeToEvent(node_, E_NODEREMOVED, URHO3D_HANDLER(FlyCam, OnRemoved));
 }
@@ -58,31 +55,6 @@ void FlyCam::FixedUpdate(float timeStep)
 		renderer->GetViewport(0)->SetCamera(oldCamera);
 		node_->Remove();
 		return;
-	}
-
-	//Go to next waypoint
-	if (input->GetKeyDown(KEY_N))
-	{
-		for (int i = 0; i < waypoints.Size(); ++i)
-		{
-			if (waypoints[i]->GetName().Contains(String(waypointIndex)))
-			{
-				nextWaypoint = waypoints[i];
-				break;
-			}
-		}
-		const Vector3 diff = (nextWaypoint->GetWorldPosition() - node_->GetWorldPosition());
-		node_->Translate(diff * 0.5f * timeStep, TS_WORLD);
-		Quaternion lookAt;
-		lookAt.FromLookRotation(diff, Vector3::UP);
-		node_->SetWorldRotation(node_->GetWorldRotation().Slerp(nextWaypoint->GetWorldRotation(), 0.2f));
-		if (diff.Length() < 0.1f)
-		{
-			node_->SetWorldPosition(nextWaypoint->GetWorldPosition());
-			node_->SetWorldRotation(nextWaypoint->GetWorldRotation());
-			++waypointIndex;
-			if (waypointIndex >= waypoints.Size()) waypointIndex = 0;
-		}
 	}
 
 	float oldLen = velocity.Length();

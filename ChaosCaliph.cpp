@@ -54,7 +54,7 @@ void ChaosCaliph::DelayedStart()
 	WeakChild::MakeWeakChild(sparkChild, node_);
 
 	modelNode->SetParent(scene);
-	WeakChild::MakeWeakChild(modelNode, node_);
+	WeakChild::MakeWeakChild(modelNode, node_, true, false);
 
 	emitter = sparkChild->GetComponent<ParticleEmitter>();
 	emitter->SetEmitting(false);
@@ -78,7 +78,6 @@ void ChaosCaliph::DelayedStart()
 
 void ChaosCaliph::FixedUpdate(float timeStep)
 {
-	modelNode->SetWorldPosition(node_->GetWorldPosition());
 	modelNode->SetWorldRotation(node_->GetWorldRotation());
 	modelNode->Rotate(Quaternion(-90.0f, Vector3::UP));
 
