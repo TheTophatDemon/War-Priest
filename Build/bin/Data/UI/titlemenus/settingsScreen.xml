@@ -382,7 +382,7 @@
 				<attribute name="Bottom Left Color" value="1 0.25 0.5 1" />
 				<attribute name="Bottom Right Color" value="1 0.25 0.5 1" />
 				<attribute name="Font Size" value="16" />
-				<attribute name="Text" value="WARNING: Unholy mode makes the game nearly impossible." />
+				<attribute name="Text" value="WARNING: Unholy mode may not be beatable." />
 			</element>
 		</element>
 	</element>
