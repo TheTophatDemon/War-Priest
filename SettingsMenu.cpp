@@ -171,7 +171,10 @@ void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 			}
 			else if (source->GetName() == "revertButton")
 			{
+				int oldX = Settings::GetResolutionX();
+				int oldY = Settings::GetResolutionY();
 				Settings::RevertSettings(titleScreen->GetContext());
+				if (Settings::GetResolutionX() != oldX || Settings::GetResolutionY() != oldY) videoSettingDirty = true;
 				SyncControls();
 			}
 			else if (source->GetName() == "controlsButton")
