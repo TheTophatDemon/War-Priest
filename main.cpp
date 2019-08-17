@@ -1,5 +1,4 @@
 //TODO:
-	//Postal pilot?
 	//More posters?
 	//Tiny glitches
 		//Enemies getting stuck in slopes

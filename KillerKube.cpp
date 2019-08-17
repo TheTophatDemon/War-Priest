@@ -96,6 +96,9 @@ void KillerKube::Start()
 	blackHoleAnimation->SetInterpolationMethod(IM_LINEAR);
 	blackHoleAnimation->SetSplineTension(0.25f);
 
+	//Make the Pilot dance
+	node_->GetChild("postalpilot", false)->GetOrCreateComponent<AnimationController>()->PlayExclusive("Models/enemy/postalpilot_idle.ani", 0, true, 0.0f);
+
 	SubscribeToEvent(Settings::E_SETTINGSCHANGED, URHO3D_HANDLER(KillerKube, OnSettingsChange));
 	SubscribeToEvent(GetNode(), E_NODECOLLISION, URHO3D_HANDLER(KillerKube, OnCollision));
 	SubscribeToEvent(E_UIMOUSECLICKEND, URHO3D_HANDLER(KillerKube, OnCheatWindowEvent));
