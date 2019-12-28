@@ -521,7 +521,9 @@ void Player::OnCollision(StringHash eventType, VariantMap& eventData)
 	}
 	else if (other->HasTag("checkpoint"))
 	{
+#if _DEBUG
 		if (currentCheckpoint != other) std::cout << "CHECKPOINT HIT" << std::endl;
+#endif
 		currentCheckpoint = other;
 	}
 	else if (otherBody->GetCollisionLayer() & 32)
