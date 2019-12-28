@@ -112,7 +112,8 @@ class GodCutscene : ScriptObject
 			ScheduleEvent(18.0f, 4);
 			
 			ScheduleEvent(25.5f, 5);
-			ScheduleEvent(26.5f, 999);
+			ScheduleEvent(26.0f, 6);
+			ScheduleEvent(27.5f, 999);
 		}
 		else //Alternate cutscene for struggling players
 		{
@@ -157,6 +158,9 @@ class GodCutscene : ScriptObject
 			case 5:
 				Zeus::MakeLightBeam(scene, playerNode.worldPosition, 256.0f);
 				break;
+			case 6:
+				animController.PlayExclusive("Models/grungle_walk.ani", 0, true, 0.2f);
+				break;
 			case 7:
 				game.DisplayMessage("YOUR PERSEVERENCE IS ADMIRABLE.", godColor, 5.0f, 50);
 				godVoice.Play(cache.GetResource("Sound", "Sounds/god_talk3.wav"));
@@ -187,6 +191,14 @@ class GodCutscene : ScriptObject
 					Quaternion newRot;
 					newRot.FromLookRotation(diff.Normalized());
 					playerNode.worldRotation = newRot;
+					actor.SetInputFPS(true, false, false, false);
+					break;
+				}
+				case 6:
+				{
+					Quaternion newRot;
+					newRot.FromEulerAngles(0, -90, 0);
+					playerNode.worldRotation = playerNode.worldRotation.Slerp(newRot, 0.1);
 					actor.SetInputFPS(true, false, false, false);
 					break;
 				}
