@@ -5,34 +5,6 @@
 #include "Lighting.hlsl"
 #include "Fog.hlsl"
 
-float4 crushColor(float4 inn)
-{
-	inn *= 8.0f;
-	inn.r = floor(inn.r);
-	inn.g = floor(inn.g);
-	inn.b = floor(inn.b);
-	inn /= 8.0f;
-	return inn;
-}
-
-float3 crushColor3(float3 inn)
-{
-	inn *= 6.0f;
-	inn.r = floor(inn.r);
-	inn.g = floor(inn.g);
-	inn.b = floor(inn.b);
-	inn /= 6.0f;
-	return inn;
-}
-
-float crushScalar(float inn, float val)
-{
-	inn *= val;
-	inn = floor(inn);
-	inn /= val;
-	return inn;
-}
-
 void VS(float4 iPos : POSITION,
     #if !defined(BILLBOARD) && !defined(TRAILFACECAM)
         float3 iNormal : NORMAL,
@@ -46,7 +18,7 @@ void VS(float4 iPos : POSITION,
     #if defined(LIGHTMAP) || defined(AO)
         float2 iTexCoord2 : TEXCOORD1,
     #endif
-    #if defined(NORMALMAP) || defined(TRAILFACECAM) || defined(TRAILBONE)
+    #if (defined(NORMALMAP) || defined(TRAILFACECAM) || defined(TRAILBONE)) && !defined(BILLBOARD) && !defined(DIRBILLBOARD)
         float4 iTangent : TANGENT,
     #endif
     #ifdef SKINNED
@@ -115,14 +87,14 @@ void VS(float4 iPos : POSITION,
     #endif
 
     #ifdef NORMALMAP
-        float3 tangent = GetWorldTangent(modelMatrix);
-        float3 bitangent = cross(tangent, oNormal) * iTangent.w;
+        float4 tangent = GetWorldTangent(modelMatrix);
+        float3 bitangent = cross(tangent.xyz, oNormal) * tangent.w;
         oTexCoord = float4(GetTexCoord(iTexCoord), bitangent.xy);
-        oTangent = float4(tangent, bitangent.z);
+        oTangent = float4(tangent.xyz, bitangent.z);
     #else
-        oTexCoord = GetTexCoord(iTexCoord);
+		oTexCoord = GetTexCoord(iTexCoord);
     #endif
-
+	oTexCoord = float2(0.0, 0.0);
     #ifdef PERPIXEL
         // Per-pixel forward lighting
         float4 projWorldPos = float4(worldPos.xyz, 1.0);
@@ -258,8 +230,6 @@ void PS(
         #ifdef SHADOW
             diff *= GetShadow(iShadowPos, iWorldPos.w);
         #endif
-		
-		diff = crushScalar(diff, 6.0);
 
         #if defined(SPOTLIGHT)
             lightColor = iSpotPos.w > 0.0 ? Sample2DProj(LightSpotMap, iSpotPos).rgb * cLightColor.rgb : 0.0;
@@ -271,17 +241,17 @@ void PS(
     
         #ifdef SPECULAR
             float spec = GetSpecular(normal, cCameraPosPS - iWorldPos.xyz, lightDir, cMatSpecColor.a);
-            finalColor = diff * lightColor * (diffColor.rgb + crushColor3(spec * specColor * cLightColor.a));
+            finalColor = diff * lightColor * (diffColor.rgb + spec * specColor * cLightColor.a);
         #else
-            finalColor = diff * lightColor * (diffColor.rgb);
+            finalColor = diff * lightColor * diffColor.rgb;
         #endif
 
         #ifdef AMBIENT
             finalColor += cAmbientColor.rgb * diffColor.rgb;
             finalColor += cMatEmissiveColor;
-            oColor = (float4(GetFog(finalColor, fogFactor), diffColor.a));
+            oColor = float4(GetFog(finalColor, fogFactor), diffColor.a);
         #else
-            oColor = (float4(GetLitFog(finalColor, fogFactor), diffColor.a));
+            oColor = float4(GetLitFog(finalColor, fogFactor), diffColor.a);
         #endif
     #elif defined(PREPASS)
         // Fill light pre-pass G-Buffer
@@ -311,7 +281,7 @@ void PS(
             finalColor += cMatEmissiveColor;
         #endif
 
-        oColor = (float4(GetFog(finalColor, fogFactor), 1.0));
+        oColor = float4(GetFog(finalColor, fogFactor), 1.0);
         oAlbedo = fogFactor * float4(diffColor.rgb, specIntensity);
         oNormal = float4(normal * 0.5 + 0.5, specPower);
         oDepth = iWorldPos.w;
@@ -343,7 +313,7 @@ void PS(
         #else
             finalColor += cMatEmissiveColor;
         #endif
-		oColor = (float4(GetFog(finalColor, fogFactor), diffColor.a));
+
+        oColor = float4(GetFog(finalColor, fogFactor), diffColor.a);
     #endif
 }
-

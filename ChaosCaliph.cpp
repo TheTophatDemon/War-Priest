@@ -239,7 +239,10 @@ void ChaosCaliph::OnCollision(StringHash eventType, VariantMap& eventData)
 		VariantMap map = VariantMap();
 		map.Insert(Pair<StringHash, Variant>(Projectile::P_PERPETRATOR, node_));
 		map.Insert(Pair<StringHash, Variant>(Projectile::P_VICTIM, Variant(other)));
-		map.Insert(Pair<StringHash, Variant>(Projectile::P_DAMAGE, 25));
+		if (other->HasTag("statue"))
+			map.Insert(Pair<StringHash, Variant>(Projectile::P_DAMAGE, 50));
+		else
+			map.Insert(Pair<StringHash, Variant>(Projectile::P_DAMAGE, 12));
 		SendEvent(Projectile::E_PROJECTILEHIT, map);
 	}
 }

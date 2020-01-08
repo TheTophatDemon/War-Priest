@@ -1,4 +1,5 @@
 //TODO:
+	//PP3 make start platform more accessible
 	//More posters?
 	//Tiny glitches
 		//Enemies getting stuck in slopes
