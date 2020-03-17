@@ -7,8 +7,8 @@
 	<attribute name="Elapsed Time" value="49.7946" />
 	<attribute name="Next Replicated Node ID" value="1" />
 	<attribute name="Next Replicated Component ID" value="4" />
-	<attribute name="Next Local Node ID" value="16778234" />
-	<attribute name="Next Local Component ID" value="16780403" />
+	<attribute name="Next Local Node ID" value="16778236" />
+	<attribute name="Next Local Component ID" value="16780416" />
 	<attribute name="Variables">
 		<variant hash="1749806053" type="String" value="prelude.ogg" />
 		<variant hash="3555864366" type="Bool" value="true" />
@@ -998,11 +998,11 @@
 			<string value="prop" />
 			<string value="sign" />
 		</attribute>
-		<attribute name="Position" value="-329.276 -21.4691 4.64222" />
+		<attribute name="Position" value="-328.906 -21.8229 5.64678" />
 		<attribute name="Rotation" value="0.707107 0 0.707107 0" />
 		<attribute name="Scale" value="1.5 1.5 1.5" />
 		<attribute name="Variables">
-			<variant hash="2310231975" type="String" value="You must revive all enemies to win. The compass will guide you." />
+			<variant hash="2310231975" type="String" value="The compass shall point you to the nearest deceased person." />
 		</attribute>
 		<component type="StaticModel" id="16780050">
 			<attribute name="Model" value="Model;Models/props/sign.mdl" />
@@ -1714,22 +1714,6 @@
 		<attribute name="Scale" value="0.7 0.7 0.7" />
 		<attribute name="Variables" />
 		<component type="StaticModel" id="16780104">
-			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
-			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
-		</component>
-	</node>
-	<node id="16778103">
-		<attribute name="Is Enabled" value="true" />
-		<attribute name="Name" value="pyropastor" />
-		<attribute name="Tags">
-			<string value="enemy" />
-			<string value="pyropastor" />
-		</attribute>
-		<attribute name="Position" value="-100.036 -21.0459 162.576" />
-		<attribute name="Rotation" value="1 0 0 0" />
-		<attribute name="Scale" value="0.7 0.7 0.7" />
-		<attribute name="Variables" />
-		<component type="StaticModel" id="16780106">
 			<attribute name="Model" value="Model;Models/enemy/pyropastor.mdl" />
 			<attribute name="Material" value="Material;Materials/enemy/pyropastor_skin.xml" />
 		</component>
@@ -2904,7 +2888,7 @@
 		<attribute name="Tags">
 			<string value="medkit" />
 		</attribute>
-		<attribute name="Position" value="-72.1806 -19.6518 162.344" />
+		<attribute name="Position" value="-83.7735 -21.222 159.675" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="0.6 0.6 0.6" />
 		<attribute name="Variables" />
@@ -3320,13 +3304,13 @@
 		<attribute name="Tags">
 			<string value="lift" />
 		</attribute>
-		<attribute name="Position" value="-84.2418 -20.5157 159.871" />
+		<attribute name="Position" value="-70.4382 -20.9316 163.799" />
 		<attribute name="Rotation" value="1 0 0 0" />
 		<attribute name="Scale" value="2 2 2" />
 		<attribute name="Variables">
 			<variant hash="1366131055" type="Vector3" value="0 0 0" />
-			<variant hash="588515681" type="Float" value="1" />
-			<variant hash="273365031" type="Float" value="3" />
+			<variant hash="588515681" type="Float" value="0.5" />
+			<variant hash="273365031" type="Float" value="2" />
 			<variant hash="3779712780" type="Float" value="0" />
 		</attribute>
 		<component type="StaticModel" id="16780385">
@@ -3337,7 +3321,7 @@
 			<attribute name="Size" value="4 0.5 2" />
 		</component>
 		<component type="RigidBody" id="16780387">
-			<attribute name="Physics Position" value="-84.2418 -20.5157 159.871" />
+			<attribute name="Physics Position" value="-70.4382 -20.9316 163.799" />
 			<attribute name="Friction" value="0" />
 			<attribute name="Linear Factor" value="0 0 0" />
 			<attribute name="Angular Factor" value="0 0 0" />
@@ -3349,7 +3333,7 @@
 			<attribute name="Is Enabled" value="true" />
 			<attribute name="Name" value="dest" />
 			<attribute name="Tags" />
-			<attribute name="Position" value="0 11 0" />
+			<attribute name="Position" value="-0.113445 5.95727 -2.28743" />
 			<attribute name="Rotation" value="1 0 0 0" />
 			<attribute name="Scale" value="1 1 1" />
 			<attribute name="Variables" />
@@ -3388,6 +3372,24 @@
 			<variant hash="2310231975" type="String" value="Falling far will not hurt you." />
 		</attribute>
 		<component type="StaticModel" id="16780402">
+			<attribute name="Model" value="Model;Models/props/sign.mdl" />
+			<attribute name="Material" value="Material;Materials/skins/sign_skin.xml" />
+		</component>
+	</node>
+	<node id="16778235">
+		<attribute name="Is Enabled" value="true" />
+		<attribute name="Name" value="sign" />
+		<attribute name="Tags">
+			<string value="prop" />
+			<string value="sign" />
+		</attribute>
+		<attribute name="Position" value="-321.059 -46.5645 -80.7409" />
+		<attribute name="Rotation" value="0.707107 0 0.707107 0" />
+		<attribute name="Scale" value="1.5 1.5 1.5" />
+		<attribute name="Variables">
+			<variant hash="2310231975" type="String" value="You must revive all enemies to win." />
+		</attribute>
+		<component type="StaticModel" id="16780415">
 			<attribute name="Model" value="Model;Models/props/sign.mdl" />
 			<attribute name="Material" value="Material;Materials/skins/sign_skin.xml" />
 		</component>
