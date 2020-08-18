@@ -15,7 +15,7 @@
 	//Optimize raycast distances for player (The more geometry that intersects it, the slower it gets)
 	//Optimize physicsbodyquery?
 	//Package assets?
-	//Send to Somecallmejohnny?
+	//Send to Youtubers?
 //Complaints:
 	//PrePhysicsUpdate problems?
 	//Interpolation causes physics objects to jitter
@@ -61,6 +61,7 @@
 
 #include <Urho3D/Core/CoreEvents.h>
 #include <Urho3D/Engine/Engine.h>
+#include <Urho3D/Engine/Application.h>
 
 using namespace Urho3D;
 
