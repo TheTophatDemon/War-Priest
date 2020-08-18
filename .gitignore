@@ -1,0 +1,13 @@
+/Build/Blender Projects/**
+/Build/Audacity Projects/**
+/Build/Gimp Projects/**
+/warpriest_markdown/**
+/trailer/**
+/GLSL/**
+*.bat
+*.dll
+*.lnk
+*.sfk
+/Build/*
+*.bin
+/Garbage/**
