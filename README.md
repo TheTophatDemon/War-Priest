@@ -1,7 +1,8 @@
 All of the source code in this folder is licensed under Creative Commons Attribution NonCommercial ShareAlike 3.0.
 Read about the license here: https://creativecommons.org/licenses/by-nc-sa/3.0/.
 
-#WAR PRIEST
+# WAR PRIEST
+
 War Priest is a 3D platforming bullet hell where all enemies are dead at the start of the level, and you must revive them all and return to the altar while running away from their attacks. Featuring low-poly Nintendo 64 graphics and gratuitous manliness!
 
 The game is available for free on ![my website.](https://tophatdemon.com)
