@@ -1,22 +1,4 @@
-//TODO:
-	//PP3 make start platform more accessible
-	//More posters?
-	//Tiny glitches
-		//Enemies getting stuck in slopes
-			//Always seems to be the pyro pastors
-		//Boulders can roll out of water and disappear suddenly
-		//Postal Pope boulders being shot into walls
-		//Chaoscaliph not drowning in SS4?
-			//Splash particles are going
-		//Postal pope rising into ceilings
-		//Player disappeared in win sequence?
-		//Fix pause upon all enemies revive
-			//Doesn't happen on SS2??
-	//Optimize raycast distances for player (The more geometry that intersects it, the slower it gets)
-	//Optimize physicsbodyquery?
-	//Package assets?
-	//Send to Youtubers?
-//Complaints:
+//Complaints about Urho3D:
 	//PrePhysicsUpdate problems?
 	//Interpolation causes physics objects to jitter
 	//Need an easier way of getting triangle info from a collision for "platforming logic"
@@ -42,6 +24,7 @@
 	//Blender export blurs vertex colors together
 	//Value animations reset when wrapping mode is changed.
 	//UI elements send events even when they are removed or their parent is disabled?
+
 //COLLISION MASK
 	//1 = ANYTHING THAT'S NOT THE MAP
 	//2 = CAN BE JUMPED ON/SLOPED
