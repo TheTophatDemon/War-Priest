@@ -1,6 +1,23 @@
+/*
+Copyright (C) 2021 Alexander Lunsford
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 #include "TempTemplar.h"
 #include "Urho3D/Core/Context.h"
-#include <Urho3D\Graphics/StaticModel.h>
+#include <Urho3D/Graphics/StaticModel.h>
 #include <Urho3D/Scene/ValueAnimation.h>
 #include <Urho3D/Audio/Sound.h>
 #include <Urho3D/Physics/CollisionShape.h>
@@ -8,14 +25,14 @@
 #include <Urho3D/Graphics/Animation.h>
 #include <Urho3D/Graphics/DrawableEvents.h>
 
-#include "Gameplay.h"
-#include "Actor.h"
-#include "Projectile.h"
-#include "Zeus.h"
-#include "WeakChild.h"
-#include "GunPriest.h"
-#include "Settings.h"
-#include "TempShield.h"
+#include "../Gameplay.h"
+#include "../Zeus.h"
+#include "../GunPriest.h"
+#include "../Settings.h"
+#include "../WeakChild.h"
+#include "../Actors/TempShield.h"
+#include "../Actors/Actor.h"
+#include "../Projectiles/Projectile.h"
 #include <iostream>
 
 float TempTemplar::MELEE_RANGE = 3.0f;

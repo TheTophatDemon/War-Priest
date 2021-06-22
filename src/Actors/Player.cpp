@@ -1,3 +1,20 @@
+/*
+Copyright (C) 2021 Alexander Lunsford
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 #include "Player.h"
 
 #include <Urho3D/Engine/Engine.h>
@@ -18,7 +35,7 @@
 #include <Urho3D/Graphics/DrawableEvents.h>
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/Input/Controls.h>
-#include <Urho3D\Physics\PhysicsUtils.h>
+#include <Urho3D/Physics/PhysicsUtils.h>
 #include <Urho3D/Math/Matrix3x4.h>
 #include <Urho3D/Math/MathDefs.h>
 #include <Urho3D/Graphics/ParticleEffect.h>
@@ -28,19 +45,19 @@
 
 #include <iostream>
 
-#include "Gameplay.h"
+#include "../Gameplay.h"
+#include "../FlyCam.h"
+#include "../TempEffect.h"
+#include "../Zeus.h"
+#include "../GunPriest.h"
+#include "../WeakChild.h"
+#include "../Settings.h"
 #include "Actor.h"
-#include "TempEffect.h"
-#include "Zeus.h"
-#include "Projectile.h"
-#include "GunPriest.h"
-#include "Settings.h"
-#include "Missile.h"
-#include "TempShield.h"
 #include "God.h"
-#include "WeakChild.h"
-#include "ProjectileWarner.h"
-#include "FlyCam.h"
+#include "TempShield.h"
+#include "../Projectiles/Projectile.h"
+#include "../Projectiles/Missile.h"
+#include "../Projectiles/ProjectileWarner.h"
 
 using namespace Urho3D;
 

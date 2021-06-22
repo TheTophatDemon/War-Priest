@@ -29,8 +29,8 @@ set (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
 # Include Urho3D Cmake common module
 include (Urho3D-CMake-common)
 
-file(GLOB SRC_CPP_FILES src/*.cpp)
-file(GLOB SRC_H_FILES src/*.h)
+file(GLOB SRC_CPP_FILES src/*.cpp src/Actors/*.cpp src/Level/*.cpp src/Menu/*.cpp src/Projectiles/*.cpp)
+file(GLOB SRC_H_FILES src/*.h src/Actors/*.h src/Level/*.h src/Menu/*.h src/Projectiles/*.h)
 # Define source files
 define_source_files (GROUP EXTRA_CPP_FILES ${SRC_CPP_FILES} EXTRA_H_FILES ${SRC_H_FILES})
 # Setup target with resource copying

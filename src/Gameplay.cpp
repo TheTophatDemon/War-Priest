@@ -1,3 +1,20 @@
+/*
+Copyright (C) 2021 Alexander Lunsford
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 #include "Gameplay.h"
 
 #include <Urho3D/Engine/Engine.h>
@@ -21,8 +38,8 @@
 #include <Urho3D/Graphics/AnimatedModel.h>
 #include <Urho3D/Graphics/Material.h>
 #include <Urho3D/Input/Controls.h>
-#include <Urho3D\Physics\PhysicsUtils.h>
-#include <Urho3D\Resource\ResourceCache.h>
+#include <Urho3D/Physics/PhysicsUtils.h>
+#include <Urho3D/Resource/ResourceCache.h>
 #include <Urho3D/UI/UI.h>
 #include <Urho3D/Graphics/Texture2D.h>
 #include <Urho3D/Graphics/Renderer.h>
@@ -48,28 +65,28 @@
 
 #include <iostream>
 
-#include "Player.h"
-#include "Enemy.h"
-#include "PyroPastor.h"
-#include "Projectile.h"
+#include "Actors/Player.h"
+#include "Actors/Enemy.h"
+#include "Actors/PyroPastor.h"
+#include "Projectiles/Projectile.h"
 #include "TempEffect.h"
 #include "GunPriest.h"
-#include "God.h"
-#include "PostalPope.h"
-#include "DangerDeacon.h"
-#include "Water.h"
+#include "Actors/God.h"
+#include "Actors/PostalPope.h"
+#include "Actors/DangerDeacon.h"
+#include "Actors/KillerKube.h"
+#include "Actors/RobeLocksMan.h"
+#include "Level/Water.h"
 #include "Settings.h"
-#include "Launchpad.h"
-#include "TempTemplar.h"
-#include "ChaosCaliph.h"
-#include "LevelSelectMenu.h"
-#include "Bonus.h"
-#include "KillerKube.h"
-#include "Statue.h"
-#include "Lift.h"
-#include "GravityPlate.h"
-#include "Sign.h"
-#include "RobeLocksMan.h"
+#include "Level/Launchpad.h"
+#include "Actors/TempTemplar.h"
+#include "Actors/ChaosCaliph.h"
+#include "Menu/LevelSelectMenu.h"
+#include "Level/Bonus.h"
+#include "Level/Statue.h"
+#include "Level/Lift.h"
+#include "Level/GravityPlate.h"
+#include "Level/Sign.h"
 
 using namespace Urho3D;
 

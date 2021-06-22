@@ -1,3 +1,20 @@
+/*
+Copyright (C) 2021 Alexander Lunsford
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 #include "GunPriest.h"
 #include "Settings.h"
 #include <Urho3D/IO/File.h>
@@ -8,39 +25,37 @@
 #include <Urho3D/Engine/EngineDefs.h>
 #include <iostream>
 
-#include "Player.h"
-#include "Actor.h"
 #include "TempEffect.h"
-#include "Enemy.h"
-#include "PyroPastor.h"
-#include "Fireball.h"
-#include "God.h"
-#include "Lift.h"
-#include "PostalPope.h"
-#include "Debris.h"
-#include "Water.h"
 #include "WeakChild.h"
 #include "SoundSounder.h"
-#include "DangerDeacon.h"
-#include "Launchpad.h"
-#include "CompassScene.h"
-#include "TempTemplar.h"
-#include "Statue.h"
-#include "ChaosCaliph.h"
-//#include "Blackstone.h"
-#include "Bonus.h"
-#include "KillerKube.h"
-//#include "BouncyFireball.h"
-#include "ProjectileWarner.h"
-#include "TempShield.h"
-#include "GravityPlate.h"
-#include "Sign.h"
 #include "Zeus.h"
-#include "RobeLocksMan.h"
-#include "RobeLocksMissile.h"
-#include "BlackHole.h"
-#include "RobeLocksBomb.h"
 #include "FlyCam.h"
+#include "Actors/Player.h"
+#include "Actors/Actor.h"
+#include "Actors/Enemy.h"
+#include "Actors/PyroPastor.h"
+#include "Actors/ChaosCaliph.h"
+#include "Actors/TempTemplar.h"
+#include "Actors/TempShield.h"
+#include "Actors/RobeLocksMan.h"
+#include "Actors/God.h"
+#include "Actors/KillerKube.h"
+#include "Actors/BlackHole.h"
+#include "Actors/PostalPope.h"
+#include "Actors/DangerDeacon.h"
+#include "Projectiles/Fireball.h"
+#include "Projectiles/ProjectileWarner.h"
+#include "Projectiles/RobeLocksMissile.h"
+#include "Projectiles/RobeLocksBomb.h"
+#include "Projectiles/Debris.h"
+#include "Level/Lift.h"
+#include "Level/Water.h"
+#include "Level/CompassScene.h"
+#include "Level/Launchpad.h"
+#include "Level/Statue.h"
+#include "Level/Bonus.h"
+#include "Level/GravityPlate.h"
+#include "Level/Sign.h"
 
 int GunPriest::STATE_GAME = 0;
 int GunPriest::STATE_TITLE = 1;
