@@ -11,3 +11,11 @@
 /Build/*
 *.bin
 /Garbage/**
+*.blend1
+*.blend2
+*.blend3
+Blender Projects/
+Audacity Projects/
+Gimp Projects/
+Concept Art/
+Urho3D Web Writeup/

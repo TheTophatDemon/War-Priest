@@ -1,1 +1,0 @@
-start "" "C:\Users\andso\Desktop\Tools\Urho3D-1.6-Binaries\bin\tool\AssetImporter.exe" model palpan3b.blend ..\..\bin\Data\Models\maps\palpan3.mdl -l -cm -nt -nf -p ..\..\bin\Data -t
