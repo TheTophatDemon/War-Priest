@@ -207,7 +207,7 @@ void SettingsMenu::OnEvent(StringHash eventType, VariantMap& eventData)
 void SettingsMenu::OnLeave()
 {
 	ui->SetWidth(1280.0f);
-	titleScreen->SendEvent(Settings::E_SETTINGSCHANGED, VariantMap());
+	titleScreen->SendEvent(Settings::E_SETTINGSCHANGED);
 	Menu::OnLeave();
 }
 

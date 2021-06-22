@@ -17,7 +17,7 @@ using namespace Urho3D;
 
 class Actor;
 class Gameplay;
-class PostalPope : Enemy
+class PostalPope : public Enemy
 {
 	URHO3D_OBJECT(PostalPope, LogicComponent);
 public:

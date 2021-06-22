@@ -1,7 +1,7 @@
 # Set project name
-project (GunPriest)
+project (WarPriest)
 # Define target name
-set (TARGET_NAME GunPriest)
+set (TARGET_NAME WarPriest)
 
 ######################################
 
@@ -28,7 +28,10 @@ endif ()
 set (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
 # Include Urho3D Cmake common module
 include (Urho3D-CMake-common)
+
+file(GLOB SRC_CPP_FILES src/*.cpp)
+file(GLOB SRC_H_FILES src/*.h)
 # Define source files
-define_source_files ()
+define_source_files (GROUP EXTRA_CPP_FILES ${SRC_CPP_FILES} EXTRA_H_FILES ${SRC_H_FILES})
 # Setup target with resource copying
 setup_main_executable ()

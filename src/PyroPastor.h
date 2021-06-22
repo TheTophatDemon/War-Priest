@@ -18,7 +18,7 @@ using namespace Urho3D;
 
 class Actor;
 class Gameplay;
-class PyroPastor : Enemy
+class PyroPastor : public Enemy
 {
 	URHO3D_OBJECT(PyroPastor, LogicComponent);
 public:
